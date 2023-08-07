@@ -1,0 +1,5 @@
+# This is the CODEOWNERS file. These owners will be the default owners for everything in the DI-IPV-DCA-iOS repository
+# The following below will be requested for review when someone opens a pull request.
+
+
+*  @alphagov/di-doc-checking-shark-iOS
