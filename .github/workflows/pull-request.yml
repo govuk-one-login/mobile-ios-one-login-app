@@ -1,0 +1,66 @@
+name: iOS Pull Request
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize, ready_for_review ]
+    branches: [ develop, release/*, main ]
+    
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+  # change to mac-os lastest to use public git runner or add label of your self hosted runner
+    name: Build and Test default scheme using any available iPhone simulator
+    if: github.event.pull_request.draft == false
+    runs-on: macos-13
+
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+          
+      - name: Check Dependencies
+        uses: GetSidetrack/action-xcodeproj-spm-update@main
+        with:
+          workspace: 'YOUR-WORKSPACE-FILENAME'
+          scheme: 'YOUR-SCHEME-NAME'
+
+      - name: Create Pull Request
+        if: steps.resolution.outputs.dependenciesChanged == 'true'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: 'dependencies/ios'
+          delete-branch: true
+          commit-message: 'Update Xcode Dependencies'
+          title: 'Updated Xcode Dependencies'
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+        
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+          bundle install
+          
+          bundle exec fastlane test scheme:"YOUR-SCHEME-NAME" \
+            sonar_token:"${{secrets.YOUR-SONAR-TOKEN-IN-SECRETS}}" \
+            workspace:${{github.workspace}} \
+            workspaceFilename:YOUR-WORKSPACE-FILENAME \
+            source_branch:${{github.head_ref}} \
+            target_branch:${{github.base_ref}} \
+            pr_number:$pull_number \
+            testplan:TEST-PLAN-NAME-IF-USED

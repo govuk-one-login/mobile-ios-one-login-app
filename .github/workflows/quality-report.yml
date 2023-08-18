@@ -1,0 +1,59 @@
+name: iOS Quality Report
+
+on:
+  push:
+    branches: [ develop, release/*, main ]
+  workflow_dispatch:
+    inputs:
+      build_configuration:
+        description: 'Which build configuration to use'
+        required: false
+        default: 'Staging'
+        type: choice
+        options:
+        - Dev
+        - Build
+        - Staging
+        - Integration
+        - Release
+
+jobs:
+  build:
+    name: Build and Test default scheme using any available iPhone simulator
+    if: github.event.pull_request.draft == false
+    runs-on: macos-13
+
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+
+      - name: Check Dependencies
+        uses: GetSidetrack/action-xcodeproj-spm-update@main
+        with:
+          workspace: 'YOUR-WORKSPACE-FILENAME'
+          scheme: 'YOUR-SCHEME-NAME'
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+          
+          bundle install
+          bundle exec fastlane test scheme:"YOUR-SCHEME-NAME" \
+            sonar_token:"${{secrets.YOUR-SONAR-TOKEN-IN-SECRETS}}" \
+            workspace:${{github.workspace}} \
+            workspaceFilename:YOUR-WORKSPACE-FILENAME \
+            testplan:TEST-PLAN-NAME-IF-USED
