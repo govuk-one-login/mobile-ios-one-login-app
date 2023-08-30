@@ -1,6 +1,6 @@
 import XCTest
 
-final class di_mobile_ios_onelogin_appUITestsLaunchTests: XCTestCase {
+final class OneLoginUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

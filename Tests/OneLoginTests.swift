@@ -1,7 +1,7 @@
 import XCTest
-@testable import di_mobile_ios_onelogin_app
+@testable import OneLogin
 
-final class di_mobile_ios_onelogin_appTests: XCTestCase {
+final class OneLoginTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

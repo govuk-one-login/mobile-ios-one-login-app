@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		219602022A976305008F3427 /* di_mobile_ios_onelogin_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* di_mobile_ios_onelogin_appTests.swift */; };
-		2196020C2A976305008F3427 /* di_mobile_ios_onelogin_appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* di_mobile_ios_onelogin_appUITests.swift */; };
-		2196020E2A976305008F3427 /* di_mobile_ios_onelogin_appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* di_mobile_ios_onelogin_appUITestsLaunchTests.swift */; };
+		219602022A976305008F3427 /* OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* OneLoginTests.swift */; };
+		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
+		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
 		3BBF28EF2A9F7D3200491BB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28E52A9F7D3200491BB1 /* ViewController.swift */; };
 		3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */; };
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
@@ -36,12 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		219601E72A976302008F3427 /* di-mobile-ios-onelogin-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "di-mobile-ios-onelogin-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		219601FD2A976305008F3427 /* di-mobile-ios-onelogin-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "di-mobile-ios-onelogin-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		219602012A976305008F3427 /* di_mobile_ios_onelogin_appTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = di_mobile_ios_onelogin_appTests.swift; sourceTree = "<group>"; };
-		219602072A976305008F3427 /* di-mobile-ios-onelogin-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "di-mobile-ios-onelogin-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2196020B2A976305008F3427 /* di_mobile_ios_onelogin_appUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = di_mobile_ios_onelogin_appUITests.swift; sourceTree = "<group>"; };
-		2196020D2A976305008F3427 /* di_mobile_ios_onelogin_appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = di_mobile_ios_onelogin_appUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		219601FD2A976305008F3427 /* OneLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		219602012A976305008F3427 /* OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginTests.swift; sourceTree = "<group>"; };
+		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
+		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3BBF28E52A9F7D3200491BB1 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BBF28E92A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -79,8 +79,8 @@
 		219601DE2A976302008F3427 = {
 			isa = PBXGroup;
 			children = (
-				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				3BBF28F52A9F7D4900491BB1 /* Info.plist */,
+				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
 				2196020A2A976305008F3427 /* UITests */,
 				219601E82A976302008F3427 /* Products */,
@@ -90,9 +90,9 @@
 		219601E82A976302008F3427 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				219601E72A976302008F3427 /* di-mobile-ios-onelogin-app.app */,
-				219601FD2A976305008F3427 /* di-mobile-ios-onelogin-appTests.xctest */,
-				219602072A976305008F3427 /* di-mobile-ios-onelogin-appUITests.xctest */,
+				219601E72A976302008F3427 /* OneLogin.app */,
+				219601FD2A976305008F3427 /* OneLoginTests.xctest */,
+				219602072A976305008F3427 /* OneLoginUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,7 +100,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				219602012A976305008F3427 /* di_mobile_ios_onelogin_appTests.swift */,
+				219602012A976305008F3427 /* OneLoginTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -108,8 +108,8 @@
 		2196020A2A976305008F3427 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
-				2196020B2A976305008F3427 /* di_mobile_ios_onelogin_appUITests.swift */,
-				2196020D2A976305008F3427 /* di_mobile_ios_onelogin_appUITestsLaunchTests.swift */,
+				2196020B2A976305008F3427 /* OneLoginUITests.swift */,
+				2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -146,9 +146,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		219601E62A976302008F3427 /* di-mobile-ios-onelogin-app */ = {
+		219601E62A976302008F3427 /* OneLogin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 219602112A976305008F3427 /* Build configuration list for PBXNativeTarget "di-mobile-ios-onelogin-app" */;
+			buildConfigurationList = 219602112A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLogin" */;
 			buildPhases = (
 				219601E32A976302008F3427 /* Sources */,
 				219601E42A976302008F3427 /* Frameworks */,
@@ -158,14 +158,14 @@
 			);
 			dependencies = (
 			);
-			name = "di-mobile-ios-onelogin-app";
+			name = OneLogin;
 			productName = "di-mobile-ios-onelogin-app";
-			productReference = 219601E72A976302008F3427 /* di-mobile-ios-onelogin-app.app */;
+			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
 			productType = "com.apple.product-type.application";
 		};
-		219601FC2A976305008F3427 /* di-mobile-ios-onelogin-appTests */ = {
+		219601FC2A976305008F3427 /* OneLoginTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "di-mobile-ios-onelogin-appTests" */;
+			buildConfigurationList = 219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginTests" */;
 			buildPhases = (
 				219601F92A976305008F3427 /* Sources */,
 				219601FA2A976305008F3427 /* Frameworks */,
@@ -176,14 +176,14 @@
 			dependencies = (
 				219601FF2A976305008F3427 /* PBXTargetDependency */,
 			);
-			name = "di-mobile-ios-onelogin-appTests";
+			name = OneLoginTests;
 			productName = "di-mobile-ios-onelogin-appTests";
-			productReference = 219601FD2A976305008F3427 /* di-mobile-ios-onelogin-appTests.xctest */;
+			productReference = 219601FD2A976305008F3427 /* OneLoginTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		219602062A976305008F3427 /* di-mobile-ios-onelogin-appUITests */ = {
+		219602062A976305008F3427 /* OneLoginUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 219602172A976305008F3427 /* Build configuration list for PBXNativeTarget "di-mobile-ios-onelogin-appUITests" */;
+			buildConfigurationList = 219602172A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginUITests" */;
 			buildPhases = (
 				219602032A976305008F3427 /* Sources */,
 				219602042A976305008F3427 /* Frameworks */,
@@ -194,9 +194,9 @@
 			dependencies = (
 				219602092A976305008F3427 /* PBXTargetDependency */,
 			);
-			name = "di-mobile-ios-onelogin-appUITests";
+			name = OneLoginUITests;
 			productName = "di-mobile-ios-onelogin-appUITests";
-			productReference = 219602072A976305008F3427 /* di-mobile-ios-onelogin-appUITests.xctest */;
+			productReference = 219602072A976305008F3427 /* OneLoginUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -222,7 +222,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 219601E22A976302008F3427 /* Build configuration list for PBXProject "di-mobile-ios-onelogin-app" */;
+			buildConfigurationList = 219601E22A976302008F3427 /* Build configuration list for PBXProject "OneLogin" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -235,9 +235,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				219601E62A976302008F3427 /* di-mobile-ios-onelogin-app */,
-				219601FC2A976305008F3427 /* di-mobile-ios-onelogin-appTests */,
-				219602062A976305008F3427 /* di-mobile-ios-onelogin-appUITests */,
+				219601E62A976302008F3427 /* OneLogin */,
+				219601FC2A976305008F3427 /* OneLoginTests */,
+				219602062A976305008F3427 /* OneLoginUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -284,7 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				219602022A976305008F3427 /* di_mobile_ios_onelogin_appTests.swift in Sources */,
+				219602022A976305008F3427 /* OneLoginTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,8 +292,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2196020E2A976305008F3427 /* di_mobile_ios_onelogin_appUITestsLaunchTests.swift in Sources */,
-				2196020C2A976305008F3427 /* di_mobile_ios_onelogin_appUITests.swift in Sources */,
+				2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */,
+				2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,12 +302,12 @@
 /* Begin PBXTargetDependency section */
 		219601FF2A976305008F3427 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 219601E62A976302008F3427 /* di-mobile-ios-onelogin-app */;
+			target = 219601E62A976302008F3427 /* OneLogin */;
 			targetProxy = 219601FE2A976305008F3427 /* PBXContainerItemProxy */;
 		};
 		219602092A976305008F3427 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 219601E62A976302008F3427 /* di-mobile-ios-onelogin-app */;
+			target = 219601E62A976302008F3427 /* OneLogin */;
 			targetProxy = 219602082A976305008F3427 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -517,7 +517,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/di-mobile-ios-onelogin-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/di-mobile-ios-onelogin-app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
 			};
 			name = Debug;
 		};
@@ -536,7 +536,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/di-mobile-ios-onelogin-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/di-mobile-ios-onelogin-app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
 			};
 			name = Release;
 		};
@@ -577,7 +577,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		219601E22A976302008F3427 /* Build configuration list for PBXProject "di-mobile-ios-onelogin-app" */ = {
+		219601E22A976302008F3427 /* Build configuration list for PBXProject "OneLogin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2196020F2A976305008F3427 /* Debug */,
@@ -586,7 +586,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		219602112A976305008F3427 /* Build configuration list for PBXNativeTarget "di-mobile-ios-onelogin-app" */ = {
+		219602112A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLogin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602122A976305008F3427 /* Debug */,
@@ -595,7 +595,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "di-mobile-ios-onelogin-appTests" */ = {
+		219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602152A976305008F3427 /* Debug */,
@@ -604,7 +604,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		219602172A976305008F3427 /* Build configuration list for PBXNativeTarget "di-mobile-ios-onelogin-appUITests" */ = {
+		219602172A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602182A976305008F3427 /* Debug */,
