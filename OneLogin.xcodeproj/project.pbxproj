@@ -48,7 +48,7 @@
 		3BBF28EB2A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3BBF28F52A9F7D4900491BB1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 		219601DE2A976302008F3427 = {
 			isa = PBXGroup;
 			children = (
-				3BBF28F52A9F7D4900491BB1 /* Info.plist */,
+				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
 				2196020A2A976305008F3427 /* UITests */,
@@ -455,7 +455,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -484,7 +484,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
