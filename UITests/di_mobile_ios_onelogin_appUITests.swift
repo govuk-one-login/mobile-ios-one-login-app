@@ -1,10 +1,3 @@
-//
-//  di_mobile_ios_onelogin_appUITests.swift
-//  di-mobile-ios-onelogin-appUITests
-//
-//  Created by Amoakohene, Magdaline on 24/08/2023.
-//
-
 import XCTest
 
 final class di_mobile_ios_onelogin_appUITests: XCTestCase {

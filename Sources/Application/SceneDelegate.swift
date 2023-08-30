@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  di-mobile-ios-onelogin-app
-//
-//  Created by Amoakohene, Magdaline on 24/08/2023.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
