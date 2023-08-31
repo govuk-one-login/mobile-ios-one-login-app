@@ -13,7 +13,6 @@ jobs:
   build:
   # change to mac-os lastest to use public git runner or add label of your self hosted runner
     name: Build and Test default scheme using any available iPhone simulator
-    if: github.event.pull_request.draft == false
     runs-on: macos-13
 
     steps:
@@ -32,8 +31,8 @@ jobs:
       - name: Check Dependencies
         uses: GetSidetrack/action-xcodeproj-spm-update@main
         with:
-          workspace: 'YOUR-WORKSPACE-FILENAME'
-          scheme: 'YOUR-SCHEME-NAME'
+          workspace: 'OneLogin.xcworkspace'
+          scheme: 'OneLogin'
 
       - name: Create Pull Request
         if: steps.resolution.outputs.dependenciesChanged == 'true'
@@ -56,11 +55,10 @@ jobs:
           export GEM_PATH=$HOME/.gem
           bundle install
           
-          bundle exec fastlane test scheme:"YOUR-SCHEME-NAME" \
-            sonar_token:"${{secrets.YOUR-SONAR-TOKEN-IN-SECRETS}}" \
+          bundle exec fastlane test scheme:"OneLogin" \
+            sonar_token:"${{secrets.SONAR_TOKEN}}" \
             workspace:${{github.workspace}} \
-            workspaceFilename:YOUR-WORKSPACE-FILENAME \
+            workspaceFilename:OneLogin.xcworkspace \
             source_branch:${{github.head_ref}} \
             target_branch:${{github.base_ref}} \
-            pr_number:$pull_number \
-            testplan:TEST-PLAN-NAME-IF-USED
+            pr_number:$pull_number
