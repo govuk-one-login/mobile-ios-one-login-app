@@ -1,5 +1,5 @@
-import XCTest
 @testable import OneLogin
+import XCTest
 
 final class OneLoginTests: XCTestCase {
 
