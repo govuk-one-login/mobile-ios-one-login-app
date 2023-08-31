@@ -20,12 +20,12 @@ default_platform(:ios)
 platform :ios do
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
-    workspace = options[:workspaceFilename]
+    workspace = "OneLogin.xcworkspace"
 
     clear_derived_data
       
     run_tests(
-      workspace: workspace,
+      workspace: "OneLogin.xcworkspace",
       devices: ["iPhone 14", "iPhone SE (3rd generation)"],
       result_bundle: true,
       scheme: options[:scheme]
