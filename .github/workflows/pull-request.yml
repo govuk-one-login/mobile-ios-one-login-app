@@ -27,21 +27,6 @@ jobs:
 
       - name: Lint
         run: swiftlint --strict
-          
-      - name: Check Dependencies
-        uses: GetSidetrack/action-xcodeproj-spm-update@main
-        with:
-          workspace: 'OneLogin.xcworkspace'
-          scheme: 'OneLogin'
-
-      - name: Create Pull Request
-        if: steps.resolution.outputs.dependenciesChanged == 'true'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          branch: 'dependencies/ios'
-          delete-branch: true
-          commit-message: 'Update Xcode Dependencies'
-          title: 'Updated Xcode Dependencies'
 
       - name: Build
         env:
