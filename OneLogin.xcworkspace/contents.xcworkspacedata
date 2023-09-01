@@ -4,4 +4,7 @@
    <FileRef
       location = "group:OneLogin.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:OneLogin.xctestplan">
+   </FileRef>
 </Workspace>
