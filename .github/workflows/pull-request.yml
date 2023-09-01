@@ -49,3 +49,4 @@ jobs:
             source_branch:${{github.head_ref}} \
             target_branch:${{github.base_ref}} \
             pr_number:$pull_number
+            testplan:OneLoginTestPlan
