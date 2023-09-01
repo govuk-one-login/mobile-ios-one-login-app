@@ -39,8 +39,8 @@ jobs:
       - name: Check Dependencies
         uses: GetSidetrack/action-xcodeproj-spm-update@main
         with:
-          workspace: 'YOUR-WORKSPACE-FILENAME'
-          scheme: 'YOUR-SCHEME-NAME'
+          workspace: "OneLogin.xcworkspace"
+          scheme: 'OneLogin'
           
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -53,7 +53,7 @@ jobs:
         uses: say8425/aws-secrets-manager-actions@v2
         with:
           AWS_DEFAULT_REGION: "eu-west-2"
-          SECRET_NAME: "di-ipv-dca-mob-ios/github-actions"
+          SECRET_NAME: "di-mobile-ios-onelogin-app/github-actions"
 
       # not sure if this is even needed
       #- name: Set Default Scheme
@@ -99,17 +99,17 @@ jobs:
 
             echo Deploying $configuration configuration
             bundle exec fastlane prerelease configuration:$configuration \
-              workspaceFilename:YOUR-WORKSPACE-FILENAME \
-              certificate_path:$CERTIFICATE_PATH certificate_password:$CERTIFICATE_PASSWORD \
+              certificate_path:$CERTIFICATE_PATH \
+              certificate_password:$CERTIFICATE_PASSWORD \
               apikey_path:$APIKEY_PATH
             bundle exec fastlane prerelease configuration:"Integration" \
-              workspaceFilename:YOUR-WORKSPACE-FILENAME \
-              certificate_path:$CERTIFICATE_PATH certificate_password:$CERTIFICATE_PASSWORD \
+              certificate_path:$CERTIFICATE_PATH \
+              certificate_password:$CERTIFICATE_PASSWORD \
               apikey_path:$APIKEY_PATH
           else
             bundle exec fastlane prerelease configuration:"Staging" \
-              workspaceFilename:YOUR-WORKSPACE-FILENAME \
-              certificate_path:$CERTIFICATE_PATH certificate_password:$CERTIFICATE_PASSWORD \
+              certificate_path:$CERTIFICATE_PATH \
+              certificate_password:$CERTIFICATE_PASSWORD \
               apikey_path:$APIKEY_PATH --verbose
           fi
 
@@ -137,9 +137,9 @@ jobs:
             
           bundle exec fastlane run add_badge alpha:true
           bundle exec fastlane prerelease configuration:${{ inputs.build_configuration }} \
-          workspaceFilename:YOUR-WORKSPACE-FILENAME \
-          certificate_path:$CERTIFICATE_PATH certificate_password:$CERTIFICATE_PASSWORD \
-          apikey_path:$APIKEY_PATH --verbose    
+            certificate_path:$CERTIFICATE_PATH \
+            certificate_password:$CERTIFICATE_PASSWORD \
+            apikey_path:$APIKEY_PATH --verbose    
         # upload failure log if fails
       - uses: actions/upload-artifact@v1
         name: upload failure fastlane build log
