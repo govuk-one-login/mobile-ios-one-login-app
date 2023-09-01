@@ -41,9 +41,9 @@ jobs:
           bundle install
           
           bundle exec fastlane test scheme:"OneLogin" \
-            sonar_token:"${{secrets.SONAR_TOKEN}}" \
+            sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
-            workspaceFilename:OneLogin.xcworkspace \
+            workspaceFilename:"OneLogin.xcworkspace" \
             source_branch:${{github.head_ref}} \
             target_branch:${{github.base_ref}} \
             pr_number:$pull_number

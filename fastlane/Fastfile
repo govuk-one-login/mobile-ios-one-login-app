@@ -20,12 +20,11 @@ default_platform(:ios)
 platform :ios do
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
-    workspace = "OneLogin.xcworkspace"
 
     clear_derived_data
       
     run_tests(
-      workspace: "OneLogin.xcworkspace",
+      workspace: options[:workspaceFilename],
       devices: ["iPhone 14", "iPhone SE (3rd generation)"],
       result_bundle: true,
       scheme: options[:scheme]
@@ -34,7 +33,7 @@ platform :ios do
 # workspace option here is referencing {{github.workspace}} which is the path for project root not to be confused with workspace filename
 
     sh(
-      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult/ > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
     
     if options.has_key?(:pr_number) then
