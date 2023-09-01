@@ -40,6 +40,8 @@ jobs:
           export GEM_PATH=$HOME/.gem
           bundle install
           
+          brew install sonar-scanner
+          
           bundle exec fastlane test scheme:"OneLogin" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
