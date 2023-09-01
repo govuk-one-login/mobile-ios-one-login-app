@@ -27,7 +27,8 @@ platform :ios do
       workspace: options[:workspaceFilename],
       devices: ["iPhone 14", "iPhone SE (3rd generation)"],
       result_bundle: true,
-      scheme: options[:scheme]
+      scheme: options[:scheme],
+      testplan: options[:testplan]
     )
     
 # workspace option here is referencing {{github.workspace}} which is the path for project root not to be confused with workspace filename
