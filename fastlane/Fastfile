@@ -1,0 +1,149 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+require 'securerandom'
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Run Tests and Output Code Coverage"
+  lane :test do |options|
+
+    clear_derived_data
+      
+    run_tests(
+      workspace: options[:workspaceFilename],
+      devices: ["iPhone 14", "iPhone SE (3rd generation)"],
+      result_bundle: true,
+      scheme: options[:scheme],
+      testplan: options[:testplan]
+    )
+    
+# workspace option here is referencing {{github.workspace}} which is the path for project root not to be confused with workspace filename
+
+    sh(
+      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+    )
+    
+    if options.has_key?(:pr_number) then
+      sonar(
+        project_version: "1.0",
+        project_language: "swift",
+        sonar_runner_args: "-Dsonar.projectBaseDir=#{options[:workspace]} -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.pullrequest.provider=github -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml",
+        pull_request_branch: options[:source_branch],
+        pull_request_base: options[:target_branch],
+        pull_request_key: options[:pr_number],
+        sonar_login: options[:sonar_token],
+        sonar_url: "https://sonarcloud.io",
+      )
+    else
+      sonar(
+        project_version: "1.0",
+        project_language: "swift",
+        sonar_runner_args: "-Dsonar.projectBaseDir=#{options[:workspace]} -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.pullrequest.provider=github -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml",
+        sonar_login: options[:sonar_token],
+        sonar_url: "https://sonarcloud.io",
+      )
+    end
+  end
+    
+  desc "Push a new beta build to TestFlight"
+  lane :prerelease do |options|
+    clear_derived_data
+
+    delete_keychain(name: "signing_temp")
+
+    password = SecureRandom.hex
+
+    create_keychain(
+      name: "signing_temp",
+      password: password,
+      unlock: true
+    )
+
+    import_certificate(
+      certificate_path: options[:certificate_path],
+      certificate_password: options[:certificate_password],
+      keychain_name: 'signing_temp',
+      keychain_password: password,
+      log_output: true
+    )
+
+    app_store_connect_api_key(
+      key_id: "LK43S2LHBT",
+      issuer_id: "053ce927-96a7-4d15-8176-6c282fd0b594",
+      key_filepath: options[:apikey_path]
+    )
+
+    profile_name = options[:profileName]
+    app_identifier = "uk.gov.one-login"
+
+    if options[:configuration] == "Staging" then
+      app_identifier += ".staging"
+      profile_name += " Staging"
+    elsif options[:configuration] == "Integration" then
+      profile_name += " Integration"
+      app_identifier += ".integration"
+    elsif options[:configuration] == "Build" then
+      profile_name += " Build"
+      app_identifier += ".build"
+    elsif options[:configuration] == "Dev" then
+      profile_name += " Dev"
+      app_identifier += ".dev"
+    end
+
+    get_provisioning_profile(
+      provisioning_name: profile_name, 
+      app_identifier: app_identifier,
+      readonly: true
+    )
+
+    version = get_version_number(xcodeproj: options[:projectFileName])
+
+    build_number = latest_testflight_build_number(
+      app_identifier: app_identifier,
+      version: version
+    ) + 1
+
+    increment_build_number(
+      xcodeproj: options[:projectFileName], 
+      build_number: build_number
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "OneLogin.xcodeproj",
+      profile_name: profile_name,
+      targets: "OneLogin",
+      team_id: "N8W395F695",
+      build_configurations: options[:configuration],
+      code_sign_identity: "Apple Distribution"
+    )
+
+    build_ios_app(
+      configuration: options[:configuration],
+      scheme: "OneLogin",
+      output_name: "OneLogin",
+      export_method: "app-store"
+    )
+
+    upload_to_testflight(
+      distribute_external: true,
+      changelog: last_git_commit[:message],
+      reject_build_waiting_for_review: false,
+      submit_beta_review: true
+    )
+  end
+end

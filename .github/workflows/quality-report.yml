@@ -1,0 +1,54 @@
+name: iOS Quality Report
+
+on:
+  push:
+    branches: [ develop, release/*, main ]
+  workflow_dispatch:
+    inputs:
+      build_configuration:
+        description: 'Which build configuration to use'
+        required: false
+        default: 'Staging'
+        type: choice
+        options:
+        - Dev
+        - Build
+        - Staging
+        - Integration
+        - Release
+
+jobs:
+  build:
+    name: Build and Test default scheme using any available iPhone simulator
+    if: github.event.pull_request.draft == false
+    runs-on: macos-13
+
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+          bundle install
+          
+          brew install sonar-scanner
+
+          bundle exec fastlane test scheme:"OneLogin" \
+            sonar_token:${{secrets.SONAR_TOKEN}} \
+            workspace:${{github.workspace}} \
+            workspaceFilename:"OneLogin.xcworkspace" \
