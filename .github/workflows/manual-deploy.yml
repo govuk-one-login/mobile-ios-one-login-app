@@ -38,6 +38,19 @@ jobs:
 #          workspace: "OneLogin.xcworkspace"
 #          scheme: 'OneLogin'
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: eu-west-2
+          role-to-assume: ${{ secrets.PROD_SECRETS_AWS_ROLE_TO_ASSUME }}
+          
+      - name: Store ENV from AWS SecretManager
+        id: secrets
+        uses: say8425/aws-secrets-manager-actions@v2
+        with:
+          AWS_DEFAULT_REGION: "eu-west-2"
+          SECRET_NAME: "di-mobile-ios-onelogin-app/github-actions"
+
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
