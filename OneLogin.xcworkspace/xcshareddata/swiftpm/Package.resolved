@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "di-mobile-ios-common",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alphagov/di-mobile-ios-common",
+      "state" : {
+        "revision" : "8f675465d831823f71dd1c2613a4ed94b170413e",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
