@@ -10,6 +10,8 @@
 		219602022A976305008F3427 /* OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* OneLoginTests.swift */; };
 		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
 		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
+		3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69D2AC334C9001359F1 /* GDSAnalytics */; };
+		3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69F2AC334C9001359F1 /* GDSCommon */; };
 		3BBF28EF2A9F7D3200491BB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28E52A9F7D3200491BB1 /* ViewController.swift */; };
 		3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */; };
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
@@ -56,6 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */,
+				3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +164,10 @@
 			dependencies = (
 			);
 			name = OneLogin;
+			packageProductDependencies = (
+				3B61C69D2AC334C9001359F1 /* GDSAnalytics */,
+				3B61C69F2AC334C9001359F1 /* GDSCommon */,
+			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
 			productType = "com.apple.product-type.application";
@@ -232,6 +240,9 @@
 				Base,
 			);
 			mainGroup = 219601DE2A976302008F3427;
+			packageReferences = (
+				3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */,
+			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -639,6 +650,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alphagov/di-mobile-ios-common";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B61C69D2AC334C9001359F1 /* GDSAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */;
+			productName = GDSAnalytics;
+		};
+		3B61C69F2AC334C9001359F1 /* GDSCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */;
+			productName = GDSCommon;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 219601DF2A976302008F3427 /* Project object */;
 }
