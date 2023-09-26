@@ -2,22 +2,7 @@ name: Manual iOS Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      build_configuration:
-        description: 'Which build configuration to use'
-        required: true
-        default: 'Staging'
-        type: choice
-        options:
-        - Dev
-        - Build
-        - Staging
-        - Integration
-    
-permissions:
-  id-token: write
-  contents: read
-  
+
 jobs:
   build:
     name: Deploy build to TestFlight
@@ -32,24 +17,26 @@ jobs:
         with:
           lfs: 'true'
           
-#      - name: Check Dependencies
-#        uses: GetSidetrack/action-xcodeproj-spm-update@main
-#        with:
-#          workspace: "OneLogin.xcworkspace"
-#          scheme: 'OneLogin'
+      - name: Check Dependencies
+        uses: GetSidetrack/action-xcodeproj-spm-update@main
+        with:
+          workspace: "OneLogin.xcworkspace"
+          scheme: 'OneLogin'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: eu-west-2
-          role-to-assume: ${{ secrets.PROD_SECRETS_AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
+          role-duration-seconds: 1200
+          role-skip-session-tagging: true
           
       - name: Store ENV from AWS SecretManager
         id: secrets
         uses: say8425/aws-secrets-manager-actions@v2
         with:
           AWS_DEFAULT_REGION: "eu-west-2"
-          SECRET_NAME: "di-mobile-ios-onelogin-app/github-actions"
+          SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
 
       - name: Set Default Scheme
         run: |
@@ -69,6 +56,8 @@ jobs:
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
           
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
           bundle install
 
           # create variables
@@ -80,33 +69,13 @@ jobs:
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode --output $APIKEY_PATH
 
-          if [ "$gitbranch" = "develop" ];
-          then
-            bundle exec fastlane run add_badge alpha:true
-          elif [[ $gitbranch == release/* ]];
-          then
-            bundle exec fastlane run add_badge
-          fi
-
-          if [ "$gitbranch" = "main" ];
-          then
-            configuration="Release"
-
-            echo Deploying $configuration configuration
-            bundle exec fastlane prerelease configuration:$configuration \
-              certificate_path:$CERTIFICATE_PATH \
-              certificate_password:$CERTIFICATE_PASSWORD \
-              apikey_path:$APIKEY_PATH
-            bundle exec fastlane prerelease configuration:"Integration" \
-              certificate_path:$CERTIFICATE_PATH \
-              certificate_password:$CERTIFICATE_PASSWORD \
-              apikey_path:$APIKEY_PATH
-          else
-            bundle exec fastlane prerelease configuration:"Staging" \
-              certificate_path:$CERTIFICATE_PATH \
-              certificate_password:$CERTIFICATE_PASSWORD \
-              apikey_path:$APIKEY_PATH --verbose
-          fi
+          # add badge with alpha strip
+          bundle exec fastlane run add_badge alpha:true
+          
+          bundle exec fastlane prerelease configuration:"Release" \
+            certificate_path:$CERTIFICATE_PATH \
+            certificate_password:$CERTIFICATE_PASSWORD \
+            apikey_path:$APIKEY_PATH --verbose
 
 ##         upload failure log if fails
 #      - uses: actions/upload-artifact@v1
