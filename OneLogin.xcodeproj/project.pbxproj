@@ -519,7 +519,7 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
