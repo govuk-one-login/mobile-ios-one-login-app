@@ -38,7 +38,7 @@ jobs:
         uses: say8425/aws-secrets-manager-actions@v2
         with:
           AWS_DEFAULT_REGION: "eu-west-2"
-          SECRET_NAME: "di-mobile-ios-onelogin-app/github-actions-v2"
+          SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
 
       - name: Set Default Scheme
         run: |
