@@ -7,15 +7,11 @@ on:
     inputs:
       build_configuration:
         description: 'Which build configuration to use'
-        required: false
-        default: 'Staging'
+        required: true
+        default: 'Debug'
         type: choice
         options:
-        - Dev
-        - Build
-        - Staging
-        - Integration
-        - Release
+        - Debug
 
 jobs:
   build:

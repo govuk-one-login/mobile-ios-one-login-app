@@ -24,15 +24,13 @@ platform :ios do
     clear_derived_data
       
     run_tests(
-      workspace: options[:workspaceFilename],
+      workspace: "OneLogin.xcworkspace",
       devices: ["iPhone 14", "iPhone SE (3rd generation)"],
       result_bundle: true,
       scheme: options[:scheme],
       testplan: options[:testplan]
     )
     
-# workspace option here is referencing {{github.workspace}} which is the path for project root not to be confused with workspace filename
-
     sh(
       "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
