@@ -1,7 +1,12 @@
 name: Manual iOS Deploy
 
 on:
-  workflow_dispatch:
+  pull_request:
+    types: [ opened, reopened, synchronize, ready_for_review ]
+    branches: [ develop, release/*, main ]
+
+#on:
+#  workflow_dispatch:
 
 jobs:
   build:
@@ -72,7 +77,7 @@ jobs:
           # add badge with alpha strip
           bundle exec fastlane run add_badge alpha:true
           
-          bundle exec fastlane prerelease configuration:"Release" \
+          bundle exec fastlane prerelease configuration:"Debug" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
