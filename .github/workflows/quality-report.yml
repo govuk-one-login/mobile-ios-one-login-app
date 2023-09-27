@@ -7,7 +7,7 @@ on:
     inputs:
       build_configuration:
         description: 'Which build configuration to use'
-        required: true
+        required: false
         default: 'Debug'
         type: choice
         options:

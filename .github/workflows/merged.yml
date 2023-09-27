@@ -7,7 +7,7 @@ on:
     inputs:
       build_configuration:
         description: 'Which build configuration to use'
-        required: true
+        required: false
         default: 'Debug'
         type: choice
         options:
@@ -32,7 +32,7 @@ jobs:
         uses: GetSidetrack/action-xcodeproj-spm-update@main
         with:
           workspace: "OneLogin.xcworkspace"
-          scheme: 'OneLogin'
+          scheme: "OneLogin"
           
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -49,12 +49,12 @@ jobs:
           AWS_DEFAULT_REGION: "eu-west-2"
           SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
 
-      - name: Set Default Scheme
-        run: |
-          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-          echo $default | cat >default
-          echo Using default scheme: $default
+#      - name: Set Default Scheme
+#        run: |
+#          scheme_list=$(xcodebuild -list -json | tr -d "\n")
+#          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
+#          echo $default | cat >default
+#          echo Using default scheme: $default
 
       - name: Deploy to App Store Connect
         if: github.event_name != 'workflow_dispatch'
