@@ -82,8 +82,8 @@ jobs:
           APIKEY_PATH=$RUNNER_TEMP/apikey.p8
 
           # import certificates from secrets
-          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode --output $APIKEY_PATH
+          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
 
           bundle exec fastlane run add_badge alpha:true
       
@@ -114,8 +114,8 @@ jobs:
           APIKEY_PATH=$RUNNER_TEMP/apikey.p8
           
           # import certificates from secrets
-          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode --output $APIKEY_PATH
+          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
             
           bundle exec fastlane run add_badge alpha:true
       
