@@ -1,17 +1,22 @@
 name: iOS Deploy
 
 on:
-  push:
+  pull_request:
+    types: [ opened, reopened, synchronize, ready_for_review ]
     branches: [ develop, release/*, main ]
-  workflow_dispatch:
-    inputs:
-      build_configuration:
-        description: 'Which build configuration to use'
-        required: false
-        default: 'Debug'
-        type: choice
-        options:
-        - Debug
+
+#on:
+#  push:
+#    branches: [ develop, release/*, main ]
+#  workflow_dispatch:
+#    inputs:
+#      build_configuration:
+#        description: 'Which build configuration to use'
+#        required: false
+#        default: 'Debug'
+#        type: choice
+#        options:
+#        - Debug
         
 permissions:
   id-token: write
@@ -72,6 +77,11 @@ jobs:
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
           
+          brew install \
+          librsvg \
+          imagemagick \
+          graphicsmagick
+          
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
           bundle install
@@ -103,6 +113,11 @@ jobs:
             
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
+          
+          brew install \
+          librsvg \
+          imagemagick \
+          graphicsmagick
             
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
