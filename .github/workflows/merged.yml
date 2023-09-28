@@ -83,7 +83,7 @@ jobs:
 
           bundle exec fastlane run add_badge alpha:true
       
-          bundle exec fastlane prerelease configuration:"Release" \
+          bundle exec fastlane prerelease configuration:"Debug" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose

@@ -3,15 +3,6 @@ name: iOS Quality Report
 on:
   push:
     branches: [ develop, release/*, main ]
-  workflow_dispatch:
-    inputs:
-      build_configuration:
-        description: 'Which build configuration to use'
-        required: false
-        default: 'Debug'
-        type: choice
-        options:
-        - Debug
 
 jobs:
   build:
@@ -40,11 +31,12 @@ jobs:
         run: |
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
           bundle install
-          
-          brew install sonar-scanner
 
           bundle exec fastlane test scheme:"OneLogin" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
-            workspaceFilename:"OneLogin.xcworkspace" \
+            testplan:OneLogin
