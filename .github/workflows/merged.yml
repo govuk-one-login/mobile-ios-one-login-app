@@ -77,11 +77,6 @@ jobs:
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
           
-          brew install \
-          librsvg \
-          imagemagick \
-          graphicsmagick
-          
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
           bundle install
@@ -94,8 +89,6 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-
-          bundle exec fastlane run add_badge alpha:true
       
           bundle exec fastlane prerelease configuration:"Debug" \
             certificate_path:$CERTIFICATE_PATH \
@@ -113,11 +106,6 @@ jobs:
             
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
-          
-          brew install \
-          librsvg \
-          imagemagick \
-          graphicsmagick
             
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
@@ -131,8 +119,6 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-            
-          bundle exec fastlane run add_badge alpha:true
       
           bundle exec fastlane prerelease configuration:${{ inputs.build_configuration }} \
             certificate_path:$CERTIFICATE_PATH \
