@@ -11,7 +11,6 @@ concurrency:
 
 jobs:
   build:
-  # change to mac-os lastest to use public git runner or add label of your self hosted runner
     name: Build and Test default scheme using any available iPhone simulator
     runs-on: macos-13
 
@@ -38,6 +37,9 @@ jobs:
         
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
           bundle install
           
           brew install sonar-scanner
@@ -45,7 +47,6 @@ jobs:
           bundle exec fastlane test scheme:"OneLogin" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
-            workspaceFilename:"OneLogin.xcworkspace" \
             source_branch:${{github.head_ref}} \
             target_branch:${{github.base_ref}} \
             pr_number:$pull_number \

@@ -16,6 +16,7 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
+xcode_select("/Applications/Xcode_15.0.app")
 
 platform :ios do
   desc "Run Tests and Output Code Coverage"
@@ -24,15 +25,13 @@ platform :ios do
     clear_derived_data
       
     run_tests(
-      workspace: options[:workspaceFilename],
+      workspace: "OneLogin.xcworkspace",
       devices: ["iPhone 14", "iPhone SE (3rd generation)"],
       result_bundle: true,
       scheme: options[:scheme],
       testplan: options[:testplan]
     )
     
-# workspace option here is referencing {{github.workspace}} which is the path for project root not to be confused with workspace filename
-
     sh(
       "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
@@ -87,22 +86,9 @@ platform :ios do
       key_filepath: options[:apikey_path]
     )
 
-    profile_name = options[:profileName]
-    app_identifier = "uk.gov.one-login"
-
-    if options[:configuration] == "Staging" then
-      app_identifier += ".staging"
-      profile_name += " Staging"
-    elsif options[:configuration] == "Integration" then
-      profile_name += " Integration"
-      app_identifier += ".integration"
-    elsif options[:configuration] == "Build" then
-      profile_name += " Build"
-      app_identifier += ".build"
-    elsif options[:configuration] == "Dev" then
-      profile_name += " Dev"
-      app_identifier += ".dev"
-    end
+    profile_name = "One Login Staging"
+    app_identifier = "uk.gov.one-login.staging"
+    project_name = "OneLogin.xcodeproj"
 
     get_provisioning_profile(
       provisioning_name: profile_name, 
@@ -110,7 +96,7 @@ platform :ios do
       readonly: true
     )
 
-    version = get_version_number(xcodeproj: options[:projectFileName])
+    version = get_version_number(xcodeproj: project_name)
 
     build_number = latest_testflight_build_number(
       app_identifier: app_identifier,
@@ -118,13 +104,13 @@ platform :ios do
     ) + 1
 
     increment_build_number(
-      xcodeproj: options[:projectFileName], 
+      xcodeproj: project_name,
       build_number: build_number
     )
 
     update_code_signing_settings(
       use_automatic_signing: false,
-      path: "OneLogin.xcodeproj",
+      path: project_name,
       profile_name: profile_name,
       targets: "OneLogin",
       team_id: "N8W395F695",
@@ -140,7 +126,7 @@ platform :ios do
     )
 
     upload_to_testflight(
-      distribute_external: true,
+      distribute_external: false,
       changelog: last_git_commit[:message],
       reject_build_waiting_for_review: false,
       submit_beta_review: true
