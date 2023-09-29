@@ -1,22 +1,17 @@
 name: iOS Deploy
 
 on:
-  pull_request:
-    types: [ opened, reopened, synchronize, ready_for_review ]
+  push:
     branches: [ develop, release/*, main ]
-
-#on:
-#  push:
-#    branches: [ develop, release/*, main ]
-#  workflow_dispatch:
-#    inputs:
-#      build_configuration:
-#        description: 'Which build configuration to use'
-#        required: false
-#        default: 'Debug'
-#        type: choice
-#        options:
-#        - Debug
+  workflow_dispatch:
+    inputs:
+      build_configuration:
+        description: 'Which build configuration to use'
+        required: false
+        default: 'Debug'
+        type: choice
+        options:
+        - Debug
         
 permissions:
   id-token: write
@@ -89,7 +84,9 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-      
+          
+          bundle exec fastlane run add_badge alpha:true
+          
           bundle exec fastlane prerelease configuration:"Debug" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
@@ -119,7 +116,9 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-      
+          
+          bundle exec fastlane run add_badge alpha:true
+          
           bundle exec fastlane prerelease configuration:${{ inputs.build_configuration }} \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
