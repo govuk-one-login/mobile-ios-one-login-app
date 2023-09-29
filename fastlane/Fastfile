@@ -117,6 +117,8 @@ platform :ios do
         code_sign_identity: "Apple Distribution"
       )
 
+      add_badge(alpha: true)
+
       build_ios_app(
         configuration: options[:configuration],
         scheme: "OneLogin",
