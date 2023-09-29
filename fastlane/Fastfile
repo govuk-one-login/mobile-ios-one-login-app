@@ -136,9 +136,8 @@ platform :ios do
       rescue => ex
         UI.error("Something went wrong: #{ex}")
       end
-    rescue => ex
+    ensure
       delete_keychain(name: "signing_temp")
-      raise ex
     end
   end
 end
