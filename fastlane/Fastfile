@@ -126,17 +126,19 @@ platform :ios do
         export_method: "app-store"
       )
 
-      upload_to_testflight(
-        distribute_external: false,
-        changelog: last_git_commit[:message],
-        reject_build_waiting_for_review: false,
-        submit_beta_review: true
-      )
-      
+      begin
+        upload_to_testflight(
+          distribute_external: false,
+          changelog: last_git_commit[:message],
+          reject_build_waiting_for_review: false,
+          submit_beta_review: true
+        )
+      rescue => ex
+        UI.error("Something went wrong: #{ex}")
+      end
     rescue => ex
-      UI.error("Something went wrong: #{ex}")
+      delete_keychain(name: "signing_temp")
+      raise ex
     end
-    
-    delete_keychain(name: "signing_temp")
   end
 end
