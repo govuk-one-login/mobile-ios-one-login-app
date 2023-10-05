@@ -24,6 +24,7 @@
 		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
 		C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */; };
 		C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E211D2ACEEFC900AF8B4E /* HTTPLogging */; };
+		C86BE9BC2ACEF2BB007E5E2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C86BE9BA2ACEF2BB007E5E2E /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		C85E210C2ACEE93C00AF8B4E /* OneLoginWelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginWelcomeViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
 		C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		C86BE9BB2ACEF2BB007E5E2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 		3BBF28E72A9F7D3200491BB1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C86BE9BA2ACEF2BB007E5E2E /* Main.storyboard */,
 				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
@@ -335,6 +338,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C86BE9BC2ACEF2BB007E5E2E /* Main.storyboard in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -431,6 +435,14 @@
 				3BBF28E92A9F7D3200491BB1 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		C86BE9BA2ACEF2BB007E5E2E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C86BE9BB2ACEF2BB007E5E2E /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
