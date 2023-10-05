@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		219602022A976305008F3427 /* OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* OneLoginTests.swift */; };
+		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
 		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
 		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
 		3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69D2AC334C9001359F1 /* GDSAnalytics */; };
@@ -46,7 +46,7 @@
 /* Begin PBXFileReference section */
 		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219601FD2A976305008F3427 /* OneLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		219602012A976305008F3427 /* OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginTests.swift; sourceTree = "<group>"; };
+		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
 		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				219602012A976305008F3427 /* OneLoginTests.swift */,
+				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -396,7 +396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				219602022A976305008F3427 /* OneLoginTests.swift in Sources */,
+				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
