@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alphagov/di-mobile-ios-common",
       "state" : {
-        "branch" : "feature/dcmaw-6882-welcome-screen",
-        "revision" : "d3084522b32bc38da35ac55f92f453af103e953b"
+        "branch" : "main",
+        "revision" : "2304a9e52e8853dc86b9159ebdb95ae7ccdbb7c8"
       }
     },
     {

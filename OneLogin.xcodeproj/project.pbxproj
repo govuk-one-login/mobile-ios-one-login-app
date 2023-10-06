@@ -724,7 +724,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alphagov/di-mobile-ios-common";
 			requirement = {
-				branch = "feature/dcmaw-6882-welcome-screen";
+				branch = main;
 				kind = branch;
 			};
 		};
