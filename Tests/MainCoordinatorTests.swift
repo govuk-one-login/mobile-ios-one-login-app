@@ -30,6 +30,6 @@ extension MainCoordinatorTests {
         XCTAssertTrue(navigationController.viewControllers.count == 0)
         sut.start()
         XCTAssertTrue(navigationController.viewControllers.count == 1)
-        XCTAssert(navigationController.topViewController is WelcomeViewController)
+        XCTAssert(navigationController.topViewController is IntroViewController)
     }
 }

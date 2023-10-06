@@ -14,7 +14,7 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let viewModel = OneLoginWelcomeViewModel()
+        let viewModel = OneLoginIntroViewModel()
         let viewController = IntroViewController(viewModel: viewModel)
         root.setViewControllers([viewController], animated: false)
     }
