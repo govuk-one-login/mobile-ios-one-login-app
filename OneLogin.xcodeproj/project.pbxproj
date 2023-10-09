@@ -137,6 +137,7 @@
 				3BBF28EC2A9F7D3200491BB1 /* Application */,
 				C85E21192ACEEE6600AF8B4E /* Extensions */,
 				C85E21012ACEE32B00AF8B4E /* Onboarding */,
+				C85C874B2AD40479001274AC /* Resources */,
 				3BBF28E72A9F7D3200491BB1 /* Supporting Files */,
 				C85E21152ACEECB000AF8B4E /* Views */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
@@ -147,7 +148,6 @@
 		3BBF28E72A9F7D3200491BB1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -159,6 +159,14 @@
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		C85C874B2AD40479001274AC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {

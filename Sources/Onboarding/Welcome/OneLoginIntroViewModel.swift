@@ -7,8 +7,8 @@ import UIKit
 struct OneLoginIntroViewModel: IntroViewModel {
     var image: UIImage = UIImage(named: "badge") ?? UIImage()
     var title: GDSLocalisedString = "GOV.UK One Login"
-    var body: GDSLocalisedString = "This is a short description of the GOV.UK One Login application as a demonstration of the screen"
-    var introButtonViewModel: ButtonViewModel = AnalyticsButtonViewModel(titleKey: "Continue",
+    var body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."
+    var introButtonViewModel: ButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
                                                                          analyticsService: GAnalytics(),
                                                                          action: { })
     
