@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "rounded logo gov-uk.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -7,17 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		219602022A976305008F3427 /* OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* OneLoginTests.swift */; };
+		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
 		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
 		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
 		3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69D2AC334C9001359F1 /* GDSAnalytics */; };
 		3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69F2AC334C9001359F1 /* GDSCommon */; };
-		3BBF28EF2A9F7D3200491BB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28E52A9F7D3200491BB1 /* ViewController.swift */; };
 		3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */; };
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
-		3BBF28F22A9F7D3200491BB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28EA2A9F7D3200491BB1 /* Main.storyboard */; };
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
+		C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */; };
+		C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21092ACEE3D700AF8B4E /* Coordination */; };
+		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
+		C85E21122ACEEBC800AF8B4E /* GAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21112ACEEBC800AF8B4E /* GAnalytics */; };
+		C85E21142ACEEBC800AF8B4E /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21132ACEEBC800AF8B4E /* Logging */; };
+		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
+		C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */; };
+		C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E211D2ACEEFC900AF8B4E /* HTTPLogging */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,17 +46,19 @@
 /* Begin PBXFileReference section */
 		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219601FD2A976305008F3427 /* OneLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		219602012A976305008F3427 /* OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginTests.swift; sourceTree = "<group>"; };
+		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
 		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		3BBF28E52A9F7D3200491BB1 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BBF28E92A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3BBF28EB2A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
+		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
+		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
+		C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +66,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C85E21142ACEEBC800AF8B4E /* Logging in Frameworks */,
+				C85E21122ACEEBC800AF8B4E /* GAnalytics in Frameworks */,
 				3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */,
+				C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */,
+				C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */,
 				3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +100,7 @@
 				219602002A976305008F3427 /* Tests */,
 				2196020A2A976305008F3427 /* UITests */,
 				219601E82A976302008F3427 /* Products */,
+				C85E211C2ACEEFC400AF8B4E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,7 +117,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				219602012A976305008F3427 /* OneLoginTests.swift */,
+				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -121,9 +134,12 @@
 		3BBF28E42A9F7D3200491BB1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3BBF28E52A9F7D3200491BB1 /* ViewController.swift */,
 				3BBF28EC2A9F7D3200491BB1 /* Application */,
+				C85E21192ACEEE6600AF8B4E /* Extensions */,
+				C85E21012ACEE32B00AF8B4E /* Onboarding */,
+				C85C874B2AD40479001274AC /* Resources */,
 				3BBF28E72A9F7D3200491BB1 /* Supporting Files */,
+				C85E21152ACEECB000AF8B4E /* Views */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 			);
 			path = Sources;
@@ -132,8 +148,6 @@
 		3BBF28E72A9F7D3200491BB1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
-				3BBF28EA2A9F7D3200491BB1 /* Main.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -145,6 +159,70 @@
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		C85C874B2AD40479001274AC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C85E210B2ACEE92900AF8B4E /* Welcome */,
+				C85E21022ACEE33600AF8B4E /* Main Coordinator */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C85E21022ACEE33600AF8B4E /* Main Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
+			);
+			path = "Main Coordinator";
+			sourceTree = "<group>";
+		};
+		C85E210B2ACEE92900AF8B4E /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		C85E21152ACEECB000AF8B4E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C85E21162ACEECC600AF8B4E /* Buttons */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C85E21162ACEECC600AF8B4E /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		C85E21192ACEEE6600AF8B4E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C85E211C2ACEEFC400AF8B4E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +245,10 @@
 			packageProductDependencies = (
 				3B61C69D2AC334C9001359F1 /* GDSAnalytics */,
 				3B61C69F2AC334C9001359F1 /* GDSCommon */,
+				C85E21092ACEE3D700AF8B4E /* Coordination */,
+				C85E21112ACEEBC800AF8B4E /* GAnalytics */,
+				C85E21132ACEEBC800AF8B4E /* Logging */,
+				C85E211D2ACEEFC900AF8B4E /* HTTPLogging */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -242,6 +324,8 @@
 			mainGroup = 219601DE2A976302008F3427;
 			packageReferences = (
 				3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */,
+				C85E21082ACEE3D700AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-coordination" */,
+				C85E210E2ACEEBC800AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-logging" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -259,7 +343,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BBF28F22A9F7D3200491BB1 /* Main.storyboard in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -308,9 +391,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
-				3BBF28EF2A9F7D3200491BB1 /* ViewController.swift in Sources */,
+				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
+				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
+				C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,7 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				219602022A976305008F3427 /* OneLoginTests.swift in Sources */,
+				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,14 +439,6 @@
 				3BBF28E92A9F7D3200491BB1 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		3BBF28EA2A9F7D3200491BB1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3BBF28EB2A9F7D3200491BB1 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -490,10 +568,9 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME) - $(CONFIGURATION)";
+				INFOPLIST_KEY_CFBundleDisplayName = "OneLogin - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -519,10 +596,9 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "OneLogin - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -656,8 +732,24 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alphagov/di-mobile-ios-common";
 			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		C85E21082ACEE3D700AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-coordination" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alphagov/di-mobile-ios-coordination";
+			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
+			};
+		};
+		C85E210E2ACEEBC800AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-logging" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alphagov/di-mobile-ios-logging";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -672,6 +764,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */;
 			productName = GDSCommon;
+		};
+		C85E21092ACEE3D700AF8B4E /* Coordination */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C85E21082ACEE3D700AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-coordination" */;
+			productName = Coordination;
+		};
+		C85E21112ACEEBC800AF8B4E /* GAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C85E210E2ACEEBC800AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-logging" */;
+			productName = GAnalytics;
+		};
+		C85E21132ACEEBC800AF8B4E /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C85E210E2ACEEBC800AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-logging" */;
+			productName = Logging;
+		};
+		C85E211D2ACEEFC900AF8B4E /* HTTPLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C85E210E2ACEEBC800AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-logging" */;
+			productName = HTTPLogging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
