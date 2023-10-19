@@ -12,6 +12,8 @@
 		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
 		21D8D6172ADFDFFD0026F946 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 21D8D6162ADFDFFD0026F946 /* Authentication */; };
 		21D8D6192ADFDFFD0026F946 /* UserDetails in Frameworks */ = {isa = PBXBuildFile; productRef = 21D8D6182ADFDFFD0026F946 /* UserDetails */; };
+		21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4B2AE183A50052136E /* MockLoginSession.swift */; };
+		21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */; };
 		3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69D2AC334C9001359F1 /* GDSAnalytics */; };
 		3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69F2AC334C9001359F1 /* GDSCommon */; };
 		3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */; };
@@ -52,6 +54,8 @@
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
 		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		21FA1C4B2AE183A50052136E /* MockLoginSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSession.swift; sourceTree = "<group>"; };
+		21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModelTests.swift; sourceTree = "<group>"; };
 		3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BBF28E92A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,7 +125,9 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				21FA1C4A2AE183830052136E /* Mocks */,
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
+				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -133,6 +139,14 @@
 				2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */,
 			);
 			path = UITests;
+			sourceTree = "<group>";
+		};
+		21FA1C4A2AE183830052136E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		3BBF28E42A9F7D3200491BB1 /* Sources */ = {
@@ -411,6 +425,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
+				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,7 +591,7 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "OneLogin - Debug";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -603,7 +619,7 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "OneLogin - Debug";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
