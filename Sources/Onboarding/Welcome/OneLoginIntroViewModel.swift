@@ -14,7 +14,9 @@ struct OneLoginIntroViewModel: IntroViewModel {
     init(signinAction: @escaping () -> Void) {
         introButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
                                                         analyticsService: GAnalytics(),
-                                                        action: { signinAction() })
+                                                        action: {
+            signinAction()
+        })
     }
     
     func didAppear() { }

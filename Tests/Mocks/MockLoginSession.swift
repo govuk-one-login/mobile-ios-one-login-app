@@ -8,7 +8,7 @@ final class MockLoginSession: LoginSession {
     var didCallFinalise = false
     var didCallCancel = false
     
-    init(window: UIWindow) {
+    init(window: UIWindow = UIWindow()) {
         self.window = window
     }
     
@@ -18,7 +18,7 @@ final class MockLoginSession: LoginSession {
     
     func finalise(callback: URL) async throws -> TokenResponse {
         didCallFinalise = true
-        throw fatalError()
+        return try await MockTokenResponse().getJSONData()
     }
     
     func cancel() {

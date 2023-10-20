@@ -7,7 +7,7 @@ import XCTest
 final class MainCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
-    var loginSession: LoginSession!
+    var loginSession: MockLoginSession!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -16,7 +16,7 @@ final class MainCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         loginSession = MockLoginSession(window: window)
-        sut = .init(window: window, root: navigationController, session: loginSession)
+        sut = MainCoordinator(window: window, root: navigationController, session: loginSession)
     }
     
     override func tearDown() {
@@ -35,9 +35,5 @@ extension MainCoordinatorTests {
         sut.start()
         XCTAssertTrue(navigationController.viewControllers.count == 1)
         XCTAssert(navigationController.topViewController is IntroViewController)
-    }
-    
-    func test_sessionPresent() throws {
-        
     }
 }

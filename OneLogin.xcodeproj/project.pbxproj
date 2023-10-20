@@ -20,6 +20,11 @@
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
+		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
+		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
+		C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */; };
+		C8520C2B2AE2C223006790C1 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C292AE2C1C5006790C1 /* ViewControllerFactory.swift */; };
+		C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */; };
 		C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */; };
 		C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21092ACEE3D700AF8B4E /* Coordination */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
@@ -61,6 +66,11 @@
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
+		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
+		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
+		C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewControllerTests.swift; sourceTree = "<group>"; };
+		C8520C292AE2C1C5006790C1 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
+		C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTokenResponse.swift; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
@@ -125,9 +135,9 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C8520C232AE2BF8E006790C1 /* TestExtensions */,
 				21FA1C4A2AE183830052136E /* Mocks */,
-				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
-				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
+				C8520C2C2AE2C546006790C1 /* Onboarding */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -145,6 +155,8 @@
 			isa = PBXGroup;
 			children = (
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
+				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
+				C8520C212AE2B642006790C1 /* TokenResponse.json */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -156,18 +168,11 @@
 				C85E21192ACEEE6600AF8B4E /* Extensions */,
 				C85E21012ACEE32B00AF8B4E /* Onboarding */,
 				C85C874B2AD40479001274AC /* Resources */,
-				3BBF28E72A9F7D3200491BB1 /* Supporting Files */,
+				C8520C282AE2C1AD006790C1 /* Utilities */,
 				C85E21152ACEECB000AF8B4E /* Views */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		3BBF28E72A9F7D3200491BB1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
@@ -177,6 +182,32 @@
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		C8520C232AE2BF8E006790C1 /* TestExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */,
+			);
+			path = TestExtensions;
+			sourceTree = "<group>";
+		};
+		C8520C282AE2C1AD006790C1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C292AE2C1C5006790C1 /* ViewControllerFactory.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C8520C2C2AE2C546006790C1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
+				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
+				C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		C85C874B2AD40479001274AC /* Resources */ = {
@@ -373,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
+				C8520C2B2AE2C223006790C1 /* ViewControllerFactory.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
@@ -426,7 +459,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
+				C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
+				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
+				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -591,11 +627,12 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -624,6 +661,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
