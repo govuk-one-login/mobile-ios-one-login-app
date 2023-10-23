@@ -1,4 +1,3 @@
-import Authentication
 import GDSCommon
 @testable import OneLogin
 import XCTest

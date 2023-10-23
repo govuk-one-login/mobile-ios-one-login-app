@@ -1,9 +1,7 @@
 import Authentication
-import GAnalytics
-import GDSAnalytics
 import GDSCommon
-import Logging
 import UIKit
+import Logging
 
 struct OneLoginIntroViewModel: IntroViewModel {
     var image: UIImage = UIImage(named: "badge") ?? UIImage()
@@ -11,9 +9,9 @@ struct OneLoginIntroViewModel: IntroViewModel {
     var body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."
     var introButtonViewModel: ButtonViewModel
     
-    init(signinAction: @escaping () -> Void) {
+    init(analyticsService: AnalyticsService, signinAction: @escaping () -> Void) {
         introButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
-                                                        analyticsService: GAnalytics(),
+                                                        analyticsService: analyticsService,
                                                         action: {
             signinAction()
         })

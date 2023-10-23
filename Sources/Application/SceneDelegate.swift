@@ -1,7 +1,5 @@
 import Authentication
-import Networking
 import UIKit
-import UserDetails
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?

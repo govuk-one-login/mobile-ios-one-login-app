@@ -1,22 +1,27 @@
 import Authentication
+import Logging
 import Coordination
 import Foundation
 import GDSCommon
-import Networking
 import UIKit
-import UserDetails
 
 final class MainCoordinator: NSObject,
                              NavigationCoordinator {
     private let window: UIWindow
     let root: UINavigationController
     let session: LoginSession
-    let viewControllerFactory = ViewControllerFactory()
+    let analyticsService: AnalyticsService
+    let viewControllerFactory: ViewControllerFactory
     
-    init(window: UIWindow, root: UINavigationController, session: LoginSession) {
+    init(window: UIWindow, 
+         root: UINavigationController,
+         session: LoginSession,
+         analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
         self.window = window
         self.root = root
         self.session = session
+        self.analyticsService = analyticsService
+        self.viewControllerFactory = ViewControllerFactory(analyticsService: analyticsService)
     }
     
     func start() {

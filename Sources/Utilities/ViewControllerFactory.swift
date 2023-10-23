@@ -1,12 +1,19 @@
 import Authentication
+import Logging
 import GDSCommon
 import UIKit
 
 final class ViewControllerFactory {
+    let analyticsService: AnalyticsService
+    
+    init(analyticsService: AnalyticsService) {
+        self.analyticsService = analyticsService
+    }
+    
     func createIntroViewController(session: LoginSession) -> IntroViewController {
-        let viewModel = OneLoginIntroViewModel {
+        let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) {
             let url = URL.oneLoginAuthorize
-            let configuration: LoginSessionConfiguration = LoginSessionConfiguration.oneLogin(url: url)
+            let configuration = LoginSessionConfiguration.oneLogin(url: url)
             session.present(configuration: configuration)
         }
         
