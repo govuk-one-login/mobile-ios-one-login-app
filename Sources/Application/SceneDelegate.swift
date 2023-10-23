@@ -15,11 +15,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         let session = AppAuthSession(window: window!)
-        initialiseMainCoordinator(in: window!, session: session)
+        initialiseMainCoordinator(in: window!,
+                                  session: session)
     }
     
-    func initialiseMainCoordinator(in window: UIWindow, session: LoginSession) {
-        coordinator = MainCoordinator(window: window, root: navigationController, session: session)
+    func initialiseMainCoordinator(in window: UIWindow,
+                                   session: LoginSession) {
+        coordinator = MainCoordinator(window: window,
+                                      root: navigationController,
+                                      session: session)
         coordinator?.start()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

@@ -9,7 +9,7 @@ final class IntroViewControllerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
+        
         loginSession = MockLoginSession(window: UIWindow())
         mockAnalyticsService = MockAnalyticsService()
         sut = ViewControllerFactory(analyticsService: mockAnalyticsService).createIntroViewController(session: loginSession)

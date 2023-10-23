@@ -9,12 +9,12 @@ struct OneLoginIntroViewModel: IntroViewModel {
     var body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."
     var introButtonViewModel: ButtonViewModel
     
-    init(analyticsService: AnalyticsService, signinAction: @escaping () -> Void) {
+    init(analyticsService: AnalyticsService,
+         signinAction: @escaping () -> Void) {
         introButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
-                                                        analyticsService: analyticsService,
-                                                        action: {
+                                                        analyticsService: analyticsService) {
             signinAction()
-        })
+        }
     }
     
     func didAppear() { }
