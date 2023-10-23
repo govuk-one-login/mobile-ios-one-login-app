@@ -1,8 +1,8 @@
 import Authentication
-import Logging
 import Coordination
 import Foundation
 import GDSCommon
+import Logging
 import UIKit
 
 final class MainCoordinator: NSObject,
@@ -13,7 +13,7 @@ final class MainCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let viewControllerFactory: ViewControllerFactory
     
-    init(window: UIWindow, 
+    init(window: UIWindow,
          root: UINavigationController,
          session: LoginSession,
          analyticsService: AnalyticsService = OneLoginAnalyticsService()) {

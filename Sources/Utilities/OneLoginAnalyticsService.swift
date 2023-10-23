@@ -1,17 +1,17 @@
-import Logging
 import Foundation
+import Logging
 
 class OneLoginAnalyticsService: AnalyticsService {
     
-    var additionalParameters = [String : Any]()
+    var additionalParameters = [String: Any]()
     
     func grantAnalyticsPermission() { }
     
     func denyAnalyticsPermission() { }
     
-    func logEvent(_ event: LoggableEvent, parameters: [String : Any]) { }
+    func logEvent(_ event: LoggableEvent, parameters: [String: Any]) { }
     
     func logCrash(_ crash: NSError) { }
     
-    func trackScreen(_ screen: LoggableScreen, parameters: [String : Any]) { }
+    func trackScreen(_ screen: LoggableScreen, parameters: [String: Any]) { }
 }

@@ -1,6 +1,6 @@
 import Authentication
-import Logging
 import GDSCommon
+import Logging
 import UIKit
 
 final class ViewControllerFactory {

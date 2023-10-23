@@ -1,7 +1,7 @@
 import Authentication
 import GDSCommon
-import UIKit
 import Logging
+import UIKit
 
 struct OneLoginIntroViewModel: IntroViewModel {
     var image: UIImage = UIImage(named: "badge") ?? UIImage()

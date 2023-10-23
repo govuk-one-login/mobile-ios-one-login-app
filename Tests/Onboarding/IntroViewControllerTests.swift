@@ -4,13 +4,15 @@ import XCTest
 
 final class IntroViewControllerTests: XCTestCase {
     var loginSession: MockLoginSession!
+    var mockAnalyticsService: MockAnalyticsService!
     var sut: IntroViewController!
     
     override func setUp() {
         super.setUp()
 
         loginSession = MockLoginSession(window: UIWindow())
-        sut = ViewControllerFactory().createIntroViewController(session: loginSession)
+        mockAnalyticsService = MockAnalyticsService()
+        sut = ViewControllerFactory(analyticsService: mockAnalyticsService).createIntroViewController(session: loginSession)
     }
     
     override func tearDown() {

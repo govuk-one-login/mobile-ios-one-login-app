@@ -5,12 +5,14 @@ import XCTest
 final class OneLoginIntroViewModelTests: XCTestCase {
     var sut: OneLoginIntroViewModel!
     var mockLoginSession: MockLoginSession!
+    var mockAnalyticsService: MockAnalyticsService!
     var didCallButtonAction = false
     
     override func setUp() {
         super.setUp()
         mockLoginSession = MockLoginSession()
-        sut = OneLoginIntroViewModel {
+        mockAnalyticsService = MockAnalyticsService()
+        sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
