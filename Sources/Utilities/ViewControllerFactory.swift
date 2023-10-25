@@ -13,7 +13,7 @@ final class ViewControllerFactory {
     func createIntroViewController(session: LoginSession) -> IntroViewController {
         let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) {
             let url = URL.oneLoginAuthorize
-            let configuration = LoginSessionConfiguration.oneLogin(url: url)
+            let configuration = LoginSessionConfiguration.oneLogin(authorizeEndpoint: url)
             session.present(configuration: configuration)
         }
         
