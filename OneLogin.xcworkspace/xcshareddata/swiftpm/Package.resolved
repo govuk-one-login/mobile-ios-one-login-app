@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alphagov/di-mobile-ios-authentication",
       "state" : {
-        "branch" : "main",
-        "revision" : "fd7c72545885acbfbda061dbc9a637af115b2f10"
+        "branch" : "feature/dcmaw-6241-amend-authentication-package",
+        "revision" : "711aa27699e239b343b6df74819fffaa7230658c"
       }
     },
     {

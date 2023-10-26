@@ -6,6 +6,8 @@
 	<string>$(AUTHORIZE_URL)</string>
 	<key>Redirect URL</key>
 	<string>$(REDIRECT_URL)</string>
+	<key>Token Endpoint</key>
+	<string>$(TOKEN_URL)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

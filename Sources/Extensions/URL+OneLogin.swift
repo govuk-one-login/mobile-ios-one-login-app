@@ -7,4 +7,11 @@ extension URL {
         }
         return URL(string: authorizeEndpoint)!
     }
+    
+    static var oneLoginToken: URL {
+        guard let tokenEndpoint = Bundle.main.infoDictionary?["Token Endpoint"] as? String else {
+            fatalError("Couldn't fetch Token Endpoint from plist")
+        }
+        return URL(string: tokenEndpoint)!
+    }
 }

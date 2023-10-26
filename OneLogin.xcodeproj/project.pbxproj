@@ -37,6 +37,7 @@
 		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
 		C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */; };
 		C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E211D2ACEEFC900AF8B4E /* HTTPLogging */; };
+		C880DDE02AEAAC5500020796 /* String+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDDF2AEAAC5500020796 /* String+OneLogin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
 		C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		C880DDDF2AEAAC5500020796 /* String+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+OneLogin.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +277,7 @@
 				C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */,
 				C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */,
 				C8520C332AE2DF63006790C1 /* URL+OneLogin.swift */,
+				C880DDDF2AEAAC5500020796 /* String+OneLogin.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 			files = (
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C8520C2B2AE2C223006790C1 /* ViewControllerFactory.swift in Sources */,
+				C880DDE02AEAAC5500020796 /* String+OneLogin.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				C8520C322AE2DED8006790C1 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
@@ -661,6 +665,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TOKEN_URL = www.test.com;
 			};
 			name = Debug;
 		};
@@ -692,6 +697,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TOKEN_URL = "";
 			};
 			name = Release;
 		};
@@ -813,7 +819,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alphagov/di-mobile-ios-authentication";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-6241-amend-authentication-package";
 				kind = branch;
 			};
 		};
