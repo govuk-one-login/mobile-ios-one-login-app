@@ -38,6 +38,7 @@
 		C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */; };
 		C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E211D2ACEEFC900AF8B4E /* HTTPLogging */; };
 		C880DDE02AEAAC5500020796 /* String+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDDF2AEAAC5500020796 /* String+OneLogin.swift */; };
+		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
 		C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C880DDDF2AEAAC5500020796 /* String+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+OneLogin.swift"; sourceTree = "<group>"; };
+		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 			children = (
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
+				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				C880DDE02AEAAC5500020796 /* String+OneLogin.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
+				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				C8520C322AE2DED8006790C1 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
@@ -642,7 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = "https://oidc.integration.account.gov.uk/authorize";
+				AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
@@ -665,7 +669,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TOKEN_URL = www.test.com;
+				TOKEN_URL = test.com;
 			};
 			name = Debug;
 		};
