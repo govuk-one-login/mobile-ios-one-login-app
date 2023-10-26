@@ -2,7 +2,7 @@ import Authentication
 import Foundation
 
 extension LoginSessionConfiguration {
-    static func oneLogin() -> Self {
+    static var oneLogin: LoginSessionConfiguration {
         return LoginSessionConfiguration(authorizationEndpoint: URL.oneLoginAuthorize,
                                          tokenEndpoint: URL.oneLoginToken,
                                          scopes: [.openid, .offline_access],

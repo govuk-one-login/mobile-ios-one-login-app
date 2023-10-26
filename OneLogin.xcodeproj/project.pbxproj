@@ -236,8 +236,8 @@
 		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				C85E210B2ACEE92900AF8B4E /* Welcome */,
 				C85E21022ACEE33600AF8B4E /* Main Coordinator */,
+				C85E210B2ACEE92900AF8B4E /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -277,8 +277,7 @@
 		C85E21192ACEEE6600AF8B4E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */,
-				C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */,
+				C880DDE32AEACA2F00020796 /* Custom Types */,
 				C8520C332AE2DF63006790C1 /* URL+OneLogin.swift */,
 				C880DDDF2AEAAC5500020796 /* String+OneLogin.swift */,
 			);
@@ -290,6 +289,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C880DDE32AEACA2F00020796 /* Custom Types */ = {
+			isa = PBXGroup;
+			children = (
+				C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */,
+				C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */,
+			);
+			path = "Custom Types";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -823,7 +831,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alphagov/di-mobile-ios-authentication";
 			requirement = {
-				branch = "feature/dcmaw-6241-amend-authentication-package";
+				branch = main;
 				kind = branch;
 			};
 		};
