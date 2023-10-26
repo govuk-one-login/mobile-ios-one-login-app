@@ -22,6 +22,7 @@
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
+		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
 		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
 		C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */; };
@@ -74,6 +75,7 @@
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
+		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
 		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
 		C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewControllerTests.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		3BBF28E42A9F7D3200491BB1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C8178E3C2AEB2C8600059875 /* Analytics */,
 				3BBF28EC2A9F7D3200491BB1 /* Application */,
 				C85E21192ACEEE6600AF8B4E /* Extensions */,
 				C85E21012ACEE32B00AF8B4E /* Onboarding */,
@@ -196,6 +199,22 @@
 				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		C8178E3C2AEB2C8600059875 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				C8178E3F2AEB2DFE00059875 /* Onboarding */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		C8178E3F2AEB2DFE00059875 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		C8520C232AE2BF8E006790C1 /* TestExtensions */ = {
@@ -470,6 +489,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C8520C2B2AE2C223006790C1 /* ViewControllerFactory.swift in Sources */,
 				C880DDE02AEAAC5500020796 /* String+OneLogin.swift in Sources */,
