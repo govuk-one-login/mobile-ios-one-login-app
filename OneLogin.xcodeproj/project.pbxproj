@@ -59,7 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		219601E72A976302008F3427 /* One Login.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One Login.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219601FD2A976305008F3427 /* OneLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +137,7 @@
 		219601E82A976302008F3427 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				219601E72A976302008F3427 /* One Login.app */,
+				219601E72A976302008F3427 /* OneLogin.app */,
 				219601FD2A976305008F3427 /* OneLoginTests.xctest */,
 				219602072A976305008F3427 /* OneLoginUITests.xctest */,
 			);
@@ -328,7 +328,7 @@
 				21D8D6182ADFDFFD0026F946 /* UserDetails */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
-			productReference = 219601E72A976302008F3427 /* One Login.app */;
+			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
 			productType = "com.apple.product-type.application";
 		};
 		219601FC2A976305008F3427 /* OneLoginTests */ = {
@@ -672,7 +672,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
-				PRODUCT_NAME = "One Login";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -704,7 +704,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
-				PRODUCT_NAME = "One Login";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
