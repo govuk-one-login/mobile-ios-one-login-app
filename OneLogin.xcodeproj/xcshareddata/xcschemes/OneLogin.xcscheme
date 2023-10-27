@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "219601E62A976302008F3427"
-               BuildableName = "One Login.app"
+               BuildableName = "OneLogin.app"
                BlueprintName = "OneLogin"
                ReferencedContainer = "container:OneLogin.xcodeproj">
             </BuildableReference>
@@ -73,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "219601E62A976302008F3427"
-            BuildableName = "One Login.app"
+            BuildableName = "OneLogin.app"
             BlueprintName = "OneLogin"
             ReferencedContainer = "container:OneLogin.xcodeproj">
          </BuildableReference>
@@ -90,7 +90,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "219601E62A976302008F3427"
-            BuildableName = "One Login.app"
+            BuildableName = "OneLogin.app"
             BlueprintName = "OneLogin"
             ReferencedContainer = "container:OneLogin.xcodeproj">
          </BuildableReference>

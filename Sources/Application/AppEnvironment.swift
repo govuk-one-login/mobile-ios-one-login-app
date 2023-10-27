@@ -5,6 +5,7 @@ public final class AppEnvironment {
         case authorizeEndPoint = "Authorize Endpoint"
         case tokenEndpoint = "Token Endpoint"
         case redirectURL = "Redirect URL"
+        case clientId = "Client ID"
     }
     
     static var appDictionary: [String: Any] {

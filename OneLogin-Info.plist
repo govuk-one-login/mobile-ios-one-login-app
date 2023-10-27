@@ -4,6 +4,8 @@
 <dict>
 	<key>Authorize Endpoint</key>
 	<string>$(AUTHORIZE_URL)</string>
+	<key>Client ID</key>
+	<string>$(CLIENT_ID)</string>
 	<key>Redirect URL</key>
 	<string>$(REDIRECT_URL)</string>
 	<key>Token Endpoint</key>
