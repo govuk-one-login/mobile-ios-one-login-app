@@ -1,5 +1,4 @@
 import Authentication
-@testable import OneLogin
 import UIKit
 
 final class MockLoginSession: LoginSession {

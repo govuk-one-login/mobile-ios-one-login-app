@@ -1,9 +1,10 @@
 import GDSAnalytics
 import GDSCommon
 import Logging
+@testable import OneLogin
 import UIKit
 
-struct OneLoginIntroViewModel: IntroViewModel {
+struct MockOneLoginIntroViewModel: IntroViewModel {
     var image: UIImage = UIImage(named: "badge") ?? UIImage()
     var title: GDSLocalisedString = "GOV.UK One Login"
     var body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."

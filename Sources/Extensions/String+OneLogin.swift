@@ -1,5 +1,3 @@
-import Foundation
-
 extension String {
     static var oneLoginClientID: String {
         return AppEnvironment.string(for: .clientId)

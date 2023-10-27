@@ -26,10 +26,11 @@
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
 		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
 		C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */; };
-		C8520C2B2AE2C223006790C1 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C292AE2C1C5006790C1 /* ViewControllerFactory.swift */; };
+		C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */; };
 		C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */; };
 		C8520C322AE2DED8006790C1 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8520C352AE2E025006790C1 /* URL+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C332AE2DF63006790C1 /* URL+OneLogin.swift */; };
+		C85DF84A2AEBFF180064F68E /* MockOneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */; };
 		C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */; };
 		C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21092ACEE3D700AF8B4E /* Coordination */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
@@ -79,10 +80,11 @@
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
 		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
 		C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewControllerTests.swift; sourceTree = "<group>"; };
-		C8520C292AE2C1C5006790C1 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
+		C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactory.swift; sourceTree = "<group>"; };
 		C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTokenResponse.swift; sourceTree = "<group>"; };
 		C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8520C332AE2DF63006790C1 /* URL+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+OneLogin.swift"; sourceTree = "<group>"; };
+		C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
@@ -168,10 +170,9 @@
 		21FA1C4A2AE183830052136E /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
-				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
-				C8520C212AE2B642006790C1 /* TokenResponse.json */,
-				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
+				C85DF8432AEBFDCC0064F68E /* Sessions+Services */,
+				C85DF8442AEBFDF00064F68E /* Return Types */,
+				C85DF8482AEBFEE20064F68E /* ViewModels */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -228,7 +229,7 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C8520C292AE2C1C5006790C1 /* ViewControllerFactory.swift */,
+				C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */,
 				21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */,
 			);
 			path = Utilities;
@@ -238,8 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
-				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
-				C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */,
+				C85DF8472AEBFE6D0064F68E /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -252,21 +252,48 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		C85DF8432AEBFDCC0064F68E /* Sessions+Services */ = {
+			isa = PBXGroup;
+			children = (
+				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
+				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
+			);
+			path = "Sessions+Services";
+			sourceTree = "<group>";
+		};
+		C85DF8442AEBFDF00064F68E /* Return Types */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
+				C8520C212AE2B642006790C1 /* TokenResponse.json */,
+			);
+			path = "Return Types";
+			sourceTree = "<group>";
+		};
+		C85DF8472AEBFE6D0064F68E /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */,
+				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		C85DF8482AEBFEE20064F68E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				C85E21022ACEE33600AF8B4E /* Main Coordinator */,
+				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
 				C85E210B2ACEE92900AF8B4E /* Welcome */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		C85E21022ACEE33600AF8B4E /* Main Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
-			);
-			path = "Main Coordinator";
 			sourceTree = "<group>";
 		};
 		C85E210B2ACEE92900AF8B4E /* Welcome */ = {
@@ -491,7 +518,7 @@
 			files = (
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
-				C8520C2B2AE2C223006790C1 /* ViewControllerFactory.swift in Sources */,
+				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
 				C880DDE02AEAAC5500020796 /* String+OneLogin.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
@@ -509,6 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C85DF84A2AEBFF180064F68E /* MockOneLoginIntroViewModel.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
 				C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,

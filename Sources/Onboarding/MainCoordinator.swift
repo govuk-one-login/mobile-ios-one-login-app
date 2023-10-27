@@ -11,7 +11,7 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let session: LoginSession
     let analyticsService: AnalyticsService
-    let viewControllerFactory: ViewControllerFactory
+    let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(window: UIWindow,
          root: UINavigationController,
@@ -21,11 +21,11 @@ final class MainCoordinator: NSObject,
         self.root = root
         self.session = session
         self.analyticsService = analyticsService
-        self.viewControllerFactory = ViewControllerFactory(analyticsService: analyticsService)
     }
     
     func start() {
-        let introViewController = viewControllerFactory.createIntroViewController(session: session)
+        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService,
+                                                                                  session: session)
         root.setViewControllers([introViewController], animated: false)
     }
 }

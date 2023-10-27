@@ -1,23 +1,36 @@
+import Authentication
 import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
 import XCTest
 
 final class IntroViewControllerTests: XCTestCase {
-    var loginSession: MockLoginSession!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockLoginSession: MockLoginSession!
+    var mockLoginConfiguration: LoginSessionConfiguration!
+    var mockViewModel: MockOneLoginIntroViewModel!
     var sut: IntroViewController!
     
     override func setUp() {
         super.setUp()
         
-        loginSession = MockLoginSession(window: UIWindow())
         mockAnalyticsService = MockAnalyticsService()
-        sut = ViewControllerFactory(analyticsService: mockAnalyticsService).createIntroViewController(session: loginSession)
+        mockLoginSession = MockLoginSession(window: UIWindow())
+        mockLoginConfiguration = LoginSessionConfiguration(authorizationEndpoint: URL(string: "https://www.google.com")!,
+                                                           tokenEndpoint: URL(string: "https://www.google.com/token")!,
+                                                           clientID: "1234",
+                                                           redirectURI: "https://www.google.com/redirect")
+        mockViewModel = MockOneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
+            self.mockLoginSession.present(configuration: self.mockLoginConfiguration)
+        }
+        sut = IntroViewController(viewModel: mockViewModel)
     }
     
     override func tearDown() {
-        loginSession = nil
+        mockAnalyticsService = nil
+        mockLoginSession = nil
+        mockLoginConfiguration = nil
+        mockViewModel = nil
         sut = nil
         
         super.tearDown()
@@ -26,10 +39,10 @@ final class IntroViewControllerTests: XCTestCase {
 
 extension IntroViewControllerTests {
     func test_sessionPresent() throws {
-        XCTAssertFalse(loginSession.didCallPresent)
+        XCTAssertFalse(mockLoginSession.didCallPresent)
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(loginSession.didCallPresent)
+        XCTAssertTrue(mockLoginSession.didCallPresent)
     }
     
     func test_triggerButtonAnalytics() throws {

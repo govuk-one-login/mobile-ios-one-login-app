@@ -1,5 +1,4 @@
 import Authentication
-import Foundation
 
 extension LoginSessionConfiguration {
     static var oneLoginSessionConfig: LoginSessionConfiguration {

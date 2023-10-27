@@ -1,16 +1,14 @@
-import Authentication
 @testable import OneLogin
 import XCTest
 
 final class OneLoginIntroViewModelTests: XCTestCase {
-    var sut: OneLoginIntroViewModel!
-    var mockLoginSession: MockLoginSession!
     var mockAnalyticsService: MockAnalyticsService!
+    var sut: OneLoginIntroViewModel!
     var didCallButtonAction = false
     
     override func setUp() {
         super.setUp()
-        mockLoginSession = MockLoginSession()
+        
         mockAnalyticsService = MockAnalyticsService()
         sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
@@ -18,7 +16,10 @@ final class OneLoginIntroViewModelTests: XCTestCase {
     }
     
     override func tearDown() {
+        mockAnalyticsService = nil
         sut = nil
+        didCallButtonAction = false
+        
         super.tearDown()
     }
 }
