@@ -6,6 +6,7 @@ final class MockLoginSession: LoginSession {
     var didCallPresent = false
     var didCallFinalise = false
     var didCallCancel = false
+    var sessionConfiguration: LoginSessionConfiguration?
     
     init(window: UIWindow = UIWindow()) {
         self.window = window
@@ -13,6 +14,7 @@ final class MockLoginSession: LoginSession {
     
     func present(configuration: LoginSessionConfiguration) {
         didCallPresent = true
+        sessionConfiguration = configuration
     }
     
     func finalise(callback: URL) async throws -> TokenResponse {
