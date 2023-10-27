@@ -26,7 +26,9 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
 
 extension OnboardingViewControllerFactoryTests {
     func test_createIntroViewController() throws {
-        _ = sut.createIntroViewController(analyticsService: mockAnalyticsService, session: mockLoginSession)
+        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService, session: mockLoginSession)
+        let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
+        introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
     }
 }
