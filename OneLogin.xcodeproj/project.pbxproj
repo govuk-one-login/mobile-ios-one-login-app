@@ -31,6 +31,7 @@
 		C8520C322AE2DED8006790C1 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8520C352AE2E025006790C1 /* URL+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C332AE2DF63006790C1 /* URL+OneLogin.swift */; };
 		C85DF84A2AEBFF180064F68E /* MockOneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */; };
+		C85DF84D2AEC0D6B0064F68E /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DF84C2AEC0D6B0064F68E /* AppEnvironmentTests.swift */; };
 		C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */; };
 		C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21092ACEE3D700AF8B4E /* Coordination */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
@@ -85,6 +86,7 @@
 		C8520C302AE2DB1E006790C1 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8520C332AE2DF63006790C1 /* URL+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+OneLogin.swift"; sourceTree = "<group>"; };
 		C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOneLoginIntroViewModel.swift; sourceTree = "<group>"; };
+		C85DF84C2AEC0D6B0064F68E /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C85DF84B2AEC0D090064F68E /* Application */,
 				C8520C232AE2BF8E006790C1 /* TestExtensions */,
 				21FA1C4A2AE183830052136E /* Mocks */,
 				C8520C2C2AE2C546006790C1 /* Onboarding */,
@@ -285,6 +288,14 @@
 				C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C85DF84B2AEC0D090064F68E /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF84C2AEC0D6B0064F68E /* AppEnvironmentTests.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {
@@ -536,6 +547,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C85DF84D2AEC0D6B0064F68E /* AppEnvironmentTests.swift in Sources */,
 				C85DF84A2AEBFF180064F68E /* MockOneLoginIntroViewModel.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
 				C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */,

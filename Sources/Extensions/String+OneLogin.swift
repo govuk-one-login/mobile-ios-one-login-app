@@ -1,9 +1,9 @@
 extension String {
     static var oneLoginClientID: String {
-        return AppEnvironment.string(for: .clientId)
+        return AppEnvironment().string(for: .clientId)
     }
     
     static var oneLoginRedirect: String {
-        return AppEnvironment.string(for: .redirectURL)
+        return AppEnvironment().string(for: .redirectURL)
     }
 }

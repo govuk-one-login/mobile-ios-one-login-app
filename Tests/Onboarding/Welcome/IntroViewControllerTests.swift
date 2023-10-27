@@ -50,7 +50,7 @@ extension IntroViewControllerTests {
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "sign in")
+        let event = ButtonEvent(textKey: "testbutton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.text)
     }
@@ -61,7 +61,7 @@ extension IntroViewControllerTests {
         sut.endAppearanceTransition()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: IntroAnalyticsScreen.welcomeScreen,
-                                titleKey: "gov.uk one login")
+                                titleKey: "testtitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.title)
     }

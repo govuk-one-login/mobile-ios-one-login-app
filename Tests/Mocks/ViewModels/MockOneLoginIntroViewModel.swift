@@ -5,16 +5,16 @@ import Logging
 import UIKit
 
 struct MockOneLoginIntroViewModel: IntroViewModel {
-    var image: UIImage = UIImage(named: "badge") ?? UIImage()
-    var title: GDSLocalisedString = "GOV.UK One Login"
-    var body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."
+    var image: UIImage = UIImage()
+    var title: GDSLocalisedString = "testTitle"
+    var body: GDSLocalisedString = "testBody"
     var introButtonViewModel: ButtonViewModel
     let analyticsService: AnalyticsService
     
     init(analyticsService: AnalyticsService,
          signinAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        introButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
+        introButtonViewModel = AnalyticsButtonViewModel(titleKey: "testButton",
                                                         analyticsService: analyticsService) {
             signinAction()
         }
