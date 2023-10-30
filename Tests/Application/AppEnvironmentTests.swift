@@ -3,7 +3,7 @@ import XCTest
 
 final class AppEnvironmentTests: XCTestCase {
     func test_defaultEnvironment_retrieveFromPlist() throws {
-        let sut = AppEnvironment()
+        let sut = AppEnvironment.self
         XCTAssertEqual(sut.string(for: .authorizeEndPoint), "oidc.integration.account.gov.uk")
         XCTAssertEqual(sut.value(for: .authorizeEndPoint), "oidc.integration.account.gov.uk")
         XCTAssertEqual(sut.string(for: .tokenEndpoint), "test.com")
