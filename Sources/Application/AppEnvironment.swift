@@ -36,7 +36,7 @@ extension AppEnvironment {
     static var oneLoginAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = AppEnvironment.string(for: .authorizeEndPoint)
+        components.host = string(for: .authorizeEndPoint)
         components.path = "/authorize"
         return components.url!
     }
@@ -44,7 +44,7 @@ extension AppEnvironment {
     static var oneLoginToken: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = AppEnvironment.string(for: .tokenEndpoint)
+        components.host = string(for: .tokenEndpoint)
         components.path = "/test"
         return components.url!
     }

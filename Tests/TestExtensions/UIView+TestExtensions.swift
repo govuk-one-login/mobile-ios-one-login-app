@@ -1,6 +1,6 @@
 import UIKit
 
-public extension UIView {
+extension UIView {
     private func findChildView(byAccessibilityIdentifier accessibilityIdentifier: String) -> UIView? {
         guard let match = subviews.first(where: { $0.accessibilityIdentifier == accessibilityIdentifier }) else {
             return subviews.lazy.compactMap {
