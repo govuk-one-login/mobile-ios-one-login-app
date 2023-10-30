@@ -1,4 +1,4 @@
-import Authentication
+@testable import Authentication
 @testable import OneLogin
 import XCTest
 
@@ -30,5 +30,21 @@ extension OnboardingViewControllerFactoryTests {
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
+    }
+    
+    func test_sessionConfigProperties() throws {
+        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService, session: mockLoginSession)
+        let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
+        introButton.sendActions(for: .touchUpInside)
+        let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
+        XCTAssertEqual(sessionConfig.authorizationEndpoint, URL.oneLoginAuthorize)
+        XCTAssertEqual(sessionConfig.tokenEndpoint, URL.oneLoginToken)
+        XCTAssertEqual(sessionConfig.responseType, LoginSessionConfiguration.ResponseType.code)
+        XCTAssertEqual(sessionConfig.scopes, [.openid, .offline_access])
+        XCTAssertEqual(sessionConfig.clientID, String.oneLoginClientID)
+        XCTAssertEqual(sessionConfig.prefersEphemeralWebSession, true)
+        XCTAssertEqual(sessionConfig.redirectURI, String.oneLoginRedirect)
+        XCTAssertEqual(sessionConfig.viewThroughRate, "[Cl.Cm.P0]")
+        XCTAssertEqual(sessionConfig.locale, .en)
     }
 }

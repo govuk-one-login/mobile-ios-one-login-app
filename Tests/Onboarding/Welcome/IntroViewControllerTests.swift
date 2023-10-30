@@ -43,6 +43,7 @@ extension IntroViewControllerTests {
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(mockLoginSession.didCallPresent)
+        XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
     }
     
     func test_triggerButtonAnalytics() throws {

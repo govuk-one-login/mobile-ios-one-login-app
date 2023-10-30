@@ -8,7 +8,6 @@ final class OnboardingViewControllerFactory {
             let configuration = LoginSessionConfiguration.oneLoginSessionConfig
             session.present(configuration: configuration)
         }
-        
         return IntroViewController(viewModel: viewModel)
     }
 }
