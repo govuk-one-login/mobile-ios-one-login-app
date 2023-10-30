@@ -11,7 +11,7 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let session: LoginSession
     let analyticsService: AnalyticsService
-    let viewControllerFactory = OnboardingViewControllerFactory.self
+    private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(window: UIWindow,
          root: UINavigationController,

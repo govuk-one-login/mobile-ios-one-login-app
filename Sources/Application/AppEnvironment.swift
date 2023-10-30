@@ -5,7 +5,7 @@ public final class AppEnvironment {
         case authorizeEndPoint = "Authorize Endpoint"
         case tokenEndpoint = "Token Endpoint"
         case redirectURL = "Redirect URL"
-        case clientId = "Client ID"
+        case clientID = "Client ID"
     }
     
     static var appDictionary: [String: Any] {
@@ -15,17 +15,41 @@ public final class AppEnvironment {
         return plist
     }
     
-    static func value<T>(for key: Key) -> T {
+    private static func value<T>(for key: Key) -> T {
         guard let value = appDictionary[key.rawValue] as? T else {
             preconditionFailure("Value not found in Info.plist")
         }
         return value
     }
     
-    static func string(for key: Key) -> String {
+    private static func string(for key: Key) -> String {
         guard let string: String = value(for: key) else {
             preconditionFailure("Key not found in Info.plist")
         }
         return string
+    }
+    
+    static var oneLoginAuthorize: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = AppEnvironment.string(for: .authorizeEndPoint)
+        components.path = "/authorize"
+        return components.url!
+    }
+    
+    static var oneLoginToken: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = AppEnvironment.string(for: .tokenEndpoint)
+        components.path = "/test"
+        return components.url!
+    }
+    
+    static var oneLoginClientID: String {
+        return string(for: .clientID)
+    }
+    
+    static var oneLoginRedirect: String {
+        return string(for: .redirectURL)
     }
 }

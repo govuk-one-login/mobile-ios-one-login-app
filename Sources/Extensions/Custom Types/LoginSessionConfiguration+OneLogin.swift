@@ -2,10 +2,10 @@ import Authentication
 
 extension LoginSessionConfiguration {
     static var oneLoginSessionConfig: LoginSessionConfiguration {
-        return LoginSessionConfiguration(authorizationEndpoint: .oneLoginAuthorize,
-                                         tokenEndpoint: .oneLoginToken,
+        return LoginSessionConfiguration(authorizationEndpoint: AppEnvironment.oneLoginAuthorize,
+                                         tokenEndpoint: AppEnvironment.oneLoginToken,
                                          scopes: [.openid, .offline_access],
-                                         clientID: .oneLoginClientID,
-                                         redirectURI: .oneLoginRedirect)
+                                         clientID: AppEnvironment.oneLoginClientID,
+                                         redirectURI: AppEnvironment.oneLoginRedirect)
     }
 }
