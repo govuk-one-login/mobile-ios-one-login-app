@@ -10,20 +10,38 @@
 		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
 		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
 		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
+		21D8D6172ADFDFFD0026F946 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 21D8D6162ADFDFFD0026F946 /* Authentication */; };
+		21D8D6192ADFDFFD0026F946 /* UserDetails in Frameworks */ = {isa = PBXBuildFile; productRef = 21D8D6182ADFDFFD0026F946 /* UserDetails */; };
+		21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */; };
+		21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */; };
+		21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4B2AE183A50052136E /* MockLoginSession.swift */; };
+		21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */; };
 		3B61C69E2AC334C9001359F1 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69D2AC334C9001359F1 /* GDSAnalytics */; };
 		3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3B61C69F2AC334C9001359F1 /* GDSCommon */; };
 		3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */; };
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
+		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
+		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
+		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
+		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
+		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
+		C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */; };
+		C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */; };
+		C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */; };
+		C85966482AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */; };
+		C85DF84A2AEBFF180064F68E /* MockOneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */; };
+		C85DF84D2AEC0D6B0064F68E /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85DF84C2AEC0D6B0064F68E /* AppEnvironmentTests.swift */; };
 		C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */; };
 		C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21092ACEE3D700AF8B4E /* Coordination */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
 		C85E21122ACEEBC800AF8B4E /* GAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21112ACEEBC800AF8B4E /* GAnalytics */; };
 		C85E21142ACEEBC800AF8B4E /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21132ACEEBC800AF8B4E /* Logging */; };
 		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
-		C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */; };
 		C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E211D2ACEEFC900AF8B4E /* HTTPLogging */; };
+		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
+		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,15 +68,31 @@
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
 		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAnalyticsService.swift; sourceTree = "<group>"; };
+		21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
+		21FA1C4B2AE183A50052136E /* MockLoginSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSession.swift; sourceTree = "<group>"; };
+		21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModelTests.swift; sourceTree = "<group>"; };
 		3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BBF28E92A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
+		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
+		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
+		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
+		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
+		C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewControllerTests.swift; sourceTree = "<group>"; };
+		C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactory.swift; sourceTree = "<group>"; };
+		C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTokenResponse.swift; sourceTree = "<group>"; };
+		C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactoryTests.swift; sourceTree = "<group>"; };
+		C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOneLoginIntroViewModel.swift; sourceTree = "<group>"; };
+		C85DF84C2AEC0D6B0064F68E /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
-		C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,8 +100,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21D8D6192ADFDFFD0026F946 /* UserDetails in Frameworks */,
 				C85E21142ACEEBC800AF8B4E /* Logging in Frameworks */,
 				C85E21122ACEEBC800AF8B4E /* GAnalytics in Frameworks */,
+				21D8D6172ADFDFFD0026F946 /* Authentication in Frameworks */,
 				3B61C6A02AC334C9001359F1 /* GDSCommon in Frameworks */,
 				C85E210A2ACEE3D700AF8B4E /* Coordination in Frameworks */,
 				C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */,
@@ -117,7 +153,12 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
+				C85DF84B2AEC0D090064F68E /* Application */,
+				C85DF8502AEC1C6E0064F68E /* Extensions */,
+				C8520C2C2AE2C546006790C1 /* Onboarding */,
+				C85966462AEC31AE006DF61D /* Utilities */,
+				21FA1C4A2AE183830052136E /* Mocks */,
+				C8520C232AE2BF8E006790C1 /* TestExtensions */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -131,25 +172,29 @@
 			path = UITests;
 			sourceTree = "<group>";
 		};
+		21FA1C4A2AE183830052136E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF8432AEBFDCC0064F68E /* Sessions+Services */,
+				C85DF8442AEBFDF00064F68E /* Return Types */,
+				C85DF8482AEBFEE20064F68E /* ViewModels */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		3BBF28E42A9F7D3200491BB1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C8178E3C2AEB2C8600059875 /* Analytics */,
 				3BBF28EC2A9F7D3200491BB1 /* Application */,
-				C85E21192ACEEE6600AF8B4E /* Extensions */,
+				C8098B942AEFF18C001517A0 /* Extensions */,
 				C85E21012ACEE32B00AF8B4E /* Onboarding */,
 				C85C874B2AD40479001274AC /* Resources */,
-				3BBF28E72A9F7D3200491BB1 /* Supporting Files */,
+				C8520C282AE2C1AD006790C1 /* Utilities */,
 				C85E21152ACEECB000AF8B4E /* Views */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		3BBF28E72A9F7D3200491BB1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
@@ -157,8 +202,76 @@
 			children = (
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
+				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		C8098B942AEFF18C001517A0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C8098B952AEFF198001517A0 /* Custom Types */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C8098B952AEFF198001517A0 /* Custom Types */ = {
+			isa = PBXGroup;
+			children = (
+				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
+				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
+			);
+			path = "Custom Types";
+			sourceTree = "<group>";
+		};
+		C8178E3C2AEB2C8600059875 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				C8178E3F2AEB2DFE00059875 /* Onboarding */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		C8178E3F2AEB2DFE00059875 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C8520C232AE2BF8E006790C1 /* TestExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */,
+			);
+			path = TestExtensions;
+			sourceTree = "<group>";
+		};
+		C8520C282AE2C1AD006790C1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */,
+				21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C8520C2C2AE2C546006790C1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
+				C85DF8472AEBFE6D0064F68E /* Welcome */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C85966462AEC31AE006DF61D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		C85C874B2AD40479001274AC /* Resources */ = {
@@ -169,21 +282,64 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		C85DF8432AEBFDCC0064F68E /* Sessions+Services */ = {
+			isa = PBXGroup;
+			children = (
+				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
+				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
+			);
+			path = "Sessions+Services";
+			sourceTree = "<group>";
+		};
+		C85DF8442AEBFDF00064F68E /* Return Types */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
+				C8520C212AE2B642006790C1 /* TokenResponse.json */,
+			);
+			path = "Return Types";
+			sourceTree = "<group>";
+		};
+		C85DF8472AEBFE6D0064F68E /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C262AE2C0D1006790C1 /* IntroViewControllerTests.swift */,
+				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		C85DF8482AEBFEE20064F68E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C85DF84B2AEC0D090064F68E /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF84C2AEC0D6B0064F68E /* AppEnvironmentTests.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C85DF8502AEC1C6E0064F68E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
 				C85E210B2ACEE92900AF8B4E /* Welcome */,
-				C85E21022ACEE33600AF8B4E /* Main Coordinator */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		C85E21022ACEE33600AF8B4E /* Main Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
-			);
-			path = "Main Coordinator";
 			sourceTree = "<group>";
 		};
 		C85E210B2ACEE92900AF8B4E /* Welcome */ = {
@@ -208,14 +364,6 @@
 				C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */,
 			);
 			path = Buttons;
-			sourceTree = "<group>";
-		};
-		C85E21192ACEEE6600AF8B4E /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				C85E211A2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C85E211C2ACEEFC400AF8B4E /* Frameworks */ = {
@@ -249,6 +397,8 @@
 				C85E21112ACEEBC800AF8B4E /* GAnalytics */,
 				C85E21132ACEEBC800AF8B4E /* Logging */,
 				C85E211D2ACEEFC900AF8B4E /* HTTPLogging */,
+				21D8D6162ADFDFFD0026F946 /* Authentication */,
+				21D8D6182ADFDFFD0026F946 /* UserDetails */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -326,6 +476,7 @@
 				3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */,
 				C85E21082ACEE3D700AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-coordination" */,
 				C85E210E2ACEEBC800AF8B4E /* XCRemoteSwiftPackageReference "di-mobile-ios-logging" */,
+				21D8D6152ADFDFFD0026F946 /* XCRemoteSwiftPackageReference "di-mobile-ios-authentication" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -352,6 +503,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,12 +543,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
+				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
+				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
+				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
+				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
+				21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
-				C85E211B2ACEEEE500AF8B4E /* AnalyticsService+GDS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +561,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C85DF84D2AEC0D6B0064F68E /* AppEnvironmentTests.swift in Sources */,
+				C85DF84A2AEBFF180064F68E /* MockOneLoginIntroViewModel.swift in Sources */,
+				C85966482AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift in Sources */,
+				C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */,
+				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
+				C8520C272AE2C0D1006790C1 /* IntroViewControllerTests.swift in Sources */,
+				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
+				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
+				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
+				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,16 +730,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "OneLogin - Debug";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -580,9 +750,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TOKEN_URL = test.com;
 			};
 			name = Debug;
 		};
@@ -591,16 +763,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTHORIZE_URL = "";
+				CLIENT_ID = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "OneLogin - Debug";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -608,9 +783,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REDIRECT_URL = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TOKEN_URL = "";
 			};
 			name = Release;
 		};
@@ -621,6 +798,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
@@ -640,6 +818,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
@@ -658,6 +837,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
@@ -675,6 +855,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
@@ -728,6 +909,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		21D8D6152ADFDFFD0026F946 /* XCRemoteSwiftPackageReference "di-mobile-ios-authentication" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alphagov/di-mobile-ios-authentication";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alphagov/di-mobile-ios-common";
@@ -755,6 +944,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		21D8D6162ADFDFFD0026F946 /* Authentication */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21D8D6152ADFDFFD0026F946 /* XCRemoteSwiftPackageReference "di-mobile-ios-authentication" */;
+			productName = Authentication;
+		};
+		21D8D6182ADFDFFD0026F946 /* UserDetails */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21D8D6152ADFDFFD0026F946 /* XCRemoteSwiftPackageReference "di-mobile-ios-authentication" */;
+			productName = UserDetails;
+		};
 		3B61C69D2AC334C9001359F1 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B61C69C2AC334C9001359F1 /* XCRemoteSwiftPackageReference "di-mobile-ios-common" */;

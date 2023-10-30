@@ -1,19 +1,20 @@
 import GDSAnalytics
 import GDSCommon
 import Logging
+@testable import OneLogin
 import UIKit
 
-struct OneLoginIntroViewModel: IntroViewModel {
-    let image: UIImage = UIImage(named: "badge") ?? UIImage()
-    let title: GDSLocalisedString = "GOV.UK One Login"
-    let body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."
+struct MockOneLoginIntroViewModel: IntroViewModel {
+    let image: UIImage = UIImage()
+    let title: GDSLocalisedString = "testTitle"
+    let body: GDSLocalisedString = "testBody"
     let introButtonViewModel: ButtonViewModel
     let analyticsService: AnalyticsService
     
     init(analyticsService: AnalyticsService,
          signinAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        introButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
+        introButtonViewModel = AnalyticsButtonViewModel(titleKey: "testButton",
                                                         analyticsService: analyticsService) {
             signinAction()
         }

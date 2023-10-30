@@ -6,6 +6,7 @@ import XCTest
 final class MainCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
+    var loginSession: MockLoginSession!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -13,12 +14,14 @@ final class MainCoordinatorTests: XCTestCase {
         
         window = .init()
         navigationController = .init()
-        sut = .init(window: window, root: navigationController)
+        loginSession = MockLoginSession(window: window)
+        sut = MainCoordinator(window: window, root: navigationController, session: loginSession)
     }
     
     override func tearDown() {
         window = nil
         navigationController = nil
+        loginSession = nil
         sut = nil
         
         super.tearDown()

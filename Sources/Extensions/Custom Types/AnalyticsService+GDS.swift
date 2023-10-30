@@ -9,7 +9,8 @@ extension AnalyticsService {
     
     public func trackScreen<View: ScreenViewProtocol>(_ view: View)
     where View.Screen: LoggableScreen {
-        trackScreen(view.screen, parameters: view.parameters)
+        trackScreen(view.screen,
+                    parameters: view.parameters)
     }
 }
 

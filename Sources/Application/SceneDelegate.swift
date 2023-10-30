@@ -1,3 +1,4 @@
+import Authentication
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -11,12 +12,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
+        
         window = UIWindow(windowScene: windowScene)
-        initialiseMainCoordinator(in: window!)
+        let session = AppAuthSession(window: window!)
+        initialiseMainCoordinator(in: window!,
+                                  session: session)
     }
     
-    func initialiseMainCoordinator(in window: UIWindow) {
-        coordinator = MainCoordinator(window: window, root: navigationController)
+    func initialiseMainCoordinator(in window: UIWindow,
+                                   session: LoginSession) {
+        coordinator = MainCoordinator(window: window,
+                                      root: navigationController,
+                                      session: session)
         coordinator?.start()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

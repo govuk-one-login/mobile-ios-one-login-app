@@ -10,6 +10,24 @@
       }
     },
     {
+      "identity" : "appauth-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openid/AppAuth-iOS.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "b376a8719dd9e3067439580d3b2c8aded748827f"
+      }
+    },
+    {
+      "identity" : "di-mobile-ios-authentication",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alphagov/di-mobile-ios-authentication",
+      "state" : {
+        "branch" : "main",
+        "revision" : "0e074b7cca40f987b42dfa4fed44f4848c552dff"
+      }
+    },
+    {
       "identity" : "di-mobile-ios-common",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alphagov/di-mobile-ios-common",
