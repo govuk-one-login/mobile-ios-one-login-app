@@ -1,7 +1,5 @@
 import Authentication
 import Coordination
-import Foundation
-import GDSCommon
 import Logging
 import UIKit
 

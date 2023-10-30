@@ -1,7 +1,6 @@
 import GDSAnalytics
 import GDSCommon
 import Logging
-import UIKit
 
 struct AnalyticsButtonViewModel: ButtonViewModel {
     let title: GDSLocalisedString
