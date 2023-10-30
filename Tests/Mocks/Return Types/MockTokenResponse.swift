@@ -6,7 +6,7 @@ class MockTokenResponse {
         case invalid
     }
     
-    func getJSONData() async throws -> TokenResponse {
+    func getJSONData() throws -> TokenResponse {
         let bundleDoingTest = Bundle(for: type(of: self ))
         guard let jsonPath = bundleDoingTest.path(forResource: "TokenResponse", ofType: "json"),
               let jsonData = FileManager.default.contents(atPath: jsonPath) else {

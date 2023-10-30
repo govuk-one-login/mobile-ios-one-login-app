@@ -25,17 +25,11 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
 }
 
 extension OnboardingViewControllerFactoryTests {
-    func test_createIntroViewController() throws {
+    func test_introViewControllerSessionConfigProperties() throws {
         let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService, session: mockLoginSession)
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
-    }
-    
-    func test_sessionConfigProperties() throws {
-        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService, session: mockLoginSession)
-        let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
-        introButton.sendActions(for: .touchUpInside)
         let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
         XCTAssertEqual(sessionConfig.authorizationEndpoint, AppEnvironment.oneLoginAuthorize)
         XCTAssertEqual(sessionConfig.tokenEndpoint, AppEnvironment.oneLoginToken)

@@ -8,7 +8,7 @@ public final class AppEnvironment {
         case clientID = "Client ID"
     }
     
-    static var appDictionary: [String: Any] {
+    private static var appDictionary: [String: Any] {
         guard let plist = Bundle.main.infoDictionary else {
             fatalError("Cannot load Info.plist from App")
         }
@@ -28,7 +28,11 @@ public final class AppEnvironment {
         }
         return string
     }
-    
+}
+
+// MARK: - Info Plist values as Type properties
+
+extension AppEnvironment {
     static var oneLoginAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"

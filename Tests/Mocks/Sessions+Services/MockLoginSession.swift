@@ -17,9 +17,9 @@ final class MockLoginSession: LoginSession {
         sessionConfiguration = configuration
     }
     
-    func finalise(callback: URL) async throws -> TokenResponse {
+    func finalise(callback: URL) throws -> TokenResponse {
         didCallFinalise = true
-        return try await MockTokenResponse().getJSONData()
+        return try MockTokenResponse().getJSONData()
     }
     
     func cancel() {

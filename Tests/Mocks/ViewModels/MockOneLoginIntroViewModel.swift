@@ -5,10 +5,10 @@ import Logging
 import UIKit
 
 struct MockOneLoginIntroViewModel: IntroViewModel {
-    var image: UIImage = UIImage()
-    var title: GDSLocalisedString = "testTitle"
-    var body: GDSLocalisedString = "testBody"
-    var introButtonViewModel: ButtonViewModel
+    let image: UIImage = UIImage()
+    let title: GDSLocalisedString = "testTitle"
+    let body: GDSLocalisedString = "testBody"
+    let introButtonViewModel: ButtonViewModel
     let analyticsService: AnalyticsService
     
     init(analyticsService: AnalyticsService,
