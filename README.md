@@ -26,6 +26,6 @@ git config core.hooksPath hooks
 ## Getting started
 
 A number of how-to documents are provided to get a new developer up to speed with:
-- [pre-requisite software](docs/howTo/required-software.md)
-- [running the code](docs/howTo/running-the-app.md)
-- [running the tests](docs/howTo/running-the-tests.md)
+- [pre-requisite software](docs/how-to/required-software.md)
+- [running the code](docs/how-to/running-the-app.md)
+- [running the tests](docs/how-to/running-the-tests.md)
