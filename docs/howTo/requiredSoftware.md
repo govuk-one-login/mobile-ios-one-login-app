@@ -8,51 +8,48 @@ You will need a Mac in order to run this. It will not work on a Windows or Linux
 
 ## Xcode
 
-You'll need an Apple ID in order to download Xcode. Download it either through the [Mac App Store](https://apps.apple.com/gb/app/xcode/id497799835?mt=12) using this link. Or, if you're on the Apple Developer Program you can download separately through [this link](https://developer.apple.com/download/)).
+You'll need an Apple ID in order to download Xcode. Download it using [this link](https://developer.apple.com/download/applications). You will need to become an Apple Developer (you will be prompted to do this, and agree to their terms and conditions) - this is free.
 
-For the App Store download route, select the latest stable version of Xcode (i.e Xcode 15, not the Beta version), either by clicking `View on the Mac App Store` or `Xcode 15` on the blue `Download` button in the top right of the screen.
-
-<div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
-
-![Screenshot showing the website to select the version of Xcode](assets/required-software/xcode-web.png)
-
-</div>
-
-If a browser pop-up appears asking to open the App Store, click on `Open App Store` to be redirected. Or, manually search for Xcode in the App Store.
+Select the latest stable version of Xcode (i.e Xcode 15.0.1, not the Beta version), then click `Download Xcode XX.X.X (2.96GB)` to download a compressed file:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
-![Screenshot showing the website redirecting to the Mac Apple Store to download Xcode](assets/required-software/redirect-to-app-store.png)
+![Screenshot of the Apple Developer website to select the version of Xcode](assets/required-software/xcode-website-selection.png)
 
 </div>
 
-Click on the blue `Get` button, and then the green `Install` button
+Select a location to save the file:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
-![Screenshot showing Apple's Mac App Store's Apple ID sign in box](assets/required-software/app-store-download.png)
+![Screenshot showing the desired save location for Xcode](assets/required-software/download-xcode.png)
 
 </div>
 
-You may need to signin to your Apple ID. If asked to, signin using your Apple ID credentials.
+Once Xcode has downloaded, go to the folder where you saved the download (`Downloads` by default) and double click on `Xcode_XX.X.XX.xip` to extract the contents from the compressed file:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
-![Screenshot showing Apple's Mac App Store's Apple ID sign in box](assets/required-software/app-store-signin.png)
+![Screenshot showing Finder extracting Xcode from the compressed download](assets/required-software/xcode-extraction.png)
 
 </div>
 
-Wait patiently for Xcode to download
+Once complete, you can launch Xcode from that location, however you can move it to the Applications if you desire by dragging Xcode to Applications (on the left hand side of Finder), however this may require Administrator permission:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
-![Screenshot showing Xcode is being downloaded](assets/required-software/app-store-downloading.png)
+![Screenshot showing Finder extracting Xcode from the compressed download](assets/required-software/finder-admin-permissions.png)
 
 </div>
 
-Once Xcode has downloaded, go to the Applications folder and launch Xcode.
+<div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
-You might be prompted to enter the administrator's name and password to continue with Xcode's installation
+![Screenshot showing Finder extracting Xcode from the compressed download](assets/required-software/xcode-in-applications.png)
+
+</div>
+
+
+When launching Xcode for the first time, you might be prompted to enter the administrator's name and password to continue:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
@@ -60,7 +57,7 @@ You might be prompted to enter the administrator's name and password to continue
 
 </div>
 
-You'll need to accept the terms and conditions that Apple present in order for Xcode to run.
+You'll need to accept the terms and conditions that Apple present in order for Xcode to run:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
@@ -68,7 +65,7 @@ You'll need to accept the terms and conditions that Apple present in order for X
 
 </div>
 
-A dialog will be presented showing which simulators additional simulators and SDKs you want to install. Check the box for iOS, watchOS and tvOS can remain unchecked. 
+A dialog will be presented showing which simulators additional simulators and SDKs you want to install. Check the box for iOS, watchOS and tvOS can remain unchecked: 
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
@@ -76,7 +73,7 @@ A dialog will be presented showing which simulators additional simulators and SD
 
 </div>
 
-Xcode will download and install the additional iOS SDK
+Xcode will download and install the additional iOS SDK:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
@@ -84,7 +81,7 @@ Xcode will download and install the additional iOS SDK
 
 </div>
 
-Your Xcode installation and setup is now complete. Depending on your internet speeds, the iOS SDK might be downloading still. Either way, this screen should be showing, along with the `What's New in Xcode` screen.
+Your Xcode installation and setup is now complete. Depending on your internet speeds, the iOS SDK might be downloading still. Either way, this screen should be showing, along with the `What's New in Xcode` screen:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
