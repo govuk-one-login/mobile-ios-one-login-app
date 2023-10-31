@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This guide shows you how to setup an Android Virtual Device (AVD) and run the application from Xcode.
+This guide shows you how to select an iOS simulator and run the application from Xcode.
 
 _Note:_ It is assumed that you have already cloned the git repo to a suitable working directory.
 
