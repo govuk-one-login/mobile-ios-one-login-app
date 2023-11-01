@@ -8,7 +8,7 @@ You will need a Mac in order to run this. It will not work on a Windows or Linux
 
 ## Xcode
 
-You'll need an Apple ID in order to download Xcode. Download it using [this link](https://developer.apple.com/download/applications). You will need to become an Apple Developer (you will be prompted to do this, and agree to their terms and conditions) - this is free.
+You'll need an Apple ID in order to download Xcode. Download it using **[this link](https://developer.apple.com/download/applications)**. You will need to become an Apple Developer (you will be prompted to do this, and agree to their terms and conditions) - this is free.
 
 Select the latest stable version of Xcode (i.e Xcode 15.0.1, not the Beta version), then click `Download Xcode XX.X.X (2.96GB)` to download a compressed file:
 
@@ -65,7 +65,7 @@ You'll need to accept the terms and conditions that Apple present in order for X
 
 </div>
 
-A dialog will be presented showing which simulators additional simulators and SDKs you want to install. Check the box for iOS, watchOS and tvOS can remain unchecked: 
+A dialog will be presented showing which additional simulators and SDKs you want to install. Check the box for iOS, watchOS and tvOS can remain unchecked: 
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
