@@ -7,4 +7,10 @@
    <FileRef
       location = "group:OneLogin.xctestplan">
    </FileRef>
+   <FileRef
+      location = "group:OneLoginStaging.xctestplan">
+   </FileRef>
+   <FileRef
+      location = "group:OneLoginBuild.xctestplan">
+   </FileRef>
 </Workspace>
