@@ -65,7 +65,7 @@ You'll need to accept the terms and conditions that Apple present in order for X
 
 </div>
 
-A dialog will be presented showing which additional simulators and SDKs you want to install. Check the box for iOS, watchOS and tvOS can remain unchecked: 
+A dialog will be presented showing which additional simulators and SDKs you want to install. Check the box for iOS (watchOS and tvOS can remain unchecked): 
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
@@ -81,7 +81,7 @@ Xcode will download and install the additional iOS SDK:
 
 </div>
 
-Your Xcode installation and setup is now complete. Depending on your internet speeds, the iOS SDK might be downloading still. Either way, this screen should be showing, along with the `What's New in Xcode` screen:
+Your Xcode installation and setup is now complete. Depending on your internet speeds, the iOS SDK might be downloading still. Either way, the Xcode welcome screen should be showing, along with the `What's New in Xcode` screen:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
