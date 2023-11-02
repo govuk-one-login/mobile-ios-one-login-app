@@ -44,10 +44,10 @@ jobs:
           
           brew install sonar-scanner
           
-          bundle exec fastlane test scheme:"OneLogin" \
+          bundle exec fastlane test scheme:"OneLoginStaging" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
             source_branch:${{github.head_ref}} \
             target_branch:${{github.base_ref}} \
             pr_number:$pull_number \
-            testplan:OneLogin
+            testplan:OneLoginStaging
