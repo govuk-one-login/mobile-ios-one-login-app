@@ -10,7 +10,9 @@ You will need a Mac in order to run this. It will not work on a Windows or Linux
 
 You'll need an Apple ID in order to download Xcode. Download it using **[this link]**(https://developer.apple.com/download/applications). You will need to become an Apple Developer (you will be prompted to do this, and agree to their terms and conditions) - this is free.
 
-Select the latest stable version of Xcode (e.g Xcode 15.0.1 (this version will change, it is here as an example), not the Beta version), then click `Download Xcode XX.X.X (X.XXGB)` to download a compressed file:
+NOTE: We suggest downloading via the link above and not via the App Store to have more control over the Xcode version, due to how the App Store handles version updates with Xcode. 
+
+Select the latest stable version of Xcode (i.e not a beta release), then click `Download Xcode XX.X.X (X.XXGB)` to download a compressed file:
 
 <div class="filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.3)); margin: 60px 0; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
