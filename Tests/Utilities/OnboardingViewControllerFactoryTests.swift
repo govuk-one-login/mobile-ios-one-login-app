@@ -1,4 +1,4 @@
-@testable import Authentication
+import Authentication
 @testable import OneLogin
 import XCTest
 

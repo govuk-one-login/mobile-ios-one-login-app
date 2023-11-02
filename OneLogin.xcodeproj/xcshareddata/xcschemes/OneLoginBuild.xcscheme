@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:OneLoginBuildConfig.xctestplan"
+            reference = "container:OneLoginBuild.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

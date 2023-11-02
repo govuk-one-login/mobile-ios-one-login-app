@@ -166,6 +166,7 @@
 				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
+				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
 				2196020A2A976305008F3427 /* UITests */,
 				219601E82A976302008F3427 /* Products */,
 				C85E211C2ACEEFC400AF8B4E /* Frameworks */,
@@ -187,7 +188,6 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C85DF84B2AEC0D090064F68E /* Application */,
 				C85DF8502AEC1C6E0064F68E /* Extensions */,
 				C8520C2C2AE2C546006790C1 /* Onboarding */,
 				C85966462AEC31AE006DF61D /* Utilities */,
@@ -351,15 +351,6 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		C85DF84B2AEC0D090064F68E /* Application */ = {
-			isa = PBXGroup;
-			children = (
-				C85DF84C2AEC0D6B0064F68E /* StagingAppEnvironmentTests.swift */,
-				25537C482AF2B3540059DCD2 /* BuildAppEnvironmentTests.swift */,
-			);
-			path = Application;
-			sourceTree = "<group>";
-		};
 		C85DF8502AEC1C6E0064F68E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,6 +397,31 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8BA48F62AF3FFBF0028282D /* ConfigTests */ = {
+			isa = PBXGroup;
+			children = (
+				C8BA48F82AF4000B0028282D /* Build */,
+				C8BA48F72AF3FFFF0028282D /* Staging */,
+			);
+			path = ConfigTests;
+			sourceTree = "<group>";
+		};
+		C8BA48F72AF3FFFF0028282D /* Staging */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF84C2AEC0D6B0064F68E /* StagingAppEnvironmentTests.swift */,
+			);
+			path = Staging;
+			sourceTree = "<group>";
+		};
+		C8BA48F82AF4000B0028282D /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				25537C482AF2B3540059DCD2 /* BuildAppEnvironmentTests.swift */,
+			);
+			path = Build;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

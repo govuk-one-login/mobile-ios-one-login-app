@@ -8,9 +8,9 @@
       location = "group:OneLogin.xctestplan">
    </FileRef>
    <FileRef
-      location = "group:/Users/dylanjames/Documents/di-mobile-ios-onelogin-app/OneLoginStagingConfig.xctestplan">
+      location = "group:/Users/dylanjames/Documents/di-mobile-ios-onelogin-app/OneLoginStaging.xctestplan">
    </FileRef>
    <FileRef
-      location = "group:/Users/dylanjames/Documents/di-mobile-ios-onelogin-app/OneLoginBuildConfig.xctestplan">
+      location = "group:/Users/dylanjames/Documents/di-mobile-ios-onelogin-app/OneLoginBuild.xctestplan">
    </FileRef>
 </Workspace>
