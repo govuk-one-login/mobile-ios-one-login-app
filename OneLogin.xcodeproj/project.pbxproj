@@ -1147,8 +1147,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = oidc.integration.account.gov.uk;
-				CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
+				AUTHORIZE_URL = "auth-stub.mobile.dev.account.gov.uk";
+				CLIENT_ID = TEST_CLIENT_ID;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
@@ -1167,7 +1167,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
+				REDIRECT_URL = "https://mobile.build.account.gov.uk/redirect";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
