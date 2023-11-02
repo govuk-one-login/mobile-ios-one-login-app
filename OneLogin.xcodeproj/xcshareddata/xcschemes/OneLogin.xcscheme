@@ -45,17 +45,6 @@
                ReferencedContainer = "container:OneLogin.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "219602062A976305008F3427"
-               BuildableName = "OneLoginUITests.xctest"
-               BlueprintName = "OneLoginUITests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

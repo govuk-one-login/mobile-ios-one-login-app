@@ -34,6 +34,20 @@
                ReferencedContainer = "container:OneLogin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "219601FC2A976305008F3427"
+               BuildableName = "OneLoginTests.xctest"
+               BlueprintName = "OneLoginTests"
+               ReferencedContainer = "container:OneLogin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -43,7 +57,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:OneLoginBuild.xctestplan"
+            reference = "container:OneLoginBuildConfig.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -65,8 +79,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "25537C4D2AF2B38E0059DCD2"
-               BuildableName = "OneLoginBuildTests.xctest"
-               BlueprintName = "OneLoginBuildTests"
+               BuildableName = "OneLoginBuildConfigTests.xctest"
+               BlueprintName = "OneLoginBuildConfigTests"
                ReferencedContainer = "container:OneLogin.xcodeproj">
             </BuildableReference>
          </TestableReference>

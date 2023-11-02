@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:OneLoginStaging.xctestplan"
+            reference = "container:OneLoginStagingConfig.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -50,20 +50,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "219602062A976305008F3427"
-               BuildableName = "OneLoginUITests.xctest"
-               BlueprintName = "OneLoginUITests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "25537C3C2AF2B2600059DCD2"
-               BuildableName = "OneLoginStagingTests.xctest"
-               BlueprintName = "OneLoginStagingTests"
+               BuildableName = "OneLoginStagingConfigTests.xctest"
+               BlueprintName = "OneLoginStagingConfigTests"
                ReferencedContainer = "container:OneLogin.xcodeproj">
             </BuildableReference>
          </TestableReference>
