@@ -20,34 +20,6 @@
                ReferencedContainer = "container:OneLogin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "219602062A976305008F3427"
-               BuildableName = "OneLoginUITests.xctest"
-               BlueprintName = "OneLoginUITests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "219601FC2A976305008F3427"
-               BuildableName = "OneLoginTests.xctest"
-               BlueprintName = "OneLoginTests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -61,30 +33,6 @@
             default = "YES">
          </TestPlanReference>
       </TestPlans>
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "219602062A976305008F3427"
-               BuildableName = "OneLoginUITests.xctest"
-               BlueprintName = "OneLoginUITests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "25537C4D2AF2B38E0059DCD2"
-               BuildableName = "OneLoginBuildConfigTests.xctest"
-               BlueprintName = "OneLoginBuildConfigTests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Build"
