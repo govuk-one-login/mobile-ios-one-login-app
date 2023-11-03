@@ -2,11 +2,15 @@
 
 ## Introduction
 
-This guide shows you how to run both the Unit and UI tests for an iOS app.
+This guide shows you how to run the Unit, Configuration and UI tests for an iOS app.
+
+- Unit tests test project code and are run in all schemes.
+- Configuration tests test configuration-specific values, these values will vary per scheme.
+- UI tests test end to end journeys interacting with the app as a physical user would.
 
 ## Where are the tests?
 
-The Unit and UI tests are located under the `Tests` and `UITests` folders respectively, found on the left hand side in the project directory in Xcode:
+The Unit, Configuration and UI tests are located under the `Tests`, `ConfigTests` and `UITests` folders respectively, found on the left hand side in the project directory in Xcode:
 
 <div style="width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 

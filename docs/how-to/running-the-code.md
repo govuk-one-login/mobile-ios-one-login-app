@@ -2,37 +2,43 @@
 
 ## Introduction
 
-This guide shows you how to select an iOS simulator and run the application from Xcode.
+This guide shows you how to select a scheme, simulator and run the application from Xcode.
 
 _Note:_ It is assumed that you have already cloned the git repo to a suitable working directory.
 
 ## Selecting an iOS device
 
-At the top of the toolbar in Xcode, next to OneLogin click the device (it might default to `My Mac`) and select an iOS device (iPhone 15, iPhone SE etc)
+At the top of the toolbar in Xcode, select a scheme to run your app in (options are "OneLogin" for a Release configuration, "OneLoginStaging" for a Staging configuration and "OneLoginBuild" for a Build configuration), click the device (it might default to `My Mac`) and select an iOS device (iPhone 15, iPhone SE etc)
+
+<div style="width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
+
+![Screenshot of selecting an scheme in Xcode](assets/running-the-code/scheme-choosing.png)
+
+</div>
 
 <div style="width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
 ![Screenshot of selecting an iOS device simulator in Xcode](assets/running-the-code/select-device.png)
 
-</div> 
+</div>
 
 ## Running the app
 
-From the top toolbar in Xcode, click the play button found in the left hand side of the toolbar:
+From the top toolbar in Xcode, click the play button found on the left hand side of the toolbar:
 
 <div style="width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
 ![Screenshot of the run button in Xcode](assets/running-the-code/run-app.png)
 
-</div> 
+</div>
 
-Xcode will build the app, install it onto our iOS simulator and then run it for us:
+Xcode will build the app, install it onto the iOS simulator and then run it:
 
 <div style="width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 
 ![Screenshot of Xcode showing the Gradle Build progress bar](assets/running-the-code/app-building.png)
 
-</div> 
+</div>
 
 Once the task has finished, you should see the landing screen of the app in the iOS simulator:
 
