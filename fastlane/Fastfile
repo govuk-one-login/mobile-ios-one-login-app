@@ -16,7 +16,7 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode_15.0.app")
+xcode_select("/Applications/Xcode_15.0.1.app")
 
 platform :ios do
   desc "Run Tests and Output Code Coverage"
