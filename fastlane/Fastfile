@@ -33,7 +33,7 @@ platform :ios do
     )
     
     sh(
-      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLoginStaging.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
     
     if options.has_key?(:pr_number) then
