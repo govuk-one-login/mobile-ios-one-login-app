@@ -41,6 +41,9 @@
 		C85E21142ACEEBC800AF8B4E /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E21132ACEEBC800AF8B4E /* Logging */; };
 		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
 		C85E211E2ACEEFC900AF8B4E /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C85E211D2ACEEFC900AF8B4E /* HTTPLogging */; };
+		C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */; };
+		C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */; };
+		C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
@@ -78,7 +81,7 @@
 
 /* Begin PBXFileReference section */
 		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		219601FD2A976305008F3427 /* OneLoginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
@@ -109,6 +112,9 @@
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
+		C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginBuild.xctestplan; sourceTree = "<group>"; };
+		C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginStaging.xctestplan; sourceTree = "<group>"; };
+		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -166,8 +172,6 @@
 				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
-				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
-				2196020A2A976305008F3427 /* UITests */,
 				219601E82A976302008F3427 /* Products */,
 				C85E211C2ACEEFC400AF8B4E /* Frameworks */,
 			);
@@ -177,7 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				219601E72A976302008F3427 /* OneLogin.app */,
-				219601FD2A976305008F3427 /* OneLoginTests.xctest */,
+				219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */,
 				219602072A976305008F3427 /* OneLoginUITests.xctest */,
 				25537C3D2AF2B2600059DCD2 /* OneLoginStagingConfigTests.xctest */,
 				25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */,
@@ -188,11 +192,10 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C85DF8502AEC1C6E0064F68E /* Extensions */,
-				C8520C2C2AE2C546006790C1 /* Onboarding */,
-				C85966462AEC31AE006DF61D /* Utilities */,
-				21FA1C4A2AE183830052136E /* Mocks */,
-				C8520C232AE2BF8E006790C1 /* TestExtensions */,
+				C8E6C7662AF8223B008C19C9 /* Test Plans */,
+				C8E6C7632AF821D2008C19C9 /* UnitTests */,
+				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
+				2196020A2A976305008F3427 /* UITests */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -424,6 +427,28 @@
 			path = Build;
 			sourceTree = "<group>";
 		};
+		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				C85DF8502AEC1C6E0064F68E /* Extensions */,
+				C8520C2C2AE2C546006790C1 /* Onboarding */,
+				C85966462AEC31AE006DF61D /* Utilities */,
+				21FA1C4A2AE183830052136E /* Mocks */,
+				C8520C232AE2BF8E006790C1 /* TestExtensions */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		C8E6C7662AF8223B008C19C9 /* Test Plans */ = {
+			isa = PBXGroup;
+			children = (
+				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
+				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
+				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
+			);
+			path = "Test Plans";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -455,9 +480,9 @@
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
 			productType = "com.apple.product-type.application";
 		};
-		219601FC2A976305008F3427 /* OneLoginTests */ = {
+		219601FC2A976305008F3427 /* OneLoginUnitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginTests" */;
+			buildConfigurationList = 219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginUnitTests" */;
 			buildPhases = (
 				219601F92A976305008F3427 /* Sources */,
 				219601FA2A976305008F3427 /* Frameworks */,
@@ -468,9 +493,9 @@
 			dependencies = (
 				219601FF2A976305008F3427 /* PBXTargetDependency */,
 			);
-			name = OneLoginTests;
+			name = OneLoginUnitTests;
 			productName = "di-mobile-ios-onelogin-appTests";
-			productReference = 219601FD2A976305008F3427 /* OneLoginTests.xctest */;
+			productReference = 219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		219602062A976305008F3427 /* OneLoginUITests */ = {
@@ -578,7 +603,7 @@
 			projectRoot = "";
 			targets = (
 				219601E62A976302008F3427 /* OneLogin */,
-				219601FC2A976305008F3427 /* OneLoginTests */,
+				219601FC2A976305008F3427 /* OneLoginUnitTests */,
 				25537C3C2AF2B2600059DCD2 /* OneLoginStagingConfigTests */,
 				25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */,
 				219602062A976305008F3427 /* OneLoginUITests */,
@@ -591,8 +616,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
+				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
+				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1485,7 +1513,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginTests" */ = {
+		219602142A976305008F3427 /* Build configuration list for PBXNativeTarget "OneLoginUnitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602152A976305008F3427 /* Debug */,

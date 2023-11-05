@@ -4,13 +4,4 @@
    <FileRef
       location = "group:OneLogin.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:OneLogin.xctestplan">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/dylanjames/Documents/di-mobile-ios-onelogin-app/OneLoginStaging.xctestplan">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/dylanjames/Documents/di-mobile-ios-onelogin-app/OneLoginBuild.xctestplan">
-   </FileRef>
 </Workspace>
