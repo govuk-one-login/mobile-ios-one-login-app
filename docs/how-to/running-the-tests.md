@@ -10,7 +10,7 @@ This guide shows you how to run the Unit, Configuration and UI tests for an iOS 
 
 ## Where are the tests?
 
-The Unit, Configuration and UI tests are located under the `Tests`, `ConfigTests` and `UITests` folders respectively, found on the left hand side in the project directory in Xcode:
+The Unit, Configuration and UI tests are located under the `UnitTests`, `ConfigTests` and `UITests` folders respectively, within the `Tests` folder, found on the left hand side in the project directory in Xcode:
 
 <div style="width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;">
 

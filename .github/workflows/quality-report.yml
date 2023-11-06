@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test default scheme using any available iPhone simulator
+    name: Build app, run unit tests and send coverage report for main branch
     if: github.event.pull_request.draft == false
     runs-on: macos-13
 
