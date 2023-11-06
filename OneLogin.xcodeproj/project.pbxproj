@@ -442,9 +442,9 @@
 		C8E6C7662AF8223B008C19C9 /* Test Plans */ = {
 			isa = PBXGroup;
 			children = (
-				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
-				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
+				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
+				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
 			);
 			path = "Test Plans";
 			sourceTree = "<group>";
@@ -1373,7 +1373,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = "auth-stub.mobile.dev.account.gov.uk";
+				AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
 				CLIENT_ID = TEST_CLIENT_ID;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
