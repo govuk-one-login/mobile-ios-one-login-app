@@ -19,6 +19,21 @@ default_platform(:ios)
 xcode_select("/Applications/Xcode_15.0.1.app")
 
 platform :ios do
+  desc "Run Tests without Sonar Coverage"
+  lane :testWithoutCoverage do |options|
+
+    clear_derived_data
+      
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone SE (3rd generation)",
+      result_bundle: true,
+      scheme: options[:scheme],
+      testplan: options[:testplan],
+      prelaunch_simulator: true
+    )
+  end
+
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
 
@@ -29,7 +44,8 @@ platform :ios do
       device: "iPhone SE (3rd generation)",
       result_bundle: true,
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      prelaunch_simulator: true
     )
     
     sh(
