@@ -202,7 +202,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C8E6C7662AF8223B008C19C9 /* Test Plans */,
+				C8E6C7662AF8223B008C19C9 /* TestPlans */,
 				C8E6C7632AF821D2008C19C9 /* UnitTests */,
 				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
 				2196020A2A976305008F3427 /* UITests */,
@@ -225,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				C85DF8432AEBFDCC0064F68E /* Sessions+Services */,
-				C85DF8442AEBFDF00064F68E /* Return Types */,
+				C85DF8442AEBFDF00064F68E /* ReturnTypes */,
 				C85DF8482AEBFEE20064F68E /* ViewModels */,
 			);
 			path = Mocks;
@@ -259,18 +259,18 @@
 		C8098B942AEFF18C001517A0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C8098B952AEFF198001517A0 /* Custom Types */,
+				C8098B952AEFF198001517A0 /* CustomTypes */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		C8098B952AEFF198001517A0 /* Custom Types */ = {
+		C8098B952AEFF198001517A0 /* CustomTypes */ = {
 			isa = PBXGroup;
 			children = (
 				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 			);
-			path = "Custom Types";
+			path = CustomTypes;
 			sourceTree = "<group>";
 		};
 		C80999F92AFA3F110095B327 /* Screen Objects */ = {
@@ -367,13 +367,13 @@
 			path = "Sessions+Services";
 			sourceTree = "<group>";
 		};
-		C85DF8442AEBFDF00064F68E /* Return Types */ = {
+		C85DF8442AEBFDF00064F68E /* ReturnTypes */ = {
 			isa = PBXGroup;
 			children = (
 				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
 				C8520C212AE2B642006790C1 /* TokenResponse.json */,
 			);
-			path = "Return Types";
+			path = ReturnTypes;
 			sourceTree = "<group>";
 		};
 		C85DF8472AEBFE6D0064F68E /* Welcome */ = {
@@ -478,14 +478,14 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
-		C8E6C7662AF8223B008C19C9 /* Test Plans */ = {
+		C8E6C7662AF8223B008C19C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
 				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
 			);
-			path = "Test Plans";
+			path = TestPlans;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
