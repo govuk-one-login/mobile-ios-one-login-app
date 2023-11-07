@@ -1,7 +1,7 @@
 @testable import OneLogin
 import XCTest
 
-final class AppEnvironmentTests: XCTestCase {
+final class StagingAppEnvironmentTests: XCTestCase {
     func test_defaultEnvironment_retrieveFromPlist() throws {
         let sut = AppEnvironment.self
         XCTAssertEqual(sut.oneLoginAuthorize, URL(string: "https://oidc.integration.account.gov.uk/authorize"))

@@ -10,30 +10,12 @@
       }
     },
     {
-      "identity" : "appauth-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/openid/AppAuth-iOS.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "b376a8719dd9e3067439580d3b2c8aded748827f"
-      }
-    },
-    {
-      "identity" : "di-mobile-ios-authentication",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-authentication",
-      "state" : {
-        "branch" : "main",
-        "revision" : "91f4f7935c3c4158dfcac195efcf9d60fb14f28a"
-      }
-    },
-    {
       "identity" : "di-mobile-ios-common",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alphagov/di-mobile-ios-common",
       "state" : {
         "branch" : "main",
-        "revision" : "2304a9e52e8853dc86b9159ebdb95ae7ccdbb7c8"
+        "revision" : "4576ae8d259001c3319c4707004ac87b5046d9b3"
       }
     },
     {
@@ -57,7 +39,7 @@
     {
       "identity" : "di-mobile-ios-networking",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-networking",
+      "location" : "https://github.com/alphagov/di-mobile-ios-networking.git",
       "state" : {
         "branch" : "main",
         "revision" : "d248dca8944e0d61be3c0e27060ca9b0cdef023b"
@@ -113,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
-        "revision" : "5ccda3981422a84186387dbb763ba739178b529c",
-        "version" : "2.3.0"
+        "revision" : "d415594121c9e8a4f9d79cecee0965cf35e74dbd",
+        "version" : "3.1.1"
       }
     },
     {
@@ -158,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "3c54ab05249f59f2c6641dd2920b8358ea9ed127",
-        "version" : "1.24.0"
+        "revision" : "7dade5ea5ab0d05a2dd28f9cc6a6ea0d50588857",
+        "version" : "1.25.0"
       }
     }
   ],

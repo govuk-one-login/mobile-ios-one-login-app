@@ -23,19 +23,22 @@
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Build"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Tests/Test Plans/OneLoginUnit.xctestplan"
+            reference = "container:Tests/Test Plans/OneLoginBuild.xctestplan"
             default = "YES">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/Test Plans/OneLoginUnit.xctestplan">
          </TestPlanReference>
       </TestPlans>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Build"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"

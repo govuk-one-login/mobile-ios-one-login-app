@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "0116E4E8-EEB1-481C-8320-C9E947D2771B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "25537C3C2AF2B2600059DCD2",
+        "name" : "OneLoginStagingConfigTests"
+      }
+    }
+  ],
+  "version" : 1
+}

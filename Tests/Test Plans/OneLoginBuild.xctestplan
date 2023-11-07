@@ -1,30 +1,25 @@
 {
   "configurations" : [
     {
-      "id" : "83BA0435-ED59-4CB7-A924-948651786236",
-      "name" : "Test Scheme Action",
+      "id" : "C24D5860-85C4-456A-810D-FD351C8AC13D",
+      "name" : "Configuration 1",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-    "targetForVariableExpansion" : {
-      "containerPath" : "container:OneLogin.xcodeproj",
-      "identifier" : "219601E62A976302008F3427",
-      "name" : "OneLogin"
-    }
+
   },
   "testTargets" : [
     {
       "target" : {
         "containerPath" : "container:OneLogin.xcodeproj",
-        "identifier" : "219601FC2A976305008F3427",
-        "name" : "OneLoginTests"
+        "identifier" : "25537C4D2AF2B38E0059DCD2",
+        "name" : "OneLoginBuildConfigTests"
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:OneLogin.xcodeproj",
         "identifier" : "219602062A976305008F3427",

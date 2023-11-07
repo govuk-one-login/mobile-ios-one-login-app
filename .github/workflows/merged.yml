@@ -75,6 +75,14 @@ jobs:
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
           bundle install
+          
+          # Testing Staging configuration
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            testplan:OneLoginStaging
+        
+          # Testing Build configuration and UITests
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginBuild
 
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
@@ -85,7 +93,7 @@ jobs:
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
           
-          bundle exec fastlane prerelease configuration:"Debug" \
+          bundle exec fastlane prerelease configuration:"Staging" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
@@ -114,7 +122,6 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-          
           
           bundle exec fastlane prerelease configuration:${{ inputs.build_configuration }} \
             certificate_path:$CERTIFICATE_PATH \

@@ -1,4 +1,4 @@
-@testable import Authentication
+import Authentication
 @testable import OneLogin
 import XCTest
 
@@ -34,11 +34,11 @@ extension OnboardingViewControllerFactoryTests {
         XCTAssertEqual(sessionConfig.authorizationEndpoint, AppEnvironment.oneLoginAuthorize)
         XCTAssertEqual(sessionConfig.tokenEndpoint, AppEnvironment.oneLoginToken)
         XCTAssertEqual(sessionConfig.responseType, LoginSessionConfiguration.ResponseType.code)
-        XCTAssertEqual(sessionConfig.scopes, [.openid, .offline_access])
+        XCTAssertEqual(sessionConfig.scopes, [.openid])
         XCTAssertEqual(sessionConfig.clientID, AppEnvironment.oneLoginClientID)
         XCTAssertEqual(sessionConfig.prefersEphemeralWebSession, true)
         XCTAssertEqual(sessionConfig.redirectURI, AppEnvironment.oneLoginRedirect)
-        XCTAssertEqual(sessionConfig.viewThroughRate, "[Cl.Cm.P0]")
+        XCTAssertEqual(sessionConfig.vectorsOfTrust, ["Cl.Cm.P0"])
         XCTAssertEqual(sessionConfig.locale, .en)
     }
 }

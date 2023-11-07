@@ -16,9 +16,24 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode_15.0.app")
+xcode_select("/Applications/Xcode_15.0.1.app")
 
 platform :ios do
+  desc "Run Tests without Sonar Coverage"
+  lane :testWithoutCoverage do |options|
+
+    clear_derived_data
+      
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone SE (3rd generation)",
+      result_bundle: true,
+      scheme: options[:scheme],
+      testplan: options[:testplan],
+      prelaunch_simulator: true
+    )
+  end
+
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
 
@@ -26,14 +41,15 @@ platform :ios do
       
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      devices: ["iPhone 14", "iPhone SE (3rd generation)"],
+      device: "iPhone SE (3rd generation)",
       result_bundle: true,
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      prelaunch_simulator: true
     )
     
     sh(
-      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/#{options[:scheme]}.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
     
     if options.has_key?(:pr_number) then
