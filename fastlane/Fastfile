@@ -101,9 +101,17 @@ platform :ios do
         key_filepath: options[:apikey_path]
       )
 
-      profile_name = "One Login Staging"
-      app_identifier = "uk.gov.one-login.staging"
       project_name = "OneLogin.xcodeproj"
+      profile_name = "One Login"
+      app_identifier = "uk.gov.one-login"
+
+      if options[:configuration] == "Staging" then
+        profile_name += " Staging"
+        app_identifier += ".staging"
+      elsif options[:configuration] == "Build" then
+        profile_name += " Build"
+        app_identifier += ".build"
+      end
 
       get_provisioning_profile(
         provisioning_name: profile_name,
