@@ -3,6 +3,10 @@ import XCTest
 struct LoginModal: ScreenObject {
     let app: XCUIApplication
     
+    var cancelButton: XCUIElement {
+        app.buttons["Cancel"]
+    }
+    
     var view: XCUIElement {
         app.webViews.firstMatch
     }
@@ -13,5 +17,11 @@ struct LoginModal: ScreenObject {
     
     var loginButton: XCUIElement {
         view.buttons["Login"]
+    }
+    
+    func tapCancelButton() -> WelcomeScreenObject {
+        cancelButton.tap()
+        
+        return .init().waitForAppearance()
     }
 }
