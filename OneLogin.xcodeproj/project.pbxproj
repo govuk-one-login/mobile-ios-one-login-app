@@ -10,6 +10,8 @@
 		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
 		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
 		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
+		21D8D6172ADFDFFD0026F946 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 21D8D6162ADFDFFD0026F946 /* Authentication */; };
+		21D8D6192ADFDFFD0026F946 /* UserDetails in Frameworks */ = {isa = PBXBuildFile; productRef = 21D8D6182ADFDFFD0026F946 /* UserDetails */; };
 		21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */; };
 		21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */; };
 		21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4B2AE183A50052136E /* MockLoginSession.swift */; };
@@ -90,8 +92,6 @@
 		219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
-		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAnalyticsService.swift; sourceTree = "<group>"; };
 		21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		21FA1C4B2AE183A50052136E /* MockLoginSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSession.swift; sourceTree = "<group>"; };
@@ -215,10 +215,8 @@
 		2196020A2A976305008F3427 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
-				C80999F92AFA3F110095B327 /* Screen Objects */,
+				C80999F92AFA3F110095B327 /* ScreenObjects */,
 				C8099A022AFA40260095B327 /* LoginUITests.swift */,
-				2196020B2A976305008F3427 /* OneLoginUITests.swift */,
-				2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -275,14 +273,14 @@
 			path = CustomTypes;
 			sourceTree = "<group>";
 		};
-		C80999F92AFA3F110095B327 /* Screen Objects */ = {
+		C80999F92AFA3F110095B327 /* ScreenObjects */ = {
 			isa = PBXGroup;
 			children = (
 				C80999FA2AFA3F580095B327 /* ScreenObject.swift */,
 				C8099A002AFA3FE70095B327 /* Helpers */,
 				C8099A012AFA3FF20095B327 /* App */,
 			);
-			path = "Screen Objects";
+			path = ScreenObjects;
 			sourceTree = "<group>";
 		};
 		C8099A002AFA3FE70095B327 /* Helpers */ = {
@@ -759,12 +757,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */,
 				C8099A0C2AFA5C3C0095B327 /* LoginModal.swift in Sources */,
 				C80999FD2AFA3F850095B327 /* TimeInterval.swift in Sources */,
 				C80999FF2AFA3FB00095B327 /* XCUIElement.swift in Sources */,
 				C80999FB2AFA3F580095B327 /* ScreenObject.swift in Sources */,
-				2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */,
 				C8099A052AFA407F0095B327 /* WelcomeScreenObject.swift in Sources */,
 				C8099A032AFA40260095B327 /* LoginUITests.swift in Sources */,
 			);
