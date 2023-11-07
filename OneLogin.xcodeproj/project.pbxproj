@@ -20,6 +20,11 @@
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
+		C80999FB2AFA3F580095B327 /* ScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80999FA2AFA3F580095B327 /* ScreenObject.swift */; };
+		C80999FD2AFA3F850095B327 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80999FC2AFA3F850095B327 /* TimeInterval.swift */; };
+		C80999FF2AFA3FB00095B327 /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80999FE2AFA3FB00095B327 /* XCUIElement.swift */; };
+		C8099A032AFA40260095B327 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8099A022AFA40260095B327 /* LoginUITests.swift */; };
+		C8099A052AFA407F0095B327 /* WelcomeScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8099A042AFA407F0095B327 /* WelcomeScreenObject.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
 		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
@@ -99,6 +104,11 @@
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		C80999FA2AFA3F580095B327 /* ScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenObject.swift; sourceTree = "<group>"; };
+		C80999FC2AFA3F850095B327 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
+		C80999FE2AFA3FB00095B327 /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
+		C8099A022AFA40260095B327 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
+		C8099A042AFA407F0095B327 /* WelcomeScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenObject.swift; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
 		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
@@ -203,6 +213,8 @@
 		2196020A2A976305008F3427 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
+				C80999F92AFA3F110095B327 /* Screen Objects */,
+				C8099A022AFA40260095B327 /* LoginUITests.swift */,
 				2196020B2A976305008F3427 /* OneLoginUITests.swift */,
 				2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */,
 			);
@@ -259,6 +271,33 @@
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 			);
 			path = "Custom Types";
+			sourceTree = "<group>";
+		};
+		C80999F92AFA3F110095B327 /* Screen Objects */ = {
+			isa = PBXGroup;
+			children = (
+				C80999FA2AFA3F580095B327 /* ScreenObject.swift */,
+				C8099A002AFA3FE70095B327 /* Helpers */,
+				C8099A012AFA3FF20095B327 /* App */,
+			);
+			path = "Screen Objects";
+			sourceTree = "<group>";
+		};
+		C8099A002AFA3FE70095B327 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C80999FC2AFA3F850095B327 /* TimeInterval.swift */,
+				C80999FE2AFA3FB00095B327 /* XCUIElement.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C8099A012AFA3FF20095B327 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C8099A042AFA407F0095B327 /* WelcomeScreenObject.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		C8178E3C2AEB2C8600059875 /* Analytics */ = {
@@ -718,7 +757,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */,
+				C80999FD2AFA3F850095B327 /* TimeInterval.swift in Sources */,
+				C80999FF2AFA3FB00095B327 /* XCUIElement.swift in Sources */,
+				C80999FB2AFA3F580095B327 /* ScreenObject.swift in Sources */,
 				2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */,
+				C8099A052AFA407F0095B327 /* WelcomeScreenObject.swift in Sources */,
+				C8099A032AFA40260095B327 /* LoginUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
