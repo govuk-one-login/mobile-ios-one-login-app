@@ -18,4 +18,10 @@ struct WelcomeScreenObject: ScreenObject {
     var signInButton: XCUIElement {
         app.buttons["intro-button"]
     }
+    
+    func tapLoginButton() -> LoginModal {
+        signInButton.tap()
+        
+        return .init(app: app).waitForAppearance()
+    }
 }

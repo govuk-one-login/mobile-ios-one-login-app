@@ -26,5 +26,10 @@ extension LoginUITests {
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
         XCTAssertTrue(sut.signInButton.exists)
         XCTAssertEqual(sut.signInButton.label, "Sign in")
+        let loginModal = sut.tapLoginButton()
+        XCTAssertTrue(loginModal.title.exists)
+        XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
+        XCTAssertTrue(loginModal.loginButton.exists)
+        XCTAssertEqual(loginModal.loginButton.label, "Login")
     }
 }

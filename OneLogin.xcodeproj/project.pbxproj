@@ -25,6 +25,7 @@
 		C80999FF2AFA3FB00095B327 /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80999FE2AFA3FB00095B327 /* XCUIElement.swift */; };
 		C8099A032AFA40260095B327 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8099A022AFA40260095B327 /* LoginUITests.swift */; };
 		C8099A052AFA407F0095B327 /* WelcomeScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8099A042AFA407F0095B327 /* WelcomeScreenObject.swift */; };
+		C8099A0C2AFA5C3C0095B327 /* LoginModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8099A0B2AFA5C3C0095B327 /* LoginModal.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
 		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
@@ -109,6 +110,7 @@
 		C80999FE2AFA3FB00095B327 /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
 		C8099A022AFA40260095B327 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
 		C8099A042AFA407F0095B327 /* WelcomeScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenObject.swift; sourceTree = "<group>"; };
+		C8099A0B2AFA5C3C0095B327 /* LoginModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModal.swift; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
 		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				C8099A042AFA407F0095B327 /* WelcomeScreenObject.swift */,
+				C8099A0B2AFA5C3C0095B327 /* LoginModal.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -757,6 +760,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */,
+				C8099A0C2AFA5C3C0095B327 /* LoginModal.swift in Sources */,
 				C80999FD2AFA3F850095B327 /* TimeInterval.swift in Sources */,
 				C80999FF2AFA3FB00095B327 /* XCUIElement.swift in Sources */,
 				C80999FB2AFA3F580095B327 /* ScreenObject.swift in Sources */,
