@@ -1,6 +1,6 @@
 import XCTest
 
-struct WelcomeScreenObject: ScreenObject {
+struct WelcomeScreen: ScreenObject {
     let app = XCUIApplication()
     
     var view: XCUIElement {

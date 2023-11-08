@@ -1,13 +1,13 @@
 import XCTest
 
 final class LoginUITests: XCTestCase {
-    var sut: WelcomeScreenObject!
+    var sut: WelcomeScreen!
     
     override func setUp() async throws {
         continueAfterFailure = false
         
         await MainActor.run {
-            sut = WelcomeScreenObject()
+            sut = WelcomeScreen()
             sut.app.launch()
         }
     }
