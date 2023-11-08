@@ -19,9 +19,7 @@ struct LoginModal: ScreenObject {
         view.buttons["Login"]
     }
     
-    func tapCancelButton() -> WelcomeScreenObject {
+    func tapCancelButton() {
         cancelButton.tap()
-        
-        return .init().waitForAppearance()
     }
 }

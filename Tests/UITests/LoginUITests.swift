@@ -36,7 +36,7 @@ extension LoginUITests {
     func test_loginCancelPath() throws {
         let loginModal = sut.tapLoginButton()
         XCTAssertTrue(loginModal.cancelButton.exists)
-        let welcomeScreen = loginModal.tapCancelButton()
-        XCTAssertTrue(welcomeScreen.isVisible)
+        loginModal.tapCancelButton()
+        XCTAssertTrue(sut.isVisible)
     }
 }
