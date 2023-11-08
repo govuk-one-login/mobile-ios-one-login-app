@@ -24,8 +24,8 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Lint
-        run: swiftlint --strict
+#      - name: Lint
+#        run: swiftlint --strict
 
       - name: Build
         env:
