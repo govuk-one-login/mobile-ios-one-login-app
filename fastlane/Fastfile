@@ -29,8 +29,7 @@ platform :ios do
       device: "iPhone SE (3rd generation)",
       result_bundle: true,
       scheme: options[:scheme],
-      testplan: options[:testplan],
-      prelaunch_simulator: true
+      testplan: options[:testplan]
     )
   end
 
@@ -44,8 +43,7 @@ platform :ios do
       device: "iPhone SE (3rd generation)",
       result_bundle: true,
       scheme: options[:scheme],
-      testplan: options[:testplan],
-      prelaunch_simulator: true
+      testplan: options[:testplan]
     )
     
     sh(
