@@ -4,7 +4,7 @@ import Logging
 
 struct AnalyticsButtonViewModel: ButtonViewModel {
     let title: GDSLocalisedString
-    let icon: String?
+    let icon: ButtonIconViewModel?
     let shouldLoadOnTap: Bool
     let action: (() -> Void)
     
@@ -38,7 +38,7 @@ struct AnalyticsButtonViewModel: ButtonViewModel {
     
     private init(titleKey: String,
                  titleStringVariableKeys: [String],
-                 icon: String? = nil,
+                 icon: ButtonIconViewModel? = nil,
                  shouldLoadOnTap: Bool = false,
                  analyticsService: AnalyticsService,
                  analyticsEvent: Event,
