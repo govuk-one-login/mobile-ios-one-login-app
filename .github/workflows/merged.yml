@@ -97,6 +97,11 @@ jobs:
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
+            
+          bundle exec fastlane prerelease configuration:"Build" \
+            certificate_path:$CERTIFICATE_PATH \
+            certificate_password:$CERTIFICATE_PASSWORD \
+            apikey_path:$APIKEY_PATH --verbose
           
       - name: Manual Deploy to App Store Connect
         if: github.event_name == 'workflow_dispatch'
