@@ -12,7 +12,7 @@ concurrency:
 jobs:
   test_staging_config:
     runs-on: macos-13
-    - name: Run staging configuration tests
+    name: Run staging configuration tests
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -43,7 +43,7 @@ jobs:
   
   test_build_config:
     runs-on: macos-13
-    - name: Run build configuration tests
+    name: Run build configuration tests
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -74,7 +74,7 @@ jobs:
   
   test_ui:
     runs-on: macos-13
-    - name: Run UI tests
+    name: Run UI tests
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -105,7 +105,7 @@ jobs:
 
   build:
     runs-on: macos-13
-    - name: Build app, run unit tests and send coverage report for branch
+    name: Build app, run unit tests and send coverage report for branch
     needs: [test_staging_config, test_build_config, test_ui]
       steps:
         - name: Confirm completion
