@@ -35,6 +35,9 @@
          <TestPlanReference
             reference = "container:Tests/TestPlans/OneLoginUnit.xctestplan">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/OneLoginUI.xctestplan">
+         </TestPlanReference>
       </TestPlans>
    </TestAction>
    <LaunchAction

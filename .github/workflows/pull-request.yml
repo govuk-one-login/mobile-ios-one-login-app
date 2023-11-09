@@ -5,15 +5,14 @@ on:
     types: [ opened, reopened, synchronize, ready_for_review ]
     branches: [ develop, release/*, main ]
     
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build app, run unit tests and send coverage report for branch
-    runs-on: macos-13-xl
-
+  test_staging_config:
+    name: Run staging configuration tests
+    runs-on: macos-13
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -27,27 +26,90 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-      - name: Run unit tests and send coverage report
+      - name: Run staging config tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-        
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
 
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
           bundle install
-          
-          brew install sonar-scanner
-          
-          bundle exec fastlane test scheme:"OneLogin" \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
-            workspace:${{github.workspace}} \
-            source_branch:${{github.head_ref}} \
-            target_branch:${{github.base_ref}} \
-            pr_number:$pull_number \
-            testplan:OneLoginUnit
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            testplan:OneLoginStaging
+  
+  test_build_config:
+    name: Run build configuration tests
+    runs-on: macos-13
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+        
+      - name: Run build config tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginBuild
+  
+  test_ui:
+    name: Run UI tests
+    runs-on: macos-13
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+
+      - name: Run ui tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginUI
+
+  build:
+    name: Build app, run unit tests and send coverage report for branch
+    runs-on: macos-13
+    needs: [test_staging_config, test_build_config, test_ui]
+    steps:
+      - name: Confirm completion
+        run: echo "All dependent actions are finished"
