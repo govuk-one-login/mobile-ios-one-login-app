@@ -44,10 +44,5 @@ jobs:
           
           brew install sonar-scanner
           
-          bundle exec fastlane test scheme:"OneLogin" \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
-            workspace:${{github.workspace}} \
-            source_branch:${{github.head_ref}} \
-            target_branch:${{github.base_ref}} \
-            pr_number:$pull_number \
+          bundle exec fastlane testWithoutCoverage scheme:"OneLogin" \
             testplan:OneLoginUnit

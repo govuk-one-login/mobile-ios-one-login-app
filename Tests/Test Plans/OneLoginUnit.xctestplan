@@ -22,6 +22,13 @@
         "identifier" : "219601FC2A976305008F3427",
         "name" : "OneLoginUnitTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "219602062A976305008F3427",
+        "name" : "OneLoginUITests"
+      }
     }
   ],
   "version" : 1
