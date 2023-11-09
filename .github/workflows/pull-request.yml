@@ -88,7 +88,9 @@ jobs:
           fetch-depth: 0
 
       - name: Lint
-        run: swiftlint --strict
+        run: |
+          brew install swiftlint
+          swiftlint --strict
 
       - name: Run UI Tests
         env:
