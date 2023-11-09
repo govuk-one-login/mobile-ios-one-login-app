@@ -19,8 +19,7 @@ permissions:
 
 jobs:
   build:
-    name: Deploy build to TestFlight
-    if: github.event.pull_request.draft == false
+    name: Build app, run Configuration and UI tests then deploy to TestFlight
     runs-on: macos-13
     
     steps:
@@ -53,14 +52,7 @@ jobs:
           AWS_DEFAULT_REGION: "eu-west-2"
           SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
 
-#      - name: Set Default Scheme
-#        run: |
-#          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-#          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-#          echo $default | cat >default
-#          echo Using default scheme: $default
-
-      - name: Deploy to App Store Connect
+      - name: Configuration and UITests then Deploy to App Store Connect
         if: github.event_name != 'workflow_dispatch'
         env:
           LC_ALL: "en_US.UTF-8"
@@ -103,7 +95,7 @@ jobs:
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
           
-      - name: Manual Deploy to App Store Connect
+      - name: Configuration and UITests then Manual Deploy to App Store Connect
         if: github.event_name == 'workflow_dispatch'
         env:
           LC_ALL: "en_US.UTF-8"
@@ -118,6 +110,14 @@ jobs:
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
           bundle install
+          
+          # Testing Staging configuration
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            testplan:OneLoginStaging
+        
+          # Testing Build configuration and UITests
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginBuild
           
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
