@@ -106,19 +106,18 @@ jobs:
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
-  deploy:
-    name: Deploy Apps
+  deploy_staging_app:
     needs: [test_staging_config, test_build_config, test_ui]
-    deploy_staging_app:
-      name: Deploy Staging App
-      runs-on: macos-13
-      steps:
-      - name: Deploy App
-        run: echo "Deploying Staging App"
+    name: Deploy Staging App
+    runs-on: macos-13
+    steps:
+    - name: Deploy App
+      run: echo "Deploying Staging App"
           
-    deploy_build_app:
-      name: Deploy Build App
-      runs-on: macos-13
-      steps:
-      - name: Deploy App
-        run: echo "Deploying Build App"
+  deploy_build_app:
+    needs: [test_staging_config, test_build_config, test_ui]
+    name: Deploy Build App
+    runs-on: macos-13
+    steps:
+    - name: Deploy Build App
+      run: echo "Deploying Build App"
