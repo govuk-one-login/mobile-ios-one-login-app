@@ -11,8 +11,8 @@ concurrency:
 
 jobs:
   test_staging_config:
-    runs-on: macos-13
     name: Run staging configuration tests
+    runs-on: macos-13
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -26,24 +26,24 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LC_ALL: "en_US.UTF-8"
-        LANG: "en_US.UTF-8"
-      run: |
-        export GEM_HOME=$HOME/.gem
-        export GEM_PATH=$HOME/.gem
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
 
-        # Fixes issue with bundle install
-        eval "$(rbenv init - zsh)"
-        bundle install
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
 
-        bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
-          testplan:OneLoginStaging
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            testplan:OneLoginStaging
   
   test_build_config:
-    runs-on: macos-13
     name: Run build configuration tests
+    runs-on: macos-13
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -57,24 +57,24 @@ jobs:
       - name: Lint
         run: swiftlint --strict
         
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LC_ALL: "en_US.UTF-8"
-        LANG: "en_US.UTF-8"
-      run: |
-        export GEM_HOME=$HOME/.gem
-        export GEM_PATH=$HOME/.gem
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
 
-        # Fixes issue with bundle install
-        eval "$(rbenv init - zsh)"
-        bundle install
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
 
-        bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-          testplan:OneLoginBuild
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginBuild
   
   test_ui:
-    runs-on: macos-13
     name: Run UI tests
+    runs-on: macos-13
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -88,24 +88,24 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LC_ALL: "en_US.UTF-8"
-        LANG: "en_US.UTF-8"
-      run: |
-        export GEM_HOME=$HOME/.gem
-        export GEM_PATH=$HOME/.gem
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
 
-        # Fixes issue with bundle install
-        eval "$(rbenv init - zsh)"
-        bundle install
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
 
-        bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-          testplan:OneLoginUI
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginUI
 
   build:
-    runs-on: macos-13
     name: Build app, run unit tests and send coverage report for branch
+    runs-on: macos-13
     needs: [test_staging_config, test_build_config, test_ui]
       steps:
         - name: Confirm completion
