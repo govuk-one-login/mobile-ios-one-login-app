@@ -26,6 +26,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
+      - name: Run staging config tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -57,6 +58,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
         
+      - name: Run build config tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -88,6 +90,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
+      - name: Run ui tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
