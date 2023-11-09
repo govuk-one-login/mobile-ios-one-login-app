@@ -11,10 +11,10 @@ concurrency:
 
 jobs:
   test_staging_config:
-    name: Run staging configuration tests
+    name: Run Staging Configuration Tests
     runs-on: macos-13
     steps:
-      - name: Add path globally
+      - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-      - name: Run staging config tests
+      - name: Run Staging Configuration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -43,10 +43,10 @@ jobs:
             testplan:OneLoginStaging
   
   test_build_config:
-    name: Run build configuration tests
+    name: Run Build Configuration Tests
     runs-on: macos-13
     steps:
-      - name: Add path globally
+      - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
@@ -58,7 +58,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
         
-      - name: Run build config tests
+      - name: Run Build Configuration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -75,10 +75,10 @@ jobs:
             testplan:OneLoginBuild
   
   test_ui:
-    name: Run UI tests
+    name: Run UI Tests
     runs-on: macos-13
     steps:
-      - name: Add path globally
+      - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
@@ -90,7 +90,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-      - name: Run ui tests
+      - name: Run UI Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -107,9 +107,14 @@ jobs:
             testplan:OneLoginUI
 
   build:
-    name: Build app, run unit tests and send coverage report for branch
+    name: Deploy Apps
     runs-on: macos-13
     needs: [test_staging_config, test_build_config, test_ui]
-    steps:
-      - name: Confirm completion
-        run: echo "All dependent actions are finished"
+    jobs:
+      deploy_staging_app:
+        - name: Deploy Staging App
+          run: echo "Deploying Staging App"
+          
+      deploy_build_app:
+        - name: Deploy Build App
+          run: echo "Deploying Build App"
