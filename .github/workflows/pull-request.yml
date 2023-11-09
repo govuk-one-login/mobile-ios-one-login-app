@@ -10,10 +10,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build app, run unit tests and send coverage report for branch
-    runs-on: macos-13
+  runs-on: macos-13
+  test_staging_config:
+    - name: Run staging configuration tests
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
 
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LC_ALL: "en_US.UTF-8"
+        LANG: "en_US.UTF-8"
+      run: |
+        export GEM_HOME=$HOME/.gem
+        export GEM_PATH=$HOME/.gem
+
+        # Fixes issue with bundle install
+        eval "$(rbenv init - zsh)"
+        bundle install
+
+        bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+          testplan:OneLoginStaging
+  
+  test_build_config:
+    - name: Run build configuration tests
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -27,51 +56,54 @@ jobs:
       - name: Lint
         run: swiftlint --strict
         
-      - name: Run staging configuration tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-        run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LC_ALL: "en_US.UTF-8"
+        LANG: "en_US.UTF-8"
+      run: |
+        export GEM_HOME=$HOME/.gem
+        export GEM_PATH=$HOME/.gem
 
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
-          bundle install
-                    
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
-            testplan:OneLoginStaging
-            
-      - name: Run build configuration tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-        run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
+        # Fixes issue with bundle install
+        eval "$(rbenv init - zsh)"
+        bundle install
 
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
-          bundle install
-          
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginBuild
-            
+        bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+          testplan:OneLoginBuild
+  
+  test_ui:
+    - name: Run UI tests
+    steps:
+      - name: Add path globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
 
-      - name: Run UI tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-        run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
 
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
-          bundle install
-                    
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginUI
+      - name: Lint
+        run: swiftlint --strict
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LC_ALL: "en_US.UTF-8"
+        LANG: "en_US.UTF-8"
+      run: |
+        export GEM_HOME=$HOME/.gem
+        export GEM_PATH=$HOME/.gem
+
+        # Fixes issue with bundle install
+        eval "$(rbenv init - zsh)"
+        bundle install
+
+        bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+          testplan:OneLoginUI
+
+  build:
+    - name: Build app, run unit tests and send coverage report for branch
+    needs: [test_staging_config, test_build_config, test_ui]
+      steps:
+        - name: Confirm completion
+          run: echo "All dependent actions are finished"
