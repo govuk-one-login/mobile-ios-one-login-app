@@ -107,7 +107,7 @@ jobs:
             testplan:OneLoginUI
 
   deploy_staging_app:
-    needs: [test_staging_config, test_build_config, test_ui]
+    needs: [test_staging_config, test_ui]
     name: Deploy Staging App
     runs-on: macos-13
     steps:
@@ -115,7 +115,7 @@ jobs:
       run: echo "Deploying Staging App"
           
   deploy_build_app:
-    needs: [test_staging_config, test_build_config, test_ui]
+    needs: [test_build_config, test_ui]
     name: Deploy Build App
     runs-on: macos-13
     steps:
