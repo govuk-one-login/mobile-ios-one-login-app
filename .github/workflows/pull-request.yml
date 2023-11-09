@@ -44,5 +44,5 @@ jobs:
           
           brew install sonar-scanner
           
-          bundle exec fastlane testWithoutCoverage scheme:"OneLogin" \
-            testplan:OneLoginUnit
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginBuild
