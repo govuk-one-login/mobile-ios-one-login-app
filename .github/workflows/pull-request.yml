@@ -43,7 +43,7 @@ jobs:
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
             testplan:OneLoginStaging
             
-        - name: Run build configuration tests
+      - name: Run build configuration tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
