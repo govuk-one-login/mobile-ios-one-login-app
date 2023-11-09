@@ -107,6 +107,6 @@ jobs:
     name: Build app, run unit tests and send coverage report for branch
     runs-on: macos-13
     needs: [test_staging_config, test_build_config, test_ui]
-      steps:
-        - name: Confirm completion
-          run: echo "All dependent actions are finished"
+    steps:
+      - name: Confirm completion
+        run: echo "All dependent actions are finished"
