@@ -76,7 +76,7 @@ jobs:
   
   test_ui:
     name: Run UI Tests
-    runs-on: macos-13
+    runs-on: macos-13-xlarge
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
