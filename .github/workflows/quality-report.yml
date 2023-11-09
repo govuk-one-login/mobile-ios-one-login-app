@@ -23,7 +23,7 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
-      - name: Build
+      - name: Run unit tests and send coverage report
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"

@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   build:
-    name: Deploy build to TestFlight
+    name: Build app, run Configuration and UI tests then deploy to TestFlight
     runs-on: macos-13
     
     steps:
