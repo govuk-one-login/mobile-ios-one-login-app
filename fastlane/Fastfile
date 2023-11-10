@@ -26,7 +26,7 @@ platform :ios do
       
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      devices: "iPhone 15, iPhone SE (3rd generation)",
+      devices: ["iPhone 15", "iPhone SE (3rd generation)"],
       result_bundle: true,
       scheme: options[:scheme],
       testplan: options[:testplan]
