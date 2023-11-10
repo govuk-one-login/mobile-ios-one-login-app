@@ -99,7 +99,7 @@ jobs:
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
 
-          xcode-select -s /Applications/Xcode_15.0.1.app
+          xcode-select -s /Applications/Xcode_15.0.1.app/Contents/Developer
           xcodebuild -workspace "OneLogin.xcworkspace" -scheme OneLoginBuild test \
             -destination "platform=iOS Simulator,name=iPhone 14,OS=latest" \
             -testPlan OneLoginUI
