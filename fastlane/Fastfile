@@ -35,7 +35,6 @@ platform :ios do
   
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverageForUITests do |options|
-    xcode_select("/Applications/Xcode_14.3.1.app")
 
     clear_derived_data
       
