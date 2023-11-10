@@ -103,8 +103,12 @@ jobs:
           eval "$(rbenv init - zsh)"
           bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginUI
+#          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+#            testplan:OneLoginUI
+
+          xcodebuild -workspace "OneLogin.xcworkspace" -scheme OneLoginBuild test \
+             -destination "platform=iOS Simulator,name=iPhone 15,OS=latest" \
+             -testPlan OneLoginUI
 
   deploy_staging_app:
     needs: [test_staging_config, test_ui]
