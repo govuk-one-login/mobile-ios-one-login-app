@@ -4,6 +4,7 @@ final class LoginUITests: XCTestCase {
     var sut: WelcomeScreen!
     
     override func setUp() async throws {
+        try await super.setUp()
         continueAfterFailure = false
         
         await MainActor.run {
@@ -15,6 +16,7 @@ final class LoginUITests: XCTestCase {
     override func tearDown() {
         sut.app.terminate()
         sut = nil
+        super.tearDown()
     }
 }
 
