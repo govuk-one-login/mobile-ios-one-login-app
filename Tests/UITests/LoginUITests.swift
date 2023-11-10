@@ -29,6 +29,7 @@ extension LoginUITests {
         XCTAssertTrue(sut.signInButton.exists)
         XCTAssertEqual(sut.signInButton.label, "Sign in")
         let loginModal = sut.tapLoginButton()
+        _ = loginModal.title.waitForExistence(timeout: TimeInterval.timeout)
         dump(loginModal.view)
         XCTAssertTrue(loginModal.title.exists)
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
