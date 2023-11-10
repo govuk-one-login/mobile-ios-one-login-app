@@ -99,10 +99,13 @@ jobs:
         run: |
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
           
-          xcodebuild -workspace "OneLogin.xcworkspace" -scheme OneLoginBuild test \
-            -destination "platform=iOS Simulator,name=iPhone SE (3rd generation),OS=16.4" \
-            -testPlan OneLoginUI
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            testplan:OneLoginUI
 
   deploy_staging_app:
     needs: [test_staging_config, test_ui]
