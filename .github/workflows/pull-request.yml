@@ -40,8 +40,7 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
-            testplan:OneLoginStaging \
-            xcode_version:"15.0.1"
+            testplan:OneLoginStaging
   
   test_build_config:
     name: Run Build Configuration Tests
@@ -73,8 +72,7 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginBuild \
-            xcode_version:"15.0.1"
+            testplan:OneLoginBuild
   
   test_ui:
     name: Run UI Tests
@@ -106,8 +104,7 @@ jobs:
           bundle install
           
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            testplan:OneLoginUI \
-            xcode_version:"14.3.1"
+            testplan:OneLoginUI
 
   deploy_staging_app:
     needs: [test_staging_config, test_ui]
