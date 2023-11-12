@@ -31,7 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
-          DEVELOPER_DIR: /Applications/Xcode_15.0.1.app/Contents/Developer
         run: |
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
@@ -41,7 +40,8 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
-            testplan:OneLoginStaging
+            testplan:OneLoginStaging \
+            xcode_version:"15.0.1"
   
   test_build_config:
     name: Run Build Configuration Tests
@@ -64,7 +64,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
-          DEVELOPER_DIR: /Applications/Xcode_15.0.1.app/Contents/Developer
         run: |
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
@@ -74,7 +73,8 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginBuild
+            testplan:OneLoginBuild \
+            xcode_version:"15.0.1"
   
   test_ui:
     name: Run UI Tests
@@ -97,7 +97,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
-          DEVELOPER_DIR: /Applications/Xcode_14.3.1.app/Contents/Developer
         run: |
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
@@ -107,7 +106,8 @@ jobs:
           bundle install
           
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            testplan:OneLoginUI
+            testplan:OneLoginUI \
+            xcode_version:"14.3.1"
 
   deploy_staging_app:
     needs: [test_staging_config, test_ui]
