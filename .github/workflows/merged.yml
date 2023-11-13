@@ -3,24 +3,14 @@ name: iOS Deploy
 on:
   push:
     branches: [ develop, release/*, main ]
-  workflow_dispatch:
-    inputs:
-      build_configuration:
-        description: 'Which build configuration to use'
-        required: false
-        default: 'Staging'
-        type: choice
-        options:
-        - Staging
-        - Build
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  test_staging_config:
-    name: Run Staging Configuration Tests
+  run_swiftlint:
+    name: Run Swiftlint
     runs-on: macos-13
     steps:
       - name: Add Path Globally
@@ -34,6 +24,20 @@ jobs:
 
       - name: Lint
         run: swiftlint --strict
+
+  test_staging_config:
+    needs: run_swiftlint
+    name: Run Staging Configuration Tests
+    runs-on: macos-13
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
 
       - name: Run Staging Configuration Tests
         env:
@@ -52,6 +56,7 @@ jobs:
             testplan:OneLoginStaging
   
   test_build_config:
+    needs: run_swiftlint
     name: Run Build Configuration Tests
     runs-on: macos-13
     steps:
@@ -63,9 +68,6 @@ jobs:
         with:
           lfs: 'true'
           fetch-depth: 0
-
-      - name: Lint
-        run: swiftlint --strict
 
       - name: Run Build Configuration Tests
         env:
@@ -84,6 +86,7 @@ jobs:
             testplan:OneLoginBuild
 
   test_ui:
+    needs: run_swiftlint
     name: Run UI Tests
     runs-on: macos-13
     steps:
@@ -95,9 +98,6 @@ jobs:
         with:
           lfs: 'true'
           fetch-depth: 0
-
-      - name: Lint
-        run: swiftlint --strict
 
       - name: Run UI Tests
         env:
@@ -116,11 +116,9 @@ jobs:
             testplan:OneLoginUI
 
   deploy_apps:
-    if: github.event_name != 'workflow_dispatch'
     needs: [test_staging_config, test_build_config, test_ui]
     name: Deploy Staging and Build Apps
     runs-on: macos-13
-
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -181,71 +179,6 @@ jobs:
             apikey_path:$APIKEY_PATH --verbose
 
           bundle exec fastlane prerelease configuration:"Build" \
-            certificate_path:$CERTIFICATE_PATH \
-            certificate_password:$CERTIFICATE_PASSWORD \
-            apikey_path:$APIKEY_PATH --verbose
-
-  manual_deploy_app:
-    if: github.event_name == 'workflow_dispatch'
-    needs: [test_${{ inputs.build_configuration }}_config, test_ui]
-    name: Manually Deploy App
-    runs-on: macos-13
-
-    steps:
-      - name: Add path globally
-        run: echo "/usr/local/bin" >> $GITHUB_PATH
-
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          lfs: 'true'
-
-      - name: Check Dependencies
-        uses: GetSidetrack/action-xcodeproj-spm-update@main
-        with:
-          workspace: "OneLogin.xcworkspace"
-          scheme: "OneLogin"
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-region: eu-west-2
-          role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
-          role-duration-seconds: 1200
-          role-skip-session-tagging: true
-
-      - name: Store ENV from AWS SecretManager
-        id: secrets
-        uses: say8425/aws-secrets-manager-actions@v2.2.1
-        with:
-          AWS_DEFAULT_REGION: "eu-west-2"
-          SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
-
-      - name: Configuration and UITests then Manual Deploy to App Store Connect
-        env:
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-        run: |
-          gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
-          echo Pushed to branch: $gitbranch
-
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
-          bundle install
-
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
-          CERTIFICATE_PASSWORD="${{env.AWS_SECRET_SIGNING_KEY_PASSWORD}}"
-          APIKEY_PATH=$RUNNER_TEMP/apikey.p8
-
-          # import certificates from secrets
-          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-
-          bundle exec fastlane prerelease configuration:${{ inputs.build_configuration }} \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
