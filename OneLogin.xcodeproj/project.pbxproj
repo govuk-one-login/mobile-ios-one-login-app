@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
-		2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020B2A976305008F3427 /* OneLoginUITests.swift */; };
-		2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */; };
 		21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */; };
 		21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */; };
 		21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4B2AE183A50052136E /* MockLoginSession.swift */; };
@@ -20,6 +18,12 @@
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
+		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
+		C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B871E2B029EAB0087C6D5 /* LoginModal.swift */; };
+		C80B87212B029EBB0087C6D5 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87202B029EBB0087C6D5 /* WelcomeScreen.swift */; };
+		C80B87232B029EE90087C6D5 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87222B029EE90087C6D5 /* TimeInterval.swift */; };
+		C80B87262B029F1A0087C6D5 /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87252B029F1A0087C6D5 /* XCUIElement.swift */; };
+		C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87272B029F440087C6D5 /* ScreenObject.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
 		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
@@ -84,8 +88,6 @@
 		219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2196020B2A976305008F3427 /* OneLoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITests.swift; sourceTree = "<group>"; };
-		2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAnalyticsService.swift; sourceTree = "<group>"; };
 		21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		21FA1C4B2AE183A50052136E /* MockLoginSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSession.swift; sourceTree = "<group>"; };
@@ -99,6 +101,12 @@
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
+		C80B871E2B029EAB0087C6D5 /* LoginModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModal.swift; sourceTree = "<group>"; };
+		C80B87202B029EBB0087C6D5 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
+		C80B87222B029EE90087C6D5 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
+		C80B87252B029F1A0087C6D5 /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
+		C80B87272B029F440087C6D5 /* ScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenObject.swift; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
 		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
@@ -204,8 +212,8 @@
 		2196020A2A976305008F3427 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
-				2196020B2A976305008F3427 /* OneLoginUITests.swift */,
-				2196020D2A976305008F3427 /* OneLoginUITestsLaunchTests.swift */,
+				C80B871B2B029E650087C6D5 /* ScreenObjects */,
+				C80B87192B029E230087C6D5 /* LoginUITests.swift */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -260,6 +268,34 @@
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 			);
 			path = "Custom Types";
+			sourceTree = "<group>";
+		};
+		C80B871B2B029E650087C6D5 /* ScreenObjects */ = {
+			isa = PBXGroup;
+			children = (
+				C80B871D2B029E810087C6D5 /* Helpers */,
+				C80B871C2B029E7C0087C6D5 /* App */,
+				C80B87272B029F440087C6D5 /* ScreenObject.swift */,
+			);
+			path = ScreenObjects;
+			sourceTree = "<group>";
+		};
+		C80B871C2B029E7C0087C6D5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C80B87202B029EBB0087C6D5 /* WelcomeScreen.swift */,
+				C80B871E2B029EAB0087C6D5 /* LoginModal.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C80B871D2B029E810087C6D5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C80B87222B029EE90087C6D5 /* TimeInterval.swift */,
+				C80B87252B029F1A0087C6D5 /* XCUIElement.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		C8178E3C2AEB2C8600059875 /* Analytics */ = {
@@ -719,8 +755,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2196020E2A976305008F3427 /* OneLoginUITestsLaunchTests.swift in Sources */,
-				2196020C2A976305008F3427 /* OneLoginUITests.swift in Sources */,
+				C80B87212B029EBB0087C6D5 /* WelcomeScreen.swift in Sources */,
+				C80B87232B029EE90087C6D5 /* TimeInterval.swift in Sources */,
+				C80B87262B029F1A0087C6D5 /* XCUIElement.swift in Sources */,
+				C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */,
+				C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */,
+				C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
