@@ -8,10 +8,11 @@ on:
       build_configuration:
         description: 'Which build configuration to use'
         required: false
-        default: 'Debug'
+        default: 'Staging'
         type: choice
         options:
-        - Debug
+        - Staging
+        - Build
 
 permissions:
   id-token: write
