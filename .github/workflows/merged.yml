@@ -3,25 +3,122 @@ name: iOS Deploy
 on:
   push:
     branches: [ develop, release/*, main ]
-  workflow_dispatch:
-    inputs:
-      build_configuration:
-        description: 'Which build configuration to use'
-        required: false
-        default: 'Debug'
-        type: choice
-        options:
-        - Debug
-        
+
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  build:
-    name: Build app, run Configuration and UI tests then deploy to TestFlight
+  run_swiftlint:
+    name: Run Swiftlint
     runs-on: macos-13
-    
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Lint
+        run: swiftlint --strict
+
+  test_staging_config:
+    needs: run_swiftlint
+    name: Run Staging Configuration Tests
+    runs-on: macos-13
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Run Staging Configuration Tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            testplan:OneLoginStaging
+  
+  test_build_config:
+    needs: run_swiftlint
+    name: Run Build Configuration Tests
+    runs-on: macos-13
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Run Build Configuration Tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginBuild
+
+  test_ui:
+    needs: run_swiftlint
+    name: Run UI Tests
+    runs-on: macos-13
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Run UI Tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
+
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            testplan:OneLoginUI
+
+  deploy_apps:
+    needs: [test_staging_config, test_build_config, test_ui]
+    name: Deploy Staging and Build Apps
+    runs-on: macos-13
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -30,13 +127,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           lfs: 'true'
-          
+
       - name: Check Dependencies
         uses: GetSidetrack/action-xcodeproj-spm-update@main
         with:
           workspace: "OneLogin.xcworkspace"
           scheme: "OneLogin"
-          
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -44,7 +141,7 @@ jobs:
           role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
           role-duration-seconds: 1200
           role-skip-session-tagging: true
-          
+
       - name: Store ENV from AWS SecretManager
         id: secrets
         uses: say8425/aws-secrets-manager-actions@v2.2.1
@@ -52,29 +149,20 @@ jobs:
           AWS_DEFAULT_REGION: "eu-west-2"
           SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
 
-      - name: Configuration and UITests then Deploy to App Store Connect
-        if: github.event_name != 'workflow_dispatch'
+      - name: Deploy to App Store Connect
         env:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
           gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
           echo Pushed to branch: $gitbranch
-          
+
           export GEM_HOME=$HOME/.gem
           export GEM_PATH=$HOME/.gem
-          
+
           # Fixes issue with bundle install
           eval "$(rbenv init - zsh)"
           bundle install
-          
-          # Testing Staging configuration
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
-            testplan:OneLoginStaging
-        
-          # Testing Build configuration and UITests
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginBuild
 
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
@@ -84,51 +172,13 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-          
+
           bundle exec fastlane prerelease configuration:"Staging" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
-            
+
           bundle exec fastlane prerelease configuration:"Build" \
-            certificate_path:$CERTIFICATE_PATH \
-            certificate_password:$CERTIFICATE_PASSWORD \
-            apikey_path:$APIKEY_PATH --verbose
-          
-      - name: Configuration and UITests then Manual Deploy to App Store Connect
-        if: github.event_name == 'workflow_dispatch'
-        env:
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-        run: |
-          gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
-          echo Pushed to branch: $gitbranch
-            
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-            
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
-          bundle install
-          
-          # Testing Staging configuration
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
-            testplan:OneLoginStaging
-        
-          # Testing Build configuration and UITests
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginBuild
-          
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
-          CERTIFICATE_PASSWORD="${{env.AWS_SECRET_SIGNING_KEY_PASSWORD}}"
-          APIKEY_PATH=$RUNNER_TEMP/apikey.p8
-          
-          # import certificates from secrets
-          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
-          
-          bundle exec fastlane prerelease configuration:${{ inputs.build_configuration }} \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
