@@ -114,6 +114,7 @@
 		C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactory.swift; sourceTree = "<group>"; };
 		C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTokenResponse.swift; sourceTree = "<group>"; };
 		C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactoryTests.swift; sourceTree = "<group>"; };
+		C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginBuild.entitlements; sourceTree = "<group>"; };
 		C85DF8492AEBFF180064F68E /* MockOneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
@@ -178,6 +179,7 @@
 		219601DE2A976302008F3427 = {
 			isa = PBXGroup;
 			children = (
+				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
 				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
@@ -1419,6 +1421,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
 				CLIENT_ID = TEST_CLIENT_ID;
+				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;

@@ -17,6 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let session = AppAuthSession(window: window!)
         initialiseMainCoordinator(in: window!,
                                   session: session)
+        if let webURL = connectionOptions.userActivities.first?.webpageURL {
+            print(webURL)
+        }
+    }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        print(userActivity.webpageURL!)
     }
     
     func initialiseMainCoordinator(in window: UIWindow,
