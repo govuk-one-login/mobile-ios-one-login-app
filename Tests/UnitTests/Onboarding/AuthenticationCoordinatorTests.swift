@@ -28,7 +28,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 }
 
 extension AuthenticationCoordinatorTests {
-    func authenticationSessionConfigProperties() throws {
+    func test_authenticationSessionConfigProperties() throws {
         sut.start()
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
         let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
