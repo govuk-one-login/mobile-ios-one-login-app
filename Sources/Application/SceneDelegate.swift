@@ -5,7 +5,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var coordinator: MainCoordinator?
     let navigationController = UINavigationController()
-
+    
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -15,24 +15,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         let session = AppAuthSession(window: window!)
-        initialiseMainCoordinator(in: window!,
-                                  session: session)
-        if let webURL = connectionOptions.userActivities.first?.webpageURL {
-            print(webURL)
-        }
+        initialiseMainCoordinator(session: session)
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        print(userActivity.webpageURL!)
+        if let incomingURL = userActivity.webpageURL {
+            coordinator?.authCoordinator?.handleDeepLink(incomingURL)
+        }
     }
     
-    func initialiseMainCoordinator(in window: UIWindow,
-                                   session: LoginSession) {
-        coordinator = MainCoordinator(window: window,
-                                      root: navigationController,
+    func initialiseMainCoordinator(session: LoginSession) {
+        coordinator = MainCoordinator(root: navigationController,
                                       session: session)
+        window!.rootViewController = navigationController
+        window!.makeKeyAndVisible()
         coordinator?.start()
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
     }
 }

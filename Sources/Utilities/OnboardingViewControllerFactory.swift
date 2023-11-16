@@ -3,10 +3,11 @@ import GDSCommon
 import Logging
 
 final class OnboardingViewControllerFactory {
-    static func createIntroViewController(analyticsService: AnalyticsService, session: LoginSession) -> IntroViewController {
+    static func createIntroViewController(analyticsService: AnalyticsService,
+                                          session: LoginSession,
+                                          action: @escaping () -> Void) -> IntroViewController {
         let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) {
-            let configuration = LoginSessionConfiguration.oneLogin
-            session.present(configuration: configuration)
+            action()
         }
         return IntroViewController(viewModel: viewModel)
     }
