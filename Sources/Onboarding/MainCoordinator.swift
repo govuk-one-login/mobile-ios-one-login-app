@@ -25,9 +25,9 @@ final class MainCoordinator: NSObject,
         authCoordinator = AuthenticationCoordinator(root: root,
                                                     session: session)
         let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService,
-                                                                                  session: session) {
-            self.openChildInline(self.authCoordinator!)
+                                                                                  session: session) { [self] in
+            guard let authCoordinator else { return }
+            openChildInline(authCoordinator)
         }
-        root.setViewControllers([introViewController], animated: false)
     }
 }
