@@ -11,7 +11,6 @@ final class MainCoordinator: NSObject,
     let analyticsService: AnalyticsService
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
-    var authCoordinator: AuthenticationCoordinator?
     
     init(root: UINavigationController,
          session: LoginSession,
@@ -22,12 +21,10 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        authCoordinator = AuthenticationCoordinator(root: root,
-                                                    session: session)
         let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService,
                                                                                   session: session) { [self] in
-            guard let authCoordinator else { return }
-            openChildInline(authCoordinator)
+            openChildInline(AuthenticationCoordinator(root: root, session: session))
         }
+        root.setViewControllers([introViewController], animated: false)
     }
 }
