@@ -12,13 +12,11 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        mockLoginSession = MockLoginSession(window: UIWindow())
         sut = OnboardingViewControllerFactory.self
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
-        mockLoginSession = nil
         sut = nil
         didCallAction = false
         
@@ -28,8 +26,7 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
 
 extension OnboardingViewControllerFactoryTests {
     func test_introViewControllerCallsAction() throws {
-        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService,
-                                                      session: mockLoginSession) {
+        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
