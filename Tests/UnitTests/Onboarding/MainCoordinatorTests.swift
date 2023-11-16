@@ -28,10 +28,20 @@ final class MainCoordinatorTests: XCTestCase {
 }
 
 extension MainCoordinatorTests {
-    func test_MainCoordinatorStart() throws {
+    func test_mainCoordinatorStart() throws {
         XCTAssertTrue(navigationController.viewControllers.count == 0)
         sut.start()
         XCTAssertTrue(navigationController.viewControllers.count == 1)
         XCTAssert(navigationController.topViewController is IntroViewController)
+    }
+    
+    func test_mainCoordinatorOpensSubCoordinator() throws {
+        sut.start()
+        let introScreen = navigationController.topViewController as? IntroViewController
+        let introButton: UIButton = try XCTUnwrap(introScreen?.view[child: "intro-button"])
+        XCTAssertEqual(sut.childCoordinators.count, 0)
+        introButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
 }
