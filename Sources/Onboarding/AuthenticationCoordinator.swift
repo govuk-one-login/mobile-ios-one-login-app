@@ -20,7 +20,14 @@ final class AuthenticationCoordinator: NSObject,
         session.present(configuration: configuration)
     }
     
-    func handleDeepLink(_ url: URL) {
+    func handleUniversalLink(_ url: URL) {
         print(url)
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
+        
+        guard let authCode = components.queryItems?.first(where: { $0.name == "code" })?.value,
+              let state = components.queryItems?.first(where: { $0.name == "state" })?.value else { return }
+        
+        print(authCode)
+        print(state)
     }
 }
