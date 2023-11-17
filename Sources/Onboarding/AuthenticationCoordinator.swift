@@ -5,8 +5,8 @@ import UIKit
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
-    var root: UINavigationController
-    var parentCoordinator: ParentCoordinator?
+    let root: UINavigationController
+    let parentCoordinator: ParentCoordinator?
     let session: LoginSession
     
     init(root: UINavigationController,
