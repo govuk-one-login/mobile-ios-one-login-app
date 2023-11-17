@@ -1,4 +1,4 @@
-import Authentication
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -6,39 +6,31 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockLoginSession: MockLoginSession!
     var sut: OnboardingViewControllerFactory.Type!
+    var didCallAction = false
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        mockLoginSession = MockLoginSession(window: UIWindow())
         sut = OnboardingViewControllerFactory.self
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
-        mockLoginSession = nil
         sut = nil
+        didCallAction = false
         
         super.tearDown()
     }
 }
 
 extension OnboardingViewControllerFactoryTests {
-    func test_introViewControllerSessionConfigProperties() throws {
-        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService, session: mockLoginSession)
+    func test_introViewControllerCallsAction() throws {
+        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService) {
+            self.didCallAction = true
+        }
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
-        let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
-        XCTAssertEqual(sessionConfig.authorizationEndpoint, AppEnvironment.oneLoginAuthorize)
-        XCTAssertEqual(sessionConfig.tokenEndpoint, AppEnvironment.oneLoginToken)
-        XCTAssertEqual(sessionConfig.responseType, LoginSessionConfiguration.ResponseType.code)
-        XCTAssertEqual(sessionConfig.scopes, [.openid])
-        XCTAssertEqual(sessionConfig.clientID, AppEnvironment.oneLoginClientID)
-        XCTAssertEqual(sessionConfig.prefersEphemeralWebSession, true)
-        XCTAssertEqual(sessionConfig.redirectURI, AppEnvironment.oneLoginRedirect)
-        XCTAssertEqual(sessionConfig.vectorsOfTrust, ["Cl.Cm.P0"])
-        XCTAssertEqual(sessionConfig.locale, .en)
+        XCTAssertTrue(didCallAction)
     }
 }

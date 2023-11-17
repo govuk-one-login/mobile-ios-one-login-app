@@ -4,26 +4,26 @@ import Logging
 import UIKit
 
 final class MainCoordinator: NSObject,
+                             ParentCoordinator,
                              NavigationCoordinator {
-    private let window: UIWindow
     let root: UINavigationController
     let session: LoginSession
     let analyticsService: AnalyticsService
+    var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
-    init(window: UIWindow,
-         root: UINavigationController,
+    init(root: UINavigationController,
          session: LoginSession,
          analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
-        self.window = window
         self.root = root
         self.session = session
         self.analyticsService = analyticsService
     }
     
     func start() {
-        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService,
-                                                                                  session: session)
+        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
+            openChildInline(AuthenticationCoordinator(root: root, session: session))
+        }
         root.setViewControllers([introViewController], animated: false)
     }
 }

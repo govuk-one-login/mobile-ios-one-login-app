@@ -41,7 +41,9 @@ extension IntroViewControllerTests {
     func test_sessionPresent() throws {
         XCTAssertFalse(mockLoginSession.didCallPresent)
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
+        // WHEN the IntroViewController button is tapped
         introButton.sendActions(for: .touchUpInside)
+        // THEN the action should be called
         XCTAssertTrue(mockLoginSession.didCallPresent)
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
     }
@@ -49,7 +51,9 @@ extension IntroViewControllerTests {
     func test_triggerButtonAnalytics() throws {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
+        // WHEN the IntroViewController button is tapped
         introButton.sendActions(for: .touchUpInside)
+        // THEN the event analytics should be logged
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "testbutton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
@@ -58,8 +62,10 @@ extension IntroViewControllerTests {
     
     func test_triggerScreenAnalytics() throws {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        // WHEN the IntroViewController button is shown
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
+        // THEN the screen analytics should be logged
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: IntroAnalyticsScreen.welcomeScreen,
                                 titleKey: "testtitle")

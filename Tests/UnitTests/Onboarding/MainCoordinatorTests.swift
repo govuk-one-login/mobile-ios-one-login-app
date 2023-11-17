@@ -15,11 +15,10 @@ final class MainCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         loginSession = MockLoginSession(window: window)
-        sut = MainCoordinator(window: window, root: navigationController, session: loginSession)
+        sut = MainCoordinator(root: navigationController, session: loginSession)
     }
     
     override func tearDown() {
-        window = nil
         navigationController = nil
         loginSession = nil
         sut = nil
@@ -29,10 +28,25 @@ final class MainCoordinatorTests: XCTestCase {
 }
 
 extension MainCoordinatorTests {
-    func test_MainCoordinatorStart() throws {
+    func test_mainCoordinatorStart_displaysIntroViewController() throws {
+        // WHEN the MainCoordinator is stared
         XCTAssertTrue(navigationController.viewControllers.count == 0)
         sut.start()
+        // THEN the visible view controller should be an IntroViewController
         XCTAssertTrue(navigationController.viewControllers.count == 1)
         XCTAssert(navigationController.topViewController is IntroViewController)
+    }
+    
+    func test_mainCoordinatorStart_opensSubCoordinator() throws {
+        // GIVEN the MainCoordinator is stared
+        sut.start()
+        // WHEN the button on the IntroViewController is tapped
+        let introScreen = navigationController.topViewController as? IntroViewController
+        let introButton: UIButton = try XCTUnwrap(introScreen?.view[child: "intro-button"])
+        XCTAssertEqual(sut.childCoordinators.count, 0)
+        introButton.sendActions(for: .touchUpInside)
+        // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
+        XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
 }
