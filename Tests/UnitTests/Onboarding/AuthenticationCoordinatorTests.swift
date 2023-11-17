@@ -29,8 +29,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 
 extension AuthenticationCoordinatorTests {
     func test_authenticationSessionConfigProperties() throws {
+        // WHEN the AuthenticationCoordinator is stared
         sut.start()
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
+        // THEN the session should have the correct login configuration details
         let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
         XCTAssertEqual(sessionConfig.authorizationEndpoint, AppEnvironment.oneLoginAuthorize)
         XCTAssertEqual(sessionConfig.tokenEndpoint, AppEnvironment.oneLoginToken)
