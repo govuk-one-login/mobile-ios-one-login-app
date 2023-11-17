@@ -28,14 +28,14 @@ final class MainCoordinatorTests: XCTestCase {
 }
 
 extension MainCoordinatorTests {
-    func test_mainCoordinatorStart() throws {
+    func test_mainCoordinatorStart_displaysIntroViewController() throws {
         XCTAssertTrue(navigationController.viewControllers.count == 0)
         sut.start()
         XCTAssertTrue(navigationController.viewControllers.count == 1)
         XCTAssert(navigationController.topViewController is IntroViewController)
     }
     
-    func test_mainCoordinatorOpensSubCoordinator() throws {
+    func test_mainCoordinatorStart_opensSubCoordinator() throws {
         sut.start()
         let introScreen = navigationController.topViewController as? IntroViewController
         let introButton: UIButton = try XCTUnwrap(introScreen?.view[child: "intro-button"])
