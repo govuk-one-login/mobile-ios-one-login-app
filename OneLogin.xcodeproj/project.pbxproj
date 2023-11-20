@@ -954,6 +954,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				BASE_URL = mobile.staging.account.gov.uk;
 				CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -977,7 +978,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TOKEN_URL = test.com;
 			};
 			name = Debug;
 		};
@@ -987,6 +987,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTHORIZE_URL = "";
+				BASE_URL = "";
 				CLIENT_ID = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1011,7 +1012,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TOKEN_URL = "";
 			};
 			name = Release;
 		};
@@ -1253,6 +1253,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				BASE_URL = mobile.staging.account.gov.uk;
 				CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1278,7 +1279,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TOKEN_URL = test.com;
 			};
 			name = Staging;
 		};
@@ -1435,6 +1435,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
+				BASE_URL = mobile.build.account.gov.uk;
 				CLIENT_ID = TEST_CLIENT_ID;
 				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1460,7 +1461,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TOKEN_URL = test.com;
 			};
 			name = Build;
 		};
