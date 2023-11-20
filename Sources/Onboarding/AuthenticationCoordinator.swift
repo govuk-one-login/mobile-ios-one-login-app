@@ -21,6 +21,15 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        // This method will contain the call to throwing session.finalise(url:) and errors will be handled with qualifying the URL
+        guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
+        Task {
+            do {
+                mainCoordinator.tokenHolder = try await session.finalise(callback: url,
+                                                                         endpoint: AppEnvironment.oneLoginToken)
+                finish()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

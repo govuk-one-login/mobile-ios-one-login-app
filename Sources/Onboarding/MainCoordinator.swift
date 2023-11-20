@@ -11,6 +11,7 @@ final class MainCoordinator: NSObject,
     let analyticsService: AnalyticsService
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
+    var tokenHolder: TokenResponse?
     
     init(root: UINavigationController,
          session: LoginSession,

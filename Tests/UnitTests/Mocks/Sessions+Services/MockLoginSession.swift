@@ -17,7 +17,7 @@ final class MockLoginSession: LoginSession {
         sessionConfiguration = configuration
     }
     
-    func finalise(callback: URL) throws -> TokenResponse {
+    func finalise(callback: URL, endpoint: URL) throws -> TokenResponse {
         didCallFinalise = true
         return try MockTokenResponse().getJSONData()
     }
