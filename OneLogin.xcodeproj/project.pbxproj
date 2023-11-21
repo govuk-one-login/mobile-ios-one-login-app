@@ -16,8 +16,6 @@
 		3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
-		412B95A12B0529FB00C390B2 /* OneLoginStaging.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */; };
-		412B95A22B0529FE00C390B2 /* OneLoginBuild.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */; };
 		4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
@@ -275,8 +273,7 @@
 			children = (
 				4195E6C72B0CC6CD0065E2BB /* Tokens */,
 			);
-			name = Screens;
-			path = Views/Screens;
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		4195E6C72B0CC6CD0065E2BB /* Tokens */ = {
@@ -692,8 +689,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				412B95A22B0529FE00C390B2 /* OneLoginBuild.entitlements in Resources */,
-				412B95A12B0529FB00C390B2 /* OneLoginStaging.entitlements in Resources */,
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
