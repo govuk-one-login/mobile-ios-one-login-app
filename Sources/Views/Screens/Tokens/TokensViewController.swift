@@ -1,13 +1,13 @@
+import Authentication
 import UIKit
 
 class TokensViewController: UIViewController {
     override var nibName: String? { "TokensView" }
 
-    private var accessToken = "mock_auth_token"
-    private var idToken = "mock_id_token"
-    private var refreshToken = "mock_refresh_token"
+    private let tokens: TokenResponse
 
-    init() {
+    init(tokens: TokenResponse) {
+        self.tokens = tokens
         super.init(nibName: "TokensView", bundle: nil)
     }
 
@@ -15,33 +15,31 @@ class TokensViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @IBOutlet weak var loggedInLabel: UILabel! {
+    @IBOutlet private var loggedInLabel: UILabel! {
         didSet {
             loggedInLabel.text = "Logged in"
             loggedInLabel.accessibilityIdentifier = "logged-in-title"
         }
     }
 
-    @IBOutlet weak var accessTokenLabel: UILabel! {
+    @IBOutlet private var accessTokenLabel: UILabel! {
         didSet {
-            accessTokenLabel.text = "Access Token \(accessToken)"
+            accessTokenLabel.text = "Access Token: \(tokens.accessToken)"
             accessTokenLabel.accessibilityIdentifier = "access-token"
         }
     }
 
-    @IBOutlet weak var idTokenLabel: UILabel! {
+    @IBOutlet private var idTokenLabel: UILabel! {
         didSet {
-            idTokenLabel.text = "ID Token: \(idToken)"
+            idTokenLabel.text = "ID Token: \(tokens.idToken)"
             idTokenLabel.accessibilityIdentifier = "id-token"
         }
     }
 
-    @IBOutlet weak var refreshTokenLabel: UILabel! {
+    @IBOutlet private var refreshTokenLabel: UILabel! {
         didSet {
-            refreshTokenLabel.text = "Refresh Token: \(refreshToken)"
+            refreshTokenLabel.text = "Refresh Token: \(tokens.refreshToken)"
             refreshTokenLabel.accessibilityIdentifier = "refresh-token"
         }
     }
-
-
 }

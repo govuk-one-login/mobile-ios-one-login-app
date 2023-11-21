@@ -253,6 +253,7 @@
 				C85E21012ACEE32B00AF8B4E /* Onboarding */,
 				C85C874B2AD40479001274AC /* Resources */,
 				C8520C282AE2C1AD006790C1 /* Utilities */,
+				4195E6C62B0CC6C50065E2BB /* Screens */,
 				C85E21152ACEECB000AF8B4E /* Views */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 			);
@@ -274,7 +275,8 @@
 			children = (
 				4195E6C72B0CC6CD0065E2BB /* Tokens */,
 			);
-			path = Screens;
+			name = Screens;
+			path = Views/Screens;
 			sourceTree = "<group>";
 		};
 		4195E6C72B0CC6CD0065E2BB /* Tokens */ = {
@@ -438,8 +440,8 @@
 			children = (
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
 				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
-				C85E210B2ACEE92900AF8B4E /* Welcome */,
 				4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */,
+				C85E210B2ACEE92900AF8B4E /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -455,7 +457,6 @@
 		C85E21152ACEECB000AF8B4E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4195E6C62B0CC6C50065E2BB /* Screens */,
 				C85E21162ACEECC600AF8B4E /* Buttons */,
 			);
 			path = Views;
@@ -1663,7 +1664,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-7397-call-token-endpoint";
+				branch = main;
 				kind = branch;
 			};
 		};

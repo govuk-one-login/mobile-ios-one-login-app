@@ -28,7 +28,6 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 mainCoordinator.tokenHolder = try await session.finalise(callback: url,
                                                                          endpoint: AppEnvironment.oneLoginToken)
-                dump(mainCoordinator.tokenHolder)
                 finish()
             } catch {
                 print(error)
