@@ -38,8 +38,12 @@ class TokensViewController: UIViewController {
 
     @IBOutlet private var refreshTokenLabel: UILabel! {
         didSet {
-            refreshTokenLabel.text = "Refresh Token: \(tokens.refreshToken)"
-            refreshTokenLabel.accessibilityIdentifier = "refresh-token"
+            if let refreshToken = tokens.refreshToken {
+                refreshTokenLabel.text = "Refresh Token: \(refreshToken)"
+                refreshTokenLabel.accessibilityIdentifier = "refresh-token"
+            } else {
+                refreshTokenLabel.isHidden = true
+            }
         }
     }
 }
