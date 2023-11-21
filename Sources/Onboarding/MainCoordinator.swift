@@ -27,4 +27,17 @@ final class MainCoordinator: NSObject,
         }
         root.setViewControllers([introViewController], animated: false)
     }
+
+    func launchTokenCoordinator() {
+        openChildInline(TokenCoordinator(root: root))
+    }
+
+    func didRegainFocus(fromChild child: ChildCoordinator?) {
+        switch child {
+        case _ as AuthenticationCoordinator:
+            launchTokenCoordinator()
+        default:
+            break
+        }
+    }
 }
