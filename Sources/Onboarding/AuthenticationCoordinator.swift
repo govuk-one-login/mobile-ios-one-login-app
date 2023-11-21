@@ -5,14 +5,16 @@ import UIKit
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
+    let window: UIWindow
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let session: LoginSession
     
-    init(root: UINavigationController,
-         session: LoginSession) {
+    init(window: UIWindow,
+         root: UINavigationController) {
+        self.window = window
         self.root = root
-        self.session = session
+        self.session = AppAuthSession(window: window)
     }
     
     func start() {
@@ -26,6 +28,7 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 mainCoordinator.tokenHolder = try await session.finalise(callback: url,
                                                                          endpoint: AppEnvironment.oneLoginToken)
+                dump(mainCoordinator.tokenHolder)
                 finish()
             } catch {
                 print(error)

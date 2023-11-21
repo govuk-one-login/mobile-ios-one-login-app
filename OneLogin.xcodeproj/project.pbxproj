@@ -345,8 +345,8 @@
 			isa = PBXGroup;
 			children = (
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
-				C85DF8472AEBFE6D0064F68E /* Welcome */,
 				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
+				C85DF8472AEBFE6D0064F68E /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -414,8 +414,8 @@
 			isa = PBXGroup;
 			children = (
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
-				C85E210B2ACEE92900AF8B4E /* Welcome */,
 				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
+				C85E210B2ACEE92900AF8B4E /* Welcome */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";

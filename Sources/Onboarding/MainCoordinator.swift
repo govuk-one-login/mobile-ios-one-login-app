@@ -6,24 +6,24 @@ import UIKit
 final class MainCoordinator: NSObject,
                              ParentCoordinator,
                              NavigationCoordinator {
+    let window: UIWindow
     let root: UINavigationController
-    let session: LoginSession
     let analyticsService: AnalyticsService
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     var tokenHolder: TokenResponse?
     
-    init(root: UINavigationController,
-         session: LoginSession,
+    init(window: UIWindow,
+         root: UINavigationController,
          analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
+        self.window = window
         self.root = root
-        self.session = session
         self.analyticsService = analyticsService
     }
     
     func start() {
         let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
-            openChildInline(AuthenticationCoordinator(root: root, session: session))
+            openChildInline(AuthenticationCoordinator(window: window, root: root))
         }
         root.setViewControllers([introViewController], animated: false)
     }
