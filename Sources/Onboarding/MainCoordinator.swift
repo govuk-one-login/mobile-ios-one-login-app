@@ -3,15 +3,15 @@ import Coordination
 import Logging
 import UIKit
 
-final class MainCoordinator: NSObject,
-                             ParentCoordinator,
-                             NavigationCoordinator {
+class MainCoordinator: NSObject,
+                       ParentCoordinator,
+                       NavigationCoordinator {
     let window: UIWindow
     let root: UINavigationController
     let analyticsService: AnalyticsService
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
-    var tokenHolder: TokenResponse?
+    var tokens: TokenResponse?
     
     init(window: UIWindow,
          root: UINavigationController,
@@ -29,8 +29,8 @@ final class MainCoordinator: NSObject,
     }
 
     func launchTokenCoordinator() {
-        guard let tokenHolder else { return }
-        openChildInline(TokenCoordinator(root: root, tokens: tokenHolder))
+        guard let tokens else { return }
+        openChildInline(TokenCoordinator(root: root, tokens: tokens))
     }
 
     func didRegainFocus(fromChild child: ChildCoordinator?) {

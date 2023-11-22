@@ -24,7 +24,7 @@ final class AuthenticationCoordinator: NSObject,
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task {
             do {
-                mainCoordinator.tokenHolder = try await session.finalise(callback: url)
+                mainCoordinator.tokens = try await session.finalise(callback: url)
                 finish()
             } catch {
                 print(error)

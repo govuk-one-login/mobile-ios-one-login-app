@@ -2,12 +2,12 @@ import Authentication
 import UIKit
 
 final class MockLoginSession: LoginSession {
-
     let window: UIWindow
     var didCallPresent = false
     var didCallFinalise = false
     var didCallCancel = false
     var sessionConfiguration: LoginSessionConfiguration?
+    var callbackURL: URL?
     
     init(window: UIWindow = UIWindow()) {
         self.window = window
@@ -20,6 +20,7 @@ final class MockLoginSession: LoginSession {
     
     func finalise(callback: URL) throws -> TokenResponse {
         didCallFinalise = true
+        callbackURL = callback
         return try MockTokenResponse().getJSONData()
     }
     
