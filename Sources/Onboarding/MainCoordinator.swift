@@ -3,7 +3,7 @@ import Coordination
 import Logging
 import UIKit
 
-class MainCoordinator: NSObject,
+final class MainCoordinator: NSObject,
                        ParentCoordinator,
                        NavigationCoordinator {
     let window: UIWindow

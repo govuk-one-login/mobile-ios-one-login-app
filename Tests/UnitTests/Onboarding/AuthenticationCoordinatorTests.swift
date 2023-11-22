@@ -72,7 +72,7 @@ extension AuthenticationCoordinatorTests {
         waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
         XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
         guard let mainCoordinator = sut.parentCoordinator as? MainCoordinator else {
-            XCTFail("Should be a MockMainCoordinator")
+            XCTFail("Should be a MainCoordinator")
             return
         }
         XCTAssertEqual(mainCoordinator.tokens?.accessToken, accessToken)
