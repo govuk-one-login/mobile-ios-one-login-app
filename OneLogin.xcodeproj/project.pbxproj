@@ -1659,7 +1659,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-7397-call-token-endpoint";
 				kind = branch;
 			};
 		};

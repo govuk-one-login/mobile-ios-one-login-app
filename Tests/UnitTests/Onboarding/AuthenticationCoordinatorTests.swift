@@ -56,8 +56,11 @@ extension AuthenticationCoordinatorTests {
 
     func test_handleUniversalLink_finaliseCalled() throws {
         // WHEN AuthenticationCoordinator has logged in via start()
-
+        sut.start()
+        print("started")
+        let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
         // THEN AuthenticationCoordinator calls finalise and returns the with tokens
-
+        try mockLoginSession.finalise(callback: URL(string: "https://www.test.com")!)
+        XCTAssertTrue(mockLoginSession.didCallFinalise)
     }
 }
