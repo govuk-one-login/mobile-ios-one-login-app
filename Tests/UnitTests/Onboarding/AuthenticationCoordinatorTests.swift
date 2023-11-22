@@ -28,8 +28,8 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 }
 
 extension AuthenticationCoordinatorTests {
-    func test_authenticationSessionConfigProperties() throws {
-        // WHEN the AuthenticationCoordinator is stared
+    func test_start_authenticationSessionConfigProperties() throws {
+        // WHEN the AuthenticationCoordinator is started
         sut.start()
         XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
         // THEN the session should have the correct login configuration details
@@ -43,5 +43,21 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(sessionConfig.redirectURI, AppEnvironment.oneLoginRedirect)
         XCTAssertEqual(sessionConfig.vectorsOfTrust, ["Cl.Cm.P0"])
         XCTAssertEqual(sessionConfig.locale, .en)
+    }
+
+    func test_start_authenticationSessionPresent() throws {
+        // WHEN the AuthenticationCoordinator is started
+        sut.start()
+        // THEN the session should call present() with the configuration
+        let sessionConfig = try XCTUnwrap(mockLoginSession.sessionConfiguration)
+        mockLoginSession.present(configuration: sessionConfig)
+        XCTAssertTrue(mockLoginSession.didCallPresent)
+    }
+
+    func test_handleUniversalLink_finaliseCalled() throws {
+        // WHEN AuthenticationCoordinator has logged in via start()
+
+        // THEN AuthenticationCoordinator calls finalise and returns the with tokens
+
     }
 }

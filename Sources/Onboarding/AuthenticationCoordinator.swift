@@ -5,16 +5,14 @@ import UIKit
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
-    let window: UIWindow
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let session: LoginSession
     
-    init(window: UIWindow,
-         root: UINavigationController) {
-        self.window = window
+    init(root: UINavigationController,
+         session: LoginSession) {
         self.root = root
-        self.session = AppAuthSession(window: window)
+        self.session = session
     }
     
     func start() {
