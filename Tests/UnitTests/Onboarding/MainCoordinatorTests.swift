@@ -13,6 +13,7 @@ final class MainCoordinatorTests: XCTestCase {
         
         window = .init()
         navigationController = .init()
+        window.rootViewController = navigationController
         sut = MainCoordinator(window: window, root: navigationController)
     }
     
