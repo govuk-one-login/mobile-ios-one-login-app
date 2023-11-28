@@ -17,18 +17,18 @@ final class AuthenticationCoordinator: NSObject,
     
     func start() {
         let configuration = LoginSessionConfiguration.oneLogin
-        session.present(configuration: configuration)
+        session.authenticate(configuration: configuration)
     }
     
     func handleUniversalLink(_ url: URL) {
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
-        Task {
+        Task(priority: .userInitiated) {
             do {
-                mainCoordinator.tokens = try await session.finalise(callback: url)
-                finish()
+                mainCoordinator.tokens = try await session.finalise(redirectURL: url)
             } catch {
                 print(error)
             }
+            finish()
         }
     }
 }

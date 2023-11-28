@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "feature/dcmaw-7397-call-token-endpoint",
-        "revision" : "62d1e69389b9cd67eb02708986a9536e4f8df6cb"
+        "branch" : "feature/dcmaw-7464-use-OIDAuthState-API",
+        "revision" : "2d3a56dac099a2273e2c99463acf04060bf8de01"
       }
     },
     {
