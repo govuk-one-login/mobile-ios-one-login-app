@@ -13,14 +13,14 @@ final class MockLoginSession: LoginSession {
         self.window = window
     }
     
-    func present(configuration: LoginSessionConfiguration) {
+    func authenticate(configuration: LoginSessionConfiguration) {
         didCallPresent = true
         sessionConfiguration = configuration
     }
     
-    func finalise(callback: URL) throws -> TokenResponse {
+    func finalise(redirectURL: URL) throws -> TokenResponse {
         didCallFinalise = true
-        callbackURL = callback
+        callbackURL = redirectURL
         return try MockTokenResponse().getJSONData()
     }
     

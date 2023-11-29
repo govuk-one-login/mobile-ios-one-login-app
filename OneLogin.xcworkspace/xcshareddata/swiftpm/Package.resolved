@@ -105,7 +105,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
         "branch" : "feature/dcmaw-7464-use-OIDAuthState-API",
-        "revision" : "2d3a56dac099a2273e2c99463acf04060bf8de01"
+        "revision" : "f9a681d10d10ca6db47ed84b4d6e00a685757d03"
       }
     },
     {
