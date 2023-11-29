@@ -21,7 +21,7 @@ final class IntroViewControllerTests: XCTestCase {
                                                            clientID: "1234",
                                                            redirectURI: "https://www.google.com/redirect")
         mockViewModel = MockOneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
-            self.mockLoginSession.present(configuration: self.mockLoginConfiguration)
+            self.mockLoginSession.authenticate(configuration: self.mockLoginConfiguration)
         }
         sut = IntroViewController(viewModel: mockViewModel)
     }
@@ -38,7 +38,7 @@ final class IntroViewControllerTests: XCTestCase {
 }
 
 extension IntroViewControllerTests {
-    func test_sessionPresent() throws {
+    func test_sessionAuthenticate() throws {
         XCTAssertFalse(mockLoginSession.didCallPresent)
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
         // WHEN the IntroViewController button is tapped
