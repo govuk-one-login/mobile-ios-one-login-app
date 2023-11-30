@@ -17,7 +17,7 @@ final class AuthenticationCoordinator: NSObject,
     
     func start() {
         let configuration = LoginSessionConfiguration.oneLogin
-        session.authenticate(configuration: configuration)
+        session.present(configuration: configuration)
     }
     
     func handleUniversalLink(_ url: URL) {
