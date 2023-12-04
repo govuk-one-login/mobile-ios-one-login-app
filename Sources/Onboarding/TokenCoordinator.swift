@@ -18,6 +18,6 @@ final class TokenCoordinator: NSObject,
     func start() {
         root.isNavigationBarHidden = true
         let vc = TokensViewController(tokens: tokens)
-        self.root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: true)
     }
 }
