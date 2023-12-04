@@ -1663,7 +1663,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-7464-use-OIDAuthState-API";
+				branch = main;
 				kind = branch;
 			};
 		};
