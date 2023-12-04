@@ -114,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
         "branch" : "feature/dcmaw-7464-use-OIDAuthState-API",
-        "revision" : "bd623d7ef5ad7b614eea3b4207c80b85cfd64025"
+        "revision" : "647b3444f225b90247d38e0e7f9c3b85b94d1122"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "92c84bfa4e49b969408e4c52d683eb3c4a42e17a"
+        "revision" : "30e4455cdfbc0586f6d1b424a51879158c27476e",
+        "version" : "1.1.0"
       }
     },
     {

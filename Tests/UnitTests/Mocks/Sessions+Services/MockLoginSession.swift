@@ -13,7 +13,7 @@ final class MockLoginSession: LoginSession {
         self.window = window
     }
     
-    func authenticate(configuration: LoginSessionConfiguration) {
+    func present(configuration: LoginSessionConfiguration) {
         didCallPresent = true
         sessionConfiguration = configuration
     }

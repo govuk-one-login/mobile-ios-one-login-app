@@ -21,7 +21,7 @@ final class IntroViewControllerTests: XCTestCase {
                                                            clientID: "1234",
                                                            redirectURI: "https://www.google.com/redirect")
         mockViewModel = MockOneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
-            self.mockLoginSession.authenticate(configuration: self.mockLoginConfiguration)
+            self.mockLoginSession.present(configuration: self.mockLoginConfiguration)
         }
         sut = IntroViewController(viewModel: mockViewModel)
     }
