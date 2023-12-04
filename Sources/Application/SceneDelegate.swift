@@ -2,9 +2,7 @@ import Authentication
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    var window: UIWindow?
     var coordinator: MainCoordinator?
-    let navigationController = UINavigationController()
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -12,10 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
-        
-        window = UIWindow(windowScene: windowScene)
-        let session = AppAuthSession(window: window!)
-        initialiseMainCoordinator(session: session)
+        initialiseMainCoordinator(window: UIWindow(windowScene: windowScene))
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
@@ -25,11 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         authCoordinator.handleUniversalLink(incomingURL)
     }
     
-    func initialiseMainCoordinator(session: LoginSession) {
-        coordinator = MainCoordinator(root: navigationController,
-                                      session: session)
-        window!.rootViewController = navigationController
-        window!.makeKeyAndVisible()
+    func initialiseMainCoordinator(window: UIWindow) {
+        let navigationController = UINavigationController()
+        coordinator = MainCoordinator(window: window,
+                                      root: navigationController)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
         coordinator?.start()
     }
 }

@@ -7,6 +7,7 @@ final class MockLoginSession: LoginSession {
     var didCallFinalise = false
     var didCallCancel = false
     var sessionConfiguration: LoginSessionConfiguration?
+    var callbackURL: URL?
     
     init(window: UIWindow = UIWindow()) {
         self.window = window
@@ -17,8 +18,9 @@ final class MockLoginSession: LoginSession {
         sessionConfiguration = configuration
     }
     
-    func finalise(callback: URL) throws -> TokenResponse {
+    func finalise(redirectURL: URL) throws -> TokenResponse {
         didCallFinalise = true
+        callbackURL = redirectURL
         return try MockTokenResponse().getJSONData()
     }
     

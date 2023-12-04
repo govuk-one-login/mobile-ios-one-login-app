@@ -13,8 +13,9 @@ class MockTokenResponse {
             throw DecodeError.invalid
         }
         
-        let tokenResponse = try JSONDecoder()
-            .decode(TokenResponse.self, from: jsonData)
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let tokenResponse = try decoder.decode(TokenResponse.self, from: jsonData)
         return tokenResponse
     }
 }

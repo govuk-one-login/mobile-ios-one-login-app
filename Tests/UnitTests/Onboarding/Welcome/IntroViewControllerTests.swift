@@ -38,7 +38,7 @@ final class IntroViewControllerTests: XCTestCase {
 }
 
 extension IntroViewControllerTests {
-    func test_sessionPresent() throws {
+    func test_sessionAuthenticate() throws {
         XCTAssertFalse(mockLoginSession.didCallPresent)
         let introButton: UIButton = try XCTUnwrap(sut.view[child: "intro-button"])
         // WHEN the IntroViewController button is tapped
