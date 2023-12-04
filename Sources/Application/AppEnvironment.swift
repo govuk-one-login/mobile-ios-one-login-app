@@ -2,7 +2,7 @@ import Foundation
 
 public final class AppEnvironment {
     enum Key: String {
-        case authorizeEndPoint = "Authorize Endpoint"
+        case authorizeURL = "Authorize URL"
         case baseURL = "Base URL"
         case redirectURL = "Redirect URL"
         case clientID = "Client ID"
@@ -36,7 +36,7 @@ extension AppEnvironment {
     static var oneLoginAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .authorizeEndPoint)
+        components.host = string(for: .authorizeURL)
         components.path = "/authorize"
         return components.url!
     }
