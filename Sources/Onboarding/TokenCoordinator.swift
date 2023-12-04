@@ -8,13 +8,13 @@ final class TokenCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let tokens: TokenResponse
-
+    
     init(root: UINavigationController,
          tokens: TokenResponse) {
         self.root = root
         self.tokens = tokens
     }
-
+    
     func start() {
         root.isNavigationBarHidden = true
         let vc = TokensViewController(tokens: tokens)
