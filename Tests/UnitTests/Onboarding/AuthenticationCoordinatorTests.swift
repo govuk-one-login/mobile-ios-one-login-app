@@ -1,4 +1,5 @@
 import Authentication
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -6,6 +7,8 @@ import XCTest
 final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockErrorPresenter: ErrorPresenter.Type!
     var mockLoginSession: MockLoginSession!
     var mockMainCoordinator: MainCoordinator!
     var sut: AuthenticationCoordinator!
@@ -18,11 +21,12 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockLoginSession = MockLoginSession(window: window)
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
-        sut = AuthenticationCoordinator(root: navigationController, session: mockLoginSession)
+        sut = AuthenticationCoordinator(root: navigationController, session: mockLoginSession, errorPresenter: mockErrorPresenter.self, analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
         navigationController = nil
+        mockAnalyticsService = nil
         mockLoginSession = nil
         sut = nil
         
@@ -78,5 +82,19 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mainCoordinator.tokens?.accessToken, accessToken)
         XCTAssertEqual(mainCoordinator.tokens?.refreshToken, refreshToken)
         XCTAssertEqual(mainCoordinator.tokens?.idToken, idToken)
+    }
+
+    func test_handleUniversalLink_finaliseCalled_genericError() throws {
+        mockLoginSession.throwErrorFromFinalise = true
+        mockMainCoordinator.openChildInline(sut)
+        // WHEN AuthenticationCoordinator has logged in via start()
+        sut.start()
+        // THEN AuthenticationCoordinator calls finalise and returns the with tokens
+        let callbackURL = URL(string: "https://www.test.com")!
+        sut.handleUniversalLink(callbackURL)
+
+        waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
+        XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
 }
