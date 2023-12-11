@@ -14,7 +14,8 @@ final class MainCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         window.rootViewController = navigationController
-        sut = MainCoordinator(window: window, root: navigationController)
+        sut = MainCoordinator(window: window,
+                              root: navigationController)
     }
     
     override func tearDown() {
