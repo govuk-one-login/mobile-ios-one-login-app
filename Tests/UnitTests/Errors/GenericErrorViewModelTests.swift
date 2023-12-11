@@ -1,40 +1,39 @@
 @testable import OneLogin
 import XCTest
 
-final class OneLoginIntroViewModelTests: XCTestCase {
+final class GenericErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: OneLoginIntroViewModel!
+    var sut: GenericErrorViewModel!
     var didCallButtonAction = false
-    
+
     override func setUp() {
         super.setUp()
-        
+
         mockAnalyticsService = MockAnalyticsService()
-        sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
+        sut = GenericErrorViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
-    
+
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
         didCallButtonAction = false
-        
+
         super.tearDown()
     }
 }
 
-extension OneLoginIntroViewModelTests {
+extension GenericErrorViewModelTests {
     func test_labelContents() throws {
-        XCTAssertEqual(sut.image, UIImage(named: "badge"))
-        XCTAssertEqual(sut.title.value, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.value, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertTrue(sut.introButtonViewModel is AnalyticsButtonViewModel)
+        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.title.value, "Something went wrong")
+        XCTAssertEqual(sut.body.value, "Try again later")
     }
-    
+
     func test_buttonAction() throws {
         XCTAssertFalse(didCallButtonAction)
-        sut.introButtonViewModel.action()
+        sut.primaryButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
     }
 }

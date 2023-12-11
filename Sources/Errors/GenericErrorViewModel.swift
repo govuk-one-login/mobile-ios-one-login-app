@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 import Logging
 
@@ -14,13 +15,16 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
 
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", analyticsService: analyticsService) {
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", 
+                                                 analyticsService: analyticsService) {
             action()
         }
     }
     
-    func didAppear() { 
-        // Here for BaseViewModel compliance
+    func didAppear() {
+        let screen = ScreenView(screen: ErrorAnalyticsScreen.generic,
+                            titleKey: title.stringKey)
+        analyticsService.trackScreen(screen)
     }
 
     func didDismiss() {
