@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "feature/dcmaw-7042-error-screen",
-        "revision" : "ef7f7a600ee6f25f8bb7e0e867a4dd7b0694883e"
+        "branch" : "main",
+        "revision" : "c874439470b1ffe66e07b45fa1c0f170010007ef"
       }
     },
     {

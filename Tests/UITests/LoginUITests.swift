@@ -33,4 +33,12 @@ extension LoginUITests {
         loginModal.tapCancelButton()
         XCTAssertTrue(sut.isVisible)
     }
+
+    func test_loginGenericError() throws {
+        let loginModal = sut.tapLoginButton()
+        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        let errorScreen = loginModal.tapRedirectOAuthErrorButton()
+        XCTAssertEqual(errorScreen.title.label, "Something went wrong")
+        XCTAssertEqual(errorScreen.body.label, "Try again later")
+    }
 }

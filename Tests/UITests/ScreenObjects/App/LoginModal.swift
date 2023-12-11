@@ -19,7 +19,20 @@ struct LoginModal: ScreenObject {
         view.buttons["Login"]
     }
 
+    var oAuthErrorButton: XCUIElement {
+        view.buttons["Redirect with OAuth error"]
+    }
+
+
     func tapCancelButton() {
         cancelButton.tap()
+    }
+
+    func tapRedirectOAuthErrorButton() -> GenericErrorScreen {
+        oAuthErrorButton.tap()
+
+        let errorScreen =  GenericErrorScreen(app: app).waitForAppearance()
+        _ = errorScreen.view.waitForExistence(timeout: .timeout)
+        return errorScreen
     }
 }
