@@ -15,7 +15,7 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
 
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", 
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close",
                                                  analyticsService: analyticsService) {
             action()
         }

@@ -59,5 +59,5 @@ extension MainCoordinatorTests {
         // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators.last is TokenCoordinator)
-      }
+    }
 }
