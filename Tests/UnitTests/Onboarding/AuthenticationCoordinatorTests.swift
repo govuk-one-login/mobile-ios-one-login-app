@@ -20,13 +20,16 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         mockLoginSession = MockLoginSession(window: window)
+        mockAnalyticsService = MockAnalyticsService()
+        mockErrorPresenter = ErrorPresenter.self
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
-        sut = AuthenticationCoordinator(root: navigationController, session: mockLoginSession, errorPresenter: mockErrorPresenter.self, analyticsService: mockAnalyticsService)
+        sut = AuthenticationCoordinator(root: navigationController, session: mockLoginSession, errorPresenter: mockErrorPresenter, analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
         navigationController = nil
         mockAnalyticsService = nil
+        mockErrorPresenter = nil
         mockLoginSession = nil
         sut = nil
         
