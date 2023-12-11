@@ -9,7 +9,7 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
-    
+
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
 
