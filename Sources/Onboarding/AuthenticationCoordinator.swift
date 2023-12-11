@@ -33,7 +33,9 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 mainCoordinator.tokens = try await session.finalise(redirectURL: url)
             } catch {
-                let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService, action: { })
+                let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
+                    // Button action to be implemented later
+                }
                 root.pushViewController(genericErrorScreen, animated: true)
             }
             finish()

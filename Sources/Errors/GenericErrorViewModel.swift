@@ -14,10 +14,16 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
 
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", analyticsService: analyticsService, action: { action() })
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", analyticsService: analyticsService) {
+            action()
+        }
     }
     
-    func didAppear() { }
-    
-    func didDismiss() { }
+    func didAppear() { 
+        // Here for BaseViewModel compliance
+    }
+
+    func didDismiss() {
+        // Here for BaseViewModel compliance
+    }
 }
