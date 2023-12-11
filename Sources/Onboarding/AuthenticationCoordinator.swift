@@ -1,6 +1,6 @@
 import Authentication
-import Logging
 import Coordination
+import Logging
 import UIKit
 
 final class AuthenticationCoordinator: NSObject,
@@ -13,7 +13,9 @@ final class AuthenticationCoordinator: NSObject,
     let analyticsService: AnalyticsService
     
     init(root: UINavigationController,
-         session: LoginSession, errorPresenter: ErrorPresenter.Type, analyticsService: AnalyticsService) {
+         session: LoginSession,
+         errorPresenter: ErrorPresenter.Type,
+         analyticsService: AnalyticsService) {
         self.root = root
         self.session = session
         self.errorPresenter = errorPresenter

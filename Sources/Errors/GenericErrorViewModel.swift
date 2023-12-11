@@ -9,12 +9,12 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
     
-    var rightBarButtonTitle: GDSCommon.GDSLocalisedString? = nil
-    var backButtonIsHidden: Bool = true
+    let rightBarButtonTitle: GDSLocalisedString? = nil
+    let backButtonIsHidden: Bool = true
 
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", analyticsService: analyticsService, action: { action() }) 
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close", analyticsService: analyticsService, action: { action() })
     }
     
     func didAppear() { }

@@ -24,7 +24,10 @@ final class MainCoordinator: NSObject,
     
     func start() {
         let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
-            openChildInline(AuthenticationCoordinator(root: root, session: AppAuthSession(window: window), errorPresenter: errorPresenter, analyticsService: analyticsService))
+            openChildInline(AuthenticationCoordinator(root: root,
+                                                      session: AppAuthSession(window: window),
+                                                      errorPresenter: errorPresenter,
+                                                      analyticsService: analyticsService))
         }
         root.setViewControllers([introViewController], animated: false)
     }
