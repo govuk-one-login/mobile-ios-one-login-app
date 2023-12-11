@@ -26,6 +26,8 @@ extension LoginUITests {
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
         XCTAssertEqual(loginModal.loginButton.label, "Login")
+        let userInfoScreen = loginModal.tapBrowserLoginButton()
+        XCTAssertEqual(userInfoScreen.title.label, "Logged in")
     }
 
     func test_loginCancelPath() throws {
@@ -40,5 +42,6 @@ extension LoginUITests {
         let errorScreen = loginModal.tapRedirectOAuthErrorButton()
         XCTAssertEqual(errorScreen.title.label, "Something went wrong")
         XCTAssertEqual(errorScreen.body.label, "Try again later")
+        XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
 }

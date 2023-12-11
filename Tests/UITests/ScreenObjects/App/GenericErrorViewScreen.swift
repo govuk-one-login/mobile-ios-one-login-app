@@ -8,15 +8,15 @@ struct GenericErrorScreen: ScreenObject {
     }
 
     var title: XCUIElement {
-        app.staticTexts["Something went wrong"]
+        app.staticTexts["error-title"]
     }
 
     var body: XCUIElement {
-        app.staticTexts["Try again later"]
+        app.staticTexts["error-body"]
     }
 
     var closeButton: XCUIElement {
-        app.buttons["Close"]
+        app.buttons["error-primary-button"]
     }
 
     func tapCloseButton() {
