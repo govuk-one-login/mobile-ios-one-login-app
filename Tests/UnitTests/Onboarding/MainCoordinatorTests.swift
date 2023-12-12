@@ -50,10 +50,13 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromAuthenticationCoordinator() throws {
+        let mockLoginSession = MockLoginSession()
         let mockErrorPresenter = ErrorPresenter.self
         let mockAnalyticsService = MockAnalyticsService()
-        let mockLoginSession = MockLoginSession()
-        let child = AuthenticationCoordinator(root: navigationController, session: mockLoginSession, errorPresenter: mockErrorPresenter, analyticsService: mockAnalyticsService)
+        let child = AuthenticationCoordinator(root: navigationController,
+                                              session: mockLoginSession,
+                                              errorPresenter: mockErrorPresenter,
+                                              analyticsService: mockAnalyticsService)
         sut.tokens = try MockTokenResponse().getJSONData()
         // GIVEN the MainCoordinator regained focus from it's child coordinator
         sut.didRegainFocus(fromChild: child)
