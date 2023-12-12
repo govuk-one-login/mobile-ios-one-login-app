@@ -17,11 +17,11 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
          signinAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         introButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
-                                                        analyticsService: analyticsService) {
+                                            analyticsService: analyticsService) {
             signinAction()
         }
     }
-    
+
     func didAppear() {
         let screen = ScreenView(screen: IntroAnalyticsScreen.welcomeScreen,
                             titleKey: title.stringKey)

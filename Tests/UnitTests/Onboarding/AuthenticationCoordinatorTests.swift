@@ -65,6 +65,7 @@ extension AuthenticationCoordinatorTests {
         sut.start()
         // THEN the session should call present() with the configuration
         XCTAssertTrue(mockLoginSession.didCallPresent)
+        XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
     }
     
     func test_handleUniversalLink_finaliseCalled_successful() throws {

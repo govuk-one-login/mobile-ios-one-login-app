@@ -9,11 +9,11 @@ final class MockLoginSession: LoginSession {
     var throwErrorFromFinalise = false
     var sessionConfiguration: LoginSessionConfiguration?
     var callbackURL: URL?
-
+    
     private enum LoginError: Error {
         case genericError
     }
-
+    
     init(window: UIWindow = UIWindow()) {
         self.window = window
     }
