@@ -2,16 +2,16 @@ import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
-final class OneLoginIntroViewModelTests: XCTestCase {
+final class GenericErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: OneLoginIntroViewModel!
+    var sut: GenericErrorViewModel!
     var didCallButtonAction = false
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
+        sut = GenericErrorViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -25,21 +25,20 @@ final class OneLoginIntroViewModelTests: XCTestCase {
     }
 }
 
-extension OneLoginIntroViewModelTests {
+extension GenericErrorViewModelTests {
     func test_labelContents() throws {
-        XCTAssertEqual(sut.image, UIImage(named: "badge"))
-        XCTAssertEqual(sut.title.value, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.value, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertTrue(sut.introButtonViewModel is AnalyticsButtonViewModel)
+        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.title.value, "Something went wrong")
+        XCTAssertEqual(sut.body.value, "Try again later")
     }
     
     func test_buttonAction() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.introButtonViewModel.action()
+        sut.primaryButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: sut.introButtonViewModel.title.value)
+        let event = ButtonEvent(textKey: sut.primaryButtonViewModel.title.value)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
@@ -49,8 +48,8 @@ extension OneLoginIntroViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: IntroAnalyticsScreen.welcomeScreen,
-                                titleKey: "GOV.UK One Login")
+        let screen = ScreenView(screen: ErrorAnalyticsScreen.generic,
+                                titleKey: "Something went wrong")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }

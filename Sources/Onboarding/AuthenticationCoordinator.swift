@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import Logging
 import UIKit
 
 final class AuthenticationCoordinator: NSObject,
@@ -8,11 +9,17 @@ final class AuthenticationCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let session: LoginSession
+    let errorPresenter: ErrorPresenter.Type
+    let analyticsService: AnalyticsService
     
     init(root: UINavigationController,
-         session: LoginSession) {
+         session: LoginSession,
+         errorPresenter: ErrorPresenter.Type,
+         analyticsService: AnalyticsService) {
         self.root = root
         self.session = session
+        self.errorPresenter = errorPresenter
+        self.analyticsService = analyticsService
     }
     
     func start() {
@@ -26,7 +33,10 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 mainCoordinator.tokens = try await session.finalise(redirectURL: url)
             } catch {
-                print(error)
+                let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
+                    self.root.popViewController(animated: true)
+                }
+                root.pushViewController(genericErrorScreen, animated: true)
             }
             finish()
         }

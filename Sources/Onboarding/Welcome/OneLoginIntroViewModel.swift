@@ -3,12 +3,15 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct OneLoginIntroViewModel: IntroViewModel {
+struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     let image: UIImage = UIImage(named: "badge") ?? UIImage()
     let title: GDSLocalisedString = "GOV.UK One Login"
     let body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."
     let introButtonViewModel: ButtonViewModel
     let analyticsService: AnalyticsService
+    
+    let rightBarButtonTitle: GDSLocalisedString? = nil
+    let backButtonIsHidden: Bool = true
     
     init(analyticsService: AnalyticsService,
          signinAction: @escaping () -> Void) {
@@ -23,5 +26,9 @@ struct OneLoginIntroViewModel: IntroViewModel {
         let screen = ScreenView(screen: IntroAnalyticsScreen.welcomeScreen,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
+    }
+    
+    func didDismiss() {
+        // Here for BaseViewModel compliance
     }
 }

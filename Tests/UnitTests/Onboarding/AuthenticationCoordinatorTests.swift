@@ -1,4 +1,5 @@
 import Authentication
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -6,6 +7,8 @@ import XCTest
 final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockErrorPresenter: ErrorPresenter.Type!
     var mockLoginSession: MockLoginSession!
     var mockMainCoordinator: MainCoordinator!
     var sut: AuthenticationCoordinator!
@@ -17,13 +20,22 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         mockLoginSession = MockLoginSession(window: window)
+        mockErrorPresenter = ErrorPresenter.self
+        mockAnalyticsService = MockAnalyticsService()
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
-        sut = AuthenticationCoordinator(root: navigationController, session: mockLoginSession)
+        sut = AuthenticationCoordinator(root: navigationController,
+                                        session: mockLoginSession,
+                                        errorPresenter: mockErrorPresenter,
+                                        analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
+        window = nil
         navigationController = nil
         mockLoginSession = nil
+        mockErrorPresenter = nil
+        mockAnalyticsService = nil
+        mockMainCoordinator = nil
         sut = nil
         
         super.tearDown()
@@ -49,17 +61,18 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_start_authenticationSessionPresent() throws {
-        // WHEN the AuthenticationCoordinator is started
+        // GIVEN the AuthenticationCoordinator is started
         sut.start()
         // THEN the session should call present() with the configuration
         XCTAssertTrue(mockLoginSession.didCallPresent)
+        XCTAssertTrue(mockLoginSession.sessionConfiguration != nil)
     }
     
     func test_handleUniversalLink_finaliseCalled_successful() throws {
         mockMainCoordinator.openChildInline(sut)
-        // WHEN AuthenticationCoordinator has logged in via start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
-        // THEN AuthenticationCoordinator calls finalise and returns the with tokens
+        // WHEN the AuthenticationCoordinator calls finalise
         let callbackURL = URL(string: "https://www.test.com")!
         sut.handleUniversalLink(callbackURL)
         
@@ -68,15 +81,28 @@ extension AuthenticationCoordinatorTests {
         let refreshToken = "JPz2bPDtrU/NJAedvDC8Xk6eMFlf1qZn9MuYXvCDl?xTZlCUFR?oAwUzXlhlr29MiWf1!2NlFYJ5shibOLWPnwCD46LfzZ6fG3ThIgWYZUH/1n-1p/4?UxDuhP/4!Orx-AFFPezxppqSJK9xOsA0GY13sZwNG-61TSV-yzL=OijL3TxTJg7A5q5H7DwZz71CtYiFn1KIsENYQ-7xB8C63tS3epWRF-Tsb7BMWtIUIZC0gODblBz/eAQFCf6lvEjp"
         let idToken = "KdJzZf0ecdXFsSjIYXbh-0A4Hj-X!?JR5dhTqDgkoy6JDP7R5B1mtzD0cgprmflfyi7ihSvRWg1n=RrRgTjj5hG-t1tuN2zmqacHmUpbfKGsZKk6EwfvFxMYh4YINYfqLdFKLgY224uaCRI8F9rDghBoHx5=vMY=L6l3EwG5R8!HND2j2W5JKNwCTp3zKMS4WRYz3Xk?CJEKqa2oFNtFNdoz0rUIH-i/sCgqWkpE2093s0PyMZQ1x49M88mjx=0E"
         // swiftlint:enable line_length
-        
         waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
         XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
         guard let mainCoordinator = sut.parentCoordinator as? MainCoordinator else {
             XCTFail("Should be a MainCoordinator")
             return
         }
+        // THEN the tokens are returned
         XCTAssertEqual(mainCoordinator.tokens?.accessToken, accessToken)
         XCTAssertEqual(mainCoordinator.tokens?.refreshToken, refreshToken)
         XCTAssertEqual(mainCoordinator.tokens?.idToken, idToken)
+    }
+    
+    func test_handleUniversalLink_finaliseCalled_genericError() throws {
+        mockLoginSession.throwErrorFromFinalise = true
+        mockMainCoordinator.openChildInline(sut)
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        sut.start()
+        // WHEN the AuthenticationCoordinator calls finalise
+        let callbackURL = URL(string: "https://www.test.com")!
+        sut.handleUniversalLink(callbackURL)
+        waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
+        XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
 }

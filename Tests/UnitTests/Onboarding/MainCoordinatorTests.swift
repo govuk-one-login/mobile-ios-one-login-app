@@ -14,7 +14,8 @@ final class MainCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         window.rootViewController = navigationController
-        sut = MainCoordinator(window: window, root: navigationController)
+        sut = MainCoordinator(window: window,
+                              root: navigationController)
     }
     
     override func tearDown() {
@@ -50,12 +51,17 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromAuthenticationCoordinator() throws {
         let mockLoginSession = MockLoginSession()
-        let child = AuthenticationCoordinator(root: navigationController, session: mockLoginSession)
+        let mockErrorPresenter = ErrorPresenter.self
+        let mockAnalyticsService = MockAnalyticsService()
+        let child = AuthenticationCoordinator(root: navigationController,
+                                              session: mockLoginSession,
+                                              errorPresenter: mockErrorPresenter,
+                                              analyticsService: mockAnalyticsService)
         sut.tokens = try MockTokenResponse().getJSONData()
         // GIVEN the MainCoordinator regained focus from it's child coordinator
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators.last is TokenCoordinator)
-      }
+    }
 }
