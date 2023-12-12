@@ -40,8 +40,8 @@ extension GenericErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: sut.primaryButtonViewModel.title.value)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.text.lowercased())
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.type.rawValue)
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
     
     func test_didAppear() throws {
@@ -49,8 +49,8 @@ extension GenericErrorViewModelTests {
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: ErrorAnalyticsScreen.generic,
-                                titleKey: "something went wrong")
+                                titleKey: "Something went wrong")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.title)
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
 }
