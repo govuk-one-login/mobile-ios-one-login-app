@@ -27,16 +27,15 @@ struct LoginModal: ScreenObject {
         cancelButton.tap()
     }
 
-    func tapBrowserLoginButton() -> UserInfoScreen {
+    func tapBrowserLoginButton() -> TokensScreen {
         loginButton.tap()
-        let userInfoScreen = UserInfoScreen(app: app).waitForAppearance()
-        return userInfoScreen
+        
+        return TokensScreen(app: app).waitForAppearance()
     }
 
-    func tapRedirectOAuthErrorButton() -> GenericErrorScreen {
+    func tapBrowserRedirectWithOAuthErrorButton() -> ErrorScreen {
         oAuthErrorButton.tap()
 
-        let errorScreen =  GenericErrorScreen(app: app).waitForAppearance()
-        return errorScreen
+        return ErrorScreen(app: app).waitForAppearance()
     }
 }

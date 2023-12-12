@@ -1,6 +1,6 @@
 import XCTest
 
-struct UserInfoScreen: ScreenObject {
+struct TokensScreen: ScreenObject {
     let app: XCUIApplication
 
     var view: XCUIElement {

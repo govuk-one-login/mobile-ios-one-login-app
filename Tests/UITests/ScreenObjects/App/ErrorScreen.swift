@@ -1,6 +1,6 @@
 import XCTest
 
-struct GenericErrorScreen: ScreenObject {
+struct ErrorScreen: ScreenObject {
     let app: XCUIApplication
 
     var view: XCUIElement {
