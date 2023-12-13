@@ -2,23 +2,23 @@ import XCTest
 
 struct LoginModal: ScreenObject {
     let app: XCUIApplication
-
+    
     var cancelButton: XCUIElement {
         app.buttons["Cancel"]
     }
-
+    
     var view: XCUIElement {
         app.webViews.firstMatch
     }
-
+    
     var title: XCUIElement {
         view.staticTexts["Welcome to the Auth Stub"]
     }
-
+    
     var loginButton: XCUIElement {
         view.buttons["Login"]
     }
-
+    
     var oAuthErrorButton: XCUIElement {
         view.buttons["Redirect with OAuth error"]
     }
@@ -34,38 +34,38 @@ struct LoginModal: ScreenObject {
     var fiveHundredResponseErrorButton: XCUIElement {
         view.buttons["Set up 500 response from /token"]
     }
-
+    
     func tapCancelButton() {
         cancelButton.tap()
     }
-
+    
     func tapBrowserLoginButton() -> TokensScreen {
         loginButton.tap()
         
         return TokensScreen(app: app).waitForAppearance()
     }
-
+    
     func tapBrowserRedirectWithOAuthErrorButton() -> ErrorScreen {
         oAuthErrorButton.tap()
-
+        
         return ErrorScreen(app: app).waitForAppearance()
     }
     
     func tapBrowserInvalidStateErrorButton() -> ErrorScreen {
         invalidStateButton.tap()
-
+        
         return ErrorScreen(app: app).waitForAppearance()
     }
     
     func tapBrowserFourHundredResponseErrorButton() -> LoginModalSecondScreen {
         fourHundredResponseErrorButton.tap()
-
+        
         return LoginModalSecondScreen(app: app).waitForAppearance()
     }
     
     func tapBrowserFiveHundredResponseErrorButton() -> LoginModalSecondScreen {
         fiveHundredResponseErrorButton.tap()
-
+        
         return LoginModalSecondScreen(app: app).waitForAppearance()
     }
 }

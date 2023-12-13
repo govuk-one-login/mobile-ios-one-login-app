@@ -40,7 +40,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         
         super.tearDown()
     }
-
+    
     private enum AuthenticationError: Error {
         case catchAll
     }
@@ -109,7 +109,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
-
+    
     func test_handleUniversalLink_finaliseCalled_loginError() throws {
         mockLoginSession.errorFromFinalise = LoginError.generic(description: "")
         mockMainCoordinator.openChildInline(sut)

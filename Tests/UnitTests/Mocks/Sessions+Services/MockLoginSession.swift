@@ -9,7 +9,7 @@ final class MockLoginSession: LoginSession {
     var errorFromFinalise: Error?
     var sessionConfiguration: LoginSessionConfiguration?
     var callbackURL: URL?
-
+    
     init(window: UIWindow = UIWindow()) {
         self.window = window
     }
