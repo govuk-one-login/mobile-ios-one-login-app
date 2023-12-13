@@ -6,7 +6,7 @@ final class MockLoginSession: LoginSession {
     var didCallPresent = false
     var didCallFinalise = false
     var didCallCancel = false
-    var throwErrorFromFinalise = false
+    var errorFromFinalise: Error?
     var sessionConfiguration: LoginSessionConfiguration?
     var callbackURL: URL?
 
@@ -22,8 +22,8 @@ final class MockLoginSession: LoginSession {
     func finalise(redirectURL: URL) throws -> TokenResponse {
         didCallFinalise = true
         callbackURL = redirectURL
-        if throwErrorFromFinalise {
-            throw LoginError.generic(description: "")
+        if let errorFromFinalise {
+            throw errorFromFinalise
         } else {
             return try MockTokenResponse().getJSONData()
         }

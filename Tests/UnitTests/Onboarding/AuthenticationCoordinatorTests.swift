@@ -40,6 +40,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         
         super.tearDown()
     }
+
+    private enum AuthenticationError: Error {
+        case catchAll
+    }
 }
 
 extension AuthenticationCoordinatorTests {
@@ -93,8 +97,21 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mainCoordinator.tokens?.idToken, idToken)
     }
     
-    func test_handleUniversalLink_finaliseCalled_genericError() throws {
-        mockLoginSession.throwErrorFromFinalise = true
+    func test_handleUniversalLink_finaliseCalled_catchAllError() throws {
+        mockLoginSession.errorFromFinalise = AuthenticationError.catchAll
+        mockMainCoordinator.openChildInline(sut)
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        sut.start()
+        // WHEN the AuthenticationCoordinator calls finalise
+        let callbackURL = URL(string: "https://www.test.com")!
+        sut.handleUniversalLink(callbackURL)
+        waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
+        XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+    }
+
+    func test_handleUniversalLink_finaliseCalled_loginError() throws {
+        mockLoginSession.errorFromFinalise = LoginError.generic(description: "")
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
