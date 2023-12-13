@@ -27,7 +27,10 @@ struct WelcomeScreen: ScreenObject {
             loginModal.view,
             loginModal.title,
             loginModal.loginButton,
-            loginModal.oAuthErrorButton
+            loginModal.oAuthErrorButton,
+            loginModal.invalidStateButton,
+            loginModal.fourHundredResponseErrorButton,
+            loginModal.fiveHundredResponseErrorButton
         ]
         _ = browserElements.map {
             $0.waitForExistence(timeout: .timeout)

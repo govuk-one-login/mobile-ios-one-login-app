@@ -2,16 +2,16 @@ import XCTest
 
 final class LoginUITests: XCTestCase {
     var sut: WelcomeScreen!
-
+    
     override func setUp() async throws {
         continueAfterFailure = false
-
+        
         await MainActor.run {
             sut = WelcomeScreen()
             sut.app.launch()
         }
     }
-
+    
     override func tearDown() {
         sut.app.terminate()
         sut = nil
@@ -29,7 +29,7 @@ extension LoginUITests {
         let tokensScreen = loginModal.tapBrowserLoginButton()
         XCTAssertEqual(tokensScreen.title.label, "Logged in")
     }
-
+    
     func test_loginCancelPath() throws {
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
@@ -40,8 +40,8 @@ extension LoginUITests {
         loginModal.tapCancelButton()
         XCTAssertTrue(sut.isVisible)
     }
-
-    func test_loginGenericError() throws {
+    
+    func test_OAuthLoginError() throws {
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
         XCTAssertEqual(sut.signInButton.label, "Sign in")
@@ -49,8 +49,57 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
         XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
         let errorScreen = loginModal.tapBrowserRedirectWithOAuthErrorButton()
-        XCTAssertEqual(errorScreen.title.label, "Something went wrong")
-        XCTAssertEqual(errorScreen.body.label, "Try again later")
+        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
+        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+    }
+    
+    func test_invalidStateError() throws {
+        XCTAssertEqual(sut.title.label, "GOV.UK One Login")
+        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        let loginModal = sut.tapLoginButton()
+        XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
+        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        let errorScreen = loginModal.tapBrowserInvalidStateErrorButton()
+        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
+        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+    }
+    
+    func test_fourHundredResponseError() throws {
+        XCTAssertEqual(sut.title.label, "GOV.UK One Login")
+        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        let loginModal = sut.tapLoginButton()
+        XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
+        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        
+        let loginModalSecondScreen = loginModal.tapBrowserFourHundredResponseErrorButton()
+        XCTAssertEqual(loginModalSecondScreen.title.label, "Welcome to the Auth Stub")
+        XCTAssertEqual(loginModalSecondScreen.loginButton.label, "Login")
+        
+        let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
+        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
+        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+    }
+    
+    func test_fiveHundredResponseError() throws {
+        XCTAssertEqual(sut.title.label, "GOV.UK One Login")
+        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        let loginModal = sut.tapLoginButton()
+        XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
+        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        
+        let loginModalSecondScreen = loginModal.tapBrowserFiveHundredResponseErrorButton()
+        XCTAssertEqual(loginModalSecondScreen.title.label, "Welcome to the Auth Stub")
+        XCTAssertEqual(loginModalSecondScreen.loginButton.label, "Login")
+        
+        let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
+        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
+        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
         XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
 }

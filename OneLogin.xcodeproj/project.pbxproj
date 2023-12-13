@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */; };
 		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
 		21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */; };
 		21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */; };
@@ -97,6 +98,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalSecondScreen.swift; sourceTree = "<group>"; };
 		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				41A0BD092B272118009AE51F /* ErrorScreen.swift */,
 				C80B871E2B029EAB0087C6D5 /* LoginModal.swift */,
 				41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */,
+				1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -849,6 +852,7 @@
 				C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */,
 				C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */,
 				C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */,
+				1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
