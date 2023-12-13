@@ -28,15 +28,6 @@
       }
     },
     {
-      "identity" : "di-mobile-ios-networking",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-networking",
-      "state" : {
-        "branch" : "main",
-        "revision" : "8724c7ffcbc2546e3b1fa57f1021769e12b475ea"
-      }
-    },
-    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
@@ -114,7 +105,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
         "branch" : "feature/dcmaw-7113-expose-LoginError",
-        "revision" : "c0352872ba1e16921f979fce8b8004979a590537"
+        "revision" : "4179d8893a6d2711385e5a3fc69dcdefd7dd0847"
       }
     },
     {
@@ -123,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "main",
-        "revision" : "d9935d207fc7971c42bb76686c738b409ee321e2"
+        "revision" : "6e255f70a79847adf5d65454343787b4a34ac683"
       }
     },
     {
@@ -141,7 +132,16 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
         "branch" : "main",
-        "revision" : "4bbe40149d696385fcc5438507bf9842a176846e"
+        "revision" : "713666197ee9011e17a044419711bcb8b88a70c5"
+      }
+    },
+    {
+      "identity" : "mobile-ios-networking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-networking.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8724c7ffcbc2546e3b1fa57f1021769e12b475ea"
       }
     },
     {
