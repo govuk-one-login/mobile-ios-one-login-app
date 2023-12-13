@@ -26,18 +26,27 @@ extension LoginUITests {
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
         XCTAssertEqual(loginModal.loginButton.label, "Login")
-        let userInfoScreen = loginModal.tapBrowserLoginButton()
-        XCTAssertEqual(userInfoScreen.title.label, "Logged in")
+        let tokensScreen = loginModal.tapBrowserLoginButton()
+        XCTAssertEqual(tokensScreen.title.label, "Logged in")
     }
 
     func test_loginCancelPath() throws {
+        XCTAssertEqual(sut.title.label, "GOV.UK One Login")
+        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in")
         let loginModal = sut.tapLoginButton()
+        XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
+        XCTAssertEqual(loginModal.loginButton.label, "Login")
         loginModal.tapCancelButton()
         XCTAssertTrue(sut.isVisible)
     }
 
     func test_loginGenericError() throws {
+        XCTAssertEqual(sut.title.label, "GOV.UK One Login")
+        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in")
         let loginModal = sut.tapLoginButton()
+        XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
         XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
         let errorScreen = loginModal.tapBrowserRedirectWithOAuthErrorButton()
         XCTAssertEqual(errorScreen.title.label, "Something went wrong")

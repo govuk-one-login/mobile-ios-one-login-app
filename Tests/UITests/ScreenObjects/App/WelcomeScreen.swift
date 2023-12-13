@@ -23,7 +23,15 @@ struct WelcomeScreen: ScreenObject {
         signInButton.tap()
 
         let loginModal = LoginModal(app: app).waitForAppearance()
-        _ = loginModal.view.waitForExistence(timeout: .timeout)
+        let browserElements = [
+            loginModal.view,
+            loginModal.title,
+            loginModal.loginButton,
+            loginModal.oAuthErrorButton
+        ]
+        _ = browserElements.map {
+            $0.waitForExistence(timeout: .timeout)
+        }
         return loginModal
     }
 }

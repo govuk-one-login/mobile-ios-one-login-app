@@ -58,6 +58,7 @@
 		C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */; };
 		C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAC2AFBD0CC00FCBD36 /* Logging */; };
 		C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAF2AFBD0F100FCBD36 /* Coordination */; };
+		C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
 		C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */; };
 		C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
@@ -145,6 +146,7 @@
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		C89632EC2B0D0886002A1473 /* TokensView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TokensView.xib; path = Sources/Screens/Tokens/TokensView.xib; sourceTree = SOURCE_ROOT; };
 		C89632EE2B0D0895002A1473 /* TokensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TokensViewController.swift; path = Sources/Screens/Tokens/TokensViewController.swift; sourceTree = SOURCE_ROOT; };
+		C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModel.swift; sourceTree = "<group>"; };
 		C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */,
+				C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
+				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */,
 				41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */,
@@ -1699,7 +1703,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-7113-expose-LoginError";
 				kind = branch;
 			};
 		};

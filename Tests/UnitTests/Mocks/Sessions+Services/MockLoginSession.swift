@@ -9,11 +9,7 @@ final class MockLoginSession: LoginSession {
     var throwErrorFromFinalise = false
     var sessionConfiguration: LoginSessionConfiguration?
     var callbackURL: URL?
-    
-    private enum LoginError: Error {
-        case genericError
-    }
-    
+
     init(window: UIWindow = UIWindow()) {
         self.window = window
     }
@@ -27,7 +23,7 @@ final class MockLoginSession: LoginSession {
         didCallFinalise = true
         callbackURL = redirectURL
         if throwErrorFromFinalise {
-            throw LoginError.genericError
+            throw LoginError.generic(description: "")
         } else {
             return try MockTokenResponse().getJSONData()
         }

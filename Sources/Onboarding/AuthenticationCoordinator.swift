@@ -32,6 +32,11 @@ final class AuthenticationCoordinator: NSObject,
         Task(priority: .userInitiated) {
             do {
                 mainCoordinator.tokens = try await session.finalise(redirectURL: url)
+            } catch let error where error is LoginError {
+                let unableToLoginErrorScreen = errorPresenter.createUnableToLoginError(analyticsService: analyticsService) {
+                    self.root.popViewController(animated: true)
+                }
+                root.pushViewController(unableToLoginErrorScreen, animated: true)
             } catch {
                 let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
                     self.root.popViewController(animated: true)
