@@ -4,6 +4,7 @@ import Logging
 import UIKit
 
 struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
+    // TODO: String keys for localisation needed
     let image: UIImage = UIImage(named: "badge") ?? UIImage()
     let title: GDSLocalisedString = "GOV.UK One Login"
     let body: GDSLocalisedString = "Sign in with the email address you use for your GOV.UK One Login."

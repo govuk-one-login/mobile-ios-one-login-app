@@ -3,6 +3,7 @@ import GDSCommon
 import Logging
 
 struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
+    // TODO: String keys for localisation needed
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "Something went wrong"
     let body: GDSLocalisedString = "Try again later"
