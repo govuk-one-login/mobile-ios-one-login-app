@@ -3,8 +3,8 @@ import GDSCommon
 import Logging
 
 struct UnableToLoginErrorViewModel: GDSErrorViewModel, BaseViewModel {
-    // TODO: String keys for localisation needed
     let image: String = "exclamationmark.circle"
+    // TODO: DCMAW-7083: String keys for localisation needed
     let title: GDSLocalisedString = "There was a problem signing you in"
     let body: GDSLocalisedString = "You can try signing in again.\n\nIf this does not work, you may need to try again later."
     let primaryButtonViewModel: ButtonViewModel
