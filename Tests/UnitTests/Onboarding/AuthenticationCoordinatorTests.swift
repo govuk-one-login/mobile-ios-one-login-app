@@ -107,7 +107,10 @@ extension AuthenticationCoordinatorTests {
         sut.handleUniversalLink(callbackURL)
         waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
         XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
-        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        // THEN the 'something went wrong' error screen is shown
+        let vc = sut.root.topViewController as? GDSErrorViewController
+        XCTAssertTrue(vc != nil)
+        XCTAssertTrue(vc?.viewModel is GenericErrorViewModel)
     }
     
     func test_handleUniversalLink_finaliseCalled_loginError() throws {
@@ -120,6 +123,9 @@ extension AuthenticationCoordinatorTests {
         sut.handleUniversalLink(callbackURL)
         waitForTruth(self.mockLoginSession.didCallFinalise, timeout: 3)
         XCTAssertEqual(mockLoginSession.callbackURL, callbackURL)
-        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        // THEN the 'unable to login' error screen is shown
+        let vc = sut.root.topViewController as? GDSErrorViewController
+        XCTAssertTrue(vc != nil)
+        XCTAssertTrue(vc?.viewModel is UnableToLoginErrorViewModel)
     }
 }

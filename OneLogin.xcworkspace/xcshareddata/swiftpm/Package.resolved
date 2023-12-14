@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "feature/dcmaw-7113-expose-LoginError",
-        "revision" : "4179d8893a6d2711385e5a3fc69dcdefd7dd0847"
+        "branch" : "main",
+        "revision" : "e98bd99fde3214010fa9f679b6b1bf9557ded40c"
       }
     },
     {
@@ -114,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "main",
-        "revision" : "6e255f70a79847adf5d65454343787b4a34ac683"
+        "revision" : "7dec63da8f8bf99b90b69eefb279cb400014327e"
       }
     },
     {

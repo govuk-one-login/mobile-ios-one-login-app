@@ -1711,7 +1711,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-7113-expose-LoginError";
+				branch = main;
 				kind = branch;
 			};
 		};
