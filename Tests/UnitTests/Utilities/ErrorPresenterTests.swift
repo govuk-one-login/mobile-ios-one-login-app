@@ -30,4 +30,13 @@ extension ErrorPresenterTests {
         introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallAction)
     }
+    
+    func test_unableToLoginErrorCallsAction() throws {
+        let introView = sut.createUnableToLoginError(analyticsService: mockAnalyticsService) {
+            self.didCallAction = true
+        }
+        let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])
+        introButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallAction)
+    }
 }
