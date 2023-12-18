@@ -17,7 +17,8 @@ struct LoginModalSecondScreen: ScreenObject {
     
     func tapBrowserLoginButton() -> ErrorScreen {
         loginButton.tap()
-        
-        return ErrorScreen(app: app).waitForAppearance()
+        let errorScreen = ErrorScreen(app: app).waitForAppearance()
+        _ = errorScreen.view.waitForExistence(timeout: .timeout)
+        return errorScreen
     }
 }
