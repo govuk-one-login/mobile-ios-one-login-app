@@ -51,3 +51,21 @@ jobs:
             target_branch:${{github.base_ref}} \
             pr_number:$pull_number \
             testplan:OneLoginUnit
+
+      - name: Run UI Tests
+        if: github.event.pull_request.draft == false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          export GEM_HOME=$HOME/.gem
+          export GEM_PATH=$HOME/.gem
+
+          # Fixes issue with bundle install
+          eval "$(rbenv init - zsh)"
+          bundle install
+
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            testplan:OneLoginUI
+
