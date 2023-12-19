@@ -114,7 +114,7 @@ extension LoginUITests {
         XCTAssertEqual(loginModalSecondScreen.loginButton.label, "Login")
         // Second Modal Screen
         let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
-//        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
+        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
         XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
         XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
