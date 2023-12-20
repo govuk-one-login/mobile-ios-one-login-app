@@ -28,9 +28,7 @@ platform :ios do
       testplan: options[:testplan]
     )
   end
-<<<<<<< HEAD
-=======
-  
+
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverageForUITests do |options|
     run_tests(
@@ -40,7 +38,6 @@ platform :ios do
       testplan: options[:testplan]
     )
   end
->>>>>>> b883538 (test: move to standard runner)
 
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
@@ -79,7 +76,7 @@ platform :ios do
   end
     
   desc "Push a new beta build to TestFlight"
-  lane :prerelease do |options|
+  lane :deploy do |options|
     password = SecureRandom.hex
     
     begin

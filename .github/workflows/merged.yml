@@ -153,12 +153,12 @@ jobs:
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
 
-          bundle exec fastlane prerelease configuration:"Staging" \
+          bundle exec fastlane deploy configuration:"Staging" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
 
-          bundle exec fastlane prerelease configuration:"Build" \
+          bundle exec fastlane deploy configuration:"Build" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
