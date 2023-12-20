@@ -12,7 +12,7 @@ concurrency:
 jobs:
   build:
     name: Build app, run unit tests and send coverage report for branch
-    runs-on: macos-13
+    runs-on: macos-13-xlarge
 
     steps:
       - name: Add path globally
@@ -25,8 +25,10 @@ jobs:
           fetch-depth: 0
 
       - name: Lint
-        run: swiftlint --strict
-
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+          
 #      - name: Run unit tests and send coverage report
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,11 +60,6 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-          
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
           
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
