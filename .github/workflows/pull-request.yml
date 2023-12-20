@@ -57,11 +57,6 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-          
-          # Fixes issue with bundle install
-          gem install bundler
           bundle install
           
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
