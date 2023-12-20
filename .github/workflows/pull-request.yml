@@ -60,5 +60,5 @@ jobs:
         run: |
           bundle install
           
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
             testplan:OneLoginUI

@@ -45,11 +45,6 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
@@ -75,11 +70,6 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
@@ -105,14 +95,9 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
   deploy_apps:
@@ -157,11 +142,6 @@ jobs:
           gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
           echo Pushed to branch: $gitbranch
 
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
           # create variables
@@ -173,12 +153,12 @@ jobs:
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_PATH
 
-          bundle exec fastlane prerelease configuration:"Staging" \
+          bundle exec fastlane deploy configuration:"Staging" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
 
-          bundle exec fastlane prerelease configuration:"Build" \
+          bundle exec fastlane deploy configuration:"Build" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose

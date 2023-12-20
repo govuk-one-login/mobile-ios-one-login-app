@@ -28,16 +28,6 @@ platform :ios do
       testplan: options[:testplan]
     )
   end
-  
-  desc "Run Tests without Sonar Coverage"
-  lane :testWithoutCoverageForUITests do |options|
-    run_tests(
-      workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation)",
-      scheme: options[:scheme],
-      testplan: options[:testplan]
-    )
-  end
 
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
@@ -76,7 +66,7 @@ platform :ios do
   end
     
   desc "Push a new beta build to TestFlight"
-  lane :prerelease do |options|
+  lane :deploy do |options|
     password = SecureRandom.hex
     
     begin
