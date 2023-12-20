@@ -35,13 +35,13 @@ platform :ios do
   
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverageForUITests do |options|
-    xcode_select("/Applications/Xcode_14.3.1.app")
+    xcode_select("/Applications/Xcode_15.1.app")
 
     clear_derived_data
       
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (16.4)",
+      device: "iPhone SE (3rd generation)",
       result_bundle: true,
       scheme: options[:scheme],
       testplan: options[:testplan]
