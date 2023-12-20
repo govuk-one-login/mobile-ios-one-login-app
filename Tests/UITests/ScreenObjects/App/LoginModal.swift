@@ -60,12 +60,30 @@ struct LoginModal: ScreenObject {
     func tapBrowserFourHundredResponseErrorButton() -> LoginModalSecondScreen {
         fourHundredResponseErrorButton.tap()
         
-        return LoginModalSecondScreen(app: app).waitForAppearance()
+        let secondModalScreen = LoginModalSecondScreen(app: app).waitForAppearance()
+        let browserElements = [
+            secondModalScreen.view,
+            secondModalScreen.title,
+            secondModalScreen.loginButton
+        ]
+        _ = browserElements.map {
+            $0.waitForExistence(timeout: .timeout)
+        }
+        return secondModalScreen
     }
     
     func tapBrowserFiveHundredResponseErrorButton() -> LoginModalSecondScreen {
         fiveHundredResponseErrorButton.tap()
         
-        return LoginModalSecondScreen(app: app).waitForAppearance()
+        let secondModalScreen = LoginModalSecondScreen(app: app).waitForAppearance()
+        let browserElements = [
+            secondModalScreen.view,
+            secondModalScreen.title,
+            secondModalScreen.loginButton
+        ]
+        _ = browserElements.map {
+            $0.waitForExistence(timeout: .timeout)
+        }
+        return secondModalScreen
     }
 }

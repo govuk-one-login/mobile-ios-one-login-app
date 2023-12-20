@@ -71,7 +71,7 @@ extension LoginUITests {
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
-        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        XCTAssertEqual(loginModal.invalidStateButton.label, "Redirect with invalid state")
         // Redirect with invalid state
         let errorScreen = loginModal.tapBrowserInvalidStateErrorButton()
         XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
@@ -87,7 +87,7 @@ extension LoginUITests {
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
-        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        XCTAssertEqual(loginModal.fourHundredResponseErrorButton.label, "Set up 400 response from /token")
         // Set up 400 response from /token
         let loginModalSecondScreen = loginModal.tapBrowserFourHundredResponseErrorButton()
         XCTAssertEqual(loginModalSecondScreen.title.label, "Welcome to the Auth Stub")
@@ -107,7 +107,7 @@ extension LoginUITests {
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
-        XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
+        XCTAssertEqual(loginModal.fiveHundredResponseErrorButton.label, "Set up 500 response from /token")
         // Set up 500 response from /token
         let loginModalSecondScreen = loginModal.tapBrowserFiveHundredResponseErrorButton()
         XCTAssertEqual(loginModalSecondScreen.title.label, "Welcome to the Auth Stub")
