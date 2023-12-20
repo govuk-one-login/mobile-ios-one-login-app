@@ -23,8 +23,7 @@ platform :ios do
   lane :testWithoutCoverage do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      devices: ["iPhone 15", "iPhone SE (3rd generation)"],
-      result_bundle: true,
+      device: "iPhone 15",
       scheme: options[:scheme],
       testplan: options[:testplan]
     )
@@ -35,10 +34,10 @@ platform :ios do
   lane :test do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation)",
-      result_bundle: true,
+      device: "iPhone 15",
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      result_bundle: true
     )
     
     sh(
