@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "e98bd99fde3214010fa9f679b6b1bf9557ded40c"
+        "branch" : "feature/dcmaw-7694-handle-modal-cancel-error",
+        "revision" : "506aaeacca2648570f99c53d591e5afaa9013677"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
       "state" : {
-        "revision" : "b732b24b67871d898f526a3e2165141719282964",
-        "version" : "1.0.0"
+        "branch" : "test",
+        "revision" : "cca4a6241862b55988f2375b3c144ebafbcf583b"
       }
     },
     {

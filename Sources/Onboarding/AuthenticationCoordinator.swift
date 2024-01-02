@@ -23,15 +23,11 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        let configuration = LoginSessionConfiguration.oneLogin
-        session.present(configuration: configuration)
-    }
-    
-    func handleUniversalLink(_ url: URL) {
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task(priority: .userInitiated) {
             do {
-                mainCoordinator.tokens = try await session.finalise(redirectURL: url)
+                mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                finish()
             } catch let error where error is LoginError {
                 let unableToLoginErrorScreen = errorPresenter.createUnableToLoginError(analyticsService: analyticsService) {
                     self.root.popViewController(animated: true)
@@ -43,7 +39,17 @@ final class AuthenticationCoordinator: NSObject,
                 }
                 root.pushViewController(genericErrorScreen, animated: true)
             }
-            finish()
+        }
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        do {
+            try session.finalise(redirectURL: url)
+        } catch {
+            let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
+                self.root.popViewController(animated: true)
+            }
+            root.pushViewController(genericErrorScreen, animated: true)
         }
     }
 }
