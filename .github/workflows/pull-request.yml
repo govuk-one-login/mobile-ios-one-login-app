@@ -34,16 +34,9 @@ jobs:
           LANG: "en_US.UTF-8"
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-        
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
-          bundle install
-          
           brew install sonar-scanner
-          
+
+          bundle install  
           bundle exec fastlane test scheme:"OneLogin" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
