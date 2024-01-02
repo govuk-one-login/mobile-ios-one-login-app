@@ -48,7 +48,7 @@ extension NetworkConnectionErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.networkConnectionError,
+        let screen = ScreenView(screen: ErrorAnalyticsScreen.networkConnection,
                                 titleKey: "You appear to be offline")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
