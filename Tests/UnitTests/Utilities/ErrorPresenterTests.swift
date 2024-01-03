@@ -41,7 +41,7 @@ extension ErrorPresenterTests {
     }
     
     func test_networkConnectionErrorCallsAction() throws {
-        let introView = sut.createNetworkConnectionError(analyticsService: mockAnalyticsService){
+        let introView = sut.createNetworkConnectionError(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])
