@@ -22,6 +22,8 @@
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD0C2B2725C8009AE51F /* TokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */; };
 		41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */; };
+		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
+		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
 		41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */; };
 		41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */; };
 		41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */; };
@@ -120,6 +122,8 @@
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensScreen.swift; sourceTree = "<group>"; };
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
+		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
+		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
@@ -307,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */,
+				41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */,
 				410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */,
 			);
 			path = Errors;
@@ -316,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */,
+				41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */,
 				C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */,
 			);
 			path = Errors;
@@ -808,6 +814,7 @@
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
+				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
@@ -834,6 +841,7 @@
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
+				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,

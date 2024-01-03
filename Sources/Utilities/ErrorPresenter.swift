@@ -17,4 +17,12 @@ final class ErrorPresenter {
         }
         return GDSErrorViewController(viewModel: viewModel)
     }
+    
+    static func createNetworkConnectionError(analyticsService: AnalyticsService,
+                                             action: @escaping () -> Void) -> GDSErrorViewController {
+        let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
+            action()
+        }
+        return GDSErrorViewController(viewModel: viewModel)
+    }
 }
