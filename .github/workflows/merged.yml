@@ -45,11 +45,6 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
@@ -75,11 +70,6 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
@@ -105,14 +95,9 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
   deploy_apps:
@@ -157,11 +142,6 @@ jobs:
           gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
           echo Pushed to branch: $gitbranch
 
-          export GEM_HOME=$HOME/.gem
-          export GEM_PATH=$HOME/.gem
-
-          # Fixes issue with bundle install
-          eval "$(rbenv init - zsh)"
           bundle install
 
           # create variables
