@@ -29,7 +29,7 @@ extension NetworkConnectionErrorViewModelTests {
     func test_labelContents() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.value, "You appear to be offline")
-        XCTAssertEqual(sut.body.value, "GOV.UK One Login is not avaliable offline. \nReconnect to the internet to continue.")
+        XCTAssertEqual(sut.body.value, "GOV.UK One Login is not avaliable offline. \nReconnect to the internet and try again.")
     }
     
     func test_buttonAction() throws {
