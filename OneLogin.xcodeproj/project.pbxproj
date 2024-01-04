@@ -1719,7 +1719,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-7694-handle-modal-cancel-error";
+				branch = main;
 				kind = branch;
 			};
 		};
@@ -1735,7 +1735,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-coordination.git";
 			requirement = {
-				branch = test;
+				branch = main;
 				kind = branch;
 			};
 		};
