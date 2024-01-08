@@ -38,6 +38,8 @@ final class AuthenticationCoordinator: NSObject,
                     self.root.popViewController(animated: true)
                 }
                 root.pushViewController(unableToLoginErrorScreen, animated: true)
+            } catch LoginError.userCancelled {
+                return
             } catch {
                 let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
                     self.root.popViewController(animated: true)

@@ -2,7 +2,6 @@ import Authentication
 import UIKit
 
 final class MockLoginSession: LoginSession {
-
     let window: UIWindow
     var didCallPresent = false
     var didCallFinalise = false
