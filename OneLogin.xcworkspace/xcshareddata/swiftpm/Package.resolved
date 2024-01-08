@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "e98bd99fde3214010fa9f679b6b1bf9557ded40c"
+        "branch" : "feature/dcmaw-7253-transform-network-error",
+        "revision" : "42ad4aabe261dbb08055e57259a5e1e9f4f5d0ea"
       }
     },
     {
@@ -114,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "main",
-        "revision" : "12e7f8554b6bc34739596f29ef1a6412ec4504a9"
+        "revision" : "9dfbd05be37efe9f531c5a320e178f9bc30a0e41"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
       "state" : {
-        "revision" : "b732b24b67871d898f526a3e2165141719282964",
-        "version" : "1.0.0"
+        "branch" : "main",
+        "revision" : "92e36a080f715415d2c14c010c6570d398e6a670"
       }
     },
     {

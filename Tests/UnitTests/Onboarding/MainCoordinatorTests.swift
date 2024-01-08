@@ -19,6 +19,7 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        window = nil
         navigationController = nil
         sut = nil
         

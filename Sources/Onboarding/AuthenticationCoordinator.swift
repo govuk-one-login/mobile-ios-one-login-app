@@ -23,27 +23,40 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        let configuration = LoginSessionConfiguration.oneLogin
-        session.present(configuration: configuration)
-    }
-    
-    func handleUniversalLink(_ url: URL) {
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task(priority: .userInitiated) {
             do {
-                mainCoordinator.tokens = try await session.finalise(redirectURL: url)
-            } catch let error where error is LoginError {
+                mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                finish()
+            } catch LoginError.network {
+                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                    self.root.popViewController(animated: true)
+                }
+                root.pushViewController(networkErrorScreen, animated: true)
+            } catch LoginError.non200, LoginError.invalidRequest, LoginError.clientError {
                 let unableToLoginErrorScreen = errorPresenter.createUnableToLoginError(analyticsService: analyticsService) {
                     self.root.popViewController(animated: true)
                 }
                 root.pushViewController(unableToLoginErrorScreen, animated: true)
+            } catch LoginError.userCancelled {
+                return
             } catch {
                 let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
                     self.root.popViewController(animated: true)
                 }
                 root.pushViewController(genericErrorScreen, animated: true)
             }
-            finish()
+        }
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        do {
+            try session.finalise(redirectURL: url)
+        } catch {
+            let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
+                self.root.popViewController(animated: true)
+            }
+            root.pushViewController(genericErrorScreen, animated: true)
         }
     }
 }

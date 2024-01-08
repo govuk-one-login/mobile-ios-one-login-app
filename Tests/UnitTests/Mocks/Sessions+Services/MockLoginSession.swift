@@ -3,33 +3,28 @@ import UIKit
 
 final class MockLoginSession: LoginSession {
     let window: UIWindow
-    var didCallPresent = false
-    var didCallFinalise = false
-    var didCallCancel = false
-    var errorFromFinalise: Error?
     var sessionConfiguration: LoginSessionConfiguration?
-    var callbackURL: URL?
-    
+    var didCallPerformLoginFlow = false
+    var errorFromLoginFlow: Error?
+    var errorFromFinalise: Error?
+
     init(window: UIWindow = UIWindow()) {
         self.window = window
     }
-    
-    func present(configuration: LoginSessionConfiguration) {
-        didCallPresent = true
+
+    func performLoginFlow(configuration: LoginSessionConfiguration) async throws -> TokenResponse {
         sessionConfiguration = configuration
-    }
-    
-    func finalise(redirectURL: URL) throws -> TokenResponse {
-        didCallFinalise = true
-        callbackURL = redirectURL
-        if let errorFromFinalise {
-            throw errorFromFinalise
+        didCallPerformLoginFlow = true
+        if let errorFromLoginFlow {
+            throw errorFromLoginFlow
         } else {
             return try MockTokenResponse().getJSONData()
         }
     }
-    
-    func cancel() {
-        didCallCancel = true
+
+    func finalise(redirectURL: URL) throws {
+        if let errorFromFinalise {
+            throw errorFromFinalise
+        }
     }
 }
