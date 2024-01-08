@@ -3,20 +3,18 @@ import UIKit
 
 final class MockLoginSession: LoginSession {
     let window: UIWindow
-    var didCallPresent = false
-    var didCallFinalise = false
-    var didCallCancel = false
-    var errorFromLoginFlow: Error?
     var sessionConfiguration: LoginSessionConfiguration?
-    var callbackURL: URL?
+    var didCallPerformLoginFlow = false
+    var errorFromLoginFlow: Error?
+    var errorFromFinalise: Error?
 
     init(window: UIWindow = UIWindow()) {
         self.window = window
     }
 
     func performLoginFlow(configuration: LoginSessionConfiguration) async throws -> TokenResponse {
-        didCallPresent = true
         sessionConfiguration = configuration
+        didCallPerformLoginFlow = true
         if let errorFromLoginFlow {
             throw errorFromLoginFlow
         } else {
@@ -25,11 +23,8 @@ final class MockLoginSession: LoginSession {
     }
 
     func finalise(redirectURL: URL) throws {
-        didCallFinalise = true
-        callbackURL = redirectURL
-    }
-
-    func cancel() {
-        didCallCancel = true
+        if let errorFromFinalise {
+            throw errorFromFinalise
+        }
     }
 }
