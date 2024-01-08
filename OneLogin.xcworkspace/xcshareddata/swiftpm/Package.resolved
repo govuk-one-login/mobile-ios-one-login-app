@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "10c321857c64d751af22a1cae1a93300158c9f76"
+        "branch" : "feature/dcmaw-7253-transform-network-error",
+        "revision" : "42ad4aabe261dbb08055e57259a5e1e9f4f5d0ea"
       }
     },
     {

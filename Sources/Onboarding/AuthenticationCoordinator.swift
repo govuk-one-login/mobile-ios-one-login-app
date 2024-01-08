@@ -28,7 +28,12 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 finish()
-            } catch let error where error is LoginError {
+            } catch LoginError.network {
+                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                    self.root.popViewController(animated: true)
+                }
+                root.pushViewController(networkErrorScreen, animated: true)
+            } catch LoginError.non200, LoginError.invalidRequest, LoginError.clientError {
                 let unableToLoginErrorScreen = errorPresenter.createUnableToLoginError(analyticsService: analyticsService) {
                     self.root.popViewController(animated: true)
                 }

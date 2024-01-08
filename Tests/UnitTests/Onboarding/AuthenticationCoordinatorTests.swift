@@ -7,9 +7,9 @@ import XCTest
 final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockErrorPresenter: ErrorPresenter.Type!
     var mockLoginSession: MockLoginSession!
+    var mockErrorPresenter: ErrorPresenter.Type!
+    var mockAnalyticsService: MockAnalyticsService!
     var mockMainCoordinator: MainCoordinator!
     var sut: AuthenticationCoordinator!
     

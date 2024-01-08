@@ -1719,7 +1719,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-7253-transform-network-error";
 				kind = branch;
 			};
 		};
