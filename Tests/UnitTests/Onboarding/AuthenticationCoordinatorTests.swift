@@ -98,7 +98,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_handleUniversalLink_finaliseCalled_catchAllError() throws {
-        mockLoginSession.errorFromFinalise = AuthenticationError.catchAll
+        mockLoginSession.errorFromLoginFlow = AuthenticationError.catchAll
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
@@ -113,8 +113,8 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc?.viewModel is GenericErrorViewModel)
     }
     
-    func test_handleUniversalLink_finaliseCalled_loginError() throws {
-        mockLoginSession.errorFromFinalise = LoginError.generic(description: "")
+    func test_handleUniversalLink_finaliseCalled_non200LoginError() throws {
+        mockLoginSession.errorFromLoginFlow = LoginError.non200
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
