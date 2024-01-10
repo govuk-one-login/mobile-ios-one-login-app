@@ -73,7 +73,7 @@ extension AppEnvironment {
 
  extension AppEnvironment {
      static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
-         let providers: [EnvironmentProvider] = [appDictionary, UserDefaults.standard]
+         let providers: [EnvironmentProvider] = [UserDefaults.standard, featureFlags]
          return providers
              .lazy
              .compactMap { value(for: key.rawValue, provider: $0) }
