@@ -15,15 +15,26 @@ public final class AppEnvironment {
         return plist
     }
     
-    private static func value<T>(for key: Key) -> T {
-        guard let value = appDictionary[key.rawValue] as? T else {
+    private static var featureFlags: FlagManager {
+        guard let appConfiguration = appDictionary["Configuration"] as? [String: Any] else {
+            fatalError("Info.plist doesn't contain 'Configuration' as [String: Any]")
+        }
+        return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
+    }
+    
+    private static func value<T>(for key: String, provider: EnvironmentProvider) -> T? {
+        provider[key] as? T
+    }
+    
+    private static func value<T>(for key: String) -> T {
+        guard let value = appDictionary[key] as? T else {
             preconditionFailure("Value not found in Info.plist")
         }
         return value
     }
     
     private static func string(for key: Key) -> String {
-        guard let string: String = value(for: key) else {
+        guard let string: String = value(for: key.rawValue) else {
             preconditionFailure("Key not found in Info.plist")
         }
         return string
@@ -57,3 +68,19 @@ extension AppEnvironment {
         return string(for: .redirectURL)
     }
 }
+
+// MARK: - Feature Flags
+
+ extension AppEnvironment {
+     static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
+         let providers: [EnvironmentProvider] = [appDictionary, UserDefaults.standard]
+         return providers
+             .lazy
+             .compactMap { value(for: key.rawValue, provider: $0) }
+             .first ?? false
+     }
+     
+     static var callingSTSEnabled: Bool {
+         isFeatureEnabled(for: .enableCallingSTS)
+    }
+ }
