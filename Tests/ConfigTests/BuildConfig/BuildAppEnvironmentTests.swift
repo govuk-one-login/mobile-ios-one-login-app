@@ -8,5 +8,6 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginToken, URL(string: "https://mobile.build.account.gov.uk/token"))
         XCTAssertEqual(sut.oneLoginClientID, "TEST_CLIENT_ID")
         XCTAssertEqual(sut.oneLoginRedirect, "https://mobile.build.account.gov.uk/redirect")
+        XCTAssertTrue(sut.callingSTSEnabled)
     }
 }
