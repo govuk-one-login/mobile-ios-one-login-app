@@ -11,8 +11,8 @@
   "defaultOptions" : {
     "codeCoverage" : false,
     "repeatInNewRunnerProcess" : true,
-    "testRepetitionMode" : "fixedIterations",
-    "testTimeoutsEnabled" : true
+    "testExecutionOrdering" : "random",
+    "testRepetitionMode" : "retryOnFailure"
   },
   "testTargets" : [
     {
