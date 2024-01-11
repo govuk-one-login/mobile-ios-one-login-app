@@ -35,7 +35,8 @@ platform :ios do
       workspace: "OneLogin.xcworkspace",
       device: "iPhone SE (3rd generation)",
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      prelaunch_simulator: true
     )
   end
 
@@ -76,7 +77,7 @@ platform :ios do
   end
     
   desc "Push a new beta build to TestFlight"
-  lane :deploy do |options|
+  lane :prerelease do |options|
     password = SecureRandom.hex
     
     begin

@@ -4,8 +4,6 @@ final class LoginUITests: XCTestCase {
     var sut: WelcomeScreen!
     
     override func setUp() async throws {
-        continueAfterFailure = false
-        
         await MainActor.run {
             sut = WelcomeScreen()
             sut.app.launch()
