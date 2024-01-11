@@ -96,8 +96,7 @@ jobs:
           LANG: "en_US.UTF-8"
         run: |
           bundle install
-
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
   deploy_apps:

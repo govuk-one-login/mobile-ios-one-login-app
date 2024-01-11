@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "1B984F0D-A558-42A1-8956-E8DFC957CBEE",
+      "id" : "32F01556-F86B-48A4-82C1-AED12518768E",
       "name" : "Configuration 1",
       "options" : {
 
@@ -9,7 +9,10 @@
     }
   ],
   "defaultOptions" : {
-    "testTimeoutsEnabled" : true
+    "codeCoverage" : false,
+    "diagnosticCollectionPolicy" : "Always",
+    "testExecutionOrdering" : "random",
+    "testRepetitionMode" : "retryOnFailure"
   },
   "testTargets" : [
     {

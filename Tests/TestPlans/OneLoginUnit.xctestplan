@@ -1,19 +1,21 @@
 {
   "configurations" : [
     {
-      "id" : "83BA0435-ED59-4CB7-A924-948651786236",
-      "name" : "Test Scheme Action",
+      "id" : "F89413B4-293E-4B64-AB79-BB4777D4BD64",
+      "name" : "Configuration 1",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
+    "diagnosticCollectionPolicy" : "Always",
     "targetForVariableExpansion" : {
       "containerPath" : "container:OneLogin.xcodeproj",
       "identifier" : "219601E62A976302008F3427",
       "name" : "OneLogin"
-    }
+    },
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {
