@@ -95,9 +95,10 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          bundle install
+          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+          bundle install
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
   deploy_apps:
