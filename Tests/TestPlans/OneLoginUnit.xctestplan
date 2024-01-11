@@ -1,6 +1,12 @@
 {
   "configurations" : [
+    {
+      "id" : "F89413B4-293E-4B64-AB79-BB4777D4BD64",
+      "name" : "Configuration 1",
+      "options" : {
 
+      }
+    }
   ],
   "defaultOptions" : {
     "diagnosticCollectionPolicy" : "Always",

@@ -1,6 +1,12 @@
 {
   "configurations" : [
+    {
+      "id" : "32F01556-F86B-48A4-82C1-AED12518768E",
+      "name" : "Configuration 1",
+      "options" : {
 
+      }
+    }
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
