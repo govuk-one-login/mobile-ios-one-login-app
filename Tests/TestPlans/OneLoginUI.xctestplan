@@ -1,15 +1,10 @@
 {
   "configurations" : [
-    {
-      "id" : "1B984F0D-A558-42A1-8956-E8DFC957CBEE",
-      "name" : "Configuration 1",
-      "options" : {
 
-      }
-    }
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
+    "diagnosticCollectionPolicy" : "Always",
     "testExecutionOrdering" : "random",
     "testRepetitionMode" : "retryOnFailure"
   },

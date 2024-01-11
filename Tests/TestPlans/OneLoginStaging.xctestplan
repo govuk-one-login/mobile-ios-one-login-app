@@ -1,15 +1,11 @@
 {
   "configurations" : [
-    {
-      "id" : "0116E4E8-EEB1-481C-8320-C9E947D2771B",
-      "name" : "Configuration 1",
-      "options" : {
-        "testExecutionOrdering" : "random"
-      }
-    }
+
   ],
   "defaultOptions" : {
-    "codeCoverage" : false
+    "codeCoverage" : false,
+    "diagnosticCollectionPolicy" : "Always",
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {

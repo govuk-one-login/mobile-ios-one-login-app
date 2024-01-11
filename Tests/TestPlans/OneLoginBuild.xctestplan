@@ -1,15 +1,10 @@
 {
   "configurations" : [
-    {
-      "id" : "C24D5860-85C4-456A-810D-FD351C8AC13D",
-      "name" : "Configuration 1",
-      "options" : {
 
-      }
-    }
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
+    "diagnosticCollectionPolicy" : "Always",
     "testExecutionOrdering" : "random"
   },
   "testTargets" : [
