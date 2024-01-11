@@ -10,7 +10,6 @@
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
-    "repeatInNewRunnerProcess" : true,
     "testExecutionOrdering" : "random",
     "testRepetitionMode" : "retryOnFailure"
   },
