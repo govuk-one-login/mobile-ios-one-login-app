@@ -9,6 +9,8 @@
     }
   ],
   "defaultOptions" : {
+    "repeatInNewRunnerProcess" : true,
+    "testRepetitionMode" : "fixedIterations",
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
