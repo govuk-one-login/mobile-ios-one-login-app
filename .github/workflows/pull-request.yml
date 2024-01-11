@@ -61,5 +61,5 @@ jobs:
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
           bundle install  
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
