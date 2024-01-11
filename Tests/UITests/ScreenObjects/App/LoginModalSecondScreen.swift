@@ -4,7 +4,7 @@ struct LoginModalSecondScreen: ScreenObject {
     let app: XCUIApplication
     
     var view: XCUIElement {
-        title
+        app.webViews.firstMatch
     }
     
     var title: XCUIElement {

@@ -4,7 +4,7 @@ struct ErrorScreen: ScreenObject {
     let app: XCUIApplication
     
     var view: XCUIElement {
-        app.scrollViews.firstMatch
+        title
     }
     
     var title: XCUIElement {
