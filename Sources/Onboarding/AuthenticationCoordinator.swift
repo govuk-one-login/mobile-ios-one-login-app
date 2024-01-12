@@ -23,7 +23,6 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        print(AppEnvironment.callingSTSEnabled)
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task(priority: .userInitiated) {
             do {
