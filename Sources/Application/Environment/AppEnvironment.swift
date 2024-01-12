@@ -2,10 +2,12 @@ import Foundation
 
 public final class AppEnvironment {
     enum Key: String {
-        case authorizeURL = "Authorize URL"
+        case oneLoginAuthorizeURL = "One Login Authorize URL"
+        case stsAuthorizeURL = "STS Authorize URL"
         case baseURL = "Base URL"
         case redirectURL = "Redirect URL"
-        case clientID = "Client ID"
+        case oneLoginClientID = "One Login Client ID"
+        case stsClientID = "STS Client ID"
     }
     
     private static var appDictionary: [String: Any] {
@@ -41,13 +43,13 @@ public final class AppEnvironment {
     }
 }
 
-// MARK: - Info Plist values as Type properties
+// MARK: - One Login Info Plist values as Type properties
 
 extension AppEnvironment {
     static var oneLoginAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .authorizeURL)
+        components.host = string(for: .oneLoginAuthorizeURL)
         components.path = "/authorize"
         return components.url!
     }
@@ -61,11 +63,27 @@ extension AppEnvironment {
     }
     
     static var oneLoginClientID: String {
-        return string(for: .clientID)
+        return string(for: .oneLoginClientID)
     }
     
     static var oneLoginRedirect: String {
         return string(for: .redirectURL)
+    }
+}
+
+// MARK: - STS Info Plist values as Type properties
+
+extension AppEnvironment {
+    static var stsLoginAuthorize: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .stsAuthorizeURL)
+        components.path = "/authorize"
+        return components.url!
+    }
+    
+    static var stsClientID: String {
+        return string(for: .stsClientID)
     }
 }
 
