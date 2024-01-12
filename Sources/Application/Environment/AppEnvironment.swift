@@ -22,7 +22,7 @@ public final class AppEnvironment {
         return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
     }
     
-    private static func value<T>(for key: String, provider: EnvironmentProvider) -> T? {
+    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
         provider[key] as? T
     }
     
@@ -71,16 +71,16 @@ extension AppEnvironment {
 
 // MARK: - Feature Flags
 
- extension AppEnvironment {
-     static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
-         let providers: [EnvironmentProvider] = [UserDefaults.standard, featureFlags]
-         return providers
-             .lazy
-             .compactMap { value(for: key.rawValue, provider: $0) }
-             .first ?? false
-     }
-     
-     static var callingSTSEnabled: Bool {
-         isFeatureEnabled(for: .enableCallingSTS)
+extension AppEnvironment {
+    static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
+        let providers: [FeatureFlagProvider] = [UserDefaults.standard, featureFlags]
+        return providers
+            .lazy
+            .compactMap { value(for: key.rawValue, provider: $0) }
+            .first ?? false
     }
- }
+    
+    static var callingSTSEnabled: Bool {
+        isFeatureEnabled(for: .enableCallingSTS)
+    }
+}

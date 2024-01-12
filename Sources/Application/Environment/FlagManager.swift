@@ -33,11 +33,11 @@ struct FlagManager {
     }
 }
 
-protocol EnvironmentProvider {
+protocol FeatureFlagProvider {
     subscript(_ key: String) -> Any? { get }
 }
 
-extension FlagManager: EnvironmentProvider {
+extension FlagManager: FeatureFlagProvider {
     subscript(key: String) -> Any? {
         guard let key = FeatureFlags(rawValue: key) else {
             return nil
@@ -46,9 +46,9 @@ extension FlagManager: EnvironmentProvider {
     }
 }
 
-extension Dictionary: EnvironmentProvider where Key == String, Value == Any { }
+extension Dictionary: FeatureFlagProvider where Key == String, Value == Any { }
 
-extension UserDefaults: EnvironmentProvider {
+extension UserDefaults: FeatureFlagProvider {
     subscript(key: String) -> Any? {
         object(forKey: key)
     }
