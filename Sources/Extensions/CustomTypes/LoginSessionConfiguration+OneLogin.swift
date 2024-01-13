@@ -2,10 +2,11 @@ import Authentication
 
 extension LoginSessionConfiguration {
     static var oneLogin: LoginSessionConfiguration {
-        .init(authorizationEndpoint: AppEnvironment.callingSTSEnabled ? AppEnvironment.stsLoginAuthorize : AppEnvironment.oneLoginAuthorize,
-              tokenEndpoint: AppEnvironment.oneLoginToken,
-              scopes: AppEnvironment.callingSTSEnabled ? [.sts] : [.openid],
-              clientID: AppEnvironment.callingSTSEnabled ? AppEnvironment.stsClientID : AppEnvironment.oneLoginClientID,
-              redirectURI: AppEnvironment.oneLoginRedirect)
+        let env = AppEnvironment.self
+        return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsLoginAuthorize : env.oneLoginAuthorize,
+                     tokenEndpoint: env.oneLoginToken,
+                     scopes: env.callingSTSEnabled ? [.sts] : [.openid],
+                     clientID: env.callingSTSEnabled ? env.stsClientID : env.oneLoginClientID,
+                     redirectURI: env.oneLoginRedirect)
     }
 }
