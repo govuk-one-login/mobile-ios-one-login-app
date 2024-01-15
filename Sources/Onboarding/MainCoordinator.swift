@@ -1,6 +1,7 @@
 import Authentication
 import Coordination
 import Logging
+import Network
 import UIKit
 
 final class MainCoordinator: NSObject,
@@ -13,7 +14,9 @@ final class MainCoordinator: NSObject,
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     var tokens: TokenResponse?
-    
+    let monitor = NWPathMonitor()
+    var isNetworkConnected: Bool = true
+
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
@@ -23,17 +26,26 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
-            if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
-                authCoordinator.start()
-            } else {
-                openChildInline(AuthenticationCoordinator(root: root,
-                                                          session: AppAuthSession(window: window),
-                                                          errorPresenter: errorPresenter,
-                                                          analyticsService: analyticsService))
+        checkNetworkConnection()
+        if isNetworkConnected {
+            let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
+                if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
+                    authCoordinator.start()
+                } else {
+                    openChildInline(AuthenticationCoordinator(root: root,
+                                                              session: AppAuthSession(window: window),
+                                                              errorPresenter: errorPresenter,
+                                                              analyticsService: analyticsService))
+                }
             }
+            root.setViewControllers([introViewController], animated: false)
         }
-        root.setViewControllers([introViewController], animated: false)
+        if !isNetworkConnected {
+            let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                self.root.popViewController(animated: true)
+            }
+            root.pushViewController(networkErrorScreen, animated: true)
+        }
     }
     
     func launchTokenCoordinator() {
@@ -48,5 +60,19 @@ final class MainCoordinator: NSObject,
         default:
             break
         }
+    }
+
+    private func checkNetworkConnection() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                print("Connected!")
+                self.isNetworkConnected = true
+            } else {
+                self.isNetworkConnected = false
+                print("Houston we are offline")
+            }
+        }
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
     }
 }
