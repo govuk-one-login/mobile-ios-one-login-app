@@ -11,7 +11,8 @@ final class AuthenticationCoordinator: NSObject,
     let session: LoginSession
     let errorPresenter: ErrorPresenter.Type
     let analyticsService: AnalyticsService
-    
+    private let networkMonitor = NetworkMonitor()
+
     init(root: UINavigationController,
          session: LoginSession,
          errorPresenter: ErrorPresenter.Type,
@@ -24,6 +25,12 @@ final class AuthenticationCoordinator: NSObject,
     
     func start() {
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
+        while !networkMonitor.isConnected {
+            let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                self.root.popViewController(animated: true)
+            }
+            root.pushViewController(networkErrorScreen, animated: true)
+        }
         Task(priority: .userInitiated) {
             do {
                 mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
