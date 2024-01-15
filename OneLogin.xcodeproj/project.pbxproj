@@ -65,6 +65,10 @@
 		C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
 		C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */; };
 		C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */; };
+		C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
+		C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */; };
+		C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
+		C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,6 +162,12 @@
 		C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
+		C8BACAF22B4DCC2D00530419 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		C8BACAF42B4DCC3D00530419 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FeatureFlagsStaging.json; sourceTree = "<group>"; };
+		C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FeatureFlagsBuild.json; sourceTree = "<group>"; };
+		C8BACAFC2B4DD93C00530419 /* FlagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagManager.swift; sourceTree = "<group>"; };
+		C8BACAFE2B4DE1C300530419 /* Flag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -283,9 +293,10 @@
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C8BACAFB2B4DD92200530419 /* Environment */,
+				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
-				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -547,6 +558,59 @@
 			path = ConfigTests;
 			sourceTree = "<group>";
 		};
+		C8BACAED2B4DCBE200530419 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C8BACAEF2B4DCC0B00530419 /* FeatureFlags */,
+				C8BACAEE2B4DCBF400530419 /* Settings */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		C8BACAEE2B4DCBF400530419 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C8BACAF02B4DCC1700530419 /* BuildConfig */,
+				C8BACAF12B4DCC1F00530419 /* StagingConfig */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		C8BACAEF2B4DCC0B00530419 /* FeatureFlags */ = {
+			isa = PBXGroup;
+			children = (
+				C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */,
+				C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */,
+			);
+			path = FeatureFlags;
+			sourceTree = "<group>";
+		};
+		C8BACAF02B4DCC1700530419 /* BuildConfig */ = {
+			isa = PBXGroup;
+			children = (
+				C8BACAF22B4DCC2D00530419 /* Settings.bundle */,
+			);
+			path = BuildConfig;
+			sourceTree = "<group>";
+		};
+		C8BACAF12B4DCC1F00530419 /* StagingConfig */ = {
+			isa = PBXGroup;
+			children = (
+				C8BACAF42B4DCC3D00530419 /* Settings.bundle */,
+			);
+			path = StagingConfig;
+			sourceTree = "<group>";
+		};
+		C8BACAFB2B4DD92200530419 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
+				C8BACAFE2B4DE1C300530419 /* Flag.swift */,
+				C8BACAFC2B4DD93C00530419 /* FlagManager.swift */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,6 +646,7 @@
 				219601E32A976302008F3427 /* Sources */,
 				219601E42A976302008F3427 /* Frameworks */,
 				219601E52A976302008F3427 /* Resources */,
+				C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */,
 			);
 			buildRules = (
 			);
@@ -738,12 +803,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */,
+				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,6 +865,25 @@
 			shellPath = /bin/sh;
 			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, please run brew install swiftlint\"\nfi\n\n";
 		};
+		C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Settings Bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n    \nif [ \"${CONFIGURATION}\" = \"Staging\" ]; then\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/StagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nelif [ \"${CONFIGURATION}\" = \"Build\" ]; then\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/BuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -806,6 +892,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
+				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
@@ -822,6 +909,7 @@
 				21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */,
 				41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
+				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
 				C89632EF2B0D0895002A1473 /* TokensViewController.swift in Sources */,
 			);
@@ -1037,12 +1125,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				BASE_URL = mobile.staging.account.gov.uk;
-				CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				FEATURE_FLAG_FILE = FeatureFlagsStaging;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
@@ -1056,9 +1143,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
+				STS_AUTHORIZE_URL = token.staging.account.gov.uk;
+				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1070,12 +1161,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = "";
 				BASE_URL = "";
-				CLIENT_ID = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				FEATURE_FLAG_FILE = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
@@ -1090,9 +1180,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = "";
+				ONE_LOGIN_CLIENT_ID = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "";
+				STS_AUTHORIZE_URL = "";
+				STS_CLIENT_ID = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1336,13 +1430,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				BASE_URL = mobile.staging.account.gov.uk;
-				CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				FEATURE_FLAG_FILE = FeatureFlagsStaging;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Staging";
@@ -1357,9 +1450,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
+				STS_AUTHORIZE_URL = token.staging.account.gov.uk;
+				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1518,13 +1615,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
 				BASE_URL = mobile.build.account.gov.uk;
-				CLIENT_ID = TEST_CLIENT_ID;
 				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				FEATURE_FLAG_FILE = FeatureFlagsBuild;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Build";
@@ -1539,9 +1635,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
+				ONE_LOGIN_CLIENT_ID = TEST_CLIENT_ID;
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.build.account.gov.uk/redirect";
+				STS_AUTHORIZE_URL = token.build.account.gov.uk;
+				STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

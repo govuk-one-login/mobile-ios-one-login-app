@@ -49,7 +49,7 @@ jobs:
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
             testplan:OneLoginStaging
-  
+
   test_build_config:
     needs: run_swiftlint
     name: Run Build Configuration Tests
@@ -96,6 +96,7 @@ jobs:
           LANG: "en_US.UTF-8"
         run: |
           bundle install
+
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 

@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [ opened, reopened, synchronize, ready_for_review ]
     branches: [ develop, release/*, main ]
-    
+
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -26,7 +26,7 @@ jobs:
 
       - name: Lint
         run: swiftlint --strict
-          
+
       - name: Run unit tests and send coverage report
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,11 +34,10 @@ jobs:
           LANG: "en_US.UTF-8"
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          brew install sonar-scanner
 
           bundle install
-          
-          brew install sonar-scanner
-          
+
           bundle exec fastlane test scheme:"OneLogin" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
