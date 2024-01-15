@@ -113,12 +113,6 @@ jobs:
         with:
           lfs: 'true'
 
-      - name: Check Dependencies
-        uses: GetSidetrack/action-xcodeproj-spm-update@main
-        with:
-          workspace: "OneLogin.xcworkspace"
-          scheme: "OneLogin"
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
