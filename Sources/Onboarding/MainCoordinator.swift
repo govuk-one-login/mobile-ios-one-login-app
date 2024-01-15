@@ -32,19 +32,22 @@ final class MainCoordinator: NSObject,
                 if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
                     authCoordinator.start()
                 } else {
-                    openChildInline(AuthenticationCoordinator(root: root,
-                                                              session: AppAuthSession(window: window),
-                                                              errorPresenter: errorPresenter,
-                                                              analyticsService: analyticsService))
+                    checkNetworkConnection()
+                    if isNetworkConnected {
+                        openChildInline(AuthenticationCoordinator(root: root,
+                                                                  session: AppAuthSession(window: window),
+                                                                  errorPresenter: errorPresenter,
+                                                                  analyticsService: analyticsService))
+                    } else {
+                        let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                            self.root.popViewController(animated: true)
+                        }
+                        root.pushViewController(networkErrorScreen, animated: true)
+                    }
+
                 }
             }
             root.setViewControllers([introViewController], animated: false)
-        }
-        if !isNetworkConnected {
-            let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                self.root.popViewController(animated: true)
-            }
-            root.pushViewController(networkErrorScreen, animated: true)
         }
     }
     
@@ -62,7 +65,7 @@ final class MainCoordinator: NSObject,
         }
     }
 
-    private func checkNetworkConnection() {
+    func checkNetworkConnection() {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
                 print("Connected!")
