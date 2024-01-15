@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "feature/dcmaw-7460-add-sts-to-scopes",
-        "revision" : "084144e3c1b786ae7934962862591b4f17832c45"
+        "branch" : "main",
+        "revision" : "8bf0c615d842ee7b00adb35b2f8191dfe8e0e1f5"
       }
     },
     {

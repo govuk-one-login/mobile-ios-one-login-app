@@ -1819,7 +1819,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-7460-add-sts-to-scopes";
+				branch = main;
 				kind = branch;
 			};
 		};
