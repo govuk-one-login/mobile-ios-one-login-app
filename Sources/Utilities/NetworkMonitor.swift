@@ -18,8 +18,4 @@ final class NetworkMonitor {
         }
         monitor.start(queue: queue)
     }
-
-    func checkNetworkConnection() -> Bool {
-        return isConnected
-    }
 }

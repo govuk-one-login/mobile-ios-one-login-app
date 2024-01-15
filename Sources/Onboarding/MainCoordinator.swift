@@ -25,13 +25,11 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-
         if networkMonitor.isConnected {
             let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
                 if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
                     authCoordinator.start()
                 } else {
-
                     if !networkMonitor.isConnected {
                         let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
                             self.root.popViewController(animated: true)
@@ -48,12 +46,12 @@ final class MainCoordinator: NSObject,
             root.setViewControllers([introViewController], animated: false)
         }
         // This will show the error screen first if the app starts offline
-//        if !networkMonitor.isConnected {
-//            let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-//                self.root.popViewController(animated: true)
-//            }
-//            root.pushViewController(networkErrorScreen, animated: true)
-//        }
+        if !networkMonitor.isConnected {
+            let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                self.root.popViewController(animated: true)
+            }
+            root.pushViewController(networkErrorScreen, animated: true)
+        }
     }
     
     func launchTokenCoordinator() {
