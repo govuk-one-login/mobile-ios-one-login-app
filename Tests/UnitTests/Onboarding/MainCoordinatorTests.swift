@@ -65,4 +65,27 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators.last is TokenCoordinator)
     }
+    
+    // When user is offline display error screen
+    func test_mainCoordinatorStart_displaysNetworkConnectionError() throws {
+        // GIVEN user if offline
+        NetworkMonitor.shared.isConnected = false
+        // GIVEN the MainCoordinator is started
+        sut.start()
+        // WHEN the button on the IntroViewController is tapped
+        let introScreen = sut.root.topViewController as? IntroViewController
+        let introButton: UIButton = try XCTUnwrap(introScreen?.view[child: "intro-button"])
+        XCTAssertEqual(sut.childCoordinators.count, 0) // ?
+        introButton.sendActions(for: .touchUpInside)
+        
+        // THEN the network error screen is shown
+        let vc = sut.root.topViewController as? GDSErrorViewController
+        XCTAssertTrue(vc != nil)
+        XCTAssertTrue(introScreen?.viewModel is NetworkConnectionErrorViewModel)
+    }
+    
+    // When user is offline and error screen is show, but they try again whilst being online
+    
+    // When user is online and open Auth, but then loses connection
+
 }
