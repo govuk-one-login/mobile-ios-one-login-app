@@ -7,15 +7,18 @@ final class MainCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var sut: MainCoordinator!
+    var mockNetworkMonitor: NetworkMonitoring!
     
     override func setUp() {
         super.setUp()
         
         window = .init()
         navigationController = .init()
+        mockNetworkMonitor = MockNetworkMonitor.shared
         window.rootViewController = navigationController
         sut = MainCoordinator(window: window,
-                              root: navigationController)
+                              root: navigationController,
+                              networkMonitor: mockNetworkMonitor)
     }
     
     override func tearDown() {
@@ -69,19 +72,19 @@ extension MainCoordinatorTests {
     // When user is offline display error screen
     func test_mainCoordinatorStart_displaysNetworkConnectionError() throws {
         // GIVEN user if offline
-        NetworkMonitor.shared.isConnected = false
+        mockNetworkMonitor.isConnected = false
         // GIVEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
-        let introScreen = sut.root.topViewController as? IntroViewController
+        let introScreen = navigationController.topViewController as? IntroViewController
         let introButton: UIButton = try XCTUnwrap(introScreen?.view[child: "intro-button"])
-        XCTAssertEqual(sut.childCoordinators.count, 0) // ?
+        XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         
         // THEN the network error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
+        let vc = navigationController.topViewController as? GDSErrorViewController
         XCTAssertTrue(vc != nil)
-        XCTAssertTrue(introScreen?.viewModel is NetworkConnectionErrorViewModel)
+        XCTAssertTrue(vc?.viewModel is NetworkConnectionErrorViewModel)
     }
     
     // When user is offline and error screen is show, but they try again whilst being online

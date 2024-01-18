@@ -10,6 +10,7 @@ final class MainCoordinator: NSObject,
     let window: UIWindow
     let root: UINavigationController
     let analyticsService: AnalyticsService
+    let networkMonitor: NetworkMonitoring
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
@@ -17,19 +18,21 @@ final class MainCoordinator: NSObject,
     
     init(window: UIWindow,
          root: UINavigationController,
-         analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
+         analyticsService: AnalyticsService = OneLoginAnalyticsService(),
+         networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.window = window
         self.root = root
         self.analyticsService = analyticsService
+        self.networkMonitor = networkMonitor
     }
     
     func start() {
         let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [unowned self] in
-            if NetworkMonitor.shared.isConnected {
+            if networkMonitor.isConnected {
                 displayAuthCoordinator()
             } else {
                 let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                    if NetworkMonitor.shared.isConnected {
+                    if self.networkMonitor.isConnected {
                         self.root.popViewController(animated: true)
                         self.displayAuthCoordinator()
                     }
