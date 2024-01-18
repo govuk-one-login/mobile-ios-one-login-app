@@ -11,11 +11,11 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsService: AnalyticsService
     var childCoordinators = [ChildCoordinator]()
+    let networkMonitor = NetworkMonitor.shared
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    private let networkMonitor = NetworkMonitor()
     var tokens: TokenResponse?
-
+    
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
@@ -25,16 +25,13 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
-            // IF USER IS ONLINE
+        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [unowned self] in
             if networkMonitor.isConnected {
                 displayAuthCoordinator()
-            }
-            // ELSE IF USER IS OFFLINE
-            else if !networkMonitor.isConnected {
+            } else {
                 let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                    // IF USER IS BACK ONLINE
                     if self.networkMonitor.isConnected {
+                        self.root.popViewController(animated: true)
                         self.displayAuthCoordinator()
                     }
                 }
@@ -52,36 +49,6 @@ final class MainCoordinator: NSObject,
                                                       session: AppAuthSession(window: window),
                                                       errorPresenter: errorPresenter,
                                                       analyticsService: analyticsService))
-        }
-    }
-    
-    func start2() {
-        if networkMonitor.isConnected {
-            let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
-                if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
-                    authCoordinator.start()
-                } else {
-                    if !networkMonitor.isConnected {
-                        let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                            self.root.popViewController(animated: true)
-                        }
-                        root.pushViewController(networkErrorScreen, animated: true)
-                    } else {
-                        openChildInline(AuthenticationCoordinator(root: root,
-                                                                  session: AppAuthSession(window: window),
-                                                                  errorPresenter: errorPresenter,
-                                                                  analyticsService: analyticsService))
-                    }
-                }
-            }
-            root.setViewControllers([introViewController], animated: false)
-        }
-        // This will show the error screen first if the app starts offline
-        if !networkMonitor.isConnected {
-            let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                self.root.popViewController(animated: true)
-            }
-            root.pushViewController(networkErrorScreen, animated: true)
         }
     }
     

@@ -26,13 +26,6 @@ final class AuthenticationCoordinator: NSObject,
     func start() {
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task(priority: .userInitiated) {
-            // NEW, is this needed?
-//            if !networkMonitor.isConnected {
-//                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-//                    self.root.popViewController(animated: true)
-//                }
-//                root.pushViewController(networkErrorScreen, animated: true)
-//            }
             do {
                 mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 finish()
