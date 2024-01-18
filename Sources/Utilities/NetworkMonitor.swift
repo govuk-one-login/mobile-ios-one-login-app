@@ -9,7 +9,7 @@ final class NetworkMonitor {
     init(isConnected: Bool = false) {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                print("Connected!")
+                print("User is online")
                 self.isConnected = true
             } else {
                 self.isConnected = false

@@ -25,6 +25,37 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
+        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
+            // IF USER IS ONLINE
+            if networkMonitor.isConnected {
+                displayAuthCoordinator()
+            }
+            // ELSE IF USER IS OFFLINE
+            else if !networkMonitor.isConnected {
+                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+                    // IF USER IS BACK ONLINE
+                    if self.networkMonitor.isConnected {
+                        self.displayAuthCoordinator()
+                    }
+                }
+                root.pushViewController(networkErrorScreen, animated: true)
+            }
+        }
+        root.setViewControllers([introViewController], animated: false)
+    }
+    
+    func displayAuthCoordinator() {
+        if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
+            authCoordinator.start()
+        } else {
+            openChildInline(AuthenticationCoordinator(root: root,
+                                                      session: AppAuthSession(window: window),
+                                                      errorPresenter: errorPresenter,
+                                                      analyticsService: analyticsService))
+        }
+    }
+    
+    func start2() {
         if networkMonitor.isConnected {
             let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
                 if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
