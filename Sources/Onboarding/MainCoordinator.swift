@@ -11,7 +11,6 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsService: AnalyticsService
     var childCoordinators = [ChildCoordinator]()
-    let networkMonitor = NetworkMonitor.shared
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     var tokens: TokenResponse?
@@ -26,11 +25,11 @@ final class MainCoordinator: NSObject,
     
     func start() {
         let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [unowned self] in
-            if networkMonitor.isConnected {
+            if NetworkMonitor.shared.isConnected {
                 displayAuthCoordinator()
             } else {
                 let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                    if self.networkMonitor.isConnected {
+                    if NetworkMonitor.shared.isConnected {
                         self.root.popViewController(animated: true)
                         self.displayAuthCoordinator()
                     }

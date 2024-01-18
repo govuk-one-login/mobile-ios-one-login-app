@@ -11,7 +11,6 @@ final class AuthenticationCoordinator: NSObject,
     let session: LoginSession
     let errorPresenter: ErrorPresenter.Type
     let analyticsService: AnalyticsService
-    private let networkMonitor = NetworkMonitor()
 
     init(root: UINavigationController,
          session: LoginSession,
