@@ -50,6 +50,7 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
+        waitForTruth(self.mockNetworkMonitor.isConnected, timeout: 2)
         XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
         XCTAssertEqual(sut.childCoordinators.count, 1)
     }
