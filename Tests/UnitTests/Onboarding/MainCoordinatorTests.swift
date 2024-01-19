@@ -42,6 +42,8 @@ extension MainCoordinatorTests {
     }
     
     func test_mainCoordinatorStart_opensSubCoordinator() throws {
+        // GIVEN the user is online
+        mockNetworkMonitor.isConnected = true
         // GIVEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
