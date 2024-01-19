@@ -46,8 +46,9 @@ final class MainCoordinator: NSObject,
     }
     
     func displayAuthCoordinator() {
-        if let authCoordinator = childCoordinators
-            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
+        let authCoordinator = childCoordinators.first { $0 is AuthenticationCoordinator }
+
+        if let authCoordinator = authCoordinator as? AuthenticationCoordinator {
             authCoordinator.start()
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
