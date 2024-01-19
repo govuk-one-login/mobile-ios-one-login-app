@@ -4,5 +4,5 @@ final class MockNetworkMonitor: NetworkMonitoring {
     static let shared: NetworkMonitoring = MockNetworkMonitor()
     var isConnected: Bool = true
     
-    init() { }
+    private init() { }
 }

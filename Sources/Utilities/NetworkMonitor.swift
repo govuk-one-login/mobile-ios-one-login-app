@@ -5,13 +5,9 @@ final class NetworkMonitor: NetworkMonitoring {
     private let monitor = NWPathMonitor()
     var isConnected: Bool = false
 
-    init() {
+    private init() {
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                self.isConnected = true
-            } else {
-                self.isConnected = false
-            }
+            self.isConnected = path.status == .satisfied
         }
         let queue = DispatchQueue(label: "Monitor")
         monitor.start(queue: queue)

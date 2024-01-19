@@ -27,7 +27,8 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [unowned self] in
+        let introViewController = viewControllerFactory
+            .createIntroViewController(analyticsService: analyticsService) { [unowned self] in
             if networkMonitor.isConnected {
                 displayAuthCoordinator()
             } else {
@@ -44,7 +45,8 @@ final class MainCoordinator: NSObject,
     }
     
     func displayAuthCoordinator() {
-        if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
+        if let authCoordinator = childCoordinators
+            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
             authCoordinator.start()
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
