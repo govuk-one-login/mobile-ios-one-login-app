@@ -11,7 +11,7 @@ final class AuthenticationCoordinator: NSObject,
     let session: LoginSession
     let errorPresenter: ErrorPresenter.Type
     let analyticsService: AnalyticsService
-
+    
     init(root: UINavigationController,
          session: LoginSession,
          errorPresenter: ErrorPresenter.Type,

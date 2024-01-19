@@ -1,7 +1,6 @@
 import Authentication
 import Coordination
 import Logging
-
 import UIKit
 
 final class MainCoordinator: NSObject,
@@ -46,9 +45,8 @@ final class MainCoordinator: NSObject,
     }
     
     func displayAuthCoordinator() {
-        let authCoordinator = childCoordinators.first { $0 is AuthenticationCoordinator }
-
-        if let authCoordinator = authCoordinator as? AuthenticationCoordinator {
+        if let authCoordinator = childCoordinators
+            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
             authCoordinator.start()
         } else {
             openChildInline(AuthenticationCoordinator(root: root,

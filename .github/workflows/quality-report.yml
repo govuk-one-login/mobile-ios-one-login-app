@@ -21,7 +21,9 @@ jobs:
           fetch-depth: 0
 
       - name: Lint
-        run: swiftlint --strict
+        run: |
+          brew install swiftlint
+          swiftlint --strict
 
       - name: Run unit tests and send coverage report
         env:
