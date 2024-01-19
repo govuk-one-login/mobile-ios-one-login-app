@@ -29,18 +29,19 @@ final class MainCoordinator: NSObject,
     func start() {
         let introViewController = viewControllerFactory
             .createIntroViewController(analyticsService: analyticsService) { [unowned self] in
-            if networkMonitor.isConnected {
-                displayAuthCoordinator()
-            } else {
-                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                    if self.networkMonitor.isConnected {
-                        self.root.popViewController(animated: true)
-                        self.displayAuthCoordinator()
-                    }
+                if networkMonitor.isConnected {
+                    displayAuthCoordinator()
+                } else {
+                    let networkErrorScreen = errorPresenter
+                        .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
+                            if networkMonitor.isConnected {
+                                root.popViewController(animated: true)
+                                displayAuthCoordinator()
+                            }
+                        }
+                    root.pushViewController(networkErrorScreen, animated: true)
                 }
-                root.pushViewController(networkErrorScreen, animated: true)
             }
-        }
         root.setViewControllers([introViewController], animated: false)
     }
     
