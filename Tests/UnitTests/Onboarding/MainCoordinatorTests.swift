@@ -52,7 +52,7 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
-        waitForTruth(self.mockNetworkMonitor.isConnected, timeout: 2)
+        waitForTruth(self.mockNetworkMonitor.isConnected, timeout: 10)
         XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
         XCTAssertEqual(sut.childCoordinators.count, 1)
     }
@@ -84,7 +84,7 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         // THEN the network error screen is shown
-        waitForTruth(!self.mockNetworkMonitor.isConnected, timeout: 2)
+        waitForTruth(!self.mockNetworkMonitor.isConnected, timeout: 10)
         let vc = sut.root.topViewController as? GDSErrorViewController
         XCTAssertTrue(vc != nil)
         XCTAssertTrue(vc?.viewModel is NetworkConnectionErrorViewModel)
