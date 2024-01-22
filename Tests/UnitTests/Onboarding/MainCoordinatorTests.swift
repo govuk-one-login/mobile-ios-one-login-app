@@ -14,7 +14,7 @@ final class MainCoordinatorTests: XCTestCase {
         
         window = .init()
         navigationController = .init()
-        mockNetworkMonitor = MockNetworkMonitor.shared
+        mockNetworkMonitor = MockNetworkMonitor()
         window.rootViewController = navigationController
         sut = MainCoordinator(window: window,
                               root: navigationController,
@@ -111,7 +111,6 @@ extension MainCoordinatorTests {
         let errorPrimaryButton: UIButton = try XCTUnwrap(vc?.view[child: "error-primary-button"])
         errorPrimaryButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
-        waitForTruth(self.mockNetworkMonitor.isConnected, timeout: 2)
         XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
         XCTAssertEqual(sut.childCoordinators.count, 1)
     }
