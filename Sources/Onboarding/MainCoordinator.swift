@@ -9,6 +9,7 @@ final class MainCoordinator: NSObject,
     let window: UIWindow
     let root: UINavigationController
     let analyticsService: AnalyticsService
+    let networkMonitor: NetworkMonitoring
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
@@ -16,24 +17,43 @@ final class MainCoordinator: NSObject,
     
     init(window: UIWindow,
          root: UINavigationController,
-         analyticsService: AnalyticsService = OneLoginAnalyticsService()) {
+         analyticsService: AnalyticsService = OneLoginAnalyticsService(),
+         networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.window = window
         self.root = root
         self.analyticsService = analyticsService
+        self.networkMonitor = networkMonitor
     }
     
     func start() {
-        let introViewController = viewControllerFactory.createIntroViewController(analyticsService: analyticsService) { [self] in
-            if let authCoordinator = childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
-                authCoordinator.start()
-            } else {
-                openChildInline(AuthenticationCoordinator(root: root,
-                                                          session: AppAuthSession(window: window),
-                                                          errorPresenter: errorPresenter,
-                                                          analyticsService: analyticsService))
+        let introViewController = viewControllerFactory
+            .createIntroViewController(analyticsService: analyticsService) { [unowned self] in
+                if networkMonitor.isConnected {
+                    displayAuthCoordinator()
+                } else {
+                    let networkErrorScreen = errorPresenter
+                        .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
+                            if networkMonitor.isConnected {
+                                root.popViewController(animated: true)
+                                displayAuthCoordinator()
+                            }
+                        }
+                    root.pushViewController(networkErrorScreen, animated: true)
+                }
             }
-        }
         root.setViewControllers([introViewController], animated: false)
+    }
+    
+    func displayAuthCoordinator() {
+        if let authCoordinator = childCoordinators
+            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
+            authCoordinator.start()
+        } else {
+            openChildInline(AuthenticationCoordinator(root: root,
+                                                      session: AppAuthSession(window: window),
+                                                      errorPresenter: errorPresenter,
+                                                      analyticsService: analyticsService))
+        }
     }
     
     func launchTokenCoordinator() {

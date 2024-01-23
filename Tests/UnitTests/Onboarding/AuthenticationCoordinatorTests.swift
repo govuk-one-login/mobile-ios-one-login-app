@@ -89,7 +89,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_network() throws {
-        mockLoginSession.errorFromLoginFlow = LoginError.network
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.network
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
@@ -102,7 +102,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_non200() throws {
-        mockLoginSession.errorFromLoginFlow = LoginError.non200
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
@@ -115,7 +115,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_invalidRequest() throws {
-        mockLoginSession.errorFromLoginFlow = LoginError.invalidRequest
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
@@ -128,7 +128,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_clientError() throws {
-        mockLoginSession.errorFromLoginFlow = LoginError.clientError
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
@@ -141,7 +141,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_userCancelled() throws {
-        mockLoginSession.errorFromLoginFlow = LoginError.userCancelled
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
         mockMainCoordinator.start()
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
@@ -153,7 +153,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_generic() throws {
-        mockLoginSession.errorFromLoginFlow = LoginError.generic(description: "")
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()
@@ -166,7 +166,7 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_loginError_catchAllError() throws {
-        mockLoginSession.errorFromLoginFlow = AuthenticationError.catchAll
+        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.catchAll
         mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
         sut.start()

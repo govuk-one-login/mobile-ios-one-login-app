@@ -5,7 +5,7 @@ final class MockLoginSession: LoginSession {
     let window: UIWindow
     var sessionConfiguration: LoginSessionConfiguration?
     var didCallPerformLoginFlow = false
-    var errorFromLoginFlow: Error?
+    var errorFromPerformLoginFlow: Error?
     var errorFromFinalise: Error?
 
     init(window: UIWindow = UIWindow()) {
@@ -15,8 +15,8 @@ final class MockLoginSession: LoginSession {
     func performLoginFlow(configuration: LoginSessionConfiguration) async throws -> TokenResponse {
         sessionConfiguration = configuration
         didCallPerformLoginFlow = true
-        if let errorFromLoginFlow {
-            throw errorFromLoginFlow
+        if let errorFromPerformLoginFlow {
+            throw errorFromPerformLoginFlow
         } else {
             return try MockTokenResponse().getJSONData()
         }
