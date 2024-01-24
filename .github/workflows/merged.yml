@@ -11,7 +11,7 @@ permissions:
 jobs:
   run_swiftlint:
     name: Run Swiftlint
-    runs-on: macos-13-xlarge
+    runs-on: macos-13
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -23,14 +23,12 @@ jobs:
           fetch-depth: 0
 
       - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
+        run: swiftlint --strict
 
   test_staging_config:
     needs: run_swiftlint
     name: Run Staging Configuration Tests
-    runs-on: macos-13-xlarge
+    runs-on: macos-13
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -55,7 +53,7 @@ jobs:
   test_build_config:
     needs: run_swiftlint
     name: Run Build Configuration Tests
-    runs-on: macos-13-xlarge
+    runs-on: macos-13
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -80,7 +78,7 @@ jobs:
   test_ui:
     needs: run_swiftlint
     name: Run UI Tests
-    runs-on: macos-13-xlarge
+    runs-on: macos-13
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -105,7 +103,7 @@ jobs:
   deploy_apps:
     needs: [test_staging_config, test_build_config, test_ui]
     name: Deploy Staging and Build Apps
-    runs-on: macos-13-xlarge
+    runs-on: macos-13
     steps:
       - name: Add path globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH

@@ -8,7 +8,7 @@ jobs:
   build:
     name: Build app, run unit tests and send coverage report for main branch
     if: github.event.pull_request.draft == false
-    runs-on: macos-13-xlarge
+    runs-on: macos-13
 
     steps:
       - name: Add path globally
@@ -21,9 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
+        run: swiftlint --strict
 
       - name: Run unit tests and send coverage report
         env:
