@@ -54,6 +54,8 @@
 		C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
+		C888DB242B6191340020CFD5 /* AppAttestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C888DB232B6191340020CFD5 /* AppAttestView.xib */; };
+		C888DB262B6191680020CFD5 /* AppAttestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C888DB252B6191680020CFD5 /* AppAttestViewController.swift */; };
 		C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C89632EC2B0D0886002A1473 /* TokensView.xib */; };
 		C89632EF2B0D0895002A1473 /* TokensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89632EE2B0D0895002A1473 /* TokensViewController.swift */; };
 		C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */; };
@@ -161,6 +163,8 @@
 		C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenterTests.swift; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		C888DB232B6191340020CFD5 /* AppAttestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppAttestView.xib; sourceTree = "<group>"; };
+		C888DB252B6191680020CFD5 /* AppAttestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAttestViewController.swift; sourceTree = "<group>"; };
 		C89632EC2B0D0886002A1473 /* TokensView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TokensView.xib; path = Sources/Screens/Tokens/TokensView.xib; sourceTree = SOURCE_ROOT; };
 		C89632EE2B0D0895002A1473 /* TokensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TokensViewController.swift; path = Sources/Screens/Tokens/TokensViewController.swift; sourceTree = SOURCE_ROOT; };
 		C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
@@ -310,6 +314,7 @@
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C888DB222B6191110020CFD5 /* AppAttest */,
 				4195E6C72B0CC6CD0065E2BB /* Tokens */,
 			);
 			path = Screens;
@@ -556,6 +561,15 @@
 				C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		C888DB222B6191110020CFD5 /* AppAttest */ = {
+			isa = PBXGroup;
+			children = (
+				C888DB232B6191340020CFD5 /* AppAttestView.xib */,
+				C888DB252B6191680020CFD5 /* AppAttestViewController.swift */,
+			);
+			path = AppAttest;
 			sourceTree = "<group>";
 		};
 		C8BA48F62AF3FFBF0028282D /* ConfigTests */ = {
@@ -820,6 +834,7 @@
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
+				C888DB242B6191340020CFD5 /* AppAttestView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,6 +920,7 @@
 				4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
+				C888DB262B6191680020CFD5 /* AppAttestViewController.swift in Sources */,
 				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
