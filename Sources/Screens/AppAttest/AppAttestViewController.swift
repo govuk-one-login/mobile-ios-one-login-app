@@ -41,7 +41,7 @@ class AppAttestViewController: UIViewController {
             do {
                 try await attestService.verify()
             } catch {
-                print("Not verified")
+                print("Not verified error: \(error)")
             }
         }
     }
@@ -57,7 +57,7 @@ class AppAttestViewController: UIViewController {
             do {
                 print(try await String(data: attestService.makeSignedRequest(), encoding: .utf8))
             } catch {
-                print("Request not successful")
+                print("Request not successful: \(error)")
             }
         }
     }
