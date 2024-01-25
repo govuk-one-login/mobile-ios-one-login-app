@@ -14,13 +14,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         initialiseMainCoordinator(window: UIWindow(windowScene: windowScene))
     }
     
-    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        guard let incomingURL = userActivity.webpageURL,
-              let authCoordinator = coordinator?.childCoordinators
-            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator else { return }
-        authCoordinator.handleUniversalLink(incomingURL)
-    }
-    
     func initialiseMainCoordinator(window: UIWindow) {
         let navigationController = UINavigationController()
         coordinator = MainCoordinator(window: window,
