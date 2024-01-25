@@ -33,8 +33,8 @@ final class MainCoordinator: NSObject,
                 } else {
                     let networkErrorScreen = errorPresenter
                         .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
+                            root.popViewController(animated: true)
                             if networkMonitor.isConnected {
-                                root.popViewController(animated: true)
                                 displayAuthCoordinator()
                             }
                         }
