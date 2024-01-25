@@ -53,6 +53,12 @@ class AppAttestViewController: UIViewController {
     }
     
     @IBAction private func makeRequestAction(_ sender: Any) {
-        
+        Task {
+            do {
+                print(try await String(data: attestService.makeSignedRequest(), encoding: .utf8))
+            } catch {
+                print("Request not successful")
+            }
+        }
     }
 }
