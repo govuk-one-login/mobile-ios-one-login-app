@@ -56,16 +56,14 @@
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C888DB242B6191340020CFD5 /* AppAttestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C888DB232B6191340020CFD5 /* AppAttestView.xib */; };
 		C888DB262B6191680020CFD5 /* AppAttestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C888DB252B6191680020CFD5 /* AppAttestViewController.swift */; };
+		C888DB2A2B61CCB30020CFD5 /* Attestation in Frameworks */ = {isa = PBXBuildFile; productRef = C888DB292B61CCB30020CFD5 /* Attestation */; };
+		C888DB2C2B61CCB30020CFD5 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C888DB2B2B61CCB30020CFD5 /* Authentication */; };
+		C888DB2E2B61CCE60020CFD5 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C888DB2D2B61CCE60020CFD5 /* GDSAnalytics */; };
+		C888DB302B61CCF10020CFD5 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C888DB2F2B61CCF10020CFD5 /* Logging */; };
+		C888DB322B61CCFA0020CFD5 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C888DB312B61CCFA0020CFD5 /* Coordination */; };
+		C888DB342B61CD020020CFD5 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = C888DB332B61CD020020CFD5 /* GDSCommon */; };
 		C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C89632EC2B0D0886002A1473 /* TokensView.xib */; };
 		C89632EF2B0D0895002A1473 /* TokensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89632EE2B0D0895002A1473 /* TokensViewController.swift */; };
-		C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */; };
-		C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA02AFBD05700FCBD36 /* GDSCommon */; };
-		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
-		C8A13CA62AFBD07E00FCBD36 /* UserDetails in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA52AFBD07E00FCBD36 /* UserDetails */; };
-		C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA82AFBD0CC00FCBD36 /* GAnalytics */; };
-		C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */; };
-		C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAC2AFBD0CC00FCBD36 /* Logging */; };
-		C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAF2AFBD0F100FCBD36 /* Coordination */; };
 		C8A6385A2B5994B700656A26 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */; };
 		C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
 		C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */; };
@@ -187,14 +185,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8A13CA62AFBD07E00FCBD36 /* UserDetails in Frameworks */,
-				C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */,
-				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
-				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
-				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
-				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
-				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
-				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
+				C888DB342B61CD020020CFD5 /* GDSCommon in Frameworks */,
+				C888DB2E2B61CCE60020CFD5 /* GDSAnalytics in Frameworks */,
+				C888DB2C2B61CCB30020CFD5 /* Authentication in Frameworks */,
+				C888DB322B61CCFA0020CFD5 /* Coordination in Frameworks */,
+				C888DB302B61CCF10020CFD5 /* Logging in Frameworks */,
+				C888DB2A2B61CCB30020CFD5 /* Attestation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,14 +673,12 @@
 			);
 			name = OneLogin;
 			packageProductDependencies = (
-				C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */,
-				C8A13CA02AFBD05700FCBD36 /* GDSCommon */,
-				C8A13CA32AFBD07E00FCBD36 /* Authentication */,
-				C8A13CA52AFBD07E00FCBD36 /* UserDetails */,
-				C8A13CA82AFBD0CC00FCBD36 /* GAnalytics */,
-				C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */,
-				C8A13CAC2AFBD0CC00FCBD36 /* Logging */,
-				C8A13CAF2AFBD0F100FCBD36 /* Coordination */,
+				C888DB292B61CCB30020CFD5 /* Attestation */,
+				C888DB2B2B61CCB30020CFD5 /* Authentication */,
+				C888DB2D2B61CCE60020CFD5 /* GDSAnalytics */,
+				C888DB2F2B61CCF10020CFD5 /* Logging */,
+				C888DB312B61CCFA0020CFD5 /* Coordination */,
+				C888DB332B61CD020020CFD5 /* GDSCommon */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1847,7 +1841,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-7562-app-attest-spike";
 				kind = branch;
 			};
 		};
@@ -1870,45 +1864,35 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {
+		C888DB292B61CCB30020CFD5 /* Attestation */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
-			productName = GDSAnalytics;
+			package = C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */;
+			productName = Attestation;
 		};
-		C8A13CA02AFBD05700FCBD36 /* GDSCommon */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
-			productName = GDSCommon;
-		};
-		C8A13CA32AFBD07E00FCBD36 /* Authentication */ = {
+		C888DB2B2B61CCB30020CFD5 /* Authentication */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */;
 			productName = Authentication;
 		};
-		C8A13CA52AFBD07E00FCBD36 /* UserDetails */ = {
+		C888DB2D2B61CCE60020CFD5 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */;
-			productName = UserDetails;
+			package = C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
+			productName = GDSAnalytics;
 		};
-		C8A13CA82AFBD0CC00FCBD36 /* GAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */;
-			productName = GAnalytics;
-		};
-		C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */;
-			productName = HTTPLogging;
-		};
-		C8A13CAC2AFBD0CC00FCBD36 /* Logging */ = {
+		C888DB2F2B61CCF10020CFD5 /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */;
 			productName = Logging;
 		};
-		C8A13CAF2AFBD0F100FCBD36 /* Coordination */ = {
+		C888DB312B61CCFA0020CFD5 /* Coordination */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */;
 			productName = Coordination;
+		};
+		C888DB332B61CD020020CFD5 /* GDSCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
+			productName = GDSCommon;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

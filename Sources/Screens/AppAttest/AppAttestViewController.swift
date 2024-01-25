@@ -1,20 +1,33 @@
+import Attestation
 import UIKit
 
+@available(iOS 14.0, *)
 class AppAttestViewController: UIViewController {
     override var nibName: String? { "AppAttestView" }
+    let attestService = AttestationService.self
         
     init() {
         super.init(nibName: "AppAttestView", bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        Task {
+            do {
+                try await attestService.generate()
+            } catch {
+                print("No Key generated")
+            }
+        }
     }
     
     @IBOutlet private var appAttestLabel: UILabel! {
         didSet {
             appAttestLabel.text = "App Attest Spike"
         }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     @IBOutlet private var verifyButtonOutlet: UIButton! {
@@ -24,7 +37,13 @@ class AppAttestViewController: UIViewController {
     }
     
     @IBAction private func verifyButtonAction(_ sender: Any) {
-        
+        Task {
+            do {
+                try await attestService.verify()
+            } catch {
+                print("Not verified")
+            }
+        }
     }
     
     @IBOutlet private var makeRequestOutlet: UIButton! {

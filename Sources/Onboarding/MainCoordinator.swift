@@ -3,6 +3,7 @@ import Coordination
 import Logging
 import UIKit
 
+@available(iOS 14.0, *)
 final class MainCoordinator: NSObject,
                              ParentCoordinator,
                              NavigationCoordinator {
@@ -27,20 +28,7 @@ final class MainCoordinator: NSObject,
     
     func start() {
         let introViewController = viewControllerFactory
-            .createIntroViewController(analyticsService: analyticsService) { [unowned self] in
-                if networkMonitor.isConnected {
-                    displayAuthCoordinator()
-                } else {
-                    let networkErrorScreen = errorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
-                            if networkMonitor.isConnected {
-                                root.popViewController(animated: true)
-                                displayAuthCoordinator()
-                            }
-                        }
-                    root.pushViewController(networkErrorScreen, animated: true)
-                }
-            }
+            .createAppAttestIntroViewController(analyticsService: analyticsService)
         root.setViewControllers([introViewController], animated: false)
     }
     

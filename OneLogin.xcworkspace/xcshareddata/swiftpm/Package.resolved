@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "8bf0c615d842ee7b00adb35b2f8191dfe8e0e1f5"
+        "branch" : "feature/dcmaw-7562-app-attest-spike",
+        "revision" : "50a64bd3fe3994cfd346bb4c467507f169fc94b2"
       }
     },
     {

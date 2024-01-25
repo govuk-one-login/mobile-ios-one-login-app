@@ -23,30 +23,30 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
-        Task(priority: .userInitiated) {
-            do {
-                mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
-                finish()
-            } catch LoginError.network {
-                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
-                    self.root.popViewController(animated: true)
-                }
-                root.pushViewController(networkErrorScreen, animated: true)
-            } catch LoginError.non200, LoginError.invalidRequest, LoginError.clientError {
-                let unableToLoginErrorScreen = errorPresenter.createUnableToLoginError(analyticsService: analyticsService) {
-                    self.root.popViewController(animated: true)
-                }
-                root.pushViewController(unableToLoginErrorScreen, animated: true)
-            } catch LoginError.userCancelled {
-                return
-            } catch {
-                let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
-                    self.root.popViewController(animated: true)
-                }
-                root.pushViewController(genericErrorScreen, animated: true)
-            }
-        }
+//        guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
+//        Task(priority: .userInitiated) {
+//            do {
+//                mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+//                finish()
+//            } catch LoginError.network {
+//                let networkErrorScreen = errorPresenter.createNetworkConnectionError(analyticsService: analyticsService) {
+//                    self.root.popViewController(animated: true)
+//                }
+//                root.pushViewController(networkErrorScreen, animated: true)
+//            } catch LoginError.non200, LoginError.invalidRequest, LoginError.clientError {
+//                let unableToLoginErrorScreen = errorPresenter.createUnableToLoginError(analyticsService: analyticsService) {
+//                    self.root.popViewController(animated: true)
+//                }
+//                root.pushViewController(unableToLoginErrorScreen, animated: true)
+//            } catch LoginError.userCancelled {
+//                return
+//            } catch {
+//                let genericErrorScreen = errorPresenter.createGenericError(analyticsService: analyticsService) {
+//                    self.root.popViewController(animated: true)
+//                }
+//                root.pushViewController(genericErrorScreen, animated: true)
+//            }
+//        }
     }
     
     func handleUniversalLink(_ url: URL) {
