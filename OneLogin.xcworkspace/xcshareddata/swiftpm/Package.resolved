@@ -114,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "DCMAW-7797-passcode-information-screen",
-        "revision" : "045acf3a1629f625aa7309f6ddcc81e82270433e"
+        "revision" : "6b150dabdec2152c3d196cb166326d22a08f6976"
       }
     },
     {
