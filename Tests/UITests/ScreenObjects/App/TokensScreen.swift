@@ -8,6 +8,6 @@ struct TokensScreen: ScreenObject {
     }
     
     var title: XCUIElement {
-        app.staticTexts["Logged in"]
+        app.staticTexts["logged-in-title"]
     }
 }
