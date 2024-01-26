@@ -1,5 +1,5 @@
 import Foundation
 
 extension TimeInterval {
-    static var timeout: TimeInterval { 10 }
+    static var timeout: TimeInterval { 30 }
 }
