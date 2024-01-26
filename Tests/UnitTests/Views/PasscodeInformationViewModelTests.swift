@@ -29,7 +29,7 @@ extension PasscodeInformationViewModelTests {
     func test_labelContents() throws {
         XCTAssertEqual(sut.image, "lock")
         XCTAssertEqual(sut.title.value, "You can sign in with a passcode")
-        XCTAssertEqual(sut.body.value, "Add a layer of security and sign in with a passcode instead of your email address and password. \n\n You can set a passcode later by going to your phone settings.")
+        XCTAssertEqual(sut.body.value, "Setting a passcode on your phone adds security. You can then sign in this way instead of with your email address and password. \n\n You can set a passcode later by going to your phone settings.")
     }
     
     func test_buttonAction() throws {
