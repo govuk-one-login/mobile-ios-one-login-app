@@ -1,13 +1,15 @@
 import GDSAnalytics
 import GDSCommon
 import Logging
+import UIKit
 
 struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     let image: String = "lock"
+    let imageWeight: UIFont.Weight = .semibold
     // TODO: DCMAW-7083: String keys for localisation needed
     let title: GDSLocalisedString = "You can sign in with a passcode"
     let body: GDSLocalisedString = "Setting a passcode on your phone adds security. You can then sign in this way instead of with your email address and password. \n\n You can set a passcode later by going to your phone settings."
-    var footnote: GDSLocalisedString? = nil
+    let footnote: GDSLocalisedString? = nil
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
