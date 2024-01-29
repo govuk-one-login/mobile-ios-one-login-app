@@ -1859,7 +1859,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
-				branch = "DCMAW-7797-passcode-information-screen";
+				branch = main;
 				kind = branch;
 			};
 		};
