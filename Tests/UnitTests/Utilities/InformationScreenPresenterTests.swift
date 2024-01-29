@@ -23,7 +23,7 @@ final class InformationScreenPresenterTests: XCTestCase {
 
 extension InformationScreenPresenterTests {
     func test_noPasscodeCallsAction() throws {
-        let introView = sut.createPasscodeInformationScreen(analyticsService: mockAnalyticsService){
+        let introView = sut.createPasscodeInformationScreen(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "information-primary-button"])
