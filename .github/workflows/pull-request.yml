@@ -52,4 +52,5 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
+          xcode-select /Applications/Xcode15.1/Xcode.app
           xcodebuild -workspace "OneLogin.xcworkspace" -scheme OneLoginBuild -testPlan OneLoginUI test -destination "platform=iOS Simulator,name=iPhone SE (3rd generation),OS=latest"
