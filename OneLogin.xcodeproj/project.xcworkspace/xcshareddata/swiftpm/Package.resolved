@@ -10,39 +10,12 @@
       }
     },
     {
-      "identity" : "di-mobile-ios-common",
+      "identity" : "appauth-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-common",
+      "location" : "https://github.com/openid/AppAuth-iOS.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "4576ae8d259001c3319c4707004ac87b5046d9b3"
-      }
-    },
-    {
-      "identity" : "di-mobile-ios-coordination",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-coordination",
-      "state" : {
-        "revision" : "b732b24b67871d898f526a3e2165141719282964",
-        "version" : "1.0.0"
-      }
-    },
-    {
-      "identity" : "di-mobile-ios-logging",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-logging",
-      "state" : {
-        "branch" : "main",
-        "revision" : "df5e216c7028b2dd2f6f6ed917a17a51f8df9549"
-      }
-    },
-    {
-      "identity" : "di-mobile-ios-networking",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/di-mobile-ios-networking.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "d248dca8944e0d61be3c0e27060ca9b0cdef023b"
+        "branch" : "master",
+        "revision" : "aea7b8acd8b3fc261b8a42c998de33d76851f30b"
       }
     },
     {
@@ -115,6 +88,51 @@
       "state" : {
         "revision" : "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
         "version" : "1.22.2"
+      }
+    },
+    {
+      "identity" : "mobile-ios-authentication",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8bf0c615d842ee7b00adb35b2f8191dfe8e0e1f5"
+      }
+    },
+    {
+      "identity" : "mobile-ios-common",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "704d61633694377759fabaf2e53af93f410366cb"
+      }
+    },
+    {
+      "identity" : "mobile-ios-coordination",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d820130243d488682e369d76a37d71d4e6f5b255"
+      }
+    },
+    {
+      "identity" : "mobile-ios-logging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "713666197ee9011e17a044419711bcb8b88a70c5"
+      }
+    },
+    {
+      "identity" : "mobile-ios-networking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-networking.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8724c7ffcbc2546e3b1fa57f1021769e12b475ea"
       }
     },
     {
