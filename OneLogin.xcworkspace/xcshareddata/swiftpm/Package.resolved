@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "feature/dcmaw-8084-accessibility-identifiers",
-        "revision" : "62cb7dd22fd1532c65fbb402a58b547e92154e71"
+        "branch" : "main",
+        "revision" : "704d61633694377759fabaf2e53af93f410366cb"
       }
     },
     {
