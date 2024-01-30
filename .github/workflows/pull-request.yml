@@ -45,12 +45,16 @@ jobs:
       #       target_branch:${{github.base_ref}} \
       #       pr_number:$pull_number \
       #       testplan:OneLoginUnit
+      - name: Setup Xcode
+          - uses: maxim-lobanov/setup-xcode@v1
+            with:
+              xcode-version: '15.1'
 
       - name: Run UI Tests
+        needs: Setup Xcode
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          xcode-select /Applications/Xcode15.1/Xcode.app
           xcodebuild -workspace "OneLogin.xcworkspace" -scheme OneLoginBuild -testPlan OneLoginUI test -destination "platform=iOS Simulator,name=iPhone SE (3rd generation),OS=latest"
