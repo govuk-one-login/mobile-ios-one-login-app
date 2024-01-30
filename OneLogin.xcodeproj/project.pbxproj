@@ -1823,7 +1823,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-8084-accessibility-identifiers";
 				kind = branch;
 			};
 		};

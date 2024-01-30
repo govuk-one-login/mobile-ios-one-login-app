@@ -9,6 +9,7 @@ struct ErrorScreen: ScreenObject {
     
     var title: XCUIElement {
         app.staticTexts["error-title"]
+
     }
     
     var body: XCUIElement {
@@ -20,6 +21,7 @@ struct ErrorScreen: ScreenObject {
     }
     
     func tapCloseButton() {
+        app.isAccessibilityElement = true
         closeButton.tap()
     }
 }
