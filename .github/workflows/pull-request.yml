@@ -40,7 +40,7 @@ jobs:
       - name: Make Artefact
         if: always()
         run: |
-          zip -R artefact fastlane/test_output/OneLoginBuild.xcresult
+          zip -r artefact fastlane/test_output/OneLoginBuild.xcresult
 
       - name: Upload Artefact
         if: always()
