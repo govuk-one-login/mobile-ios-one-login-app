@@ -38,10 +38,12 @@ jobs:
             testplan:OneLoginUI
 
       - name: Make Artefact
+        if: always()
         run: |
-          zip artefact fastlane/test_output/OneLoginBuild.xcresult
+          zip -R artefact fastlane/test_output/OneLoginBuild.xcresult
 
       - name: Upload Artefact
+        if: always()
         uses: actions/upload-artifact@v1
         with:
           name: artefact.zip
