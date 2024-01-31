@@ -38,9 +38,9 @@ jobs:
             testplan:OneLoginUI
 
       - name: Make Artefact
-        if: failure()
+        if: always()
         run: |
-          zip artefact fastlane/test_output
+          zip artefact fastlane/test_output/*
 
       - name: Upload Artefact
         uses: actions/upload-artifact@v1

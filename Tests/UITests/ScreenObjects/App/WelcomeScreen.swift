@@ -20,6 +20,7 @@ struct WelcomeScreen: ScreenObject {
     }
     
     func tapLoginButton() -> LoginModal {
+        Thread.sleep(forTimeInterval: 30)
         signInButton.tap()
         
         let loginModal = LoginModal(app: app).waitForAppearance()
