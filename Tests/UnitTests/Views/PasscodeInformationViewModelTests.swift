@@ -28,9 +28,9 @@ final class PasscodeInformationViewModelTests: XCTestCase {
 extension PasscodeInformationViewModelTests {
     func test_labelContents() throws {
         XCTAssertEqual(sut.image, "lock")
-        XCTAssertEqual(sut.title.value, "You can sign in with a passcode")
-        XCTAssertEqual(sut.body.value, """
-Setting a passcode on your phone adds security. You can then sign in this way instead of with your email address and password.
+        XCTAssertEqual(sut.title.value, "It looks like this phone does not have a passcode")
+        XCTAssertEqual(sut.body!.value, """
+Setting a passcode on your phone adds further security. You can then sign in this way instead of with your email address and password.
 
 You can set a passcode later by going to your phone settings.
 """)
@@ -53,7 +53,7 @@ You can set a passcode later by going to your phone settings.
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: InformationAnalyticsScreen.passcode,
-                                titleKey: "You can sign in with a passcode")
+                                titleKey: "It looks like this phone does not have a passcode")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
