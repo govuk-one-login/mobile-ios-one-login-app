@@ -5,11 +5,13 @@ import UIKit
 
 struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     let image: String = "lock"
-    let imageWeight: UIFont.Weight = .semibold
+    let imageWeight: UIFont.Weight? = nil
+    let imageColour: UIColor? = nil
+    let imageHeightConstraint: CGFloat? = nil
     // TODO: DCMAW-7083: String keys for localisation needed
-    let title: GDSLocalisedString = "You can sign in with a passcode"
-    let body: GDSLocalisedString = """
-Setting a passcode on your phone adds security. You can then sign in this way instead of with your email address and password.
+    let title: GDSLocalisedString = "It looks like this phone does not have a passcode"
+    let body: GDSLocalisedString? = """
+Setting a passcode on your phone adds further security. You can then sign in this way instead of with your email address and password.
 
 You can set a passcode later by going to your phone settings.
 """

@@ -58,7 +58,7 @@ final class MainCoordinator: NSObject,
     
     func launchTokenCoordinator() {
         guard let tokens else { return }
-        openChildInline(TokenCoordinator(root: root, tokens: tokens))
+        openChildInline(TokenCoordinator(root: root, tokens: tokens, analyticsService: analyticsService))
     }
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
