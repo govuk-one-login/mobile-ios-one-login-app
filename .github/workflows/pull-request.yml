@@ -40,10 +40,10 @@ jobs:
       - name: Make Artefact
         if: always()
         run: |
-          zip artefact fastlane/test_output/*
+          zip artefact fastlane/test_output/OneLoginBuild.xcresult
 
       - name: Upload Artefact
         uses: actions/upload-artifact@v1
         with:
-          name: artefact
+          name: artefact.zip
           path: ./artefact.zip
