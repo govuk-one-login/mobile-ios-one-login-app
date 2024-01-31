@@ -40,11 +40,12 @@ jobs:
       - name: Make Artifact
         if: failure()
         run: |
-          zip -r -D UITestXCResultArtifact fastlane/test_output/OneLoginBuild.xcresult
+          cd ./fastlane/test_output
+          zip -r UITestXCResultArtifact OneLoginBuild.xcresult 
 
       - name: Upload Artifact
         if: failure()
         uses: actions/upload-artifact@v1
         with:
           name: UITestXCResultArtifact
-          path: ./UITestXCResultArtifact.zip
+          path: ./fastlane/test_output/UITestXCResultArtifact.zip
