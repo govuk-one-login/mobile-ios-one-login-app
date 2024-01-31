@@ -37,3 +37,13 @@ jobs:
 
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
+
+      - name: Make Artefact
+        if: failure()
+        run: |
+          zip artefact fastlane/test_output
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: artefact
+          path: ./artefact.zip
