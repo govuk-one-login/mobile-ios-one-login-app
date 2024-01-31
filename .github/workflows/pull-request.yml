@@ -38,7 +38,6 @@ jobs:
             testplan:OneLoginUI
 
       - name: Make Artefact
-        if: always()
         run: |
           zip artefact fastlane/test_output/OneLoginBuild.xcresult
 
