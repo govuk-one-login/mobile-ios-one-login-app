@@ -31,9 +31,11 @@ platform :ios do
 
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverageForUITests do |options|
+    xcode_select("/Applications/Xcode_15.2.app")
+
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation)",
+      device: ["iPhone 15"],
       scheme: options[:scheme],
       testplan: options[:testplan],
       prelaunch_simulator: true
