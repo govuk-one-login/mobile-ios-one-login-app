@@ -37,14 +37,14 @@ jobs:
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
-      - name: Make Artefact
+      - name: Make Artifact
         if: failure()
         run: |
-          zip -r artefact fastlane/test_output/OneLoginBuild.xcresult
+          zip -r -D UITestXCResultArtifact fastlane/test_output/OneLoginBuild.xcresult
 
-      - name: Upload Artefact
+      - name: Upload Artifact
         if: failure()
         uses: actions/upload-artifact@v1
         with:
-          name: artefact
-          path: ./artefact.zip
+          name: UITestXCResultArtifact
+          path: ./UITestXCResultArtifact.zip
