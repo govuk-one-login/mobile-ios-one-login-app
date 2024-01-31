@@ -27,7 +27,15 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
         XCTAssertEqual(loginModal.loginButton.label, "Login")
         // Select 'Login' Button
-        let tokensScreen = loginModal.tapBrowserLoginButton()
+        let noPasscodeScreen = loginModal.tapBrowserLoginButton()
+        XCTAssertEqual(noPasscodeScreen.title.label, "It looks like this phone does not have a passcode")
+        XCTAssertEqual(noPasscodeScreen.body.label, """
+Setting a passcode on your phone adds further security. You can then sign in this way instead of with your email address and password.
+
+You can set a passcode later by going to your phone settings.
+""")
+        XCTAssertEqual(noPasscodeScreen.continueButton.label, "Continue")
+        let tokensScreen = noPasscodeScreen.tapContinueButton()
         XCTAssertEqual(tokensScreen.title.label, "Logged in")
     }
     
