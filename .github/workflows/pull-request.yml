@@ -41,7 +41,7 @@ jobs:
         if: failure()
         run: |
           cd ./fastlane
-          zip -rq UITestArtifact test_output -x "report.junit"
+          zip -rq UITestArtifact test_output -x "test_output/report.junit"
 
       - name: Upload Artifact
         if: failure()
