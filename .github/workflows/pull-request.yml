@@ -41,13 +41,11 @@ jobs:
         if: failure()
         run: |
           cd ./fastlane
-          mv ./test_output/OneLoginBuild.xcresult ./test_output/OneLoginBuildUITest.xcresult
-          mv test_output ui_test_output
-          zip -rq UITestXCResultArtifact ui_test_output
+          zip -rq UITestArtifact test_output -x "report.junit"
 
       - name: Upload Artifact
         if: failure()
         uses: actions/upload-artifact@v1
         with:
-          name: UITestXCResultArtifact
-          path: ./fastlane/UITestXCResultArtifact.zip
+          name: UITestArtifact
+          path: ./fastlane/UITestArtifact.zip
