@@ -41,7 +41,9 @@ jobs:
         if: failure()
         run: |
           cd ./fastlane
-          zip -rq UITestXCResultArtifact test_output
+          mv ./test_output/OneLoginBuild.xcresult ./test_output/OneLoginBuildUITest.xcresult
+          mv test_output ui_test_output
+          zip -rq UITestXCResultArtifact ui_test_output
 
       - name: Upload Artifact
         if: failure()
