@@ -241,12 +241,20 @@
 			path = Information;
 			sourceTree = "<group>";
 		};
-		1E891B7A2B63E1AC00744E3D /* Views */ = {
+		1EA167852B6D19D0002882AF /* Information */ = {
+			isa = PBXGroup;
+			children = (
+				1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */,
+			);
+			path = Information;
+			sourceTree = "<group>";
+		};
+		1EA167862B6D1A27002882AF /* Information */ = {
 			isa = PBXGroup;
 			children = (
 				1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */,
 			);
-			path = Views;
+			path = Information;
 			sourceTree = "<group>";
 		};
 		219601DE2A976302008F3427 = {
@@ -462,6 +470,7 @@
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
 				C85DF8472AEBFE6D0064F68E /* Welcome */,
+				1EA167862B6D1A27002882AF /* Information */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -525,6 +534,7 @@
 				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
 				4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */,
 				C85E210B2ACEE92900AF8B4E /* Welcome */,
+				1EA167852B6D19D0002882AF /* Information */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -541,7 +551,6 @@
 			isa = PBXGroup;
 			children = (
 				C85E21162ACEECC600AF8B4E /* Buttons */,
-				1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -654,7 +663,6 @@
 				C85DF8502AEC1C6E0064F68E /* Extensions */,
 				C8520C2C2AE2C546006790C1 /* Onboarding */,
 				C85966462AEC31AE006DF61D /* Utilities */,
-				1E891B7A2B63E1AC00744E3D /* Views */,
 				21FA1C4A2AE183830052136E /* Mocks */,
 				C8520C232AE2BF8E006790C1 /* TestExtensions */,
 			);
