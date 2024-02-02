@@ -7,7 +7,7 @@ struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     let image: String = "lock"
     let imageWeight: UIFont.Weight? = nil
     let imageColour: UIColor? = nil
-    let imageHeightConstraint: CGFloat? = nil
+    let imageHeightConstraint: CGFloat? = 44
     // TODO: DCMAW-7083: String keys for localisation needed
     let title: GDSLocalisedString = "It looks like this phone does not have a passcode"
     let body: GDSLocalisedString? = """
