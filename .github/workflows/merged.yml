@@ -25,6 +25,36 @@ jobs:
       - name: Lint
         run: swiftlint --strict
 
+  quality_report:
+    needs: run_swiftlint
+    name: Run Unit Tests and Send Coverage Report
+    runs-on: macos-13
+
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Build App, Run Unit Tests and Send Coverage Report for Default Branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          brew install sonar-scanner
+
+          bundle install
+
+          bundle exec fastlane test scheme:"OneLogin" \
+            sonar_token:${{secrets.SONAR_TOKEN}} \
+            workspace:${{github.workspace}} \
+            testplan:OneLoginUnit
+
   test_staging_config:
     needs: run_swiftlint
     name: Run Staging Configuration Tests
@@ -39,7 +69,7 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Run Staging Configuration Tests
+      - name: Build App, Run Staging Configuration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -64,7 +94,7 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Run Build Configuration Tests
+      - name: Build App, Run Build Configuration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -89,7 +119,7 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Run UI Tests
+      - name: Build App, Run UI Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -100,12 +130,25 @@ jobs:
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
             testplan:OneLoginUI
 
+      - name: Make Artifact
+        if: failure()
+        run: |
+          cd ./fastlane
+          zip -rq UITestArtifact test_output -x "test_output/report.junit"
+
+      - name: Upload Artifact
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: UITestArtifact
+          path: ./fastlane/UITestArtifact.zip
+
   deploy_apps:
     needs: [test_staging_config, test_build_config, test_ui]
     name: Deploy Staging and Build Apps
     runs-on: macos-13
     steps:
-      - name: Add path globally
+      - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
@@ -128,7 +171,7 @@ jobs:
           AWS_DEFAULT_REGION: "eu-west-2"
           SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
 
-      - name: Deploy to App Store Connect
+      - name: Build App, Deploy to App Store Connect
         env:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"

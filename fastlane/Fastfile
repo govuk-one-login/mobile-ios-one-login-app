@@ -36,7 +36,9 @@ platform :ios do
       device: "iPhone SE (3rd generation)",
       scheme: options[:scheme],
       testplan: options[:testplan],
-      prelaunch_simulator: true
+      prelaunch_simulator: true,
+      result_bundle: true,
+      include_simulator_logs: true
     )
   end
 
