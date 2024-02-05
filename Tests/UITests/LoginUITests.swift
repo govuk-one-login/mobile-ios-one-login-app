@@ -30,7 +30,7 @@ extension LoginUITests {
         let noPasscodeScreen = loginModal.tapBrowserLoginButton()
         XCTAssertEqual(noPasscodeScreen.title.label, "It looks like this phone does not have a passcode")
         XCTAssertEqual(noPasscodeScreen.body.label, """
-Setting a passcode on your phone adds further security. You can then sign in this way instead of with your email address and password.
+Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.
 
 You can set a passcode later by going to your phone settings.
 """)

@@ -11,7 +11,7 @@ struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     // TODO: DCMAW-7083: String keys for localisation needed
     let title: GDSLocalisedString = "It looks like this phone does not have a passcode"
     let body: GDSLocalisedString? = """
-Setting a passcode on your phone adds further security. You can then sign in this way instead of with your email address and password.
+Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.
 
 You can set a passcode later by going to your phone settings.
 """
