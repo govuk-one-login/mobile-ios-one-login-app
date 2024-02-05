@@ -233,30 +233,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1E891B732B63B74200744E3D /* Information */ = {
-			isa = PBXGroup;
-			children = (
-				1E891B742B63B76E00744E3D /* InformationAnalytics.swift */,
-			);
-			path = Information;
-			sourceTree = "<group>";
-		};
-		1EA167852B6D19D0002882AF /* Information */ = {
-			isa = PBXGroup;
-			children = (
-				1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */,
-			);
-			path = Information;
-			sourceTree = "<group>";
-		};
-		1EA167862B6D1A27002882AF /* Information */ = {
-			isa = PBXGroup;
-			children = (
-				1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */,
-			);
-			path = Information;
-			sourceTree = "<group>";
-		};
 		219601DE2A976302008F3427 = {
 			isa = PBXGroup;
 			children = (
@@ -428,7 +404,6 @@
 		C8178E3C2AEB2C8600059875 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				1E891B732B63B74200744E3D /* Information */,
 				C87913C22B27B79200545B33 /* Errors */,
 				C8178E3F2AEB2DFE00059875 /* Onboarding */,
 			);
@@ -439,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */,
+				1E891B742B63B76E00744E3D /* InformationAnalytics.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -470,7 +446,6 @@
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
 				C85DF8472AEBFE6D0064F68E /* Welcome */,
-				1EA167862B6D1A27002882AF /* Information */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -515,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
+				1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -534,7 +510,6 @@
 				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
 				4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */,
 				C85E210B2ACEE92900AF8B4E /* Welcome */,
-				1EA167852B6D19D0002882AF /* Information */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -543,6 +518,7 @@
 			isa = PBXGroup;
 			children = (
 				C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */,
+				1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
