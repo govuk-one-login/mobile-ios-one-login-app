@@ -9,16 +9,14 @@ final class AuthenticationCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let session: LoginSession
-    let errorPresenter: ErrorPresenter.Type
     let analyticsService: AnalyticsService
+    let errorPresenter = ErrorPresenter.self
     
     init(root: UINavigationController,
          session: LoginSession,
-         errorPresenter: ErrorPresenter.Type,
          analyticsService: AnalyticsService) {
         self.root = root
         self.session = session
-        self.errorPresenter = errorPresenter
         self.analyticsService = analyticsService
     }
     

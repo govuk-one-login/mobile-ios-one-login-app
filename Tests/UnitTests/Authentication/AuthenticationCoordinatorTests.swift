@@ -8,7 +8,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockLoginSession: MockLoginSession!
-    var mockErrorPresenter: ErrorPresenter.Type!
     var mockAnalyticsService: MockAnalyticsService!
     var mockMainCoordinator: MainCoordinator!
     var sut: AuthenticationCoordinator!
@@ -20,12 +19,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         mockLoginSession = MockLoginSession(window: window)
-        mockErrorPresenter = ErrorPresenter.self
         mockAnalyticsService = MockAnalyticsService()
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
         sut = AuthenticationCoordinator(root: navigationController,
                                         session: mockLoginSession,
-                                        errorPresenter: mockErrorPresenter,
                                         analyticsService: mockAnalyticsService)
     }
     
@@ -33,7 +30,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         window = nil
         navigationController = nil
         mockLoginSession = nil
-        mockErrorPresenter = nil
         mockAnalyticsService = nil
         mockMainCoordinator = nil
         sut = nil
