@@ -51,9 +51,12 @@ final class MainCoordinator: NSObject,
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
                                                       session: AppAuthSession(window: window),
-                                                      errorPresenter: errorPresenter,
                                                       analyticsService: analyticsService))
         }
+    }
+    
+    func launchOnboardingCoordinator() {
+        openChildInline(OnboardingCoordinator(root: root, analyticsService: analyticsService))
     }
     
     func launchTokenCoordinator() {
@@ -64,6 +67,8 @@ final class MainCoordinator: NSObject,
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as AuthenticationCoordinator:
+            launchOnboardingCoordinator()
+        case _ as OnboardingCoordinator:
             launchTokenCoordinator()
         default:
             break

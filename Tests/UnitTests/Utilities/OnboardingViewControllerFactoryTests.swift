@@ -33,4 +33,13 @@ extension OnboardingViewControllerFactoryTests {
         introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallAction)
     }
+    
+    func test_noPasscodeCallsAction() throws {
+        let introView = sut.createPasscodeInformationScreen(analyticsService: mockAnalyticsService) {
+            self.didCallAction = true
+        }
+        let introButton: UIButton = try XCTUnwrap(introView.view[child: "information-primary-button"])
+        introButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallAction)
+    }
 }

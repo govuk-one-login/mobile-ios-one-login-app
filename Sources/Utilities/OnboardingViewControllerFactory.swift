@@ -10,4 +10,12 @@ final class OnboardingViewControllerFactory {
         }
         return IntroViewController(viewModel: viewModel)
     }
+    
+    static func createPasscodeInformationScreen(analyticsService: AnalyticsService,
+                                                action: @escaping () -> Void) -> GDSInformationViewController {
+        let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) {
+            action()
+        }
+        return GDSInformationViewController(viewModel: viewModel)
+    }
 }
