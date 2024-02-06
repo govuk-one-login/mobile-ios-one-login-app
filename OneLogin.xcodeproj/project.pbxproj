@@ -32,6 +32,7 @@
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
 		41C8E42C2B7252A70063B8A3 /* BiometricEnrollViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* BiometricEnrollViewModel.swift */; };
+		41C8E42F2B72920F0063B8A3 /* BiometricEnrollViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42D2B7291F80063B8A3 /* BiometricEnrollViewModelTests.swift */; };
 		41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */; };
 		41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */; };
 		41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */; };
@@ -148,6 +149,7 @@
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E42B2B7252A70063B8A3 /* BiometricEnrollViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricEnrollViewModel.swift; sourceTree = "<group>"; };
+		41C8E42D2B7291F80063B8A3 /* BiometricEnrollViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricEnrollViewModelTests.swift; sourceTree = "<group>"; };
 		41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 			children = (
 				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
 				1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */,
+				41C8E42D2B7291F80063B8A3 /* BiometricEnrollViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -993,6 +996,7 @@
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				C8A6385A2B5994B700656A26 /* MockNetworkMonitor.swift in Sources */,
 				410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */,
+				41C8E42F2B72920F0063B8A3 /* BiometricEnrollViewModelTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,

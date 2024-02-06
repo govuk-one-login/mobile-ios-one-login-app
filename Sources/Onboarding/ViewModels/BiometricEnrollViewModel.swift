@@ -36,6 +36,7 @@ struct BiometricEnrollViewModel: GDSInformationViewModel, BaseViewModel {
             primaryButtonAction()
         }
         self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Use passcode",
+                                                                 icon: nil,
                                                                  analyticsService: analyticsService) {
               secondaryButtonAction()
           }
