@@ -18,4 +18,12 @@ final class OnboardingViewControllerFactory {
         }
         return GDSInformationViewController(viewModel: viewModel)
     }
+
+    static func createBiometricEnrollmentScreen(analyticsService: AnalyticsService,
+                                                action: @escaping () -> Void) -> GDSInformationViewController {
+        let viewModel = BiometricEnrollViewModel(analyticsService: analyticsService) {
+            action()
+        }
+        return GDSInformationViewController(viewModel: viewModel)
+    }
 }
