@@ -8,14 +8,16 @@ final class OnboardingCoordinator: NSObject,
                                    NavigationCoordinator {
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
-    let localAuth = LAContext()
+    let localAuth: LAContexting
     let analyticsService: AnalyticsService
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(root: UINavigationController,
-         analyticsService: AnalyticsService) {
+         analyticsService: AnalyticsService,
+         localAuth: LAContexting = LAContext()) {
         self.root = root
         self.analyticsService = analyticsService
+        self.localAuth = localAuth
     }
     
     func start() {
