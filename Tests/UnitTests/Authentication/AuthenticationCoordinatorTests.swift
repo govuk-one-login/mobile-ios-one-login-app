@@ -62,9 +62,8 @@ extension AuthenticationCoordinatorTests {
     }
     
     func test_handleUniversalLink_successful() throws {
-        mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is no error
 
         // swiftlint:disable line_length
@@ -86,92 +85,115 @@ extension AuthenticationCoordinatorTests {
     
     func test_loginError_network() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.network
-        mockMainCoordinator.openChildInline(sut)
+        mockMainCoordinator.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is a network error
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         // THEN the 'network' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is NetworkConnectionErrorViewModel)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+        // WHEN the button on the error screen is tapped
+        let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        errorPrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
     }
     
     func test_loginError_non200() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
-        mockMainCoordinator.openChildInline(sut)
+        mockMainCoordinator.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is a non200 error
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         // THEN the 'unable to login' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is UnableToLoginErrorViewModel)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // WHEN the button on the error screen is tapped
+        let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        errorPrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
     }
     
     func test_loginError_invalidRequest() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
-        mockMainCoordinator.openChildInline(sut)
+        mockMainCoordinator.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is an invalid request error
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         // THEN the 'unable to login' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is UnableToLoginErrorViewModel)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // WHEN the button on the error screen is tapped
+        let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        errorPrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
     }
     
     func test_loginError_clientError() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
-        mockMainCoordinator.openChildInline(sut)
+        mockMainCoordinator.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is an client error
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         // THEN the 'unable to login' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is UnableToLoginErrorViewModel)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // WHEN the button on the error screen is tapped
+        let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        errorPrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
+    }
+    
+    func test_loginError_generic() throws {
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
+        mockMainCoordinator.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        mockMainCoordinator.openChildInline(sut)
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is an generic error
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
+        // THEN the 'generic' error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+        // WHEN the button on the error screen is tapped
+        let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        errorPrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
+    }
+    
+    func test_loginError_catchAllError() throws {
+        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.catchAll
+        mockMainCoordinator.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        mockMainCoordinator.openChildInline(sut)
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is an unknown error
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
+        // THEN the 'generic' error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+        // WHEN the button on the error screen is tapped
+        let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        errorPrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
     }
     
     func test_loginError_userCancelled() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
         mockMainCoordinator.start()
-        mockMainCoordinator.openChildInline(sut)
         // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and user cancelled the login modal
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
         // THEN user is returned to the intro screen
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
-    }
-    
-    func test_loginError_generic() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
-        mockMainCoordinator.openChildInline(sut)
-        // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
-        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is an generic error
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
-        // THEN the 'generic' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is GenericErrorViewModel)
-    }
-    
-    func test_loginError_catchAllError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.catchAll
-        mockMainCoordinator.openChildInline(sut)
-        // GIVEN the AuthenticationCoordinator has logged in via start()
-        sut.start()
-        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session and there is an unknown error
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
-        // THEN the 'generic' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is GenericErrorViewModel)
     }
     
     func test_handleUniversalLink_catchAllError() throws {
@@ -180,8 +202,7 @@ extension AuthenticationCoordinatorTests {
         let callbackURL = URL(string: "https://www.test.com")!
         sut.handleUniversalLink(callbackURL)
         // THEN the 'generic' error screen is shown
-        let vc = sut.root.topViewController as? GDSErrorViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is GenericErrorViewModel)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
     }
 }
