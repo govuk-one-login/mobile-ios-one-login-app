@@ -40,7 +40,7 @@ final class OnboardingCoordinator: NSObject,
                         finish()
                     }
                 root.pushViewController(faceIDEnrollmentScreen, animated: true)
-            case .none, .opticID:
+            case .opticID, .none:
                 return
             @unknown default:
                 return

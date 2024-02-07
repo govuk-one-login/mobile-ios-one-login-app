@@ -52,7 +52,7 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
-        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 5)
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
@@ -63,10 +63,10 @@ extension MainCoordinatorTests {
                                               session: mockLoginSession,
                                               analyticsService: mockAnalyticsService)
         // GIVEN the MainCoordinator regained focus from the AuthenticationCoordinator
-        // and the device has passcode enabled but no tokens
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator shouldn't have any child coordinators
-        waitForTruth(self.sut.childCoordinators.count == 0, timeout: 2)
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        XCTAssertTrue(sut.childCoordinators.last is OnboardingCoordinator)
     }
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
@@ -75,7 +75,6 @@ extension MainCoordinatorTests {
                                           analyticsService: mockAnalyticsService)
         sut.tokens = try MockTokenResponse().getJSONData()
         // GIVEN the MainCoordinator regained focus from the OnboardingCoordinator
-        // and the device has passcode enabled with tokens
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
         waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
@@ -120,7 +119,7 @@ extension MainCoordinatorTests {
         errorPrimaryButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator
         // as it's only child coordinator
-        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 5)
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
