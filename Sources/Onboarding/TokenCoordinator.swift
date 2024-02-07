@@ -1,6 +1,5 @@
 import Authentication
 import Coordination
-import Logging
 import UIKit
 
 final class TokenCoordinator: NSObject,

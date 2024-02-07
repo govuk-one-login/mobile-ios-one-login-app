@@ -36,7 +36,7 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator is started
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
-        // THEN the visible view controller should be an IntroViewController
+        // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssert(sut.root.topViewController is IntroViewController)
     }
@@ -44,7 +44,7 @@ extension MainCoordinatorTests {
     func test_mainCoordinatorStart_opensSubCoordinator() throws {
         // GIVEN the user is online
         mockNetworkMonitor.isConnected = true
-        // GIVEN the MainCoordinator is started
+        // WHEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
         let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
@@ -63,6 +63,7 @@ extension MainCoordinatorTests {
                                               session: mockLoginSession,
                                               analyticsService: mockAnalyticsService)
         // GIVEN the MainCoordinator regained focus from the AuthenticationCoordinator
+        // and the device has passcode enabled but no tokens
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator shouldn't have any child coordinators
         waitForTruth(self.sut.childCoordinators.count == 0, timeout: 2)
@@ -73,7 +74,8 @@ extension MainCoordinatorTests {
         let child = OnboardingCoordinator(root: navigationController,
                                           analyticsService: mockAnalyticsService)
         sut.tokens = try MockTokenResponse().getJSONData()
-        // GIVEN the MainCoordinator regained focus from it's child coordinator
+        // GIVEN the MainCoordinator regained focus from the OnboardingCoordinator
+        // and the device has passcode enabled with tokens
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
         waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
@@ -83,14 +85,14 @@ extension MainCoordinatorTests {
     func test_mainCoordinatorStart_displaysNetworkConnectionError() throws {
         // GIVEN the user is offline
         mockNetworkMonitor.isConnected = false
-        // GIVEN the MainCoordinator is started
+        // WHEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
         let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
         let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
         XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
-        // THEN the network error screen is shown
+        // THEN the 'network' error screen is shown
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
@@ -99,14 +101,14 @@ extension MainCoordinatorTests {
     func test_networkErrorScreen_reconnectingOpensAuthCoordinator() throws {
         // GIVEN the user is offline
         mockNetworkMonitor.isConnected = false
-        // GIVEN the MainCoordinator is started
+        // WHEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
         XCTAssertEqual(sut.childCoordinators.count, 0)
         let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
         let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
-        // THEN the network error screen is shown
+        // THEN the 'network' error screen is shown
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
@@ -115,16 +117,16 @@ extension MainCoordinatorTests {
         // WHEN the button on the error screen is tapped
         let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
         errorPrimaryButton.sendActions(for: .touchUpInside)
-        // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
+        // THEN the MainCoordinator should have an AuthenticationCoordinator
+        // as it's only child coordinator
         waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
         XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
-        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
     
     func test_networkErrorScreen_popsToLogin() throws {
         // GIVEN the user is offline
         mockNetworkMonitor.isConnected = false
-        // GIVEN the MainCoordinator is started
+        // WHEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
         let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
@@ -140,6 +142,6 @@ extension MainCoordinatorTests {
         let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
         errorPrimaryButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator shouldn't have launched it's AuthenticationCoordinator
-        XCTAssertEqual(sut.childCoordinators.count, 0)
+        waitForTruth(self.sut.childCoordinators.count == 0, timeout: 2)
     }
 }
