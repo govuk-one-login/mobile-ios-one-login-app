@@ -114,6 +114,7 @@ extension MainCoordinatorTests {
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
         // GIVEN the user is online
         mockNetworkMonitor.isConnected = true
+        waitForTruth(self.mockNetworkMonitor.isConnected, timeout: 2)
         // WHEN the button on the error screen is tapped
         let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
         errorPrimaryButton.sendActions(for: .touchUpInside)
