@@ -21,41 +21,36 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
-        if !localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-            root.isNavigationBarHidden = true
+        root.isNavigationBarHidden = true
+        if localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
+            switch localAuth.biometryType {
+            case .touchID:
+                let touchIDEnrollmentScreen = viewControllerFactory
+                    .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                        finish()
+                    } secondaryButtonAction: { [unowned self] in
+                        finish()
+                    }
+                root.pushViewController(touchIDEnrollmentScreen, animated: true)
+            case .faceID:
+                let faceIDEnrollmentScreen = viewControllerFactory
+                    .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                        finish()
+                    } secondaryButtonAction: { [unowned self] in
+                        finish()
+                    }
+                root.pushViewController(faceIDEnrollmentScreen, animated: true)
+            case .none, .opticID:
+                return
+            @unknown default:
+                return
+            }
+        } else {
             let passcodeInformationScreen = viewControllerFactory
                 .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
-                    showBiometricOptionScreen()
+                    finish()
                 }
             root.pushViewController(passcodeInformationScreen, animated: true)
-        } else {
-            finish()
         }
-    }
-
-    func showBiometricOptionScreen() {
-        if isFaceIDSupported() {
-            let faceIDEnrollmentScreen = viewControllerFactory.createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    finish()
-            } secondaryButtonAction: { [unowned self] in
-                finish()
-            }
-            root.pushViewController(faceIDEnrollmentScreen, animated: true)
-        } else {
-            let touchIDEnrollmentScreen = viewControllerFactory.createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    finish()
-            } secondaryButtonAction: { [unowned self] in
-                finish()
-            }
-            root.pushViewController(touchIDEnrollmentScreen, animated: true)
-        }
-
-    }
-
-    private func isFaceIDSupported() -> Bool {
-        if localAuth.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-            return localAuth.biometryType == LABiometryType.faceID
-        }
-        return false
     }
 }

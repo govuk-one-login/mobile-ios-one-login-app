@@ -37,9 +37,8 @@ final class OnboardingCoordinatorTests: XCTestCase {
 }
 
 extension OnboardingCoordinatorTests {
-    func test_start_noDevicePasscodeSet() throws {
-        mockLAContext.returnedFromEvaluatePolicy = false
-        // WHEN the OnboardingCoordinator has shown the passcode guidance via start()
+    func test_start_noDeviceLocalAuthSet() throws {
+        // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
         // THEN the view controller should be the information screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
@@ -47,14 +46,26 @@ extension OnboardingCoordinatorTests {
         XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
     }
     
-    func test_start_devicePasscodeSet() throws {
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+    func test_start_deviceLocalAuthSet_touchID() throws {
         mockLAContext.returnedFromEvaluatePolicy = true
         // GIVEN device passcode is set
-        // WHEN the OnboardingCoordinator has shown the passcode guidance via start()
+        // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
         // THEN the view controller should be the token screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
-        XCTAssertTrue(navigationController.topViewController is TokensViewController)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
+        XCTAssertTrue(vc.viewModel is TouchIDEnrollmentViewModel)
+    }
+    
+    func test_start_deviceLocalAuthSet_faceID() throws {
+        mockLAContext.returnedFromEvaluatePolicy = true
+        mockLAContext.biometryType = .faceID
+        // GIVEN device passcode is set
+        // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
+        mockMainCoordinator.openChildInline(sut)
+        // THEN the view controller should be the token screen
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
+        XCTAssertTrue(vc.viewModel is FaceIDEnrollmentViewModel)
     }
 }

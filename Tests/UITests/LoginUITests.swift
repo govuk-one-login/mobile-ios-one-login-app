@@ -36,7 +36,6 @@ You can set a passcode later by going to your phone settings.
 """)
         // Redirect to token screen
         XCTAssertEqual(noPasscodeScreen.continueButton.label, "Continue")
-        // TODO: Add biometric enrollment screen
         let tokensScreen = noPasscodeScreen.tapContinueButton()
         XCTAssertEqual(tokensScreen.title.label, "Logged in")
     }
