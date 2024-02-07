@@ -34,11 +34,28 @@ final class OnboardingCoordinator: NSObject,
     }
 
     func showBiometricOptionScreen() {
-        let faceIDEnrollmentScreen = viewControllerFactory.createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+        if isFaceIDSupported() {
+            let faceIDEnrollmentScreen = viewControllerFactory.createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                    finish()
+            } secondaryButtonAction: { [unowned self] in
                 finish()
-        } secondaryButtonAction: { [unowned self] in
+            }
+            root.pushViewController(faceIDEnrollmentScreen, animated: true)
+        } else {
+            let touchIDEnrollmentScreen = viewControllerFactory.createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                    finish()
+            } secondaryButtonAction: { [unowned self] in
                 finish()
+            }
+            root.pushViewController(touchIDEnrollmentScreen, animated: true)
         }
-        root.pushViewController(faceIDEnrollmentScreen, animated: true)
+
+    }
+
+    private func isFaceIDSupported() -> Bool {
+        if localAuth.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+            return localAuth.biometryType == LABiometryType.faceID
+        }
+        return false
     }
 }
