@@ -19,10 +19,22 @@ final class OnboardingViewControllerFactory {
         return GDSInformationViewController(viewModel: viewModel)
     }
 
-    static func createBiometricEnrollmentScreen(analyticsService: AnalyticsService,
+    static func createFaceIDEnrollmentScreen(analyticsService: AnalyticsService,
                                                 primaryButtonAction: @escaping () -> Void,
                                                 secondaryButtonAction: @escaping () -> Void) -> GDSInformationViewController {
-        let viewModel = BiometricEnrollViewModel(analyticsService: analyticsService, image: "faceid", title: "Use Face ID") {
+        let viewModel = FaceIDEnrollmentViewModel(analyticsService: analyticsService) {
+            primaryButtonAction()
+
+        } secondaryButtonAction: {
+            secondaryButtonAction()
+        }
+        return GDSInformationViewController(viewModel: viewModel)
+    }
+
+    static func createTouchIDEnrollmentScreen(analyticsService: AnalyticsService,
+                                                primaryButtonAction: @escaping () -> Void,
+                                                secondaryButtonAction: @escaping () -> Void) -> GDSInformationViewController {
+        let viewModel = TouchIDEnrollmentViewModel(analyticsService: analyticsService) {
             primaryButtonAction()
 
         } secondaryButtonAction: {

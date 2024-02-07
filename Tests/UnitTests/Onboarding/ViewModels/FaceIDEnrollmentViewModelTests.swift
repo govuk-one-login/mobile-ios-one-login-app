@@ -2,9 +2,9 @@ import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
-final class BiometricEnrollViewModelTests: XCTestCase {
+final class FaceIDEnrollmentViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: BiometricEnrollViewModel!
+    var sut: FaceIDEnrollmentViewModel!
     var didCallPrimaryButtonAction = false
     var didCallSecondaryButtonAction = false
 
@@ -12,7 +12,7 @@ final class BiometricEnrollViewModelTests: XCTestCase {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
-        sut = BiometricEnrollViewModel(analyticsService: mockAnalyticsService, image: "faceid", title: "Test") {
+        sut = FaceIDEnrollmentViewModel(analyticsService: mockAnalyticsService) {
             self.didCallPrimaryButtonAction = true
         } secondaryButtonAction: {
             self.didCallSecondaryButtonAction = true
@@ -29,10 +29,10 @@ final class BiometricEnrollViewModelTests: XCTestCase {
     }
 }
 
-extension BiometricEnrollViewModelTests {
+extension FaceIDEnrollmentViewModelTests {
     func test_labelContents() throws {
         XCTAssertEqual(sut.image, "faceid")
-        XCTAssertEqual(sut.title.value, "Test")
+        XCTAssertEqual(sut.title.value, "Use Face ID to sign in")
         XCTAssertEqual(sut.body?.value, """
     Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n
     If you do not want to use Face ID, you can sign in with your phone passcode instead.
@@ -67,7 +67,7 @@ extension BiometricEnrollViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.biometricEnrollment, titleKey: "Test")
+        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment, titleKey: "use face id to sign in")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [ screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }

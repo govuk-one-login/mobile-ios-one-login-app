@@ -3,20 +3,19 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct BiometricEnrollViewModel: GDSInformationViewModel, BaseViewModel {
-    let image: String
+struct TouchIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
+    let image: String = "touchid"
     let imageWeight: UIFont.Weight? = .thin
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 64
     // TODO: DCMAW-7083: String keys for localisation needed
-    let title: GDSLocalisedString
-    // Different body copy in localisation file for Face/Touch ID? Or compute property/function?
+    let title: GDSLocalisedString = "Use Touch ID to sign in"
     let body: GDSLocalisedString? = """
-    Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n
-    If you do not want to use Face ID, you can sign in with your phone passcode instead.
+    Add a layer of security and sign in with your fingerprint instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.\n
+    If you do not want to use Touch ID, you can sign in with your phone passcode instead.
     """
 
-    let footnote: GDSLocalisedString? = "If you use Face ID, anyone with a Face ID saved to your phone will be able to sign in to this app."
+    let footnote: GDSLocalisedString? = "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app."
 
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel?
@@ -25,14 +24,10 @@ struct BiometricEnrollViewModel: GDSInformationViewModel, BaseViewModel {
     let analyticsService: AnalyticsService
 
     init(analyticsService: AnalyticsService,
-         image: String,
-         title: GDSLocalisedString,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.image = image
-        self.title = title
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Use Face ID",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Use Touch ID",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
@@ -45,7 +40,7 @@ struct BiometricEnrollViewModel: GDSInformationViewModel, BaseViewModel {
 
 
     func didAppear() {
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.biometricEnrollment, titleKey: title.stringKey)
+        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.touchIDEnrollment, titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
 

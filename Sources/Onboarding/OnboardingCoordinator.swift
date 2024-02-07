@@ -34,10 +34,11 @@ final class OnboardingCoordinator: NSObject,
     }
 
     func showBiometricOptionScreen() {
-        let biometricEnrollmentScreen = viewControllerFactory.createBiometricEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+        let faceIDEnrollmentScreen = viewControllerFactory.createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
                 finish()
         } secondaryButtonAction: { [unowned self] in
                 finish()
         }
+        root.pushViewController(faceIDEnrollmentScreen, animated: true)
     }
 }
