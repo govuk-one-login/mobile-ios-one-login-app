@@ -104,9 +104,9 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
-        XCTAssertEqual(sut.childCoordinators.count, 0)
         let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
         let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
+        XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         // THEN the 'network' error screen is shown
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
