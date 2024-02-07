@@ -120,7 +120,7 @@ extension MainCoordinatorTests {
         // THEN the MainCoordinator should have an AuthenticationCoordinator
         // as it's only child coordinator
         waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
-        XCTAssertTrue(sut.childCoordinators.first is AuthenticationCoordinator)
+        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
     func test_networkErrorScreen_popsToLogin() throws {
