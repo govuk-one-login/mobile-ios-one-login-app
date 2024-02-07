@@ -25,6 +25,7 @@
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */; };
+		411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */; };
 		4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD0C2B2725C8009AE51F /* TokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */; };
@@ -143,6 +144,7 @@
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 		410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
+		411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModelTests.swift; sourceTree = "<group>"; };
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
 		4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCoordinator.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 				21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */,
 				1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */,
 				41C8E42D2B7291F80063B8A3 /* FaceIDEnrollmentViewModelTests.swift */,
+				411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1011,6 +1014,7 @@
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
+				411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
