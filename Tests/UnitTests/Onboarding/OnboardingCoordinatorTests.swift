@@ -5,23 +5,31 @@ import XCTest
 
 @MainActor
 final class OnboardingCoordinatorTests: XCTestCase {
+    var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockLAContext: MockLAContext!
+    var mockMainCoordinator: MainCoordinator!
     var sut: OnboardingCoordinator!
-    
     
     override func setUp() {
         super.setUp()
         
+        window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
+        mockLAContext = MockLAContext()
+        mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
         sut = OnboardingCoordinator(root: navigationController,
-                                    analyticsService: mockAnalyticsService)
+                                    analyticsService: mockAnalyticsService,
+                                    localAuth: mockLAContext)
     }
     
     override func tearDown() {
         navigationController = nil
         mockAnalyticsService = nil
+        mockLAContext = nil
+        mockMainCoordinator = nil
         sut = nil
         
         super.tearDown()
@@ -29,15 +37,24 @@ final class OnboardingCoordinatorTests: XCTestCase {
 }
 
 extension OnboardingCoordinatorTests {
-    func test_start_passcodeInformationScreen() throws {
+    func test_start_noDevicePasscodeSet() throws {
+        mockLAContext.returnedFromEvaluatePolicy = false
         // WHEN the OnboardingCoordinator has shown the passcode guidance via start()
-        sut.start()
+        mockMainCoordinator.openChildInline(sut)
         // THEN the view controller should be the information screen
-        let vc = sut.root.topViewController as? GDSInformationViewController
-        XCTAssertTrue(vc != nil)
-        XCTAssertTrue(vc?.viewModel is PasscodeInformationViewModel)
-        // WHEN the button is tapped
-        let passcodePrimaryButton: UIButton = try XCTUnwrap(vc?.view[child: "information-primary-button"])
-        passcodePrimaryButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
+        XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
+    }
+    
+    func test_start_devicePasscodeSet() throws {
+        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockLAContext.returnedFromEvaluatePolicy = true
+        // GIVEN device passcode is set
+        // WHEN the OnboardingCoordinator has shown the passcode guidance via start()
+        mockMainCoordinator.openChildInline(sut)
+        // THEN the view controller should be the token screen
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        XCTAssertTrue(navigationController.topViewController is TokensViewController)
     }
 }

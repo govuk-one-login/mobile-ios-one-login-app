@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D722B72937500CCAF3E /* MockLAContext.swift */; };
+		1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D752B72959A00CCAF3E /* LAContexting.swift */; };
 		1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
 		1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */; };
@@ -113,6 +115,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E717D722B72937500CCAF3E /* MockLAContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLAContext.swift; sourceTree = "<group>"; };
+		1E717D752B72959A00CCAF3E /* LAContexting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAContexting.swift; sourceTree = "<group>"; };
 		1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModel.swift; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
 		1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModelTests.swift; sourceTree = "<group>"; };
@@ -304,7 +308,6 @@
 				C8520C282AE2C1AD006790C1 /* Utilities */,
 				4195E6C62B0CC6C50065E2BB /* Screens */,
 				C85E21152ACEECB000AF8B4E /* Views */,
-				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 			children = (
 				C8BACAFB2B4DD92200530419 /* Environment */,
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
+				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
@@ -466,6 +470,7 @@
 				21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */,
 				41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */,
 				1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */,
+				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
 				C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */,
+				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
 			);
 			path = "Sessions+Services";
 			sourceTree = "<group>";
@@ -944,6 +950,7 @@
 			files = (
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
+				1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */,
 				4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* OnboardingCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
@@ -989,6 +996,7 @@
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */,
+				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* OnboardingCoordinatorTests.swift in Sources */,
