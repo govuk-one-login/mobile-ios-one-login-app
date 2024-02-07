@@ -25,11 +25,19 @@ final class OnboardingCoordinator: NSObject,
             root.isNavigationBarHidden = true
             let passcodeInformationScreen = viewControllerFactory
                 .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
-                    finish()
+                    showBiometricOptionScreen()
                 }
             root.pushViewController(passcodeInformationScreen, animated: true)
         } else {
             finish()
+        }
+    }
+
+    func showBiometricOptionScreen() {
+        let biometricEnrollmentScreen = viewControllerFactory.createBiometricEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                finish()
+        } secondaryButtonAction: { [unowned self] in
+                finish()
         }
     }
 }
