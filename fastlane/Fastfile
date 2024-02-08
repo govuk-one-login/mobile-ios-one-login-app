@@ -25,7 +25,8 @@ platform :ios do
       workspace: "OneLogin.xcworkspace",
       device: "iPhone SE (3rd generation)",
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      prelaunch_simulator: true
     )
   end
 
@@ -47,6 +48,7 @@ platform :ios do
       device: "iPhone SE (3rd generation)",
       scheme: options[:scheme],
       testplan: options[:testplan],
+      prelaunch_simulator: true,
       result_bundle: true
     )
     
