@@ -15,13 +15,11 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n
     If you do not want to use Face ID, you can sign in with your phone passcode instead.
     """
-
     let footnote: GDSLocalisedString? = "If you use Face ID, anyone with a Face ID saved to your phone will be able to sign in to this app."
-
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel?
-    var rightBarButtonTitle: GDSLocalisedString?
-    var backButtonIsHidden: Bool = true
+    let rightBarButtonTitle: GDSLocalisedString? = nil
+    let backButtonIsHidden: Bool = true
     let analyticsService: AnalyticsService
 
     init(analyticsService: AnalyticsService,
