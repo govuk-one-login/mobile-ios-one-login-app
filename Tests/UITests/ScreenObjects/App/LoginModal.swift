@@ -39,10 +39,10 @@ struct LoginModal: ScreenObject {
         cancelButton.tap()
     }
     
-    func tapBrowserLoginButton() -> PasscodeInformationScreen {
+    func tapBrowserLoginButton() -> TokensScreen {
         loginButton.tap()
         
-        return PasscodeInformationScreen(app: app).waitForAppearance()
+        return TokensScreen(app: app).waitForAppearance()
     }
     
     func tapBrowserRedirectWithOAuthErrorButton() -> ErrorScreen {

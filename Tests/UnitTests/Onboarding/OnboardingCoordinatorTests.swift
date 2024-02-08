@@ -56,6 +56,7 @@ extension OnboardingCoordinatorTests {
         // THEN the view controller should be the token screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
         let vc = try XCTUnwrap(navigationController.topViewController as? TokensViewController)
+        XCTAssertTrue(navigationController.topViewController is TokensViewController)
     }
     
     func test_start_deviceLocalAuthSet_touchID() throws {
