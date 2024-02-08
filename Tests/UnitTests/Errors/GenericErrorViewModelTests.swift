@@ -26,13 +26,13 @@ final class GenericErrorViewModelTests: XCTestCase {
 }
 
 extension GenericErrorViewModelTests {
-    func test_labelContents() throws {
+    func test_label_contents() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.value, "Something went wrong")
         XCTAssertEqual(sut.body.value, "Try again later")
     }
     
-    func test_buttonAction() throws {
+    func test_button_action() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()

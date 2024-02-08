@@ -26,7 +26,7 @@ final class PasscodeInformationViewModelTests: XCTestCase {
 }
 
 extension PasscodeInformationViewModelTests {
-    func test_labelContents() throws {
+    func test_label_contents() throws {
         XCTAssertEqual(sut.image, "lock")
         XCTAssertEqual(sut.title.value, "It looks like this phone does not have a passcode")
         XCTAssertEqual(sut.body!.value, """
@@ -36,7 +36,7 @@ You can set a passcode later by going to your phone settings.
 """)
     }
     
-    func test_buttonAction() throws {
+    func test_button_action() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()

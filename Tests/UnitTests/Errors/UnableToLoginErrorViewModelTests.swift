@@ -26,13 +26,13 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
 }
 
 extension UnableToLoginErrorViewModelTests {
-    func test_labelContents() throws {
+    func test_label_contents() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.value, "There was a problem signing you in")
         XCTAssertEqual(sut.body.value, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
     }
     
-    func test_buttonAction() throws {
+    func test_button_action() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()

@@ -30,7 +30,7 @@ final class TouchIDEnrollmentViewModelTests: XCTestCase {
 }
 
 extension TouchIDEnrollmentViewModelTests {
-    func test_labelContents() throws {
+    func test_label_contents() throws {
         XCTAssertEqual(sut.image, "touchid")
         XCTAssertEqual(sut.title.value, "Use Touch ID to sign in")
         XCTAssertEqual(sut.body?.value, """
@@ -39,7 +39,7 @@ extension TouchIDEnrollmentViewModelTests {
     """)
     }
 
-    func test_primaryButtonAction() throws {
+    func test_primaryButton_action() throws {
         XCTAssertFalse(didCallPrimaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -51,7 +51,7 @@ extension TouchIDEnrollmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
 
-    func test_secondaryButtonAction() throws {
+    func test_secondaryButton_action() throws {
         XCTAssertFalse(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.secondaryButtonViewModel?.action()
