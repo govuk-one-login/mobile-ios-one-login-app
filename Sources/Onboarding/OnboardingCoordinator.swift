@@ -45,12 +45,14 @@ final class OnboardingCoordinator: NSObject,
             @unknown default:
                 return
             }
-        } else {
+        } else if !localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
             let passcodeInformationScreen = viewControllerFactory
                 .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
                     finish()
                 }
             root.pushViewController(passcodeInformationScreen, animated: true)
+        } else {
+            finish()
         }
     }
 }

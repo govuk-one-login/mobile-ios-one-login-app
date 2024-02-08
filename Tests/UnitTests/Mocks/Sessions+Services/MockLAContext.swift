@@ -4,8 +4,14 @@ import LocalAuthentication
 final class MockLAContext: LAContexting {
     var biometryType: LABiometryType = .touchID
     
-    var returnedFromEvaluatePolicy: Bool = false
+    var returnedFromEvaluatePolicyForBiometrics: Bool = false
+    var returnedFromEvaluatePolicyForAuthentication: Bool = false
+    
     func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
-        return returnedFromEvaluatePolicy
+        if policy == .deviceOwnerAuthenticationWithBiometrics {
+            return returnedFromEvaluatePolicyForBiometrics
+        } else {
+            return returnedFromEvaluatePolicyForAuthentication
+        }
     }
 }

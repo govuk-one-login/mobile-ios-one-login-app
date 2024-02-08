@@ -38,6 +38,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
 
 extension OnboardingCoordinatorTests {
     func test_start_noDeviceLocalAuthSet() throws {
+        mockLAContext.returnedFromEvaluatePolicyForAuthentication = false
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
         // THEN the view controller should be the information screen
@@ -46,8 +47,19 @@ extension OnboardingCoordinatorTests {
         XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
     }
     
+    func test_start_deviceLocalAuthSet_passcode() throws {
+        mockLAContext.returnedFromEvaluatePolicyForAuthentication = true
+        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        // GIVEN device passcode is set
+        // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
+        mockMainCoordinator.openChildInline(sut)
+        // THEN the view controller should be the token screen
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        let vc = try XCTUnwrap(navigationController.topViewController as? TokensViewController)
+    }
+    
     func test_start_deviceLocalAuthSet_touchID() throws {
-        mockLAContext.returnedFromEvaluatePolicy = true
+        mockLAContext.returnedFromEvaluatePolicyForBiometrics = true
         // GIVEN device passcode is set
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
@@ -58,7 +70,7 @@ extension OnboardingCoordinatorTests {
     }
     
     func test_start_deviceLocalAuthSet_faceID() throws {
-        mockLAContext.returnedFromEvaluatePolicy = true
+        mockLAContext.returnedFromEvaluatePolicyForBiometrics = true
         mockLAContext.biometryType = .faceID
         // GIVEN device passcode is set
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
