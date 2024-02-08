@@ -22,7 +22,7 @@ final class OnboardingCoordinator: NSObject,
     
     func start() {
         root.isNavigationBarHidden = true
-        if localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
+        if localAuth.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
             switch localAuth.biometryType {
             case .touchID:
                 let touchIDEnrollmentScreen = viewControllerFactory
