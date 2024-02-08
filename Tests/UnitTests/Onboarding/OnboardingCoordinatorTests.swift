@@ -55,7 +55,6 @@ extension OnboardingCoordinatorTests {
         mockMainCoordinator.openChildInline(sut)
         // THEN the view controller should be the token screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
-        let vc = try XCTUnwrap(navigationController.topViewController as? TokensViewController)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
     }
     
