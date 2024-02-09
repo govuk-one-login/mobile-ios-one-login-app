@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "feature/dcmaw-8188-fix-icon-issues-with-gdsinfoview",
-        "revision" : "d1aa88a986a352f281a3bd53d42bac50cc5d241c"
+        "branch" : "main",
+        "revision" : "b2059248a87850974038d075e32f3f3d1f52618a"
       }
     },
     {

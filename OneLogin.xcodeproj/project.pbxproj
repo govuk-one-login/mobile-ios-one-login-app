@@ -1895,7 +1895,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
-				branch = "feature/dcmaw-8188-fix-icon-issues-with-gdsinfoview";
+				branch = main;
 				kind = branch;
 			};
 		};
