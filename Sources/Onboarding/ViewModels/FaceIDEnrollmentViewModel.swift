@@ -10,7 +10,6 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     let imageHeightConstraint: CGFloat? = 64
     // TODO: DCMAW-7083: String keys for localisation needed
     let title: GDSLocalisedString = "Use Face ID to sign in"
-    // Different body copy in localisation file for Face/Touch ID? Or compute property/function?
     let body: GDSLocalisedString? = """
     Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n
     If you do not want to use Face ID, you can sign in with your phone passcode instead.
