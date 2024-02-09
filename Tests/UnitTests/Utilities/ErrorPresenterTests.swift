@@ -22,7 +22,7 @@ final class ErrorPresenterTests: XCTestCase {
 }
 
 extension ErrorPresenterTests {
-    func test_genericErrorCallsAction() throws {
+    func test_genericError_callsAction() throws {
         let introView = sut.createGenericError(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
@@ -31,7 +31,7 @@ extension ErrorPresenterTests {
         XCTAssertTrue(didCallAction)
     }
     
-    func test_unableToLoginErrorCallsAction() throws {
+    func test_unableToLoginError_callsAction() throws {
         let introView = sut.createUnableToLoginError(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
@@ -40,7 +40,7 @@ extension ErrorPresenterTests {
         XCTAssertTrue(didCallAction)
     }
     
-    func test_networkConnectionErrorCallsAction() throws {
+    func test_networkConnectionError_callsAction() throws {
         let introView = sut.createNetworkConnectionError(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }

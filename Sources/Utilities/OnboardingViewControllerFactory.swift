@@ -18,4 +18,26 @@ final class OnboardingViewControllerFactory {
         }
         return GDSInformationViewController(viewModel: viewModel)
     }
+    
+    static func createFaceIDEnrollmentScreen(analyticsService: AnalyticsService,
+                                             primaryButtonAction: @escaping () -> Void,
+                                             secondaryButtonAction: @escaping () -> Void) -> GDSInformationViewController {
+        let viewModel = FaceIDEnrollmentViewModel(analyticsService: analyticsService) {
+            primaryButtonAction()
+        } secondaryButtonAction: {
+            secondaryButtonAction()
+        }
+        return GDSInformationViewController(viewModel: viewModel)
+    }
+    
+    static func createTouchIDEnrollmentScreen(analyticsService: AnalyticsService,
+                                              primaryButtonAction: @escaping () -> Void,
+                                              secondaryButtonAction: @escaping () -> Void) -> GDSInformationViewController {
+        let viewModel = TouchIDEnrollmentViewModel(analyticsService: analyticsService) {
+            primaryButtonAction()
+        } secondaryButtonAction: {
+            secondaryButtonAction()
+        }
+        return GDSInformationViewController(viewModel: viewModel)
+    }
 }

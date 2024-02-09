@@ -2,9 +2,16 @@ import LocalAuthentication
 @testable import OneLogin
 
 final class MockLAContext: LAContexting {
-    var returnedFromEvaluatePolicy: Bool = false
+    var biometryType: LABiometryType = .touchID
+    
+    var returnedFromEvaluatePolicyForBiometrics: Bool = false
+    var returnedFromEvaluatePolicyForAuthentication: Bool = false
     
     func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
-        return returnedFromEvaluatePolicy
+        if policy == .deviceOwnerAuthenticationWithBiometrics {
+            return returnedFromEvaluatePolicyForBiometrics
+        } else {
+            return returnedFromEvaluatePolicyForAuthentication
+        }
     }
 }

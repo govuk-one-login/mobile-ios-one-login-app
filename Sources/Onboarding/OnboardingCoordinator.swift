@@ -21,8 +21,31 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
-        if !localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-            root.isNavigationBarHidden = true
+        root.isNavigationBarHidden = true
+        if localAuth.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+            switch localAuth.biometryType {
+            case .touchID:
+                let touchIDEnrollmentScreen = viewControllerFactory
+                    .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                        finish()
+                    } secondaryButtonAction: { [unowned self] in
+                        finish()
+                    }
+                root.pushViewController(touchIDEnrollmentScreen, animated: true)
+            case .faceID:
+                let faceIDEnrollmentScreen = viewControllerFactory
+                    .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                        finish()
+                    } secondaryButtonAction: { [unowned self] in
+                        finish()
+                    }
+                root.pushViewController(faceIDEnrollmentScreen, animated: true)
+            case .opticID, .none:
+                return
+            @unknown default:
+                return
+            }
+        } else if !localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
             let passcodeInformationScreen = viewControllerFactory
                 .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
                     finish()

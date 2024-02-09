@@ -26,13 +26,13 @@ final class NetworkConnectionErrorViewModelTests: XCTestCase {
 }
 
 extension NetworkConnectionErrorViewModelTests {
-    func test_labelContents() throws {
+    func test_label_contents() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.value, "You appear to be offline")
         XCTAssertEqual(sut.body.value, "GOV.UK One Login is not avaliable offline. \nReconnect to the internet and try again.")
     }
     
-    func test_buttonAction() throws {
+    func test_button_action() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()

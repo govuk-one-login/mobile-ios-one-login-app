@@ -26,14 +26,14 @@ final class OneLoginIntroViewModelTests: XCTestCase {
 }
 
 extension OneLoginIntroViewModelTests {
-    func test_labelContents() throws {
+    func test_label_contents() throws {
         XCTAssertEqual(sut.image, UIImage(named: "badge"))
         XCTAssertEqual(sut.title.value, "GOV.UK One Login")
         XCTAssertEqual(sut.body.value, "Sign in with the email address you use for your GOV.UK One Login.")
         XCTAssertTrue(sut.introButtonViewModel is AnalyticsButtonViewModel)
     }
     
-    func test_buttonAction() throws {
+    func test_button_action() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.introButtonViewModel.action()

@@ -43,7 +43,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 }
 
 extension AuthenticationCoordinatorTests {
-    func test_start_loginSession_configProperties() throws {
+    func test_loginSession_configProperties() throws {
         // WHEN the AuthenticationCoordinator is started
         mockMainCoordinator.openChildInline(sut)
         // THEN the session should have the correct login configuration details
@@ -60,7 +60,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(sessionConfig.locale, .en)
     }
     
-    func test_handleUniversalLink_successful() throws {
+    func test_loginSession_successful() throws {
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
@@ -73,14 +73,10 @@ extension AuthenticationCoordinatorTests {
         // swiftlint:enable line_length
         
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
-        guard let mainCoordinator = sut.parentCoordinator as? MainCoordinator else {
-            XCTFail("Should be a MainCoordinator")
-            return
-        }
         // THEN the tokens are returned
-        XCTAssertEqual(mainCoordinator.tokens?.accessToken, accessToken)
-        XCTAssertEqual(mainCoordinator.tokens?.refreshToken, refreshToken)
-        XCTAssertEqual(mainCoordinator.tokens?.idToken, idToken)
+        XCTAssertEqual(mockMainCoordinator.tokens?.accessToken, accessToken)
+        XCTAssertEqual(mockMainCoordinator.tokens?.refreshToken, refreshToken)
+        XCTAssertEqual(mockMainCoordinator.tokens?.idToken, idToken)
     }
     
     func test_loginError_network() throws {

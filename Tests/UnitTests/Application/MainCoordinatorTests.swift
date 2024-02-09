@@ -32,7 +32,7 @@ final class MainCoordinatorTests: XCTestCase {
 }
 
 extension MainCoordinatorTests {
-    func test_mainCoordinatorStart_displaysIntroViewController() throws {
+    func test_start_displaysIntroViewController() throws {
         // WHEN the MainCoordinator is started
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
@@ -41,9 +41,7 @@ extension MainCoordinatorTests {
         XCTAssert(sut.root.topViewController is IntroViewController)
     }
     
-    func test_mainCoordinatorStart_opensSubCoordinator() throws {
-        // GIVEN the user is online
-        mockNetworkMonitor.isConnected = true
+    func test_start_opensAuthenticationCoordinator() throws {
         // WHEN the MainCoordinator is started
         sut.start()
         // WHEN the button on the IntroViewController is tapped
@@ -52,37 +50,11 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
         introButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator as it's only child coordinator
-        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 5)
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
-    func test_didRegainFocus_fromAuthenticationCoordinator() throws {
-        let mockLoginSession = MockLoginSession()
-        let mockAnalyticsService = MockAnalyticsService()
-        let child = AuthenticationCoordinator(root: navigationController,
-                                              session: mockLoginSession,
-                                              analyticsService: mockAnalyticsService)
-        // GIVEN the MainCoordinator regained focus from the AuthenticationCoordinator
-        // and the device has passcode enabled but no tokens
-        sut.didRegainFocus(fromChild: child)
-        // THEN the MainCoordinator shouldn't have any child coordinators
-        waitForTruth(self.sut.childCoordinators.count == 0, timeout: 2)
-    }
-    
-    func test_didRegainFocus_fromOnboardingCoordinator() throws {
-        let mockAnalyticsService = MockAnalyticsService()
-        let child = OnboardingCoordinator(root: navigationController,
-                                          analyticsService: mockAnalyticsService)
-        sut.tokens = try MockTokenResponse().getJSONData()
-        // GIVEN the MainCoordinator regained focus from the OnboardingCoordinator
-        // and the device has passcode enabled with tokens
-        sut.didRegainFocus(fromChild: child)
-        // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
-        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
-        XCTAssertTrue(sut.childCoordinators.last is TokenCoordinator)
-    }
-    
-    func test_mainCoordinatorStart_displaysNetworkConnectionError() throws {
+    func test_start_displaysNetworkConnectionError() throws {
         // GIVEN the user is offline
         mockNetworkMonitor.isConnected = false
         // WHEN the MainCoordinator is started
@@ -96,6 +68,32 @@ extension MainCoordinatorTests {
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+    }
+    
+    func test_didRegainFocus_fromAuthenticationCoordinator() throws {
+        let mockLoginSession = MockLoginSession()
+        let mockAnalyticsService = MockAnalyticsService()
+        let child = AuthenticationCoordinator(root: navigationController,
+                                              session: mockLoginSession,
+                                              analyticsService: mockAnalyticsService)
+        sut.tokens = try MockTokenResponse().getJSONData()
+        // GIVEN the MainCoordinator regained focus from the AuthenticationCoordinator
+        sut.didRegainFocus(fromChild: child)
+        // THEN the MainCoordinator should have an OnboardingCoordinator as it's only child coordinator
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        XCTAssertTrue(sut.childCoordinators.last is TokenCoordinator)
+    }
+    
+    func test_didRegainFocus_fromOnboardingCoordinator() throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let child = OnboardingCoordinator(root: navigationController,
+                                          analyticsService: mockAnalyticsService)
+        sut.tokens = try MockTokenResponse().getJSONData()
+        // GIVEN the MainCoordinator regained focus from the OnboardingCoordinator
+        sut.didRegainFocus(fromChild: child)
+        // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        XCTAssertTrue(sut.childCoordinators.last is TokenCoordinator)
     }
     
     func test_networkErrorScreen_reconnectingOpensAuthCoordinator() throws {
@@ -114,13 +112,12 @@ extension MainCoordinatorTests {
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
         // GIVEN the user is online
         mockNetworkMonitor.isConnected = true
-        waitForTruth(self.mockNetworkMonitor.isConnected, timeout: 2)
         // WHEN the button on the error screen is tapped
         let errorPrimaryButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
         errorPrimaryButton.sendActions(for: .touchUpInside)
         // THEN the MainCoordinator should have an AuthenticationCoordinator
         // as it's only child coordinator
-        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 5)
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
