@@ -32,9 +32,9 @@ final class TouchIDEnrollmentViewModelTests: XCTestCase {
 extension TouchIDEnrollmentViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.image, "touchid")
-        XCTAssertEqual(sut.title.stringKey, "app_enableTouchIdTitle")
-        XCTAssertEqual(sut.body?.stringKey, "app_enableTouchIdBody")
-        XCTAssertEqual(sut.footnote?.stringKey, "app_enableTouchIdFootnote")
+        XCTAssertEqual(sut.title.stringKey, "app_enableTouchIDTitle")
+        XCTAssertEqual(sut.body?.stringKey, "app_enableTouchIDBody")
+        XCTAssertEqual(sut.footnote?.stringKey, "app_enableTouchIDFootnote")
     }
 
     func test_primaryButton_action() throws {
@@ -65,7 +65,7 @@ extension TouchIDEnrollmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.touchIDEnrollment, titleKey: "app_enableTouchIdTitle")
+        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.touchIDEnrollment, titleKey: "app_enableTouchIDTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [ screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }

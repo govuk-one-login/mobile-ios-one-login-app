@@ -32,9 +32,9 @@ final class FaceIDEnrollmentViewModelTests: XCTestCase {
 extension FaceIDEnrollmentViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.image, "faceid")
-        XCTAssertEqual(sut.title.stringKey, "app_enableFaceIdTitle")
-        XCTAssertEqual(sut.body?.stringKey, "app_enableFaceIdBody")
-        XCTAssertEqual(sut.footnote?.stringKey, "app_enableFaceIdFootnote")
+        XCTAssertEqual(sut.title.stringKey, "app_enableFaceIDTitle")
+        XCTAssertEqual(sut.body?.stringKey, "app_enableFaceIDBody")
+        XCTAssertEqual(sut.footnote?.stringKey, "app_enableFaceIDFootnote")
     }
 
     func test_primaryButton_action() throws {
@@ -65,7 +65,7 @@ extension FaceIDEnrollmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment, titleKey: "app_enableFaceIdTitle")
+        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment, titleKey: "app_enableFaceIDTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [ screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }

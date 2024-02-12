@@ -8,9 +8,9 @@ struct TouchIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     let imageWeight: UIFont.Weight? = .thin
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 64
-    let title: GDSLocalisedString = "app_enableTouchIdTitle"
-    let body: GDSLocalisedString? = "app_enableTouchIdBody"
-    let footnote: GDSLocalisedString? = "app_enableTouchIdFootnote"
+    let title: GDSLocalisedString = "app_enableTouchIDTitle"
+    let body: GDSLocalisedString? = "app_enableTouchIDBody"
+    let footnote: GDSLocalisedString? = "app_enableTouchIDFootnote"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel?
     let rightBarButtonTitle: GDSLocalisedString? = nil
@@ -21,7 +21,7 @@ struct TouchIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableTouchIdEnableButton",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableTouchIDEnableButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }

@@ -8,9 +8,9 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     let imageWeight: UIFont.Weight? = .thin
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 64
-    let title: GDSLocalisedString = "app_enableFaceIdTitle"
-    let body: GDSLocalisedString? = "app_enableFaceIdBody"
-    let footnote: GDSLocalisedString? = "app_enableFaceIdFootnote"
+    let title: GDSLocalisedString = "app_enableFaceIDTitle"
+    let body: GDSLocalisedString? = "app_enableFaceIDBody"
+    let footnote: GDSLocalisedString? = "app_enableFaceIDFootnote"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel?
     let rightBarButtonTitle: GDSLocalisedString? = nil
@@ -21,7 +21,7 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableFaceIdButton",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableFaceIDButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }

@@ -35,7 +35,7 @@
         }
       }
     },
-    "app_enableFaceIdBody" : {
+    "app_enableFaceIDBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -52,7 +52,7 @@
         }
       }
     },
-    "app_enableFaceIdButton" : {
+    "app_enableFaceIDButton" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -69,7 +69,7 @@
         }
       }
     },
-    "app_enableFaceIdFootnote" : {
+    "app_enableFaceIDFootnote" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -86,7 +86,7 @@
         }
       }
     },
-    "app_enableFaceIdTitle" : {
+    "app_enableFaceIDTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -120,7 +120,7 @@
         }
       }
     },
-    "app_enableTouchIdBody" : {
+    "app_enableTouchIDBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -137,7 +137,7 @@
         }
       }
     },
-    "app_enableTouchIdEnableButton" : {
+    "app_enableTouchIDEnableButton" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -154,7 +154,7 @@
         }
       }
     },
-    "app_enableTouchIdFootnote" : {
+    "app_enableTouchIDFootnote" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
@@ -171,7 +171,7 @@
         }
       }
     },
-    "app_enableTouchIdTitle" : {
+    "app_enableTouchIDTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "cy-GB" : {
