@@ -5,7 +5,6 @@ import UIKit
 
 struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     let image: UIImage = UIImage(named: "badge") ?? UIImage()
-    // TODO: DCMAW-7083: String keys for localisation needed
     let title: GDSLocalisedString = "app_signInTitle"
     let body: GDSLocalisedString = "app_signInBody"
     let introButtonViewModel: ButtonViewModel

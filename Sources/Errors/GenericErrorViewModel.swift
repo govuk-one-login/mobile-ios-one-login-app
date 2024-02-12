@@ -4,9 +4,8 @@ import Logging
 
 struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let image: String = "exclamationmark.circle"
-    // TODO: DCMAW-7083: String keys for localisation needed
-    let title: GDSLocalisedString = "Something went wrong"
-    let body: GDSLocalisedString = "Try again later"
+    let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
+    let body: GDSLocalisedString = "app_somethingWentWrongErrorBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
@@ -16,7 +15,7 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
     
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Close",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
                                                                analyticsService: analyticsService) {
             action()
         }
