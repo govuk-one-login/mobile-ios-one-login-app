@@ -7,6 +7,8 @@ final class LoginUITests: XCTestCase {
         await MainActor.run {
             sut = WelcomeScreen()
             sut.app.launch()
+            let exp = expectation(description: "Waiting once App has launched")
+            XCTWaiter().wait(for: [exp], timeout: 30)
         }
     }
     
