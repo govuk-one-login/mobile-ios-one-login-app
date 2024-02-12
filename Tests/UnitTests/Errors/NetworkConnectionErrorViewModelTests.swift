@@ -28,8 +28,8 @@ final class NetworkConnectionErrorViewModelTests: XCTestCase {
 extension NetworkConnectionErrorViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.value, "You appear to be offline")
-        XCTAssertEqual(sut.body.value, "GOV.UK One Login is not avaliable offline. \nReconnect to the internet and try again.")
+        XCTAssertEqual(sut.title.stringKey, "app_networkErrorTitle")
+        XCTAssertEqual(sut.body.stringKey, "app_networkErrorBody")
     }
     
     func test_button_action() throws {
@@ -49,7 +49,7 @@ extension NetworkConnectionErrorViewModelTests {
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: ErrorAnalyticsScreen.networkConnection,
-                                titleKey: "You appear to be offline")
+                                titleKey: "app_networkErrorTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }

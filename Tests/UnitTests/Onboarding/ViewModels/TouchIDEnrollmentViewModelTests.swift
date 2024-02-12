@@ -32,11 +32,9 @@ final class TouchIDEnrollmentViewModelTests: XCTestCase {
 extension TouchIDEnrollmentViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.image, "touchid")
-        XCTAssertEqual(sut.title.value, "Use Touch ID to sign in")
-        XCTAssertEqual(sut.body?.value, """
-    Add a layer of security and sign in with your fingerprint instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.\n
-    If you do not want to use Touch ID, you can sign in with your phone passcode instead.
-    """)
+        XCTAssertEqual(sut.title.stringKey, "app_enableTouchIdTitle")
+        XCTAssertEqual(sut.body?.stringKey, "app_enableTouchIdBody")
+        XCTAssertEqual(sut.footnote?.stringKey, "app_enableTouchIdFootnote")
     }
 
     func test_primaryButton_action() throws {
@@ -67,7 +65,7 @@ extension TouchIDEnrollmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.touchIDEnrollment, titleKey: "use touch id to sign in")
+        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.touchIDEnrollment, titleKey: "app_enableTouchIdTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [ screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }

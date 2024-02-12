@@ -28,8 +28,8 @@ final class OneLoginIntroViewModelTests: XCTestCase {
 extension OneLoginIntroViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.image, UIImage(named: "badge"))
-        XCTAssertEqual(sut.title.value, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.value, "Sign in with the email address you use for your GOV.UK One Login.")
+        XCTAssertEqual(sut.title.stringKey, "app_signInTitle")
+        XCTAssertEqual(sut.body.stringKey, "app_signInBody")
         XCTAssertTrue(sut.introButtonViewModel is AnalyticsButtonViewModel)
     }
     
@@ -50,7 +50,7 @@ extension OneLoginIntroViewModelTests {
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: IntroAnalyticsScreen.welcomeScreen,
-                                titleKey: "GOV.UK One Login")
+                                titleKey: "app_signInTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
