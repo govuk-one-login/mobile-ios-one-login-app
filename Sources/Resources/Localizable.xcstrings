@@ -1,0 +1,57 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "app_signInBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cy-GB" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mewngofnodwch gyda'r cyfeiriad e-bost rydych yn ei ddefnyddio ar gyfer eich GOV.UK One Login"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-in with the email address you use for your GOV.UK One Login"
+          }
+        }
+      }
+    },
+    "app_signInButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cy-GB" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Mewngofnodi"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in"
+          }
+        }
+      }
+    },
+    "app_signInTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cy-GB" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "GOV.UK One Login"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GOV.UK One Login"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
