@@ -39,7 +39,7 @@ extension OneLoginIntroViewModelTests {
         sut.introButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: sut.introButtonViewModel.title.value)
+        let event = ButtonEvent(textKey: "app_signInButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
