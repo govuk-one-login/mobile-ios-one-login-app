@@ -268,7 +268,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign-in with the email address you use for your GOV.UK One Login."
+            "value" : "Sign in with the email address you use for your GOV.UK One Login."
           }
         }
       }
@@ -302,7 +302,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can try signing in again. \n\nIf this does not work, you may need to try again later."
+            "value" : "You can try signing in again.\n\nIf this does not work, you may need to try again later."
           }
         }
       }
