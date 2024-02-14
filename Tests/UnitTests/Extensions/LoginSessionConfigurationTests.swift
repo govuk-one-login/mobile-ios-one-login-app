@@ -12,6 +12,10 @@ final class LoginSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(LoginSessionConfiguration.oneLogin.prefersEphemeralWebSession, true)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin.redirectURI, AppEnvironment.oneLoginRedirect)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin.vectorsOfTrust, ["Cl.Cm.P0"])
-        XCTAssertEqual(LoginSessionConfiguration.oneLogin.locale, .en)
+        if UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy" {
+            XCTAssertEqual(LoginSessionConfiguration.oneLogin.locale, .cy)
+        } else {
+            XCTAssertEqual(LoginSessionConfiguration.oneLogin.locale, .en)
+        }
     }
 }

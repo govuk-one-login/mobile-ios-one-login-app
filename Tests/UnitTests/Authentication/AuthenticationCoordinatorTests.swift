@@ -57,7 +57,12 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(sessionConfig.prefersEphemeralWebSession, true)
         XCTAssertEqual(sessionConfig.redirectURI, AppEnvironment.oneLoginRedirect)
         XCTAssertEqual(sessionConfig.vectorsOfTrust, ["Cl.Cm.P0"])
-        XCTAssertEqual(sessionConfig.locale, .en)
+        if UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy" {
+            XCTAssertEqual(sessionConfig.locale, .cy)
+        } else {
+            XCTAssertEqual(sessionConfig.locale, .en)
+        }
+
     }
     
     func test_loginSession_successful() throws {

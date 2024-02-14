@@ -1,4 +1,5 @@
 import Authentication
+import Foundation
 
 extension LoginSessionConfiguration {
     static var oneLogin: LoginSessionConfiguration {
@@ -7,6 +8,7 @@ extension LoginSessionConfiguration {
                      tokenEndpoint: env.oneLoginToken,
                      scopes: env.callingSTSEnabled ? [.custom("sts")] : [.openid],
                      clientID: env.callingSTSEnabled ? env.stsClientID : env.oneLoginClientID,
-                     redirectURI: env.oneLoginRedirect)
+                     redirectURI: env.oneLoginRedirect,
+                     locale: UILocale(rawValue: env.userLocale) ?? .en)
     }
 }

@@ -24,6 +24,7 @@ final class AuthenticationCoordinator: NSObject,
         guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task(priority: .userInitiated) {
             do {
+                print("LOCALE: \(AppEnvironment.userLocale)")
                 mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 finish()
             } catch LoginError.network {
