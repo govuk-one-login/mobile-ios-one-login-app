@@ -17,7 +17,7 @@
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "There was a problem signing you in";
 
-"app_signInErrorBody" = "You can try signing in again. \n\n If this does not work, you may need to try again later.";
+"app_signInErrorBody" = "You can try signing in again.\n\nIf this does not work, you may need to try again later.";
 
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "You appear to be offline";
@@ -32,21 +32,21 @@
 // MARK: Passcode information screen
 "app_noPasscodeSetupTitle" = "It looks like this phone does not have a passcode";
 
-"app_noPasscodeSetupBody" = "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\n You can set a passcode later by going to your phone settings.";
+"app_noPasscodeSetupBody" = "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.";
 
-// MARK: Face ID enrollment page
+// MARK: Face ID enrollment screen
 "app_enableFaceIDTitle" = "Use Face ID to sign in";
 
-"app_enableFaceIDBody" = "Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n\n If you do not want to use Face ID, you can sign in with your phone passcode instead.";
+"app_enableFaceIDBody" = "Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n\nIf you do not want to use Face ID, you can sign in with your phone passcode instead.";
 
 "app_enableFaceIDFootnote" = "If you use Face ID, anyone with a Face ID saved to your phone will be able to sign in to this app.";
 
 "app_enableFaceIDButton" = "Use Face ID";
 
-// MARK: Touch ID enrollment page
+// MARK: Touch ID enrollment screen
 "app_enableTouchIDTitle" = "Use Touch ID to sign in";
 
-"app_enableTouchIDBody" = "Add a layer of security and sign in with your face instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.\n\n If you do not want to use Touch ID, you can sign in with your phone passcode instead.";
+"app_enableTouchIDBody" = "Add a layer of security and sign in with your face instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.\n\nIf you do not want to use Touch ID, you can sign in with your phone passcode instead.";
 
 "app_enableTouchIDFootnote" = "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app.";
 

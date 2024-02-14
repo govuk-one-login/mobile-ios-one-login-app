@@ -17,7 +17,7 @@
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "Roedd problem wrth eich mewngofnodi";
 
-"app_signInErrorBody" = "Gallwch geisio mewngofnodi eto.\n\n Os na fydd hyn yn gweithio, efallai y bydd angen i chi roi cynnig arall yn nes ymlaen.";
+"app_signInErrorBody" = "Gallwch geisio mewngofnodi eto.\n\nOs na fydd hyn yn gweithio, efallai y bydd angen i chi roi cynnig arall yn nes ymlaen.";
 
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "Mae'n ymddangos nad ydych ar-lein";
@@ -32,21 +32,21 @@
 // MARK: Passcode information screen
 "app_noPasscodeSetupTitle" = "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad";
 
-"app_noPasscodeSetupBody" = "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\n Gallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.";
+"app_noPasscodeSetupBody" = "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.";
 
-// MARK: Face ID enrollment page
+// MARK: Face ID enrollment screen
 "app_enableFaceIDTitle" = "Defnyddiwch ID Wyneb i fewngofnodi";
 
-"app_enableFaceIDBody" = "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb neu olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich biometreg yn cael ei rannu â GOV.UK One Login.\n\n Os nad ydych am ddefnyddio biometreg, gallwch fewngofnodi gyda'ch cod mynediad neu batrwm ffôn yn lle hynny.";
+"app_enableFaceIDBody" = "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb neu olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich biometreg yn cael ei rannu â GOV.UK One Login.\n\nOs nad ydych am ddefnyddio biometreg, gallwch fewngofnodi gyda'ch cod mynediad neu batrwm ffôn yn lle hynny.";
 
 "app_enableFaceIDFootnote" = "Os ydych yn defnyddio ID Wyneb, bydd unrhyw un sydd â ID Wyneb wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.";
 
 "app_enableFaceIDButton" = "Defnyddip ID Wyneb";
 
-// MARK: Touch ID enrollment page
+// MARK: Touch ID enrollment screen
 "app_enableTouchIDTitle" = "Defnyddiwch ID Cyffwrdd i fewngofnodi";
 
-"app_enableTouchIDBody" = "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a cyfrinair. Nid yw eich ID Cyffwrdd yn cael ei rannu â GOV.UK One Login.\n\n Os nad ydych am ddefnyddio ID Cyffwrdd, gallwch fewngofnodi gyda'ch cod mynediad eich ffôn yn lle hynny.";
+"app_enableTouchIDBody" = "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a cyfrinair. Nid yw eich ID Cyffwrdd yn cael ei rannu â GOV.UK One Login.\n\nOs nad ydych am ddefnyddio ID Cyffwrdd, gallwch fewngofnodi gyda'ch cod mynediad eich ffôn yn lle hynny.";
 
 "app_enableTouchIDFootnote" = "Os ydych yn defnyddio ID Cyffwrdd, bydd unrhyw un sydd â ID Cyffwrdd wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.";
 
