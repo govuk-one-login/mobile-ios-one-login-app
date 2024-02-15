@@ -4,9 +4,8 @@ import Logging
 
 struct NetworkConnectionErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let image: String = "exclamationmark.circle"
-    // TODO: DCMAW-7083: String keys for localisation needed
-    let title: GDSLocalisedString = "You appear to be offline"
-    let body: GDSLocalisedString = "GOV.UK One Login is not avaliable offline. \nReconnect to the internet and try again."
+    let title: GDSLocalisedString = "app_networkErrorTitle"
+    let body: GDSLocalisedString = "app_networkErrorBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
@@ -16,7 +15,7 @@ struct NetworkConnectionErrorViewModel: GDSErrorViewModel, BaseViewModel {
     
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Try again",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
                                                                analyticsService: analyticsService) {
             action()
         }

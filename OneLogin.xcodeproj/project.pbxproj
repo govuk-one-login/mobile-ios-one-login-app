@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
 		1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D722B72937500CCAF3E /* MockLAContext.swift */; };
 		1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D752B72959A00CCAF3E /* LAContexting.swift */; };
 		1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
 		1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */; };
+		1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */; };
 		1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */; };
 		1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */; };
 		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
@@ -78,6 +80,8 @@
 		C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAF2AFBD0F100FCBD36 /* Coordination */; };
 		C8A6385A2B5994B700656A26 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */; };
 		C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
+		C8B05F452B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F442B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift */; };
+		C8B05F472B7AA816009D4283 /* LocalizedStringWelshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F462B7AA816009D4283 /* LocalizedStringWelshTests.swift */; };
 		C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */; };
 		C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */; };
 		C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
@@ -119,11 +123,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
 		1E717D722B72937500CCAF3E /* MockLAContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLAContext.swift; sourceTree = "<group>"; };
 		1E717D752B72959A00CCAF3E /* LAContexting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAContexting.swift; sourceTree = "<group>"; };
 		1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModel.swift; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
 		1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModelTests.swift; sourceTree = "<group>"; };
+		1EB56D6E2B7CDE6D00BD548E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1EB56D702B7CDE6F00BD548E /* cy-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "cy-GB"; path = "cy-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitoring.swift; sourceTree = "<group>"; };
 		1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalSecondScreen.swift; sourceTree = "<group>"; };
 		219601E72A976302008F3427 /* OneLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLogin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +196,8 @@
 		C89632EE2B0D0895002A1473 /* TokensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TokensViewController.swift; path = Sources/Screens/Tokens/TokensViewController.swift; sourceTree = SOURCE_ROOT; };
 		C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
 		C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModel.swift; sourceTree = "<group>"; };
+		C8B05F442B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringEnglishTests.swift; sourceTree = "<group>"; };
+		C8B05F462B7AA816009D4283 /* LocalizedStringWelshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringWelshTests.swift; sourceTree = "<group>"; };
 		C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
@@ -466,6 +475,7 @@
 			children = (
 				C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */,
 				C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */,
+				1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */,
 			);
 			path = TestExtensions;
 			sourceTree = "<group>";
@@ -505,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
+				1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -616,6 +627,15 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
+		C8B05F432B7AA761009D4283 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C8B05F442B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift */,
+				C8B05F462B7AA816009D4283 /* LocalizedStringWelshTests.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		C8BA48F62AF3FFBF0028282D /* ConfigTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -681,6 +701,7 @@
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				C8B05F432B7AA761009D4283 /* Resources */,
 				C81ECB1E2B71767500AFC3A6 /* Application */,
 				C81ECB1D2B71764F00AFC3A6 /* Authentication */,
 				41A0BD0E2B275155009AE51F /* Errors */,
@@ -846,6 +867,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"cy-GB",
 			);
 			mainGroup = 219601DE2A976302008F3427;
 			packageReferences = (
@@ -877,6 +899,7 @@
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
+				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
@@ -997,7 +1020,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8B05F472B7AA816009D4283 /* LocalizedStringWelshTests.swift in Sources */,
 				C85966482AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift in Sources */,
+				C8B05F452B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift in Sources */,
 				C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */,
 				1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
@@ -1014,6 +1039,7 @@
 				411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
+				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* OnboardingCoordinatorTests.swift in Sources */,
@@ -1078,6 +1104,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1EB56D6E2B7CDE6D00BD548E /* en */,
+				1EB56D702B7CDE6F00BD548E /* cy-GB */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

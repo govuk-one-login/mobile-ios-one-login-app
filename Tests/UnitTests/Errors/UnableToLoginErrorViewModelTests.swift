@@ -28,8 +28,8 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
 extension UnableToLoginErrorViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.value, "There was a problem signing you in")
-        XCTAssertEqual(sut.body.value, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(sut.title.stringKey, "app_signInErrorTitle")
+        XCTAssertEqual(sut.body.stringKey, "app_signInErrorBody")
     }
     
     func test_button_action() throws {
@@ -38,7 +38,7 @@ extension UnableToLoginErrorViewModelTests {
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: sut.primaryButtonViewModel.title.value)
+        let event = ButtonEvent(textKey: "app_closeButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
@@ -49,7 +49,7 @@ extension UnableToLoginErrorViewModelTests {
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: ErrorAnalyticsScreen.unableToLogin,
-                                titleKey: "There was a problem signing you in")
+                                titleKey: "app_signInErrorTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
