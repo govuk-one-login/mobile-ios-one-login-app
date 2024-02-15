@@ -69,10 +69,6 @@ extension AppEnvironment {
     static var oneLoginRedirect: String {
         return string(for: .redirectURL)
     }
-
-    static var userLocale: String {
-        return String(UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) ?? "en")
-    }
 }
 
 // MARK: - STS Info Plist values as Type properties
@@ -88,6 +84,14 @@ extension AppEnvironment {
     
     static var stsClientID: String {
         return string(for: .stsClientID)
+    }
+
+    static var isLocaleWelsh: String {
+        if UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy" {
+            return "cy"
+        } else {
+            return "en"
+        }
     }
 }
 
