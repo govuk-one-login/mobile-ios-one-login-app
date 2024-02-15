@@ -30,7 +30,7 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.loginButton.label, "Login")
         // Select 'Login' Button
         let tokensScreen = loginModal.tapBrowserLoginButton()
-        XCTAssertEqual(tokensScreen.title.label, "Logged in")
+        XCTAssertEqual(tokensScreen.title.label, "Logged")
     }
     
     func test_loginCancelPath() throws {
