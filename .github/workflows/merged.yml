@@ -165,12 +165,10 @@ jobs:
           role-duration-seconds: 1200
           role-skip-session-tagging: true
 
-      - name: Store ENV from AWS SecretManager
-        id: secrets
-        uses: say8425/aws-secrets-manager-actions@v2.2.1
+      - name: Store Secrets from AWS SecretManager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2.0.1
         with:
-          AWS_DEFAULT_REGION: "eu-west-2"
-          SECRET_NAME: "di-ipv-dca-mob-ios/github-actions-v2"
+          secret-ids: "di-ipv-dca-mob-ios/github-actions-v2"
 
       - name: Build App, Deploy to App Store Connect
         env:
