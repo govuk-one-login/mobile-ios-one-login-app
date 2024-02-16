@@ -35,7 +35,7 @@ final class OnboardingCoordinator: NSObject,
             case .faceID:
                 let faceIDEnrollmentScreen = viewControllerFactory
                     .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                        finish()
+                        Task { await enrolBiometrics(reason: "Here's ya reason") }
                     } secondaryButtonAction: { [unowned self] in
                         finish()
                     }
@@ -53,6 +53,19 @@ final class OnboardingCoordinator: NSObject,
             root.pushViewController(passcodeInformationScreen, animated: true)
         } else {
             finish()
+        }
+    }
+    
+    func enrolBiometrics(reason: String) async {
+        do {
+            if try await localAuth
+                .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {
+                finish()
+            } else {
+                return
+            }
+        } catch {
+            print("Auth error: \(error)")
         }
     }
 }
