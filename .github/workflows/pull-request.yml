@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [ opened, reopened, synchronize, ready_for_review ]
     branches: [ develop, release/*, main ]
+    
+permissions:
+  id-token: write
+  contents: read
 
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,7 +15,7 @@ concurrency:
 
 jobs:
   build:
-    name: Run Unit Tests and Send Coverage Report
+    name: Testing AWS Actions
     runs-on: macos-13
 
     steps:
