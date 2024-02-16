@@ -86,12 +86,8 @@ extension AppEnvironment {
         return string(for: .stsClientID)
     }
 
-    static var isLocaleWelsh: String {
-        if UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy" {
-            return "cy"
-        } else {
-            return "en"
-        }
+    static var isLocaleWelsh: Bool {
+        UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy" ? true : false
     }
 }
 
