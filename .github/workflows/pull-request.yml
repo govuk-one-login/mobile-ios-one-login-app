@@ -38,6 +38,8 @@ jobs:
           secret-ids: |
             di-ipv-dca-mob-ios/github-actions-v2
           parse-json-secrets: true
+          
+        run: env
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
@@ -55,7 +57,7 @@ jobs:
           # import certificates from secrets
           echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_DISTRIBUTION_P12
             
-          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_APIKEY_P8
+          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_APIKEY_P8
 
           bundle exec fastlane testImportCertificates \
             certificate_path:$DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_DISTRIBUTION_P12 \
