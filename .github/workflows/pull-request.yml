@@ -59,6 +59,6 @@ jobs:
             "${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_APIKEY_P8}}"
 
           bundle exec fastlane testImportCertificates \
-            certificate_path:$CERTIFICATE_PATH \
+            certificate_path:"${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_DISTRIBUTION_P12}}" \
             certificate_password:$CERTIFICATE_PASSWORD \
-            apikey_path:$APIKEY_PATH --verbose
+            apikey_path:"${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_APIKEY_P8}}" --verbose
