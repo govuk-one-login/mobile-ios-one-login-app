@@ -19,6 +19,25 @@ default_platform(:ios)
 xcode_select("/Applications/Xcode_15.1.app")
 
 platform :ios do
+  desc "Test import certificates"
+  lane :testImportCertificates do |options|
+    create_keychain(
+      name: "signing_temp",
+      password: password,
+      unlock: true
+    )
+    
+    import_certificate(
+      certificate_path: options[:certificate_path],
+      certificate_password: options[:certificate_password],
+      keychain_name: 'signing_temp',
+      keychain_password: password,
+      log_output: true
+    )
+    
+    delete_keychain(name: "signing_temp")
+  end
+  
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverage do |options|
     run_tests(
