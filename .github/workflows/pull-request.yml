@@ -39,6 +39,7 @@ jobs:
             di-ipv-dca-mob-ios/github-actions-v2
           parse-json-secrets: true
           
+      - name: Show environment variables
         run: env
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
