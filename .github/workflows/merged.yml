@@ -182,7 +182,7 @@ jobs:
 
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
-          CERTIFICATE_PASSWORD="${{env.AWS_SECRET_SIGNING_KEY_PASSWORD}}"
+          CERTIFICATE_PASSWORD="${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_SIGNING_KEY_PASSWORD}}"
           APIKEY_PATH=$RUNNER_TEMP/apikey.p8
 
           # import certificates from secrets
