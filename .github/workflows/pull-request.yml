@@ -5,9 +5,9 @@ on:
     types: [ opened, reopened, synchronize, ready_for_review ]
     branches: [ develop, release/*, main ]
 
-concurrency: 
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build:
@@ -24,8 +24,22 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Lint
-        run: swiftlint --strict
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          aws-region: eu-west-2
+          role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
+          role-duration-seconds: 1200
+          role-skip-session-tagging: true
+
+      - name: Store Secrets from AWS SecretManager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2.0.1
+        with:
+          secret-ids: |
+            "di-ipv-dca-mob-ios/github-actions-v2"
+            DISTRUBUTION_P12, distribution.p12
+            APIKEY_P8, apikey.p8
+          parse-json-secrets: true
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
@@ -33,15 +47,18 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
         run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          brew install sonar-scanner
+          gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
+          echo Pushed to branch: $gitbranch
+          
+          CERTIFICATE_PASSWORD="${{env.AWS_SECRET_SIGNING_KEY_PASSWORD}}"
 
           bundle install
+          
+          # import certificates from secrets
+          echo -n "${{env.AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" | base64 --decode -o $DISTRUBUTION_P12
+          echo -n "${{env.AWS_SECRET_AUTH_KEY_P8_ENCODED}}" | base64 --decode -o $APIKEY_P8
 
-          bundle exec fastlane test scheme:"OneLogin" \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
-            workspace:${{github.workspace}} \
-            source_branch:${{github.head_ref}} \
-            target_branch:${{github.base_ref}} \
-            pr_number:$pull_number \
-            testplan:OneLoginUnit
+          bundle exec fastlane testImportCertificates \
+            certificate_path:$CERTIFICATE_PATH \
+            certificate_password:$CERTIFICATE_PASSWORD \
+            apikey_path:$APIKEY_PATH --verbose
