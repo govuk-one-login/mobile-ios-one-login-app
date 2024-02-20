@@ -168,7 +168,9 @@ jobs:
       - name: Store Secrets from AWS SecretManager
         uses: aws-actions/aws-secretsmanager-get-secrets@v2.0.1
         with:
-          secret-ids: "di-ipv-dca-mob-ios/github-actions-v2"
+          secret-ids: |
+            di-ipv-dca-mob-ios/github-actions-v2
+          parse-json-secrets: true
 
       - name: Build App, Deploy to App Store Connect
         env:
