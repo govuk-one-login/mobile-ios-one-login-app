@@ -22,41 +22,53 @@ final class OnboardingCoordinator: NSObject,
     
     func start() {
         root.isNavigationBarHidden = true
-        if localAuth.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-            switch localAuth.biometryType {
-            case .touchID:
-                let touchIDEnrollmentScreen = viewControllerFactory
-                    .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                        finish()
-                    } secondaryButtonAction: { [unowned self] in
-                        finish()
-                    }
-                root.pushViewController(touchIDEnrollmentScreen, animated: true)
-            case .faceID:
-                let faceIDEnrollmentScreen = viewControllerFactory
-                    .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                        Task { await enrolBiometrics(reason: "Here's ya reason") }
-                    } secondaryButtonAction: { [unowned self] in
-                        finish()
-                    }
-                root.pushViewController(faceIDEnrollmentScreen, animated: true)
-            case .opticID, .none:
-                return
-            @unknown default:
-                return
-            }
-        } else if !localAuth.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-            let passcodeInformationScreen = viewControllerFactory
-                .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
-                    finish()
-                }
-            root.pushViewController(passcodeInformationScreen, animated: true)
+        if canUseLocalAuth(.deviceOwnerAuthenticationWithBiometrics) {
+            showEnrolmentGuidance()
+        } else if !canUseLocalAuth(.deviceOwnerAuthentication) {
+            showPasscodeInfo()
         } else {
             finish()
         }
     }
     
-    func enrolBiometrics(reason: String) async {
+    private func canUseLocalAuth(_ policy: LAPolicy) -> Bool {
+        localAuth.canEvaluatePolicy(policy, error: nil)
+    }
+    
+    private func showEnrolmentGuidance() {
+        switch localAuth.biometryType {
+        case .touchID:
+            let touchIDEnrollmentScreen = viewControllerFactory
+                .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                    finish()
+                } secondaryButtonAction: { [unowned self] in
+                    finish()
+                }
+            root.pushViewController(touchIDEnrollmentScreen, animated: true)
+        case .faceID:
+            let faceIDEnrollmentScreen = viewControllerFactory
+                .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                    Task { await enrolLocalAuth(reason: " ") }
+                } secondaryButtonAction: { [unowned self] in
+                    finish()
+                }
+            root.pushViewController(faceIDEnrollmentScreen, animated: true)
+        case .opticID, .none:
+            return
+        @unknown default:
+            return
+        }
+    }
+    
+    private func showPasscodeInfo() {
+        let passcodeInformationScreen = viewControllerFactory
+            .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
+                finish()
+            }
+        root.pushViewController(passcodeInformationScreen, animated: true)
+    }
+    
+    private func enrolLocalAuth(reason: String) async {
         do {
             if try await localAuth
                 .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {
@@ -65,7 +77,7 @@ final class OnboardingCoordinator: NSObject,
                 return
             }
         } catch {
-            print("Auth error: \(error)")
+            return
         }
     }
 }

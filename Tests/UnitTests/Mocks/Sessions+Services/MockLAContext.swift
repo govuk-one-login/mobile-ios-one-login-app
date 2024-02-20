@@ -14,4 +14,8 @@ final class MockLAContext: LAContexting {
             return returnedFromEvaluatePolicyForAuthentication
         }
     }
+    
+    func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool {
+        <#code#>
+    }
 }
