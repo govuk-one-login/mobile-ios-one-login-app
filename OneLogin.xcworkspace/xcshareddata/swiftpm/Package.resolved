@@ -145,6 +145,15 @@
       }
     },
     {
+      "identity" : "mobile-ios-secure-store",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
+      "state" : {
+        "revision" : "39d3ac8e3df7ba5d2a1cdb8d1e2126993240b3b7",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",

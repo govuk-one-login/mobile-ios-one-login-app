@@ -89,6 +89,7 @@
 		C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */; };
 		C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
 		C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
+		C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */ = {isa = PBXBuildFile; productRef = C8BADD1F2B8638BA00385FE7 /* SecureStore */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -224,6 +225,7 @@
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
+				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
@@ -756,6 +758,7 @@
 				C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */,
 				C8A13CAC2AFBD0CC00FCBD36 /* Logging */,
 				C8A13CAF2AFBD0F100FCBD36 /* Coordination */,
+				C8BADD1F2B8638BA00385FE7 /* SecureStore */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -879,6 +882,7 @@
 				C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */,
 				C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */,
 				C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */,
+				C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -1972,6 +1976,14 @@
 				kind = branch;
 			};
 		};
+		C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2014,6 +2026,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */;
 			productName = Coordination;
+		};
+		C8BADD1F2B8638BA00385FE7 /* SecureStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
+			productName = SecureStore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
