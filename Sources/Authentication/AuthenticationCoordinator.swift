@@ -11,20 +11,22 @@ final class AuthenticationCoordinator: NSObject,
     let session: LoginSession
     let analyticsService: AnalyticsService
     let errorPresenter = ErrorPresenter.self
+    var tokenHolder: TokenHolder
     
     init(root: UINavigationController,
          session: LoginSession,
-         analyticsService: AnalyticsService) {
+         analyticsService: AnalyticsService,
+         tokenHolder: TokenHolder) {
         self.root = root
         self.session = session
         self.analyticsService = analyticsService
+        self.tokenHolder = tokenHolder
     }
     
     func start() {
-        guard let mainCoordinator = parentCoordinator as? MainCoordinator else { return }
         Task(priority: .userInitiated) {
             do {
-                mainCoordinator.tokens = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 finish()
             } catch LoginError.network {
                 let networkErrorScreen = errorPresenter

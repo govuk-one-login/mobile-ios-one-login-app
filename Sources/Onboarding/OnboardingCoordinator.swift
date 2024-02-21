@@ -1,6 +1,7 @@
 import Coordination
 import LocalAuthentication
 import Logging
+import SecureStore
 import UIKit
 
 final class OnboardingCoordinator: NSObject,
@@ -9,15 +10,19 @@ final class OnboardingCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let localAuth: LAContexting
+    var secureStore: SecureStorable?
     let analyticsService: AnalyticsService
     private let viewControllerFactory = OnboardingViewControllerFactory.self
+    let tokenHolder: TokenHolder
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
-         localAuth: LAContexting = LAContext()) {
+         localAuth: LAContexting = LAContext(),
+         tokenHolder: TokenHolder) {
         self.root = root
         self.analyticsService = analyticsService
         self.localAuth = localAuth
+        self.tokenHolder = tokenHolder
     }
     
     func start() {
@@ -40,6 +45,7 @@ final class OnboardingCoordinator: NSObject,
         case .touchID:
             let touchIDEnrollmentScreen = viewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
+                    storeAcccessToken()
                     finish()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
@@ -66,6 +72,16 @@ final class OnboardingCoordinator: NSObject,
                 finish()
             }
         root.pushViewController(passcodeInformationScreen, animated: true)
+    }
+    
+    private func storeAcccessToken() {
+        guard let tokenResponse = tokenHolder.tokenResponse else { return }
+        secureStore = SecureStoreService(configuration: .init(id: "tokens", accessControlLevel: .anyBiometricsOrPasscode))
+        do {
+            try secureStore?.saveItem(item: tokenResponse.accessToken, itemName: "accessToken")
+        } catch {
+            print("error")
+        }
     }
     
     private func enrolLocalAuth(reason: String) async {

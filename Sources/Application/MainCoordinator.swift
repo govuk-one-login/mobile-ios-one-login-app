@@ -13,8 +13,8 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    var tokens: TokenResponse?
-    
+    let tokenHolder: TokenHolder = .init()
+
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService = OneLoginAnalyticsService(),
@@ -51,17 +51,20 @@ final class MainCoordinator: NSObject,
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
                                                       session: AppAuthSession(window: window),
-                                                      analyticsService: analyticsService))
+                                                      analyticsService: analyticsService,
+                                                      tokenHolder: tokenHolder))
         }
     }
     
     func launchOnboardingCoordinator() {
-        openChildInline(OnboardingCoordinator(root: root, analyticsService: analyticsService))
+        openChildInline(OnboardingCoordinator(root: root,
+                                              analyticsService: analyticsService,
+                                              tokenHolder: tokenHolder))
     }
     
     func launchTokenCoordinator() {
-        guard let tokens else { return }
-        openChildInline(TokenCoordinator(root: root, tokens: tokens))
+        openChildInline(TokenCoordinator(root: root,
+                                         tokenHolder: tokenHolder))
     }
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {

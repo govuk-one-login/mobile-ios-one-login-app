@@ -90,6 +90,7 @@
 		C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
 		C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
 		C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */ = {isa = PBXBuildFile; productRef = C8BADD1F2B8638BA00385FE7 /* SecureStore */; };
+		C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD212B8652F200385FE7 /* TokenHolder.swift */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +212,7 @@
 		C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FeatureFlagsBuild.json; sourceTree = "<group>"; };
 		C8BACAFC2B4DD93C00530419 /* FlagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagManager.swift; sourceTree = "<group>"; };
 		C8BACAFE2B4DE1C300530419 /* Flag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
+		C8BADD212B8652F200385FE7 /* TokenHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolder.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -455,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
+				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -996,6 +999,7 @@
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */,
 				41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */,
+				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* OnboardingCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
