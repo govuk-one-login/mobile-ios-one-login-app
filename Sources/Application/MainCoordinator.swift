@@ -13,7 +13,7 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    let tokenHolder: TokenHolder = .init()
+    let tokenHolder = TokenHolder()
 
     init(window: UIWindow,
          root: UINavigationController,

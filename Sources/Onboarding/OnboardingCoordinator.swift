@@ -38,6 +38,7 @@ final class OnboardingCoordinator: NSObject,
             storeAccessToken()
             finish()
         }
+        UserDefaults.standard.set(true, forKey: "returningUser")
     }
     
     private func canUseLocalAuth(_ policy: LAPolicy) -> Bool {
@@ -82,6 +83,7 @@ final class OnboardingCoordinator: NSObject,
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
         do {
             try secureStore.saveItem(item: tokenResponse.accessToken, itemName: "accessToken")
+            UserDefaults.standard.set(tokenResponse.expiryDate, forKey: "accessTokenExpiry")
         } catch {
             print("error")
         }
