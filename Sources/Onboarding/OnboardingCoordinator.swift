@@ -10,18 +10,21 @@ final class OnboardingCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let localAuth: LAContexting
-    var secureStore: SecureStorable?
+    let secureStore: SecureStorable
     let analyticsService: AnalyticsService
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
     let tokenHolder: TokenHolder
+    private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(root: UINavigationController,
-         analyticsService: AnalyticsService,
          localAuth: LAContexting = LAContext(),
+         secureStore: SecureStorable = SecureStoreService(configuration: .init(id: "oneLoginTokens",
+                                                                               accessControlLevel: .anyBiometricsOrPasscode)),
+         analyticsService: AnalyticsService,
          tokenHolder: TokenHolder) {
         self.root = root
-        self.analyticsService = analyticsService
         self.localAuth = localAuth
+        self.secureStore = secureStore
+        self.analyticsService = analyticsService
         self.tokenHolder = tokenHolder
     }
     
@@ -32,6 +35,7 @@ final class OnboardingCoordinator: NSObject,
         } else if !canUseLocalAuth(.deviceOwnerAuthentication) {
             showPasscodeInfo()
         } else {
+            storeAccessToken()
             finish()
         }
     }
@@ -45,7 +49,7 @@ final class OnboardingCoordinator: NSObject,
         case .touchID:
             let touchIDEnrollmentScreen = viewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    storeAcccessToken()
+                    storeAccessToken()
                     finish()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
@@ -74,11 +78,10 @@ final class OnboardingCoordinator: NSObject,
         root.pushViewController(passcodeInformationScreen, animated: true)
     }
     
-    private func storeAcccessToken() {
+    private func storeAccessToken() {
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
-        secureStore = SecureStoreService(configuration: .init(id: "tokens", accessControlLevel: .anyBiometricsOrPasscode))
         do {
-            try secureStore?.saveItem(item: tokenResponse.accessToken, itemName: "accessToken")
+            try secureStore.saveItem(item: tokenResponse.accessToken, itemName: "accessToken")
         } catch {
             print("error")
         }
@@ -88,6 +91,7 @@ final class OnboardingCoordinator: NSObject,
         do {
             if try await localAuth
                 .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {
+                storeAccessToken()
                 finish()
             } else {
                 return
