@@ -9,7 +9,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockLAContext: MockLAContext!
-    var mockSecureStore: MockSecureStore!
+    var mockSecureStore: MockSecureStoreService!
     var tokenHolder: TokenHolder!
     var mockMainCoordinator: MainCoordinator!
     var sut: OnboardingCoordinator!
@@ -21,7 +21,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockLAContext = MockLAContext()
-        mockSecureStore = MockSecureStore()
+        mockSecureStore = MockSecureStoreService()
         tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
         sut = OnboardingCoordinator(root: navigationController,
@@ -64,6 +64,8 @@ extension OnboardingCoordinatorTests {
         // THEN user is taken to the tokens screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
+        XCTAssertEqual(UserDefaults.standard.value(forKey: "accessTokenExpiry") as? Date, Date(timeIntervalSinceReferenceDate: 1729427067))
+        XCTAssertTrue(UserDefaults.standard.bool(forKey: "returningUser"))
     }
     
     func test_start_deviceLocalAuthSet_passcode() throws {
@@ -75,6 +77,8 @@ extension OnboardingCoordinatorTests {
         // THEN the view controller should be the token screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
+        XCTAssertEqual(UserDefaults.standard.value(forKey: "accessTokenExpiry") as? Date, Date(timeIntervalSinceReferenceDate: 1729427067))
+        XCTAssertTrue(UserDefaults.standard.bool(forKey: "returningUser"))
     }
     
     func test_start_deviceLocalAuthSet_touchID_primaryButton() throws {

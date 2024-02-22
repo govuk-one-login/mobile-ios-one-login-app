@@ -1,7 +1,7 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStore: SecureStorable {
+final class MockSecureStoreService: SecureStorable {
     func saveItem(item: String, itemName: String) throws {
         
     }
