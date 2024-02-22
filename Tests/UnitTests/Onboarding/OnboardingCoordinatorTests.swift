@@ -9,6 +9,8 @@ final class OnboardingCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockLAContext: MockLAContext!
+    var mockSecureStore: MockSecureStore!
+    var tokenHolder: TokenHolder!
     var mockMainCoordinator: MainCoordinator!
     var sut: OnboardingCoordinator!
     
@@ -19,16 +21,22 @@ final class OnboardingCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockLAContext = MockLAContext()
+        mockSecureStore = MockSecureStore()
+        tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
         sut = OnboardingCoordinator(root: navigationController,
+                                    localAuth: mockLAContext,
+                                    secureStore: mockSecureStore,
                                     analyticsService: mockAnalyticsService,
-                                    localAuth: mockLAContext)
+                                    tokenHolder: tokenHolder)
     }
     
     override func tearDown() {
         navigationController = nil
         mockAnalyticsService = nil
         mockLAContext = nil
+        mockSecureStore = nil
+        tokenHolder = nil
         mockMainCoordinator = nil
         sut = nil
         
@@ -43,7 +51,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
 extension OnboardingCoordinatorTests {
     func test_start_noDeviceLocalAuthSet() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
         // THEN the view controller should be the information screen
@@ -60,7 +68,7 @@ extension OnboardingCoordinatorTests {
     
     func test_start_deviceLocalAuthSet_passcode() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN device passcode is set
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
@@ -71,7 +79,7 @@ extension OnboardingCoordinatorTests {
     
     func test_start_deviceLocalAuthSet_touchID_primaryButton() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the user has enabled biometrics
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
@@ -89,7 +97,7 @@ extension OnboardingCoordinatorTests {
     
     func test_start_deviceLocalAuthSet_touchID_secondaryButton() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the user has enabled biometrics
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
         mockMainCoordinator.openChildInline(sut)
@@ -107,7 +115,7 @@ extension OnboardingCoordinatorTests {
     
     func test_start_deviceLocalAuthSet_faceID_primaryButton_passed() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         mockLAContext.biometryType = .faceID
         // GIVEN the user has enabled biometrics
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
@@ -127,7 +135,7 @@ extension OnboardingCoordinatorTests {
     func test_start_deviceLocalAuthSet_faceID_primaryButton_failed() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         mockLAContext.returnedFromEvaluatePolicy = false
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         mockLAContext.biometryType = .faceID
         // GIVEN the user has enabled biometrics
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
@@ -147,7 +155,7 @@ extension OnboardingCoordinatorTests {
     func test_start_deviceLocalAuthSet_faceID_primaryButton_error() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         mockLAContext.errorFromEvaluatePolicy = LocalAuthError.evident
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         mockLAContext.biometryType = .faceID
         // GIVEN the user has enabled biometrics
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
@@ -166,7 +174,7 @@ extension OnboardingCoordinatorTests {
     
     func test_start_deviceLocalAuthSet_faceID_secondaryButton() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        mockMainCoordinator.tokens = try MockTokenResponse().getJSONData()
+        mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         mockLAContext.biometryType = .faceID
         // GIVEN the user has enabled biometrics
         // WHEN the OnboardingCoordinator has shown the local auth guidance via start()

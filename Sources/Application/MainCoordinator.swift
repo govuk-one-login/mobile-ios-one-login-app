@@ -57,12 +57,14 @@ final class MainCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
+        guard let _ = tokenHolder.tokenResponse else { return }
         openChildInline(OnboardingCoordinator(root: root,
                                               analyticsService: analyticsService,
                                               tokenHolder: tokenHolder))
     }
     
     func launchTokenCoordinator() {
+        guard let _ = tokenHolder.tokenResponse else { return }
         openChildInline(TokenCoordinator(root: root,
                                          tokenHolder: tokenHolder))
     }

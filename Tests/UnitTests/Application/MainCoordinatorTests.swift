@@ -73,10 +73,12 @@ extension MainCoordinatorTests {
     func test_didRegainFocus_fromAuthenticationCoordinator() throws {
         let mockLoginSession = MockLoginSession()
         let mockAnalyticsService = MockAnalyticsService()
+        let tokenHolder = TokenHolder()
         let child = AuthenticationCoordinator(root: navigationController,
                                               session: mockLoginSession,
-                                              analyticsService: mockAnalyticsService)
-        sut.tokens = try MockTokenResponse().getJSONData()
+                                              analyticsService: mockAnalyticsService,
+                                              tokenHolder: tokenHolder)
+        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the MainCoordinator regained focus from the AuthenticationCoordinator
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator should have an OnboardingCoordinator as it's only child coordinator
@@ -86,9 +88,11 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
         let mockAnalyticsService = MockAnalyticsService()
+        let tokenHolder = TokenHolder()
         let child = OnboardingCoordinator(root: navigationController,
-                                          analyticsService: mockAnalyticsService)
-        sut.tokens = try MockTokenResponse().getJSONData()
+                                          analyticsService: mockAnalyticsService,
+                                          tokenHolder: tokenHolder)
+        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the MainCoordinator regained focus from the OnboardingCoordinator
         sut.didRegainFocus(fromChild: child)
         // THEN the MainCoordinator only child coordinator should be a TokenCooridnator
