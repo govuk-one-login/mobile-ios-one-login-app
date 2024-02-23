@@ -89,7 +89,12 @@ extension MainCoordinatorTests {
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
         let mockAnalyticsService = MockAnalyticsService()
         let tokenHolder = TokenHolder()
+        let mockSecureStore = MockSecureStoreService()
+        let mockDefaultsStore = MockDefaultsStore()
+        let mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                          defaultsStore: mockDefaultsStore)
         let child = OnboardingCoordinator(root: navigationController,
+                                          userStore: mockUserStore,
                                           analyticsService: mockAnalyticsService,
                                           tokenHolder: tokenHolder)
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()

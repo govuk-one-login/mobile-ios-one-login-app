@@ -1,6 +1,7 @@
 import Authentication
 import Coordination
 import Logging
+import SecureStore
 import UIKit
 
 final class MainCoordinator: NSObject,
@@ -57,14 +58,19 @@ final class MainCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        guard let _ = tokenHolder.tokenResponse else { return }
+        guard tokenHolder.tokenResponse != nil else { return }
+        let secureStore = SecureStoreService(configuration: .init(id: "oneLoginTokens",
+                                                                  accessControlLevel: .anyBiometricsOrPasscode))
+        let userStore = UserStorage(secureStoreService: secureStore,
+                                    defaultsStore: UserDefaults.standard)
         openChildInline(OnboardingCoordinator(root: root,
+                                              userStore: userStore,
                                               analyticsService: analyticsService,
                                               tokenHolder: tokenHolder))
     }
     
     func launchTokenCoordinator() {
-        guard let _ = tokenHolder.tokenResponse else { return }
+        guard tokenHolder.tokenResponse != nil else { return }
         openChildInline(TokenCoordinator(root: root,
                                          tokenHolder: tokenHolder))
     }
