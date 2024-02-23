@@ -503,15 +503,11 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */,
-				C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */,
 				21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */,
-				41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */,
-				1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */,
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
-				C8BADD282B87D89000385FE7 /* UserStorable.swift */,
-				C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */,
-				C8BADD2C2B87D9C800385FE7 /* UserStorage.swift */,
+				C8BADD342B88CBD200385FE7 /* Factories */,
+				C8BADD322B88CBB200385FE7 /* Network */,
+				C8BADD332B88CBBA00385FE7 /* Storage */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -551,9 +547,7 @@
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
 				C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */,
 				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
-				C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */,
-				C8BADD2E2B889CB900385FE7 /* MockUserStore.swift */,
-				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
+				C8BADD352B88CC0100385FE7 /* Stoage */,
 			);
 			path = "Sessions+Services";
 			sourceTree = "<group>";
@@ -723,6 +717,44 @@
 				C8BACAFC2B4DD93C00530419 /* FlagManager.swift */,
 			);
 			path = Environment;
+			sourceTree = "<group>";
+		};
+		C8BADD322B88CBB200385FE7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */,
+				1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		C8BADD332B88CBBA00385FE7 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				C8BADD282B87D89000385FE7 /* UserStorable.swift */,
+				C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */,
+				C8BADD2C2B87D9C800385FE7 /* UserStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		C8BADD342B88CBD200385FE7 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */,
+				41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		C8BADD352B88CC0100385FE7 /* Stoage */ = {
+			isa = PBXGroup;
+			children = (
+				C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */,
+				C8BADD2E2B889CB900385FE7 /* MockUserStore.swift */,
+				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
+			);
+			path = Stoage;
 			sourceTree = "<group>";
 		};
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
