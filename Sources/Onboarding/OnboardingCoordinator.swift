@@ -9,7 +9,7 @@ final class OnboardingCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let localAuth: LAContexting
-    var userStore: UserStorable
+    let userStore: UserStorable
     let analyticsService: AnalyticsService
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
