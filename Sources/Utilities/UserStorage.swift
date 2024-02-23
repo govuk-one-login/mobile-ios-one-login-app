@@ -2,8 +2,8 @@ import Foundation
 import SecureStore
 
 class UserStorage: UserStorable {
-    var secureStoreService: SecureStorable
-    var defaultsStore: DefaultsStorable
+    let secureStoreService: SecureStorable
+    let defaultsStore: DefaultsStorable
     
     init(secureStoreService: SecureStorable, defaultsStore: DefaultsStorable) {
         self.secureStoreService = secureStoreService

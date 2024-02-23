@@ -82,8 +82,8 @@ extension OnboardingCoordinatorTests {
         // THEN user is taken to the tokens screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
-        XCTAssertNil(mockDefaultsStore.dataSet["accessTokenExpiry"])
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertNil(mockSecureStore.savedItems["accessToken"])
     }
     
@@ -97,8 +97,8 @@ extension OnboardingCoordinatorTests {
         // THEN the view controller should be the token screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
-        XCTAssertEqual(mockDefaultsStore.dataSet["accessTokenExpiry"] as? Date, Date.accessTokenExp)
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, Date.accessTokenExp)
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
     }
     
@@ -119,8 +119,8 @@ extension OnboardingCoordinatorTests {
         // THEN user is taken to the tokens screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
-        XCTAssertEqual(mockDefaultsStore.dataSet["accessTokenExpiry"] as? Date, Date.accessTokenExp)
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, Date.accessTokenExp)
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
     }
     
@@ -141,8 +141,8 @@ extension OnboardingCoordinatorTests {
         // THEN user is taken to the tokens screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
-        XCTAssertNil(mockDefaultsStore.dataSet["accessTokenExpiry"])
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
     
     func test_start_deviceLocalAuthSet_faceID_primaryButton_passed() throws {
@@ -163,8 +163,8 @@ extension OnboardingCoordinatorTests {
         // THEN user is taken to the tokens screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
-        XCTAssertEqual(mockDefaultsStore.dataSet["accessTokenExpiry"] as? Date, Date.accessTokenExp)
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, Date.accessTokenExp)
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
     }
     
@@ -187,8 +187,8 @@ extension OnboardingCoordinatorTests {
         // THEN user remains on the enrolment screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is GDSInformationViewController)
-        XCTAssertNil(mockDefaultsStore.dataSet["accessTokenExpiry"])
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
     
     func test_start_deviceLocalAuthSet_faceID_primaryButton_error() throws {
@@ -210,8 +210,8 @@ extension OnboardingCoordinatorTests {
         // THEN user remains on the enrolment screen
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is GDSInformationViewController)
-        XCTAssertNil(mockDefaultsStore.dataSet["accessTokenExpiry"])
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
     
     func test_start_deviceLocalAuthSet_faceID_secondaryButton() throws {
@@ -232,7 +232,7 @@ extension OnboardingCoordinatorTests {
         // THEN user is taken to the tokens screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
-        XCTAssertNil(mockDefaultsStore.dataSet["accessTokenExpiry"])
-        XCTAssertEqual(mockDefaultsStore.dataSet["returningUser"] as? Bool, true)
+        XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
+        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
 }
