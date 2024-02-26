@@ -9,6 +9,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockLoginSession: MockLoginSession!
     var mockAnalyticsService: MockAnalyticsService!
+    var tokenHolder: TokenHolder!
     var mockMainCoordinator: MainCoordinator!
     var sut: AuthenticationCoordinator!
     
@@ -20,10 +21,12 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockLoginSession = MockLoginSession(window: window)
         mockAnalyticsService = MockAnalyticsService()
+        tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
         sut = AuthenticationCoordinator(root: navigationController,
                                         session: mockLoginSession,
-                                        analyticsService: mockAnalyticsService)
+                                        analyticsService: mockAnalyticsService,
+                                        tokenHolder: tokenHolder)
     }
     
     override func tearDown() {
@@ -31,6 +34,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         navigationController = nil
         mockLoginSession = nil
         mockAnalyticsService = nil
+        tokenHolder = nil
         mockMainCoordinator = nil
         sut = nil
         
@@ -74,9 +78,9 @@ extension AuthenticationCoordinatorTests {
         
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
         // THEN the tokens are returned
-        XCTAssertEqual(mockMainCoordinator.tokens?.accessToken, accessToken)
-        XCTAssertEqual(mockMainCoordinator.tokens?.refreshToken, refreshToken)
-        XCTAssertEqual(mockMainCoordinator.tokens?.idToken, idToken)
+        XCTAssertEqual(tokenHolder.tokenResponse?.accessToken, accessToken)
+        XCTAssertEqual(tokenHolder.tokenResponse?.refreshToken, refreshToken)
+        XCTAssertEqual(tokenHolder.tokenResponse?.idToken, idToken)
     }
     
     func test_loginError_network() throws {

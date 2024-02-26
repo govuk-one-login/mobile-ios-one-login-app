@@ -1,6 +1,7 @@
 import Authentication
 import Coordination
 import Logging
+import SecureStore
 import UIKit
 
 final class MainCoordinator: NSObject,
@@ -13,8 +14,8 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    var tokens: TokenResponse?
-    
+    let tokenHolder = TokenHolder()
+
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService = OneLoginAnalyticsService(),
@@ -51,17 +52,27 @@ final class MainCoordinator: NSObject,
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
                                                       session: AppAuthSession(window: window),
-                                                      analyticsService: analyticsService))
+                                                      analyticsService: analyticsService,
+                                                      tokenHolder: tokenHolder))
         }
     }
     
     func launchOnboardingCoordinator() {
-        openChildInline(OnboardingCoordinator(root: root, analyticsService: analyticsService))
+        guard tokenHolder.tokenResponse != nil else { return }
+        let secureStore = SecureStoreService(configuration: .init(id: "oneLoginTokens",
+                                                                  accessControlLevel: .anyBiometricsOrPasscode))
+        let userStore = UserStorage(secureStoreService: secureStore,
+                                    defaultsStore: UserDefaults.standard)
+        openChildInline(OnboardingCoordinator(root: root,
+                                              userStore: userStore,
+                                              analyticsService: analyticsService,
+                                              tokenHolder: tokenHolder))
     }
     
     func launchTokenCoordinator() {
-        guard let tokens else { return }
-        openChildInline(TokenCoordinator(root: root, tokens: tokens))
+        guard tokenHolder.tokenResponse != nil else { return }
+        openChildInline(TokenCoordinator(root: root,
+                                         tokenHolder: tokenHolder))
     }
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
