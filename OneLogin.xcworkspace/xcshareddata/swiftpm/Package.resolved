@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "b2059248a87850974038d075e32f3f3d1f52618a"
+        "branch" : "feature/dcmaw-6243-information-modal-buttons",
+        "revision" : "8e27f50b90e0c1b6126c8e0900306d4f08fd43a7"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "713666197ee9011e17a044419711bcb8b88a70c5"
+        "branch" : "add-additional-testing",
+        "revision" : "6a2719bbf3e39c39f398ad3d4f5125395de1809c"
       }
     },
     {

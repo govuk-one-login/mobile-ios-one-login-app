@@ -43,6 +43,16 @@ final class MainCoordinator: NSObject,
                 }
             }
         root.setViewControllers([introViewController], animated: false)
+        displayAnalyticsPreferencePage()
+    }
+    
+    func displayAnalyticsPreferencePage() {
+        let analyticsPreferenceScreen = viewControllerFactory.createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
+            root.dismiss(animated: true)
+        } secondaryButtonAction: {
+            
+        }
+        root.present(analyticsPreferenceScreen, animated: true)
     }
     
     func displayAuthCoordinator() {
