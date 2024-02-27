@@ -26,6 +26,9 @@
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */; };
 		411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */; };
+		414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
+		414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 414D98042B8DF0F100E267EF /* UnlockScreen.xib */; };
+		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
 		4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD0C2B2725C8009AE51F /* TokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */; };
@@ -166,6 +169,9 @@
 		410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
 		411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModelTests.swift; sourceTree = "<group>"; };
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
+		414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewController.swift; sourceTree = "<group>"; };
+		414D98042B8DF0F100E267EF /* UnlockScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnlockScreen.xib; sourceTree = "<group>"; };
+		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
 		4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCoordinator.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensScreen.swift; sourceTree = "<group>"; };
@@ -378,9 +384,19 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		414D97FF2B8DEBD000E267EF /* Unlock */ = {
+			isa = PBXGroup;
+			children = (
+				414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */,
+				414D98042B8DF0F100E267EF /* UnlockScreen.xib */,
+			);
+			path = Unlock;
+			sourceTree = "<group>";
+		};
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				414D97FF2B8DEBD000E267EF /* Unlock */,
 				4195E6C72B0CC6CD0065E2BB /* Tokens */,
 			);
 			path = Screens;
@@ -626,6 +642,7 @@
 				41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */,
 				41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */,
 				C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */,
+				414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1029,6 +1046,7 @@
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
+				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 				C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
@@ -1160,6 +1178,7 @@
 				4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
+				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* UserStorable.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* UserStorage.swift in Sources */,
@@ -1168,6 +1187,7 @@
 				1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */,
 				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
 				1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */,
+				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
