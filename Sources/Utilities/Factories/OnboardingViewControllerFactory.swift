@@ -50,4 +50,12 @@ final class OnboardingViewControllerFactory {
         }
         return GDSInformationViewController(viewModel: viewModel)
     }
+
+    static func createUnlockScreen(analyticsService: AnalyticsService,
+                                   primaryButtonAction: @escaping () -> Void) -> UnlockScreenViewController {
+        let viewModel = UnlockScreenViewModel(analyticsService: analyticsService) {
+            primaryButtonAction()
+        }
+        return UnlockScreenViewController(viewModel: viewModel)
+    }
 }

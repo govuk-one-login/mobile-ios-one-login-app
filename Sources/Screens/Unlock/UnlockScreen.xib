@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UnlockScreenViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
                 <outlet property="unlockButton" destination="0cs-Vh-6YP" id="KjG-N2-j4T"/>
+                <outlet property="view" destination="iN0-l3-epB" id="pNR-h8-gha"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

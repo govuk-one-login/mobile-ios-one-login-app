@@ -22,7 +22,7 @@ class UnlockScreenViewController: UIViewController {
         }
     }
 
-    @IBAction func unlockScreenButton(_ sender: Any) {
+    @IBAction private func unlockScreenButton(_ sender: Any) {
         unlockButton.isLoading = true
         viewModel.primaryButtonViewModel.action()
         unlockButton.isLoading = false
