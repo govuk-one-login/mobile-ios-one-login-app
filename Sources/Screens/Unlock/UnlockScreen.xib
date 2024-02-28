@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UnlockScreenViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
-                <outlet property="unlockButton" destination="0cs-Vh-6YP" id="KjG-N2-j4T"/>
                 <outlet property="view" destination="iN0-l3-epB" id="pNR-h8-gha"/>
             </connections>
         </placeholder>
@@ -20,44 +19,43 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenLogo" id="Al2-xq-jcc" userLabel="Logo">
-                    <rect key="frame" x="76" y="362" width="240" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="IkX-pG-xN8">
+                    <rect key="frame" x="143" y="372.66666666666669" width="107" height="107"/>
+                    <color key="tintColor" systemColor="labelColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="107" id="wzI-re-Ezw"/>
+                    </constraints>
                 </imageView>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7Yu-wh-wAD" userLabel="Stack View_button">
-                    <rect key="frame" x="156" y="573" width="110" height="200"/>
+                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="hux-3o-9se" userLabel="Stack View_button">
+                    <rect key="frame" x="0.0" y="742" width="393" height="60"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="0cs-Vh-6YP">
-                            <rect key="frame" x="0.0" y="0.0" width="110" height="200"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Unlock"/>
-                            <connections>
-                                <action selector="unlockScreenButton:" destination="-1" eventType="touchUpInside" id="FDb-4d-EZv"/>
-                            </connections>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="500" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="358" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Fh-u8-d7f" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="16" y="8" width="361" height="44"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Unlock"/>
                         </button>
                     </subviews>
-                    <color key="tintColor" systemColor="systemFillColor"/>
+                    <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="7Yu-wh-wAD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="267" id="9Xh-oO-WkY"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7Yu-wh-wAD" secondAttribute="trailing" constant="142" id="HPc-0g-WmY"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="7Yu-wh-wAD" secondAttribute="bottom" constant="292" id="NuQ-B1-5YC"/>
-                <constraint firstItem="7Yu-wh-wAD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="OLS-sp-9dg"/>
-                <constraint firstItem="7Yu-wh-wAD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="141" id="c1f-qi-dpk"/>
-                <constraint firstItem="7Yu-wh-wAD" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="m4U-dI-hUQ"/>
+                <constraint firstItem="IkX-pG-xN8" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4iD-ye-exj"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hux-3o-9se" secondAttribute="bottom" constant="16" id="GF8-qm-ggL"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hux-3o-9se" secondAttribute="trailing" id="Jym-c9-BhQ"/>
+                <constraint firstItem="hux-3o-9se" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jtm-Uu-lq7"/>
+                <constraint firstItem="IkX-pG-xN8" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qf0-HV-M9H"/>
             </constraints>
             <point key="canvasLocation" x="131" y="-11"/>
         </view>
     </objects>
     <resources>
         <image name="launchScreenLogo" width="107" height="115"/>
-        <systemColor name="systemFillColor">
-            <color red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

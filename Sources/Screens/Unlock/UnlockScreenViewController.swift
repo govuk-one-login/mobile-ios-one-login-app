@@ -14,17 +14,15 @@ class UnlockScreenViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
-    @IBOutlet private var unlockButton: RoundedButton! {
+    @IBOutlet private var unlockButton: SecondaryButton! {
         didSet {
             unlockButton.setTitle("Unlock", for: .normal)
-            unlockButton.accessibilityIdentifier = "unlock-screen-primary-button"
+//            unlockButton.backgroundColor = .none
+            unlockButton.accessibilityIdentifier = "unlock-screen-secondary-button"
         }
     }
 
     @IBAction private func unlockScreenButton(_ sender: Any) {
-        unlockButton.isLoading = true
         viewModel.primaryButtonViewModel.action()
-        unlockButton.isLoading = false
     }
 }
