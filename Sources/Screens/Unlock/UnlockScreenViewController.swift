@@ -14,10 +14,9 @@ class UnlockScreenViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @IBOutlet private var unlockButton: SecondaryButton! {
+    @IBOutlet private var unlockButton: UnlockScreenButton! {
         didSet {
             unlockButton.setTitle("Unlock", for: .normal)
-//            unlockButton.backgroundColor = .none
             unlockButton.accessibilityIdentifier = "unlock-screen-secondary-button"
         }
     }
