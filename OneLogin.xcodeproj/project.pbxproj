@@ -195,6 +195,8 @@
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
+		C86B70732B8F617D00F4C9BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C86B70752B8F619D00F4C9BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginBuild.xctestplan; sourceTree = "<group>"; };
 		C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginStaging.xctestplan; sourceTree = "<group>"; };
 		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C86B706D2B8F5EF200F4C9BF /* Firebase */,
 				C8BACAFB2B4DD92200530419 /* Environment */,
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
@@ -624,6 +627,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C86B706D2B8F5EF200F4C9BF /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				C86B70702B8F5F3200F4C9BF /* Build */,
+				C86B706F2B8F5F2D00F4C9BF /* Staging */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		C86B706F2B8F5F2D00F4C9BF /* Staging */ = {
+			isa = PBXGroup;
+			children = (
+				C86B70732B8F617D00F4C9BF /* GoogleService-Info.plist */,
+			);
+			path = Staging;
+			sourceTree = "<group>";
+		};
+		C86B70702B8F5F3200F4C9BF /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				C86B70752B8F619D00F4C9BF /* GoogleService-Info.plist */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
 		C873B1DE2AF826D3002C39E8 /* BuildConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -794,6 +822,7 @@
 				219B95A32AA0DB60006C3BBA /* Run Swiftlint */,
 				219601E32A976302008F3427 /* Sources */,
 				219601E42A976302008F3427 /* Frameworks */,
+				C86B706C2B8F5EAB00F4C9BF /* Setup Firebase Environment GoogleService-Info.plist */,
 				219601E52A976302008F3427 /* Resources */,
 				C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */,
 			);
@@ -1018,6 +1047,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, please run brew install swiftlint\"\nfi\n\n";
+		};
+		C86B706C2B8F5EAB00F4C9BF /* Setup Firebase Environment GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Firebase Environment GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to staging, integration and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_BUILD=${PROJECT_DIR}/Sources/Application/Firebase/Build/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_STAGING=${PROJECT_DIR}/Sources/Application/Firebase/Staging/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the build version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_BUILD}\"\nif [ ! -f $GOOGLESERVICE_INFO_BUILD ]\nthen\n    echo \"No Build GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the staging version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_STAGING}\"\nif [ ! -f $GOOGLESERVICE_INFO_STAGING ]\nthen\n    echo \"No Staging GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the GoogleService-Info.plist for builds\nif [ \"${CONFIGURATION}\" == \"Build\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_INTEGRATION}\"\n    cp \"${GOOGLESERVICE_INFO_BUILD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_STAGING}\"\n    cp \"${GOOGLESERVICE_INFO_STAGING}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
 		C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */ = {
 			isa = PBXShellScriptBuildPhase;
