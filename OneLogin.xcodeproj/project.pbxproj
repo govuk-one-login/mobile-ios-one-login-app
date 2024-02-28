@@ -173,6 +173,8 @@
 		41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
+		C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C803C21F2B8F8D9C008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -195,8 +197,6 @@
 		C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
 		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
-		C86B70732B8F617D00F4C9BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C86B70752B8F619D00F4C9BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginBuild.xctestplan; sourceTree = "<group>"; };
 		C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginStaging.xctestplan; sourceTree = "<group>"; };
 		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
@@ -399,6 +399,14 @@
 				C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		C803C2152B8F8865008DE774 /* BuildConfig */ = {
+			isa = PBXGroup;
+			children = (
+				C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */,
+			);
+			path = BuildConfig;
 			sourceTree = "<group>";
 		};
 		C8098B942AEFF18C001517A0 /* Extensions */ = {
@@ -630,26 +638,18 @@
 		C86B706D2B8F5EF200F4C9BF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				C86B70702B8F5F3200F4C9BF /* Build */,
-				C86B706F2B8F5F2D00F4C9BF /* Staging */,
+				C803C2152B8F8865008DE774 /* BuildConfig */,
+				C86B706F2B8F5F2D00F4C9BF /* StagingConfig */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
 		};
-		C86B706F2B8F5F2D00F4C9BF /* Staging */ = {
+		C86B706F2B8F5F2D00F4C9BF /* StagingConfig */ = {
 			isa = PBXGroup;
 			children = (
-				C86B70732B8F617D00F4C9BF /* GoogleService-Info.plist */,
+				C803C21F2B8F8D9C008DE774 /* GoogleService-Info.plist */,
 			);
-			path = Staging;
-			sourceTree = "<group>";
-		};
-		C86B70702B8F5F3200F4C9BF /* Build */ = {
-			isa = PBXGroup;
-			children = (
-				C86B70752B8F619D00F4C9BF /* GoogleService-Info.plist */,
-			);
-			path = Build;
+			path = StagingConfig;
 			sourceTree = "<group>";
 		};
 		C873B1DE2AF826D3002C39E8 /* BuildConfig */ = {
@@ -1065,7 +1065,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to staging, integration and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_BUILD=${PROJECT_DIR}/Sources/Application/Firebase/Build/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_STAGING=${PROJECT_DIR}/Sources/Application/Firebase/Staging/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the build version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_BUILD}\"\nif [ ! -f $GOOGLESERVICE_INFO_BUILD ]\nthen\n    echo \"No Build GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the staging version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_STAGING}\"\nif [ ! -f $GOOGLESERVICE_INFO_STAGING ]\nthen\n    echo \"No Staging GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the GoogleService-Info.plist for builds\nif [ \"${CONFIGURATION}\" == \"Build\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_INTEGRATION}\"\n    cp \"${GOOGLESERVICE_INFO_BUILD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_STAGING}\"\n    cp \"${GOOGLESERVICE_INFO_STAGING}\" \"${PLIST_DESTINATION}\"\nfi\n";
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to staging, integration and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_BUILD=${PROJECT_DIR}/Sources/Application/Firebase/BuildConfig/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_STAGING=${PROJECT_DIR}/Sources/Application/Firebase/StagingConfig/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the build version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_BUILD}\"\nif [ ! -f $GOOGLESERVICE_INFO_BUILD ]\nthen\n    echo \"No Build GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the staging version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_STAGING}\"\nif [ ! -f $GOOGLESERVICE_INFO_STAGING ]\nthen\n    echo \"No Staging GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the GoogleService-Info.plist for builds\nif [ \"${CONFIGURATION}\" == \"Build\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_BUILD}\"\n    cp \"${GOOGLESERVICE_INFO_BUILD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_STAGING}\"\n    cp \"${GOOGLESERVICE_INFO_STAGING}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
 		C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */ = {
 			isa = PBXShellScriptBuildPhase;
