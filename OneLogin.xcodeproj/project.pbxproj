@@ -2028,7 +2028,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
-				branch = "add-additional-testing";
+				branch = main;
 				kind = branch;
 			};
 		};

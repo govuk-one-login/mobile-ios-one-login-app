@@ -10,6 +10,7 @@ final class MainCoordinator: NSObject,
     let window: UIWindow
     let root: UINavigationController
     let analyticsService: AnalyticsService
+    var analyticsPreferenceStore: AnalyticsPreferenceStore
     let networkMonitor: NetworkMonitoring
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
@@ -19,10 +20,12 @@ final class MainCoordinator: NSObject,
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService = OneLoginAnalyticsService(),
+         analyticsStatus: AnalyticsPreferenceStore = UserDefaultsPreferenceStore(),
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.window = window
         self.root = root
         self.analyticsService = analyticsService
+        self.analyticsPreferenceStore = analyticsStatus
         self.networkMonitor = networkMonitor
     }
     
@@ -47,12 +50,18 @@ final class MainCoordinator: NSObject,
     }
     
     func displayAnalyticsPreferencePage() {
-        let analyticsPreferenceScreen = viewControllerFactory.createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
-            root.dismiss(animated: true)
-        } secondaryButtonAction: {
-            
+        if analyticsPreferenceStore.hasAcceptedAnalytics == nil {
+            let analyticsPreferenceScreen = viewControllerFactory.createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
+                analyticsPreferenceStore.hasAcceptedAnalytics = true
+                root.dismiss(animated: true)
+            } secondaryButtonAction: { [unowned self] in
+                analyticsPreferenceStore.hasAcceptedAnalytics = false
+                root.dismiss(animated: true)
+            }
+            root.present(analyticsPreferenceScreen, animated: true)
+        } else {
+            return
         }
-        root.present(analyticsPreferenceScreen, animated: true)
     }
     
     func displayAuthCoordinator() {
