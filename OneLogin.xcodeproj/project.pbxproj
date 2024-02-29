@@ -1418,6 +1418,7 @@
 				MARKETING_VERSION = 1.0;
 				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
@@ -1455,6 +1456,7 @@
 				MARKETING_VERSION = 1.0;
 				ONE_LOGIN_AUTHORIZE_URL = "";
 				ONE_LOGIN_CLIENT_ID = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "";
@@ -1726,6 +1728,7 @@
 				MARKETING_VERSION = 1.0;
 				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
@@ -1912,6 +1915,7 @@
 				MARKETING_VERSION = 1.0;
 				ONE_LOGIN_AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
 				ONE_LOGIN_CLIENT_ID = TEST_CLIENT_ID;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.build.account.gov.uk/redirect";
