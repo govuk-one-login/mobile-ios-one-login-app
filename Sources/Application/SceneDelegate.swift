@@ -1,6 +1,7 @@
 import Authentication
 import GAnalytics
 import Logging
+import SecureStore
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -29,6 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator = MainCoordinator(window: window,
                                       root: navigationController,
                                       analyticsCentre: analyticsCentre)
+                                      secureStore: SecureStoreService(configuration: .init(id: "oneLoginTokens",
+                                                                                                accessControlLevel: .anyBiometricsOrPasscode)),
+                                      defaultStore: UserDefaults.standard)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         coordinator?.start()
