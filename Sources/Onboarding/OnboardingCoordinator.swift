@@ -27,7 +27,6 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
-        root.isNavigationBarHidden = true
         if canUseLocalAuth(.deviceOwnerAuthenticationWithBiometrics) {
             showEnrolmentGuidance()
         } else if !canUseLocalAuth(.deviceOwnerAuthentication) {
