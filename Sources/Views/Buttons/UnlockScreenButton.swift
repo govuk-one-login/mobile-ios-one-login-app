@@ -22,7 +22,8 @@ public class UnlockScreenButton: UIButton {
         titleLabel?.numberOfLines = 0
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.adjustsFontForContentSizeCategory = true
-        titleLabel?.font = UIFont(style: .headline, weight: fontWeight)
+        titleLabel?.font = UIFont(style: .body)
+        titleLabel?.font = .systemFont(ofSize: fontSize, weight: fontWeight)
         titleLabel?.textColor = .white
         titleLabel?.tintColor = color
 
