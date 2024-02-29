@@ -60,3 +60,6 @@
 "app_enableTouchIDFootnote" = "Os ydych yn defnyddio ID Cyffwrdd, bydd unrhyw un sydd â ID Cyffwrdd wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.";
 
 "app_enableTouchIDEnableButton" = "Defnyddio ID Cyffwrdd";
+
+// MARK: Unlock screen
+"app_unlockButton" = "Datgloi"
