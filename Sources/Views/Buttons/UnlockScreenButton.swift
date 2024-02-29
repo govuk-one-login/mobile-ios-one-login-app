@@ -5,7 +5,7 @@ public class UnlockScreenButton: UIButton {
 
     public var fontWeight: UIFont.Weight = .bold
     public var color: UIColor = .white
-    public var fontSize: Double = 26.0
+    public var fontSize: Double = 20.0
     public var symbolPosition: SymbolPosition = .afterTitle
 
     public init() {
