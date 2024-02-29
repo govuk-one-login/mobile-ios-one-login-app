@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -32,11 +31,9 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="500" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="358" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Fh-u8-d7f" customClass="UnlockScreenButton" customModule="OneLogin" customModuleProvider="target">
                             <rect key="frame" x="16" y="8" width="361" height="44"/>
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="Unlock">
-                                <color key="titleColor" name="DialogText"/>
-                            </state>
+                            <state key="normal" title="Unlock"/>
                         </button>
                     </subviews>
                     <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
@@ -57,9 +54,6 @@
     </objects>
     <resources>
         <image name="launchScreenLogo" width="107" height="115"/>
-        <namedColor name="DialogText">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

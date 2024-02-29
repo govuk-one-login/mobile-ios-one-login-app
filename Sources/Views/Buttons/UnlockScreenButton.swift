@@ -3,9 +3,9 @@ import UIKit
 
 public class UnlockScreenButton: UIButton {
 
-    public var fontWeight: UIFont.Weight = .regular
+    public var fontWeight: UIFont.Weight = .bold
     public var color: UIColor = .white
-    public var fontSize: Double = 16.0
+    public var fontSize: Double = 26.0
     public var symbolPosition: SymbolPosition = .afterTitle
 
     public init() {
@@ -23,6 +23,7 @@ public class UnlockScreenButton: UIButton {
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.adjustsFontForContentSizeCategory = true
         titleLabel?.font = UIFont(style: .headline, weight: fontWeight)
+        titleLabel?.textColor = .white
         titleLabel?.tintColor = color
 
         if #available(iOS 14.0, *) {
