@@ -2,7 +2,6 @@ import Foundation
 import Logging
 
 final class OneLoginAnalyticsService: AnalyticsService {
-    
     var additionalParameters = [String: Any]()
     
     func grantAnalyticsPermission() {
@@ -22,6 +21,10 @@ final class OneLoginAnalyticsService: AnalyticsService {
     }
     
     func trackScreen(_ screen: LoggableScreen, parameters: [String: Any]) {
+        // empty in lieu of analytics tickets
+    }
+    
+    func trackScreen(_ screen: Logging.LoggableScreenV2, parameters: [String: Any]) {
         // empty in lieu of analytics tickets
     }
 }

@@ -5,6 +5,10 @@
 
 "app_continueButton" = "Parhau";
 
+"app_agreeButton" = "Cytuno";
+
+"app_declineButton" = "Anghytuno";
+
 "app_enablePasscodeButton" = "Defnyddio god mynediad";
 
 // MARK: Sign in screen
@@ -13,6 +17,11 @@
 "app_signInBody" = "Mewngofnodwch gyda'r cyfeiriad e-bost rydych yn ei ddefnyddio ar gyfer eich GOV.UK One Login.";
 
 "app_signInButton" = "Mewngofnodi";
+
+// MARK: Analytics peference screen
+"app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
+
+"acceptAnalyticsPreferences_body" = "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.";
 
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "Roedd problem wrth eich mewngofnodi";
