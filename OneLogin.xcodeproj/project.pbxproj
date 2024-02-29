@@ -17,7 +17,6 @@
 		1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */; };
 		1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */; };
 		219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219602012A976305008F3427 /* MainCoordinatorTests.swift */; };
-		21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */; };
 		21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */; };
 		21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4B2AE183A50052136E /* MockLoginSession.swift */; };
 		21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */; };
@@ -98,6 +97,7 @@
 		C8BADD2D2B87D9C800385FE7 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2C2B87D9C800385FE7 /* UserStorage.swift */; };
 		C8BADD2F2B889CB900385FE7 /* MockUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2E2B889CB900385FE7 /* MockUserStore.swift */; };
 		C8BADD312B889D4200385FE7 /* MockDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */; };
+		C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343962B909A2F00E92FB9 /* String+OneLogin.swift */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -147,7 +147,6 @@
 		219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219602012A976305008F3427 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		219602072A976305008F3427 /* OneLoginUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAnalyticsService.swift; sourceTree = "<group>"; };
 		21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		21FA1C4B2AE183A50052136E /* MockLoginSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSession.swift; sourceTree = "<group>"; };
 		21FA1C4E2AE18C6E0052136E /* OneLoginIntroViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModelTests.swift; sourceTree = "<group>"; };
@@ -229,6 +228,7 @@
 		C8BADD2C2B87D9C800385FE7 /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
 		C8BADD2E2B889CB900385FE7 /* MockUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserStore.swift; sourceTree = "<group>"; };
 		C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDefaultsStore.swift; sourceTree = "<group>"; };
+		C8C343962B909A2F00E92FB9 /* String+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+OneLogin.swift"; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -415,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				C8098B952AEFF198001517A0 /* CustomTypes */,
+				C8C343962B909A2F00E92FB9 /* String+OneLogin.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -516,7 +517,6 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				21E04DF92AE6B52B004C6660 /* OneLoginAnalyticsService.swift */,
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				C8BADD322B88CBB200385FE7 /* Network */,
@@ -1135,6 +1135,7 @@
 				1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
+				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				C8BADD2F2B889CB900385FE7 /* MockUserStore.swift in Sources */,
@@ -1144,7 +1145,6 @@
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
-				21E04DFA2AE6B52B004C6660 /* OneLoginAnalyticsService.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalyticsScreen.swift in Sources */,
 				C8BADD312B889D4200385FE7 /* MockDefaultsStore.swift in Sources */,

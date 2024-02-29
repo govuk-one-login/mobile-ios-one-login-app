@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import GAnalytics
 import Logging
 import SecureStore
 import UIKit
@@ -16,10 +17,10 @@ final class MainCoordinator: NSObject,
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     let tokenHolder = TokenHolder()
-
+    
     init(window: UIWindow,
          root: UINavigationController,
-         analyticsService: AnalyticsService = OneLoginAnalyticsService(),
+         analyticsService: AnalyticsService = GAnalytics(),
          analyticsStatus: AnalyticsPreferenceStore = UserDefaultsPreferenceStore(),
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.window = window
@@ -51,13 +52,14 @@ final class MainCoordinator: NSObject,
     
     func displayAnalyticsPreferencePage() {
         if analyticsPreferenceStore.hasAcceptedAnalytics == nil {
-            let analyticsPreferenceScreen = viewControllerFactory.createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
-                analyticsPreferenceStore.hasAcceptedAnalytics = true
-                root.dismiss(animated: true)
-            } secondaryButtonAction: { [unowned self] in
-                analyticsPreferenceStore.hasAcceptedAnalytics = false
-                root.dismiss(animated: true)
-            }
+            let analyticsPreferenceScreen = viewControllerFactory
+                .createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
+                    analyticsPreferenceStore.hasAcceptedAnalytics = true
+                    root.dismiss(animated: true)
+                } secondaryButtonAction: { [unowned self] in
+                    analyticsPreferenceStore.hasAcceptedAnalytics = false
+                    root.dismiss(animated: true)
+                }
             root.present(analyticsPreferenceScreen, animated: true)
         } else {
             return
@@ -78,7 +80,7 @@ final class MainCoordinator: NSObject,
     
     func launchOnboardingCoordinator() {
         guard tokenHolder.tokenResponse != nil else { return }
-        let secureStore = SecureStoreService(configuration: .init(id: "oneLoginTokens",
+        let secureStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                   accessControlLevel: .anyBiometricsOrPasscode))
         let userStore = UserStorage(secureStoreService: secureStore,
                                     defaultsStore: UserDefaults.standard)
