@@ -84,6 +84,11 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_enableTouchIDEnableButton".getWelshString(),
                        "Defnyddio ID Cyffwrdd")
     }
+
+    func test_unlockScreenKeys() {
+        XCTAssertEqual("app_unlockButton".getWelshString(),
+                       "Datgloi")
+    }
 }
 
 // swiftlint:enable line_length

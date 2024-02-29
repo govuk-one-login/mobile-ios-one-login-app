@@ -62,4 +62,4 @@
 "app_enableTouchIDEnableButton" = "Defnyddio ID Cyffwrdd";
 
 // MARK: Unlock screen
-"app_unlockButton" = "Datgloi"
+"app_unlockButton" = "Datgloi";

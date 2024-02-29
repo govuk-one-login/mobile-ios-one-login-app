@@ -62,4 +62,4 @@
 "app_enableTouchIDEnableButton" = "Use Touch ID";
 
 // MARK: Unlock screen
-"app_unlockButton" = "Unlock"
+"app_unlockButton" = "Unlock";

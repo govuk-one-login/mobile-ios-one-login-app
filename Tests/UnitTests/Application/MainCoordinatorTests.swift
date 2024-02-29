@@ -10,6 +10,8 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCentre: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
+    var mockSecureStore: MockSecureStoreService!
+    var mockDefaultStore: MockDefaultsStore!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -27,7 +29,9 @@ final class MainCoordinatorTests: XCTestCase {
         sut = MainCoordinator(window: window,
                               root: navigationController,
                               analyticsCentre: mockAnalyticsCentre,
-                              networkMonitor: mockNetworkMonitor)
+                              networkMonitor: mockNetworkMonitor,
+                              secureStore: mockSecureStore,
+                              defaultStore: mockDefaultStore)
     }
     
     override func tearDown() {

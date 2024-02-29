@@ -44,7 +44,7 @@ final class MainCoordinator: NSObject,
                 let accessToken = try userStore.secureStoreService.readItem(itemName: "accessToken")
                 print("ACCESS TOKEN: \(accessToken)")
             } catch {
-
+                print("error retrieving token")
             }
         } else {
             let introViewController = viewControllerFactory
