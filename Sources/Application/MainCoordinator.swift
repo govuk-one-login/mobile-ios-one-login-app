@@ -29,22 +29,30 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let introViewController = viewControllerFactory
-            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                if networkMonitor.isConnected {
-                    displayAuthCoordinator()
-                } else {
-                    let networkErrorScreen = errorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                            root.popViewController(animated: true)
-                            if networkMonitor.isConnected {
-                                displayAuthCoordinator()
-                            }
-                        }
-                    root.pushViewController(networkErrorScreen, animated: true)
+        if UserDefaults.standard.bool(forKey: "returningUser") {
+            let unlockScreenViewController = viewControllerFactory
+                .createUnlockScreen(analyticsService: analyticsService) { [unowned self] in
+                    launchTokenCoordinator()
                 }
-            }
-        root.setViewControllers([introViewController], animated: false)
+            root.setViewControllers([unlockScreenViewController], animated: true)
+        } else {
+            let introViewController = viewControllerFactory
+                .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                    if networkMonitor.isConnected {
+                        displayAuthCoordinator()
+                    } else {
+                        let networkErrorScreen = errorPresenter
+                            .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                                root.popViewController(animated: true)
+                                if networkMonitor.isConnected {
+                                    displayAuthCoordinator()
+                                }
+                            }
+                        root.pushViewController(networkErrorScreen, animated: true)
+                    }
+                }
+            root.setViewControllers([introViewController], animated: false)
+        }
         displayAnalyticsPreferencePage()
     }
     
