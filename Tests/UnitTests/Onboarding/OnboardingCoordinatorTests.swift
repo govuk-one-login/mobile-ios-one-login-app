@@ -13,8 +13,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        sut = OnboardingCoordinator(analyticsService: mockAnalyticsService,
-                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore)
     }
     
     override func tearDown() {

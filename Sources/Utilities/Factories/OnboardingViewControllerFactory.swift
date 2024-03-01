@@ -11,10 +11,9 @@ final class OnboardingViewControllerFactory {
         return IntroViewController(viewModel: viewModel)
     }
     
-    static func createAnalyticsPeferenceScreen(analyticsService: AnalyticsService,
-                                               primaryButtonAction: @escaping () -> Void,
+    static func createAnalyticsPeferenceScreen(primaryButtonAction: @escaping () -> Void,
                                                secondaryButtonAction: @escaping () -> Void) -> ModalInfoViewController {
-        let viewModel = AnalyticsPreferenceViewModel(analyticsService: analyticsService) {
+        let viewModel = AnalyticsPreferenceViewModel {
             primaryButtonAction()
         } secondaryButtonAction: {
             secondaryButtonAction()

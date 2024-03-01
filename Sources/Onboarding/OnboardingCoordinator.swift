@@ -7,19 +7,16 @@ final class OnboardingCoordinator: NSObject,
                                    ChildCoordinator {
     let root = UINavigationController()
     var parentCoordinator: ParentCoordinator?
-    let analyticsService: AnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
-    init(analyticsService: AnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore) {
-        self.analyticsService = analyticsService
+    init(analyticsPreferenceStore: AnalyticsPreferenceStore) {
         self.analyticsPreferenceStore = analyticsPreferenceStore
     }
     
     func start() {
         let analyticsPreferenceScreen = viewControllerFactory
-            .createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
+            .createAnalyticsPeferenceScreen { [unowned self] in
                 analyticsPreferenceStore.hasAcceptedAnalytics = true
                 root.dismiss(animated: true)
                 finish()

@@ -101,6 +101,9 @@
 		C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */; };
 		C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */; };
 		C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */; };
+		C8C343A62B9233FC00E92FB9 /* AnalyticsCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A42B9232B900E92FB9 /* AnalyticsCentre.swift */; };
+		C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */; };
+		C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */; };
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -235,6 +238,9 @@
 		C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsPreferenceStore.swift; sourceTree = "<group>"; };
+		C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCentral.swift; sourceTree = "<group>"; };
+		C8C343A42B9232B900E92FB9 /* AnalyticsCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCentre.swift; sourceTree = "<group>"; };
+		C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonViewModel.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -524,6 +530,7 @@
 			isa = PBXGroup;
 			children = (
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
+				C8C343A12B92313D00E92FB9 /* Analytics */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				C8BADD322B88CBB200385FE7 /* Network */,
 				C8BADD332B88CBBA00385FE7 /* Storage */,
@@ -635,6 +642,7 @@
 			isa = PBXGroup;
 			children = (
 				C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */,
+				C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -801,6 +809,15 @@
 			children = (
 				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
 				C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		C8C343A12B92313D00E92FB9 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */,
+				C8C343A42B9232B900E92FB9 /* AnalyticsCentre.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -1146,6 +1163,7 @@
 				C8BADD292B87D89000385FE7 /* UserStorable.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* UserStorage.swift in Sources */,
+				C8C343A62B9233FC00E92FB9 /* AnalyticsCentre.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */,
 				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
@@ -1156,10 +1174,12 @@
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				C8BADD2F2B889CB900385FE7 /* MockUserStore.swift in Sources */,
+				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
+				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,

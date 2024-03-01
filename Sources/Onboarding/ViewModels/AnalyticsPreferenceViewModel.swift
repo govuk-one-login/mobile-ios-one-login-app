@@ -8,23 +8,17 @@ struct AnalyticsPreferenceViewModel: ModalInfoButtonsViewModel, BaseViewModel {
     let bodyTextColour: UIColor? = .label
     let primaryButtonViewModel: ButtonViewModel?
     let secondaryButtonViewModel: ButtonViewModel?
-    let analyticsService: AnalyticsService
     let preventModalDismiss: Bool? = true
     
     var rightBarButtonTitle: GDSLocalisedString?
     var backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
-         primaryButtonAction: @escaping () -> Void,
+    init(primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_agreeButton",
-                                                               analyticsService: analyticsService) {
+        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_agreeButton") {
             primaryButtonAction()
         }
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_disagreeButton",
-                                                                 icon: nil,
-                                                                 analyticsService: analyticsService) {
+        self.secondaryButtonViewModel = StandardButtonViewModel(titleKey: "app_disagreeButton") {
             secondaryButtonAction()
         }
     }

@@ -6,6 +6,9 @@ import XCTest
 final class MainCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
+    var mockAnalyticsCentre: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
     var sut: MainCoordinator!
     
@@ -14,17 +17,25 @@ final class MainCoordinatorTests: XCTestCase {
         
         window = .init()
         navigationController = .init()
+        mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
+        mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
+                                              analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = MainCoordinator(window: window,
                               root: navigationController,
+                              analyticsCentre: mockAnalyticsCentre,
                               networkMonitor: mockNetworkMonitor)
     }
     
     override func tearDown() {
         window = nil
         navigationController = nil
+        mockAnalyticsService = nil
+        mockAnalyticsPreferenceStore = nil
+        mockAnalyticsCentre = nil
         mockNetworkMonitor = nil
         sut = nil
         

@@ -36,7 +36,7 @@ extension OnboardingViewControllerFactoryTests {
     }
     
     func test_analytics_callsAction() throws {
-        let analyticsView = sut.createAnalyticsPeferenceScreen(analyticsService: mockAnalyticsService) {
+        let analyticsView = sut.createAnalyticsPeferenceScreen {
             self.didCallPrimaryAction = true
         } secondaryButtonAction: {
             self.didCallSecondaryAction = true

@@ -8,6 +8,8 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
+    var mockAnalyticsCentre: AnalyticsCentral!
     var mockLAContext: MockLAContext!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultsStore: MockDefaultsStore!
@@ -26,13 +28,18 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
+        mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
+                                              analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockLAContext = MockLAContext()
         mockSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
                                       defaultsStore: mockDefaultsStore)
         tokenHolder = TokenHolder()
-        mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
+        mockMainCoordinator = MainCoordinator(window: window,
+                                              root: navigationController,
+                                              analyticsCentre: mockAnalyticsCentre)
         sut = EnrolmentCoordinator(root: navigationController,
                                    localAuth: mockLAContext,
                                    userStore: mockUserStore,
@@ -41,8 +48,11 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        window = nil
         navigationController = nil
         mockAnalyticsService = nil
+        mockAnalyticsPreferenceStore = nil
+        mockAnalyticsCentre = nil
         mockLAContext = nil
         mockSecureStore = nil
         mockDefaultsStore = nil
@@ -143,7 +153,8 @@ extension EnrolmentCoordinatorTests {
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
         XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
         XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
-        XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
+        XCTAssertNil(mockSecureStore.savedItems["accessToken"])
+    }
     
     func test_start_deviceLocalAuthSet_faceID_primaryButton_passed() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true

@@ -11,8 +11,7 @@ final class MainCoordinator: NSObject,
                              NavigationCoordinator {
     let window: UIWindow
     let root: UINavigationController
-    let analyticsService: AnalyticsService
-    var analyticsPreferenceStore: AnalyticsPreferenceStore
+    let analyticsCentre: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
@@ -21,24 +20,22 @@ final class MainCoordinator: NSObject,
     
     init(window: UIWindow,
          root: UINavigationController,
-         analyticsService: AnalyticsService = GAnalytics(),
-         analyticsStatus: AnalyticsPreferenceStore = UserDefaultsPreferenceStore(),
+         analyticsCentre: AnalyticsCentral,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.window = window
         self.root = root
-        self.analyticsService = analyticsService
-        self.analyticsPreferenceStore = analyticsStatus
+        self.analyticsCentre = analyticsCentre
         self.networkMonitor = networkMonitor
     }
     
     func start() {
         let introViewController = viewControllerFactory
-            .createIntroViewController(analyticsService: analyticsService) { [unowned self] in
+            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
                     displayAuthCoordinator()
                 } else {
                     let networkErrorScreen = errorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
+                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                             root.popViewController(animated: true)
                             if networkMonitor.isConnected {
                                 displayAuthCoordinator()
@@ -52,9 +49,8 @@ final class MainCoordinator: NSObject,
     }
     
     func displayAnalyticsPreferencePage() {
-        if analyticsPreferenceStore.hasAcceptedAnalytics == nil {
-            openChildModally(OnboardingCoordinator(analyticsService: analyticsService,
-                                                   analyticsPreferenceStore: analyticsPreferenceStore))
+        if analyticsCentre.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCentre.analyticsPreferenceStore))
         } else {
             return
         }
@@ -67,7 +63,7 @@ final class MainCoordinator: NSObject,
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
                                                       session: AppAuthSession(window: window),
-                                                      analyticsService: analyticsService,
+                                                      analyticsService: analyticsCentre.analyticsService,
                                                       tokenHolder: tokenHolder))
         }
     }
@@ -80,7 +76,7 @@ final class MainCoordinator: NSObject,
                                     defaultsStore: UserDefaults.standard)
         openChildInline(EnrolmentCoordinator(root: root,
                                              userStore: userStore,
-                                             analyticsService: analyticsService,
+                                             analyticsService: analyticsCentre.analyticsService,
                                              tokenHolder: tokenHolder))
     }
     

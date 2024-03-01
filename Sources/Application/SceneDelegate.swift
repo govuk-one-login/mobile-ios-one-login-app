@@ -1,4 +1,6 @@
 import Authentication
+import GAnalytics
+import Logging
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -22,8 +24,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func initialiseMainCoordinator(window: UIWindow) {
         let navigationController = UINavigationController()
+        let analyticsCentre = AnalyticsCentre(analyticsService: GAnalytics(),
+                                              analyticsPreferenceStore: UserDefaultsPreferenceStore())
         coordinator = MainCoordinator(window: window,
-                                      root: navigationController)
+                                      root: navigationController,
+                                      analyticsCentre: analyticsCentre)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         coordinator?.start()
