@@ -200,7 +200,8 @@ extension EnrolmentCoordinatorTests {
         XCTAssertTrue(navigationController.topViewController is GDSInformationViewController)
         XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
         XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
-        XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
+        XCTAssertNil(mockSecureStore.savedItems["accessToken"])
+    }
     
     func test_start_deviceLocalAuthSet_faceID_primaryButton_error() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
@@ -223,7 +224,8 @@ extension EnrolmentCoordinatorTests {
         XCTAssertTrue(navigationController.topViewController is GDSInformationViewController)
         XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
         XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
-        XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
+        XCTAssertNil(mockSecureStore.savedItems["accessToken"])
+    }
     
     func test_start_deviceLocalAuthSet_faceID_secondaryButton() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
@@ -245,5 +247,6 @@ extension EnrolmentCoordinatorTests {
         XCTAssertTrue(navigationController.topViewController is TokensViewController)
         XCTAssertNil(mockDefaultsStore.savedData["accessTokenExpiry"])
         XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
-        XCTAssertNil(mockSecureStore.savedItems["accessToken"])    }
+        XCTAssertNil(mockSecureStore.savedItems["accessToken"])
+    }
 }
