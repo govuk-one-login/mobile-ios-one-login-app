@@ -2,7 +2,7 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct AnalyticsPreferenceViewModel: ModalInfoViewModel, BaseViewModel {
+struct AnalyticsPreferenceViewModel: ModalInfoButtonsViewModel, BaseViewModel {
     let title: GDSLocalisedString = "app_acceptAnalyticsPreferences_title"
     let body: GDSLocalisedString = "acceptAnalyticsPreferences_body"
     let bodyTextColour: UIColor? = .label

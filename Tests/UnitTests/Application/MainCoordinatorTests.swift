@@ -38,8 +38,19 @@ extension MainCoordinatorTests {
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssert(sut.root.topViewController is IntroViewController)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
+    
+//    func test_start_presentsAnalyticsPermissionsScreen() throws {
+//        // WHEN the MainCoordinator is started
+//        XCTAssertTrue(sut.root.viewControllers.count == 0)
+//        sut.start()
+//        // THEN the visible view controller should be the IntroViewController
+//        XCTAssertTrue(sut.root.viewControllers.count == 1)
+//        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+//        waitForTruth(self.sut.root.presentedViewController != nil, timeout: 2)
+//        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
+//    }
     
     func test_start_opensAuthenticationCoordinator() throws {
         // WHEN the MainCoordinator is started
@@ -93,10 +104,10 @@ extension MainCoordinatorTests {
         let mockDefaultsStore = MockDefaultsStore()
         let mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
                                           defaultsStore: mockDefaultsStore)
-        let child = OnboardingCoordinator(root: navigationController,
-                                          userStore: mockUserStore,
-                                          analyticsService: mockAnalyticsService,
-                                          tokenHolder: tokenHolder)
+        let child = EnrolmentCoordinator(root: navigationController,
+                                         userStore: mockUserStore,
+                                         analyticsService: mockAnalyticsService,
+                                         tokenHolder: tokenHolder)
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the MainCoordinator regained focus from the OnboardingCoordinator
         sut.didRegainFocus(fromChild: child)

@@ -114,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "feature/dcmaw-6243-information-modal-buttons",
-        "revision" : "8e27f50b90e0c1b6126c8e0900306d4f08fd43a7"
+        "revision" : "8842934af05ac0e34d238e43cbce1f05bdbb60c5"
       }
     },
     {

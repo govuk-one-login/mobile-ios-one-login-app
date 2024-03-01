@@ -6,6 +6,7 @@ import SecureStore
 import UIKit
 
 final class MainCoordinator: NSObject,
+                             AnyCoordinator,
                              ParentCoordinator,
                              NavigationCoordinator {
     let window: UIWindow
@@ -52,15 +53,8 @@ final class MainCoordinator: NSObject,
     
     func displayAnalyticsPreferencePage() {
         if analyticsPreferenceStore.hasAcceptedAnalytics == nil {
-            let analyticsPreferenceScreen = viewControllerFactory
-                .createAnalyticsPeferenceScreen(analyticsService: analyticsService) { [unowned self] in
-                    analyticsPreferenceStore.hasAcceptedAnalytics = true
-                    root.dismiss(animated: true)
-                } secondaryButtonAction: { [unowned self] in
-                    analyticsPreferenceStore.hasAcceptedAnalytics = false
-                    root.dismiss(animated: true)
-                }
-            root.present(analyticsPreferenceScreen, animated: true)
+            openChildModally(OnboardingCoordinator(analyticsService: analyticsService,
+                                                   analyticsPreferenceStore: analyticsPreferenceStore))
         } else {
             return
         }
@@ -84,10 +78,10 @@ final class MainCoordinator: NSObject,
                                                                   accessControlLevel: .anyBiometricsOrPasscode))
         let userStore = UserStorage(secureStoreService: secureStore,
                                     defaultsStore: UserDefaults.standard)
-        openChildInline(OnboardingCoordinator(root: root,
-                                              userStore: userStore,
-                                              analyticsService: analyticsService,
-                                              tokenHolder: tokenHolder))
+        openChildInline(EnrolmentCoordinator(root: root,
+                                             userStore: userStore,
+                                             analyticsService: analyticsService,
+                                             tokenHolder: tokenHolder))
     }
     
     func launchTokenCoordinator() {
@@ -100,7 +94,7 @@ final class MainCoordinator: NSObject,
         switch child {
         case _ as AuthenticationCoordinator:
             launchOnboardingCoordinator()
-        case _ as OnboardingCoordinator:
+        case _ as EnrolmentCoordinator:
             launchTokenCoordinator()
         default:
             break

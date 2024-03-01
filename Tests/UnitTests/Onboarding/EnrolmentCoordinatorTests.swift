@@ -4,7 +4,7 @@ import GDSCommon
 import XCTest
 
 @MainActor
-final class OnboardingCoordinatorTests: XCTestCase {
+final class EnrolmentCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
@@ -14,12 +14,12 @@ final class OnboardingCoordinatorTests: XCTestCase {
     var mockUserStore: MockUserStore!
     var tokenHolder: TokenHolder!
     var mockMainCoordinator: MainCoordinator!
-    var sut: OnboardingCoordinator!
+    var sut: EnrolmentCoordinator!
     
     // swiftlint:disable line_length
     let accessTokenValue = "eEd2wTsYiaXEcZrXYoClvP9uZVvsSsJm4fw8haqSLcH8!B!i=U!/viQGDK3aQq/M2aUdwoxUqevzDX!A8NJFWrZ4VfLP/lgMGXdop=l2QtkLtBvP=iYAXCIBjtyP3i-bY5aP3lF4YLnldq02!jQWfxe1TvWesyMi9D1GIDq!X7JAJTMVHUIKH?-C18/-fcgkxHsQZhs/oFsW/56fTPsvdJPteu10nMF1gY0f8AChM6Yl5FAKX=UOdTHIoVJvf9Dt"
     // swiftlint:enable line_length
-
+    
     override func setUp() {
         super.setUp()
         
@@ -33,11 +33,11 @@ final class OnboardingCoordinatorTests: XCTestCase {
                                       defaultsStore: mockDefaultsStore)
         tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window, root: navigationController)
-        sut = OnboardingCoordinator(root: navigationController,
-                                    localAuth: mockLAContext,
-                                    userStore: mockUserStore,
-                                    analyticsService: mockAnalyticsService,
-                                    tokenHolder: tokenHolder)
+        sut = EnrolmentCoordinator(root: navigationController,
+                                   localAuth: mockLAContext,
+                                   userStore: mockUserStore,
+                                   analyticsService: mockAnalyticsService,
+                                   tokenHolder: tokenHolder)
     }
     
     override func tearDown() {
@@ -65,7 +65,7 @@ fileprivate extension Date {
     }
 }
 
-extension OnboardingCoordinatorTests {
+extension EnrolmentCoordinatorTests {
     func test_start_noDeviceLocalAuthSet() throws {
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
         mockMainCoordinator.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
