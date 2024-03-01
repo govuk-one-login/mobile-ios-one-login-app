@@ -22,7 +22,7 @@ struct AnalyticsPreferenceViewModel: ModalInfoButtonsViewModel, BaseViewModel {
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_declineButton",
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_disagreeButton",
                                                                  icon: nil,
                                                                  analyticsService: analyticsService) {
             secondaryButtonAction()

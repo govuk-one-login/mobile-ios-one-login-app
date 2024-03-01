@@ -7,7 +7,7 @@
 
 "app_agreeButton" = "Agree";
 
-"app_declineButton" = "Disagree";
+"app_disagreeButton" = "Disagree";
 
 "app_enablePasscodeButton" = "Use passcode";
 

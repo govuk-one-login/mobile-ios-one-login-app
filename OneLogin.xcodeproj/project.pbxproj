@@ -81,8 +81,8 @@
 		C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAF2AFBD0F100FCBD36 /* Coordination */; };
 		C8A6385A2B5994B700656A26 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */; };
 		C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
-		C8B05F452B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F442B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift */; };
-		C8B05F472B7AA816009D4283 /* LocalizedStringWelshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F462B7AA816009D4283 /* LocalizedStringWelshTests.swift */; };
+		C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F442B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift */; };
+		C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F462B7AA816009D4283 /* LocalizedWelshStringTests.swift */; };
 		C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */; };
 		C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */; };
 		C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
@@ -213,8 +213,8 @@
 		C89632EE2B0D0895002A1473 /* TokensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TokensViewController.swift; path = Sources/Screens/Tokens/TokensViewController.swift; sourceTree = SOURCE_ROOT; };
 		C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
 		C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModel.swift; sourceTree = "<group>"; };
-		C8B05F442B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringEnglishTests.swift; sourceTree = "<group>"; };
-		C8B05F462B7AA816009D4283 /* LocalizedStringWelshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringWelshTests.swift; sourceTree = "<group>"; };
+		C8B05F442B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedEnglishStringTests.swift; sourceTree = "<group>"; };
+		C8B05F462B7AA816009D4283 /* LocalizedWelshStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedWelshStringTests.swift; sourceTree = "<group>"; };
 		C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8B5EFC42B0E53EE004EA4D4 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
@@ -690,8 +690,8 @@
 		C8B05F432B7AA761009D4283 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C8B05F442B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift */,
-				C8B05F462B7AA816009D4283 /* LocalizedStringWelshTests.swift */,
+				C8B05F442B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift */,
+				C8B05F462B7AA816009D4283 /* LocalizedWelshStringTests.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1180,9 +1180,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8B05F472B7AA816009D4283 /* LocalizedStringWelshTests.swift in Sources */,
+				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C85966482AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift in Sources */,
-				C8B05F452B7AA7B3009D4283 /* LocalizedStringEnglishTests.swift in Sources */,
+				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */,
 				1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
