@@ -51,8 +51,6 @@ final class MainCoordinator: NSObject,
     func displayAnalyticsPreferencePage() {
         if analyticsCentre.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCentre.analyticsPreferenceStore))
-        } else {
-            return
         }
     }
     
