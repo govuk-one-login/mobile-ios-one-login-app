@@ -16,7 +16,7 @@ class UnlockScreenViewController: UIViewController {
 
     @IBOutlet private var unlockButton: UnlockScreenButton! {
         didSet {
-            unlockButton.setTitle("Unlock", for: .normal)
+            unlockButton.setTitle(viewModel.primaryButtonViewModel.title.value, for: .normal)
             unlockButton.accessibilityIdentifier = "unlock-screen-button"
         }
     }

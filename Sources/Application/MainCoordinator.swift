@@ -13,11 +13,11 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
+    let userStore: UserStorage
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     var tokenHolder = TokenHolder()
-    let userStore: UserStorage
 
     init(window: UIWindow,
          root: UINavigationController,
@@ -35,39 +35,46 @@ final class MainCoordinator: NSObject,
     
     func start() {
         if userStore.returningAuthenticatedUser {
-            let unlockScreenViewController = viewControllerFactory
-                .createUnlockScreen(analyticsService: analyticsService) { [unowned self] in
-                    do {
-                        print("VC: \(root.topViewController)")
-                        _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
-                    } catch {
-                        print("error 1: \(error)")
-                    }
-                }
-            root.setViewControllers([unlockScreenViewController], animated: true)
-            do {
-                _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
-            } catch {
-                print("error 2: \(error)")
-            }
+            showUnlockScreen()
         } else {
-            let introViewController = viewControllerFactory
-                .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                    if networkMonitor.isConnected {
-                        displayAuthCoordinator()
-                    } else {
-                        let networkErrorScreen = errorPresenter
-                            .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                                root.popViewController(animated: true)
-                                if networkMonitor.isConnected {
-                                    displayAuthCoordinator()
-                                }
-                            }
-                        root.pushViewController(networkErrorScreen, animated: true)
-                    }
-                }
-            root.setViewControllers([introViewController], animated: false)
+            showIntroScreen()
         }
+    }
+    
+    func showUnlockScreen() {
+        let unlockScreenViewController = viewControllerFactory
+            .createUnlockScreen(analyticsService: analyticsService) { [unowned self] in
+                do {
+                    _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
+                } catch {
+                    print("error 2: \(error)")
+                }
+            }
+        root.setViewControllers([unlockScreenViewController], animated: true)
+        do {
+            _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
+        } catch {
+            print("error 1: \(error)")
+        }
+    }
+    
+    func showIntroScreen() {
+        let introViewController = viewControllerFactory
+            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                if networkMonitor.isConnected {
+                    displayAuthCoordinator()
+                } else {
+                    let networkErrorScreen = errorPresenter
+                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                            root.popViewController(animated: true)
+                            if networkMonitor.isConnected {
+                                displayAuthCoordinator()
+                            }
+                        }
+                    root.pushViewController(networkErrorScreen, animated: true)
+                }
+            }
+        root.setViewControllers([introViewController], animated: false)
         displayAnalyticsPreferencePage()
     }
     

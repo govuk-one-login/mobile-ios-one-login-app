@@ -10,6 +10,6 @@ final class UserStorage: UserStorable {
     }
 
     var returningAuthenticatedUser: Bool {
-        ((defaultsStore.value(forKey: "returningUser") != nil) && (defaultsStore.value(forKey: "accessTokenExpiry") != nil)) ? true : false
+        (defaultsStore.value(forKey: "returningUser") != nil && defaultsStore.value(forKey: "accessTokenExpiry") != nil) ? true : false
     }
 }

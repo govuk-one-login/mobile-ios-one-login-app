@@ -12,16 +12,15 @@ struct UnlockScreenViewModel: BaseViewModel {
     init(analyticsService: AnalyticsService,
          primaryButtonAction: @escaping () -> Void ) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_unlockScreenButton",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_unlockButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
     }
 
     func didAppear() {
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.unlockScreen, titleKey: primaryButtonViewModel.title.stringKey)
-        analyticsService.trackScreen(screen)
-    }
+        // conforming to BaseViewModel
+}
     
     func didDismiss() {
         // conforming to BaseViewModel
