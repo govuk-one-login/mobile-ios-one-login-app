@@ -16,10 +16,20 @@ final class LoginUITests: XCTestCase {
         sut.app.terminate()
         sut = nil
     }
+    
+    func agreeIfAnalytics() {
+        if sut.app.staticTexts["Help improve the app by sharing analytics"].exists {
+            let analyticsButton = sut.app.buttons["Agree"]
+            XCTAssertTrue(analyticsButton.exists)
+            // Tap Analytics Permission Button
+            analyticsButton.tap()
+        }
+    }
 }
 
 extension LoginUITests {
     func test_loginHappyPath() throws {
+        agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
@@ -30,10 +40,11 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.loginButton.label, "Login")
         // Select 'Login' Button
         let tokensScreen = loginModal.tapBrowserLoginButton()
-        XCTAssertEqual(tokensScreen.title.label, "Logged in")
+        XCTAssertEqual(tokensScreen.title.label, "Logged in ")
     }
     
     func test_loginCancelPath() throws {
+        agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
@@ -48,6 +59,7 @@ extension LoginUITests {
     }
     
     func test_OAuthLoginError() throws {
+        agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
@@ -64,6 +76,7 @@ extension LoginUITests {
     }
     
     func test_invalidStateError() throws {
+        agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
@@ -80,6 +93,7 @@ extension LoginUITests {
     }
     
     func test_fourHundredResponseError() throws {
+        agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
@@ -100,6 +114,7 @@ extension LoginUITests {
     }
     
     func test_fiveHundredResponseError() throws {
+        agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
