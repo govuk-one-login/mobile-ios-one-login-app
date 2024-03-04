@@ -12,6 +12,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -24,6 +25,9 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
+        mockSecureStore = MockSecureStoreService()
+        mockDefaultStore = MockDefaultsStore()
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStore, defaultsStore: mockDefaultStore)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = MainCoordinator(window: window,
@@ -41,6 +45,9 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCentre = nil
         mockNetworkMonitor = nil
+        mockSecureStore = nil
+        mockDefaultStore = nil
+        mockUserStore = nil
         sut = nil
         
         super.tearDown()
@@ -67,7 +74,20 @@ extension MainCoordinatorTests {
         waitForTruth(self.sut.root.presentedViewController != nil, timeout: 2)
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
-    
+
+    func test_start_displaysUnlockScreenViewController() throws {
+        // WHEN the MainCoordinator is started for a returning user
+        mockDefaultStore.set(1729427067, forKey: "accessTokenExpiry")
+        mockDefaultStore.set(true, forKey: "returningUser")
+        sut.start()
+        // THEN the visible view controller should be the UnlockScreenViewController
+
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(mockDefaultStore.savedData["returningUser"] != nil)
+        XCTAssertTrue(mockDefaultStore.savedData["accessTokenExpiry"] != nil)
+        
+    }
+
     func test_start_opensAuthenticationCoordinator() throws {
         // WHEN the MainCoordinator is started
         sut.start()

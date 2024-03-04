@@ -28,6 +28,8 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+        mockSecureStore = MockSecureStoreService()
+        mockDefaultStore = MockDefaultsStore()
         tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window,
                                               root: navigationController,
@@ -46,6 +48,8 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCentre = nil
+        mockSecureStore = nil
+        mockDefaultStore = nil
         tokenHolder = nil
         mockMainCoordinator = nil
         sut = nil
