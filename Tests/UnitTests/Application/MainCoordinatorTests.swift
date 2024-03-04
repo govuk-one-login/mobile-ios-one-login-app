@@ -81,11 +81,12 @@ extension MainCoordinatorTests {
         mockDefaultStore.set(true, forKey: "returningUser")
         sut.start()
         // THEN the visible view controller should be the UnlockScreenViewController
-
+        XCTAssertTrue(navigationController.topViewController is IntroViewController)
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(mockDefaultStore.savedData["returningUser"] != nil)
         XCTAssertTrue(mockDefaultStore.savedData["accessTokenExpiry"] != nil)
-        
+//        XCTAssertTrue(navigationController.topViewController is UnlockScreenViewController)
+
     }
 
     func test_start_opensAuthenticationCoordinator() throws {

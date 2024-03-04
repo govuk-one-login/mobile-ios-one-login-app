@@ -38,14 +38,15 @@ final class MainCoordinator: NSObject,
             let unlockScreenViewController = viewControllerFactory
                 .createUnlockScreen(analyticsService: analyticsService) { [unowned self] in
                     do {
-                        let accessToken = try userStore.secureStoreService.readItem(itemName: "accessToken")
+                        print("VC: \(root.topViewController)")
+                        _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
                     } catch {
                         print("error 1: \(error)")
                     }
                 }
             root.setViewControllers([unlockScreenViewController], animated: true)
             do {
-                let accessToken = try userStore.secureStoreService.readItem(itemName: "accessToken")
+                _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
             } catch {
                 print("error 2: \(error)")
             }

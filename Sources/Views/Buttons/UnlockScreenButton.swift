@@ -29,9 +29,6 @@ public class UnlockScreenButton: UIButton {
 
         if #available(iOS 14.0, *) {
             buttonBackground()
-        }
-
-        if #available(iOS 14.0, *) {
             NotificationCenter.default.addObserver(forName: Notification.Name( "buttonShapesEnabled"),
                                                    object: nil,
                                                    queue: nil) { _ in
