@@ -1,8 +1,8 @@
 import Foundation
 
 class MockDefaultsStore: DefaultsStorable {
-    var returningAuthenticatedUser: Bool?
     var savedData: [ String: Any ] = [:]
+    var returningAuthenticatedUser: Bool?
     
     func set(_ value: Any?, forKey defaultName: String) {
         savedData[defaultName] = value

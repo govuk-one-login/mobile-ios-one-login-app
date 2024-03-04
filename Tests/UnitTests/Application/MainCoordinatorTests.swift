@@ -27,7 +27,8 @@ final class MainCoordinatorTests: XCTestCase {
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore, defaultsStore: mockDefaultStore)
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      defaultsStore: mockDefaultStore)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = MainCoordinator(window: window,

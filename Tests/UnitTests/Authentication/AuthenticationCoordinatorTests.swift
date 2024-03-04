@@ -32,8 +32,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window,
+                                             
                                               root: navigationController,
-                                              analyticsCentre: mockAnalyticsCentre, secureStore: mockSecureStore,
+                                              analyticsCentre: mockAnalyticsCentre,
+                                              secureStore: mockSecureStore,
                                               defaultStore: mockDefaultStore)
         sut = AuthenticationCoordinator(root: navigationController,
                                         session: mockLoginSession,
