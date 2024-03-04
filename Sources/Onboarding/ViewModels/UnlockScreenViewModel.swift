@@ -20,7 +20,7 @@ struct UnlockScreenViewModel: BaseViewModel {
 
     func didAppear() {
         // conforming to BaseViewModel
-}
+    }
     
     func didDismiss() {
         // conforming to BaseViewModel

@@ -13,11 +13,11 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
-    let userStore: UserStorage
+    let userStore: UserStorable
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    var tokenHolder = TokenHolder()
+    let tokenHolder = TokenHolder()
 
     init(window: UIWindow,
          root: UINavigationController,

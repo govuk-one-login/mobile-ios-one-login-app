@@ -82,7 +82,6 @@ extension MainCoordinatorTests {
         // THEN the visible view controller should be the UnlockScreenViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(navigationController.topViewController is UnlockScreenViewController)
-
     }
 
     func test_start_opensAuthenticationCoordinator() throws {
