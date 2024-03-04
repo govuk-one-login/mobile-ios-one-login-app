@@ -8,4 +8,8 @@ final class UserStorage: UserStorable {
         self.secureStoreService = secureStoreService
         self.defaultsStore = defaultsStore
     }
+
+    var returningAuthenticatedUser: Bool {
+        ((defaultsStore.value(forKey: "returningUser") != nil) && (defaultsStore.value(forKey: "accessTokenExpiry") != nil)) ? true : false
+    }
 }

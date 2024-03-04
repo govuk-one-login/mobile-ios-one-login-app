@@ -34,17 +34,20 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        if (userStore.defaultsStore.value(forKey: "returningUser") != nil) && (userStore.defaultsStore.value(forKey: "accessTokenExpiry") != nil) {
+        if userStore.returningAuthenticatedUser {
             let unlockScreenViewController = viewControllerFactory
-                .createUnlockScreen(analyticsService: analyticsService) {
-
+                .createUnlockScreen(analyticsService: analyticsService) { [unowned self] in
+                    do {
+                        let accessToken = try userStore.secureStoreService.readItem(itemName: "accessToken")
+                    } catch {
+                        print("error 1: \(error)")
+                    }
                 }
             root.setViewControllers([unlockScreenViewController], animated: true)
             do {
                 let accessToken = try userStore.secureStoreService.readItem(itemName: "accessToken")
-                print("ACCESS TOKEN: \(accessToken)")
             } catch {
-                print("error retrieving token")
+                print("error 2: \(error)")
             }
         } else {
             let introViewController = viewControllerFactory
