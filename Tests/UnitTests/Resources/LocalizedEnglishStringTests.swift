@@ -3,19 +3,23 @@
 @testable import OneLogin
 import XCTest
 
-final class LocalizedStringEnglishTests: XCTestCase {
-    func test_genericKeys() {
+final class LocalizedEnglishStringTests: XCTestCase {
+    func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getEnglishString(),
-                  "Close")
+                       "Close")
         XCTAssertEqual("app_tryAgainButton".getEnglishString(),
-                  "Try again")
+                       "Try again")
         XCTAssertEqual("app_continueButton".getEnglishString(),
-                  "Continue")
+                       "Continue")
+        XCTAssertEqual("app_agreeButton".getEnglishString(),
+                       "Agree")
+        XCTAssertEqual("app_disagreeButton".getEnglishString(),
+                       "Disagree")
         XCTAssertEqual("app_enablePasscodeButton".getEnglishString(),
-                  "Use passcode")
+                       "Use passcode")
     }
     
-    func test_signInScreenKeys() {
+    func test_signInScreen_keys() throws {
         XCTAssertEqual("app_signInTitle".getEnglishString(),
                        "GOV.UK One Login")
         XCTAssertEqual("app_signInBody".getEnglishString(),
@@ -24,35 +28,42 @@ final class LocalizedStringEnglishTests: XCTestCase {
                        "Sign in")
     }
     
-    func test_unableToLoginErrorScreenKeys() {
+    func test_analyticsScreen_keys() throws {
+        XCTAssertEqual("app_acceptAnalyticsPreferences_title".getEnglishString(),
+                       "Help improve the app by sharing analytics")
+        XCTAssertEqual("acceptAnalyticsPreferences_body".getEnglishString(),
+                       "You can help us improve this app by choosing to automatically share app activity and analytics data.\n\nThis is optional and lets us understand how people use this service so we can make it better.\n\nYou can change your preferences at any time in your Settings.")
+    }
+    
+    func test_unableToLoginErrorScreen_keys() throws {
         XCTAssertEqual("app_signInErrorTitle".getEnglishString(),
                        "There was a problem signing you in")
         XCTAssertEqual("app_signInErrorBody".getEnglishString(),
                        "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
     }
     
-    func test_networkConnectionErrorScreenKeys() {
+    func test_networkConnectionErrorScreen_keys() throws {
         XCTAssertEqual("app_networkErrorTitle".getEnglishString(),
                        "You appear to be offline")
         XCTAssertEqual("app_networkErrorBody".getEnglishString(),
                        "GOV.UK One Login is not available offline. Reconnect to the internet and try again.")
     }
     
-    func test_genericErrorScreenKeys() {
+    func test_genericErrorScreen_keys() throws {
         XCTAssertEqual("app_somethingWentWrongErrorTitle".getEnglishString(),
                        "Something went wrong")
         XCTAssertEqual("app_somethingWentWrongErrorBody".getEnglishString(),
                        "Try again later.")
     }
     
-    func test_passcodeInformationScreenKeys() {
+    func test_passcodeInformationScreen_keys() throws {
         XCTAssertEqual("app_noPasscodeSetupTitle".getEnglishString(),
                        "It looks like this phone does not have a passcode")
         XCTAssertEqual("app_noPasscodeSetupBody".getEnglishString(),
                        "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.")
     }
     
-    func test_faceIDEnrollmentScreenKeys() {
+    func test_faceIDEnrollmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getEnglishString(),
                        "Use Face ID to sign in")
         XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
@@ -63,7 +74,7 @@ final class LocalizedStringEnglishTests: XCTestCase {
                        "Use Face ID")
     }
     
-    func test_touchIDEnrollmentScreenKeys() {
+    func test_touchIDEnrollmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getEnglishString(),
                        "Use Touch ID to sign in")
         XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),

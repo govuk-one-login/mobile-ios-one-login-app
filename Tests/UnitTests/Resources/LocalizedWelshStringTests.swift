@@ -3,19 +3,23 @@
 @testable import OneLogin
 import XCTest
 
-final class LocalizedStringWelshTests: XCTestCase {
-    func test_genericKeys() {
+final class LocalizedWelshStringTests: XCTestCase {
+    func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getWelshString(),
-                  "Cau")
+                       "Cau")
         XCTAssertEqual("app_tryAgainButton".getWelshString(),
-                  "Rhowch gynnig arall")
+                       "Rhowch gynnig arall")
         XCTAssertEqual("app_continueButton".getWelshString(),
-                  "Parhau")
+                       "Parhau")
+        XCTAssertEqual("app_agreeButton".getWelshString(),
+                       "Cytuno")
+        XCTAssertEqual("app_disagreeButton".getWelshString(),
+                       "Anghytuno")
         XCTAssertEqual("app_enablePasscodeButton".getWelshString(),
-                  "Defnyddio god mynediad")
+                       "Defnyddio god mynediad")
     }
     
-    func test_signInScreenKeys() {
+    func test_signInScreen_keys() throws {
         XCTAssertEqual("app_signInTitle".getWelshString(),
                        "GOV.UK One Login")
         XCTAssertEqual("app_signInBody".getWelshString(),
@@ -24,35 +28,42 @@ final class LocalizedStringWelshTests: XCTestCase {
                        "Mewngofnodi")
     }
     
-    func test_unableToLoginErrorScreenKeys() {
+    func test_analyticsScreen_keys() throws {
+        XCTAssertEqual("app_acceptAnalyticsPreferences_title".getWelshString(),
+                       "Helpu i wella'r ap drwy rannu dadansoddi")
+        XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
+                       "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.")
+    }
+    
+    func test_unableToLoginErrorScreen_keys() throws {
         XCTAssertEqual("app_signInErrorTitle".getWelshString(),
                        "Roedd problem wrth eich mewngofnodi")
         XCTAssertEqual("app_signInErrorBody".getWelshString(),
                        "Gallwch geisio mewngofnodi eto.\n\nOs na fydd hyn yn gweithio, efallai y bydd angen i chi roi cynnig arall yn nes ymlaen.")
     }
     
-    func test_networkConnectionErrorScreenKeys() {
+    func test_networkConnectionErrorScreen_keys() throws {
         XCTAssertEqual("app_networkErrorTitle".getWelshString(),
                        "Mae'n ymddangos nad ydych ar-lein")
         XCTAssertEqual("app_networkErrorBody".getWelshString(),
                        "Nid yw GOV.UK One Login ar gael os nad ydych ar-lein. Ailgysylltwch â'r rhyngrwyd a rhoi cynnig arall.")
     }
     
-    func test_genericErrorScreenKeys() {
+    func test_genericErrorScreen_keys() throws {
         XCTAssertEqual("app_somethingWentWrongErrorTitle".getWelshString(),
                        "Aeth rhywbeth o'i le")
         XCTAssertEqual("app_somethingWentWrongErrorBody".getWelshString(),
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
-    func test_passcodeInformationScreenKeys() {
+    func test_passcodeInformationScreen_keys() throws {
         XCTAssertEqual("app_noPasscodeSetupTitle".getWelshString(),
                        "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad")
         XCTAssertEqual("app_noPasscodeSetupBody".getWelshString(),
                        "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.")
     }
     
-    func test_faceIDEnrollmentScreenKeys() {
+    func test_faceIDEnrollmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getWelshString(),
                        "Defnyddiwch ID Wyneb i fewngofnodi")
         XCTAssertEqual("app_enableFaceIDBody".getWelshString(),
@@ -63,7 +74,7 @@ final class LocalizedStringWelshTests: XCTestCase {
                        "Defnyddip ID Wyneb")
     }
     
-    func test_touchIDEnrollmentScreenKeys() {
+    func test_touchIDEnrollmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getWelshString(),
                        "Defnyddiwch ID Cyffwrdd i fewngofnodi")
         XCTAssertEqual("app_enableTouchIDBody".getWelshString(),

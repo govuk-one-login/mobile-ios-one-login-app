@@ -16,9 +16,9 @@ final class TokenCoordinator: NSObject,
     }
     
     func start() {
-        root.isNavigationBarHidden = true
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
         let vc = TokensViewController(tokens: tokenResponse)
+        vc.navigationItem.hidesBackButton = true
         root.pushViewController(vc, animated: true)
     }
 }

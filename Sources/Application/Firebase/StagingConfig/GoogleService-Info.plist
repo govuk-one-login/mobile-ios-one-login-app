@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyA5r_bH4zNOYUbKD4g_0oXbIeNJjdllpKM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>533083083023</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>uk.gov.one-login.staging</string>
+	<key>PROJECT_ID</key>
+	<string>one-login-staging</string>
+	<key>STORAGE_BUCKET</key>
+	<string>one-login-staging.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<false/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<false/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:533083083023:ios:c5af0a2a36ff5d0a0eae7a</string>
+</dict>
+</plist>

@@ -1,7 +1,6 @@
-import Foundation
 import SecureStore
 
-class UserStorage: UserStorable {
+final class UserStorage: UserStorable {
     let secureStoreService: SecureStorable
     let defaultsStore: DefaultsStorable
     

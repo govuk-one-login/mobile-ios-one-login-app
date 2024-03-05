@@ -16,7 +16,7 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     let analyticsService: AnalyticsService
-
+    
     init(analyticsService: AnalyticsService,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
@@ -28,16 +28,16 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
         self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enablePasscodeButton",
                                                                  icon: nil,
                                                                  analyticsService: analyticsService) {
-              secondaryButtonAction()
-          }
+            secondaryButtonAction()
+        }
     }
-
-
+    
+    
     func didAppear() {
         let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment, titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
-
+    
     func didDismiss() {
         // Conforming to BaseViewModel
     }

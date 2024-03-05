@@ -1,39 +1,41 @@
 import Authentication
 import Coordination
+import GAnalytics
 import Logging
 import SecureStore
 import UIKit
 
 final class MainCoordinator: NSObject,
+                             AnyCoordinator,
                              ParentCoordinator,
                              NavigationCoordinator {
     let window: UIWindow
     let root: UINavigationController
-    let analyticsService: AnalyticsService
+    let analyticsCentre: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     let tokenHolder = TokenHolder()
-
+    
     init(window: UIWindow,
          root: UINavigationController,
-         analyticsService: AnalyticsService = OneLoginAnalyticsService(),
+         analyticsCentre: AnalyticsCentral,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.window = window
         self.root = root
-        self.analyticsService = analyticsService
+        self.analyticsCentre = analyticsCentre
         self.networkMonitor = networkMonitor
     }
     
     func start() {
         let introViewController = viewControllerFactory
-            .createIntroViewController(analyticsService: analyticsService) { [unowned self] in
+            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
                     displayAuthCoordinator()
                 } else {
                     let networkErrorScreen = errorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
+                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                             root.popViewController(animated: true)
                             if networkMonitor.isConnected {
                                 displayAuthCoordinator()
@@ -43,6 +45,13 @@ final class MainCoordinator: NSObject,
                 }
             }
         root.setViewControllers([introViewController], animated: false)
+        displayAnalyticsPreferencePage()
+    }
+    
+    func displayAnalyticsPreferencePage() {
+        if analyticsCentre.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCentre.analyticsPreferenceStore))
+        }
     }
     
     func displayAuthCoordinator() {
@@ -52,21 +61,21 @@ final class MainCoordinator: NSObject,
         } else {
             openChildInline(AuthenticationCoordinator(root: root,
                                                       session: AppAuthSession(window: window),
-                                                      analyticsService: analyticsService,
+                                                      analyticsService: analyticsCentre.analyticsService,
                                                       tokenHolder: tokenHolder))
         }
     }
     
     func launchOnboardingCoordinator() {
         guard tokenHolder.tokenResponse != nil else { return }
-        let secureStore = SecureStoreService(configuration: .init(id: "oneLoginTokens",
+        let secureStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                   accessControlLevel: .anyBiometricsOrPasscode))
         let userStore = UserStorage(secureStoreService: secureStore,
                                     defaultsStore: UserDefaults.standard)
-        openChildInline(OnboardingCoordinator(root: root,
-                                              userStore: userStore,
-                                              analyticsService: analyticsService,
-                                              tokenHolder: tokenHolder))
+        openChildInline(EnrolmentCoordinator(root: root,
+                                             userStore: userStore,
+                                             analyticsService: analyticsCentre.analyticsService,
+                                             tokenHolder: tokenHolder))
     }
     
     func launchTokenCoordinator() {
@@ -79,7 +88,7 @@ final class MainCoordinator: NSObject,
         switch child {
         case _ as AuthenticationCoordinator:
             launchOnboardingCoordinator()
-        case _ as OnboardingCoordinator:
+        case _ as EnrolmentCoordinator:
             launchTokenCoordinator()
         default:
             break

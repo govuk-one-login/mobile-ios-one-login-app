@@ -1,4 +1,5 @@
 import Authentication
+import GDSCommon
 import UIKit
 
 class TokensViewController: UIViewController {
@@ -17,21 +18,28 @@ class TokensViewController: UIViewController {
     
     @IBOutlet private var loggedInLabel: UILabel! {
         didSet {
-            loggedInLabel.text = "Logged in"
+            let string = NSMutableAttributedString(key: "Logged in ")
+            let image = NSTextAttachment(image: UIImage(systemName: "checkmark.circle.fill")!)
+            let imageString = NSAttributedString(attachment: image)
+            string.append(imageString)
+            string.addAttribute(.foregroundColor, value: UIColor.gdsGreen, range: NSRange(location: 10, length: 1))
+            loggedInLabel.attributedText = string
             loggedInLabel.accessibilityIdentifier = "logged-in-title"
         }
     }
     
     @IBOutlet private var accessTokenLabel: UILabel! {
         didSet {
-            accessTokenLabel.text = "Access Token: \(tokens.accessToken)"
+            accessTokenLabel.attributedText = GDSLocalisedString(stringLiteral: "Access Token: \(tokens.accessToken)",
+                                                                 attributes: [("Access Token:", [.font: UIFont.bodyBold])]).attributedValue
             accessTokenLabel.accessibilityIdentifier = "access-token"
         }
     }
     
     @IBOutlet private var idTokenLabel: UILabel! {
         didSet {
-            idTokenLabel.text = "ID Token: \(tokens.idToken)"
+            idTokenLabel.attributedText = GDSLocalisedString(stringLiteral: "ID Token: \(tokens.idToken)",
+                                                             attributes: [("ID Token:", [.font: UIFont.bodyBold])]).attributedValue
             idTokenLabel.accessibilityIdentifier = "id-token"
         }
     }
@@ -39,7 +47,8 @@ class TokensViewController: UIViewController {
     @IBOutlet private var refreshTokenLabel: UILabel! {
         didSet {
             if let refreshToken = tokens.refreshToken {
-                refreshTokenLabel.text = "Refresh Token: \(refreshToken)"
+                refreshTokenLabel.attributedText = GDSLocalisedString(stringLiteral: "Refresh Token: \(refreshToken)",
+                                                                      attributes: [("Refresh Token:", [.font: UIFont.bodyBold])]).attributedValue
                 refreshTokenLabel.accessibilityIdentifier = "refresh-token"
             } else {
                 refreshTokenLabel.isHidden = true

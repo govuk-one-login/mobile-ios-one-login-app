@@ -11,6 +11,16 @@ final class OnboardingViewControllerFactory {
         return IntroViewController(viewModel: viewModel)
     }
     
+    static func createAnalyticsPeferenceScreen(primaryButtonAction: @escaping () -> Void,
+                                               secondaryButtonAction: @escaping () -> Void) -> ModalInfoViewController {
+        let viewModel = AnalyticsPreferenceViewModel {
+            primaryButtonAction()
+        } secondaryButtonAction: {
+            secondaryButtonAction()
+        }
+        return ModalInfoViewController(viewModel: viewModel)
+    }
+    
     static func createPasscodeInformationScreen(analyticsService: AnalyticsService,
                                                 action: @escaping () -> Void) -> GDSInformationViewController {
         let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) {

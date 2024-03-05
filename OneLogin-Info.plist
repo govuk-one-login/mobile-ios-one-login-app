@@ -9,6 +9,14 @@
 		<key>Feature Flag File</key>
 		<string>$(FEATURE_FLAG_FILE)</string>
 	</dict>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED</key>
+	<false/>
 	<key>One Login Authorize URL</key>
 	<string>$(ONE_LOGIN_AUTHORIZE_URL)</string>
 	<key>One Login Client ID</key>

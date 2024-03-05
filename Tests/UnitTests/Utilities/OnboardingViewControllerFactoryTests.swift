@@ -35,6 +35,20 @@ extension OnboardingViewControllerFactoryTests {
         XCTAssertTrue(didCallPrimaryAction)
     }
     
+    func test_analytics_callsAction() throws {
+        let analyticsView = sut.createAnalyticsPeferenceScreen {
+            self.didCallPrimaryAction = true
+        } secondaryButtonAction: {
+            self.didCallSecondaryAction = true
+        }
+        let analyticsPrimaryButton: UIButton = try XCTUnwrap(analyticsView.view[child: "modal-info-primary-button"])
+        analyticsPrimaryButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallPrimaryAction)
+        let analyticsSecondaryButton: UIButton = try XCTUnwrap(analyticsView.view[child: "modal-info-secondary-button"])
+        analyticsSecondaryButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallSecondaryAction)
+    }
+    
     func test_passcode_callsAction() throws {
         let passcodeView = sut.createPasscodeInformationScreen(analyticsService: mockAnalyticsService) {
             self.didCallPrimaryAction = true
