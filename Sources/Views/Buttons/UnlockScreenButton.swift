@@ -5,7 +5,6 @@ public class UnlockScreenButton: UIButton {
 
     public var fontWeight: UIFont.Weight = .bold
     public var color: UIColor = .white
-    public var fontSize: Double = 20.0
 
     public init() {
         super.init(frame: .zero)
@@ -21,8 +20,7 @@ public class UnlockScreenButton: UIButton {
         titleLabel?.numberOfLines = 0
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.adjustsFontForContentSizeCategory = true
-        titleLabel?.font = UIFont(style: .body)
-        titleLabel?.font = .systemFont(ofSize: fontSize, weight: fontWeight)
+        titleLabel?.font = UIFont(style: .title3, weight: .bold)
         titleLabel?.textColor = .white
         titleLabel?.tintColor = color
 
