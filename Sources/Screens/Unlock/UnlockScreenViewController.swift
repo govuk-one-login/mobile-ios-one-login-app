@@ -14,9 +14,10 @@ class UnlockScreenViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @IBOutlet private var unlockButton: UnlockScreenButton! {
+    @IBOutlet private var unlockButton: UIButton! {
         didSet {
             unlockButton.setTitle(viewModel.primaryButtonViewModel.title.value, for: .normal)
+            unlockButton.titleLabel?.font = UIFont(style: .title3, weight: .bold)
             unlockButton.accessibilityIdentifier = "unlock-screen-button"
         }
     }
