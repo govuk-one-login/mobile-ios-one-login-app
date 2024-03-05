@@ -29,7 +29,6 @@
 		414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
 		414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 414D98042B8DF0F100E267EF /* UnlockScreen.xib */; };
 		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
-		414D980B2B8F77B300E267EF /* UnlockScreenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D980A2B8F77B300E267EF /* UnlockScreenButton.swift */; };
 		4195E6CB2B0CD32F0065E2BB /* TokenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD0C2B2725C8009AE51F /* TokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */; };
@@ -173,7 +172,6 @@
 		414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewController.swift; sourceTree = "<group>"; };
 		414D98042B8DF0F100E267EF /* UnlockScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnlockScreen.xib; sourceTree = "<group>"; };
 		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
-		414D980A2B8F77B300E267EF /* UnlockScreenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenButton.swift; sourceTree = "<group>"; };
 		4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCoordinator.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensScreen.swift; sourceTree = "<group>"; };
@@ -1184,7 +1182,6 @@
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* UserStorable.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
-				414D980B2B8F77B300E267EF /* UnlockScreenButton.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* UserStorage.swift in Sources */,
 				C8C343A62B9233FC00E92FB9 /* AnalyticsCentre.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
