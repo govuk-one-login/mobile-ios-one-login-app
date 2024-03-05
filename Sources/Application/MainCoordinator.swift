@@ -43,7 +43,7 @@ final class MainCoordinator: NSObject,
     
     func showUnlockScreen() {
         let unlockScreenViewController = viewControllerFactory
-            .createUnlockScreen(analyticsService: analyticsService) { [unowned self] in
+            .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                 do {
                     _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
                 } catch {
