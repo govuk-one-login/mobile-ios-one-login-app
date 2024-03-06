@@ -24,9 +24,12 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
+        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: .anyBiometricsOrPasscode))
         openChildInline(LoginCoordinator(window: window,
                                          root: root,
                                          analyticsCentre: analyticsCentre,
+                                         secureStoreService: secureStoreService,
                                          defaultStore: UserDefaults.standard,
                                          tokenHolder: tokenHolder))
     }

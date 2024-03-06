@@ -77,12 +77,10 @@ final class EnrolmentCoordinator: NSObject,
         root.pushViewController(passcodeInformationScreen, animated: true)
     }
     
-    private func storeAccessTokenInfo(secureStore: SecureStorable = SecureStoreService(configuration: .init(id: "oneLoginTokens",
-                                                                                                            accessControlLevel: .anyBiometricsOrPasscode))) {
+    private func storeAccessTokenInfo() {
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
-        userStore.secureStoreService = secureStore
         do {
-            try userStore.secureStoreService?.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
+            try userStore.secureStoreService.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
             userStore.defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
         } catch {
             print("error")

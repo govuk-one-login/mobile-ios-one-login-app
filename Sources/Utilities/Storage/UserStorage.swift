@@ -1,10 +1,12 @@
 import SecureStore
 
 final class UserStorage: UserStorable {
-    var secureStoreService: SecureStorable?
+    let secureStoreService: SecureStorable
     let defaultsStore: DefaultsStorable
     
-    init(defaultsStore: DefaultsStorable) {
+    init(secureStoreService: SecureStorable,
+         defaultsStore: DefaultsStorable) {
+        self.secureStoreService = secureStoreService
         self.defaultsStore = defaultsStore
     }
 }

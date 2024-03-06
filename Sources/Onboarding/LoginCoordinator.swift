@@ -22,27 +22,29 @@ final class LoginCoordinator: NSObject,
     
     init(window: UIWindow,
          root: UINavigationController,
-         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          analyticsCentre: AnalyticsCentral,
+         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
+         secureStoreService: SecureStorable,
          defaultStore: DefaultsStorable,
          tokenHolder: TokenHolder) {
         self.window = window
         self.root = root
-        self.networkMonitor = networkMonitor
         self.analyticsCentre = analyticsCentre
-        self.userStore = UserStorage(defaultsStore: defaultStore)
+        self.networkMonitor = networkMonitor
+        self.userStore = UserStorage(secureStoreService: secureStoreService,
+                                     defaultsStore: defaultStore)
         self.tokenHolder = tokenHolder
     }
     
     func start() {
         var rootViewController: UIViewController {
             if userStore.returningAuthenticatedUser {
-                return viewControllerFactory
+                viewControllerFactory
                     .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                         getAccessToken()
                     }
             } else {
-                return viewControllerFactory
+                viewControllerFactory
                     .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                         if networkMonitor.isConnected {
                             launchAuthenticationCoordinator(session: AppAuthSession(window: window))
@@ -60,19 +62,18 @@ final class LoginCoordinator: NSObject,
             }
         }
         root.setViewControllers([rootViewController], animated: true)
-        userStore.returningAuthenticatedUser ? getAccessToken() : displayAnalyticsPreferencePage()
+        userStore.returningAuthenticatedUser ? getAccessToken() : launchOnboardingCoordinator()
     }
     
     func getAccessToken() {
         do {
-            tokenHolder.accessToken = try userStore.secureStoreService?.readItem(itemName: "accessToken")
-            finish()
+            tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
         } catch {
-            print("error 1: \(error)")
+            print("Local Authentication error: \(error)")
         }
     }
     
-    func displayAnalyticsPreferencePage() {
+    func launchOnboardingCoordinator() {
         if analyticsCentre.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCentre.analyticsPreferenceStore))
         }
@@ -91,12 +92,6 @@ final class LoginCoordinator: NSObject,
                                              userStore: userStore,
                                              analyticsService: analyticsCentre.analyticsService,
                                              tokenHolder: tokenHolder))
-    }
-    
-    func launchTokenCoordinator() {
-        guard tokenHolder.tokenResponse != nil else { return }
-        openChildInline(TokenCoordinator(root: root,
-                                         tokenHolder: tokenHolder))
     }
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
