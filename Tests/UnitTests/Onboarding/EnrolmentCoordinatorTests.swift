@@ -39,7 +39,9 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         tokenHolder = TokenHolder()
         mockMainCoordinator = MainCoordinator(window: window,
                                               root: navigationController,
-                                              analyticsCentre: mockAnalyticsCentre)
+                                              analyticsCentre: mockAnalyticsCentre,
+                                              secureStore: mockSecureStore,
+                                              defaultStore: mockDefaultsStore)
         sut = EnrolmentCoordinator(root: navigationController,
                                    localAuth: mockLAContext,
                                    userStore: mockUserStore,

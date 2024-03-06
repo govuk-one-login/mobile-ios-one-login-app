@@ -84,6 +84,11 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_enableTouchIDEnableButton".getEnglishString(),
                        "Use Touch ID")
     }
+
+    func test_unlockScreenKeys() {
+        XCTAssertEqual("app_unlockButton".getEnglishString(),
+                       "Unlock")
+    }
 }
 
 // swiftlint:enable line_length

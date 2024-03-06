@@ -13,22 +13,52 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
+    let userStore: UserStorable
     var childCoordinators = [ChildCoordinator]()
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     let tokenHolder = TokenHolder()
-    
+
     init(window: UIWindow,
          root: UINavigationController,
          analyticsCentre: AnalyticsCentral,
-         networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
+         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
+         secureStore: SecureStorable,
+         defaultStore: DefaultsStorable) {
         self.window = window
         self.root = root
         self.analyticsCentre = analyticsCentre
         self.networkMonitor = networkMonitor
+        self.userStore = UserStorage(secureStoreService: secureStore,
+                                     defaultsStore: defaultStore)
     }
     
     func start() {
+        if userStore.returningAuthenticatedUser {
+            showUnlockScreen()
+        } else {
+            showIntroScreen()
+        }
+    }
+    
+    func showUnlockScreen() {
+        let unlockScreenViewController = viewControllerFactory
+            .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                do {
+                    _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
+                } catch {
+                    print("error 2: \(error)")
+                }
+            }
+        root.setViewControllers([unlockScreenViewController], animated: true)
+        do {
+            _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
+        } catch {
+            print("error 1: \(error)")
+        }
+    }
+    
+    func showIntroScreen() {
         let introViewController = viewControllerFactory
             .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
@@ -68,10 +98,6 @@ final class MainCoordinator: NSObject,
     
     func launchOnboardingCoordinator() {
         guard tokenHolder.tokenResponse != nil else { return }
-        let secureStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                  accessControlLevel: .anyBiometricsOrPasscode))
-        let userStore = UserStorage(secureStoreService: secureStore,
-                                    defaultsStore: UserDefaults.standard)
         openChildInline(EnrolmentCoordinator(root: root,
                                              userStore: userStore,
                                              analyticsService: analyticsCentre.analyticsService,

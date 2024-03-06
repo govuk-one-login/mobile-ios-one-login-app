@@ -10,6 +10,9 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCentre: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
+    var mockSecureStore: MockSecureStoreService!
+    var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -22,12 +25,18 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
+        mockSecureStore = MockSecureStoreService()
+        mockDefaultStore = MockDefaultsStore()
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      defaultsStore: mockDefaultStore)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = MainCoordinator(window: window,
                               root: navigationController,
                               analyticsCentre: mockAnalyticsCentre,
-                              networkMonitor: mockNetworkMonitor)
+                              networkMonitor: mockNetworkMonitor,
+                              secureStore: mockSecureStore,
+                              defaultStore: mockDefaultStore)
     }
     
     override func tearDown() {
@@ -37,6 +46,9 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCentre = nil
         mockNetworkMonitor = nil
+        mockSecureStore = nil
+        mockDefaultStore = nil
+        mockUserStore = nil
         sut = nil
         
         super.tearDown()
@@ -63,7 +75,16 @@ extension MainCoordinatorTests {
         waitForTruth(self.sut.root.presentedViewController != nil, timeout: 2)
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
-    
+
+    func test_start_displaysUnlockScreenViewController() throws {
+        mockDefaultStore.returningAuthenticatedUser = true
+        // WHEN the MainCoordinator is started for a returning user
+        sut.start()
+        // THEN the visible view controller should be the UnlockScreenViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(navigationController.topViewController is UnlockScreenViewController)
+    }
+
     func test_start_opensAuthenticationCoordinator() throws {
         // WHEN the MainCoordinator is started
         sut.start()

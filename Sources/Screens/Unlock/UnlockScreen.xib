@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UnlockScreenViewController" customModule="OneLogin" customModuleProvider="target">
+            <connections>
+                <outlet property="unlockButton" destination="1Fh-u8-d7f" id="INt-Oi-xJK"/>
+                <outlet property="view" destination="iN0-l3-epB" id="pNR-h8-gha"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="IkX-pG-xN8">
+                    <rect key="frame" x="143" y="368.66666666666669" width="107" height="115"/>
+                    <color key="tintColor" systemColor="labelColor"/>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="hux-3o-9se" userLabel="Stack View_button">
+                    <rect key="frame" x="0.0" y="742" width="393" height="60"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="500" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="358" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Fh-u8-d7f">
+                            <rect key="frame" x="16" y="8" width="361" height="44"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Unlock">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="unlockScreenButton:" destination="-1" eventType="touchUpInside" id="EZ3-NP-qcn"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="tintColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="IkX-pG-xN8" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4iD-ye-exj"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hux-3o-9se" secondAttribute="bottom" constant="16" id="GF8-qm-ggL"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hux-3o-9se" secondAttribute="trailing" id="Jym-c9-BhQ"/>
+                <constraint firstItem="hux-3o-9se" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jtm-Uu-lq7"/>
+                <constraint firstItem="IkX-pG-xN8" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qf0-HV-M9H"/>
+            </constraints>
+            <point key="canvasLocation" x="131" y="-11"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="launchScreenLogo" width="107" height="115"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

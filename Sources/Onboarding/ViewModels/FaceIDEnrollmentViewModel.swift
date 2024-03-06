@@ -34,7 +34,8 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     
     
     func didAppear() {
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment, titleKey: title.stringKey)
+        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment,
+                                titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
     

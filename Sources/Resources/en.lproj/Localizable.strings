@@ -60,3 +60,6 @@
 "app_enableTouchIDFootnote" = "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app.";
 
 "app_enableTouchIDEnableButton" = "Use Touch ID";
+
+// MARK: Unlock screen
+"app_unlockButton" = "Unlock";

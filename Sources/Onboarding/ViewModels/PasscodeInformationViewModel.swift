@@ -27,7 +27,8 @@ struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: InformationAnalyticsScreen.passcode, titleKey: title.stringKey)
+        let screen = ScreenView(screen: InformationAnalyticsScreen.passcode,
+                                titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
     

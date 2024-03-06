@@ -85,4 +85,13 @@ extension OnboardingViewControllerFactoryTests {
         faceIDSecondaryButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallSecondaryAction)
     }
+
+    func test_unlockScreen_callsAction() throws {
+        let unlockScreenView = sut.createUnlockScreen(analyticsService: mockAnalyticsService) {
+            self.didCallPrimaryAction = true
+        }
+        let unlockScreenPrimaryButton: UIButton = try XCTUnwrap(unlockScreenView.view[child: "unlock-screen-button"])
+        unlockScreenPrimaryButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallPrimaryAction)
+    }
 }
