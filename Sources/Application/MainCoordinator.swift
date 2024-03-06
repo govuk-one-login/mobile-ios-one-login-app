@@ -31,11 +31,16 @@ final class MainCoordinator: NSObject,
                                          tokenHolder: tokenHolder))
     }
     
+    func launchTokenCoordinator() {
+        guard tokenHolder.tokenResponse != nil else { return }
+        openChildInline(TokenCoordinator(root: root,
+                                         tokenHolder: tokenHolder))
+    }
+    
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
-            guard let accessToken = tokenHolder.tokenResponse?.accessToken else { return }
-//            launchHomeCoordinator(token: accessToken)
+            launchTokenCoordinator()
         default:
             break
         }

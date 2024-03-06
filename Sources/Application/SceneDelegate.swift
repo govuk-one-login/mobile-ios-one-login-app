@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard let incomingURL = userActivity.webpageURL,
-              let authCoordinator = coordinator?.childCoordinators
-            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator else { return }
+              let loginCoordinator = coordinator?.childCoordinators.first(where: { $0 is LoginCoordinator }) as? LoginCoordinator,
+              let authCoordinator = loginCoordinator.childCoordinators.first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator else { return }
         authCoordinator.handleUniversalLink(incomingURL)
     }
     
