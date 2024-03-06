@@ -1,7 +1,7 @@
 import SecureStore
 
 protocol UserStorable {
-    var secureStoreService: SecureStorable { get }
+    var secureStoreService: SecureStorable? { get set }
     var defaultsStore: DefaultsStorable { get }
 }
 

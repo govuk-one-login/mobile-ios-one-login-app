@@ -1,6 +1,7 @@
 import Coordination
 import LocalAuthentication
 import Logging
+import SecureStore
 import UIKit
 
 final class EnrolmentCoordinator: NSObject,
@@ -9,7 +10,7 @@ final class EnrolmentCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let localAuth: LAContexting
-    let userStore: UserStorable
+    var userStore: UserStorable
     let analyticsService: AnalyticsService
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
@@ -76,10 +77,12 @@ final class EnrolmentCoordinator: NSObject,
         root.pushViewController(passcodeInformationScreen, animated: true)
     }
     
-    private func storeAccessTokenInfo() {
+    private func storeAccessTokenInfo(secureStore: SecureStorable = SecureStoreService(configuration: .init(id: "oneLoginTokens",
+                                                                                                            accessControlLevel: .anyBiometricsOrPasscode))) {
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
+        userStore.secureStoreService = secureStore
         do {
-            try userStore.secureStoreService.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
+            try userStore.secureStoreService?.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
             userStore.defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
         } catch {
             print("error")

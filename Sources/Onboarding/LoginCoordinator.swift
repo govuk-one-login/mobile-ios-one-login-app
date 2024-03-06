@@ -1,6 +1,7 @@
 import Authentication
 import Coordination
 import Logging
+import SecureStore
 import UIKit
 
 final class LoginCoordinator: NSObject,
@@ -17,18 +18,20 @@ final class LoginCoordinator: NSObject,
     let userStore: UserStorable
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    let tokenHolder = TokenHolder()
+    let tokenHolder: TokenHolder
     
     init(window: UIWindow,
          root: UINavigationController,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          analyticsCentre: AnalyticsCentral,
-         userStore: UserStorable) {
+         defaultStore: DefaultsStorable,
+         tokenHolder: TokenHolder) {
         self.window = window
         self.root = root
         self.networkMonitor = networkMonitor
         self.analyticsCentre = analyticsCentre
-        self.userStore = userStore
+        self.userStore = UserStorage(defaultsStore: defaultStore)
+        self.tokenHolder = tokenHolder
     }
     
     func start() {
@@ -42,13 +45,13 @@ final class LoginCoordinator: NSObject,
                 return viewControllerFactory
                     .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                         if networkMonitor.isConnected {
-                            launchAuthenticationCoordinator()
+                            launchAuthenticationCoordinator(session: AppAuthSession(window: window))
                         } else {
                             let networkErrorScreen = errorPresenter
                                 .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                                     root.popViewController(animated: true)
                                     if networkMonitor.isConnected {
-                                        launchAuthenticationCoordinator()
+                                        launchAuthenticationCoordinator(session: AppAuthSession(window: window))
                                     }
                                 }
                             root.pushViewController(networkErrorScreen, animated: true)
@@ -62,7 +65,8 @@ final class LoginCoordinator: NSObject,
     
     func getAccessToken() {
         do {
-            _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
+            tokenHolder.accessToken = try userStore.secureStoreService?.readItem(itemName: "accessToken")
+            finish()
         } catch {
             print("error 1: \(error)")
         }
@@ -74,10 +78,39 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func launchAuthenticationCoordinator() {
+    func launchAuthenticationCoordinator(session: LoginSession) {
         openChildInline(AuthenticationCoordinator(root: root,
-                                                  session: AppAuthSession(window: window),
+                                                  session: session,
                                                   analyticsService: analyticsCentre.analyticsService,
                                                   tokenHolder: tokenHolder))
+    }
+    
+    func launchEnrolmentCoordinator() {
+        guard tokenHolder.tokenResponse != nil else { return }
+        openChildInline(EnrolmentCoordinator(root: root,
+                                             userStore: userStore,
+                                             analyticsService: analyticsCentre.analyticsService,
+                                             tokenHolder: tokenHolder))
+    }
+    
+    func launchTokenCoordinator() {
+        guard tokenHolder.tokenResponse != nil else { return }
+        openChildInline(TokenCoordinator(root: root,
+                                         tokenHolder: tokenHolder))
+    }
+    
+    func didRegainFocus(fromChild child: ChildCoordinator?) {
+        switch child {
+        case _ as OnboardingCoordinator:
+            return
+        case let child as AuthenticationCoordinator where child.loginError != nil:
+            return
+        case let child as AuthenticationCoordinator where child.loginError == nil:
+            launchEnrolmentCoordinator()
+        case _ as EnrolmentCoordinator:
+            finish()
+        default:
+            break
+        }
     }
 }

@@ -29,10 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
         coordinator = MainCoordinator(window: window,
                                       root: navigationController,
-                                      analyticsCentre: analyticsCentre,
-                                      secureStore: SecureStoreService(configuration: .init(id: "oneLoginTokens",
-                                                                                                accessControlLevel: .anyBiometricsOrPasscode)),
-                                      defaultStore: UserDefaults.standard)
+                                      analyticsCentre: analyticsCentre)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         coordinator?.start()

@@ -1,8 +1,9 @@
 import Foundation
+@testable import OneLogin
 import SecureStore
 
 class MockUserStore: UserStorable {
-    let secureStoreService: SecureStorable
+    var secureStoreService: SecureStorable?
     let defaultsStore: DefaultsStorable
 
     init(secureStoreService: SecureStorable, defaultsStore: DefaultsStorable) {
