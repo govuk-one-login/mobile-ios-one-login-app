@@ -16,6 +16,7 @@ class UnlockScreenViewController: UIViewController {
 
     @IBOutlet private var unlockButton: UIButton! {
         didSet {
+            unlockButton.titleLabel?.adjustsFontForContentSizeCategory = true
             unlockButton.setTitle(viewModel.primaryButtonViewModel.title.value, for: .normal)
             unlockButton.titleLabel?.font = UIFont(style: .title3, weight: .bold)
             unlockButton.accessibilityIdentifier = "unlock-screen-button"
