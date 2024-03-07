@@ -3,10 +3,11 @@ import Foundation
 import SecureStore
 
 class MockUserStore: UserStorable {
-    var secureStoreService: SecureStorable?
+    let secureStoreService: SecureStorable
     let defaultsStore: DefaultsStorable
 
-    init(secureStoreService: SecureStorable, defaultsStore: DefaultsStorable) {
+    init(secureStoreService: SecureStorable,
+         defaultsStore: DefaultsStorable) {
         self.secureStoreService = secureStoreService
         self.defaultsStore = defaultsStore
     }

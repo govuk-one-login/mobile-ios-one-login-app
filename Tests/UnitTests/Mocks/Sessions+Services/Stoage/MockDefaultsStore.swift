@@ -1,4 +1,5 @@
 import Foundation
+@testable import OneLogin
 
 class MockDefaultsStore: DefaultsStorable {
     var savedData: [ String: Any ] = [:]

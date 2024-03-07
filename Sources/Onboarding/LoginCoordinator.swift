@@ -47,13 +47,13 @@ final class LoginCoordinator: NSObject,
                 viewControllerFactory
                     .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                         if networkMonitor.isConnected {
-                            launchAuthenticationCoordinator(session: AppAuthSession(window: window))
+                            launchAuthenticationCoordinator()
                         } else {
                             let networkErrorScreen = errorPresenter
                                 .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                                     root.popViewController(animated: true)
                                     if networkMonitor.isConnected {
-                                        launchAuthenticationCoordinator(session: AppAuthSession(window: window))
+                                        launchAuthenticationCoordinator()
                                     }
                                 }
                             root.pushViewController(networkErrorScreen, animated: true)
@@ -79,9 +79,9 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func launchAuthenticationCoordinator(session: LoginSession) {
+    func launchAuthenticationCoordinator() {
         openChildInline(AuthenticationCoordinator(root: root,
-                                                  session: session,
+                                                  session: AppAuthSession(window: window),
                                                   analyticsService: analyticsCentre.analyticsService,
                                                   tokenHolder: tokenHolder))
     }
