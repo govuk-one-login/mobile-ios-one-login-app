@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import LocalAuthentication
 import Logging
 import SecureStore
 import UIKit
@@ -86,9 +87,10 @@ final class LoginCoordinator: NSObject,
                                                   tokenHolder: tokenHolder))
     }
     
-    func launchEnrolmentCoordinator() {
+    func launchEnrolmentCoordinator(localAuth: LAContexting) {
         guard tokenHolder.tokenResponse != nil else { return }
         openChildInline(EnrolmentCoordinator(root: root,
+                                             localAuth: localAuth,
                                              userStore: userStore,
                                              analyticsService: analyticsCentre.analyticsService,
                                              tokenHolder: tokenHolder))
@@ -101,7 +103,7 @@ final class LoginCoordinator: NSObject,
         case let child as AuthenticationCoordinator where child.loginError != nil:
             return
         case let child as AuthenticationCoordinator where child.loginError == nil:
-            launchEnrolmentCoordinator()
+            launchEnrolmentCoordinator(localAuth: LAContext())
         case _ as EnrolmentCoordinator:
             finish()
         default:

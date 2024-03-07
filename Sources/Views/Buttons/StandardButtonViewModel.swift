@@ -11,7 +11,8 @@ struct StandardButtonViewModel: ButtonViewModel {
          icon: ButtonIconViewModel? = nil,
          shouldLoadOnTap: Bool = false,
          action: @escaping () -> Void) {
-        self.title = GDSLocalisedString(stringKey: titleKey, variableKeys: titleStringVariableKeys)
+        self.title = GDSLocalisedString(stringKey: titleKey,
+                                        variableKeys: titleStringVariableKeys)
         self.icon = icon
         self.shouldLoadOnTap = shouldLoadOnTap
         self.action = action

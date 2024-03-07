@@ -15,7 +15,7 @@ final class EnrolmentCoordinator: NSObject,
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(root: UINavigationController,
-         localAuth: LAContexting = LAContext(),
+         localAuth: LAContexting,
          userStore: UserStorable,
          analyticsService: AnalyticsService,
          tokenHolder: TokenHolder) {
