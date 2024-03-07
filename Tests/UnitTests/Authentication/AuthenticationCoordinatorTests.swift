@@ -64,6 +64,14 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     }
 }
 
+/*
+ TESTS
+ - AuthenticationCoordinator start populates TokenHolder.TokenResponse with Tokens
+ - AuthenticationCoordinator start throws error which is stored in loginError and error screen is displayed
+ - AuthenticationCoordinator handleUniversalLink throws error which is stored in loginError and error screen is displayed
+ */
+
+
 extension AuthenticationCoordinatorTests {
     func test_loginSession_configProperties() throws {
         // WHEN the AuthenticationCoordinator is started

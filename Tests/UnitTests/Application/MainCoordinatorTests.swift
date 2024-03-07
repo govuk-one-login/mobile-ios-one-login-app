@@ -55,6 +55,12 @@ final class MainCoordinatorTests: XCTestCase {
     }
 }
 
+/*
+ TESTS
+ - MainCoordinator starts and launches LoginCoordinator
+ - MainCoordinator is handed back from LoginCoordinator and launches TokenCoordinator
+ */
+
 extension MainCoordinatorTests {
     func test_start_displaysIntroViewController() throws {
         // WHEN the MainCoordinator is started

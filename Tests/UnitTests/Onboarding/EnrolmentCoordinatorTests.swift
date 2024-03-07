@@ -71,6 +71,13 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     }
 }
 
+/*
+ TESTS
+ - EnrolmentCoordinator start shows enrolment screens (faceid, touchid or passcode) and returninguser user defaults value set
+ - EnrolmentCoordinator access token is stored in secure store and access token exp user defaults set
+ - EnrolmentCoordinator if enrol local auth successful access token is stored in secure store and access token exp user defaults set
+ */
+
 fileprivate extension Date {
     static var accessTokenExp: Self {
         .init(timeIntervalSinceReferenceDate: 1729427067)
