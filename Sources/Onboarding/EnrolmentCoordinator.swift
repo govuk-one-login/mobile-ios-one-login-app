@@ -1,7 +1,6 @@
 import Coordination
 import LocalAuthentication
 import Logging
-import SecureStore
 import UIKit
 
 final class EnrolmentCoordinator: NSObject,
@@ -10,7 +9,7 @@ final class EnrolmentCoordinator: NSObject,
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let localAuth: LAContexting
-    var userStore: UserStorable
+    let userStore: UserStorable
     let analyticsService: AnalyticsService
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
