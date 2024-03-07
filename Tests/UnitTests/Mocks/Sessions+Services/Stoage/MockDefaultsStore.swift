@@ -2,7 +2,7 @@ import Foundation
 @testable import OneLogin
 
 class MockDefaultsStore: DefaultsStorable {
-    var savedData: [ String: Any ] = [:]
+    var savedData = [String: Any]()
     var returningAuthenticatedUser: Bool?
     
     func set(_ value: Any?, forKey defaultName: String) {

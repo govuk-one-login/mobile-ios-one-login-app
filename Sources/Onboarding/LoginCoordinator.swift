@@ -90,9 +90,9 @@ final class LoginCoordinator: NSObject,
     func launchEnrolmentCoordinator(localAuth: LAContexting) {
         guard tokenHolder.tokenResponse != nil else { return }
         openChildInline(EnrolmentCoordinator(root: root,
-                                             localAuth: localAuth,
-                                             userStore: userStore,
                                              analyticsService: analyticsCentre.analyticsService,
+                                             userStore: userStore,
+                                             localAuth: localAuth,
                                              tokenHolder: tokenHolder))
     }
     

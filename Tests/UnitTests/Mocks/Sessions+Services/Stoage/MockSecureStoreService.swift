@@ -2,12 +2,17 @@
 import SecureStore
 
 final class MockSecureStoreService: SecureStorable {
-    var savedItems: [ String: String ] = [:]
+    var savedItems = [String: String]()
     
+    var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
     
     func saveItem(item: String, itemName: String) throws {
-        savedItems[itemName] = item
+        if let errorFromSaveItem {
+            throw errorFromSaveItem
+        } else {
+            savedItems[itemName] = item
+        }
     }
     
     func readItem(itemName: String) throws -> String? {

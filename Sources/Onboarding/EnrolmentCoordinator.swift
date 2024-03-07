@@ -8,21 +8,21 @@ final class EnrolmentCoordinator: NSObject,
                                   NavigationCoordinator {
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
-    let localAuth: LAContexting
-    let userStore: UserStorable
     let analyticsService: AnalyticsService
+    let userStore: UserStorable
+    let localAuth: LAContexting
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(root: UINavigationController,
-         localAuth: LAContexting,
-         userStore: UserStorable,
          analyticsService: AnalyticsService,
+         userStore: UserStorable,
+         localAuth: LAContexting,
          tokenHolder: TokenHolder) {
         self.root = root
-        self.localAuth = localAuth
-        self.userStore = userStore
         self.analyticsService = analyticsService
+        self.userStore = userStore
+        self.localAuth = localAuth
         self.tokenHolder = tokenHolder
     }
     
