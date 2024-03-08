@@ -198,7 +198,7 @@ extension LoginCoordinatorTests {
         // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
         sut.didRegainFocus(fromChild: authCoordinator)
         // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
-        XCTAssertEqual(sut.childCoordinators.count, 1)
+        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 2)
     }
     
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
