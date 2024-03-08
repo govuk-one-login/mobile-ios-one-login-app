@@ -364,10 +364,9 @@
 			children = (
 				C8178E3C2AEB2C8600059875 /* Analytics */,
 				3BBF28EC2A9F7D3200491BB1 /* Application */,
-				C81ECB1C2B7170BE00AFC3A6 /* Authentication */,
 				41FF35A82B21F05600419DB3 /* Errors */,
 				C8098B942AEFF18C001517A0 /* Extensions */,
-				C85E21012ACEE32B00AF8B4E /* Onboarding */,
+				C85E21012ACEE32B00AF8B4E /* Login */,
 				C85C874B2AD40479001274AC /* Resources */,
 				C8520C282AE2C1AD006790C1 /* Utilities */,
 				4195E6C62B0CC6C50065E2BB /* Screens */,
@@ -386,6 +385,8 @@
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
+				4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */,
+				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -513,23 +514,6 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		C81ECB1C2B7170BE00AFC3A6 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
-				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
-		C81ECB1D2B71764F00AFC3A6 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
 		C81ECB1E2B71767500AFC3A6 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,15 +544,16 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		C8520C2C2AE2C546006790C1 /* Onboarding */ = {
+		C8520C2C2AE2C546006790C1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */,
 				C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */,
+				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
 				C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */,
 				C85DF8472AEBFE6D0064F68E /* ViewModels */,
 			);
-			path = Onboarding;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		C85966462AEC31AE006DF61D /* Utilities */ = {
@@ -631,16 +616,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		C85E21012ACEE32B00AF8B4E /* Onboarding */ = {
+		C85E21012ACEE32B00AF8B4E /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				C8B825C22B98C34A00336146 /* LoginCoordinator.swift */,
 				C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */,
+				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
 				C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */,
-				4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */,
 				C85E210B2ACEE92900AF8B4E /* ViewModels */,
 			);
-			path = Onboarding;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		C85E210B2ACEE92900AF8B4E /* ViewModels */ = {
@@ -851,12 +836,11 @@
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				C8B05F432B7AA761009D4283 /* Resources */,
 				C81ECB1E2B71767500AFC3A6 /* Application */,
-				C81ECB1D2B71764F00AFC3A6 /* Authentication */,
 				41A0BD0E2B275155009AE51F /* Errors */,
 				C85DF8502AEC1C6E0064F68E /* Extensions */,
-				C8520C2C2AE2C546006790C1 /* Onboarding */,
+				C8520C2C2AE2C546006790C1 /* Login */,
+				C8B05F432B7AA761009D4283 /* Resources */,
 				C85966462AEC31AE006DF61D /* Utilities */,
 				21FA1C4A2AE183830052136E /* Mocks */,
 				C8520C232AE2BF8E006790C1 /* TestExtensions */,
