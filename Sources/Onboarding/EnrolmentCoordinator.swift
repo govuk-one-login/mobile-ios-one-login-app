@@ -86,7 +86,7 @@ final class EnrolmentCoordinator: NSObject,
         }
     }
     
-    private func enrolLocalAuth(reason: String) async {
+    func enrolLocalAuth(reason: String) async {
         do {
             if try await localAuth
                 .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {

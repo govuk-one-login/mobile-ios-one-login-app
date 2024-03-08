@@ -12,7 +12,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
     var tokenHolder: TokenHolder!
     var sut: LoginCoordinator!
     
@@ -28,14 +27,13 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                      defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = LoginCoordinator(window: window,
                                root: navigationController,
                                analyticsCentre: mockAnalyticsCentre,
+                               networkMonitor: mockNetworkMonitor,
                                secureStoreService: mockSecureStore,
                                defaultStore: mockDefaultStore,
                                tokenHolder: tokenHolder)
@@ -50,7 +48,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = nil
         mockSecureStore = nil
         mockDefaultStore = nil
-        mockUserStore = nil
         tokenHolder = nil
         sut = nil
         
@@ -93,6 +90,23 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+    }
+    
+    func test_introViewController_networkError() throws {
+        mockNetworkMonitor.isConnected = false
+        // WHEN the LoginCoordinator is started
+        XCTAssertTrue(sut.root.viewControllers.count == 0)
+        sut.start()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
+        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
+        introButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 2)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        let errorScreen = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
     
     func test_start_getAccessToken() throws {

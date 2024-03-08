@@ -142,4 +142,12 @@ extension EnrolmentCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
         XCTAssertTrue(vc.viewModel is FaceIDEnrollmentViewModel)
     }
+    
+    func test_enrolLocalAuth_succeeds() throws {
+        mockLAContext.returnedFromEvaluatePolicy = true
+        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        Task { await sut.enrolLocalAuth(reason: "") }
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 2)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
+    }
 }
