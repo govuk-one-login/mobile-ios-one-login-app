@@ -5,11 +5,8 @@ import XCTest
 
 @MainActor
 final class EnrolmentCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCentre: AnalyticsCentral!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
@@ -24,12 +21,8 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
-                                              analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
@@ -44,11 +37,8 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     }
 
     override func tearDown() {
-        window = nil
         navigationController = nil
         mockAnalyticsService = nil
-        mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCentre = nil
         mockSecureStore = nil
         mockDefaultsStore = nil
         mockUserStore = nil
@@ -143,11 +133,40 @@ extension EnrolmentCoordinatorTests {
         XCTAssertTrue(vc.viewModel is FaceIDEnrollmentViewModel)
     }
     
+    func test_start_deviceLocalAuthSet_opticID() throws {
+        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        if #available(iOS 17.0, *) {
+            mockLAContext.biometryType = .opticID
+        }
+        // GIVEN the user has enabled biometrics
+        // WHEN the OnboardingCoordinator has shown the local auth guidance via start()
+        sut.start()
+        // THEN the view controller should be the token screen
+        XCTAssertEqual(navigationController.viewControllers.count, 0)
+    }
+    
     func test_enrolLocalAuth_succeeds() throws {
         mockLAContext.returnedFromEvaluatePolicy = true
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         Task { await sut.enrolLocalAuth(reason: "") }
         waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 2)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
+    }
+    
+    func test_enrolLocalAuth_fails() throws {
+        mockLAContext.returnedFromEvaluatePolicy = false
+        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        Task { await sut.enrolLocalAuth(reason: "") }
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 2)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
+    }
+    
+    func test_enrolLocalAuth_errors() throws {
+        mockLAContext.errorFromEvaluatePolicy = LocalAuthError.generic
+        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        Task { await sut.enrolLocalAuth(reason: "") }
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 2)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
     }
 }

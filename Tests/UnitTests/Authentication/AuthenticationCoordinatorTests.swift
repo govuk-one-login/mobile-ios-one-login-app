@@ -50,7 +50,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
  - AuthenticationCoordinator handleUniversalLink throws error which is stored in loginError and error screen is displayed
  */
 
-
 extension AuthenticationCoordinatorTests {
     func test_start_loginSession_successful() throws {
         // WHEN the AuthenticationCoordinator is started
