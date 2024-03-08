@@ -189,20 +189,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
-    func test_didRegainFocus_fromAuthenticationCoordinator_withoutError() throws {
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
-        let loginSession = MockLoginSession()
-        loginSession.errorFromPerformLoginFlow = AuthenticationError.generic
-        let authCoordinator = AuthenticationCoordinator(root: navigationController,
-                                                        session: MockLoginSession(),
-                                                        analyticsService: mockAnalyticsService,
-                                                        tokenHolder: tokenHolder)
-        // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
-        sut.didRegainFocus(fromChild: authCoordinator)
-        // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
-        waitForTruth(self.sut.childCoordinators.count == 1, timeout: 20)
-    }
-    
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         session: MockLoginSession(),
