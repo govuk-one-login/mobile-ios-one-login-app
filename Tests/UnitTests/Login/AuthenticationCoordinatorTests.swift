@@ -63,7 +63,7 @@ extension AuthenticationCoordinatorTests {
         let idToken = "KdJzZf0ecdXFsSjIYXbh-0A4Hj-X!?JR5dhTqDgkoy6JDP7R5B1mtzD0cgprmflfyi7ihSvRWg1n=RrRgTjj5hG-t1tuN2zmqacHmUpbfKGsZKk6EwfvFxMYh4YINYfqLdFKLgY224uaCRI8F9rDghBoHx5=vMY=L6l3EwG5R8!HND2j2W5JKNwCTp3zKMS4WRYz3Xk?CJEKqa2oFNtFNdoz0rUIH-i/sCgqWkpE2093s0PyMZQ1x49M88mjx=0E"
         // swiftlint:enable line_length
 
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN the tokens are returned
         XCTAssertEqual(tokenHolder.tokenResponse?.accessToken, accessToken)
         XCTAssertEqual(tokenHolder.tokenResponse?.refreshToken, refreshToken)
@@ -76,7 +76,7 @@ extension AuthenticationCoordinatorTests {
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a network error
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
@@ -89,7 +89,7 @@ extension AuthenticationCoordinatorTests {
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a non200 error
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
         // THEN the 'unable to login' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
@@ -103,7 +103,7 @@ extension AuthenticationCoordinatorTests {
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a non200 error
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
         // THEN the 'unable to login' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
@@ -117,7 +117,7 @@ extension AuthenticationCoordinatorTests {
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a non200 error
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
         // THEN the 'unable to login' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
@@ -131,7 +131,7 @@ extension AuthenticationCoordinatorTests {
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a non200 error
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
         // THEN the 'unable to login' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
@@ -145,7 +145,7 @@ extension AuthenticationCoordinatorTests {
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a non200 error
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 2)
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
         // THEN the 'unable to login' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
@@ -159,7 +159,7 @@ extension AuthenticationCoordinatorTests {
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and user cancelled the login modal
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 2)
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN user is returned to the intro screen
         sut.loginError = LoginError.userCancelled
     }

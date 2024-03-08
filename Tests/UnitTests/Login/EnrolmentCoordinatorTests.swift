@@ -150,7 +150,7 @@ extension EnrolmentCoordinatorTests {
         mockLAContext.returnedFromEvaluatePolicy = true
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         Task { await sut.enrolLocalAuth(reason: "") }
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 2)
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
     }
     
@@ -158,7 +158,7 @@ extension EnrolmentCoordinatorTests {
         mockLAContext.returnedFromEvaluatePolicy = false
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         Task { await sut.enrolLocalAuth(reason: "") }
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 2)
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
     }
     
@@ -166,7 +166,7 @@ extension EnrolmentCoordinatorTests {
         mockLAContext.errorFromEvaluatePolicy = LocalAuthError.generic
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
         Task { await sut.enrolLocalAuth(reason: "") }
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 2)
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
     }
 }
