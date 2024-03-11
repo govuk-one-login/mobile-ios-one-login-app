@@ -11,7 +11,8 @@ final class MainCoordinator: NSObject,
     let analyticsCentre: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let tokenHolder = TokenHolder()
-
+    private weak var loginCoordinator: LoginCoordinator?
+    
     init(window: UIWindow,
          root: UINavigationController,
          analyticsCentre: AnalyticsCentral) {
@@ -21,14 +22,20 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .anyBiometricsOrPasscode))
-        openChildInline(LoginCoordinator(window: window,
-                                         root: root,
-                                         analyticsCentre: analyticsCentre,
-                                         secureStoreService: secureStoreService,
-                                         defaultStore: UserDefaults.standard,
-                                         tokenHolder: tokenHolder))
+        let secureStoreService = SecureStoreService(configuration: .init(id: "",
+                                                                         accessControlLevel: .currentBiometricsOnly))
+        let loginCoordinator = LoginCoordinator(window: window,
+                                                root: root,
+                                                analyticsCentre: analyticsCentre,
+                                                secureStoreService: secureStoreService,
+                                                defaultStore: UserDefaults.standard,
+                                                tokenHolder: tokenHolder)
+        openChildInline(loginCoordinator)
+        self.loginCoordinator = loginCoordinator
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        loginCoordinator?.handleUniversalLink(url)
     }
     
     func launchTokenCoordinator() {

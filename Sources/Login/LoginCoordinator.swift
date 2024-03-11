@@ -20,6 +20,7 @@ final class LoginCoordinator: NSObject,
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     let tokenHolder: TokenHolder
+    private weak var authCoordinator: AuthenticationCoordinator?
     
     init(window: UIWindow,
          root: UINavigationController,
@@ -81,10 +82,16 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchAuthenticationCoordinator() {
-        openChildInline(AuthenticationCoordinator(root: root,
-                                                  session: AppAuthSession(window: window),
-                                                  analyticsService: analyticsCentre.analyticsService,
-                                                  tokenHolder: tokenHolder))
+        let authCoordinator = AuthenticationCoordinator(root: root,
+                                                        session: AppAuthSession(window: window),
+                                                        analyticsService: analyticsCentre.analyticsService,
+                                                        tokenHolder: tokenHolder)
+        openChildInline(authCoordinator)
+        self.authCoordinator = authCoordinator
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        authCoordinator?.handleUniversalLink(url)
     }
     
     func launchEnrolmentCoordinator(localAuth: LAContexting) {
