@@ -24,14 +24,14 @@ final class MainCoordinator: NSObject,
     func start() {
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOnly))
-        let loginCoordinator = LoginCoordinator(window: window,
+        let lc = LoginCoordinator(window: window,
                                                 root: root,
                                                 analyticsCentre: analyticsCentre,
                                                 secureStoreService: secureStoreService,
                                                 defaultStore: UserDefaults.standard,
                                                 tokenHolder: tokenHolder)
-        openChildInline(loginCoordinator)
-        self.loginCoordinator = loginCoordinator
+        openChildInline(lc)
+        self.loginCoordinator = lc
     }
     
     func handleUniversalLink(_ url: URL) {

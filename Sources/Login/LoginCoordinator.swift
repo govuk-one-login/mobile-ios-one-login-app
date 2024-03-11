@@ -82,12 +82,12 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchAuthenticationCoordinator() {
-        let authCoordinator = AuthenticationCoordinator(root: root,
-                                                        session: AppAuthSession(window: window),
-                                                        analyticsService: analyticsCentre.analyticsService,
-                                                        tokenHolder: tokenHolder)
-        openChildInline(authCoordinator)
-        self.authCoordinator = authCoordinator
+        let ac = AuthenticationCoordinator(root: root,
+                                           session: AppAuthSession(window: window),
+                                           analyticsService: analyticsCentre.analyticsService,
+                                           tokenHolder: tokenHolder)
+        openChildInline(ac)
+        self.authCoordinator = ac
     }
     
     func handleUniversalLink(_ url: URL) {
