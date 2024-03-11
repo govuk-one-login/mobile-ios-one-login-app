@@ -63,19 +63,10 @@ final class LoginCoordinatorTests: XCTestCase {
     }
 }
 
-/*
- TESTS
- - LoginCoordinator starts and shows either UnlockScreen or IntroScreen, also testing network error scenario
- - LoginCoordinator triggers launch action for first time VS returning user
- - LoginCoordinator starts launches OnboardingCoordinator
- - LoginCoordinator starts launches AuthenticationCoordinator
- - LoginCoordinator starts launches EnrolmentCoordinator
- */
-
 extension LoginCoordinatorTests {
     func test_start_displaysUnlockScreenViewController() throws {
+        // GIVEN the LoginCoordinator is started for a returning user
         mockDefaultStore.returningAuthenticatedUser = true
-        // WHEN the LoginCoordinator is started for a returning user
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the UnlockScreenViewController
@@ -84,7 +75,7 @@ extension LoginCoordinatorTests {
     }
     
     func test_start_displaysIntroViewController() throws {
-        // WHEN the LoginCoordinator is started
+        // GIVEN the LoginCoordinator is started for a first time user
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the IntroViewController
@@ -93,16 +84,19 @@ extension LoginCoordinatorTests {
     }
     
     func test_introViewController_networkError() throws {
+        // GIVEN the newtork is not connected
         mockNetworkMonitor.isConnected = false
-        // WHEN the LoginCoordinator is started
+        // WHEN the LoginCoordinator is started for a first time user
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // WHEN the button to login is tapped
         let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
         let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
+        // THEN the displayed screen should be the Network Connection error screen
         waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 20)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let errorScreen = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
@@ -113,47 +107,53 @@ extension LoginCoordinatorTests {
         mockDefaultStore.returningAuthenticatedUser = true
         // WHEN the LoginCoordinator is started
         sut.start()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the token holder's access token property should get the access token from secure store
         XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
     }
     
     func test_start_launchOnboardingCoordinator() throws {
         // WHEN the LoginCoordinator is started
         sut.start()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the OnboardingCoordinator should be launched
         XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
     func test_getAccessToken_succeeds() throws {
+        // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
+        // THEN the token holder's access token property should get the access token from secure store
         XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
     }
     
     func test_getAccessToken_errors() throws {
+        // GIVEN the secure store returns an error from reading an item
         mockSecureStore.errorFromReadItem = SecureStoreError.generic
+        // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
+        // THEN the token holder's access token property should not get the access token from secure store
         XCTAssertEqual(tokenHolder.accessToken, nil)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
-        // WHEN the LoginCoordinator is started
+        // WHEN the LoginCoordinator's launchOnboardingCoordinator method is called
         sut.launchOnboardingCoordinator()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the OnboardingCoordinator should be launched
         XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
     func test_launchOnboardingCoordinator_fails() throws {
+        // GIVEN the user has accepted analytics permissions
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the LoginCoordinator is started
+        // WHEN the LoginCoordinator's launchOnboardingCoordinator method is called
         sut.launchOnboardingCoordinator()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     
     func test_launchAuthenticationCoordinator() throws {
-        // WHEN the LoginCoordinator is started
+        // WHEN the LoginCoordinator's launchAuthenticationCoordinator method is called
         sut.launchAuthenticationCoordinator()
         // THEN the LoginCoordinator should have an AuthenticationCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
@@ -161,21 +161,24 @@ extension LoginCoordinatorTests {
     }
     
     func test_launchEnrolmentCoordinator_succeeds() throws {
+        // GIVEN the token holder's token response has tokens
         sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        // GIVEN the local authentication context returned true for returnedFromCanEvaluatePolicyForBiometrics
         let mockLAContext = MockLAContext()
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // WHEN the LoginCoordinator is started
+        // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
-        // THEN the LoginCoordinator should have an AuthenticationCoordinator as it's only child coordinator
+        // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
     }
     
     func test_launchEnrolmentCoordinator_fails() throws {
+        // GIVEN the local authentication context returned false for returnedFromCanEvaluatePolicyForBiometrics
         let mockLAContext = MockLAContext()
         // WHEN the LoginCoordinator is started
         sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
-        // THEN the LoginCoordinator should have an AuthenticationCoordinator as it's only child coordinator
+        // THEN the LoginCoordinator should not have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     

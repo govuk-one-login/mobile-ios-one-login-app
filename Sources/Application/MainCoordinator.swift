@@ -25,11 +25,11 @@ final class MainCoordinator: NSObject,
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOnly))
         let lc = LoginCoordinator(window: window,
-                                                root: root,
-                                                analyticsCentre: analyticsCentre,
-                                                secureStoreService: secureStoreService,
-                                                defaultStore: UserDefaults.standard,
-                                                tokenHolder: tokenHolder)
+                                  root: root,
+                                  analyticsCentre: analyticsCentre,
+                                  secureStoreService: secureStoreService,
+                                  defaultStore: UserDefaults.standard,
+                                  tokenHolder: tokenHolder)
         openChildInline(lc)
         self.loginCoordinator = lc
     }

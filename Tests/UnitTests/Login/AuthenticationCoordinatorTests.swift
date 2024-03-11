@@ -43,13 +43,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     }
 }
 
-/*
- TESTS
- - AuthenticationCoordinator start populates TokenHolder.TokenResponse with Tokens
- - AuthenticationCoordinator start throws error which is stored in loginError and error screen is displayed
- - AuthenticationCoordinator handleUniversalLink throws error which is stored in loginError and error screen is displayed
- */
-
 extension AuthenticationCoordinatorTests {
     func test_start_loginSession_successful() throws {
         // WHEN the AuthenticationCoordinator is started
@@ -77,9 +70,11 @@ extension AuthenticationCoordinatorTests {
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is a network error
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
+        // THEN the 'network' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+        // THEN the loginError should be a netwok error
         sut.loginError = LoginError.network
     }
 
@@ -94,6 +89,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be a non200 error
         sut.loginError = LoginError.non200
     }
 
@@ -108,6 +104,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be an invalidRequest error
         sut.loginError = LoginError.invalidRequest
     }
 
@@ -122,6 +119,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be a clientError error
         sut.loginError = LoginError.clientError
     }
 
@@ -136,6 +134,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+        // THEN the loginError should be a generic error
         sut.loginError = LoginError.generic(description: "")
     }
 
@@ -150,6 +149,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+        // THEN the loginError should be an unknown generic error
         sut.loginError = AuthenticationError.generic
     }
 
@@ -161,6 +161,7 @@ extension AuthenticationCoordinatorTests {
         // and user cancelled the login modal
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN user is returned to the intro screen
+        // THEN the loginError should be a userCancelled error
         sut.loginError = LoginError.userCancelled
     }
 
@@ -173,6 +174,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the 'generic' error screen is shown
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+        // THEN the loginError should be an unknown generic error
         sut.loginError = AuthenticationError.generic
     }
 }
