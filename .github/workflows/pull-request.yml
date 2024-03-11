@@ -34,9 +34,7 @@ jobs:
           LANG: "en_US.UTF-8"
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          rm '/usr/local/bin/2to3'
-          rm '/usr/local/bin/2to3-3.12'
-          brew install sonar-scanner
+          brew install sonar-scanner --force
 
           bundle install
 
