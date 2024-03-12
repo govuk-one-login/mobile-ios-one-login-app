@@ -67,6 +67,7 @@ extension LoginCoordinatorTests {
     func test_start_displaysUnlockScreenViewController() throws {
         // GIVEN the LoginCoordinator is started for a returning user
         mockDefaultStore.returningAuthenticatedUser = true
+        mockDefaultStore.returnExpDate = Date() + 60
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the UnlockScreenViewController
@@ -81,6 +82,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
     }
     
     func test_introViewController_networkError() throws {

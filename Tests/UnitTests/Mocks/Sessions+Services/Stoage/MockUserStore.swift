@@ -3,12 +3,18 @@ import Foundation
 import SecureStore
 
 class MockUserStore: UserStorable {
-    let secureStoreService: SecureStorable
+    var secureStoreService: SecureStorable
     let defaultsStore: DefaultsStorable
+    
+    var didCallRefreshSecureStore = false
 
     init(secureStoreService: SecureStorable,
          defaultsStore: DefaultsStorable) {
         self.secureStoreService = secureStoreService
         self.defaultsStore = defaultsStore
+    }
+    
+    func refreshSecureStoreService() {
+        self.didCallRefreshSecureStore = true
     }
 }
