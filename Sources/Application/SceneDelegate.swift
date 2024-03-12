@@ -17,10 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        guard let incomingURL = userActivity.webpageURL,
-              let authCoordinator = coordinator?.childCoordinators
-            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator else { return }
-        authCoordinator.handleUniversalLink(incomingURL)
+        guard let incomingURL = userActivity.webpageURL else { return }
+        coordinator?.handleUniversalLink(incomingURL)
     }
     
     func initialiseMainCoordinator(window: UIWindow) {
@@ -29,10 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
         coordinator = MainCoordinator(window: window,
                                       root: navigationController,
-                                      analyticsCentre: analyticsCentre,
-                                      secureStore: SecureStoreService(configuration: .init(id: "oneLoginTokens",
-                                                                                                accessControlLevel: .anyBiometricsOrPasscode)),
-                                      defaultStore: UserDefaults.standard)
+                                      analyticsCentre: analyticsCentre)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         coordinator?.start()

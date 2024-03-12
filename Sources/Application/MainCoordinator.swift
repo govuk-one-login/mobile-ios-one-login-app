@@ -1,7 +1,4 @@
-import Authentication
 import Coordination
-import GAnalytics
-import Logging
 import SecureStore
 import UIKit
 
@@ -12,96 +9,33 @@ final class MainCoordinator: NSObject,
     let window: UIWindow
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
-    let networkMonitor: NetworkMonitoring
-    let userStore: UserStorable
     var childCoordinators = [ChildCoordinator]()
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
-    private let errorPresenter = ErrorPresenter.self
     let tokenHolder = TokenHolder()
-
+    private weak var loginCoordinator: LoginCoordinator?
+    
     init(window: UIWindow,
          root: UINavigationController,
-         analyticsCentre: AnalyticsCentral,
-         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
-         secureStore: SecureStorable,
-         defaultStore: DefaultsStorable) {
+         analyticsCentre: AnalyticsCentral) {
         self.window = window
         self.root = root
         self.analyticsCentre = analyticsCentre
-        self.networkMonitor = networkMonitor
-        self.userStore = UserStorage(secureStoreService: secureStore,
-                                     defaultsStore: defaultStore)
     }
     
     func start() {
-        if userStore.returningAuthenticatedUser {
-            showUnlockScreen()
-        } else {
-            showIntroScreen()
-        }
+        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: .currentBiometricsOnly))
+        let lc = LoginCoordinator(window: window,
+                                  root: root,
+                                  analyticsCentre: analyticsCentre,
+                                  secureStoreService: secureStoreService,
+                                  defaultStore: UserDefaults.standard,
+                                  tokenHolder: tokenHolder)
+        openChildInline(lc)
+        self.loginCoordinator = lc
     }
     
-    func showUnlockScreen() {
-        let unlockScreenViewController = viewControllerFactory
-            .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                do {
-                    _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
-                } catch {
-                    print("error 2: \(error)")
-                }
-            }
-        root.setViewControllers([unlockScreenViewController], animated: true)
-        do {
-            _ = try userStore.secureStoreService.readItem(itemName: "accessToken")
-        } catch {
-            print("error 1: \(error)")
-        }
-    }
-    
-    func showIntroScreen() {
-        let introViewController = viewControllerFactory
-            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                if networkMonitor.isConnected {
-                    displayAuthCoordinator()
-                } else {
-                    let networkErrorScreen = errorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                            root.popViewController(animated: true)
-                            if networkMonitor.isConnected {
-                                displayAuthCoordinator()
-                            }
-                        }
-                    root.pushViewController(networkErrorScreen, animated: true)
-                }
-            }
-        root.setViewControllers([introViewController], animated: false)
-        displayAnalyticsPreferencePage()
-    }
-    
-    func displayAnalyticsPreferencePage() {
-        if analyticsCentre.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCentre.analyticsPreferenceStore))
-        }
-    }
-    
-    func displayAuthCoordinator() {
-        if let authCoordinator = childCoordinators
-            .first(where: { $0 is AuthenticationCoordinator }) as? AuthenticationCoordinator {
-            authCoordinator.start()
-        } else {
-            openChildInline(AuthenticationCoordinator(root: root,
-                                                      session: AppAuthSession(window: window),
-                                                      analyticsService: analyticsCentre.analyticsService,
-                                                      tokenHolder: tokenHolder))
-        }
-    }
-    
-    func launchOnboardingCoordinator() {
-        guard tokenHolder.tokenResponse != nil else { return }
-        openChildInline(EnrolmentCoordinator(root: root,
-                                             userStore: userStore,
-                                             analyticsService: analyticsCentre.analyticsService,
-                                             tokenHolder: tokenHolder))
+    func handleUniversalLink(_ url: URL) {
+        loginCoordinator?.handleUniversalLink(url)
     }
     
     func launchTokenCoordinator() {
@@ -112,9 +46,7 @@ final class MainCoordinator: NSObject,
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case _ as AuthenticationCoordinator:
-            launchOnboardingCoordinator()
-        case _ as EnrolmentCoordinator:
+        case _ as LoginCoordinator:
             launchTokenCoordinator()
         default:
             break

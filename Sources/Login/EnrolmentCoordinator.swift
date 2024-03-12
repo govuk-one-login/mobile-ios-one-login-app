@@ -8,21 +8,21 @@ final class EnrolmentCoordinator: NSObject,
                                   NavigationCoordinator {
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
-    let localAuth: LAContexting
-    let userStore: UserStorable
     let analyticsService: AnalyticsService
+    let userStore: UserStorable
+    let localAuth: LAContexting
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(root: UINavigationController,
-         localAuth: LAContexting = LAContext(),
-         userStore: UserStorable,
          analyticsService: AnalyticsService,
+         userStore: UserStorable,
+         localAuth: LAContexting,
          tokenHolder: TokenHolder) {
         self.root = root
-        self.localAuth = localAuth
-        self.userStore = userStore
         self.analyticsService = analyticsService
+        self.userStore = userStore
+        self.localAuth = localAuth
         self.tokenHolder = tokenHolder
     }
     
@@ -86,7 +86,7 @@ final class EnrolmentCoordinator: NSObject,
         }
     }
     
-    private func enrolLocalAuth(reason: String) async {
+    func enrolLocalAuth(reason: String) async {
         do {
             if try await localAuth
                 .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {

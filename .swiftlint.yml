@@ -4,12 +4,12 @@ excluded:
 - Frameworks
 - Dependencies
 - SnapshotHelper.swift
-- MockReadID
 
 disabled_rules:
 - cyclomatic_complexity
 - multiple_closures_with_trailing_closure
 - todo
+- void_function_in_ternary
 
 analyzer_rules:
 - unused_import

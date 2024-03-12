@@ -12,6 +12,7 @@ final class AuthenticationCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let errorPresenter = ErrorPresenter.self
     var tokenHolder: TokenHolder
+    var loginError: Error?
     
     init(root: UINavigationController,
          session: LoginSession,
@@ -27,27 +28,37 @@ final class AuthenticationCoordinator: NSObject,
         Task(priority: .userInitiated) {
             do {
                 tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                tokenHolder.accessToken = tokenHolder.tokenResponse?.accessToken
                 finish()
-            } catch LoginError.network {
+            } catch let error as LoginError where error == .network {
                 let networkErrorScreen = errorPresenter
                     .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
                         root.popViewController(animated: true)
+                        finish()
                     }
                 root.pushViewController(networkErrorScreen, animated: true)
-            } catch LoginError.non200, LoginError.invalidRequest, LoginError.clientError {
+                loginError = error
+            } catch let error as LoginError where error == .non200,
+                    let error as LoginError where error == .invalidRequest,
+                    let error as LoginError where error == .clientError {
                 let unableToLoginErrorScreen = errorPresenter
                     .createUnableToLoginError(analyticsService: analyticsService) { [unowned self] in
                         root.popViewController(animated: true)
+                        finish()
                     }
                 root.pushViewController(unableToLoginErrorScreen, animated: true)
-            } catch LoginError.userCancelled {
-                return
+                loginError = error
+            } catch let error as LoginError where error == .userCancelled {
+                loginError = error
+                finish()
             } catch {
                 let genericErrorScreen = errorPresenter
                     .createGenericError(analyticsService: analyticsService) { [unowned self] in
                         root.popViewController(animated: true)
+                        finish()
                     }
                 root.pushViewController(genericErrorScreen, animated: true)
+                loginError = error
             }
         }
     }
@@ -59,8 +70,10 @@ final class AuthenticationCoordinator: NSObject,
             let genericErrorScreen = errorPresenter
                 .createGenericError(analyticsService: analyticsService) { [unowned self] in
                     root.popViewController(animated: true)
+                    finish()
                 }
             root.pushViewController(genericErrorScreen, animated: true)
+            loginError = error
         }
     }
 }
