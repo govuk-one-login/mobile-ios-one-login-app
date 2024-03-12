@@ -16,8 +16,17 @@ extension UserStorable {
         return expClaim.timeIntervalSinceNow.sign == .plus ? true : false
     }
     
+    func storeTokenInfo(token: String, tokenExp: Date) throws {
+        try secureStoreService.saveItem(item: token, itemName: .accessToken)
+        if AppEnvironment.extendExpClaimEnabled {
+            defaultsStore.set(tokenExp + 27 * 60, forKey: .accessTokenExpiry)
+        } else {
+            defaultsStore.set(tokenExp, forKey: .accessTokenExpiry)
+        }
+    }
+    
     func clearTokenInfo() throws {
-        defaultsStore.removeObject(forKey: .accessTokenExpiry)
         try secureStoreService.deleteItem(itemName: .accessToken)
+        defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
 }
