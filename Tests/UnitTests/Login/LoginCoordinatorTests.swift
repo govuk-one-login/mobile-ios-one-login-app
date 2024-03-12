@@ -107,6 +107,7 @@ extension LoginCoordinatorTests {
     
     func test_start_getAccessToken() throws {
         mockDefaultStore.returningAuthenticatedUser = true
+        mockDefaultStore.returnExpDate = Date() + 60
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the token holder's access token property should get the access token from secure store
@@ -122,6 +123,7 @@ extension LoginCoordinatorTests {
     }
     
     func test_getAccessToken_succeeds() throws {
+        mockDefaultStore.returnExpDate = Date() + 60
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should get the access token from secure store

@@ -11,7 +11,7 @@ class MockDefaultsStore: DefaultsStorable {
     }
     
     func value(forKey key: String) -> Any? {
-        if key == .returningUser || key == .accessTokenExpiry {
+        if key == .returningUser {
             if let returningAuthenticatedUser {
                 return returningAuthenticatedUser
             }
