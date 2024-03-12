@@ -24,7 +24,9 @@ final class MockSecureStoreService: SecureStorable {
         }
     }
     
-    func deleteItem(itemName: String) throws { }
+    func deleteItem(itemName: String) throws {
+        savedItems[itemName] = nil
+    }
     
     func delete() throws {
         self.didCallDeleteStore = true

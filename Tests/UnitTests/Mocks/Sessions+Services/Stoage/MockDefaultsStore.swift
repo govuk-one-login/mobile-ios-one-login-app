@@ -23,5 +23,7 @@ class MockDefaultsStore: DefaultsStorable {
         return nil
     }
     
-    func removeObject(forKey defaultName: String) { }
+    func removeObject(forKey defaultName: String) {
+        savedData[defaultName] = nil
+    }
 }

@@ -105,7 +105,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
     
-    func test_start_getAccessToken() throws {
+    func test_start_getAccessToken_succeeds() throws {
         mockDefaultStore.returningAuthenticatedUser = true
         mockDefaultStore.returnExpDate = Date() + 60
         // WHEN the LoginCoordinator is started
@@ -130,7 +130,21 @@ extension LoginCoordinatorTests {
         XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
     }
     
+    func test_getAccessToken_fails() throws {
+        // GIVEN I have a token stored in secure store and a token exp stored in user defaults
+        mockDefaultStore.savedData = [.accessTokenExpiry: "123456789"]
+        mockSecureStore.savedItems = [.accessToken: "123456789"]
+        // GIVEN the token exp stored in user defaults has expired
+        mockDefaultStore.returnExpDate = Date() - 60
+        // WHEN the LoginCoordinator's getAccessToken method is called
+        sut.getAccessToken()
+        // THEN the token stored in secure store and a token exp stored in user defaults should be removed
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockSecureStore.savedItems[.accessToken])
+    }
+    
     func test_getAccessToken_errors() throws {
+        mockDefaultStore.returnExpDate = Date() + 60
         // GIVEN the secure store returns an error from reading an item
         mockSecureStore.errorFromReadItem = SecureStoreError.generic
         // WHEN the LoginCoordinator's getAccessToken method is called
