@@ -19,8 +19,8 @@ final class LoginCoordinator: NSObject,
     let userStore: UserStorable
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    let tokenHolder: TokenHolder
     private weak var authCoordinator: AuthenticationCoordinator?
+    let tokenHolder: TokenHolder
     
     init(window: UIWindow,
          root: UINavigationController,

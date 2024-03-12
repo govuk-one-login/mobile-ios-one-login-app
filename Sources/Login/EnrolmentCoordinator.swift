@@ -82,7 +82,7 @@ final class EnrolmentCoordinator: NSObject,
             try userStore.storeTokenInfo(token: tokenResponse.accessToken,
                                          tokenExp: tokenResponse.expiryDate)
         } catch {
-            print("error")
+            print("Storing Token Info error: \(error)")
         }
     }
     

@@ -10,8 +10,8 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
-    let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
+    let tokenHolder = TokenHolder()
     
     init(window: UIWindow,
          root: UINavigationController,
