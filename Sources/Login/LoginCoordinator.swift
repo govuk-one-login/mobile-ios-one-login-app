@@ -68,10 +68,19 @@ final class LoginCoordinator: NSObject,
     }
     
     func getAccessToken() {
-        do {
-            tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-        } catch {
-            print("Local Authentication error: \(error)")
+        if userStore.validAccessToken {
+            do {
+                tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+            } catch {
+                print("Local Authentication error: \(error)")
+            }
+        } else {
+            do {
+                try userStore.clearTokenInfo()
+                start()
+            } catch {
+                print("Clearing Token Info error: \(error)")
+            }
         }
     }
     

@@ -80,7 +80,11 @@ final class EnrolmentCoordinator: NSObject,
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
         do {
             try userStore.secureStoreService.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
-            userStore.defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
+            if AppEnvironment.extendExpClaimEnabled {
+                userStore.defaultsStore.set(tokenResponse.expiryDate + 27 * 60, forKey: .accessTokenExpiry)
+            } else {
+                userStore.defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
+            }
         } catch {
             print("error")
         }
