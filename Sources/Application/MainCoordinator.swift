@@ -23,7 +23,7 @@ final class MainCoordinator: NSObject,
     
     func start() {
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .currentBiometricsOnly))
+                                                                         accessControlLevel: .currentBiometricsOrPasscode))
         let lc = LoginCoordinator(window: window,
                                   root: root,
                                   analyticsCentre: analyticsCentre,

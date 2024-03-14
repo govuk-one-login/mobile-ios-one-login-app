@@ -41,12 +41,13 @@ final class LoginCoordinator: NSObject,
     func start() {
         var rootViewController: UIViewController {
             if userStore.returningAuthenticatedUser {
-                viewControllerFactory
+                return viewControllerFactory
                     .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                         getAccessToken()
                     }
             } else {
-                viewControllerFactory
+                userStore.refreshSecureStoreService()
+                return viewControllerFactory
                     .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
                         if networkMonitor.isConnected {
                             launchAuthenticationCoordinator()
