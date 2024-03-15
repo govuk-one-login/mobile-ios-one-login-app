@@ -159,6 +159,8 @@ extension EnrolmentCoordinatorTests {
         // THEN the journey should be saved in user defaults
         waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
+        XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
+        XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
     }
     
     func test_enrolLocalAuth_fails() throws {

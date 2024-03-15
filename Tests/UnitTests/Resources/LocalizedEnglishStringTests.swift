@@ -7,6 +7,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getEnglishString(),
                        "Close")
+        XCTAssertEqual("app_cancelButton".getEnglishString(),
+                       "Cancel")
         XCTAssertEqual("app_tryAgainButton".getEnglishString(),
                        "Try again")
         XCTAssertEqual("app_continueButton".getEnglishString(),
@@ -15,8 +17,17 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Agree")
         XCTAssertEqual("app_disagreeButton".getEnglishString(),
                        "Disagree")
-        XCTAssertEqual("app_enablePasscodeButton".getEnglishString(),
+        XCTAssertEqual("app_usePasscodeButton".getEnglishString(),
                        "Use passcode")
+        XCTAssertEqual("app_enterPasscodeButton".getEnglishString(),
+                       "Enter passcode")
+    }
+    
+    func test_localAuthPrompt_keys() throws {
+        XCTAssertEqual("app_faceId_subtitle".getEnglishString(),
+                       "Enter iPhone passcode")
+        XCTAssertEqual("app_touchId_subtitle".getEnglishString(),
+                       "Unlock to proceed")
     }
     
     func test_signInScreen_keys() throws {

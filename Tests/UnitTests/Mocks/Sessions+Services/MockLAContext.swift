@@ -4,6 +4,9 @@ import LocalAuthentication
 final class MockLAContext: LAContexting {
     var biometryType: LABiometryType = .touchID
     
+    var localizedFallbackTitle: String?
+    var localizedCancelTitle: String?
+    
     var returnedFromCanEvaluatePolicyForBiometrics: Bool = false
     var returnedFromCanEvaluatePolicyForAuthentication: Bool = false
     var errorFromEvaluatePolicy: Error?

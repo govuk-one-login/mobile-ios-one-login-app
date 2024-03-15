@@ -1,3 +1,4 @@
+import LocalAuthentication
 import SecureStore
 
 final class UserStorage: UserStorable {
@@ -17,6 +18,7 @@ final class UserStorage: UserStorable {
             print("Deleting Secure Store error: \(error)")
         }
         secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                     accessControlLevel: .currentBiometricsOnly))
+                                                                     accessControlLevel: .currentBiometricsOrPasscode,
+                                                                     localAuthStrings: LAContext().contextStrings))
     }
 }

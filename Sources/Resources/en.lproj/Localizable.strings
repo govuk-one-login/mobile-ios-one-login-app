@@ -1,6 +1,8 @@
 // MARK: Generic keys
 "app_closeButton" = "Close";
 
+"app_cancelButton" = "Cancel";
+
 "app_tryAgainButton" = "Try again";
 
 "app_continueButton" = "Continue";
@@ -9,7 +11,18 @@
 
 "app_disagreeButton" = "Disagree";
 
-"app_enablePasscodeButton" = "Use passcode";
+"app_usePasscodeButton" = "Use passcode";
+
+"app_enterPasscodeButton" = "Enter passcode";
+
+
+// MARK: Local Auth prompt (Face ID)
+"app_faceId_subtitle" = "Enter iPhone passcode";
+
+
+// MARK: Local Auth prompt (Touch ID)
+"app_touchId_subtitle" = "Unlock to proceed";
+
 
 // MARK: Sign in screen
 "app_signInTitle" = "GOV.UK One Login";
@@ -18,30 +31,36 @@
 
 "app_signInButton" = "Sign in";
 
+
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Help improve the app by sharing analytics";
 
 "acceptAnalyticsPreferences_body" = "You can help us improve this app by choosing to automatically share app activity and analytics data.\n\nThis is optional and lets us understand how people use this service so we can make it better.\n\nYou can change your preferences at any time in your Settings.";
+
 
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "There was a problem signing you in";
 
 "app_signInErrorBody" = "You can try signing in again.\n\nIf this does not work, you may need to try again later.";
 
+
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "You appear to be offline";
 
 "app_networkErrorBody" = "GOV.UK One Login is not available offline. Reconnect to the internet and try again.";
+
 
 // MARK: Generic error screen
 "app_somethingWentWrongErrorTitle" = "Something went wrong";
 
 "app_somethingWentWrongErrorBody" = "Try again later.";
 
+
 // MARK: Passcode information screen
 "app_noPasscodeSetupTitle" = "It looks like this phone does not have a passcode";
 
 "app_noPasscodeSetupBody" = "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.";
+
 
 // MARK: Face ID enrollment screen
 "app_enableFaceIDTitle" = "Use Face ID to sign in";
@@ -52,6 +71,7 @@
 
 "app_enableFaceIDButton" = "Use Face ID";
 
+
 // MARK: Touch ID enrollment screen
 "app_enableTouchIDTitle" = "Use Touch ID to sign in";
 
@@ -60,6 +80,7 @@
 "app_enableTouchIDFootnote" = "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app.";
 
 "app_enableTouchIDEnableButton" = "Use Touch ID";
+
 
 // MARK: Unlock screen
 "app_unlockButton" = "Unlock";

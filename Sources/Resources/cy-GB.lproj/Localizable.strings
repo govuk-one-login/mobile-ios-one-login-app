@@ -1,6 +1,8 @@
 // MARK: Generic keys
 "app_closeButton" = "Cau";
 
+"app_cancelButton" = "Canslo";
+
 "app_tryAgainButton" = "Rhowch gynnig arall";
 
 "app_continueButton" = "Parhau";
@@ -9,7 +11,18 @@
 
 "app_disagreeButton" = "Anghytuno";
 
-"app_enablePasscodeButton" = "Defnyddio god mynediad";
+"app_usePasscodeButton" = "Defnyddio god mynediad";
+
+"app_enterPasscodeButton" = "Rhowch god mynediad";
+
+
+// MARK: Local Auth prompt (Face ID)
+"app_faceId_subtitle" = "Rhowch god mynediad iPhone";
+
+
+// MARK: Local Auth prompt (Touch ID)
+"app_touchId_subtitle" = "Datgloi i barhau";
+
 
 // MARK: Sign in screen
 "app_signInTitle" = "GOV.UK One Login";
@@ -18,30 +31,36 @@
 
 "app_signInButton" = "Mewngofnodi";
 
+
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
 
 "acceptAnalyticsPreferences_body" = "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.";
+
 
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "Roedd problem wrth eich mewngofnodi";
 
 "app_signInErrorBody" = "Gallwch geisio mewngofnodi eto.\n\nOs na fydd hyn yn gweithio, efallai y bydd angen i chi roi cynnig arall yn nes ymlaen.";
 
+
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "Mae'n ymddangos nad ydych ar-lein";
 
 "app_networkErrorBody" = "Nid yw GOV.UK One Login ar gael os nad ydych ar-lein. Ailgysylltwch â'r rhyngrwyd a rhoi cynnig arall.";
+
 
 // MARK: Generic error screen
 "app_somethingWentWrongErrorTitle" = "Aeth rhywbeth o'i le";
 
 "app_somethingWentWrongErrorBody" = "Rhowch gynnig arall yn nes ymlaen.";
 
+
 // MARK: Passcode information screen
 "app_noPasscodeSetupTitle" = "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad";
 
 "app_noPasscodeSetupBody" = "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.";
+
 
 // MARK: Face ID enrollment screen
 "app_enableFaceIDTitle" = "Defnyddiwch ID Wyneb i fewngofnodi";
@@ -52,6 +71,7 @@
 
 "app_enableFaceIDButton" = "Defnyddip ID Wyneb";
 
+
 // MARK: Touch ID enrollment screen
 "app_enableTouchIDTitle" = "Defnyddiwch ID Cyffwrdd i fewngofnodi";
 
@@ -60,6 +80,7 @@
 "app_enableTouchIDFootnote" = "Os ydych yn defnyddio ID Cyffwrdd, bydd unrhyw un sydd â ID Cyffwrdd wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.";
 
 "app_enableTouchIDEnableButton" = "Defnyddio ID Cyffwrdd";
+
 
 // MARK: Unlock screen
 "app_unlockButton" = "Datgloi";

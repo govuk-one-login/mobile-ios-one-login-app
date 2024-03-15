@@ -55,7 +55,7 @@ extension FaceIDEnrollmentViewModelTests {
         sut.secondaryButtonViewModel?.action()
         XCTAssertTrue(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_enablePasscodeButton")
+        let event = ButtonEvent(textKey: "app_usePasscodeButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])

@@ -1,4 +1,5 @@
 import Coordination
+import GDSCommon
 import LocalAuthentication
 import Logging
 import UIKit
@@ -10,7 +11,7 @@ final class EnrolmentCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
     let userStore: UserStorable
-    let localAuth: LAContexting
+    var localAuth: LAContexting
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
@@ -56,7 +57,7 @@ final class EnrolmentCoordinator: NSObject,
         case .faceID:
             let faceIDEnrollmentScreen = viewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    Task { await enrolLocalAuth(reason: " ") }
+                    Task { await enrolLocalAuth(reason: "app_faceId_subtitle") }
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
@@ -88,8 +89,10 @@ final class EnrolmentCoordinator: NSObject,
     
     func enrolLocalAuth(reason: String) async {
         do {
+            localAuth.localizeAuthPromptStrings()
             if try await localAuth
-                .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {
+                .evaluatePolicy(.deviceOwnerAuthentication,
+                                localizedReason: GDSLocalisedString(stringLiteral: reason).value) {
                 storeAccessTokenInfo()
                 finish()
             } else {

@@ -15,7 +15,6 @@ extension UserStorable {
     
     var validAccessToken: Bool {
         guard let expClaim = defaultsStore.value(forKey: .accessTokenExpiry) as? Date else { return false }
-        print(expClaim.timeIntervalSinceNow.sign == .plus)
         return expClaim.timeIntervalSinceNow.sign == .plus
     }
     
