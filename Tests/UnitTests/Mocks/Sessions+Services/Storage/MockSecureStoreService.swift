@@ -20,7 +20,7 @@ final class MockSecureStoreService: SecureStorable {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
-            "testAccessToken"
+            savedItems[itemName]
         }
     }
     
