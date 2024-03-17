@@ -2210,7 +2210,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
-				branch = "feature/dcmaw-6051-read-item-prompt-strings";
+				branch = main;
 				kind = branch;
 			};
 		};

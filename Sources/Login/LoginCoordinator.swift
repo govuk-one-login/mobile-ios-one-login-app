@@ -20,22 +20,20 @@ final class LoginCoordinator: NSObject,
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     private weak var authCoordinator: AuthenticationCoordinator?
-    let tokenHolder: TokenHolder
+    let tokenHolder = TokenHolder()
     
     init(window: UIWindow,
          root: UINavigationController,
          analyticsCentre: AnalyticsCentral,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          secureStoreService: SecureStorable,
-         defaultStore: DefaultsStorable,
-         tokenHolder: TokenHolder) {
+         defaultStore: DefaultsStorable) {
         self.window = window
         self.root = root
         self.analyticsCentre = analyticsCentre
         self.networkMonitor = networkMonitor
         self.userStore = UserStorage(secureStoreService: secureStoreService,
                                      defaultsStore: defaultStore)
-        self.tokenHolder = tokenHolder
     }
     
     func start() {
@@ -72,6 +70,7 @@ final class LoginCoordinator: NSObject,
         if userStore.validAccessToken {
             do {
                 tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                finish()
             } catch {
                 print("Local Authentication error: \(error)")
             }
@@ -105,7 +104,6 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchEnrolmentCoordinator(localAuth: LAContexting) {
-        guard tokenHolder.tokenResponse != nil else { return }
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCentre.analyticsService,
                                              userStore: userStore,

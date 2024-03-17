@@ -12,7 +12,6 @@ final class MainCoordinator: NSObject,
     let analyticsCentre: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     private weak var loginCoordinator: LoginCoordinator?
-    let tokenHolder = TokenHolder()
     
     init(window: UIWindow,
          root: UINavigationController,
@@ -30,8 +29,7 @@ final class MainCoordinator: NSObject,
                                   root: root,
                                   analyticsCentre: analyticsCentre,
                                   secureStoreService: secureStoreService,
-                                  defaultStore: UserDefaults.standard,
-                                  tokenHolder: tokenHolder)
+                                  defaultStore: UserDefaults.standard)
         openChildInline(lc)
         self.loginCoordinator = lc
     }
@@ -40,16 +38,16 @@ final class MainCoordinator: NSObject,
         loginCoordinator?.handleUniversalLink(url)
     }
     
-    func launchTokenCoordinator() {
-        guard tokenHolder.tokenResponse != nil else { return }
+    func launchTokenCoordinator(tokenHolder: TokenHolder) {
+        guard let accessToken = tokenHolder.accessToken else { return }
         openChildInline(TokenCoordinator(root: root,
-                                         tokenHolder: tokenHolder))
+                                         accessToken: accessToken))
     }
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case _ as LoginCoordinator:
-            launchTokenCoordinator()
+        case let child as LoginCoordinator where child.tokenHolder.accessToken != nil:
+            launchTokenCoordinator(tokenHolder: child.tokenHolder)
         default:
             break
         }

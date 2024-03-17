@@ -12,7 +12,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var tokenHolder: TokenHolder!
     var sut: LoginCoordinator!
     
     override func setUp() {
@@ -27,7 +26,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        tokenHolder = TokenHolder()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = LoginCoordinator(window: window,
@@ -35,8 +33,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCentre: mockAnalyticsCentre,
                                networkMonitor: mockNetworkMonitor,
                                secureStoreService: mockSecureStore,
-                               defaultStore: mockDefaultStore,
-                               tokenHolder: tokenHolder)
+                               defaultStore: mockDefaultStore)
     }
     
     override func tearDown() {
@@ -48,7 +45,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = nil
         mockSecureStore = nil
         mockDefaultStore = nil
-        tokenHolder = nil
         sut = nil
         
         super.tearDown()
@@ -111,7 +107,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
+        XCTAssertEqual(sut.tokenHolder.accessToken, "testAccessToken")
     }
     
     func test_start_launchOnboardingCoordinator() throws {
@@ -127,7 +123,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
+        XCTAssertEqual(sut.tokenHolder.accessToken, "testAccessToken")
     }
     
     func test_getAccessToken_fails() throws {
@@ -150,7 +146,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
-        XCTAssertEqual(tokenHolder.accessToken, nil)
+        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
@@ -197,7 +193,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator is started
         sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
         // THEN the LoginCoordinator should not have an EnrolmentCoordinator as it's only child coordinator
-        XCTAssertEqual(sut.childCoordinators.count, 0)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
@@ -214,7 +210,7 @@ extension LoginCoordinatorTests {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         session: MockLoginSession(),
                                                         analyticsService: mockAnalyticsService,
-                                                        tokenHolder: tokenHolder)
+                                                        tokenHolder: TokenHolder())
         authCoordinator.loginError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()

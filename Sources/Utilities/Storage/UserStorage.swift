@@ -18,7 +18,6 @@ final class UserStorage: UserStorable {
             print("Deleting Secure Store error: \(error)")
         }
         secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                     accessControlLevel: .currentBiometricsOrPasscode,
-                                                                     localAuthStrings: LAContext().contextStrings))
+                                                                     accessControlLevel: .currentBiometricsOrPasscode))
     }
 }

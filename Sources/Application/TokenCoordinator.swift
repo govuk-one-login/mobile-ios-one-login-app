@@ -7,17 +7,16 @@ final class TokenCoordinator: NSObject,
                               NavigationCoordinator {
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
-    let tokenHolder: TokenHolder
+    let accessToken: String
     
     init(root: UINavigationController,
-         tokenHolder: TokenHolder) {
+         accessToken: String) {
         self.root = root
-        self.tokenHolder = tokenHolder
+        self.accessToken = accessToken
     }
     
     func start() {
-        guard let tokenResponse = tokenHolder.tokenResponse else { return }
-        let vc = TokensViewController(tokens: tokenResponse)
+        let vc = TokensViewController(accessToken: accessToken)
         vc.navigationItem.hidesBackButton = true
         root.pushViewController(vc, animated: true)
     }
