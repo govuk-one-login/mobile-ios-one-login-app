@@ -2,5 +2,9 @@
     {
         "name": "EnableCallingSTS",
         "isEnabled": false
+    },
+    {
+        "name": "ExtendExpClaim",
+        "isEnabled": false
     }
 ]

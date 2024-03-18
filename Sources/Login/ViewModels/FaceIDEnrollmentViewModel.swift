@@ -25,7 +25,7 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enablePasscodeButton",
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_usePasscodeButton",
                                                                  icon: nil,
                                                                  analyticsService: analyticsService) {
             secondaryButtonAction()

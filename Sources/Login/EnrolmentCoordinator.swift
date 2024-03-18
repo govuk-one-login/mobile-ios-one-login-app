@@ -1,4 +1,5 @@
 import Coordination
+import GDSCommon
 import LocalAuthentication
 import Logging
 import UIKit
@@ -10,7 +11,7 @@ final class EnrolmentCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
     let userStore: UserStorable
-    let localAuth: LAContexting
+    var localAuth: LAContexting
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
@@ -35,7 +36,6 @@ final class EnrolmentCoordinator: NSObject,
             storeAccessTokenInfo()
             finish()
         }
-        userStore.defaultsStore.set(true, forKey: .returningUser)
     }
     
     private func canUseLocalAuth(_ policy: LAPolicy) -> Bool {
@@ -56,7 +56,7 @@ final class EnrolmentCoordinator: NSObject,
         case .faceID:
             let faceIDEnrollmentScreen = viewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    Task { await enrolLocalAuth(reason: " ") }
+                    Task { await enrolLocalAuth(reason: "app_faceId_subtitle") }
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
@@ -79,17 +79,19 @@ final class EnrolmentCoordinator: NSObject,
     private func storeAccessTokenInfo() {
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
         do {
-            try userStore.secureStoreService.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
-            userStore.defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
+            try userStore.storeTokenInfo(token: tokenResponse.accessToken,
+                                         tokenExp: tokenResponse.expiryDate)
         } catch {
-            print("error")
+            print("Storing Token Info error: \(error)")
         }
     }
     
     func enrolLocalAuth(reason: String) async {
         do {
+            localAuth.localizeAuthPromptStrings()
             if try await localAuth
-                .evaluatePolicy(.deviceOwnerAuthentication, localizedReason: NSLocalizedString(reason, comment: "")) {
+                .evaluatePolicy(.deviceOwnerAuthentication,
+                                localizedReason: GDSLocalisedString(stringLiteral: reason).value) {
                 storeAccessTokenInfo()
                 finish()
             } else {

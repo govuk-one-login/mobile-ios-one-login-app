@@ -49,36 +49,35 @@ extension MainCoordinatorTests {
     }
     
     func test_launchTokenCoorindator_succeeds() throws {
-        // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        // GIVEN the token holder's access token has is not nil
+        let tokenHolder = TokenHolder()
+        tokenHolder.accessToken = "testAccessToken"
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
-        sut.launchTokenCoordinator()
+        sut.launchTokenCoordinator(tokenHolder: tokenHolder)
         // THEN the Token Coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is TokenCoordinator)
     }
     
     func test_launchTokenCoorindator_fails() throws {
-        // GIVEN the token holder's token response does not have tokens
-        sut.launchTokenCoordinator()
+        // GIVEN the token holder's access token has is nil
+        let tokenHolder = TokenHolder()
+        sut.launchTokenCoordinator(tokenHolder: tokenHolder)
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
         // THEN the Token Coordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     
     func test_didRegainFocus_fromLoginCoordinator() throws {
-        // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        // GIVEN the LoginCoordinator doesn't have an access token
         let loginCoordinator = LoginCoordinator(window: window,
                                                 root: navigationController,
                                                 analyticsCentre: mockAnalyticsCentre,
                                                 secureStoreService: MockSecureStoreService(),
-                                                defaultStore: MockDefaultsStore(),
-                                                tokenHolder: TokenHolder())
+                                                defaultStore: MockDefaultsStore())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
-        // THEN the Token Coordinator should be launched
-        XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators[0] is TokenCoordinator)
+        // THEN no coordinator should be launched
+        XCTAssertEqual(sut.childCoordinators.count, 0)
     }
 }

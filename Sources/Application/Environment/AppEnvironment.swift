@@ -105,4 +105,8 @@ extension AppEnvironment {
     static var callingSTSEnabled: Bool {
         isFeatureEnabled(for: .enableCallingSTS)
     }
+    
+    static var extendExpClaimEnabled: Bool {
+        isFeatureEnabled(for: .extendExpClaim)
+    }
 }

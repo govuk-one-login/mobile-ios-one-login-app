@@ -7,6 +7,8 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getWelshString(),
                        "Cau")
+        XCTAssertEqual("app_cancelButton".getWelshString(),
+                       "Canslo")
         XCTAssertEqual("app_tryAgainButton".getWelshString(),
                        "Rhowch gynnig arall")
         XCTAssertEqual("app_continueButton".getWelshString(),
@@ -15,8 +17,17 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Cytuno")
         XCTAssertEqual("app_disagreeButton".getWelshString(),
                        "Anghytuno")
-        XCTAssertEqual("app_enablePasscodeButton".getWelshString(),
+        XCTAssertEqual("app_usePasscodeButton".getWelshString(),
                        "Defnyddio god mynediad")
+        XCTAssertEqual("app_enterPasscodeButton".getWelshString(),
+                       "Rhowch god mynediad")
+    }
+    
+    func test_localAuthPrompt_keys() throws {
+        XCTAssertEqual("app_faceId_subtitle".getWelshString(),
+                       "Rhowch god mynediad iPhone")
+        XCTAssertEqual("app_touchId_subtitle".getWelshString(),
+                       "Datgloi i barhau")
     }
     
     func test_signInScreen_keys() throws {

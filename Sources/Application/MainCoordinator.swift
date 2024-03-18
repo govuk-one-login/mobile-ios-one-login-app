@@ -1,4 +1,5 @@
 import Coordination
+import LocalAuthentication
 import SecureStore
 import UIKit
 
@@ -10,7 +11,6 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
-    let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
     
     init(window: UIWindow,
@@ -23,13 +23,13 @@ final class MainCoordinator: NSObject,
     
     func start() {
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .currentBiometricsOnly))
+                                                                         accessControlLevel: .currentBiometricsOrPasscode,
+                                                                         localAuthStrings: LAContext().contextStrings))
         let lc = LoginCoordinator(window: window,
                                   root: root,
                                   analyticsCentre: analyticsCentre,
                                   secureStoreService: secureStoreService,
-                                  defaultStore: UserDefaults.standard,
-                                  tokenHolder: tokenHolder)
+                                  defaultStore: UserDefaults.standard)
         openChildInline(lc)
         self.loginCoordinator = lc
     }
@@ -38,16 +38,16 @@ final class MainCoordinator: NSObject,
         loginCoordinator?.handleUniversalLink(url)
     }
     
-    func launchTokenCoordinator() {
-        guard tokenHolder.tokenResponse != nil else { return }
+    func launchTokenCoordinator(tokenHolder: TokenHolder) {
+        guard let accessToken = tokenHolder.accessToken else { return }
         openChildInline(TokenCoordinator(root: root,
-                                         tokenHolder: tokenHolder))
+                                         accessToken: accessToken))
     }
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case _ as LoginCoordinator:
-            launchTokenCoordinator()
+        case let child as LoginCoordinator where child.tokenHolder.accessToken != nil:
+            launchTokenCoordinator(tokenHolder: child.tokenHolder)
         default:
             break
         }

@@ -12,7 +12,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var tokenHolder: TokenHolder!
     var sut: LoginCoordinator!
     
     override func setUp() {
@@ -27,7 +26,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        tokenHolder = TokenHolder()
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = LoginCoordinator(window: window,
@@ -35,8 +33,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCentre: mockAnalyticsCentre,
                                networkMonitor: mockNetworkMonitor,
                                secureStoreService: mockSecureStore,
-                               defaultStore: mockDefaultStore,
-                               tokenHolder: tokenHolder)
+                               defaultStore: mockDefaultStore)
     }
     
     override func tearDown() {
@@ -48,7 +45,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = nil
         mockSecureStore = nil
         mockDefaultStore = nil
-        tokenHolder = nil
         sut = nil
         
         super.tearDown()
@@ -66,7 +62,7 @@ final class LoginCoordinatorTests: XCTestCase {
 extension LoginCoordinatorTests {
     func test_start_displaysUnlockScreenViewController() throws {
         // GIVEN the LoginCoordinator is started for a returning user
-        mockDefaultStore.returningAuthenticatedUser = true
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the UnlockScreenViewController
@@ -75,16 +71,22 @@ extension LoginCoordinatorTests {
     }
     
     func test_start_displaysIntroViewController() throws {
-        // GIVEN the LoginCoordinator is started for a first time user
+        // GIVEN the LoginCoordinator is started for a returning user with an expired access token
+        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        mockDefaultStore.set(Date() - 60, forKey: .accessTokenExpiry)
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // THEN the secure store should be refreshed and the token info should be removed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockSecureStore.savedItems[.accessToken])
     }
     
     func test_introViewController_networkError() throws {
-        // GIVEN the newtork is not connected
+        // GIVEN the network is not connected
         mockNetworkMonitor.isConnected = false
         // WHEN the LoginCoordinator is started for a first time user
         XCTAssertTrue(sut.root.viewControllers.count == 0)
@@ -103,12 +105,31 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
     
-    func test_start_getAccessToken() throws {
-        mockDefaultStore.returningAuthenticatedUser = true
+    func test_firstTimeUserFlow() throws {
+        sut.firstTimeUserFlow()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
+    }
+
+    func test_returningUserFlow() throws {
+        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        sut.returningUserFlow()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is UnlockScreenViewController)
+        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
+    }
+    
+    func test_start_getAccessToken_succeeds() throws {
+        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
+        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
     func test_start_launchOnboardingCoordinator() throws {
@@ -120,19 +141,22 @@ extension LoginCoordinatorTests {
     }
     
     func test_getAccessToken_succeeds() throws {
+        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertEqual(tokenHolder.accessToken, "testAccessToken")
+        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
     func test_getAccessToken_errors() throws {
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // GIVEN the secure store returns an error from reading an item
         mockSecureStore.errorFromReadItem = SecureStoreError.generic
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
-        XCTAssertEqual(tokenHolder.accessToken, nil)
+        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
@@ -179,7 +203,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator is started
         sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
         // THEN the LoginCoordinator should not have an EnrolmentCoordinator as it's only child coordinator
-        XCTAssertEqual(sut.childCoordinators.count, 0)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
@@ -196,7 +220,7 @@ extension LoginCoordinatorTests {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         session: MockLoginSession(),
                                                         analyticsService: mockAnalyticsService,
-                                                        tokenHolder: tokenHolder)
+                                                        tokenHolder: TokenHolder())
         authCoordinator.loginError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()

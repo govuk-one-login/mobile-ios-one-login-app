@@ -3,6 +3,7 @@ import SecureStore
 
 final class MockSecureStoreService: SecureStorable {
     var savedItems = [String: String]()
+    var didCallDeleteStore = false
     
     var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
@@ -19,13 +20,17 @@ final class MockSecureStoreService: SecureStorable {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
-            "testAccessToken"
+            savedItems[itemName]
         }
     }
     
-    func deleteItem(itemName: String) throws { }
+    func deleteItem(itemName: String) throws {
+        savedItems[itemName] = nil
+    }
     
-    func delete() throws { }
+    func delete() throws {
+        self.didCallDeleteStore = true
+    }
     
     func checkItemExists(itemName: String) throws -> Bool { true }
 }
