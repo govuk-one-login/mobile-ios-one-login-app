@@ -2194,7 +2194,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
-				branch = "feature/dcmaw-8006-use-passcode";
+				branch = main;
 				kind = branch;
 			};
 		};

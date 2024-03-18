@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "branch" : "feature/dcmaw-8006-use-passcode",
-        "revision" : "8977fc54efe9e3bf43760a14141e103be6cba098"
+        "branch" : "main",
+        "revision" : "ebbaeb4bd1826e692df42070516d884082da5804"
       }
     },
     {
