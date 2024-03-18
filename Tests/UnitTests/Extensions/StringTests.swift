@@ -6,6 +6,5 @@ final class StringTests: XCTestCase {
         XCTAssertEqual(String.accessToken, "accessToken")
         XCTAssertEqual(String.accessTokenExpiry, "accessTokenExpiry")
         XCTAssertEqual(String.oneLoginTokens, "oneLoginTokens")
-        XCTAssertEqual(String.returningUser, "returningUser")
     }
 }

@@ -36,7 +36,6 @@ final class EnrolmentCoordinator: NSObject,
             storeAccessTokenInfo()
             finish()
         }
-        userStore.defaultsStore.set(true, forKey: .returningUser)
     }
     
     private func canUseLocalAuth(_ policy: LAPolicy) -> Bool {

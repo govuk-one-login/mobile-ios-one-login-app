@@ -11,8 +11,9 @@ final class UserStorage: UserStorable {
         self.defaultsStore = defaultsStore
     }
     
-    func refreshSecureStoreService() {
+    func refreshStorage() {
         do {
+            try clearTokenInfo()
             try secureStoreService.delete()
         } catch {
             print("Deleting Secure Store error: \(error)")

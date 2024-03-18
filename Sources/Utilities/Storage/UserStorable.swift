@@ -5,17 +5,15 @@ protocol UserStorable {
     var secureStoreService: SecureStorable { get set }
     var defaultsStore: DefaultsStorable { get }
     
-    func refreshSecureStoreService()
+    func refreshStorage()
 }
 
 extension UserStorable {
     var returningAuthenticatedUser: Bool {
-        defaultsStore.value(forKey: .returningUser) != nil && defaultsStore.value(forKey: .accessTokenExpiry) != nil
-    }
-    
-    var validAccessToken: Bool {
-        guard let expClaim = defaultsStore.value(forKey: .accessTokenExpiry) as? Date else { return false }
-        return expClaim.timeIntervalSinceNow.sign == .plus
+        guard let accessTokenExpClaim = defaultsStore.value(forKey: .accessTokenExpiry) as? Date else {
+            return false
+        }
+        return accessTokenExpClaim.timeIntervalSinceNow.sign == .plus
     }
     
     func storeTokenInfo(token: String, tokenExp: Date) throws {

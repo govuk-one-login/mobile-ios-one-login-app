@@ -87,7 +87,6 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the journey should be saved in user defaults
         XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, Date.accessTokenExp)
-        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
     }
 
@@ -102,7 +101,6 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the journey should be saved in user defaults
         XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, nil)
-        XCTAssertEqual(mockDefaultsStore.savedData["returningUser"] as? Bool, true)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
     }
 

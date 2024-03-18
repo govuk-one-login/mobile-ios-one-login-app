@@ -37,51 +37,50 @@ final class LoginCoordinator: NSObject,
     }
     
     func start() {
-        var rootViewController: UIViewController {
-            if userStore.returningAuthenticatedUser {
-                return viewControllerFactory
-                    .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                        getAccessToken()
-                    }
-            } else {
-                userStore.refreshSecureStoreService()
-                return viewControllerFactory
-                    .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                        if networkMonitor.isConnected {
-                            launchAuthenticationCoordinator()
-                        } else {
-                            let networkErrorScreen = errorPresenter
-                                .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                                    root.popViewController(animated: true)
-                                    if networkMonitor.isConnected {
-                                        launchAuthenticationCoordinator()
-                                    }
-                                }
-                            root.pushViewController(networkErrorScreen, animated: true)
-                        }
-                    }
-            }
+        if userStore.returningAuthenticatedUser {
+            returningUserFlow()
+        } else {
+            userStore.refreshStorage()
+            firstTimeUserFlow()
         }
+    }
+    
+    func returningUserFlow() {
+        let rootViewController = viewControllerFactory
+            .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                getAccessToken()
+            }
         root.setViewControllers([rootViewController], animated: true)
-        userStore.returningAuthenticatedUser ? getAccessToken() : launchOnboardingCoordinator()
+        getAccessToken()
     }
     
     func getAccessToken() {
-        if userStore.validAccessToken {
-            do {
-                tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-                finish()
-            } catch {
-                print("Local Authentication error: \(error)")
-            }
-        } else {
-            do {
-                try userStore.clearTokenInfo()
-                start()
-            } catch {
-                print("Clearing Token Info error: \(error)")
-            }
+        do {
+            tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+            finish()
+        } catch {
+            print("Local Authentication error: \(error)")
         }
+    }
+    
+    func firstTimeUserFlow() {
+        let rootViewController = viewControllerFactory
+            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                if networkMonitor.isConnected {
+                    launchAuthenticationCoordinator()
+                } else {
+                    let networkErrorScreen = errorPresenter
+                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                            root.popViewController(animated: true)
+                            if networkMonitor.isConnected {
+                                launchAuthenticationCoordinator()
+                            }
+                        }
+                    root.pushViewController(networkErrorScreen, animated: true)
+                }
+            }
+        root.setViewControllers([rootViewController], animated: true)
+        launchOnboardingCoordinator()
     }
     
     func launchOnboardingCoordinator() {

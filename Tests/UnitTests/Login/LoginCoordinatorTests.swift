@@ -62,7 +62,6 @@ final class LoginCoordinatorTests: XCTestCase {
 extension LoginCoordinatorTests {
     func test_start_displaysUnlockScreenViewController() throws {
         // GIVEN the LoginCoordinator is started for a returning user
-        mockDefaultStore.set(true, forKey: .returningUser)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
@@ -72,17 +71,22 @@ extension LoginCoordinatorTests {
     }
     
     func test_start_displaysIntroViewController() throws {
-        // GIVEN the LoginCoordinator is started for a first time user
+        // GIVEN the LoginCoordinator is started for a returning user with an expired access token
+        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        mockDefaultStore.set(Date() - 60, forKey: .accessTokenExpiry)
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // THEN the secure store should be refreshed and the token info should be removed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockSecureStore.savedItems[.accessToken])
     }
     
     func test_introViewController_networkError() throws {
-        // GIVEN the newtork is not connected
+        // GIVEN the network is not connected
         mockNetworkMonitor.isConnected = false
         // WHEN the LoginCoordinator is started for a first time user
         XCTAssertTrue(sut.root.viewControllers.count == 0)
@@ -101,9 +105,26 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
     
+    func test_firstTimeUserFlow() throws {
+        sut.firstTimeUserFlow()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
+    }
+
+    func test_returningUserFlow() throws {
+        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        sut.returningUserFlow()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is UnlockScreenViewController)
+        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
+    }
+    
     func test_start_getAccessToken_succeeds() throws {
         try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
-        mockDefaultStore.set(true, forKey: .returningUser)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator is started
         sut.start()
@@ -126,18 +147,6 @@ extension LoginCoordinatorTests {
         sut.getAccessToken()
         // THEN the token holder's access token property should get the access token from secure store
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
-    }
-    
-    func test_getAccessToken_fails() throws {
-        // GIVEN I have a token stored in secure store and a token exp stored in user defaults
-        // GIVEN the token exp stored in user defaults has expired
-        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
-        mockDefaultStore.set(Date() - 60, forKey: .accessTokenExpiry)
-        // WHEN the LoginCoordinator's getAccessToken method is called
-        sut.getAccessToken()
-        // THEN the token stored in secure store and a token exp stored in user defaults should be removed
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
-        XCTAssertNil(mockSecureStore.savedItems[.accessToken])
     }
     
     func test_getAccessToken_errors() throws {

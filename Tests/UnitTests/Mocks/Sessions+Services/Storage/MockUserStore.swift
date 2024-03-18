@@ -12,5 +12,5 @@ class MockUserStore: UserStorable {
         self.defaultsStore = defaultsStore
     }
     
-    func refreshSecureStoreService() { }
+    func refreshStorage() { }
 }
