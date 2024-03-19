@@ -152,7 +152,7 @@ extension LoginCoordinatorTests {
     func test_getAccessToken_errors() throws {
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // GIVEN the secure store returns an error from reading an item
-        mockSecureStore.isErrorFromReadItem = true
+        mockSecureStore.errorFromReadItem = SecureStoreError.generic
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
