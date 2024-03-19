@@ -17,23 +17,23 @@ final class LoginCoordinator: NSObject,
     let analyticsCentre: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
     let userStore: UserStorable
+    let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     private weak var authCoordinator: AuthenticationCoordinator?
-    let tokenHolder = TokenHolder()
     
     init(window: UIWindow,
          root: UINavigationController,
          analyticsCentre: AnalyticsCentral,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
-         secureStoreService: SecureStorable,
-         defaultStore: DefaultsStorable) {
+         userStore: UserStorable,
+         tokenHolder: TokenHolder) {
         self.window = window
         self.root = root
         self.analyticsCentre = analyticsCentre
         self.networkMonitor = networkMonitor
-        self.userStore = UserStorage(secureStoreService: secureStoreService,
-                                     defaultsStore: defaultStore)
+        self.userStore = userStore
+        self.tokenHolder = tokenHolder
     }
     
     func start() {
