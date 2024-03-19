@@ -50,11 +50,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()
     }
-    
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        coordinator?.evaluateRevisit {
-            unlockWindow?.isHidden = true
-            unlockWindow = nil
-        }
-    }
 }
