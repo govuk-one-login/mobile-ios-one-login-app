@@ -4,10 +4,12 @@ import SecureStore
 final class MockSecureStoreService: SecureStorable {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
-    
+    var didCallStart = false
+    var didCallDeleteItem = false
+
     var errorFromSaveItem: Error?
-    var errorFromReadItem: Error?
-    
+    var isErrorFromReadItem = false
+
     func saveItem(item: String, itemName: String) throws {
         if let errorFromSaveItem {
             throw errorFromSaveItem
@@ -17,14 +19,17 @@ final class MockSecureStoreService: SecureStorable {
     }
     
     func readItem(itemName: String) throws -> String? {
-        if let errorFromReadItem {
-            throw errorFromReadItem
+        if isErrorFromReadItem {
+            try? deleteItem(itemName: itemName)
+            didCallStart = true
         } else {
             savedItems[itemName]
         }
+        return savedItems.isEmpty ? nil : savedItems[itemName]
     }
     
     func deleteItem(itemName: String) throws {
+        didCallDeleteItem = true
         savedItems[itemName] = nil
     }
     
