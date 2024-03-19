@@ -43,36 +43,20 @@ final class MainCoordinator: NSObject,
         loginCoordinator?.handleUniversalLink(url)
     }
     
-    func evaluateRevisit() -> Bool {
+    func evaluateRevisit(action: () -> Void) {
         if userStore.returningAuthenticatedUser {
             do {
                 _ = try userStore.secureStoreService.readItem(itemName: .accessToken)
-                return true
+                action()
             } catch {
+                action()
                 start()
             }
         } else if tokenHolder.validAccessToken {
-            return true
+            action()
         } else {
-            start()
+            action()
         }
-        return false
-        
-//        if userStore.returningAuthenticatedUser {
-//            if let _ = try? userStore.secureStoreService.readItem(itemName: .accessToken) {
-//                return true
-//            } else {
-//                return false
-//            }
-//        } else if tokenHolder.validAccessToken {
-//            return true
-//        } else {
-//            return false
-//        }
-        
-        // if userStore.returningAuthenticatedUser, local auth
-        // OR tokenHolder.validAccessToken, true
-        // if false, login flow
     }
     
     func launchTokenCoordinator(tokenHolder: TokenHolder) {

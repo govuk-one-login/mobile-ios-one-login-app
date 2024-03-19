@@ -40,26 +40,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         guard let windowScene else { return }
         unlockWindow = UIWindow(windowScene: windowScene)
-        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
-            if let revisitOutcome = coordinator?.evaluateRevisit() {
-                if revisitOutcome {
-                    unlockWindow?.isHidden = true
-                    unlockWindow = nil
-                }
-            }
-        }
+        let unlockScreenViewModel = ReturnUnlockScreenViewModel(analyticsService: analyticsService)
         unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()
     }
     
-//    func sceneWillEnterForeground(_ scene: UIScene) {
-//        if let revisitOutcome = coordinator?.evaluateRevisit() {
-//            if revisitOutcome {
-//
-//            } else {
-//
-//            }
-//        }
-//    }
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        coordinator?.evaluateRevisit {
+            unlockWindow?.isHidden = true
+            unlockWindow = nil
+        }
+    }
 }
