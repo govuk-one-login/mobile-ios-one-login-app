@@ -40,7 +40,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         guard let windowScene else { return }
         unlockWindow = UIWindow(windowScene: windowScene)
-        let unlockScreenViewModel = ReturnUnlockScreenViewModel(analyticsService: analyticsService)
+        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
+            coordinator?.evaluateRevisit {
+                unlockWindow?.isHidden = true
+                unlockWindow = nil
+            }
+        }
         unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()
