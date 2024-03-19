@@ -58,6 +58,9 @@ final class LoginCoordinator: NSObject,
         do {
             tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
             finish()
+        } catch is SecureStoreError {
+            try? userStore.secureStoreService.deleteItem(itemName: .accessTokenExpiry)
+            start()
         } catch {
             print("Local Authentication error: \(error)")
         }
