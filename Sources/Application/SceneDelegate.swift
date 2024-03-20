@@ -58,7 +58,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 unlockWindow?.isHidden = true
                 unlockWindow = nil
             }
+        } else {
+            shouldCallSceneWillEnterForeground = true
         }
-        shouldCallSceneWillEnterForeground = true
     }
 }

@@ -402,8 +402,9 @@
 		414D97FF2B8DEBD000E267EF /* Unlock */ = {
 			isa = PBXGroup;
 			children = (
-				414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */,
 				414D98042B8DF0F100E267EF /* UnlockScreen.xib */,
+				414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */,
+				414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */,
 			);
 			path = Unlock;
 			sourceTree = "<group>";
@@ -654,7 +655,6 @@
 				41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */,
 				41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */,
 				C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */,
-				414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
