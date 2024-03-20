@@ -54,9 +54,13 @@ final class MainCoordinator: NSObject,
         } else if tokenHolder.validAccessToken {
             action()
         } else {
-            userStore.refreshStorage()
-            start()
-            action()
+            do {
+                try userStore.clearTokenInfo()
+                start()
+                action()
+            } catch {
+                
+            }
         }
     }
     

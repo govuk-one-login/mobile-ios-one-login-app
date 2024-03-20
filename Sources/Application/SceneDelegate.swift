@@ -9,6 +9,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var coordinator: MainCoordinator?
     let analyticsService = GAnalytics()
     private var unlockWindow: UIWindow?
+    private var shouldCallSceneWillEnterForeground = false
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -52,9 +53,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        coordinator?.evaluateRevisit {
-            unlockWindow?.isHidden = true
-            unlockWindow = nil
+        if shouldCallSceneWillEnterForeground {
+            coordinator?.evaluateRevisit {
+                unlockWindow?.isHidden = true
+                unlockWindow = nil
+            }
         }
+        shouldCallSceneWillEnterForeground = true
     }
 }
