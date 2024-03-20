@@ -4,8 +4,6 @@ import SecureStore
 final class MockSecureStoreService: SecureStorable {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
-    var didCallStart = false
-    var didCallDeleteItem = false
 
     var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
@@ -20,16 +18,13 @@ final class MockSecureStoreService: SecureStorable {
     
     func readItem(itemName: String) throws -> String? {
         if let errorFromReadItem {
-            try? deleteItem(itemName: itemName)
-            didCallStart = true
+            throw errorFromReadItem
         } else {
             savedItems[itemName]
         }
-        return savedItems.isEmpty ? nil : savedItems[itemName]
     }
     
     func deleteItem(itemName: String) throws {
-        didCallDeleteItem = true
         savedItems[itemName] = nil
     }
     

@@ -1,5 +1,6 @@
 import GDSCommon
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 @MainActor
@@ -51,10 +52,6 @@ final class LoginCoordinatorTests: XCTestCase {
     }
     
     private enum AuthenticationError: Error {
-        case generic
-    }
-    
-    private enum SecureStoreError: Error {
         case generic
     }
 }
@@ -152,15 +149,14 @@ extension LoginCoordinatorTests {
     func test_getAccessToken_errors() throws {
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // GIVEN the secure store returns an error from reading an item
-        mockSecureStore.errorFromReadItem = SecureStoreError.generic
+        mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
         XCTAssertEqual(sut.tokenHolder.accessToken, nil)
-        XCTAssertTrue(mockSecureStore.didCallDeleteItem)
         // THEN login flow should be triggered
-        sut.start()
-        XCTAssertTrue(mockSecureStore.didCallStart)
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
