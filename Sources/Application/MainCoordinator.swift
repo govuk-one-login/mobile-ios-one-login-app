@@ -49,17 +49,18 @@ final class MainCoordinator: NSObject,
                 _ = try userStore.secureStoreService.readItem(itemName: .accessToken)
                 action()
             } catch {
-                action()
-                start()
+
             }
         } else if tokenHolder.validAccessToken {
             action()
         } else {
+            userStore.refreshStorage()
+            start()
             action()
         }
     }
     
-    func launchTokenCoordinator(tokenHolder: TokenHolder) {
+    func launchTokenCoordinator() {
         guard let accessToken = tokenHolder.accessToken else { return }
         openChildInline(TokenCoordinator(root: root,
                                          accessToken: accessToken))
@@ -67,8 +68,8 @@ final class MainCoordinator: NSObject,
     
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case let child as LoginCoordinator where child.tokenHolder.accessToken != nil:
-            launchTokenCoordinator(tokenHolder: child.tokenHolder)
+        case _ as LoginCoordinator:
+            launchTokenCoordinator()
         default:
             break
         }
