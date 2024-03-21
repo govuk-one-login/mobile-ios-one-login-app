@@ -13,7 +13,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
     var sut: LoginCoordinator!
     
     override func setUp() {
