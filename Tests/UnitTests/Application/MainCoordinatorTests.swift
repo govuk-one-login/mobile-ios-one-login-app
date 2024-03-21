@@ -61,21 +61,30 @@ extension MainCoordinatorTests {
     }
     
     func test_evaluateRevisit_returningAuthenticatedUser() throws {
+        // GIVEN the secure store has an access token saved and defaults store has the access token expiry saved
         try mockSecureStore.saveItem(item: "testAccessToken", itemName: .accessToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { actionCalled = true }
+        // THEN the access token is removed from the token holder and the action is called
         XCTAssertEqual(sut.tokenHolder.accessToken, "testAccessToken")
         XCTAssertTrue(actionCalled)
     }
     
     func test_evaluateRevisit_accessTokenNil() throws {
+        // GIVEN access token has not been stored anywhere
+        // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { actionCalled = true }
+        // THEN the action is called
         XCTAssertTrue(actionCalled)
     }
     
     func test_evaluateRevisit_accessTokenNotNil() throws {
+        // GIVEN access token has not been stored in the token holder
         sut.tokenHolder.accessToken = "testAccessToken"
+        // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { actionCalled = true }
+        // THEN the access token is removed from the token holder and the action is called
         XCTAssertNil(sut.tokenHolder.accessToken)
         XCTAssertTrue(actionCalled)
     }
