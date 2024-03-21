@@ -13,6 +13,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var sut: LoginCoordinator!
     
     override func setUp() {
@@ -155,6 +156,8 @@ extension LoginCoordinatorTests {
         // THEN the token holder's access token property should not get the access token from secure store
         XCTAssertEqual(sut.tokenHolder.accessToken, nil)
         // THEN login flow should be triggered
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertTrue(mockDefaultStore.didCallRemoveObject)
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
