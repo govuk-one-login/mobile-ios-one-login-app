@@ -13,6 +13,7 @@ final class UserStorage: UserStorable {
     
     func refreshStorage() {
         do {
+            try clearTokenInfo()
             try secureStoreService.delete()
         } catch {
             print("Deleting Secure Store error: \(error)")

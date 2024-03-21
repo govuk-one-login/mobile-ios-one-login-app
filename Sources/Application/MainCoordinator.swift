@@ -11,9 +11,10 @@ final class MainCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCentre: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
-    private weak var loginCoordinator: LoginCoordinator?
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
+    private weak var loginCoordinator: LoginCoordinator?
+
     
     init(window: UIWindow,
          root: UINavigationController,
@@ -54,14 +55,9 @@ final class MainCoordinator: NSObject,
         } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
             action()
         } else {
-            do {
-                tokenHolder.accessToken = nil
-                try userStore.clearTokenInfo()
-                start()
-                action()
-            } catch {
-                print("Error clearing token: \(error)")
-            }
+            tokenHolder.accessToken = nil
+            start()
+            action()
         }
     }
     
