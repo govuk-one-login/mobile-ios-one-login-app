@@ -46,20 +46,21 @@ final class MainCoordinator: NSObject,
     func evaluateRevisit(action: () -> Void) {
         if userStore.returningAuthenticatedUser {
             do {
-                _ = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
                 action()
             } catch {
-
+                print("Error getting token: \(error)")
             }
-        } else if tokenHolder.validAccessToken {
+        } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
             action()
         } else {
             do {
+                tokenHolder.accessToken = nil
                 try userStore.clearTokenInfo()
                 start()
                 action()
             } catch {
-                
+                print("Error clearing token: \(error)")
             }
         }
     }
