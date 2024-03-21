@@ -58,7 +58,7 @@ final class LoginCoordinator: NSObject,
         do {
             tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
             finish()
-        } catch is SecureStoreError {
+        } catch SecureStoreError.unableToRetrieveFromUserDefaults {
             userStore.refreshStorage()
             start()
         } catch {
