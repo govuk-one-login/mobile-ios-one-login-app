@@ -4,11 +4,11 @@ import Logging
 import SecureStore
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, SceneLifecycle {
     var windowScene: UIWindowScene?
     var coordinator: MainCoordinator?
-    let analyticsService = GAnalytics()
-    private var unlockWindow: UIWindow?
+    let analyticsService: AnalyticsService = GAnalytics()
+    var unlockWindow: UIWindow?
     private var shouldCallSceneWillEnterForeground = false
     
     func scene(_ scene: UIScene,
@@ -39,25 +39,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        guard let windowScene else { return }
-        unlockWindow = UIWindow(windowScene: windowScene)
-        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
-            coordinator?.evaluateRevisit {
-                unlockWindow?.isHidden = true
-                unlockWindow = nil
-            }
-        }
-        unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
-        unlockWindow?.windowLevel = .alert
-        unlockWindow?.makeKeyAndVisible()
+        displayUnlockScreen()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
-            coordinator?.evaluateRevisit {
-                unlockWindow?.isHidden = true
-                unlockWindow = nil
-            }
+            dismissUnlockScreen()
         } else {
             shouldCallSceneWillEnterForeground = true
         }
