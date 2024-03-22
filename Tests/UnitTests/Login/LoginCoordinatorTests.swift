@@ -146,14 +146,42 @@ extension LoginCoordinatorTests {
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
-    func test_getAccessToken_errors() throws {
-        // GIVEN the secure store returns an error from reading an item
+    func test_getAccessToken_error_unableToRetrieveFromUserDefaults() throws {
+        // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from reading an item
         mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
         XCTAssertEqual(sut.tokenHolder.accessToken, nil)
-        // THEN login flow should be triggered
+        // THEN user store should be refreshed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+    }
+    
+    func test_getAccessToken_error_cantInitialiseData() throws {
+        // GIVEN the secure store returns a cantInitialiseData error from reading an item
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantInitialiseData
+        // WHEN the LoginCoordinator's getAccessToken method is called
+        sut.getAccessToken()
+        // THEN the token holder's access token property should not get the access token from secure store
+        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        // THEN user store should be refreshed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+    }
+    
+    func test_getAccessToken_error_cantRetrieveKey() throws {
+        // GIVEN the secure store returns a cantRetrieveKey error from reading an item
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
+        // WHEN the LoginCoordinator's getAccessToken method is called
+        sut.getAccessToken()
+        // THEN the token holder's access token property should not get the access token from secure store
+        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
         XCTAssertTrue(sut.root.viewControllers.count == 1)
