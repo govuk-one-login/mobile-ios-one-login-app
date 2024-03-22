@@ -20,21 +20,21 @@ class MockSceneDelegate: SceneLifecycle {
 }
 
 @MainActor
-final class SceneDelegateTests: XCTestCase {
-    var mockMainCoordinator: MainCoordinator!
+final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
+    var mockMainCoordinator: MainCoordinator!
     var sut: MockSceneDelegate!
     
     override func setUp() {
         super.setUp()
-        
+        mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockMainCoordinator = MainCoordinator(window: UIWindow(),
                                               root: UINavigationController(),
                                               analyticsCentre: AnalyticsCentre(analyticsService: mockAnalyticsService,
                                                                                analyticsPreferenceStore: mockAnalyticsPreferenceStore))
-        mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
+
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
                                 analyticsService: mockAnalyticsService)
     }
@@ -49,8 +49,16 @@ final class SceneDelegateTests: XCTestCase {
     }
 }
 
-extension SceneDelegateTests {
+extension SceneLifecycleTests {
     func test_displayUnlockScreen() throws {
         sut.displayUnlockScreen()
+        XCTAssertNotNil(sut.unlockWindow)
+        XCTAssertTrue(sut.unlockWindow?.rootViewController is UnlockScreenViewController)
+        XCTAssertEqual(sut.unlockWindow?.windowLevel, .alert)
+    }
+    
+    func test_dismissUnlockScreen() throws {
+        sut.dismissUnlockScreen()
+        XCTAssertNil(sut.unlockWindow)
     }
 }
