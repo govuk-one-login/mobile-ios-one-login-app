@@ -13,7 +13,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockDefaultStore: MockDefaultsStore!
     var sut: MainCoordinator!
     
-    var actionCalled = false
+    var evaluateRevisitActionCalled = false
     
     override func setUp() {
         super.setUp()
@@ -45,7 +45,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockDefaultStore = nil
         sut = nil
         
-        actionCalled = false
+        evaluateRevisitActionCalled = false
 
         super.tearDown()
     }
@@ -65,28 +65,28 @@ extension MainCoordinatorTests {
         try mockSecureStore.saveItem(item: "testAccessToken", itemName: .accessToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
-        sut.evaluateRevisit { actionCalled = true }
+        sut.evaluateRevisit { evaluateRevisitActionCalled = true }
         // THEN the access token is removed from the token holder and the action is called
         XCTAssertEqual(sut.tokenHolder.accessToken, "testAccessToken")
-        XCTAssertTrue(actionCalled)
+        XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
     func test_evaluateRevisit_accessTokenNil() throws {
         // GIVEN access token has not been stored anywhere
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
-        sut.evaluateRevisit { actionCalled = true }
+        sut.evaluateRevisit { evaluateRevisitActionCalled = true }
         // THEN the action is called
-        XCTAssertTrue(actionCalled)
+        XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
     func test_evaluateRevisit_accessTokenNotNil() throws {
         // GIVEN access token has not been stored in the token holder
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
-        sut.evaluateRevisit { actionCalled = true }
+        sut.evaluateRevisit { evaluateRevisitActionCalled = true }
         // THEN the access token is removed from the token holder and the action is called
         XCTAssertNil(sut.tokenHolder.accessToken)
-        XCTAssertTrue(actionCalled)
+        XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
     func test_launchTokenCoorindator_succeeds() throws {
