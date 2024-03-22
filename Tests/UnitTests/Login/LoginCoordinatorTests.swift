@@ -1,5 +1,6 @@
 import GDSCommon
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 @MainActor
@@ -51,10 +52,6 @@ final class LoginCoordinatorTests: XCTestCase {
     }
     
     private enum AuthenticationError: Error {
-        case generic
-    }
-    
-    private enum SecureStoreError: Error {
         case generic
     }
 }
@@ -149,14 +146,46 @@ extension LoginCoordinatorTests {
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
-    func test_getAccessToken_errors() throws {
-        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
-        // GIVEN the secure store returns an error from reading an item
-        mockSecureStore.errorFromReadItem = SecureStoreError.generic
+    func test_getAccessToken_error_unableToRetrieveFromUserDefaults() throws {
+        // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from reading an item
+        mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
         XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        // THEN user store should be refreshed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+    }
+    
+    func test_getAccessToken_error_cantInitialiseData() throws {
+        // GIVEN the secure store returns a cantInitialiseData error from reading an item
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantInitialiseData
+        // WHEN the LoginCoordinator's getAccessToken method is called
+        sut.getAccessToken()
+        // THEN the token holder's access token property should not get the access token from secure store
+        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        // THEN user store should be refreshed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+    }
+    
+    func test_getAccessToken_error_cantRetrieveKey() throws {
+        // GIVEN the secure store returns a cantRetrieveKey error from reading an item
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
+        // WHEN the LoginCoordinator's getAccessToken method is called
+        sut.getAccessToken()
+        // THEN the token holder's access token property should not get the access token from secure store
+        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        // THEN user store should be refreshed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
