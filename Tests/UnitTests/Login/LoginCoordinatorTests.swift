@@ -155,8 +155,7 @@ extension LoginCoordinatorTests {
         XCTAssertEqual(sut.tokenHolder.accessToken, nil)
         // THEN login flow should be triggered
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertTrue(mockDefaultStore.didCallRemoveObject)
-        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
