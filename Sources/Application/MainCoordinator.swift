@@ -55,10 +55,14 @@ final class MainCoordinator: NSObject,
         } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
             action()
         } else {
-            tokenHolder.accessToken = nil
-            start()
+            resetApp()
             action()
         }
+    }
+    
+    func resetApp() {
+        tokenHolder.accessToken = nil
+        start()
     }
     
     func launchTokenCoordinator() {
