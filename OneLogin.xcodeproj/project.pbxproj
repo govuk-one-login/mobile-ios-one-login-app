@@ -2222,7 +2222,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
-				branch = main;
+				branch = "feature/dcmaw-6051-enable-user-presence-access";
 				kind = branch;
 			};
 		};
