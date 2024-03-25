@@ -57,7 +57,7 @@ extension SceneLifecycleTests {
         XCTAssertEqual(sut.unlockWindow?.windowLevel, .alert)
     }
     
-    func test_dismissUnlockScreen() throws {
+    func test_promptToUnlock() throws {
         sut.promptToUnlock()
         XCTAssertNil(sut.unlockWindow)
     }

@@ -66,7 +66,7 @@ extension MainCoordinatorTests {
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { evaluateRevisitActionCalled = true }
-        // THEN the access token is removed from the token holder and the action is called
+        // THEN the access token is read from the token holder and the action is called
         XCTAssertEqual(sut.tokenHolder.accessToken, "testAccessToken")
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
@@ -80,7 +80,7 @@ extension MainCoordinatorTests {
     }
     
     func test_evaluateRevisit_accessTokenNotNil() throws {
-        // GIVEN access token has not been stored in the token holder
+        // GIVEN access token has been stored in the token holder
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { evaluateRevisitActionCalled = true }
