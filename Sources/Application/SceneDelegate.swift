@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SceneLifecycle {
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
-            dismissUnlockScreen()
+            promptToUnlock()
         } else {
             shouldCallSceneWillEnterForeground = true
         }

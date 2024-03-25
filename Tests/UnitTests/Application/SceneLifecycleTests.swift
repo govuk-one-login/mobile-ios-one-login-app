@@ -58,7 +58,7 @@ extension SceneLifecycleTests {
     }
     
     func test_dismissUnlockScreen() throws {
-        sut.dismissUnlockScreen()
+        sut.promptToUnlock()
         XCTAssertNil(sut.unlockWindow)
     }
 }

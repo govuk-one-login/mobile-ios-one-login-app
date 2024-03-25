@@ -15,14 +15,14 @@ extension SceneLifecycle {
         guard let windowScene else { return }
         unlockWindow = UIWindow(windowScene: windowScene)
         let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
-            dismissUnlockScreen()
+            promptToUnlock()
         }
         unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()
     }
     
-    func dismissUnlockScreen() {
+    func promptToUnlock() {
         coordinator?.evaluateRevisit {
             unlockWindow?.isHidden = true
             unlockWindow = nil
