@@ -63,7 +63,7 @@ final class MainCoordinator: NSObject,
     
     func launchTokenCoordinator() {
         guard let accessToken = tokenHolder.accessToken else { return }
-        openChildInline(TokenCoordinator(root: root,
+        openChildInline(HomeCoordinator(root: root,
                                          accessToken: accessToken))
     }
     

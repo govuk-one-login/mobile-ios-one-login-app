@@ -2,9 +2,9 @@ import Authentication
 import Coordination
 import UIKit
 
-final class TokenCoordinator: NSObject,
-                              ChildCoordinator,
-                              NavigationCoordinator {
+final class HomeCoordinator: NSObject,
+                             ChildCoordinator,
+                             NavigationCoordinator {
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     let accessToken: String
@@ -16,7 +16,7 @@ final class TokenCoordinator: NSObject,
     }
     
     func start() {
-        let vc = TokensViewController(accessToken: accessToken)
+        let vc = HomeViewController(nibName: "Home", bundle: .main)
         vc.navigationItem.hidesBackButton = true
         root.pushViewController(vc, animated: true)
     }
