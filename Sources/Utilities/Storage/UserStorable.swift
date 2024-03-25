@@ -5,7 +5,7 @@ protocol UserStorable {
     var secureStoreService: SecureStorable { get set }
     var defaultsStore: DefaultsStorable { get }
     
-    func refreshStorage()
+    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel)
 }
 
 extension UserStorable {

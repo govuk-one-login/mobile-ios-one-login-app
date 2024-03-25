@@ -11,7 +11,7 @@ final class UserStorage: UserStorable {
         self.defaultsStore = defaultsStore
     }
     
-    func refreshStorage() {
+    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel) {
         do {
             try clearTokenInfo()
             try secureStoreService.delete()
@@ -19,7 +19,7 @@ final class UserStorage: UserStorable {
             print("Deleting Secure Store error: \(error)")
         }
         secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                     accessControlLevel: .currentBiometricsOrPasscode,
+                                                                     accessControlLevel: accessControlLevel,
                                                                      localAuthStrings: LAContext().contextStrings))
     }
 }

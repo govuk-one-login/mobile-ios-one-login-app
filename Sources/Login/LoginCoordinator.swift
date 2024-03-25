@@ -40,7 +40,7 @@ final class LoginCoordinator: NSObject,
         if userStore.returningAuthenticatedUser {
             returningUserFlow()
         } else {
-            userStore.refreshStorage()
+            userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
             firstTimeUserFlow()
         }
     }
@@ -61,7 +61,7 @@ final class LoginCoordinator: NSObject,
         } catch SecureStoreError.unableToRetrieveFromUserDefaults,
                 SecureStoreError.cantInitialiseData,
                 SecureStoreError.cantRetrieveKey {
-            userStore.refreshStorage()
+            userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
             start()
         } catch {
             print("Local Authentication error: \(error)")

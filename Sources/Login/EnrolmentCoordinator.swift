@@ -33,6 +33,10 @@ final class EnrolmentCoordinator: NSObject,
         } else if !canUseLocalAuth(.deviceOwnerAuthentication) {
             showPasscodeInfo()
         } else {
+            // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
+            // keys in the secure enclave if no biometrics are registered on the device.  Hence the store
+            // needs to be recreated with access controls that allow it
+            userStore.refreshStorage(accessControlLevel: .anyBiometricsOrPasscode)
             storeAccessTokenInfo()
             finish()
         }
