@@ -60,6 +60,8 @@
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C82F95112B9F0D4200A90A6A /* TokensViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F95102B9F0D4200A90A6A /* TokensViewControllerTests.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
+		C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
+		C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */; };
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
 		C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */; };
 		C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */; };
@@ -211,6 +213,8 @@
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C82F95102B9F0D4200A90A6A /* TokensViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensViewControllerTests.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
+		C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycle.swift; sourceTree = "<group>"; };
+		C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycleTests.swift; sourceTree = "<group>"; };
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
 		C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
 		C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
+				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
 				4195E6CA2B0CD32F0065E2BB /* TokenCoordinator.swift */,
 				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
@@ -402,8 +407,9 @@
 		414D97FF2B8DEBD000E267EF /* Unlock */ = {
 			isa = PBXGroup;
 			children = (
-				414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */,
 				414D98042B8DF0F100E267EF /* UnlockScreen.xib */,
+				414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */,
+				414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */,
 			);
 			path = Unlock;
 			sourceTree = "<group>";
@@ -526,6 +532,7 @@
 		C81ECB1E2B71767500AFC3A6 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */,
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 			);
 			path = Application;
@@ -654,7 +661,6 @@
 				41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */,
 				41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */,
 				C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */,
-				414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1232,6 +1238,7 @@
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
+				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C89632EF2B0D0895002A1473 /* TokensViewController.swift in Sources */,
 			);
@@ -1252,6 +1259,7 @@
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				C8A6385A2B5994B700656A26 /* MockNetworkMonitor.swift in Sources */,
 				410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */,
+				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrollmentViewModelTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
@@ -1368,6 +1376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1429,6 +1438,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1732,6 +1742,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1919,6 +1930,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;

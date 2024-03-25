@@ -13,6 +13,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: UserStorage!
     var sut: LoginCoordinator!
     
     override func setUp() {
@@ -27,14 +28,16 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
+        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                    defaultsStore: mockDefaultStore)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         sut = LoginCoordinator(window: window,
                                root: navigationController,
                                analyticsCentre: mockAnalyticsCentre,
                                networkMonitor: mockNetworkMonitor,
-                               secureStoreService: mockSecureStore,
-                               defaultStore: mockDefaultStore)
+                               userStore: mockUserStore,
+                               tokenHolder: TokenHolder())
     }
     
     override func tearDown() {
@@ -46,6 +49,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockNetworkMonitor = nil
         mockSecureStore = nil
         mockDefaultStore = nil
+        mockUserStore = nil
         sut = nil
         
         super.tearDown()

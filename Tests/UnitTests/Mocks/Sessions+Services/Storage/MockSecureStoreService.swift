@@ -4,10 +4,10 @@ import SecureStore
 final class MockSecureStoreService: SecureStorable {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
-
+    
     var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
-
+    
     func saveItem(item: String, itemName: String) throws {
         if let errorFromSaveItem {
             throw errorFromSaveItem

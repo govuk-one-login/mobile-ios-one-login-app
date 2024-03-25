@@ -4,10 +4,11 @@ import Logging
 import UIKit
 
 struct UnlockScreenViewModel: BaseViewModel {
+    let analyticsService: AnalyticsService
+    let primaryButtonViewModel: ButtonViewModel
+    
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-    let primaryButtonViewModel: ButtonViewModel
-    let analyticsService: AnalyticsService
 
     init(analyticsService: AnalyticsService,
          primaryButtonAction: @escaping () -> Void ) {

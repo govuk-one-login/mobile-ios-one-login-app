@@ -1,13 +1,13 @@
 import GDSCommon
 import UIKit
 
-class UnlockScreenViewController: UIViewController {
+class UnlockScreenViewController: BaseViewController {
     override var nibName: String? { "UnlockScreen" }
     let viewModel: UnlockScreenViewModel
 
     init(viewModel: UnlockScreenViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: "UnlockScreen", bundle: nil)
+        super.init(viewModel: viewModel, nibName: "UnlockScreen", bundle: .main)
     }
     
     required init?(coder: NSCoder) {
