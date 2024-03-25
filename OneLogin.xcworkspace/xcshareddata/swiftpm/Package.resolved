@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "branch" : "feature/dcmaw-6051-enable-user-presence-access",
-        "revision" : "8efe3f0ffd36a8d4d5c0e1709a5d01802fbfb548"
+        "branch" : "main",
+        "revision" : "32c462a63aeb3fee8cfeae886a0dc20e4c3ef2f5"
       }
     },
     {
