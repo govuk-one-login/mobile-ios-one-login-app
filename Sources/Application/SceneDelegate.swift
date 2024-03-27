@@ -31,16 +31,17 @@ class SceneDelegate: UIResponder,
     
     func initialiseMainCoordinator(window: UIWindow) {
         let tabController = UITabBarController()
-        let analyticsCentre = AnalyticsCentre(analyticsService: analyticsService,
+        let analyticsCentre = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))
+        let userStore = UserStorage(secureStoreService: secureStoreService,
+                                    defaultsStore: UserDefaults.standard)
         coordinator = MainCoordinator(window: window,
                                       root: tabController,
                                       analyticsCentre: analyticsCentre,
-                                      secureStoreService: secureStoreService,
-                                      defaultsStore: UserDefaults.standard)
+                                      userStore: userStore)
         window.rootViewController = tabController
         window.makeKeyAndVisible()
         coordinator?.start()

@@ -32,7 +32,7 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockMainCoordinator = MainCoordinator(window: UIWindow(),
                                               root: UINavigationController(),
-                                              analyticsCentre: AnalyticsCentre(analyticsService: mockAnalyticsService,
+                                              analyticsCentre: AnalyticsCenter(analyticsService: mockAnalyticsService,
                                                                                analyticsPreferenceStore: mockAnalyticsPreferenceStore))
 
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,

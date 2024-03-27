@@ -1,6 +1,6 @@
 import Logging
 
-final class AnalyticsCentre: AnalyticsCentral {
+final class AnalyticsCenter: AnalyticsCentral {
     let analyticsService: AnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     

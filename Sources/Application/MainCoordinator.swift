@@ -18,13 +18,11 @@ final class MainCoordinator: NSObject,
     init(window: UIWindow,
          root: UITabBarController,
          analyticsCentre: AnalyticsCentral,
-         secureStoreService: SecureStorable,
-         defaultsStore: DefaultsStorable) {
+         userStore: UserStorable) {
         self.window = window
         self.root = root
         self.analyticsCentre = analyticsCentre
-        self.userStore = UserStorage(secureStoreService: secureStoreService,
-                                     defaultsStore: defaultsStore)
+        self.userStore = userStore
     }
     
     func start() {
