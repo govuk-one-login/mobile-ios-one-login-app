@@ -5,24 +5,21 @@ import UIKit
 
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
-                             ParentCoordinator,
-                             NavigationCoordinator {
+                             TabCoordinator {
     let window: UIWindow
-    let root: UINavigationController
+    let root: UITabBarController
     let analyticsCentre: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
-
+    
     
     init(window: UIWindow,
-         root: UINavigationController,
+         root: UITabBarController,
          analyticsCentre: AnalyticsCentral,
-         secureStoreService: SecureStorable = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                                      accessControlLevel: .currentBiometricsOrPasscode,
-                                                                                      localAuthStrings: LAContext().contextStrings)),
-         defaultsStore: DefaultsStorable = UserDefaults.standard) {
+         secureStoreService: SecureStorable,
+         defaultsStore: DefaultsStorable) {
         self.window = window
         self.root = root
         self.analyticsCentre = analyticsCentre
@@ -32,12 +29,13 @@ final class MainCoordinator: NSObject,
     
     func start() {
         let lc = LoginCoordinator(window: window,
-                                  root: root,
+                                  root: UINavigationController(),
                                   analyticsCentre: analyticsCentre,
+                                  networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
                                   tokenHolder: tokenHolder)
-        openChildInline(lc)
-        self.loginCoordinator = lc
+        openChildModally(lc, animated: false)
+        loginCoordinator = lc
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -60,17 +58,26 @@ final class MainCoordinator: NSObject,
             action()
         }
     }
-    
-    func launchTokenCoordinator() {
-        guard let accessToken = tokenHolder.accessToken else { return }
-        openChildInline(TokenCoordinator(root: root,
-                                         accessToken: accessToken))
+}
+
+extension MainCoordinator {
+    func addTabs(accessToken: String) {
+        addHomeTab(accessToken: accessToken)
     }
     
+    func addHomeTab(accessToken: String) {
+        let homeCoordinator = HomeCoordinator(accessToken: accessToken)
+        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        addTab(homeCoordinator)
+    }
+}
+
+extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
-            launchTokenCoordinator()
+            guard let accessToken = tokenHolder.accessToken else { return }
+            addTabs(accessToken: accessToken)
         default:
             break
         }

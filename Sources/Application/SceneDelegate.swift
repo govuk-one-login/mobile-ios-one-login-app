@@ -1,10 +1,13 @@
 import Authentication
 import GAnalytics
+import LocalAuthentication
 import Logging
 import SecureStore
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, SceneLifecycle {
+class SceneDelegate: UIResponder,
+                     UIWindowSceneDelegate,
+                     SceneLifecycle {
     var windowScene: UIWindowScene?
     var coordinator: MainCoordinator?
     let analyticsService: AnalyticsService = GAnalytics()
@@ -27,13 +30,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, SceneLifecycle {
     }
     
     func initialiseMainCoordinator(window: UIWindow) {
-        let navigationController = UINavigationController()
+        let tabController = UITabBarController()
         let analyticsCentre = AnalyticsCentre(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
+        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: .currentBiometricsOrPasscode,
+                                                                         localAuthStrings: LAContext().contextStrings))
         coordinator = MainCoordinator(window: window,
-                                      root: navigationController,
-                                      analyticsCentre: analyticsCentre)
-        window.rootViewController = navigationController
+                                      root: tabController,
+                                      analyticsCentre: analyticsCentre,
+                                      secureStoreService: secureStoreService,
+                                      defaultsStore: UserDefaults.standard)
+        window.rootViewController = tabController
         window.makeKeyAndVisible()
         coordinator?.start()
     }

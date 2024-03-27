@@ -25,7 +25,7 @@ final class LoginCoordinator: NSObject,
     init(window: UIWindow,
          root: UINavigationController,
          analyticsCentre: AnalyticsCentral,
-         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
+         networkMonitor: NetworkMonitoring,
          userStore: UserStorable,
          tokenHolder: TokenHolder) {
         self.window = window
@@ -34,6 +34,7 @@ final class LoginCoordinator: NSObject,
         self.networkMonitor = networkMonitor
         self.userStore = userStore
         self.tokenHolder = tokenHolder
+        root.modalPresentationStyle = .overFullScreen
     }
     
     func start() {
@@ -57,6 +58,7 @@ final class LoginCoordinator: NSObject,
     func getAccessToken() {
         do {
             tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+            root.dismiss(animated: true)
             finish()
         } catch SecureStoreError.unableToRetrieveFromUserDefaults,
                 SecureStoreError.cantInitialiseData,
@@ -124,6 +126,7 @@ final class LoginCoordinator: NSObject,
         case let child as AuthenticationCoordinator where child.loginError == nil:
             launchEnrolmentCoordinator(localAuth: LAContext())
         case _ as EnrolmentCoordinator:
+            root.dismiss(animated: true)
             finish()
         default:
             break
