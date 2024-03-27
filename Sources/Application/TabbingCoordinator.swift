@@ -8,21 +8,24 @@ final class TabbingCoordinator: NSObject,
     var root: UITabBarController = UITabBarController()
     let parentCoordinator: NavigationCoordinator
     var childCoordinators = [ChildCoordinator]()
+    let analyticsCentre: AnalyticsCentral
     let accessToken: String
     
     init(navRoot: UINavigationController,
          parentCoordinator: NavigationCoordinator,
+         analyticsCentre: AnalyticsCentral,
          accessToken: String) {
         self.navRoot = navRoot
         self.parentCoordinator = parentCoordinator
+        self.analyticsCentre = analyticsCentre
         self.accessToken = accessToken
     }
     
     func start() {
-        navRoot.pushViewController(root, animated: true)
+        addTabs()
         root.navigationItem.hidesBackButton = true
         root.tabBar.backgroundColor = .systemBackground
-        addTabs()
+        navRoot.pushViewController(root, animated: true)
     }
     
     func addTabs() {
@@ -37,7 +40,7 @@ final class TabbingCoordinator: NSObject,
     }
     
     func addProfileTab() {
-        let profileCoordinator = ProfileCoordinator()
+        let profileCoordinator = ProfileCoordinator(analyticsCentre: analyticsCentre)
         profileCoordinator.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 1)
         addTab(profileCoordinator)
     }

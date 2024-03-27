@@ -63,6 +63,7 @@ final class MainCoordinator: NSObject,
     func launchTokenCoordinator() {
         guard let accessToken = tokenHolder.accessToken else { return }
         openChildInline(ControlTabCoordinator(root: root,
+                                              analyticsCentre: analyticsCentre,
                                               accessToken: accessToken))
     }
 }
