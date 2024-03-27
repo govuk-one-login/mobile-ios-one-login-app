@@ -6,7 +6,6 @@ final class ControlTabCoordinator: NSObject,
                                    ChildCoordinator,
                                    NavigationCoordinator {
     let root: UINavigationController
-    let tabRoot = UITabBarController()
     var parentCoordinator: ParentCoordinator?
     var childCoordinator: TabCoordinator?
     let accessToken: String

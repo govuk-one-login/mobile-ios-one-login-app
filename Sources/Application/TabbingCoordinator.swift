@@ -27,12 +27,19 @@ final class TabbingCoordinator: NSObject,
     
     func addTabs() {
         addHomeTab()
+        addProfileTab()
     }
     
     func addHomeTab() {
         let homeCoordinator = HomeCoordinator(accessToken: accessToken)
-        root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         addTab(homeCoordinator)
+    }
+    
+    func addProfileTab() {
+        let profileCoordinator = ProfileCoordinator()
+        profileCoordinator.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 1)
+        addTab(profileCoordinator)
     }
 }
 
