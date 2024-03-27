@@ -5,7 +5,6 @@ import UIKit
 
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
-                             ParentCoordinator,
                              NavigationCoordinator {
     let window: UIWindow
     let root: UINavigationController
@@ -14,7 +13,7 @@ final class MainCoordinator: NSObject,
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
-
+    
     
     init(window: UIWindow,
          root: UINavigationController,
@@ -63,10 +62,12 @@ final class MainCoordinator: NSObject,
     
     func launchTokenCoordinator() {
         guard let accessToken = tokenHolder.accessToken else { return }
-        openChildInline(TokenCoordinator(root: root,
-                                         accessToken: accessToken))
+        openChildInline(ControlTabCoordinator(root: root,
+                                              accessToken: accessToken))
     }
-    
+}
+
+extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:

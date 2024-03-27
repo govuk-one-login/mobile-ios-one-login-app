@@ -96,7 +96,7 @@ extension MainCoordinatorTests {
         sut.launchTokenCoordinator()
         // THEN the Token Coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators[0] is TokenCoordinator)
+        XCTAssertTrue(sut.childCoordinators[0] is ControlTabCoordinator)
     }
     
     func test_launchTokenCoorindator_fails() throws {
