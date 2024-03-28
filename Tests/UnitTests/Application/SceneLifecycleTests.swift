@@ -52,6 +52,9 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
+        mockSecureStore = nil
+        mockDefaultStore = nil
+        mockUserStore = nil
         mockMainCoordinator = nil
         sut = nil
         
