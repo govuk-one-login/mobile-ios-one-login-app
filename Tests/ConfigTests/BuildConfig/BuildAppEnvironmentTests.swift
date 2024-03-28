@@ -10,6 +10,7 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginClientID, "TEST_CLIENT_ID")
         XCTAssertEqual(sut.stsClientID, "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         XCTAssertEqual(sut.oneLoginRedirect, "https://mobile.build.account.gov.uk/redirect")
+        XCTAssertEqual(sut.oneLoginBaseURL, "mobile.build.account.gov.uk")
         XCTAssertFalse(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
     }
