@@ -64,6 +64,8 @@ extension MainCoordinator {
     func addTabs() {
         guard let accessToken = tokenHolder.accessToken else { return }
         addHomeTab(accessToken: accessToken)
+        addWalletTab()
+        addProfileTab()
     }
     
     func addHomeTab(accessToken: String) {
@@ -72,16 +74,16 @@ extension MainCoordinator {
         addTab(homeCoordinator)
     }
     
-    func addWalletTab(accessToken: String) {
-        let homeCoordinator = WalletCoordinator()
-        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "house"), tag: 0)
-        addTab(homeCoordinator)
+    func addWalletTab() {
+        let walletCoordinator = WalletCoordinator()
+        walletCoordinator.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
+        addTab(walletCoordinator)
     }
     
-    func addProfileTab(accessToken: String) {
-        let homeCoordinator = ProfileCoordinator()
-        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "house"), tag: 0)
-        addTab(homeCoordinator)
+    func addProfileTab() {
+        let profileCoordinator = ProfileCoordinator()
+        profileCoordinator.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
+        addTab(profileCoordinator)
     }
 }
 

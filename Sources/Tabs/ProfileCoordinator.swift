@@ -7,7 +7,6 @@ final class ProfileCoordinator: NSObject,
                                 NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
     var root = UINavigationController()
-    let accessToken: String
     
     override init() { }
     
