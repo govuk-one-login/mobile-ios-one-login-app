@@ -5,12 +5,13 @@ import XCTest
 @MainActor
 final class MainCoordinatorTests: XCTestCase {
     var window: UIWindow!
-    var navigationController: UINavigationController!
+    var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCentre: AnalyticsCentral!
+    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var sut: MainCoordinator!
     
     var evaluateRevisitActionCalled = false
@@ -19,30 +20,32 @@ final class MainCoordinatorTests: XCTestCase {
         super.setUp()
 
         window = .init()
-        navigationController = .init()
+        tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCentre = AnalyticsCenter(analyticsService: mockAnalyticsService,
+        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        window.rootViewController = navigationController
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      defaultsStore: mockDefaultStore)
+        window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         sut = MainCoordinator(window: window,
-                              root: navigationController,
-                              analyticsCentre: mockAnalyticsCentre,
-                              secureStoreService: mockSecureStore,
-                              defaultsStore: mockDefaultStore)
+                              root: tabBarController,
+                              analyticsCenter: mockAnalyticsCenter,
+                              userStore: mockUserStore)
     }
 
     override func tearDown() {
         window = nil
-        navigationController = nil
+        tabBarController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCentre = nil
+        mockAnalyticsCenter = nil
         mockSecureStore = nil
         mockDefaultStore = nil
+        mockUserStore = nil
         sut = nil
         
         evaluateRevisitActionCalled = false
@@ -89,19 +92,19 @@ extension MainCoordinatorTests {
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
-    func test_launchTokenCoorindator_succeeds() throws {
+    func test_addTabs_succeeds() throws {
         // GIVEN the token holder's access token has is not nil
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
-        sut.launchTokenCoordinator()
+        sut.addTabs()
         // THEN the Token Coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators[0] is TokenCoordinator)
+        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
     }
     
     func test_launchTokenCoorindator_fails() throws {
         // GIVEN the token holder's access token has is nil
-        sut.launchTokenCoordinator()
+        sut.addTabs()
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
         // THEN the Token Coordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
@@ -112,8 +115,9 @@ extension MainCoordinatorTests {
                                         defaultsStore: mockDefaultStore)
         // GIVEN the LoginCoordinator doesn't have an access token
         let loginCoordinator = LoginCoordinator(window: window,
-                                                root: navigationController,
-                                                analyticsCentre: mockAnalyticsCentre,
+                                                root: UINavigationController(),
+                                                analyticsCentre: mockAnalyticsCenter,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator

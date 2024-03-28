@@ -40,7 +40,7 @@ class SceneDelegate: UIResponder,
                                     defaultsStore: UserDefaults.standard)
         coordinator = MainCoordinator(window: window,
                                       root: tabController,
-                                      analyticsCentre: analyticsCentre,
+                                      analyticsCenter: analyticsCentre,
                                       userStore: userStore)
         window.rootViewController = tabController
         window.makeKeyAndVisible()

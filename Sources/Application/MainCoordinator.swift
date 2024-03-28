@@ -8,7 +8,7 @@ final class MainCoordinator: NSObject,
                              TabCoordinator {
     let window: UIWindow
     let root: UITabBarController
-    let analyticsCentre: AnalyticsCentral
+    let analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
@@ -17,18 +17,20 @@ final class MainCoordinator: NSObject,
     
     init(window: UIWindow,
          root: UITabBarController,
-         analyticsCentre: AnalyticsCentral,
+         analyticsCenter: AnalyticsCentral,
          userStore: UserStorable) {
         self.window = window
         self.root = root
-        self.analyticsCentre = analyticsCentre
+        self.analyticsCenter = analyticsCenter
         self.userStore = userStore
+        root.tabBar.backgroundColor = .systemBackground
+        root.tabBar.tintColor = .gdsGreen
     }
     
     func start() {
         let lc = LoginCoordinator(window: window,
                                   root: UINavigationController(),
-                                  analyticsCentre: analyticsCentre,
+                                  analyticsCentre: analyticsCenter,
                                   networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
                                   tokenHolder: tokenHolder)
@@ -59,7 +61,8 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    func addTabs(accessToken: String) {
+    func addTabs() {
+        guard let accessToken = tokenHolder.accessToken else { return }
         addHomeTab(accessToken: accessToken)
     }
     
@@ -74,8 +77,7 @@ extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
-            guard let accessToken = tokenHolder.accessToken else { return }
-            addTabs(accessToken: accessToken)
+            addTabs()
         default:
             break
         }
