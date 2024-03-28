@@ -21,7 +21,7 @@ extension EventName: LoggableEvent { }
  extension ScreenView: LoggableScreenV2
  where Screen: Logging.ScreenType {
     public var name: String {
-        type.name
+        title
     }
 
     public var type: Logging.ScreenType {
