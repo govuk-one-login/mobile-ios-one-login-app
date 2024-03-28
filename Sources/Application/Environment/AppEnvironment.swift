@@ -69,6 +69,10 @@ extension AppEnvironment {
     static var oneLoginRedirect: String {
         return string(for: .redirectURL)
     }
+    
+    static var oneLoginBaseURL: String {
+        return string(for: .baseURL)
+    }
 }
 
 // MARK: - STS Info Plist values as Type properties
