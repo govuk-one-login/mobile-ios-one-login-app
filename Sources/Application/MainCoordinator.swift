@@ -71,6 +71,18 @@ extension MainCoordinator {
         homeCoordinator.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         addTab(homeCoordinator)
     }
+    
+    func addWalletTab(accessToken: String) {
+        let homeCoordinator = WalletCoordinator()
+        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "house"), tag: 0)
+        addTab(homeCoordinator)
+    }
+    
+    func addProfileTab(accessToken: String) {
+        let homeCoordinator = ProfileCoordinator()
+        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "house"), tag: 0)
+        addTab(homeCoordinator)
+    }
 }
 
 extension MainCoordinator: ParentCoordinator {

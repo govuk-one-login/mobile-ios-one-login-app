@@ -118,6 +118,8 @@
 		C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */; };
 		C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1232BB4805900722218 /* HomeCoordinator.swift */; };
 		C8ECA1272BB5891000722218 /* MockAnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */; };
+		C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1292BB5957500722218 /* WalletCoordinator.swift */; };
+		C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +271,8 @@
 		C8EBE8032AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
 		C8ECA1232BB4805900722218 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsCenter.swift; sourceTree = "<group>"; };
+		C8ECA1292BB5957500722218 /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
+		C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +388,7 @@
 				C85C874B2AD40479001274AC /* Resources */,
 				C8520C282AE2C1AD006790C1 /* Utilities */,
 				4195E6C62B0CC6C50065E2BB /* Screens */,
+				C8ECA1282BB5955200722218 /* Tabs */,
 				C85E21152ACEECB000AF8B4E /* Views */,
 			);
 			path = Sources;
@@ -401,7 +406,6 @@
 				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
 				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
-				C8ECA1232BB4805900722218 /* HomeCoordinator.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -896,6 +900,16 @@
 			path = TestPlans;
 			sourceTree = "<group>";
 		};
+		C8ECA1282BB5955200722218 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				C8ECA1232BB4805900722218 /* HomeCoordinator.swift */,
+				C8ECA1292BB5957500722218 /* WalletCoordinator.swift */,
+				C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1236,6 +1250,7 @@
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalyticsScreen.swift in Sources */,
 				41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */,
+				C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
@@ -1244,6 +1259,7 @@
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C89632EF2B0D0895002A1473 /* TokensViewController.swift in Sources */,
+				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
