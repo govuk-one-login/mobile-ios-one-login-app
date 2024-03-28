@@ -67,7 +67,7 @@ extension FaceIDEnrollmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment,
                                 titleKey: "app_enableFaceIDTitle")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [ screen.screen.name])
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
 }

@@ -50,7 +50,7 @@ extension UnableToLoginErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: ErrorAnalyticsScreen.unableToLogin,
                                 titleKey: "app_signInErrorTitle")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
 }
