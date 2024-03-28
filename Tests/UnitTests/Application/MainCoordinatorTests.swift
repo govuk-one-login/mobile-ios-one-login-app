@@ -98,7 +98,7 @@ extension MainCoordinatorTests {
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
         sut.addTabs()
         // THEN the Token Coordinator should be launched
-        XCTAssertEqual(sut.childCoordinators.count, 1)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
     }
     
