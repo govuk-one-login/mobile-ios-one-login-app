@@ -8,7 +8,6 @@ import UIKit
 final class LoginCoordinator: NSObject,
                               AnyCoordinator,
                               NavigationCoordinator,
-                              ParentCoordinator,
                               ChildCoordinator {
     let window: UIWindow
     let root: UINavigationController
@@ -116,7 +115,9 @@ final class LoginCoordinator: NSObject,
                                              localAuth: localAuth,
                                              tokenHolder: tokenHolder))
     }
-    
+}
+
+extension LoginCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as OnboardingCoordinator:
