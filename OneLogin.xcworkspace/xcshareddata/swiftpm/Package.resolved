@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
       "state" : {
-        "revision" : "0c3d0463e702f1446dc75db7a64273c5bdf4475c",
-        "version" : "1.0.3"
+        "revision" : "64cdeb5bd74e87cb28b2a3806774394c0165ca76",
+        "version" : "1.0.2"
       }
     },
     {
