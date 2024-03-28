@@ -5,39 +5,37 @@ import UIKit
 
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
-                             ParentCoordinator,
-                             NavigationCoordinator {
+                             TabCoordinator {
     let window: UIWindow
-    let root: UINavigationController
-    let analyticsCentre: AnalyticsCentral
+    let root: UITabBarController
+    let analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
-
+    
     
     init(window: UIWindow,
-         root: UINavigationController,
-         analyticsCentre: AnalyticsCentral,
-         secureStoreService: SecureStorable = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                                      accessControlLevel: .currentBiometricsOrPasscode,
-                                                                                      localAuthStrings: LAContext().contextStrings)),
-         defaultsStore: DefaultsStorable = UserDefaults.standard) {
+         root: UITabBarController,
+         analyticsCenter: AnalyticsCentral,
+         userStore: UserStorable) {
         self.window = window
         self.root = root
-        self.analyticsCentre = analyticsCentre
-        self.userStore = UserStorage(secureStoreService: secureStoreService,
-                                     defaultsStore: defaultsStore)
+        self.analyticsCenter = analyticsCenter
+        self.userStore = userStore
+        root.tabBar.backgroundColor = .systemBackground
+        root.tabBar.tintColor = .gdsGreen
     }
     
     func start() {
         let lc = LoginCoordinator(window: window,
-                                  root: root,
-                                  analyticsCentre: analyticsCentre,
+                                  root: UINavigationController(),
+                                  analyticsCentre: analyticsCenter,
+                                  networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
                                   tokenHolder: tokenHolder)
-        openChildInline(lc)
-        self.loginCoordinator = lc
+        openChildModally(lc, animated: false)
+        loginCoordinator = lc
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -60,17 +58,40 @@ final class MainCoordinator: NSObject,
             action()
         }
     }
-    
-    func launchTokenCoordinator() {
+}
+
+extension MainCoordinator {
+    func addTabs() {
         guard let accessToken = tokenHolder.accessToken else { return }
-        openChildInline(TokenCoordinator(root: root,
-                                         accessToken: accessToken))
+        addHomeTab(accessToken: accessToken)
+        addWalletTab()
+        addProfileTab()
     }
     
+    func addHomeTab(accessToken: String) {
+        let homeCoordinator = HomeCoordinator(accessToken: accessToken)
+        homeCoordinator.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        addTab(homeCoordinator)
+    }
+    
+    func addWalletTab() {
+        let walletCoordinator = WalletCoordinator()
+        walletCoordinator.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
+        addTab(walletCoordinator)
+    }
+    
+    func addProfileTab() {
+        let profileCoordinator = ProfileCoordinator()
+        profileCoordinator.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
+        addTab(profileCoordinator)
+    }
+}
+
+extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
-            launchTokenCoordinator()
+            addTabs()
         default:
             break
         }

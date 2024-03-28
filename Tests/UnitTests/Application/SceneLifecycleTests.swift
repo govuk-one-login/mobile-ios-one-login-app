@@ -23,6 +23,10 @@ class MockSceneDelegate: SceneLifecycle {
 final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
+    var mockAnalyticsCenter: MockAnalyticsCenter!
+    var mockSecureStore: MockSecureStoreService!
+    var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var mockMainCoordinator: MainCoordinator!
     var sut: MockSceneDelegate!
     
@@ -30,19 +34,28 @@ final class SceneLifecycleTests: XCTestCase {
         super.setUp()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
+        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+        mockSecureStore = MockSecureStoreService()
+        mockDefaultStore = MockDefaultsStore()
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      defaultsStore: mockDefaultStore)
         mockMainCoordinator = MainCoordinator(window: UIWindow(),
-                                              root: UINavigationController(),
-                                              analyticsCentre: AnalyticsCentre(analyticsService: mockAnalyticsService,
-                                                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore))
-
+                                              root: UITabBarController(),
+                                              analyticsCenter: mockAnalyticsCenter,
+                                              userStore: mockUserStore)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
                                 analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
-        mockMainCoordinator = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
+        mockAnalyticsCenter = nil
+        mockSecureStore = nil
+        mockDefaultStore = nil
+        mockUserStore = nil
+        mockMainCoordinator = nil
         sut = nil
         
         super.tearDown()
