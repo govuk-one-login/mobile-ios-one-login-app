@@ -112,7 +112,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
         XCTAssertEqual(sut.childCoordinators.count, 1)
     }
-
+    
     func test_returningUserFlow() throws {
         try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
         sut.returningUserFlow()

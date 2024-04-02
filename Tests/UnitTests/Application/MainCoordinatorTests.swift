@@ -18,13 +18,13 @@ final class MainCoordinatorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
+        
         mockWindowManager = MockWindowManager(appWindow: UIWindow())
         tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                              analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
@@ -36,7 +36,7 @@ final class MainCoordinatorTests: XCTestCase {
                               analyticsCenter: mockAnalyticsCenter,
                               userStore: mockUserStore)
     }
-
+    
     override func tearDown() {
         mockWindowManager = nil
         tabBarController = nil
@@ -49,7 +49,7 @@ final class MainCoordinatorTests: XCTestCase {
         sut = nil
         
         evaluateRevisitActionCalled = false
-
+        
         super.tearDown()
     }
 }

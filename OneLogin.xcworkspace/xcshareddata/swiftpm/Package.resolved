@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
       "state" : {
-        "branch" : "test-modal-animation",
-        "revision" : "81de6616795a84d2fb21a4835b7af3b7e040bbab"
+        "revision" : "0c3d0463e702f1446dc75db7a64273c5bdf4475c",
+        "version" : "1.0.3"
       }
     },
     {
