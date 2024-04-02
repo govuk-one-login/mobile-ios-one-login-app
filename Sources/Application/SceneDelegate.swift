@@ -8,10 +8,9 @@ import UIKit
 class SceneDelegate: UIResponder,
                      UIWindowSceneDelegate,
                      SceneLifecycle {
-    var windowScene: UIWindowScene?
     var coordinator: MainCoordinator?
     let analyticsService: AnalyticsService = GAnalytics()
-    var unlockWindow: UIWindow?
+    var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
     
     func scene(_ scene: UIScene,
@@ -20,8 +19,8 @@ class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
-        self.windowScene = windowScene
-        initialiseMainCoordinator(window: UIWindow(windowScene: windowScene))
+        windowManager = WindowManager(windowScene: windowScene)
+        initialiseMainCoordinator(windowManager: windowManager!)
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
@@ -29,7 +28,7 @@ class SceneDelegate: UIResponder,
         coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func initialiseMainCoordinator(window: UIWindow) {
+    func initialiseMainCoordinator(windowManager: WindowManagement) {
         let tabController = UITabBarController()
         let analyticsCentre = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
@@ -38,12 +37,12 @@ class SceneDelegate: UIResponder,
                                                                          localAuthStrings: LAContext().contextStrings))
         let userStore = UserStorage(secureStoreService: secureStoreService,
                                     defaultsStore: UserDefaults.standard)
-        coordinator = MainCoordinator(window: window,
+        coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCentre,
                                       userStore: userStore)
-        window.rootViewController = tabController
-        window.makeKeyAndVisible()
+        windowManager.appWindow.rootViewController = tabController
+        windowManager.appWindow.makeKeyAndVisible()
         coordinator?.start()
     }
     

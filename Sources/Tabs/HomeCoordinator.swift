@@ -7,15 +7,14 @@ final class HomeCoordinator: NSObject,
                              NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
     var root = UINavigationController()
-    let accessToken: String
-
-    init(accessToken: String) {
-        self.accessToken = accessToken
-    }
+    private var accessToken: String?
+    private let baseVc = TokensViewController()
 
     func start() {
-        let vc = TokensViewController(accessToken: accessToken)
-        vc.navigationItem.hidesBackButton = true
-        root.setViewControllers([vc], animated: true)
+        root.setViewControllers([baseVc], animated: true)
+    }
+    
+    func updateToken(accessToken: String?) {
+        baseVc.updateToken(accessToken: accessToken)
     }
 }

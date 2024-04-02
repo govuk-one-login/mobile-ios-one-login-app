@@ -8,11 +8,8 @@ final class WalletCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     var root = UINavigationController()
     
-    override init() { }
-    
     func start() {
         let vc = UIViewController()
-        vc.navigationItem.hidesBackButton = true
         root.setViewControllers([vc], animated: true)
     }
 }

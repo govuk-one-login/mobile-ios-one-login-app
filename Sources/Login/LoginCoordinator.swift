@@ -9,11 +9,11 @@ final class LoginCoordinator: NSObject,
                               AnyCoordinator,
                               NavigationCoordinator,
                               ChildCoordinator {
-    let window: UIWindow
+    let windowManager: WindowManagement
     let root: UINavigationController
     var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    let analyticsCentre: AnalyticsCentral
+    let analyticsCenter: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
     let userStore: UserStorable
     let tokenHolder: TokenHolder
@@ -21,15 +21,15 @@ final class LoginCoordinator: NSObject,
     private let errorPresenter = ErrorPresenter.self
     private weak var authCoordinator: AuthenticationCoordinator?
     
-    init(window: UIWindow,
+    init(windowManager: WindowManagement,
          root: UINavigationController,
-         analyticsCentre: AnalyticsCentral,
+         analyticsCenter: AnalyticsCentral,
          networkMonitor: NetworkMonitoring,
          userStore: UserStorable,
          tokenHolder: TokenHolder) {
-        self.window = window
+        self.windowManager = windowManager
         self.root = root
-        self.analyticsCentre = analyticsCentre
+        self.analyticsCenter = analyticsCenter
         self.networkMonitor = networkMonitor
         self.userStore = userStore
         self.tokenHolder = tokenHolder
@@ -46,17 +46,16 @@ final class LoginCoordinator: NSObject,
     }
     
     func returningUserFlow() {
-        let rootViewController = viewControllerFactory
-            .createUnlockScreen(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
-                getAccessToken()
-            }
-        root.setViewControllers([rootViewController], animated: true)
+        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            getAccessToken()
+        }
         getAccessToken()
     }
     
     func getAccessToken() {
         do {
             tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+            windowManager.hideUnlockWindow()
             root.dismiss(animated: true)
             finish()
         } catch SecureStoreError.unableToRetrieveFromUserDefaults,
@@ -71,12 +70,12 @@ final class LoginCoordinator: NSObject,
     
     func firstTimeUserFlow() {
         let rootViewController = viewControllerFactory
-            .createIntroViewController(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+            .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
                     launchAuthenticationCoordinator()
                 } else {
                     let networkErrorScreen = errorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsCentre.analyticsService) { [unowned self] in
+                        .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                             root.popViewController(animated: true)
                             if networkMonitor.isConnected {
                                 launchAuthenticationCoordinator()
@@ -90,15 +89,15 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        if analyticsCentre.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCentre.analyticsPreferenceStore))
+        if analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore))
         }
     }
     
     func launchAuthenticationCoordinator() {
         let ac = AuthenticationCoordinator(root: root,
-                                           session: AppAuthSession(window: window),
-                                           analyticsService: analyticsCentre.analyticsService,
+                                           session: AppAuthSession(window: windowManager.appWindow),
+                                           analyticsService: analyticsCenter.analyticsService,
                                            tokenHolder: tokenHolder)
         openChildInline(ac)
         self.authCoordinator = ac
@@ -110,7 +109,7 @@ final class LoginCoordinator: NSObject,
     
     func launchEnrolmentCoordinator(localAuth: LAContexting) {
         openChildInline(EnrolmentCoordinator(root: root,
-                                             analyticsService: analyticsCentre.analyticsService,
+                                             analyticsService: analyticsCenter.analyticsService,
                                              userStore: userStore,
                                              localAuth: localAuth,
                                              tokenHolder: tokenHolder))

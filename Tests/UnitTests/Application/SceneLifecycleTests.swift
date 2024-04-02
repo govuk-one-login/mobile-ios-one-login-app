@@ -1,26 +1,9 @@
-import GAnalytics
-import Logging
 @testable import OneLogin
 import XCTest
 
-class MockSceneDelegate: SceneLifecycle {
-    var windowScene: UIWindowScene?
-    var coordinator: MainCoordinator?
-    var analyticsService: AnalyticsService
-    var unlockWindow: UIWindow?
-    
-    init(coordinator: MainCoordinator?,
-         analyticsService: AnalyticsService) {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScenes = scenes.first as? UIWindowScene
-        self.windowScene = windowScenes
-        self.coordinator = coordinator
-        self.analyticsService = analyticsService
-    }
-}
-
 @MainActor
 final class SceneLifecycleTests: XCTestCase {
+    var mockWindowManager: MockWindowManager!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
@@ -32,6 +15,7 @@ final class SceneLifecycleTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        mockWindowManager = MockWindowManager(appWindow: UIWindow())
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
@@ -40,15 +24,17 @@ final class SceneLifecycleTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
                                       defaultsStore: mockDefaultStore)
-        mockMainCoordinator = MainCoordinator(window: UIWindow(),
+        mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
                                               userStore: mockUserStore)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
-                                analyticsService: mockAnalyticsService)
+                                analyticsService: mockAnalyticsService,
+                                windowManager: mockWindowManager)
     }
     
     override func tearDown() {
+        mockWindowManager = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
@@ -65,13 +51,12 @@ final class SceneLifecycleTests: XCTestCase {
 extension SceneLifecycleTests {
     func test_displayUnlockScreen() throws {
         sut.displayUnlockScreen()
-        XCTAssertNotNil(sut.unlockWindow)
-        XCTAssertTrue(sut.unlockWindow?.rootViewController is UnlockScreenViewController)
-        XCTAssertEqual(sut.unlockWindow?.windowLevel, .alert)
+        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
+
     }
     
     func test_promptToUnlock() throws {
         sut.promptToUnlock()
-        XCTAssertNil(sut.unlockWindow)
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
     }
 }
