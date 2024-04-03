@@ -1,3 +1,4 @@
+import Foundation
 import Logging
 
 final class AnalyticsCenter: AnalyticsCentral {
@@ -16,7 +17,8 @@ final class AnalyticsCenter: AnalyticsCentral {
             "primary_publishing_organisation": "government digital service - digital identity",
             "organisation": "<OT1056>",
             "taxonomy_level1": "one login mobile application",
-            "taxonomy_level2": "login"
+            "taxonomy_level2": "login",
+            "language": "\(NSLocale.current.identifier.prefix(2))"
         ]
     }
 }

@@ -41,7 +41,7 @@ extension OneLoginIntroViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = LinkEvent(textKey: "app_signInButton",
                               linkDomain: AppEnvironment.oneLoginBaseURL,
-                              external: .true)
+                              external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
