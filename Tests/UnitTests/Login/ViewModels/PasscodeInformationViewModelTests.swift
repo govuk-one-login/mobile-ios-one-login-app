@@ -50,7 +50,7 @@ extension PasscodeInformationViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: InformationAnalyticsScreen.passcode,
                                 titleKey: "app_noPasscodeSetupTitle")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
 }

@@ -10,6 +10,7 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginClientID, "sdJChz1oGajIz0O0tdPdh0CA2zW")
         XCTAssertEqual(sut.stsClientID, "ctQpngJQrFFCrppZtYQFFoklHaq")
         XCTAssertEqual(sut.oneLoginRedirect, "https://mobile.staging.account.gov.uk/redirect")
+        XCTAssertEqual(sut.oneLoginBaseURL, "mobile.staging.account.gov.uk")
         XCTAssertFalse(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
     }

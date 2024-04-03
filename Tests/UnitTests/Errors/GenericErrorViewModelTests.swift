@@ -50,7 +50,7 @@ extension GenericErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(screen: ErrorAnalyticsScreen.generic,
                                 titleKey: "app_somethingWentWrongErrorTitle")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.screen.name])
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
     }
 }
