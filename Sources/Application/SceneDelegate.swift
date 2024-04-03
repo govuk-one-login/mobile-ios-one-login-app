@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder,
     
     func initialiseMainCoordinator(windowManager: WindowManagement) {
         let tabController = UITabBarController()
-        let analyticsCentre = AnalyticsCenter(analyticsService: analyticsService,
+        let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
@@ -39,7 +39,7 @@ class SceneDelegate: UIResponder,
                                     defaultsStore: UserDefaults.standard)
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
-                                      analyticsCenter: analyticsCentre,
+                                      analyticsCenter: analyticsCenter,
                                       userStore: userStore)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()

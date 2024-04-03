@@ -9,7 +9,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCentre: AnalyticsCentral!
+    var mockAnalyticsCenter: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
@@ -23,7 +23,7 @@ final class LoginCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCentre = AnalyticsCenter(analyticsService: mockAnalyticsService,
+        mockAnalyticsCenter = AnalyticsCenter(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
@@ -34,7 +34,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockWindowManager.appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(windowManager: mockWindowManager,
                                root: navigationController,
-                               analyticsCenter: mockAnalyticsCentre,
+                               analyticsCenter: mockAnalyticsCenter,
                                networkMonitor: mockNetworkMonitor,
                                userStore: mockUserStore,
                                tokenHolder: TokenHolder())
@@ -45,7 +45,7 @@ final class LoginCoordinatorTests: XCTestCase {
         navigationController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCentre = nil
+        mockAnalyticsCenter = nil
         mockNetworkMonitor = nil
         mockSecureStore = nil
         mockDefaultStore = nil
