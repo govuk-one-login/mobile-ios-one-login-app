@@ -4,49 +4,52 @@ import XCTest
 
 @MainActor
 final class MainCoordinatorTests: XCTestCase {
-    var window: UIWindow!
-    var navigationController: UINavigationController!
+    var mockWindowManager: MockWindowManager!
+    var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCentre: AnalyticsCentral!
+    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var sut: MainCoordinator!
     
     var evaluateRevisitActionCalled = false
     
     override func setUp() {
         super.setUp()
-
-        window = .init()
-        navigationController = .init()
+        
+        mockWindowManager = MockWindowManager(appWindow: UIWindow())
+        tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
-                                              analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
-        sut = MainCoordinator(window: window,
-                              root: navigationController,
-                              analyticsCentre: mockAnalyticsCentre,
-                              secureStoreService: mockSecureStore,
-                              defaultsStore: mockDefaultStore)
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      defaultsStore: mockDefaultStore)
+        mockWindowManager.appWindow.rootViewController = tabBarController
+        mockWindowManager.appWindow.makeKeyAndVisible()
+        sut = MainCoordinator(windowManager: mockWindowManager,
+                              root: tabBarController,
+                              analyticsCenter: mockAnalyticsCenter,
+                              userStore: mockUserStore)
     }
-
+    
     override func tearDown() {
-        window = nil
-        navigationController = nil
+        mockWindowManager = nil
+        tabBarController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCentre = nil
+        mockAnalyticsCenter = nil
         mockSecureStore = nil
         mockDefaultStore = nil
+        mockUserStore = nil
         sut = nil
         
         evaluateRevisitActionCalled = false
-
+        
         super.tearDown()
     }
 }
@@ -56,8 +59,8 @@ extension MainCoordinatorTests {
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the LoginCoordinator should have an LoginCoordinator as it's only child coordinator
-        XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators[0] is LoginCoordinator)
+        XCTAssertEqual(sut.childCoordinators.count, 4)
+        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
     }
     
     func test_evaluateRevisit_returningAuthenticatedUser() throws {
@@ -89,31 +92,32 @@ extension MainCoordinatorTests {
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
-    func test_launchTokenCoorindator_succeeds() throws {
+    func test_addTabs_succeeds() throws {
         // GIVEN the token holder's access token has is not nil
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
-        sut.launchTokenCoordinator()
+        sut.addTabs()
         // THEN the Token Coordinator should be launched
-        XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators[0] is TokenCoordinator)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
+        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
     }
     
     func test_launchTokenCoorindator_fails() throws {
         // GIVEN the token holder's access token has is nil
-        sut.launchTokenCoordinator()
+        sut.addTabs()
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
         // THEN the Token Coordinator should not be launched
-        XCTAssertEqual(sut.childCoordinators.count, 0)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
     }
     
     func test_didRegainFocus_fromLoginCoordinator() throws {
         let mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                         defaultsStore: mockDefaultStore)
         // GIVEN the LoginCoordinator doesn't have an access token
-        let loginCoordinator = LoginCoordinator(window: window,
-                                                root: navigationController,
-                                                analyticsCentre: mockAnalyticsCentre,
+        let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
+                                                root: UINavigationController(),
+                                                analyticsCenter: mockAnalyticsCenter,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator

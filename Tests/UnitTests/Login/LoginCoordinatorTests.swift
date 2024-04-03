@@ -5,11 +5,11 @@ import XCTest
 
 @MainActor
 final class LoginCoordinatorTests: XCTestCase {
-    var window: UIWindow!
+    var mockWindowManager: MockWindowManager!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCentre: AnalyticsCentral!
+    var mockAnalyticsCenter: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
@@ -19,33 +19,33 @@ final class LoginCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        window = .init()
+        mockWindowManager = MockWindowManager(appWindow: UIWindow())
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCentre = AnalyticsCentre(analyticsService: mockAnalyticsService,
+        mockAnalyticsCenter = AnalyticsCenter(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                     defaultsStore: mockDefaultStore)
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
-        sut = LoginCoordinator(window: window,
+        mockWindowManager.appWindow.rootViewController = navigationController
+        mockWindowManager.appWindow.makeKeyAndVisible()
+        sut = LoginCoordinator(windowManager: mockWindowManager,
                                root: navigationController,
-                               analyticsCentre: mockAnalyticsCentre,
+                               analyticsCenter: mockAnalyticsCenter,
                                networkMonitor: mockNetworkMonitor,
                                userStore: mockUserStore,
                                tokenHolder: TokenHolder())
     }
     
     override func tearDown() {
-        window = nil
+        mockWindowManager = nil
         navigationController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCentre = nil
+        mockAnalyticsCenter = nil
         mockNetworkMonitor = nil
         mockSecureStore = nil
         mockDefaultStore = nil
@@ -67,8 +67,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the UnlockScreenViewController
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(navigationController.topViewController is UnlockScreenViewController)
+        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
     }
     
     func test_start_displaysIntroViewController() throws {
@@ -113,14 +112,12 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
         XCTAssertEqual(sut.childCoordinators.count, 1)
     }
-
+    
     func test_returningUserFlow() throws {
         try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
-        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         sut.returningUserFlow()
         // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is UnlockScreenViewController)
+        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     

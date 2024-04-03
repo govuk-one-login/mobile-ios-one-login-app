@@ -5,15 +5,24 @@ import UIKit
 class TokensViewController: UIViewController {
     override var nibName: String? { "TokensView" }
     
-    private let accessToken: String
+    private var accessToken: String? {
+        didSet {
+            guard let accessTokenLabel = accessTokenLabel else { return }
+            accessTokenLabel.attributedText = GDSLocalisedString(stringLiteral: "Access Token: \(accessToken ?? "")",
+                                                                 attributes: [("Access Token:", [.font: UIFont.title1Bold])]).attributedValue
+        }
+    }
     
-    init(accessToken: String) {
-        self.accessToken = accessToken
+    init() {
         super.init(nibName: "TokensView", bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateToken(accessToken: String?) {
+        self.accessToken = accessToken
     }
     
     @IBOutlet private var loggedInLabel: UILabel! {
@@ -31,7 +40,7 @@ class TokensViewController: UIViewController {
     
     @IBOutlet private var accessTokenLabel: UILabel! {
         didSet {
-            accessTokenLabel.attributedText = GDSLocalisedString(stringLiteral: "Access Token: \(accessToken)",
+            accessTokenLabel.attributedText = GDSLocalisedString(stringLiteral: "Access Token: \(accessToken ?? "")",
                                                                  attributes: [("Access Token:", [.font: UIFont.title1Bold])]).attributedValue
             accessTokenLabel.accessibilityIdentifier = "access-token"
         }

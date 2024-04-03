@@ -1,43 +1,41 @@
 import Coordination
-import LocalAuthentication
 import SecureStore
 import UIKit
 
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
-                             ParentCoordinator,
-                             NavigationCoordinator {
-    let window: UIWindow
-    let root: UINavigationController
-    let analyticsCentre: AnalyticsCentral
+                             TabCoordinator {
+    let windowManager: WindowManagement
+    let root: UITabBarController
+    let analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
-
+    private weak var homeCoordinator: HomeCoordinator?
     
-    init(window: UIWindow,
-         root: UINavigationController,
-         analyticsCentre: AnalyticsCentral,
-         secureStoreService: SecureStorable = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                                      accessControlLevel: .currentBiometricsOrPasscode,
-                                                                                      localAuthStrings: LAContext().contextStrings)),
-         defaultsStore: DefaultsStorable = UserDefaults.standard) {
-        self.window = window
+    init(windowManager: WindowManagement,
+         root: UITabBarController,
+         analyticsCenter: AnalyticsCentral,
+         userStore: UserStorable) {
+        self.windowManager = windowManager
         self.root = root
-        self.analyticsCentre = analyticsCentre
-        self.userStore = UserStorage(secureStoreService: secureStoreService,
-                                     defaultsStore: defaultsStore)
+        self.analyticsCenter = analyticsCenter
+        self.userStore = userStore
+        root.tabBar.backgroundColor = .systemBackground
+        root.tabBar.tintColor = .gdsGreen
     }
     
     func start() {
-        let lc = LoginCoordinator(window: window,
-                                  root: root,
-                                  analyticsCentre: analyticsCentre,
+        addTabs()
+        let lc = LoginCoordinator(windowManager: windowManager,
+                                  root: UINavigationController(),
+                                  analyticsCenter: analyticsCenter,
+                                  networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
                                   tokenHolder: tokenHolder)
-        openChildInline(lc)
-        self.loginCoordinator = lc
+        openChildModally(lc, animated: false)
+        loginCoordinator = lc
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -48,6 +46,7 @@ final class MainCoordinator: NSObject,
         if userStore.returningAuthenticatedUser {
             do {
                 tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
                 action()
             } catch {
                 print("Error getting token: \(error)")
@@ -60,17 +59,40 @@ final class MainCoordinator: NSObject,
             action()
         }
     }
-    
-    func launchTokenCoordinator() {
-        guard let accessToken = tokenHolder.accessToken else { return }
-        openChildInline(TokenCoordinator(root: root,
-                                         accessToken: accessToken))
+}
+
+extension MainCoordinator {
+    func addTabs() {
+        addHomeTab()
+        addWalletTab()
+        addProfileTab()
     }
     
+    func addHomeTab() {
+        let hc = HomeCoordinator()
+        hc.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        addTab(hc)
+        homeCoordinator = hc
+    }
+    
+    func addWalletTab() {
+        let wc = WalletCoordinator()
+        wc.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
+        addTab(wc)
+    }
+    
+    func addProfileTab() {
+        let pc = ProfileCoordinator()
+        pc.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
+        addTab(pc)
+    }
+}
+
+extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
-            launchTokenCoordinator()
+            homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
         default:
             break
         }

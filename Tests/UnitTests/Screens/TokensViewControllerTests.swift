@@ -9,8 +9,8 @@ final class TokensViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        accessToken = "testAccessToken"
-        sut = TokensViewController(accessToken: accessToken)
+        sut = TokensViewController()
+        sut.updateToken(accessToken: "testAccessToken")
     }
     
     override func tearDown() {
