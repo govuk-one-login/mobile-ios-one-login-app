@@ -39,7 +39,9 @@ extension OneLoginIntroViewModelTests {
         sut.introButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = LinkEvent(textKey: "app_signInButton", linkDomain: AppEnvironment.oneLoginBaseURL, external: .true)
+        let event = LinkEvent(textKey: "app_signInButton",
+                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              external: .true)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
@@ -56,6 +58,6 @@ extension OneLoginIntroViewModelTests {
                                 titleKey: "app_signInTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], "30a6b339-75a8-44a2-a79a-e108546419bf")
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
     }
 }

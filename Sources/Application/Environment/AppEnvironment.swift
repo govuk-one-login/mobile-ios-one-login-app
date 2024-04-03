@@ -63,15 +63,15 @@ extension AppEnvironment {
     }
     
     static var oneLoginClientID: String {
-        return string(for: .oneLoginClientID)
+        string(for: .oneLoginClientID)
     }
     
     static var oneLoginRedirect: String {
-        return string(for: .redirectURL)
+        string(for: .redirectURL)
     }
     
     static var oneLoginBaseURL: String {
-        return string(for: .baseURL)
+        string(for: .baseURL)
     }
 }
 
@@ -89,7 +89,7 @@ extension AppEnvironment {
     static var stsClientID: String {
         return string(for: .stsClientID)
     }
-
+    
     static var isLocaleWelsh: Bool {
         UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy" ? true : false
     }
