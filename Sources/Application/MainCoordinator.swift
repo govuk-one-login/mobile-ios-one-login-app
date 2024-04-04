@@ -76,7 +76,7 @@ extension MainCoordinator {
     }
     
     func addWalletTab() {
-        let wc = WalletCoordinator()
+        let wc = WalletCoordinator(window: windowManager.appWindow, analyticsService: analyticsCenter.analyticsService)
         wc.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
         addTab(wc)
     }
