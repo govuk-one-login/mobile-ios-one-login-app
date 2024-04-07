@@ -13,6 +13,7 @@ final class MainCoordinator: NSObject,
     let tokenHolder = TokenHolder()
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
+    private weak var walletCoordinator: WalletCoordinator?
     
     init(windowManager: WindowManagement,
          root: UITabBarController,
@@ -22,12 +23,10 @@ final class MainCoordinator: NSObject,
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
-        root.tabBar.backgroundColor = .systemBackground
-        root.tabBar.tintColor = .gdsGreen
     }
     
     func start() {
-        addTabs()
+        configureTabs()
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
@@ -39,7 +38,12 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        loginCoordinator?.handleUniversalLink(url)
+        let path = url.lastPathComponent
+        if path == .redirect {
+            loginCoordinator?.handleUniversalLink(url)
+        } else if path == .wallet {
+            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+        }
     }
     
     func evaluateRevisit(action: () -> Void) {
@@ -62,7 +66,9 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    func addTabs() {
+    func configureTabs() {
+        root.tabBar.backgroundColor = .systemBackground
+        root.tabBar.tintColor = .gdsGreen
         addHomeTab()
         addWalletTab()
         addProfileTab()
@@ -70,20 +76,18 @@ extension MainCoordinator {
     
     func addHomeTab() {
         let hc = HomeCoordinator()
-        hc.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         addTab(hc)
         homeCoordinator = hc
     }
     
     func addWalletTab() {
-        let wc = WalletCoordinator(window: windowManager.appWindow, analyticsService: analyticsCenter.analyticsService)
-        wc.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
+        let wc = WalletCoordinator(window: windowManager.appWindow,
+                                   analyticsService: analyticsCenter.analyticsService)
         addTab(wc)
     }
     
     func addProfileTab() {
         let pc = ProfileCoordinator()
-        pc.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
         addTab(pc)
     }
 }

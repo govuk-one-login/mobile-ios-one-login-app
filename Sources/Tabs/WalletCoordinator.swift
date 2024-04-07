@@ -11,14 +11,15 @@ final class WalletCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
+    let walletSDK = WalletSDK()
     
     init(window: UIWindow, analyticsService: AnalyticsService) {
         self.window = window
         self.analyticsService = analyticsService
+        root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
     }
     
     func start() {
-        let walletSDK = WalletSDK()
         walletSDK.start(in: window, with: root, analyticsService: analyticsService)
     }
 }

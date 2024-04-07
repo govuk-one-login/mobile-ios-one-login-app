@@ -96,7 +96,7 @@ extension MainCoordinatorTests {
         // GIVEN the token holder's access token has is not nil
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
-        sut.addTabs()
+        sut.configureTabs()
         // THEN the Token Coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
@@ -104,7 +104,7 @@ extension MainCoordinatorTests {
     
     func test_launchTokenCoorindator_fails() throws {
         // GIVEN the token holder's access token has is nil
-        sut.addTabs()
+        sut.configureTabs()
         // WHEN the LoginCoordinator's launchTokenCoordinator method is called
         // THEN the Token Coordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 3)
