@@ -2242,7 +2242,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios";
 			requirement = {
-				branch = "feature/dcmaw-8777-updating-package-dependancies";
+				branch = main;
 				kind = branch;
 			};
 		};

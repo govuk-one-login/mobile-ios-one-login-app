@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios",
       "state" : {
-        "branch" : "feature/dcmaw-8777-updating-package-dependancies",
-        "revision" : "857c62ebf52e91b46361c788235edac88740fb33"
+        "branch" : "main",
+        "revision" : "1e282ddc722f894c977962885e6592dfe56d541c"
       }
     },
     {

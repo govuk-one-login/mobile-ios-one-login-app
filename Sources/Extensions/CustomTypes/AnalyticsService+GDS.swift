@@ -15,16 +15,3 @@ extension AnalyticsService {
                     parameters: screen.parameters)
     }
 }
-
-// extension EventName: LoggableEvent { }
-//
-// extension ScreenView: LoggableScreenV2
-// where Screen: Logging.ScreenType {
-//    public var name: String {
-//        title
-//    }
-//
-//    public var type: Logging.ScreenType {
-//        self.screen
-//    }
-// }
