@@ -2,7 +2,7 @@
 import XCTest
 
 final class UniversalLinkQualifierTests: XCTestCase {
-    var sut: UniversalLinkQualifier.Type!
+    var sut = UniversalLinkQualifier.self
 }
 
 extension UniversalLinkQualifierTests {
