@@ -58,6 +58,8 @@
 		C82B64522BA47D59000C9524 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* StringTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C82F95112B9F0D4200A90A6A /* TokensViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F95102B9F0D4200A90A6A /* TokensViewControllerTests.swift */; };
+		C84039E62BC3E71B00D4CC3C /* UniversalLinkQualifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84039E52BC3E71B00D4CC3C /* UniversalLinkQualifier.swift */; };
+		C84039E82BC3E8B200D4CC3C /* UniversalLinkQualifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84039E72BC3E8B200D4CC3C /* UniversalLinkQualifierTests.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
 		C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
 		C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */; };
@@ -220,6 +222,8 @@
 		C82B64512BA47D59000C9524 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C82F95102B9F0D4200A90A6A /* TokensViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensViewControllerTests.swift; sourceTree = "<group>"; };
+		C84039E52BC3E71B00D4CC3C /* UniversalLinkQualifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifier.swift; sourceTree = "<group>"; };
+		C84039E72BC3E8B200D4CC3C /* UniversalLinkQualifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifierTests.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
 		C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycle.swift; sourceTree = "<group>"; };
 		C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycleTests.swift; sourceTree = "<group>"; };
@@ -581,6 +585,7 @@
 			isa = PBXGroup;
 			children = (
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
+				C84039E52BC3E71B00D4CC3C /* UniversalLinkQualifier.swift */,
 				C8C343A12B92313D00E92FB9 /* Analytics */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				C8BADD322B88CBB200385FE7 /* Network */,
@@ -606,6 +611,7 @@
 			children = (
 				C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */,
 				C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */,
+				C84039E72BC3E8B200D4CC3C /* UniversalLinkQualifierTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1274,6 +1280,7 @@
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
+				C84039E62BC3E71B00D4CC3C /* UniversalLinkQualifier.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
@@ -1322,6 +1329,7 @@
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
+				C84039E82BC3E8B200D4CC3C /* UniversalLinkQualifierTests.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,

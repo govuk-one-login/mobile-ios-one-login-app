@@ -38,11 +38,13 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        let path = url.lastPathComponent
-        if path == .redirect {
+        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
+        case .login:
             loginCoordinator?.handleUniversalLink(url)
-        } else if path == .wallet {
+        case .wallet:
             walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+        case .unknown:
+            return
         }
     }
     
