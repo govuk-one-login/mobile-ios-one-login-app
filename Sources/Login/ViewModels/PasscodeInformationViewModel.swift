@@ -20,14 +20,19 @@ struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        let event = LinkEvent(textKey: "app_continueButton",
+                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_continueButton",
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               analyticsEvent: event) {
             action()
         }
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: InformationAnalyticsScreen.passcode,
+        let screen = ScreenView(id: InformationAnalyticsScreenID.passcodeInfoScreen.rawValue,
+                                screen: InformationAnalyticsScreen.passcode,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
