@@ -17,7 +17,7 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -37,7 +37,7 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -66,7 +66,7 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -91,7 +91,7 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -116,7 +116,7 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -140,14 +140,14 @@ jobs:
 
       - name: Upload Artifact
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # pin@v4
         with:
           name: UITestArtifact
           path: ./fastlane/UITestArtifact.zip
           retention-days: 1
 
   deploy_apps:
-    needs: [test_staging_config, test_build_config, test_ui]
+    needs: [ test_staging_config, test_build_config, test_ui ]
     name: Deploy Staging and Build Apps
     runs-on: macos-14
     steps:
@@ -155,12 +155,12 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v4
         with:
           lfs: 'true'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # pin@v4.0.2
         with:
           aws-region: eu-west-2
           role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
@@ -168,7 +168,7 @@ jobs:
           role-skip-session-tagging: true
 
       - name: Store Secrets from AWS SecretManager
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2.0.2
+        uses: aws-actions/aws-secretsmanager-get-secrets@f91b2a3e784edce744f972af1685eca7e24d2302 # pin@v2.0.2
         with:
           secret-ids: |
             di-ipv-dca-mob-ios/github-actions-v2
