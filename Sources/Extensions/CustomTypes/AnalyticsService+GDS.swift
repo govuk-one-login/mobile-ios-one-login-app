@@ -28,3 +28,14 @@ where Screen: Logging.ScreenType {
         self.screen
     }
 }
+
+extension ErrorScreenView: LoggableScreenV2
+where Screen: Logging.ScreenType {
+    public var name: String {
+        title
+    }
+
+    public var type: Logging.ScreenType {
+        self.screen
+    }
+}

@@ -15,15 +15,20 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
     
     init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        let event = LinkEvent(textKey: "app_closeButton",
+                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               analyticsEvent: event) {
             action()
         }
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.generic,
-                                titleKey: title.stringKey)
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
+                                     screen: ErrorAnalyticsScreen.generic,
+                                     titleKey: title.stringKey, reason: "Generic error")
         analyticsService.trackScreen(screen)
     }
     
