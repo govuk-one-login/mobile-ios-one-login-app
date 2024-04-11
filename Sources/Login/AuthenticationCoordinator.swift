@@ -53,7 +53,8 @@ final class AuthenticationCoordinator: NSObject,
                 finish()
             } catch {
                 let genericErrorScreen = errorPresenter
-                    .createGenericError(analyticsService: analyticsService) { [unowned self] in
+                    .createGenericError(errorDescription: error.localizedDescription,
+                                        analyticsService: analyticsService) { [unowned self] in
                         root.popViewController(animated: true)
                         finish()
                     }
@@ -68,7 +69,8 @@ final class AuthenticationCoordinator: NSObject,
             try session.finalise(redirectURL: url)
         } catch {
             let genericErrorScreen = errorPresenter
-                .createGenericError(analyticsService: analyticsService) { [unowned self] in
+                .createGenericError(errorDescription: error.localizedDescription,
+                                    analyticsService: analyticsService) { [unowned self] in
                     root.popViewController(animated: true)
                     finish()
                 }

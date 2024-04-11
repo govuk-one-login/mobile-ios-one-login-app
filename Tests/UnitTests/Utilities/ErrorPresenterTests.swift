@@ -23,7 +23,8 @@ final class ErrorPresenterTests: XCTestCase {
 
 extension ErrorPresenterTests {
     func test_genericError_callsAction() throws {
-        let introView = sut.createGenericError(analyticsService: mockAnalyticsService) {
+        let introView = sut.createGenericError(errorDescription: "error description",
+                                               analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])

@@ -11,7 +11,8 @@ final class GenericErrorViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = GenericErrorViewModel(analyticsService: mockAnalyticsService) {
+        sut = GenericErrorViewModel(errorDescription: "error description",
+                                    analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -30,6 +31,7 @@ extension GenericErrorViewModelTests {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_somethingWentWrongErrorTitle")
         XCTAssertEqual(sut.body.stringKey, "app_somethingWentWrongErrorBody")
+        XCTAssertEqual(sut.errorDescription, "error description")
     }
     
     func test_button_action() throws {
