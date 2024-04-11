@@ -9,21 +9,30 @@ struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
-    
+
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-    
-    init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    let errorDescription: String
+
+    init(errorDescription: String,
+         analyticsService: AnalyticsService,
+         action: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        self.errorDescription = errorDescription
+        let event = LinkEvent(textKey: "app_closeButton",
+                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               analyticsEvent: event) {
             action()
         }
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.generic,
-                                titleKey: title.stringKey)
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
+                                     screen: ErrorAnalyticsScreen.generic,
+                                     titleKey: title.stringKey, reason: errorDescription)
         analyticsService.trackScreen(screen)
     }
     

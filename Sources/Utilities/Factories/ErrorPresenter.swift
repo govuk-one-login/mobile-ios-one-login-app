@@ -2,9 +2,11 @@ import GDSCommon
 import Logging
 
 final class ErrorPresenter {
-    static func createGenericError(analyticsService: AnalyticsService,
+    static func createGenericError(errorDescription: String,
+                                   analyticsService: AnalyticsService,
                                    action: @escaping () -> Void) -> GDSErrorViewController {
-        let viewModel = GenericErrorViewModel(analyticsService: analyticsService) {
+        let viewModel = GenericErrorViewModel(errorDescription: errorDescription,
+                                              analyticsService: analyticsService) {
             action()
         }
         return GDSErrorViewController(viewModel: viewModel)
