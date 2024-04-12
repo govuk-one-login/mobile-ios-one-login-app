@@ -64,7 +64,7 @@ extension GenericErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"],
                        screen.parameters["screen_id"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["generic error"],
-                       screen.parameters["generic error"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["reason"],
+                       screen.parameters["reason"])
     }
 }
