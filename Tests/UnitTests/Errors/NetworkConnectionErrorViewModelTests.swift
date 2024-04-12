@@ -48,9 +48,13 @@ extension NetworkConnectionErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.networkConnection,
-                                titleKey: "app_networkErrorTitle")
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.networkConnection.rawValue,
+                                     screen: ErrorAnalyticsScreen.networkConnection,
+                                     titleKey: "app_networkErrorTitle",
+                                     reason: "network connection error")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["reason"], screen.parameters["reason"])
     }
 }

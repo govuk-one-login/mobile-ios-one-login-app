@@ -22,8 +22,10 @@ struct NetworkConnectionErrorViewModel: GDSErrorViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.networkConnection,
-                                titleKey: title.stringKey)
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.networkConnection.rawValue,
+                                     screen: ErrorAnalyticsScreen.networkConnection,
+                                     titleKey: title.stringKey,
+                                     reason: "network connection error")
         analyticsService.trackScreen(screen)
     }
     
