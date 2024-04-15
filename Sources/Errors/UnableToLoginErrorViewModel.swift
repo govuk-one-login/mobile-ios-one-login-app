@@ -1,4 +1,3 @@
-import Authentication
 import GDSAnalytics
 import GDSCommon
 import Logging
