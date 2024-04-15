@@ -1,4 +1,5 @@
 import Coordination
+import Networking
 import SecureStore
 import UIKit
 
@@ -11,6 +12,7 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
+    var networkClient: NetworkClient?
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     
@@ -93,6 +95,7 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+            networkClient = NetworkClient(authenticationProvider: tokenHolder.tokenResponse)
         default:
             break
         }
