@@ -25,7 +25,7 @@ struct TouchIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_usePasscodeButton",
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_maybeLaterButton",
                                                                  icon: nil,
                                                                  analyticsService: analyticsService) {
             secondaryButtonAction()

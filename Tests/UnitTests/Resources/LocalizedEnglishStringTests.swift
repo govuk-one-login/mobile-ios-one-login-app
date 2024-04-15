@@ -17,8 +17,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Agree")
         XCTAssertEqual("app_disagreeButton".getEnglishString(),
                        "Disagree")
-        XCTAssertEqual("app_usePasscodeButton".getEnglishString(),
-                       "Use passcode")
+        XCTAssertEqual("app_maybeLaterButton".getEnglishString(),
+                       "Maybe later")
         XCTAssertEqual("app_enterPasscodeButton".getEnglishString(),
                        "Enter passcode")
     }
@@ -78,7 +78,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_enableFaceIDTitle".getEnglishString(),
                        "Use Face ID to sign in")
         XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
-                       "Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n\nIf you do not want to use Face ID, you can sign in with your phone passcode instead.")
+                       "Sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.")
         XCTAssertEqual("app_enableFaceIDFootnote".getEnglishString(),
                        "If you use Face ID, anyone with a Face ID saved to your phone will be able to sign in to this app.")
         XCTAssertEqual("app_enableFaceIDButton".getEnglishString(),
@@ -89,7 +89,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_enableTouchIDTitle".getEnglishString(),
                        "Use Touch ID to sign in")
         XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),
-                       "Add a layer of security and sign in with your face instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.\n\nIf you do not want to use Touch ID, you can sign in with your phone passcode instead.")
+                       "Sign in with your fingerprint instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.")
         XCTAssertEqual("app_enableTouchIDFootnote".getEnglishString(),
                        "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app.")
         XCTAssertEqual("app_enableTouchIDEnableButton".getEnglishString(),

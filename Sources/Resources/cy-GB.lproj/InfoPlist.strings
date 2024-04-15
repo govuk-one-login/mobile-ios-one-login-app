@@ -1,2 +1,2 @@
 // MARK: Face ID enrollment prompt
-"NSFaceIDUsageDescription" = "Nid yw eich ID Wyneb yn cael ei rannu â GOV.UK One Login.";
+"NSFaceIDUsageDescription" = "Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.";
