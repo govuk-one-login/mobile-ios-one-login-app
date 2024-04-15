@@ -11,7 +11,7 @@
 
 "app_disagreeButton" = "Anghytuno";
 
-"app_usePasscodeButton" = "Defnyddio god mynediad";
+"app_maybeLaterButton" = "Efallai nes ymlaen";
 
 "app_enterPasscodeButton" = "Rhowch god mynediad";
 
@@ -63,23 +63,23 @@
 
 
 // MARK: Face ID enrollment screen
-"app_enableFaceIDTitle" = "Defnyddiwch ID Wyneb i fewngofnodi";
+"app_enableFaceIDTitle" = "Defnyddio Face ID i fewngofnodi";
 
-"app_enableFaceIDBody" = "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb neu olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich biometreg yn cael ei rannu â GOV.UK One Login.\n\nOs nad ydych am ddefnyddio biometreg, gallwch fewngofnodi gyda'ch cod mynediad neu batrwm ffôn yn lle hynny.";
+"app_enableFaceIDBody" = "Mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a'ch cyfrinair. Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.";
 
-"app_enableFaceIDFootnote" = "Os ydych yn defnyddio ID Wyneb, bydd unrhyw un sydd â ID Wyneb wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.";
+"app_enableFaceIDFootnote" = "Os ydych yn defnyddio Face ID, gall unrhyw un gyda Face ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.";
 
-"app_enableFaceIDButton" = "Defnyddip ID Wyneb";
+"app_enableFaceIDButton" = "Defnyddio Face ID";
 
 
 // MARK: Touch ID enrollment screen
-"app_enableTouchIDTitle" = "Defnyddiwch ID Cyffwrdd i fewngofnodi";
+"app_enableTouchIDTitle" = "Defnyddio Touch ID i fewngofnodi";
 
-"app_enableTouchIDBody" = "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a cyfrinair. Nid yw eich ID Cyffwrdd yn cael ei rannu â GOV.UK One Login.\n\nOs nad ydych am ddefnyddio ID Cyffwrdd, gallwch fewngofnodi gyda'ch cod mynediad eich ffôn yn lle hynny.";
+"app_enableTouchIDBody" = "Mewngofnodi gyda'ch olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich Touch ID yn cael ei rannu â GOV.UK One Login.";
 
-"app_enableTouchIDFootnote" = "Os ydych yn defnyddio ID Cyffwrdd, bydd unrhyw un sydd â ID Cyffwrdd wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.";
+"app_enableTouchIDFootnote" = "Os ydych yn defnyddio Touch ID, gall unrhyw un gyda Touch ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.";
 
-"app_enableTouchIDEnableButton" = "Defnyddio ID Cyffwrdd";
+"app_enableTouchIDEnableButton" = "Defnyddio Touch ID";
 
 
 // MARK: Unlock screen

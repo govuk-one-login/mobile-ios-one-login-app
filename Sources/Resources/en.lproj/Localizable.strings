@@ -11,7 +11,7 @@
 
 "app_disagreeButton" = "Disagree";
 
-"app_usePasscodeButton" = "Use passcode";
+"app_maybeLaterButton" = "Maybe later";
 
 "app_enterPasscodeButton" = "Enter passcode";
 
@@ -65,7 +65,7 @@
 // MARK: Face ID enrollment screen
 "app_enableFaceIDTitle" = "Use Face ID to sign in";
 
-"app_enableFaceIDBody" = "Add a layer of security and sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.\n\nIf you do not want to use Face ID, you can sign in with your phone passcode instead.";
+"app_enableFaceIDBody" = "Sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.";
 
 "app_enableFaceIDFootnote" = "If you use Face ID, anyone with a Face ID saved to your phone will be able to sign in to this app.";
 
@@ -75,7 +75,7 @@
 // MARK: Touch ID enrollment screen
 "app_enableTouchIDTitle" = "Use Touch ID to sign in";
 
-"app_enableTouchIDBody" = "Add a layer of security and sign in with your face instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.\n\nIf you do not want to use Touch ID, you can sign in with your phone passcode instead.";
+"app_enableTouchIDBody" = "Sign in with your fingerprint instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.";
 
 "app_enableTouchIDFootnote" = "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app.";
 

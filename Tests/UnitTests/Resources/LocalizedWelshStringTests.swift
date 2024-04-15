@@ -17,8 +17,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Cytuno")
         XCTAssertEqual("app_disagreeButton".getWelshString(),
                        "Anghytuno")
-        XCTAssertEqual("app_usePasscodeButton".getWelshString(),
-                       "Defnyddio god mynediad")
+        XCTAssertEqual("app_maybeLaterButton".getWelshString(),
+                       "Efallai nes ymlaen")
         XCTAssertEqual("app_enterPasscodeButton".getWelshString(),
                        "Rhowch god mynediad")
     }
@@ -76,24 +76,24 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_faceIDEnrollmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getWelshString(),
-                       "Defnyddiwch ID Wyneb i fewngofnodi")
+                       "Defnyddio Face ID i fewngofnodi")
         XCTAssertEqual("app_enableFaceIDBody".getWelshString(),
-                       "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb neu olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich biometreg yn cael ei rannu â GOV.UK One Login.\n\nOs nad ydych am ddefnyddio biometreg, gallwch fewngofnodi gyda'ch cod mynediad neu batrwm ffôn yn lle hynny.")
+                       "Mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a'ch cyfrinair. Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.")
         XCTAssertEqual("app_enableFaceIDFootnote".getWelshString(),
-                       "Os ydych yn defnyddio ID Wyneb, bydd unrhyw un sydd â ID Wyneb wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.")
+                       "Os ydych yn defnyddio Face ID, gall unrhyw un gyda Face ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.")
         XCTAssertEqual("app_enableFaceIDButton".getWelshString(),
-                       "Defnyddip ID Wyneb")
+                       "Defnyddio Face ID")
     }
     
     func test_touchIDEnrollmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getWelshString(),
-                       "Defnyddiwch ID Cyffwrdd i fewngofnodi")
+                       "Defnyddio Touch ID i fewngofnodi")
         XCTAssertEqual("app_enableTouchIDBody".getWelshString(),
-                       "Ychwanegwch haen o ddiogelwch a mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a cyfrinair. Nid yw eich ID Cyffwrdd yn cael ei rannu â GOV.UK One Login.\n\nOs nad ydych am ddefnyddio ID Cyffwrdd, gallwch fewngofnodi gyda'ch cod mynediad eich ffôn yn lle hynny.")
+                       "Mewngofnodi gyda'ch olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich Touch ID yn cael ei rannu â GOV.UK One Login.")
         XCTAssertEqual("app_enableTouchIDFootnote".getWelshString(),
-                       "Os ydych yn defnyddio ID Cyffwrdd, bydd unrhyw un sydd â ID Cyffwrdd wedi'i arbed ar eich ffôn yn gallu mewngofnodi i'r ap hwn.")
+                       "Os ydych yn defnyddio Touch ID, gall unrhyw un gyda Touch ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.")
         XCTAssertEqual("app_enableTouchIDEnableButton".getWelshString(),
-                       "Defnyddio ID Cyffwrdd")
+                       "Defnyddio Touch ID")
     }
 
     func test_unlockScreenKeys() {
