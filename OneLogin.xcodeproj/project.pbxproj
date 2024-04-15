@@ -2239,8 +2239,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
-				branch = "feature/dcmaw-8621-network-client-service-token-enhancement";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 		C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
