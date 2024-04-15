@@ -42,7 +42,8 @@ final class AuthenticationCoordinator: NSObject,
                     let error as LoginError where error == .invalidRequest,
                     let error as LoginError where error == .clientError {
                 let unableToLoginErrorScreen = errorPresenter
-                    .createUnableToLoginError(analyticsService: analyticsService) { [unowned self] in
+                    .createUnableToLoginError(errorDescription: error.localizedDescription,
+                                              analyticsService: analyticsService) { [unowned self] in
                         root.popViewController(animated: true)
                         finish()
                     }

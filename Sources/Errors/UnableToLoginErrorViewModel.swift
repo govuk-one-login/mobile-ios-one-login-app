@@ -1,3 +1,4 @@
+import Authentication
 import GDSAnalytics
 import GDSCommon
 import Logging
@@ -9,11 +10,13 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
+    let errorDescription: String
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    init(errorDescription: String, analyticsService: AnalyticsService, action: @escaping () -> Void) {
+        self.errorDescription = errorDescription
         self.analyticsService = analyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
                                                                analyticsService: analyticsService) {
@@ -22,8 +25,10 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.unableToLogin,
-                                titleKey: title.stringKey)
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unableToLogin.rawValue,
+                                     screen: ErrorAnalyticsScreen.unableToLogin,
+                                     titleKey: title.stringKey,
+                                     reason: errorDescription)
         analyticsService.trackScreen(screen)
     }
     

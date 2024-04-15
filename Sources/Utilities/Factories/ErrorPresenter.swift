@@ -12,9 +12,11 @@ final class ErrorPresenter {
         return GDSErrorViewController(viewModel: viewModel)
     }
     
-    static func createUnableToLoginError(analyticsService: AnalyticsService,
+    static func createUnableToLoginError(errorDescription: String,
+                                         analyticsService: AnalyticsService,
                                          action: @escaping () -> Void) -> GDSErrorViewController {
-        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService) {
+        let viewModel = UnableToLoginErrorViewModel(errorDescription: errorDescription,
+                                                    analyticsService: analyticsService) {
             action()
         }
         return GDSErrorViewController(viewModel: viewModel)
