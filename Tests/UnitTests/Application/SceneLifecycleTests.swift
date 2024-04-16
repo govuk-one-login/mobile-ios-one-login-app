@@ -1,3 +1,4 @@
+import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
@@ -58,5 +59,18 @@ extension SceneLifecycleTests {
     func test_promptToUnlock() throws {
         sut.promptToUnlock()
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+    }
+    
+    func test_splashscreen_analytics() throws {
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        sut.trackSplashScreen(mockAnalyticsCenter.analyticsService)
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        let screen = ScreenView(id: IntroAnalyticsScreenID.splashScreen.rawValue,
+                                screen: IntroAnalyticsScreen.splashScreen,
+                                titleKey: "one login splash screen")
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
+
     }
 }

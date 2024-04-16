@@ -43,6 +43,7 @@ class SceneDelegate: UIResponder,
                                       userStore: userStore)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()
+        trackSplashScreen(analyticsCenter.analyticsService)
         coordinator?.start()
     }
     
