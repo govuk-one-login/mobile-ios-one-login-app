@@ -1,4 +1,5 @@
 import GAnalytics
+import GDSAnalytics
 import Logging
 import UIKit
 
@@ -20,5 +21,12 @@ extension SceneLifecycle {
         coordinator?.evaluateRevisit {
             windowManager?.hideUnlockWindow()
         }
+    }
+    
+    func trackSplashScreen(_ analyticsService: AnalyticsService) {
+        let screen = ScreenView(id: IntroAnalyticsScreenID.splashScreen.rawValue,
+                                screen: IntroAnalyticsScreen.splashScreen,
+                                titleKey: "one login splash screen")
+        analyticsService.trackScreen(screen)
     }
 }
