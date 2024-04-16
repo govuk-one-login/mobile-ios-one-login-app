@@ -33,7 +33,8 @@ extension ErrorPresenterTests {
     }
     
     func test_unableToLoginError_callsAction() throws {
-        let introView = sut.createUnableToLoginError(analyticsService: mockAnalyticsService) {
+        let introView = sut.createUnableToLoginError(errorDescription: "error description",
+                                                     analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
         let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])

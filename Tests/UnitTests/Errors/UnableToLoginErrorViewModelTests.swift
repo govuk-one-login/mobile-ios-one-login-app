@@ -11,7 +11,8 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = UnableToLoginErrorViewModel(analyticsService: mockAnalyticsService) {
+        sut = UnableToLoginErrorViewModel(errorDescription: "error description",
+                                          analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -48,9 +49,13 @@ extension UnableToLoginErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: ErrorAnalyticsScreen.unableToLogin,
-                                titleKey: "app_signInErrorTitle")
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unableToLogin.rawValue,
+                                     screen: ErrorAnalyticsScreen.unableToLogin,
+                                     titleKey: "app_signInErrorTitle",
+                                     reason: "error description")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["reason"], screen.parameters["reason"])
     }
 }
