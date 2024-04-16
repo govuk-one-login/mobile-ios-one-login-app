@@ -64,26 +64,26 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    func addTabs() {
+    private func addTabs() {
         addHomeTab()
         addWalletTab()
         addProfileTab()
     }
     
-    func addHomeTab() {
+    private func addHomeTab() {
         let hc = HomeCoordinator()
         hc.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         addTab(hc)
         homeCoordinator = hc
     }
     
-    func addWalletTab() {
+    private func addWalletTab() {
         let wc = WalletCoordinator()
         wc.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
         addTab(wc)
     }
     
-    func addProfileTab() {
+    private func addProfileTab() {
         let pc = ProfileCoordinator()
         pc.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
         addTab(pc)

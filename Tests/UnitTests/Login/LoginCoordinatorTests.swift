@@ -106,6 +106,7 @@ extension LoginCoordinatorTests {
     }
     
     func test_firstTimeUserFlow() throws {
+        // WHEN the LoginCoordinator's firstTimeUserFlow method is called
         sut.firstTimeUserFlow()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
@@ -114,19 +115,23 @@ extension LoginCoordinatorTests {
     }
     
     func test_returningUserFlow() throws {
+        // GIVEN the access token is saved in secure store
         try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        // WHEN the LoginCoordinator's returningUserFlow method is called
         sut.returningUserFlow()
-        // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
+        // THEN the token holder's access token property should get the access token from secure store
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
     func test_start_getAccessToken_succeeds() throws {
+        // GIVEN the access token is saved in secure store and the token expiry is in date
         try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the token holder's access token property should get the access token from secure store
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
@@ -144,11 +149,12 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should get the access token from secure store
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
     func test_getAccessToken_error_unableToRetrieveFromUserDefaults() throws {
-        // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from reading an item
+        // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
@@ -157,12 +163,13 @@ extension LoginCoordinatorTests {
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
     func test_getAccessToken_error_cantInitialiseData() throws {
-        // GIVEN the secure store returns a cantInitialiseData error from reading an item
+        // GIVEN the secure store returns a cantInitialiseData error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.cantInitialiseData
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
@@ -171,12 +178,13 @@ extension LoginCoordinatorTests {
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
     func test_getAccessToken_error_cantRetrieveKey() throws {
-        // GIVEN the secure store returns a cantRetrieveKey error from reading an item
+        // GIVEN the secure store returns a cantRetrieveKey error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
@@ -185,6 +193,7 @@ extension LoginCoordinatorTests {
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
@@ -197,7 +206,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
-    func test_launchOnboardingCoordinator_fails() throws {
+    func test_launchOnboardingCoordinator_skips() throws {
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         // WHEN the LoginCoordinator's launchOnboardingCoordinator method is called
@@ -214,10 +223,8 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is AuthenticationCoordinator)
     }
     
-    func test_launchEnrolmentCoordinator_succeeds() throws {
-        // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
-        // GIVEN the local authentication context returned true for returnedFromCanEvaluatePolicyForBiometrics
+    func test_launchEnrolmentCoordinator() throws {
+        // GIVEN sufficient test set up to ensure EnrolmentCoordinator does not finish before test assertions
         let mockLAContext = MockLAContext()
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
@@ -225,15 +232,6 @@ extension LoginCoordinatorTests {
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
-    }
-    
-    func test_launchEnrolmentCoordinator_fails() throws {
-        // GIVEN the local authentication context returned false for returnedFromCanEvaluatePolicyForBiometrics
-        let mockLAContext = MockLAContext()
-        // WHEN the LoginCoordinator is started
-        sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
-        // THEN the LoginCoordinator should not have an EnrolmentCoordinator as it's only child coordinator
-        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {

@@ -56,11 +56,14 @@ final class MainCoordinatorTests: XCTestCase {
 
 extension MainCoordinatorTests {
     func test_launchLoginCoordinator() throws {
-        // WHEN the LoginCoordinator is started
+        // WHEN the MainCoordinator is started
         sut.start()
-        // THEN the LoginCoordinator should have an LoginCoordinator as it's only child coordinator
+        // THEN the MainCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 4)
-        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
+        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
+        XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
+        XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
     }
     
     func test_evaluateRevisit_returningAuthenticatedUser() throws {
@@ -92,28 +95,9 @@ extension MainCoordinatorTests {
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
-    func test_addTabs_succeeds() throws {
-        // GIVEN the token holder's access token has is not nil
-        sut.tokenHolder.accessToken = "testAccessToken"
-        // WHEN the LoginCoordinator's launchTokenCoordinator method is called
-        sut.addTabs()
-        // THEN the Token Coordinator should be launched
-        XCTAssertEqual(sut.childCoordinators.count, 3)
-        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
-    }
-    
-    func test_launchTokenCoorindator_fails() throws {
-        // GIVEN the token holder's access token has is nil
-        sut.addTabs()
-        // WHEN the LoginCoordinator's launchTokenCoordinator method is called
-        // THEN the Token Coordinator should not be launched
-        XCTAssertEqual(sut.childCoordinators.count, 3)
-    }
-    
     func test_didRegainFocus_fromLoginCoordinator() throws {
         let mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                         defaultsStore: mockDefaultStore)
-        // GIVEN the LoginCoordinator doesn't have an access token
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
@@ -124,5 +108,7 @@ extension MainCoordinatorTests {
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
+        // THEN the network client should be initialised
+        XCTAssertNotNil(sut.networkClient)
     }
 }
