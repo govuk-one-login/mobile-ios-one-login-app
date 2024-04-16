@@ -95,7 +95,7 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-            networkClient = NetworkClient(authenticationProvider: tokenHolder.tokenResponse)
+            networkClient = NetworkClient(authenticationProvider: tokenHolder)
         default:
             break
         }
