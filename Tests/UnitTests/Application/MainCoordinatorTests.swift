@@ -96,6 +96,8 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromLoginCoordinator() throws {
+        // GIVEN access token has been stored in the token holder
+        sut.tokenHolder.accessToken = "testAccessToken"
         let mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                         defaultsStore: mockDefaultStore)
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
@@ -108,6 +110,8 @@ extension MainCoordinatorTests {
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
+        // THEN the token holders bearer token should have the access token
+        XCTAssertEqual(sut.tokenHolder.bearerToken, "testAccessToken")
         // THEN the network client should be initialised
         XCTAssertNotNil(sut.networkClient)
     }
