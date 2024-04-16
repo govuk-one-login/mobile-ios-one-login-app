@@ -1,5 +1,6 @@
 import Authentication
 import GAnalytics
+import GDSAnalytics
 import LocalAuthentication
 import Logging
 import SecureStore
@@ -43,6 +44,7 @@ class SceneDelegate: UIResponder,
                                       userStore: userStore)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()
+        trackSplashScreen(analyticsCenter.analyticsService)
         coordinator?.start()
     }
     
@@ -56,5 +58,12 @@ class SceneDelegate: UIResponder,
         } else {
             shouldCallSceneWillEnterForeground = true
         }
+    }
+    
+    private func trackSplashScreen(_ analyticsService: AnalyticsService) {
+        let screen = ScreenView(id: IntroAnalyticsScreenID.splashScreen.rawValue,
+                                screen: IntroAnalyticsScreen.splashScreen,
+                                titleKey: "one login splash screen")
+        analyticsService.trackScreen(screen)
     }
 }
