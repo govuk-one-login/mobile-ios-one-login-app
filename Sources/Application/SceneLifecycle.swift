@@ -1,4 +1,5 @@
 import GAnalytics
+import GDSAnalytics
 import Logging
 import UIKit
 
@@ -18,6 +19,10 @@ extension SceneLifecycle {
     
     func promptToUnlock() {
         coordinator?.evaluateRevisit {
+            let screen = ScreenView(id: BiometricEnrollmentAnalyticsScreenID.unlockScreen.rawValue,
+                                    screen: BiometricEnrollmentAnalyticsScreen.unlockScreen,
+                                    titleKey: "one login unlock screen")
+            analyticsService.trackScreen(screen)
             windowManager?.hideUnlockWindow()
         }
     }
