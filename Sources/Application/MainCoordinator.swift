@@ -1,4 +1,5 @@
 import Coordination
+import Networking
 import SecureStore
 import UIKit
 
@@ -11,6 +12,7 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
+    var networkClient: NetworkClient?
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     
@@ -62,26 +64,26 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    func addTabs() {
+    private func addTabs() {
         addHomeTab()
         addWalletTab()
         addProfileTab()
     }
     
-    func addHomeTab() {
+    private func addHomeTab() {
         let hc = HomeCoordinator()
         hc.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         addTab(hc)
         homeCoordinator = hc
     }
     
-    func addWalletTab() {
+    private func addWalletTab() {
         let wc = WalletCoordinator()
         wc.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
         addTab(wc)
     }
     
-    func addProfileTab() {
+    private func addProfileTab() {
         let pc = ProfileCoordinator()
         pc.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
         addTab(pc)
@@ -93,6 +95,7 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+            networkClient = NetworkClient(authenticationProvider: tokenHolder)
         default:
             break
         }

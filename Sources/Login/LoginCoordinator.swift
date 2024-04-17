@@ -62,6 +62,7 @@ final class LoginCoordinator: NSObject,
                 SecureStoreError.cantInitialiseData,
                 SecureStoreError.cantRetrieveKey {
             userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
+            windowManager.hideUnlockWindow()
             start()
         } catch {
             print("Local Authentication error: \(error)")
