@@ -14,10 +14,6 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     var tokenHolder: TokenHolder!
     var sut: EnrolmentCoordinator!
     
-    // swiftlint:disable line_length
-    let accessTokenValue = "eEd2wTsYiaXEcZrXYoClvP9uZVvsSsJm4fw8haqSLcH8!B!i=U!/viQGDK3aQq/M2aUdwoxUqevzDX!A8NJFWrZ4VfLP/lgMGXdop=l2QtkLtBvP=iYAXCIBjtyP3i-bY5aP3lF4YLnldq02!jQWfxe1TvWesyMi9D1GIDq!X7JAJTMVHUIKH?-C18/-fcgkxHsQZhs/oFsW/56fTPsvdJPteu10nMF1gY0f8AChM6Yl5FAKX=UOdTHIoVJvf9Dt"
-    // swiftlint:enable line_length
-    
     override func setUp() {
         super.setUp()
 
@@ -87,7 +83,7 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the journey should be saved in user defaults
         XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, Date.accessTokenExp)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], "accessTokenResponse")
     }
 
     func test_start_deviceLocalAuthSet_passcode_fails() throws {
@@ -156,7 +152,7 @@ extension EnrolmentCoordinatorTests {
         Task { await sut.enrolLocalAuth(reason: "") }
         // THEN the journey should be saved in user defaults
         waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], accessTokenValue)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], "accessTokenResponse")
         XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
         XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
     }
