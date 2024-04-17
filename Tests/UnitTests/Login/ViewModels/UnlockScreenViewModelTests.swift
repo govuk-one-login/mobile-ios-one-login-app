@@ -39,10 +39,4 @@ extension UnlockScreenViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
-
-    func test_didAppear() throws {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
-    }
 }

@@ -20,7 +20,9 @@ struct UnlockScreenViewModel: BaseViewModel {
     }
 
     func didAppear() {
-
+        // ScreenView is being sent in SceneLifecycle.promptToUnlock
+        // so that sending the app to the background and resuming doesn't
+        // break the journey and sends to GA4
     }
     
     func didDismiss() {
