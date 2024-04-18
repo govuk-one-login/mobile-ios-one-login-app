@@ -6,6 +6,7 @@ typealias ModalInfoWithButtons = ModalInfoViewModel &
                                  ModalInfoExtraViewModel &
                                  PageWithPrimaryButtonViewModel &
                                  PageWithSecondaryButtonViewModel &
+                                 PageWithTextButtonViewModel &
                                  BaseViewModel
 
 struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
@@ -14,19 +15,23 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     let bodyTextColor: UIColor = .label
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel
+    let textButtonViewModel: ButtonViewModel
     let preventModalDismiss: Bool = true
-    let privacyPolicy: GDSLocalisedString = "app_privacyNoticeLink"
 
     var rightBarButtonTitle: GDSLocalisedString?
     var backButtonIsHidden: Bool = true
     
     init(primaryButtonAction: @escaping () -> Void,
-         secondaryButtonAction: @escaping () -> Void) {
+         secondaryButtonAction: @escaping () -> Void,
+         privacyPolicyButtonAction: @escaping () -> Void) {
         self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_agreeButton") {
             primaryButtonAction()
         }
         self.secondaryButtonViewModel = StandardButtonViewModel(titleKey: "app_disagreeButton") {
             secondaryButtonAction()
+        }
+        self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink") {
+            privacyPolicyButtonAction()
         }
     }
     
