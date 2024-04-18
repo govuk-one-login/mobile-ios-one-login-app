@@ -40,7 +40,7 @@ final class LoginCoordinator: NSObject,
         if userStore.returningAuthenticatedUser {
             returningUserFlow()
         } else {
-            userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
+            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
             firstTimeUserFlow()
         }
     }
@@ -53,19 +53,23 @@ final class LoginCoordinator: NSObject,
     }
     
     func getAccessToken() {
-        do {
-            tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-            windowManager.hideUnlockWindow()
-            root.dismiss(animated: true)
-            finish()
-        } catch SecureStoreError.unableToRetrieveFromUserDefaults,
-                SecureStoreError.cantInitialiseData,
-                SecureStoreError.cantRetrieveKey {
-            userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
-            windowManager.hideUnlockWindow()
-            start()
-        } catch {
-            print("Local Authentication error: \(error)")
+        Task {
+            await MainActor.run {
+                do {
+                    tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                    windowManager.hideUnlockWindow()
+                    root.dismiss(animated: true)
+                    finish()
+                } catch SecureStoreError.unableToRetrieveFromUserDefaults,
+                        SecureStoreError.cantInitialiseData,
+                        SecureStoreError.cantRetrieveKey {
+                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+                    windowManager.hideUnlockWindow()
+                    start()
+                } catch {
+                    print("Local Authentication error: \(error)")
+                }
+            }
         }
     }
     
