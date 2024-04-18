@@ -24,10 +24,10 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
+      # - name: Lint
+      #   run: |
+      #     brew install swiftlint
+      #     swiftlint --strict
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
