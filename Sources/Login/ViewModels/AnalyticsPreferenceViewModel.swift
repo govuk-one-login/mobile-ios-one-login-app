@@ -15,7 +15,8 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel
     let preventModalDismiss: Bool = true
-    
+    let privacyPolicy: GDSLocalisedString = "app_privacyNoticeLink"
+
     var rightBarButtonTitle: GDSLocalisedString?
     var backButtonIsHidden: Bool = true
     

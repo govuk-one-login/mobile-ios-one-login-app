@@ -44,6 +44,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Helpu i wella'r ap drwy rannu dadansoddi")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
                        "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.")
+        XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Edrych ar hysbysiad preifatrwydd GOV.UK One Login")
     }
     
     func test_unableToLoginErrorScreen_keys() throws {
