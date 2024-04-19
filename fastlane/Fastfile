@@ -16,7 +16,7 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode_15.1.app")
+xcode_select("/Applications/Xcode_15.2.app")
 
 platform :ios do
   desc "Run Tests without Sonar Coverage"
