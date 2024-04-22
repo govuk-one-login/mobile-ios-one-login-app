@@ -10,16 +10,13 @@ final class OnboardingCoordinator: NSObject,
     
     var parentCoordinator: ParentCoordinator?
     private let urlOpener: URLOpener
-    private let privacyURL: URL?
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(analyticsPreferenceStore: AnalyticsPreferenceStore,
-         urlOpener: URLOpener,
-         privacyURL: URL?) {
+         urlOpener: URLOpener) {
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.urlOpener = urlOpener
-        self.privacyURL = privacyURL
     }
     
     func start() {
@@ -33,8 +30,7 @@ final class OnboardingCoordinator: NSObject,
                 root.dismiss(animated: true)
                 finish()
             } textButtonAction: { [unowned self] in
-                guard let url = privacyURL else { return }
-                urlOpener.open(url: url)
+                urlOpener.open(url: AppEnvironment.privacyPolicyURL)
             }
         root.setViewControllers([analyticsPreferenceScreen], animated: false)
     }

@@ -239,8 +239,7 @@ extension LoginCoordinatorTests {
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
         let onboardingCoordinator = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
-                                                          urlOpener: mockURLOpener,
-                                                          privacyURL: URL(string: "https://signin.account.gov.uk/privacy-notice"))
+                                                          urlOpener: mockURLOpener)
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()
         // GIVEN the LoginCoordinator regained focus from the OnboardingCoordinator

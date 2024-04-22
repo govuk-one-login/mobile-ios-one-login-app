@@ -16,8 +16,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockURLOpener = MockURLOpener()
         sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
-                                    urlOpener: mockURLOpener,
-                                    privacyURL: URL(string: "https://signin.account.gov.uk/privacy-notice"))
+                                    urlOpener: mockURLOpener)
     }
     
     override func tearDown() {
