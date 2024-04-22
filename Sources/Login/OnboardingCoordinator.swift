@@ -1,4 +1,5 @@
 import Coordination
+import GDSCommon
 import Logging
 import UIKit
 
@@ -7,11 +8,14 @@ final class OnboardingCoordinator: NSObject,
                                    ChildCoordinator {
     let root = UINavigationController()
     var parentCoordinator: ParentCoordinator?
-    var analyticsPreferenceStore: AnalyticsPreferenceStore
+    private var analyticsPreferenceStore: AnalyticsPreferenceStore
+    private let urlOpener: URLOpener
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
-    init(analyticsPreferenceStore: AnalyticsPreferenceStore) {
+    init(analyticsPreferenceStore: AnalyticsPreferenceStore,
+         urlOpener: URLOpener) {
         self.analyticsPreferenceStore = analyticsPreferenceStore
+        self.urlOpener = urlOpener
     }
     
     func start() {
@@ -24,6 +28,8 @@ final class OnboardingCoordinator: NSObject,
                 analyticsPreferenceStore.hasAcceptedAnalytics = false
                 root.dismiss(animated: true)
                 finish()
+            } textButtonAction: { [unowned self] in
+                urlOpener.open(url: AppEnvironment.privacyPolicyURL)
             }
         root.setViewControllers([analyticsPreferenceScreen], animated: false)
     }

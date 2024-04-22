@@ -127,6 +127,7 @@
 		C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1292BB5957500722218 /* WalletCoordinator.swift */; };
 		C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */; };
 		C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1312BB73E2E00722218 /* WindowManager.swift */; };
+		D03B6CEB2BD656B1004E7653 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6CEA2BD656B1004E7653 /* MockURLOpener.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,6 +288,7 @@
 		C8ECA1292BB5957500722218 /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA1312BB73E2E00722218 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		D03B6CEA2BD656B1004E7653 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,6 +631,7 @@
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
 				C8A638592B5994B700656A26 /* MockNetworkMonitor.swift */,
 				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
+				D03B6CEA2BD656B1004E7653 /* MockURLOpener.swift */,
 				C8E6A3E92BBC05DB005015AF /* Application */,
 				C8C3439E2B92226900E92FB9 /* Analytics */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
@@ -1336,6 +1339,7 @@
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
+				D03B6CEB2BD656B1004E7653 /* MockURLOpener.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
@@ -1557,10 +1561,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsStaging;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1594,6 +1600,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = "";
 				FEATURE_FLAG_FILE = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
@@ -1867,6 +1874,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsStaging;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
@@ -2055,6 +2063,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsBuild;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";

@@ -8,6 +8,7 @@ public final class AppEnvironment {
         case redirectURL = "Redirect URL"
         case oneLoginClientID = "One Login Client ID"
         case stsClientID = "STS Client ID"
+        case externalBaseURL = "External Base URL"
     }
     
     private static var appDictionary: [String: Any] {
@@ -61,7 +62,15 @@ extension AppEnvironment {
         components.path = "/token"
         return components.url!
     }
-    
+
+    static var privacyPolicyURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .externalBaseURL)
+        components.path = "/privacy-notice"
+        return components.url!
+    }
+
     static var oneLoginClientID: String {
         string(for: .oneLoginClientID)
     }

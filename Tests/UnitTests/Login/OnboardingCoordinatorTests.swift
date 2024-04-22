@@ -6,6 +6,7 @@ import XCTest
 final class OnboardingCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
+    var mockURLOpener: MockURLOpener!
     var sut: OnboardingCoordinator!
     
     override func setUp() {
@@ -13,12 +14,15 @@ final class OnboardingCoordinatorTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+        mockURLOpener = MockURLOpener()
+        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
+                                    urlOpener: mockURLOpener)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
+        mockURLOpener = nil
         sut = nil
         
         super.tearDown()
@@ -50,5 +54,18 @@ extension OnboardingCoordinatorTests {
         declinePermissionsButton.sendActions(for: .touchUpInside)
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to false
         XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
+    }
+    
+    func test_openPrivacyPolicyURL() throws {
+        // WHEN the OnboardingCoordinator is started
+        sut.start()
+        // THEN the 'analytics preference' screen is shown
+        let vc = try XCTUnwrap(sut.root.topViewController as? ModalInfoViewController)
+        XCTAssertTrue(vc.viewModel is AnalyticsPreferenceViewModel)
+        // WHEN the Privacy Policy button is tapped is started
+        let privacyPolicyButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-text-button"])
+        privacyPolicyButton.sendActions(for: .touchUpInside)
+        // THEN the mockURLOpener's didOpenURL property is updated to true
+        XCTAssertTrue(mockURLOpener.didOpenURL)
     }
 }

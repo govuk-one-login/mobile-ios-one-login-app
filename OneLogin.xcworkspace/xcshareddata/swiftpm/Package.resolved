@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "revision" : "70eb3cb2aeb38241620de921fb11d0d432adf984",
-        "version" : "1.5.0"
+        "revision" : "eddcbc94432623ec94d361e26564934c0271d94c",
+        "version" : "1.8.0"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "96f591ac046af03931e377f285abbf49b81a2563",
-        "version" : "1.1.1"
+        "revision" : "a95253676661764469991f2ccfeb75c62417cd95",
+        "version" : "1.2.2"
       }
     },
     {
