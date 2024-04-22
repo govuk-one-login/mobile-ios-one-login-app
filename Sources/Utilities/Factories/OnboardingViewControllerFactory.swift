@@ -12,11 +12,14 @@ final class OnboardingViewControllerFactory {
     }
     
     static func createAnalyticsPeferenceScreen(primaryButtonAction: @escaping () -> Void,
-                                               secondaryButtonAction: @escaping () -> Void) -> ModalInfoViewController {
+                                               secondaryButtonAction: @escaping () -> Void,
+                                               textButtonAction: @escaping () -> Void) -> ModalInfoViewController {
         let viewModel = AnalyticsPreferenceViewModel {
             primaryButtonAction()
         } secondaryButtonAction: {
             secondaryButtonAction()
+        } textButtonAction: {
+            textButtonAction()
         }
         return ModalInfoViewController(viewModel: viewModel)
     }

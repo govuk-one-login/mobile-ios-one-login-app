@@ -23,7 +23,7 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     
     init(primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void,
-         privacyPolicyButtonAction: @escaping () -> Void) {
+         textButtonAction: @escaping () -> Void) {
         self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_agreeButton") {
             primaryButtonAction()
         }
@@ -31,7 +31,7 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
             secondaryButtonAction()
         }
         self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink") {
-            privacyPolicyButtonAction()
+            textButtonAction()
         }
     }
     
