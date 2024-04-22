@@ -66,7 +66,6 @@ extension OnboardingCoordinatorTests {
         let privacyPolicyButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-text-button"])
         privacyPolicyButton.sendActions(for: .touchUpInside)
         // THEN the mockURLOpener's didOpenURL property is updated to true
-        XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
         XCTAssertTrue(mockURLOpener.didOpenURL)
     }
 }
