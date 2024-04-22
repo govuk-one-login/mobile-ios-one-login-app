@@ -93,7 +93,7 @@ final class LoginCoordinator: NSObject,
         if analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared,
-                                                  privacyURL: URL(string: "https://signin.account.gov.uk/privacy-notice")))
+                                                   privacyURL: AppEnvironment.privacyPolicyURL))
         }
     }
     

@@ -9,6 +9,8 @@
 		<key>Feature Flag File</key>
 		<string>$(FEATURE_FLAG_FILE)</string>
 	</dict>
+	<key>External Base URL</key>
+	<string>$(EXTERNAL_BASE_URL)</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
