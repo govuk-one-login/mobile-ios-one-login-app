@@ -114,7 +114,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "feature/dcmaw-8571-analytics-privacy-link",
-        "revision" : "7d785635b28b42cae6ee6ab15d9e7e5956c5e967"
+        "revision" : "ec91eb1e32f517e4f1f6efd8c1d64ad345d6c131"
       }
     },
     {
