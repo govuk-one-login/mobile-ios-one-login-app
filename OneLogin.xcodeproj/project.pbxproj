@@ -2260,7 +2260,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
-				branch = "feature/dcmaw-8571-analytics-privacy-link";
+				branch = main;
 				kind = branch;
 			};
 		};
