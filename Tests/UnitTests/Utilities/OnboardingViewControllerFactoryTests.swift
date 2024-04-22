@@ -7,6 +7,7 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
     var sut: OnboardingViewControllerFactory.Type!
     var didCallPrimaryAction = false
     var didCallSecondaryAction = false
+    var didCallTextAction = false
     
     override func setUp() {
         super.setUp()
@@ -20,7 +21,7 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
         sut = nil
         didCallPrimaryAction = false
         didCallSecondaryAction = false
-        
+        didCallTextAction = false
         super.tearDown()
     }
 }
@@ -40,6 +41,8 @@ extension OnboardingViewControllerFactoryTests {
             self.didCallPrimaryAction = true
         } secondaryButtonAction: {
             self.didCallSecondaryAction = true
+        } textButtonAction: {
+            self.didCallTextAction = true
         }
         let analyticsPrimaryButton: UIButton = try XCTUnwrap(analyticsView.view[child: "modal-info-primary-button"])
         analyticsPrimaryButton.sendActions(for: .touchUpInside)
@@ -47,6 +50,9 @@ extension OnboardingViewControllerFactoryTests {
         let analyticsSecondaryButton: UIButton = try XCTUnwrap(analyticsView.view[child: "modal-info-secondary-button"])
         analyticsSecondaryButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallSecondaryAction)
+        let analyticsTextButton: UIButton = try XCTUnwrap(analyticsView.view[child: "modal-info-text-button"])
+        analyticsTextButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallTextAction)
     }
     
     func test_passcode_callsAction() throws {

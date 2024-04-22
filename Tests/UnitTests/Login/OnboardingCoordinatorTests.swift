@@ -6,6 +6,7 @@ import XCTest
 final class OnboardingCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
+    var mockURLOpener: URLOpener!
     var sut: OnboardingCoordinator!
     
     override func setUp() {
@@ -13,12 +14,16 @@ final class OnboardingCoordinatorTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore)
+        mockURLOpener = MockURLOpener()
+        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
+                                    urlOpener: mockURLOpener,
+                                    privacyURL: URL(string: "https://signin.account.gov.uk/privacy-notice"))
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
+        mockURLOpener = nil
         sut = nil
         
         super.tearDown()
