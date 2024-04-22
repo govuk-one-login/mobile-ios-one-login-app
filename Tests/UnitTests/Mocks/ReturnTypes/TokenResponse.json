@@ -3,5 +3,5 @@
     "refresh_token": "refreshTokenResponse",
     "id_token": "idTokenResponse",
     "token_type": "token",
-    "expiry_date": 1729427067
+    "expiry_date": 180
 }

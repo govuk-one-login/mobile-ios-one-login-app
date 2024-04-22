@@ -3,6 +3,6 @@
     "refresh_token": "refreshTokenResponse",
     "id_token": "idTokenResponse",
     "token_type": "token",
-    "expiry_date": 0
+    "expiry_date": -180
 }
 

@@ -54,12 +54,6 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     }
 }
 
-fileprivate extension Date {
-    static var accessTokenExp: Self {
-        .init(timeIntervalSinceReferenceDate: 1729427067)
-    }
-}
-
 extension EnrolmentCoordinatorTests {
     func test_start_noDeviceLocalAuthSet() throws {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
@@ -78,12 +72,13 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        let tokenResponse = try MockTokenResponse().getJSONData()
+        sut.tokenHolder.tokenResponse = tokenResponse
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the journey should be saved in user defaults
-        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, Date.accessTokenExp)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], "accessTokenResponse")
+        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, tokenResponse.expiryDate)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], tokenResponse.accessToken)
     }
 
     func test_start_deviceLocalAuthSet_passcode_fails() throws {
@@ -147,12 +142,13 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication context returned true for evaluatePolicy
         mockLAContext.returnedFromEvaluatePolicy = true
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        let tokenResponse = try MockTokenResponse().getJSONData()
+        sut.tokenHolder.tokenResponse = tokenResponse
         // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
         Task { await sut.enrolLocalAuth(reason: "") }
         // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == Date.accessTokenExp, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], "accessTokenResponse")
+        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == tokenResponse.expiryDate, timeout: 20)
+        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], tokenResponse.accessToken)
         XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
         XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
     }

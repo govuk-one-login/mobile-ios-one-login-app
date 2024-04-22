@@ -6,29 +6,20 @@ class MockTokenResponse {
         case invalid
     }
     
-    func getJSONData() throws -> TokenResponse {
-        let bundleDoingTest = Bundle(for: type(of: self))
-        guard let jsonPath = bundleDoingTest.path(forResource: "TokenResponse", ofType: "json"),
+    func getJSONData(outdated: Bool = false) throws -> TokenResponse {
+        let bundleForTest = Bundle(for: type(of: self))
+        guard let jsonPath = bundleForTest.path(forResource: (outdated ? "OutdatedTokenResponse" : "TokenResponse"), ofType: "json"),
               let jsonData = FileManager.default.contents(atPath: jsonPath) else {
             throw DecodeError.invalid
         }
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let tokenResponse = try decoder.decode(TokenResponse.self, from: jsonData)
-        return tokenResponse
-    }
-    
-    func getOutdatedJSONData() throws -> TokenResponse {
-        let bundleDoingTest = Bundle(for: type(of: self))
-        guard let jsonPath = bundleDoingTest.path(forResource: "OutdatedTokenResponse", ofType: "json"),
-              let jsonData = FileManager.default.contents(atPath: jsonPath) else {
-            throw DecodeError.invalid
+        decoder.dateDecodingStrategy = .custom {
+            let container = try $0.singleValueContainer()
+            let dateDouble = try container.decode(Double.self)
+            return Date(timeIntervalSinceNow: dateDouble)
         }
-        
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let tokenResponse = try decoder.decode(TokenResponse.self, from: jsonData)
-        return tokenResponse
+        return try decoder.decode(TokenResponse.self, from: jsonData)
     }
 }

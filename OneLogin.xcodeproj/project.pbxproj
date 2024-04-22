@@ -387,7 +387,6 @@
 			children = (
 				C85DF8432AEBFDCC0064F68E /* Sessions+Services */,
 				C85DF8442AEBFDF00064F68E /* ReturnTypes */,
-				C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -642,6 +641,7 @@
 			children = (
 				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
 				C8520C212AE2B642006790C1 /* TokenResponse.json */,
+				C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */,
 			);
 			path = ReturnTypes;
 			sourceTree = "<group>";

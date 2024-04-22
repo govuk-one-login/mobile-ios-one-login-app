@@ -26,7 +26,7 @@ extension TokenHolderTests {
     }
     
     func test_tokenOutdated() throws {
-        sut.tokenResponse = try MockTokenResponse().getOutdatedJSONData()
+        sut.tokenResponse = try MockTokenResponse().getJSONData(outdated: true)
         XCTAssertFalse(sut.validAccessToken)
     }
 }
