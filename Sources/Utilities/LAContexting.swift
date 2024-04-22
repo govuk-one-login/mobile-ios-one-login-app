@@ -18,4 +18,8 @@ extension LAContexting {
         localizedFallbackTitle = GDSLocalisedString(stringLiteral: "app_enterPasscodeButton").value
         localizedCancelTitle = GDSLocalisedString(stringLiteral: "app_cancelButton").value
     }
+    
+    var isPasscodeOnly: Bool {
+        canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) && !canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+    }
 }

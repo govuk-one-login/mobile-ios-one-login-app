@@ -40,7 +40,7 @@ final class LoginCoordinator: NSObject,
         if userStore.returningAuthenticatedUser {
             returningUserFlow()
         } else {
-            userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
+            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
             firstTimeUserFlow()
         }
     }
@@ -61,7 +61,7 @@ final class LoginCoordinator: NSObject,
         } catch SecureStoreError.unableToRetrieveFromUserDefaults,
                 SecureStoreError.cantInitialiseData,
                 SecureStoreError.cantRetrieveKey {
-            userStore.refreshStorage(accessControlLevel: .currentBiometricsOrPasscode)
+            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
             windowManager.hideUnlockWindow()
             start()
         } catch {
