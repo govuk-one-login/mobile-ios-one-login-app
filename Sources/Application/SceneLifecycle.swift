@@ -19,7 +19,7 @@ extension SceneLifecycle {
     
     func promptToUnlock() {
         coordinator?.evaluateRevisit {
-            self.windowManager?.hideUnlockWindow()
+            windowManager?.hideUnlockWindow()
         }
     }
     

@@ -71,27 +71,27 @@ extension MainCoordinatorTests {
         try mockSecureStore.saveItem(item: "testAccessToken", itemName: .accessToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
-        sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        sut.evaluateRevisit { evaluateRevisitActionCalled = true }
         // THEN the access token is read from the token holder and the action is called
-        waitForTruth(self.sut.tokenHolder.accessToken == "testAccessToken", timeout: 2)
+        XCTAssertEqual(sut.tokenHolder.accessToken, "testAccessToken")
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
     func test_evaluateRevisit_accessTokenNil() throws {
         // GIVEN access token has not been stored anywhere
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
-        sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        sut.evaluateRevisit { evaluateRevisitActionCalled = true }
         // THEN the action is called
-        waitForTruth(self.evaluateRevisitActionCalled == true, timeout: 2)
+        XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
     func test_evaluateRevisit_accessTokenNotNil() throws {
         // GIVEN access token has been stored in the token holder
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
-        sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        sut.evaluateRevisit { evaluateRevisitActionCalled = true }
         // THEN the access token is removed from the token holder and the action is called
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 2)
+        XCTAssertNil(sut.tokenHolder.accessToken)
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     

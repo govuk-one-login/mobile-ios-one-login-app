@@ -58,7 +58,7 @@ extension SceneLifecycleTests {
     
     func test_promptToUnlock() throws {
         sut.promptToUnlock()
-        waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 10)
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
     }
     
     func test_splashscreen_analytics() throws {

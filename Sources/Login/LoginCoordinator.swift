@@ -53,23 +53,19 @@ final class LoginCoordinator: NSObject,
     }
     
     func getAccessToken() {
-        Task {
-            await MainActor.run {
-                do {
-                    tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-                    windowManager.hideUnlockWindow()
-                    root.dismiss(animated: true)
-                    finish()
-                } catch SecureStoreError.unableToRetrieveFromUserDefaults,
-                        SecureStoreError.cantInitialiseData,
-                        SecureStoreError.cantRetrieveKey {
-                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-                    windowManager.hideUnlockWindow()
-                    start()
-                } catch {
-                    print("Local Authentication error: \(error)")
-                }
-            }
+        do {
+            tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+            windowManager.hideUnlockWindow()
+            root.dismiss(animated: true)
+            finish()
+        } catch SecureStoreError.unableToRetrieveFromUserDefaults,
+                SecureStoreError.cantInitialiseData,
+                SecureStoreError.cantRetrieveKey {
+            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+            windowManager.hideUnlockWindow()
+            start()
+        } catch {
+            print("Local Authentication error: \(error)")
         }
     }
     

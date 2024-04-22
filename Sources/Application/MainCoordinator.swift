@@ -44,25 +44,21 @@ final class MainCoordinator: NSObject,
         loginCoordinator?.handleUniversalLink(url)
     }
     
-    func evaluateRevisit(action: @escaping () -> Void) {
-        Task {
-            await MainActor.run {
-                if userStore.returningAuthenticatedUser {
-                    do {
-                        tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-                        homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-                        action()
-                    } catch {
-                        print("Error getting token: \(error)")
-                    }
-                } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
-                    action()
-                } else {
-                    tokenHolder.accessToken = nil
-                    start()
-                    action()
-                }
+    func evaluateRevisit(action: () -> Void) {
+        if userStore.returningAuthenticatedUser {
+            do {
+                tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+                action()
+            } catch {
+                print("Error getting token: \(error)")
             }
+        } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
+            action()
+        } else {
+            tokenHolder.accessToken = nil
+            start()
+            action()
         }
     }
 }
