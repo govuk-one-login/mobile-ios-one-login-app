@@ -7,10 +7,9 @@ final class OnboardingCoordinator: NSObject,
                                    AnyCoordinator,
                                    ChildCoordinator {
     let root = UINavigationController()
-    
     var parentCoordinator: ParentCoordinator?
-    private let urlOpener: URLOpener
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
+    private let urlOpener: URLOpener
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(analyticsPreferenceStore: AnalyticsPreferenceStore,

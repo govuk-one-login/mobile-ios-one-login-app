@@ -6,7 +6,7 @@ import XCTest
 final class OnboardingCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockURLOpener: URLOpener!
+    var mockURLOpener: MockURLOpener!
     var sut: OnboardingCoordinator!
     
     override func setUp() {
@@ -54,5 +54,19 @@ extension OnboardingCoordinatorTests {
         declinePermissionsButton.sendActions(for: .touchUpInside)
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to false
         XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
+    }
+    
+    func test_openPrivacyPolicyURL() throws {
+        // WHEN the OnboardingCoordinator is started
+        sut.start()
+        // THEN the 'analytics preference' screen is shown
+        let vc = try XCTUnwrap(sut.root.topViewController as? ModalInfoViewController)
+        XCTAssertTrue(vc.viewModel is AnalyticsPreferenceViewModel)
+        // WHEN the Privacy Policy button is tapped is started
+        let privacyPolicyButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-text-button"])
+        privacyPolicyButton.sendActions(for: .touchUpInside)
+        // THEN the mockURLOpener's didOpenURL property is updated to true
+        XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
+        XCTAssertTrue(mockURLOpener.didOpenURL)
     }
 }
