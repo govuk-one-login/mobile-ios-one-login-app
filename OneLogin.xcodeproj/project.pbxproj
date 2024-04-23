@@ -1615,7 +1615,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
-				STS_AUTHORIZE_URL = token.staging.account.gov.uk;
+				STS_BASE_URL = token.staging.account.gov.uk;
 				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1654,7 +1654,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "";
-				STS_AUTHORIZE_URL = "";
+				STS_BASE_URL = "";
 				STS_CLIENT_ID = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1928,7 +1928,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
-				STS_AUTHORIZE_URL = token.staging.account.gov.uk;
+				STS_BASE_URL = token.staging.account.gov.uk;
 				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -2117,7 +2117,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REDIRECT_URL = "https://mobile.build.account.gov.uk/redirect";
-				STS_AUTHORIZE_URL = token.build.account.gov.uk;
+				STS_BASE_URL = token.build.account.gov.uk;
 				STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
