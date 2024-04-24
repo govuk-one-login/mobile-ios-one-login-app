@@ -129,6 +129,11 @@
 		C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */; };
 		C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1312BB73E2E00722218 /* WindowManager.swift */; };
 		D03B6CEB2BD656B1004E7653 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6CEA2BD656B1004E7653 /* MockURLOpener.swift */; };
+		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
+		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
+		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
+		D08B0B5A2BD7FAE600769CEA /* TokensViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B592BD7FAE600769CEA /* TokensViewModel.swift */; };
+		D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,6 +296,11 @@
 		C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA1312BB73E2E00722218 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		D03B6CEA2BD656B1004E7653 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
+		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
+		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
+		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
+		D08B0B592BD7FAE600769CEA /* TokensViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensViewModel.swift; sourceTree = "<group>"; };
+		D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -444,6 +454,7 @@
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				D08B0B522BD7F7D600769CEA /* DeveloperMenu */,
 				414D97FF2B8DEBD000E267EF /* Unlock */,
 				4195E6C72B0CC6CD0065E2BB /* Tokens */,
 			);
@@ -455,6 +466,7 @@
 			children = (
 				C89632EC2B0D0886002A1473 /* TokensView.xib */,
 				C89632EE2B0D0895002A1473 /* TokensViewController.swift */,
+				D08B0B592BD7FAE600769CEA /* TokensViewModel.swift */,
 			);
 			path = Tokens;
 			sourceTree = "<group>";
@@ -604,6 +616,7 @@
 				C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */,
 				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
 				C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */,
+				D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */,
 				C85DF8472AEBFE6D0064F68E /* ViewModels */,
 			);
 			path = Login;
@@ -945,6 +958,16 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
+		D08B0B522BD7F7D600769CEA /* DeveloperMenu */ = {
+			isa = PBXGroup;
+			children = (
+				D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */,
+				D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */,
+				D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */,
+			);
+			path = DeveloperMenu;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1130,6 +1153,7 @@
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 				C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
+				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1260,6 +1284,7 @@
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				C8E6A3E82BBC0536005015AF /* WindowManagement.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
+				D08B0B5A2BD7FAE600769CEA /* TokensViewModel.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* UserStorable.swift in Sources */,
@@ -1286,6 +1311,7 @@
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
+				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalyticsScreen.swift in Sources */,
@@ -1293,6 +1319,7 @@
 				C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
+				D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
@@ -1341,6 +1368,7 @@
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+TestExtensions.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
+				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				D03B6CEB2BD656B1004E7653 /* MockURLOpener.swift in Sources */,

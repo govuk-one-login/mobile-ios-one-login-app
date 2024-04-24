@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TokensViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
                 <outlet property="accessTokenLabel" destination="RHT-ni-Xog" id="5be-1N-zjR"/>
+                <outlet property="developerMenuButton" destination="F8T-el-yPc" id="8xN-vW-DZc"/>
                 <outlet property="loggedInLabel" destination="MNy-oM-cPl" id="5Hc-iK-q2Z"/>
                 <outlet property="view" destination="iN0-l3-epB" id="peh-St-0al"/>
             </connections>
@@ -25,17 +26,25 @@
                     <rect key="frame" x="10" y="59" width="373" height="759"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNy-oM-cPl" userLabel="Label_logged_in">
-                            <rect key="frame" x="0.0" y="0.0" width="373" height="467.66666666666669"/>
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="293"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHT-ni-Xog">
-                            <rect key="frame" x="0.0" y="472.66666666666663" width="373" height="286.33333333333337"/>
+                            <rect key="frame" x="0.0" y="298" width="373" height="146.66666666666663"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8T-el-yPc">
+                            <rect key="frame" x="0.0" y="449.66666666666674" width="373" height="309.33333333333326"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="developerMenuAction:" destination="-1" eventType="touchUpInside" id="0th-Tw-gxa"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </stackView>
             </subviews>
