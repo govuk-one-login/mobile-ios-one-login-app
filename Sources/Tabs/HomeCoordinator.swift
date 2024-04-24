@@ -8,17 +8,18 @@ final class HomeCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     var root = UINavigationController()
     private var accessToken: String?
-    private var baseVc: TokensViewController!
+    private var baseVc: TokensViewController?
 
     func start() {
-        baseVc = TokensViewController(TokensViewModel {
+        let tokensViewController = TokensViewController(TokensViewModel {
             self.showDeveloperMenu()
         })
-        root.setViewControllers([baseVc], animated: true)
+        baseVc = tokensViewController
+        root.setViewControllers([tokensViewController], animated: true)
     }
     
     func updateToken(accessToken: String?) {
-        baseVc.updateToken(accessToken: accessToken)
+        baseVc?.updateToken(accessToken: accessToken)
     }
     
     func showDeveloperMenu() {
