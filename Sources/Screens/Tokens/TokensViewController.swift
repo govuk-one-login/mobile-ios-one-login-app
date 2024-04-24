@@ -14,7 +14,7 @@ class TokensViewController: UIViewController {
         }
     }
     
-    init(_ viewModel: TokensViewModel) {
+    init(viewModel: TokensViewModel) {
         self.viewModel = viewModel
         super.init(nibName: "TokensView", bundle: nil)
     }

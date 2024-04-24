@@ -11,9 +11,10 @@ final class TokensViewControllerTests: XCTestCase {
         super.setUp()
         
         didTapDeveloperMenu = false
-        sut = TokensViewController(TokensViewModel {
+        let tokensViewModel = TokensViewModel {
             self.didTapDeveloperMenu = true
-        })
+        }
+        sut = TokensViewController(viewModel: tokensViewModel)
         sut.updateToken(accessToken: "testAccessToken")
     }
     

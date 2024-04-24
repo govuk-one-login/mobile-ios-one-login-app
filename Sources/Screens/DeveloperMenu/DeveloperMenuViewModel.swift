@@ -1,8 +1,7 @@
 import GDSCommon
-import UIKit
 
 struct DeveloperMenuViewModel: BaseViewModel {
-    var rightBarButtonTitle: GDSCommon.GDSLocalisedString? = "Close"
+    var rightBarButtonTitle: GDSLocalisedString? = "Close"
     
     var backButtonIsHidden: Bool = true
     

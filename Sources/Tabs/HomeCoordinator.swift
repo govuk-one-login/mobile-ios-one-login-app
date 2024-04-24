@@ -11,9 +11,10 @@ final class HomeCoordinator: NSObject,
     private var baseVc: TokensViewController?
 
     func start() {
-        let tokensViewController = TokensViewController(TokensViewModel {
+        let tokensViewModel = TokensViewModel {
             self.showDeveloperMenu()
-        })
+        }
+        let tokensViewController = TokensViewController(viewModel: tokensViewModel)
         baseVc = tokensViewController
         root.setViewControllers([tokensViewController], animated: true)
     }
