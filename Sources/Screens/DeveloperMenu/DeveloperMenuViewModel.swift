@@ -5,9 +5,7 @@ struct DeveloperMenuViewModel: BaseViewModel {
     
     var backButtonIsHidden: Bool = true
     
-    func didAppear() {
-        // protocol conformance
-    }
+    func didAppear() { /* protocol conformance */ }
     
-    func didDismiss() {}
+    func didDismiss() { /* protocol conformance */ }
 }
