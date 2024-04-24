@@ -26,4 +26,12 @@ final class HomeCoordinatorTests: XCTestCase {
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue( presentedViewController.topViewController is DeveloperMenuViewController)
     }
+    
+    func test_updateToken() throws {
+        sut.start()
+        let vc = try XCTUnwrap(sut.baseVc)
+        XCTAssertEqual(try vc.accessTokenLabel.text, "Access Token: ")
+        sut.updateToken(accessToken: "testAccessToken")
+        XCTAssertEqual(try vc.accessTokenLabel.text, "Access Token: testAccessToken")
+    }
 }

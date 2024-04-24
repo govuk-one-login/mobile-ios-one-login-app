@@ -8,7 +8,7 @@ final class HomeCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     var root = UINavigationController()
     private var accessToken: String?
-    private var baseVc: TokensViewController?
+    private (set)var baseVc: TokensViewController?
 
     func start() {
         let tokensViewModel = TokensViewModel {

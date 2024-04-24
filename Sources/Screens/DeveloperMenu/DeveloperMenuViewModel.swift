@@ -9,7 +9,5 @@ struct DeveloperMenuViewModel: BaseViewModel {
         // protocol conformance
     }
     
-    func didDismiss() {
-        // protocol conformance
-    }
+    func didDismiss() {}
 }
