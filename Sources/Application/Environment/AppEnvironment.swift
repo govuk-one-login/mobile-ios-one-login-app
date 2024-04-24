@@ -67,6 +67,7 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = string(for: .externalBaseURL)
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/privacy-notice"
         return components.url!
     }
