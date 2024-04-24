@@ -4,6 +4,7 @@ import UIKit
 
 class TokensViewController: UIViewController {
     override var nibName: String? { "TokensView" }
+    let viewModel: TokensViewModel
     
     private var accessToken: String? {
         didSet {
@@ -13,7 +14,8 @@ class TokensViewController: UIViewController {
         }
     }
     
-    init() {
+    init(_ viewModel: TokensViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: "TokensView", bundle: nil)
     }
     
@@ -44,5 +46,21 @@ class TokensViewController: UIViewController {
                                                                  attributes: [("Access Token:", [.font: UIFont.title1Bold])]).attributedValue
             accessTokenLabel.accessibilityIdentifier = "access-token"
         }
+    }
+    
+    @IBOutlet private var developerMenuButton: UIButton! {
+        didSet {
+            developerMenuButton.setTitle("Developer Menu", for: .normal)
+            developerMenuButton.accessibilityIdentifier = "developer-menu-button"
+ #if DEBUG
+            developerMenuButton.isHidden = false
+ #else
+            developerMenuButton.isHidden = true
+ #endif
+        }
+    }
+    
+    @IBAction private func developerMenuAction(_ sender: Any) {
+        viewModel.developerMenuAction()
     }
 }
