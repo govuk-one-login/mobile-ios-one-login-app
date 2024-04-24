@@ -25,8 +25,8 @@
 	<string>$(ONE_LOGIN_CLIENT_ID)</string>
 	<key>Redirect URL</key>
 	<string>$(REDIRECT_URL)</string>
-	<key>STS Authorize URL</key>
-	<string>$(STS_AUTHORIZE_URL)</string>
+	<key>STS Base URL</key>
+	<string>$(STS_BASE_URL)</string>
 	<key>STS Client ID</key>
 	<string>$(STS_CLIENT_ID)</string>
 	<key>UIApplicationSceneManifest</key>
