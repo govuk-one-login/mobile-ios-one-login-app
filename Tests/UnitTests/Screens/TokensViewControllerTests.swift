@@ -5,17 +5,22 @@ import XCTest
 final class TokensViewControllerTests: XCTestCase {
     var accessToken: String!
     var sut: TokensViewController!
+    var didTapDeveloperMenu: Bool!
     
     override func setUp() {
         super.setUp()
         
-        sut = TokensViewController()
+        didTapDeveloperMenu = false
+        sut = TokensViewController(TokensViewModel {
+            self.didTapDeveloperMenu = true
+        })
         sut.updateToken(accessToken: "testAccessToken")
     }
     
     override func tearDown() {
         sut = nil
         accessToken = nil
+        didTapDeveloperMenu = false
         
         super.tearDown()
     }
@@ -25,6 +30,12 @@ extension TokensViewControllerTests {
     func test_labelContents() throws {
         XCTAssertEqual(try sut.loggedInLabel.attributedText?.string.starts(with: "Logged in"), true)
         XCTAssertEqual(try sut.accessTokenLabel.attributedText?.string, "Access Token: testAccessToken")
+    }
+    
+    func test_developerMenu() throws {
+        XCTAssertFalse(didTapDeveloperMenu)
+        try sut.developerMenuButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didTapDeveloperMenu)
     }
 }
 
@@ -38,6 +49,12 @@ extension TokensViewController {
     var accessTokenLabel: UILabel {
         get throws {
             try XCTUnwrap(view[child: "access-token"])
+        }
+    }
+    
+    var developerMenuButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "developer-menu-button"])
         }
     }
 }
