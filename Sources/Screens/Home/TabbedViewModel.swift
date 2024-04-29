@@ -2,16 +2,31 @@ import GDSCommon
 import UIKit
 
 final class TabbedViewModel: NSObject, BaseViewModel {
-    var rightBarButtonTitle: GDSCommon.GDSLocalisedString?
+    var rightBarButtonTitle: GDSLocalisedString?
     var backButtonIsHidden: Bool
-    var title: String?
-    var dataSource: UITableViewDataSource?
     
-    init(rightBarButtonTitle: GDSCommon.GDSLocalisedString? = nil, backButtonIsHidden: Bool = true, title: String? = nil, dataSource: UITableViewDataSource? = nil) {
+    let navigationTitle: GDSLocalisedString?
+    let sectionHeaderTitles: [GDSLocalisedString]
+    let cellModels: [[TabbedViewCellModel]]
+    
+    init(rightBarButtonTitle: GDSLocalisedString? = nil,
+         backButtonIsHidden: Bool = true,
+         title: GDSLocalisedString? = nil,
+         sectionHeaderTitles: [GDSLocalisedString] = [GDSLocalisedString](),
+         cellModels: [[TabbedViewCellModel]] = [[TabbedViewCellModel]]()) {
         self.rightBarButtonTitle = rightBarButtonTitle
         self.backButtonIsHidden = backButtonIsHidden
-        self.title = title
-        self.dataSource = dataSource
+        self.navigationTitle = title
+        self.sectionHeaderTitles = sectionHeaderTitles
+        self.cellModels = cellModels
+    }
+    
+    var numberOfSections: Int {
+        sectionHeaderTitles.count > 0 ? sectionHeaderTitles.count : 1
+    }
+    
+    func numberOfRowsInSection(_ section: Int) -> Int {
+        cellModels[section].count
     }
     
     func didAppear() {
@@ -21,8 +36,4 @@ final class TabbedViewModel: NSObject, BaseViewModel {
     func didDismiss() {
         
     }
-}
-
-extension TabbedViewModel: UITableViewDelegate {
-    
 }

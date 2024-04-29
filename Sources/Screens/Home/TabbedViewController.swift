@@ -1,3 +1,4 @@
+import Coordination
 import GDSCommon
 import UIKit
 
@@ -5,11 +6,15 @@ final class TabbedViewController: BaseViewController {
 
     override var nibName: String? { "TabbedView" }
     @IBOutlet private var tableView: UITableView!
-    let headerView = SignInView()
-    let viewModel: TabbedViewModel
     
-    init(viewModel: TabbedViewModel) {
+    private let headerView: UIView?
+    private let viewModel: TabbedViewModel
+    private var accessToken: String?
+    
+    init(viewModel: TabbedViewModel,
+         headerView: UIView? = nil) {
         self.viewModel = viewModel
+        self.headerView = headerView
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
@@ -21,58 +26,75 @@ final class TabbedViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.delegate = viewModel
-        tableView.dataSource = viewModel.dataSource
-        title = "Home"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: "tabbedTableViewCell")
+        tableView.tableHeaderView = headerView
+        tableView.delegate = self
+        tableView.dataSource = self
+        title = viewModel.navigationTitle?.value
+        
     }
-
-
     
-    override func viewDidLayoutSubviews() {
-         super.viewDidLayoutSubviews()
-
-         guard let headerView = tableView.tableHeaderView else {
-             return
-         }
-
-         // The table view header is created with the frame size set in
-         // the Storyboard. Calculate the new size and reset the header
-         // view to trigger the layout.
-
-         // Calculate the minimum height of the header view that allows
-         // the text label to fit its preferred width.
-
-         let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-
-         if headerView.frame.size.height != size.height {
-             headerView.frame.size.height = size.height
-
-             // Need to set the header view property of the table view
-             // to trigger the new layout. Be careful to only do this
-             // once when the height changes or we get stuck in a layout loop.
-
-             tableView.tableHeaderView = headerView
-
-             // Now that the table view header is sized correctly have
-             // the table view redo its layout so that the cells are
-             // correcly positioned for the new header size.
-
-             // This only seems to be necessary on iOS 9.
-
-             tableView.layoutIfNeeded()
-         }
-     }
- 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewIsAppearing(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.sizeToFit()
     }
-    */
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        resizeHeaderView()
+    }
+    
+    func updateToken(accessToken: String?) {
+        // To be replaced by secure token JWT with capability to extract e-mail for display
+        self.accessToken = accessToken
+        guard let headerView = headerView as? SignInView else { return }
+        headerView.updateEmail("sarahelizabeth_1991@gmail.com")
+        resizeHeaderView()
+    }
+    
+    private func resizeHeaderView() {
+        guard self.isViewLoaded else { return }
+        guard let headerView = tableView.tableHeaderView else {
+            return
+        }
+        
+        let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        
+        if headerView.frame.height != size.height {
+            headerView.frame.size.height = size.height
+            tableView.tableHeaderView = headerView
+        }
+    }
+}
+
+extension TabbedViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.numberOfRowsInSection(section)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.numberOfSections
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tabbedTableViewCell", for: indexPath) as? TabbedTableViewCell else { return UITableViewCell() }
+        cell.viewModel = viewModel.cellModels[indexPath.section][indexPath.row]
+        return cell
+    }
+}
+
+extension TabbedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = TabbedViewSectionHeader(title: viewModel.sectionHeaderTitles[section])
+        return label
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return TabbedViewSectionHeader().intrinsicContentSize.height
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? TabbedTableViewCell else { return }
+        cell.viewModel?.action?()
+    }
 }
