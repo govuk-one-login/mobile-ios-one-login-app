@@ -1,29 +1,54 @@
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
 final class TabbedViewControllerTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var sut: TabbedViewController!
+    var viewModel: TabbedViewModel!
+    
+    private var didTapRow = false
+    
+    override func setUp() {
+        viewModel = TabbedViewModel(sectionHeaderTitles: createSectionHeaders(),
+        cellModels: createCellModels())
+        sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
+        sut.loadViewIfNeeded()
+
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        sut = nil
+        viewModel = nil
+        didTapRow = false
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_numberOfSections() {
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tabbedTableView), 1)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func test_numberOfRows() {
+        XCTAssertEqual(sut.tableView(try sut.tabbedTableView, numberOfRowsInSection: 0), 1)
+    }
+    
+    func test_rowSelected() throws {
+        XCTAssertFalse(didTapRow)
+        let indexPath = IndexPath(row: 0, section: 0)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        XCTAssertTrue(didTapRow)
+    }
+    
+    private func createCellModels() -> [[TabbedViewCellModel]] {
+        let testModel = TabbedViewCellModel(cellTitle: GDSLocalisedString(stringLiteral: "Test Cell")) {
+            self.didTapRow = true
         }
+        
+        return [[testModel]]
+    }
+    
+    private func createSectionHeaders() -> [GDSLocalisedString] {
+        [GDSLocalisedString(stringLiteral: "Test Header")]
     }
 
 }
@@ -32,6 +57,12 @@ extension TabbedViewController {
     var emailLabel: UILabel {
         get throws {
             try XCTUnwrap(view[child: "signin-view-email-label"])
+        }
+    }
+    
+    var tabbedTableView: UITableView {
+        get throws {
+            try XCTUnwrap(view[child: "tabbed-view-table-view"])
         }
     }
 }

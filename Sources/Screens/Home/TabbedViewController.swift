@@ -5,7 +5,11 @@ import UIKit
 final class TabbedViewController: BaseViewController {
 
     override var nibName: String? { "TabbedView" }
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var tableView: UITableView! {
+        didSet {
+            tableView.accessibilityIdentifier = "tabbed-view-table-view"
+        }
+    }
     
     private let headerView: UIView?
     private let viewModel: TabbedViewModel

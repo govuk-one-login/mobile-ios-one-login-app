@@ -29,11 +29,7 @@ final class TabbedViewModel: NSObject, BaseViewModel {
         cellModels[section].count
     }
     
-    func didAppear() {
-        
-    }
+    func didAppear() { /* protocol conformance */ }
     
-    func didDismiss() {
-        
-    }
+    func didDismiss() { /* protocol conformance */ }
 }
