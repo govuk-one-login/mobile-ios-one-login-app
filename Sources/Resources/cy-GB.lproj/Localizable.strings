@@ -86,3 +86,7 @@
 
 // MARK: Unlock screen
 "app_unlockButton" = "Datgloi";
+
+// MARK: Home screen
+"app_homeTitle" = "Hafan";
+"app_displayEmail" = "Rydych wedi mewngofnodi fel\n%@";
