@@ -16,9 +16,11 @@ final class HomeCoordinator: NSObject,
             self.showDeveloperMenu()
         }
 
+        
         let viewModel = TabbedViewModel(title: "app_homeTitle",
-                                        sectionHeaderTitles: [GDSLocalisedString(stringLiteral: "Developer Menu")],
-        cellModels: createCellModels())
+                                        sectionHeaderTitles: createSectionHeaders(),
+                                        cellModels: createCellModels())
+
         let hc = TabbedViewController(viewModel: viewModel,
                                       headerView: SignInView(viewModel: SignInViewModel()))
         baseVc = hc
@@ -37,9 +39,22 @@ final class HomeCoordinator: NSObject,
     }
     
     private func createCellModels() -> [[TabbedViewCellModel]] {
+        #if DEBUG
         let developerModel = TabbedViewCellModel(cellTitle: GDSLocalisedString(stringLiteral: "Developer Menu")) {
             self.showDeveloperMenu()
         }
+        #else
+        let developerModel = TabbedViewCellModel()
+        #endif
+        
         return [[developerModel]]
+    }
+    
+    private func createSectionHeaders() -> [GDSLocalisedString] {
+        #if DEBUG
+        [GDSLocalisedString(stringLiteral: "Developer Menu")]
+        #else
+        [GDSLocalisedString]()
+        #endif
     }
 }

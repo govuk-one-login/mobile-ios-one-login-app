@@ -22,7 +22,7 @@ final class TabbedViewModel: NSObject, BaseViewModel {
     }
     
     var numberOfSections: Int {
-        sectionHeaderTitles.count > 0 ? sectionHeaderTitles.count : 1
+        sectionHeaderTitles.count
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
