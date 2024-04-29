@@ -1,8 +1,12 @@
-//
-//  TabbedViewCellModel.swift
-//  OneLogin
-//
-//  Created by Dubey, Josh on 26/04/2024.
-//
-
 import Foundation
+import GDSCommon
+
+struct TabbedViewCellModel {
+    var cellTitle: GDSLocalisedString?
+    var action: (() -> Void)?
+    
+    init(cellTitle: GDSLocalisedString? = nil, action: (() -> Void)? = nil) {
+        self.cellTitle = cellTitle
+        self.action = action
+    }
+}

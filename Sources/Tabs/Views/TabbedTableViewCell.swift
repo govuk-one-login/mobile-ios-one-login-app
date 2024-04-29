@@ -8,16 +8,9 @@
 import UIKit
 
 class TabbedTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var viewModel: TabbedViewCellModel? {
+        didSet {
+            textLabel?.text = viewModel?.cellTitle?.value
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
