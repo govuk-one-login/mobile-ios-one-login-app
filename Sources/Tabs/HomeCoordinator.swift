@@ -12,10 +12,6 @@ final class HomeCoordinator: NSObject,
     private (set)var baseVc: TabbedViewController?
 
     func start() {
-        let tokensViewModel = TokensViewModel {
-            self.showDeveloperMenu()
-        }
-
         
         let viewModel = TabbedViewModel(title: "app_homeTitle",
                                         sectionHeaderTitles: createSectionHeaders(),

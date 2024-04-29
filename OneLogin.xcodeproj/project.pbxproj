@@ -144,6 +144,7 @@
 		D08B0B7F2BDBF87800769CEA /* TabbedViewSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */; };
 		D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
 		D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
+		D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -321,6 +322,7 @@
 		D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedViewSectionHeader.xib; sourceTree = "<group>"; };
 		D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedTableViewCell.swift; sourceTree = "<group>"; };
 		D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewCellModel.swift; sourceTree = "<group>"; };
+		D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -802,6 +804,7 @@
 			children = (
 				C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */,
 				C82F95102B9F0D4200A90A6A /* TokensViewControllerTests.swift */,
+				D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -1406,6 +1409,7 @@
 				C82B64522BA47D59000C9524 /* StringTests.swift in Sources */,
 				C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */,
 				C8E6A3EF2BBC1181005015AF /* WindowManagerTests.swift in Sources */,
+				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
 				1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,

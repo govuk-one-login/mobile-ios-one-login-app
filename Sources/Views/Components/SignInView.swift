@@ -15,8 +15,8 @@ class SignInView: NibView {
     
     @IBOutlet private var emailLabel: UILabel! {
         didSet {
-            guard let emailLabel else { return }
             emailLabel.attributedText = attributedEmailString
+            emailLabel.accessibilityIdentifier = "signin-view-email-label"
         }
     }
     
