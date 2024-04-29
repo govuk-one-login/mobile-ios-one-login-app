@@ -1,20 +1,21 @@
-//
-//  TabbedViewSectionHeader.swift
-//  OneLogin
-//
-//  Created by Dubey, Josh on 26/04/2024.
-//
-
+import GDSCommon
 import UIKit
 
-class TabbedViewSectionHeader: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+class TabbedViewSectionHeader: NibView {
+    private let title: GDSLocalisedString?
+    init(title: GDSLocalisedString? = nil) {
+        self.title = title
+        super.init()
     }
-    */
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @IBOutlet private var sectionTitleLabel: UILabel! {
+        didSet {
+            sectionTitleLabel.font = .bodyBold
+            sectionTitleLabel.text = title?.value
+        }
+    }
 }
