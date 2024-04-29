@@ -134,6 +134,16 @@
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
 		D08B0B5A2BD7FAE600769CEA /* TokensViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B592BD7FAE600769CEA /* TokensViewModel.swift */; };
 		D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */; };
+		D08B0B652BDA478000769CEA /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B642BDA478000769CEA /* SignInView.swift */; };
+		D08B0B682BDA47AD00769CEA /* SignInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B672BDA47AD00769CEA /* SignInView.xib */; };
+		D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */; };
+		D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B722BDA8DD100769CEA /* TabbedView.xib */; };
+		D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */; };
+		D08B0B782BDBD32900769CEA /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B772BDBD32900769CEA /* SignInViewModel.swift */; };
+		D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */; };
+		D08B0B7F2BDBF87800769CEA /* TabbedViewSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */; };
+		D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
+		D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,6 +311,16 @@
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
 		D08B0B592BD7FAE600769CEA /* TokensViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensViewModel.swift; sourceTree = "<group>"; };
 		D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
+		D08B0B642BDA478000769CEA /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		D08B0B672BDA47AD00769CEA /* SignInView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignInView.xib; sourceTree = "<group>"; };
+		D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewController.swift; sourceTree = "<group>"; };
+		D08B0B722BDA8DD100769CEA /* TabbedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedView.xib; sourceTree = "<group>"; };
+		D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewModel.swift; sourceTree = "<group>"; };
+		D08B0B772BDBD32900769CEA /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionHeader.swift; sourceTree = "<group>"; };
+		D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedViewSectionHeader.xib; sourceTree = "<group>"; };
+		D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedTableViewCell.swift; sourceTree = "<group>"; };
+		D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,6 +474,7 @@
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				D08B0B5D2BD95C4900769CEA /* Home */,
 				D08B0B522BD7F7D600769CEA /* DeveloperMenu */,
 				414D97FF2B8DEBD000E267EF /* Unlock */,
 				4195E6C72B0CC6CD0065E2BB /* Tokens */,
@@ -713,6 +734,7 @@
 		C85E21152ACEECB000AF8B4E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D08B0B662BDA479000769CEA /* Components */,
 				C85E21162ACEECC600AF8B4E /* Buttons */,
 			);
 			path = Views;
@@ -951,6 +973,7 @@
 		C8ECA1282BB5955200722218 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				D08B0B7B2BDBF82600769CEA /* Views */,
 				C8ECA1232BB4805900722218 /* HomeCoordinator.swift */,
 				C8ECA1292BB5957500722218 /* WalletCoordinator.swift */,
 				C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */,
@@ -966,6 +989,37 @@
 				D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */,
 			);
 			path = DeveloperMenu;
+			sourceTree = "<group>";
+		};
+		D08B0B5D2BD95C4900769CEA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */,
+				D08B0B722BDA8DD100769CEA /* TabbedView.xib */,
+				D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D08B0B662BDA479000769CEA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D08B0B642BDA478000769CEA /* SignInView.swift */,
+				D08B0B672BDA47AD00769CEA /* SignInView.xib */,
+				D08B0B772BDBD32900769CEA /* SignInViewModel.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D08B0B7B2BDBF82600769CEA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */,
+				D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */,
+				D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */,
+				D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1143,13 +1197,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */,
+				D08B0B682BDA47AD00769CEA /* SignInView.xib in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
+				D08B0B7F2BDBF87800769CEA /* TabbedViewSectionHeader.xib in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
+				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 				C89632ED2B0D0886002A1473 /* TokensView.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
@@ -1281,6 +1338,7 @@
 				C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */,
 				1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */,
 				41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */,
+				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				C8E6A3E82BBC0536005015AF /* WindowManagement.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
@@ -1303,8 +1361,12 @@
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
+				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
+				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */,
+				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
+				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,
@@ -1312,6 +1374,7 @@
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
+				D08B0B782BDBD32900769CEA /* SignInViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalyticsScreen.swift in Sources */,
@@ -1324,6 +1387,7 @@
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
+				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C89632EF2B0D0895002A1473 /* TokensViewController.swift in Sources */,
 				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
