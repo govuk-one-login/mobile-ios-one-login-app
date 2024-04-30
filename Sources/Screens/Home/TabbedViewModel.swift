@@ -6,27 +6,24 @@ struct TabbedViewModel: BaseViewModel {
     let backButtonIsHidden: Bool
     
     let navigationTitle: GDSLocalisedString?
-    let sectionHeaderTitles: [GDSLocalisedString]
-    let cellModels: [[TabbedViewCellModel]]
+    let sectionModels: [TabbedViewSectionModel]
     
     init(rightBarButtonTitle: GDSLocalisedString? = nil,
          backButtonIsHidden: Bool = true,
          title: GDSLocalisedString? = nil,
-         sectionHeaderTitles: [GDSLocalisedString] = [GDSLocalisedString](),
-         cellModels: [[TabbedViewCellModel]] = [[TabbedViewCellModel]]()) {
+         sectionModels: [TabbedViewSectionModel] = [TabbedViewSectionModel]()) {
         self.rightBarButtonTitle = rightBarButtonTitle
         self.backButtonIsHidden = backButtonIsHidden
         self.navigationTitle = title
-        self.sectionHeaderTitles = sectionHeaderTitles
-        self.cellModels = cellModels
+        self.sectionModels = sectionModels
     }
     
     var numberOfSections: Int {
-        sectionHeaderTitles.count
+        sectionModels.count
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
-        cellModels[section].count
+        sectionModels[section].tabModels.count
     }
     
     func didAppear() { /* protocol conformance */ }
