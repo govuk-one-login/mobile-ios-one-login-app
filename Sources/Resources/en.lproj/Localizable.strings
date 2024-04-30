@@ -92,3 +92,27 @@
 "app_homeTitle" = "Home";
 
 "app_displayEmail" = "You’re signed in as\n%@";
+
+
+// MARK: Profile screen
+"app_profileTitle" = "Profile";
+
+"app_profileSubtitle1" = "Your details";
+
+"app_manageSignInDetailsLink" = "Manage sign in details";
+
+"app_manageSignInDetailsFootnote" = "Manage your sign in details with the GOV.UK One Login web service. You’ll need to sign in again.";
+
+"app_signInDetails" = "Sign in details";
+
+"app_profileSubtitle2" = "Legal";
+
+"app_privacyNoticeLink2" = "GOV.UK One Login privacy notice";
+
+"app_profileSubtitle3" = "Help and feedback";
+
+"app_reportAProblemGiveFeedbackLink" = "Report a problem or give feedback";
+
+"app_appGuidanceLink" = "Guidance about using the app";
+
+"app_signOutButton" = "Sign out";

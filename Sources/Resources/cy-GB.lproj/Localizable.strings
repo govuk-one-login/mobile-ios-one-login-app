@@ -92,3 +92,27 @@
 "app_homeTitle" = "Hafan";
 
 "app_displayEmail" = "Rydych wedi mewngofnodi fel\n%@";
+
+
+// MARK: Profile screen
+"app_profileTitle" = "Proffil";
+
+"app_profileSubtitle1" = "Eich manylion";
+
+"app_manageSignInDetailsLink" = "Rheoli manylion mewngofnodi";
+
+"app_manageSignInDetailsFootnote" = "Rheoli eich manylion mewngofnodi gyda'r gwasanaeth gwe GOV.UK One Login. Bydd angen i chi fewngofnodi eto.";
+
+"app_signInDetails" = "Manylion mewngofnodi";
+
+"app_profileSubtitle2" = "Cyfreithiol";
+
+"app_privacyNoticeLink2" = "Rhybudd Preifatrwydd GOV.UK One Login";
+
+"app_profileSubtitle3" = "Help ac adborth";
+
+"app_reportAProblemGiveFeedbackLink" = "Rhoi gwybod am broblem neu roi adborth";
+
+"app_appGuidanceLink" = "Canllawiau ar ddefnyddio'r ap";
+
+"app_signOutButton" = "Allgofnodi";
