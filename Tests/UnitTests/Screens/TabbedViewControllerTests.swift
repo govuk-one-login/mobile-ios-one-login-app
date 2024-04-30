@@ -4,23 +4,26 @@ import XCTest
 
 final class TabbedViewControllerTests: XCTestCase {
 
-    var sut: TabbedViewController!
     var viewModel: TabbedViewModel!
+    var sut: TabbedViewController!
     
     private var didTapRow = false
     
     override func setUp() {
+        super.setUp()
+        
         viewModel = TabbedViewModel(sectionHeaderTitles: createSectionHeaders(),
-        cellModels: createCellModels())
+                                    cellModels: createCellModels())
         sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
         sut.loadViewIfNeeded()
-
     }
 
     override func tearDown() {
-        sut = nil
         viewModel = nil
+        sut = nil
         didTapRow = false
+        
+        super.tearDown()
     }
     
     func test_numberOfSections() {
@@ -50,7 +53,6 @@ final class TabbedViewControllerTests: XCTestCase {
     private func createSectionHeaders() -> [GDSLocalisedString] {
         [GDSLocalisedString(stringLiteral: "Test Header")]
     }
-
 }
 
 extension TabbedViewController {
