@@ -26,10 +26,10 @@ final class DeveloperMenuViewController: BaseViewController {
             if AppEnvironment.callingSTSEnabled {
                 happyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
                 happyPathButton.setTitle("Hello World Happy", for: .normal)
-                happyPathButton.accessibilityIdentifier = "sts-happy-path-button"
             } else {
                 happyPathButton.isHidden = true
             }
+            happyPathButton.accessibilityIdentifier = "sts-happy-path-button"
         }
     }
 
@@ -75,10 +75,10 @@ final class DeveloperMenuViewController: BaseViewController {
             if AppEnvironment.callingSTSEnabled {
                 unhappyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
                 unhappyPathButton.setTitle("Hello World Error", for: .normal)
-                unhappyPathButton.accessibilityIdentifier = "sts-unhappy-path-button"
             } else {
                 unhappyPathButton.isHidden = true
             }
+            unhappyPathButton.accessibilityIdentifier = "sts-unhappy-path-button"
         }
     }
 
