@@ -6,10 +6,10 @@ final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
 
     let viewModel: DeveloperMenuViewModel
-    let networkClient: NetworkClient?
+    let networkClient: NetworkClientele?
 
     init(viewModel: DeveloperMenuViewModel,
-         networkClient: NetworkClient?) {
+         networkClient: NetworkClientele?) {
         self.viewModel = viewModel
         self.networkClient = networkClient
         super.init(viewModel: viewModel,
