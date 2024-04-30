@@ -30,7 +30,6 @@
 		414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 414D98042B8DF0F100E267EF /* UnlockScreen.xib */; };
 		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
-		41A0BD0C2B2725C8009AE51F /* TokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */; };
 		41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
@@ -145,6 +144,7 @@
 		D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
 		D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
 		D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */; };
+		D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,7 +210,6 @@
 		414D98042B8DF0F100E267EF /* UnlockScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnlockScreen.xib; sourceTree = "<group>"; };
 		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
-		41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensScreen.swift; sourceTree = "<group>"; };
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
@@ -323,6 +322,7 @@
 		D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedTableViewCell.swift; sourceTree = "<group>"; };
 		D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewCellModel.swift; sourceTree = "<group>"; };
 		D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewControllerTests.swift; sourceTree = "<group>"; };
+		D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -557,8 +557,8 @@
 				C80B87202B029EBB0087C6D5 /* WelcomeScreen.swift */,
 				41A0BD092B272118009AE51F /* ErrorScreen.swift */,
 				C80B871E2B029EAB0087C6D5 /* LoginModal.swift */,
-				41A0BD0B2B2725C8009AE51F /* TokensScreen.swift */,
 				1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */,
+				D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1452,10 +1452,10 @@
 			files = (
 				C80B87212B029EBB0087C6D5 /* WelcomeScreen.swift in Sources */,
 				C80B87232B029EE90087C6D5 /* TimeInterval.swift in Sources */,
-				41A0BD0C2B2725C8009AE51F /* TokensScreen.swift in Sources */,
 				41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */,
 				C80B87262B029F1A0087C6D5 /* XCUIElement.swift in Sources */,
 				C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */,
+				D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */,
 				C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */,
 				C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */,
 				1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */,
