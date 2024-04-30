@@ -26,6 +26,7 @@ final class TabbedViewController: BaseViewController {
         super.viewDidLoad()
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: "tabbedTableViewCell")
         tableView.tableHeaderView = headerView
+        tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
         title = viewModel.navigationTitle?.value
@@ -81,21 +82,29 @@ extension TabbedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tabbedTableViewCell", for: indexPath)
-                as? TabbedTableViewCell else { return UITableViewCell() }
-        cell.viewModel = viewModel.cellModels[indexPath.section][indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tabbedTableViewCell", for: indexPath) as? TabbedTableViewCell else { return UITableViewCell() }
+        cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
         return cell
     }
 }
 
 extension TabbedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = TabbedViewSectionHeader(title: viewModel.sectionHeaderTitles[section])
-        return label
+        let headerView = TabbedViewSectionHeader(title: viewModel.sectionModels[section].sectionTitle)
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return TabbedViewSectionHeader().intrinsicContentSize.height
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = TabbedViewSectionFooter(title: viewModel.sectionModels[section].sectionFooter)
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+        return TabbedViewSectionFooter().intrinsicContentSize.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
