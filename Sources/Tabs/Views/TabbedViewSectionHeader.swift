@@ -1,7 +1,7 @@
 import GDSCommon
 import UIKit
 
-class TabbedViewSectionHeader: NibView {
+final class TabbedViewSectionHeader: NibView {
     private let title: GDSLocalisedString?
     init(title: GDSLocalisedString? = nil) {
         self.title = title

@@ -1,9 +1,9 @@
 import GDSCommon
 import UIKit
 
-final class TabbedViewModel: NSObject, BaseViewModel {
-    var rightBarButtonTitle: GDSLocalisedString?
-    var backButtonIsHidden: Bool
+struct TabbedViewModel: BaseViewModel {
+    let rightBarButtonTitle: GDSLocalisedString?
+    let backButtonIsHidden: Bool
     
     let navigationTitle: GDSLocalisedString?
     let sectionHeaderTitles: [GDSLocalisedString]

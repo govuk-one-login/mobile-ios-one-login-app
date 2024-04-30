@@ -2,8 +2,8 @@ import Foundation
 import GDSCommon
 
 struct TabbedViewCellModel {
-    var cellTitle: GDSLocalisedString?
-    var action: (() -> Void)?
+    let cellTitle: GDSLocalisedString?
+    let action: (() -> Void)?
     
     init(cellTitle: GDSLocalisedString? = nil, action: (() -> Void)? = nil) {
         self.cellTitle = cellTitle

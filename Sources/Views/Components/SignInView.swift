@@ -1,7 +1,7 @@
 import GDSCommon
 import UIKit
 
-class SignInView: NibView {
+final class SignInView: NibView {
 
     var viewModel: SignInViewModel
     init(viewModel: SignInViewModel) {

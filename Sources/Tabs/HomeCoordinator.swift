@@ -36,7 +36,7 @@ final class HomeCoordinator: NSObject,
     
     private func createCellModels() -> [[TabbedViewCellModel]] {
         #if DEBUG
-        let developerModel = TabbedViewCellModel(cellTitle: GDSLocalisedString(stringLiteral: "Developer Menu")) {
+        let developerModel = TabbedViewCellModel(cellTitle: "Developer Menu") {
             self.showDeveloperMenu()
         }
         #else
@@ -48,7 +48,7 @@ final class HomeCoordinator: NSObject,
     
     private func createSectionHeaders() -> [GDSLocalisedString] {
         #if DEBUG
-        [GDSLocalisedString(stringLiteral: "Developer Menu")]
+        ["Developer Menu"]
         #else
         [GDSLocalisedString]()
         #endif
