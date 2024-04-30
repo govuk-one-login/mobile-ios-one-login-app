@@ -5,7 +5,7 @@ final class MockNetworkClient: NetworkClientele {
     var authorizedData: Data?
     var authorizedError: Error?
 
-    var requestFinished = false
+    var requestFinished: Bool = false
 
     func makeAuthorizedRequest(exchangeRequest: URLRequest, scope: String, request: URLRequest) async throws -> Data {
         defer {
@@ -14,6 +14,7 @@ final class MockNetworkClient: NetworkClientele {
         if let authorizedData {
             return authorizedData
         } else {
+            requestFinished = true
             throw MockNetworkClientError.genericError
         }
     }
