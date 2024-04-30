@@ -15,6 +15,7 @@ final class MainCoordinator: NSObject,
     var networkClient: NetworkClient?
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
+    private weak var profileCoordinator: ProfileCoordinator?
     
     init(windowManager: WindowManagement,
          root: UITabBarController,
@@ -84,9 +85,10 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator()
+        let pc = ProfileCoordinator(urlOpener: UIApplication.shared)
         pc.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
         addTab(pc)
+        profileCoordinator = pc
     }
 }
 
@@ -95,6 +97,7 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+            profileCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
             networkClient = NetworkClient(authenticationProvider: tokenHolder)
             homeCoordinator?.networkClient = networkClient
         default:
