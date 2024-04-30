@@ -3,7 +3,6 @@ import Foundation
 
 final class MockNetworkClient: NetworkClientele {
     var authorizedData: Data?
-    var authorizedError: Error?
 
     var requestFinished: Bool = false
 
@@ -14,7 +13,6 @@ final class MockNetworkClient: NetworkClientele {
         if let authorizedData {
             return authorizedData
         } else {
-            requestFinished = true
             throw MockNetworkClientError.genericError
         }
     }

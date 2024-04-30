@@ -90,12 +90,9 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldUnhappyPath() {
         Task {
             do {
-                let errorAuthProvider = TokenHolder()
-                errorAuthProvider.accessToken = "notPermissible"
-                let errorNetworkClient = NetworkClient(authenticationProvider: errorAuthProvider)
-                _ = try await errorNetworkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                       scope: "sts-test.hello-world.read",
-                                                                       request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                   scope: "sts-test.hello-world",
+                                                                   request: URLRequest(url: AppEnvironment.stsHelloWorld))
             } catch let error as ServerError {
                 unhappyPathResultLabel.text = "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")"
                 unhappyPathResultLabel.font = UIFont.bodyBold

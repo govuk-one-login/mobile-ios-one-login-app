@@ -35,14 +35,9 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
 
     func test_unhappyPathButton() throws {
-        mockNetworkClient.authorizedError = MockNetworkClientError.genericError
-        do {
-            try sut.unhappyPathButton.sendActions(for: .touchUpInside)
-        } catch {
-            XCTAssert(error is MockNetworkClientError)
-        }
-
-
+        try sut.unhappyPathButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.mockNetworkClient.requestFinished == true, timeout: 3)
+        XCTAssertEqual(try sut.unhappyPathResultLabel.text, "Error")
     }
 
 }
