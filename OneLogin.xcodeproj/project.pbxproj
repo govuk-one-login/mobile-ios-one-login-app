@@ -143,7 +143,10 @@
 		D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
 		D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
 		D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */; };
+		D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B862BDFE2DA00769CEA /* TabbedViewSectionFooter.swift */; };
+		D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */; };
 		D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */; };
+		D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8E2BE1231A00769CEA /* TabbedViewSectionFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -320,7 +323,10 @@
 		D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedTableViewCell.swift; sourceTree = "<group>"; };
 		D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewCellModel.swift; sourceTree = "<group>"; };
 		D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewControllerTests.swift; sourceTree = "<group>"; };
+		D08B0B862BDFE2DA00769CEA /* TabbedViewSectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionFooter.swift; sourceTree = "<group>"; };
+		D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionModel.swift; sourceTree = "<group>"; };
 		D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		D08B0B8E2BE1231A00769CEA /* TabbedViewSectionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -977,6 +983,7 @@
 				C8ECA1232BB4805900722218 /* HomeCoordinator.swift */,
 				C8ECA1292BB5957500722218 /* WalletCoordinator.swift */,
 				C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */,
+				D08B0B8E2BE1231A00769CEA /* TabbedViewSectionFactory.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -1018,6 +1025,8 @@
 				D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */,
 				D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */,
 				D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */,
+				D08B0B862BDFE2DA00769CEA /* TabbedViewSectionFooter.swift */,
+				D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1342,6 +1351,7 @@
 				C8E6A3E82BBC0536005015AF /* WindowManagement.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
+				D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* UserStorable.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
@@ -1361,11 +1371,13 @@
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
+				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */,
 				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
+				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,
