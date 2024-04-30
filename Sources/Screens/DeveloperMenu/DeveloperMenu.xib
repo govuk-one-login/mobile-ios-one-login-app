@@ -11,28 +11,93 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeveloperMenuViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="happyPathButton" destination="hG1-h3-EEW" id="8d8-K6-v5c"/>
+                <outlet property="happyPathResultLabel" destination="MDX-ro-LVP" id="CCs-KH-vlg"/>
+                <outlet property="unhappyPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
+                <outlet property="unhappyPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>
+                <outlet property="view" destination="z4H-rf-NBX" id="F8f-s3-j9Y"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+        <view contentMode="scaleToFill" id="z4H-rf-NBX">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DeveloperMenu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAP-DM-cKQ">
-                    <rect key="frame" x="136" y="415.66666666666669" width="121" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gOd-1g-ftx">
+                    <rect key="frame" x="10" y="59" width="373" height="608.66666666666663"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="770-rc-5aQ">
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="49.666666666666664"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Developer Menu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F61-IJ-2jo">
+                                    <rect key="frame" x="0.0" y="8" width="373" height="33.666666666666664"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="0.0" bottom="8" trailing="0.0"/>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="770-rc-5aQ" secondAttribute="trailing" id="GH5-Ps-QIU"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="width" secondItem="gOd-1g-ftx" secondAttribute="width" id="T5r-FV-s6I"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="bottom" secondItem="aTZ-VK-v1o" secondAttribute="bottom" id="gUs-g7-lCW"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="leading" secondItem="gOd-1g-ftx" secondAttribute="leading" id="jwd-TL-VUV"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="top" secondItem="aTZ-VK-v1o" secondAttribute="top" id="ohU-SL-6ot"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="width" secondItem="aTZ-VK-v1o" secondAttribute="width" id="rOG-AZ-C7U"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="aTZ-VK-v1o"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="gIb-a0-woS"/>
+                </scrollView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="B2t-Tn-7OU">
+                    <rect key="frame" x="16" y="683.66666666666663" width="361" height="118.33333333333337"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hG1-h3-EEW" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="0.0" width="361" height="0.0"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="happyPathButtonAction:" destination="-1" eventType="touchUpInside" id="brf-MF-5pg"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Happy hello-world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MDX-ro-LVP">
+                            <rect key="frame" x="0.0" y="21" width="361" height="0.66666666666666785"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OFa-dn-cnK" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="42.666666666666742" width="361" height="34.333333333333343"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="unhappyPathButtonAction:" destination="-1" eventType="touchUpInside" id="Fe7-R7-t2u"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unhappy hello-world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiG-tG-gku">
+                            <rect key="frame" x="0.0" y="98" width="361" height="20.333333333333329"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <viewLayoutGuide key="safeArea" id="feM-xc-dbG"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="ZAP-DM-cKQ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="d9U-Gr-P4C"/>
-                <constraint firstItem="ZAP-DM-cKQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="huU-VW-e4h"/>
+                <constraint firstItem="feM-xc-dbG" firstAttribute="trailing" secondItem="gOd-1g-ftx" secondAttribute="trailing" constant="10" id="0mr-2H-E64"/>
+                <constraint firstItem="gOd-1g-ftx" firstAttribute="leading" secondItem="feM-xc-dbG" secondAttribute="leading" constant="10" id="3M7-7K-r5h"/>
+                <constraint firstItem="gOd-1g-ftx" firstAttribute="top" secondItem="feM-xc-dbG" secondAttribute="top" id="HqE-CJ-STP"/>
+                <constraint firstItem="B2t-Tn-7OU" firstAttribute="leading" secondItem="feM-xc-dbG" secondAttribute="leading" constant="16" id="Nqo-tn-SAP"/>
+                <constraint firstItem="feM-xc-dbG" firstAttribute="trailing" secondItem="B2t-Tn-7OU" secondAttribute="trailing" constant="16" id="gnq-X3-gWZ"/>
+                <constraint firstItem="feM-xc-dbG" firstAttribute="bottom" secondItem="B2t-Tn-7OU" secondAttribute="bottom" constant="16" id="llk-aP-yVF"/>
+                <constraint firstItem="B2t-Tn-7OU" firstAttribute="top" secondItem="gOd-1g-ftx" secondAttribute="bottom" constant="16" id="mkW-6E-gjc"/>
             </constraints>
-            <point key="canvasLocation" x="132" y="-11"/>
+            <point key="canvasLocation" x="-946" y="45"/>
         </view>
     </objects>
     <resources>
