@@ -1,6 +1,5 @@
 import Coordination
 import GDSCommon
-import Networking
 import UIKit
 
 final class HomeCoordinator: NSObject,
@@ -8,7 +7,7 @@ final class HomeCoordinator: NSObject,
                              ChildCoordinator,
                              NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
-    var root = UINavigationController()
+    let root = UINavigationController()
     var networkClient: NetworkClientele?
     private var accessToken: String?
     private(set) var baseVc: TabbedViewController?

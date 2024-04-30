@@ -4,10 +4,10 @@ import UIKit
 
 final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
-
+    
     let viewModel: DeveloperMenuViewModel
     let networkClient: NetworkClientele?
-
+    
     init(viewModel: DeveloperMenuViewModel,
          networkClient: NetworkClientele?) {
         self.viewModel = viewModel
@@ -16,11 +16,11 @@ final class DeveloperMenuViewController: BaseViewController {
                    nibName: "DeveloperMenu",
                    bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     @IBOutlet private var happyPathButton: RoundedButton! {
         didSet {
             if AppEnvironment.callingSTSEnabled {
@@ -32,12 +32,12 @@ final class DeveloperMenuViewController: BaseViewController {
             happyPathButton.accessibilityIdentifier = "sts-happy-path-button"
         }
     }
-
+    
     @IBAction private func happyPathButtonAction(_ sender: Any) {
         happyPathButton.isLoading = true
         helloWorldHappyPath()
     }
-
+    
     private func helloWorldHappyPath() {
         Task {
             do {
@@ -62,14 +62,14 @@ final class DeveloperMenuViewController: BaseViewController {
             happyPathButton.isLoading = false
         }
     }
-
+    
     @IBOutlet private var happyPathResultLabel: UILabel! {
         didSet {
             happyPathResultLabel.isHidden = true
             happyPathResultLabel.accessibilityIdentifier = "sts-happy-path-result"
         }
     }
-
+    
     @IBOutlet private var unhappyPathButton: RoundedButton! {
         didSet {
             if AppEnvironment.callingSTSEnabled {
@@ -81,12 +81,12 @@ final class DeveloperMenuViewController: BaseViewController {
             unhappyPathButton.accessibilityIdentifier = "sts-unhappy-path-button"
         }
     }
-
+    
     @IBAction private func unhappyPathButtonAction(_ sender: Any) {
         unhappyPathButton.isLoading = true
         helloWorldUnhappyPath()
     }
-
+    
     private func helloWorldUnhappyPath() {
         Task {
             do {
@@ -107,7 +107,7 @@ final class DeveloperMenuViewController: BaseViewController {
             unhappyPathButton.isLoading = false
         }
     }
-
+    
     @IBOutlet private var unhappyPathResultLabel: UILabel! {
         didSet {
             unhappyPathResultLabel.isHidden = true

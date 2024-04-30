@@ -664,9 +664,9 @@
 		C85DF8432AEBFDCC0064F68E /* Sessions+Services */ = {
 			isa = PBXGroup;
 			children = (
-				41E1A90F2BE126910034B6C7 /* Networking */,
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
 				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
+				41E1A90F2BE126910034B6C7 /* Networking */,
 				C8E6A3E92BBC05DB005015AF /* Application */,
 				C8C3439E2B92226900E92FB9 /* Analytics */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
@@ -984,8 +984,8 @@
 		D08B0B522BD7F7D600769CEA /* DeveloperMenu */ = {
 			isa = PBXGroup;
 			children = (
-				D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */,
 				D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */,
+				D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */,
 				D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */,
 			);
 			path = DeveloperMenu;
@@ -994,8 +994,8 @@
 		D08B0B5D2BD95C4900769CEA /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */,
 				D08B0B722BDA8DD100769CEA /* TabbedView.xib */,
+				D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */,
 				D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */,
 			);
 			path = Home;
@@ -1004,8 +1004,8 @@
 		D08B0B662BDA479000769CEA /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				D08B0B642BDA478000769CEA /* SignInView.swift */,
 				D08B0B672BDA47AD00769CEA /* SignInView.xib */,
+				D08B0B642BDA478000769CEA /* SignInView.swift */,
 				D08B0B772BDBD32900769CEA /* SignInViewModel.swift */,
 			);
 			path = Components;
@@ -1014,8 +1014,8 @@
 		D08B0B7B2BDBF82600769CEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */,
 				D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */,
+				D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */,
 				D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */,
 				D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */,
 			);

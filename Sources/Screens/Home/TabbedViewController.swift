@@ -3,16 +3,10 @@ import GDSCommon
 import UIKit
 
 final class TabbedViewController: BaseViewController {
-
     override var nibName: String? { "TabbedView" }
-    @IBOutlet private var tableView: UITableView! {
-        didSet {
-            tableView.accessibilityIdentifier = "tabbed-view-table-view"
-        }
-    }
     
-    private let headerView: UIView?
     private let viewModel: TabbedViewModel
+    private let headerView: UIView?
     private var accessToken: String?
     
     init(viewModel: TabbedViewModel,
@@ -42,14 +36,20 @@ final class TabbedViewController: BaseViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         resizeHeaderView()
     }
     
+    @IBOutlet private var tableView: UITableView! {
+        didSet {
+            tableView.accessibilityIdentifier = "tabbed-view-table-view"
+        }
+    }
+    
     func updateToken(accessToken: String?) {
-        // To be replaced by secure token JWT with capability to extract e-mail for display
+        // TODO: DCMAW-8544 To be replaced by secure token JWT with capability to extract e-mail for display
         self.accessToken = accessToken
         guard let headerView = headerView as? SignInView else { return }
         headerView.updateEmail("sarahelizabeth_1991@gmail.com")
@@ -81,7 +81,8 @@ extension TabbedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tabbedTableViewCell", for: indexPath) as? TabbedTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tabbedTableViewCell", for: indexPath)
+                as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.cellModels[indexPath.section][indexPath.row]
         return cell
     }

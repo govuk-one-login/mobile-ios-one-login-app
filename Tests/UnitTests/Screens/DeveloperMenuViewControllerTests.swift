@@ -10,7 +10,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
 
         mockNetworkClient = MockNetworkClient()
         let devMenuViewModel = DeveloperMenuViewModel()
-        sut = DeveloperMenuViewController(viewModel: devMenuViewModel, networkClient: mockNetworkClient)
+        sut = DeveloperMenuViewController(viewModel: devMenuViewModel,
+                                          networkClient: mockNetworkClient)
     }
 
     override func tearDown() {
