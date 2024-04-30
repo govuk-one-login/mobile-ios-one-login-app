@@ -1,4 +1,5 @@
 import Coordination
+import GDSCommon
 import UIKit
 
 final class HomeCoordinator: NSObject,
@@ -8,15 +9,18 @@ final class HomeCoordinator: NSObject,
     var parentCoordinator: ParentCoordinator?
     var root = UINavigationController()
     private var accessToken: String?
-    private (set)var baseVc: TokensViewController?
+    private (set)var baseVc: TabbedViewController?
 
     func start() {
-        let tokensViewModel = TokensViewModel {
-            self.showDeveloperMenu()
-        }
-        let tokensViewController = TokensViewController(viewModel: tokensViewModel)
-        baseVc = tokensViewController
-        root.setViewControllers([tokensViewController], animated: true)
+        
+        let viewModel = TabbedViewModel(title: "app_homeTitle",
+                                        sectionHeaderTitles: createSectionHeaders(),
+                                        cellModels: createCellModels())
+
+        let hc = TabbedViewController(viewModel: viewModel,
+                                      headerView: SignInView(viewModel: SignInViewModel()))
+        baseVc = hc
+        root.setViewControllers([hc], animated: true)
     }
     
     func updateToken(accessToken: String?) {
@@ -28,5 +32,25 @@ final class HomeCoordinator: NSObject,
         let developerMenuVC = DeveloperMenuViewController()
         navController.setViewControllers([developerMenuVC], animated: true)
         root.present(navController, animated: true)
+    }
+    
+    private func createCellModels() -> [[TabbedViewCellModel]] {
+        #if DEBUG
+        let developerModel = TabbedViewCellModel(cellTitle: "Developer Menu") {
+            self.showDeveloperMenu()
+        }
+        #else
+        let developerModel = TabbedViewCellModel()
+        #endif
+        
+        return [[developerModel]]
+    }
+    
+    private func createSectionHeaders() -> [GDSLocalisedString] {
+        #if DEBUG
+        ["Developer Menu"]
+        #else
+        [GDSLocalisedString]()
+        #endif
     }
 }

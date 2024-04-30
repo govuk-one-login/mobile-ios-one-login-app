@@ -1,6 +1,6 @@
 import XCTest
 
-struct TokensScreen: ScreenObject {
+struct HomeScreen: ScreenObject {
     let app: XCUIApplication
     
     var view: XCUIElement {
@@ -8,6 +8,6 @@ struct TokensScreen: ScreenObject {
     }
     
     var title: XCUIElement {
-        app.staticTexts["logged-in-title"]
+        return app.navigationBars.staticTexts.firstMatch
     }
 }
