@@ -45,9 +45,6 @@ final class DeveloperMenuViewController: BaseViewController {
                                                                           scope: "sts-test.hello-world.read",
                                                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
                 happyPathResultLabel.showSuccessMessage("Success: \(String(data: data!, encoding: .utf8) ?? "no body")")
-//                formatResultLabel(label: happyPathResultLabel,
-//                                  text: "Success: \(String(data: data!, encoding: .utf8) ?? "no body")",
-//                                  textColor: .gdsGreen)
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
             } catch {
