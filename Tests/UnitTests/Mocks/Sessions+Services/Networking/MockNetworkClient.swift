@@ -1,7 +1,7 @@
 import Foundation
 @testable import OneLogin
 
-final class MockNetworkClient: NetworkClientele {
+final class MockNetworkClient: RequestAuthorizing {
     var authorizedData: Data?
 
     var requestFinished: Bool = false

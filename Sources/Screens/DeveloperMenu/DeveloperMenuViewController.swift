@@ -6,10 +6,10 @@ final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
     
     let viewModel: DeveloperMenuViewModel
-    let networkClient: NetworkClientele?
+    let networkClient: RequestAuthorizing?
     
     init(viewModel: DeveloperMenuViewModel,
-         networkClient: NetworkClientele?) {
+         networkClient: RequestAuthorizing?) {
         self.viewModel = viewModel
         self.networkClient = networkClient
         super.init(viewModel: viewModel,
@@ -44,15 +44,14 @@ final class DeveloperMenuViewController: BaseViewController {
                 let data = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                                                           scope: "sts-test.hello-world.read",
                                                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                formatResultLabel(label: happyPathResultLabel,
-                                  text: "Success: \(String(data: data!, encoding: .utf8) ?? "no body")",
-                                  textColor: .gdsGreen)
+                happyPathResultLabel.showSuccessMessage("Success: \(String(data: data!, encoding: .utf8) ?? "no body")")
+//                formatResultLabel(label: happyPathResultLabel,
+//                                  text: "Success: \(String(data: data!, encoding: .utf8) ?? "no body")",
+//                                  textColor: .gdsGreen)
             } catch let error as ServerError {
-                formatResultLabel(label: happyPathResultLabel,
-                                  text: "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")",
-                                  textColor: .red)
+                happyPathResultLabel.showErrorMessage(error)
             } catch {
-                formatResultLabel(label: happyPathResultLabel, text: "Error", textColor: .red)
+                happyPathResultLabel.showErrorMessage()
             }
             happyPathButton.isLoading = false
         }
@@ -60,6 +59,7 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBOutlet private var happyPathResultLabel: UILabel! {
         didSet {
+            happyPathResultLabel.font = .bodyBold
             happyPathResultLabel.isHidden = true
             happyPathResultLabel.accessibilityIdentifier = "sts-happy-path-result"
         }
@@ -89,13 +89,9 @@ final class DeveloperMenuViewController: BaseViewController {
                                                                    scope: "sts-test.hello-world",
                                                                    request: URLRequest(url: AppEnvironment.stsHelloWorld))
             } catch let error as ServerError {
-                formatResultLabel(label: unhappyPathResultLabel,
-                                  text: "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")",
-                                  textColor: .red)
+                unhappyPathResultLabel.showErrorMessage(error)
             } catch {
-                formatResultLabel(label: unhappyPathResultLabel,
-                                  text: "Error",
-                                  textColor: .red)
+                unhappyPathResultLabel.showErrorMessage()
             }
             unhappyPathButton.isLoading = false
         }
@@ -105,17 +101,25 @@ final class DeveloperMenuViewController: BaseViewController {
         didSet {
             unhappyPathResultLabel.isHidden = true
             unhappyPathResultLabel.accessibilityIdentifier = "sts-unhappy-path-result"
+            unhappyPathResultLabel.font = .bodyBold
         }
     }
-    
-    private func formatResultLabel(label: UILabel,
-                                   text: String,
-                                   font: UIFont = UIFont.bodyBold,
-                                   textColor: UIColor,
-                                   isHidden: Bool = false) {
-        label.text = text
-        label.font = font
-        label.textColor = textColor
-        label.isHidden = isHidden
+}
+
+fileprivate extension UILabel {
+    func showErrorMessage(_ error: ServerError? = nil) {
+        textColor = .red
+        isHidden = false
+        if let error {
+            self.text = "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")"
+        } else {
+            self.text = "Error"
+        }
+    }
+
+    func showSuccessMessage(_ message: String) {
+        self.textColor = .gdsGreen
+        isHidden = false
+        text = message
     }
 }

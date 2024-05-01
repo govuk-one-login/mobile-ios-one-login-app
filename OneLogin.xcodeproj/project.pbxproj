@@ -39,7 +39,7 @@
 		41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */; };
 		41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */; };
 		41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */; };
-		41E1A90E2BE125B10034B6C7 /* NetworkClientele.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A90D2BE125B10034B6C7 /* NetworkClientele.swift */; };
+		41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A90D2BE125B10034B6C7 /* RequestAuthorizing.swift */; };
 		41E1A9112BE126C60034B6C7 /* MockNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9102BE126C60034B6C7 /* MockNetworkClient.swift */; };
 		41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */; };
 		41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9142BE128610034B6C7 /* MockURLOpener.swift */; };
@@ -218,7 +218,7 @@
 		41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
 		41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModelTests.swift; sourceTree = "<group>"; };
 		41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
-		41E1A90D2BE125B10034B6C7 /* NetworkClientele.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientele.swift; sourceTree = "<group>"; };
+		41E1A90D2BE125B10034B6C7 /* RequestAuthorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAuthorizing.swift; sourceTree = "<group>"; };
 		41E1A9102BE126C60034B6C7 /* MockNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkClient.swift; sourceTree = "<group>"; };
 		41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
 		41E1A9142BE128610034B6C7 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
@@ -881,7 +881,7 @@
 			children = (
 				41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */,
 				1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */,
-				41E1A90D2BE125B10034B6C7 /* NetworkClientele.swift */,
+				41E1A90D2BE125B10034B6C7 /* RequestAuthorizing.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1357,7 +1357,7 @@
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
-				41E1A90E2BE125B10034B6C7 /* NetworkClientele.swift in Sources */,
+				41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,

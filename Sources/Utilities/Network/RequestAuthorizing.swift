@@ -1,10 +1,10 @@
 import Foundation
 import Networking
 
-protocol NetworkClientele {
+protocol RequestAuthorizing {
     func makeAuthorizedRequest(exchangeRequest: URLRequest,
                                scope: String,
                                request: URLRequest) async throws -> Data
 }
 
-extension NetworkClient: NetworkClientele { }
+extension NetworkClient: RequestAuthorizing { }

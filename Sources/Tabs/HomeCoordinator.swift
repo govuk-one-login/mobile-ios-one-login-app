@@ -8,7 +8,7 @@ final class HomeCoordinator: NSObject,
                              NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
-    var networkClient: NetworkClientele?
+    var networkClient: RequestAuthorizing?
     private var accessToken: String?
     private(set) var baseVc: TabbedViewController?
     
