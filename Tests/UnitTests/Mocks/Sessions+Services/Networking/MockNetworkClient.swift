@@ -6,7 +6,9 @@ final class MockNetworkClient: NetworkClientele {
 
     var requestFinished: Bool = false
 
-    func makeAuthorizedRequest(exchangeRequest: URLRequest, scope: String, request: URLRequest) async throws -> Data {
+    func makeAuthorizedRequest(exchangeRequest: URLRequest,
+                               scope: String,
+                               request: URLRequest) async throws -> Data {
         defer {
             requestFinished = true
         }
