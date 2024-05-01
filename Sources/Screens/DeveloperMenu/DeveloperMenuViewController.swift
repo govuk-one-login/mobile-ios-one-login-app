@@ -44,20 +44,15 @@ final class DeveloperMenuViewController: BaseViewController {
                 let data = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                                                           scope: "sts-test.hello-world.read",
                                                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                happyPathResultLabel.text = "Success: \(String(data: data!, encoding: .utf8) ?? "no body")"
-                happyPathResultLabel.font = UIFont.bodyBold
-                happyPathResultLabel.textColor = .gdsGreen
-                happyPathResultLabel.isHidden = false
+                formatResultLabel(label: happyPathResultLabel,
+                                  text: "Success: \(String(data: data!, encoding: .utf8) ?? "no body")",
+                                  textColor: .gdsGreen)
             } catch let error as ServerError {
-                happyPathResultLabel.text = "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")"
-                happyPathResultLabel.font = UIFont.bodyBold
-                happyPathResultLabel.textColor = .red
-                happyPathResultLabel.isHidden = false
+                formatResultLabel(label: happyPathResultLabel,
+                                  text: "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")",
+                                  textColor: .red)
             } catch {
-                happyPathResultLabel.text = "Error"
-                happyPathResultLabel.font = UIFont.bodyBold
-                happyPathResultLabel.textColor = .red
-                happyPathResultLabel.isHidden = false
+                formatResultLabel(label: happyPathResultLabel, text: "Error", textColor: .red)
             }
             happyPathButton.isLoading = false
         }
@@ -94,15 +89,13 @@ final class DeveloperMenuViewController: BaseViewController {
                                                                    scope: "sts-test.hello-world",
                                                                    request: URLRequest(url: AppEnvironment.stsHelloWorld))
             } catch let error as ServerError {
-                unhappyPathResultLabel.text = "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")"
-                unhappyPathResultLabel.font = UIFont.bodyBold
-                unhappyPathResultLabel.textColor = .red
-                unhappyPathResultLabel.isHidden = false
+                formatResultLabel(label: unhappyPathResultLabel,
+                                  text: "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")",
+                                  textColor: .red)
             } catch {
-                unhappyPathResultLabel.text = "Error"
-                unhappyPathResultLabel.font = UIFont.bodyBold
-                unhappyPathResultLabel.textColor = .red
-                unhappyPathResultLabel.isHidden = false
+                formatResultLabel(label: unhappyPathResultLabel,
+                                  text: "Error",
+                                  textColor: .red)
             }
             unhappyPathButton.isLoading = false
         }
@@ -114,4 +107,15 @@ final class DeveloperMenuViewController: BaseViewController {
             unhappyPathResultLabel.accessibilityIdentifier = "sts-unhappy-path-result"
         }
     }
+
+    private func formatResultLabel(label: UILabel,
+                                   text: String,
+                                   font: UIFont = UIFont.bodyBold,
+                                   textColor: UIColor,
+                                   isHidden: Bool = false) {
+        label.text = text
+        label.font = font
+        label.textColor = textColor
+        label.isHidden = isHidden
+      }
 }
