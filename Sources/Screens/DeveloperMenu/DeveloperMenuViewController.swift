@@ -107,7 +107,7 @@ final class DeveloperMenuViewController: BaseViewController {
             unhappyPathResultLabel.accessibilityIdentifier = "sts-unhappy-path-result"
         }
     }
-
+    
     private func formatResultLabel(label: UILabel,
                                    text: String,
                                    font: UIFont = UIFont.bodyBold,
@@ -117,5 +117,5 @@ final class DeveloperMenuViewController: BaseViewController {
         label.font = font
         label.textColor = textColor
         label.isHidden = isHidden
-      }
+    }
 }
