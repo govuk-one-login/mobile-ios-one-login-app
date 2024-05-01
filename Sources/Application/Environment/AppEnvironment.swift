@@ -88,19 +88,27 @@ extension AppEnvironment {
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
-    static var stsLoginAuthorize: URL {
+    static var stsAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = string(for: .stsBaseURL)
         components.path = "/authorize"
         return components.url!
     }
-    
-    static var stsLoginToken: URL {
+
+    static var stsToken: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = string(for: .stsBaseURL)
         components.path = "/token"
+        return components.url!
+    }
+
+    static var stsHelloWorld: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "hello-world.\(string(for: .stsBaseURL))"
+        components.path = "/hello-world"
         return components.url!
     }
     

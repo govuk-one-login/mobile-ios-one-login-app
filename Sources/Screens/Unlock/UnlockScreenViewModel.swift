@@ -9,7 +9,7 @@ struct UnlockScreenViewModel: BaseViewModel {
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-
+    
     init(analyticsService: AnalyticsService,
          primaryButtonAction: @escaping () -> Void ) {
         self.analyticsService = analyticsService
@@ -18,7 +18,7 @@ struct UnlockScreenViewModel: BaseViewModel {
             primaryButtonAction()
         }
     }
-
+    
     func didAppear() {
         let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.unlockScreen, titleKey: "unlock screen")
         analyticsService.trackScreen(screen)

@@ -6,7 +6,7 @@ final class ProfileCoordinator: NSObject,
                                 ChildCoordinator,
                                 NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
-    var root = UINavigationController()
+    let root = UINavigationController()
     
     func start() {
         let vc = UIViewController()

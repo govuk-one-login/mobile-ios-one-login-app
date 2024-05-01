@@ -87,6 +87,8 @@
 // MARK: Unlock screen
 "app_unlockButton" = "Unlock";
 
+
 // MARK: Home screen
 "app_homeTitle" = "Home";
+
 "app_displayEmail" = "You’re signed in as\n%@";

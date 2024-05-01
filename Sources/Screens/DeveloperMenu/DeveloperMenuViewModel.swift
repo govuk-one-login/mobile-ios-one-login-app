@@ -1,9 +1,8 @@
 import GDSCommon
 
 struct DeveloperMenuViewModel: BaseViewModel {
-    var rightBarButtonTitle: GDSLocalisedString? = "Close"
-    
-    var backButtonIsHidden: Bool = true
+    let rightBarButtonTitle: GDSLocalisedString? = "Close"
+    let backButtonIsHidden: Bool = true
     
     func didAppear() { /* protocol conformance */ }
     

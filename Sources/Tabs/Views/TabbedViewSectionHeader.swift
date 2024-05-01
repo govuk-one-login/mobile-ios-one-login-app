@@ -3,6 +3,7 @@ import UIKit
 
 final class TabbedViewSectionHeader: NibView {
     private let title: GDSLocalisedString?
+    
     init(title: GDSLocalisedString? = nil) {
         self.title = title
         super.init()

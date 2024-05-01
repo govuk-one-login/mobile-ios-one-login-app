@@ -2,8 +2,8 @@ import GDSCommon
 import UIKit
 
 final class SignInView: NibView {
-
     var viewModel: SignInViewModel
+    
     init(viewModel: SignInViewModel) {
         self.viewModel = viewModel
         super.init(forcedNibName: "SignInView", bundle: nil)
