@@ -2,7 +2,8 @@ import Foundation
 import GDSCommon
 
 struct TabbedViewSectionFactory {
-
+    static let linkDisclosureArrow: String = "arrow.up.right"
+    
     @MainActor
     static func homeSections(coordinator: HomeCoordinator) -> [TabbedViewSectionModel] {
 #if DEBUG
@@ -21,23 +22,23 @@ struct TabbedViewSectionFactory {
         let manageDetailsSection = createSection(header: "app_profileSubtitle1",
                                                  footer: "app_manageSignInDetailsFootnote",
                                                  cellModels: [.init(cellTitle: "app_manageSignInDetailsLink",
-                                                                    accessoryView: "arrow.up.right") {
+                                                                    accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
         }])
 
         let legalSection = createSection(header: "app_profileSubtitle2",
                                          footer: nil,
                                          cellModels: [.init(cellTitle: "app_privacyNoticeLink2",
-                                                            accessoryView: "arrow.up.right") {
+                                                            accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.privacyPolicyURL)
         }])
 
         let helpSection = createSection(header: "app_profileSubtitle3",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "app_reportAProblemGiveFeedbackLink",
-                                                           accessoryView: "arrow.up.right"),
+                                                           accessoryView: linkDisclosureArrow),
                                                      .init(cellTitle: "app_appGuidanceLink",
-                                                           accessoryView: "arrow.up.right")])
+                                                           accessoryView: linkDisclosureArrow)])
         let signoutSection = createSection(header: nil,
                                            footer: nil,
                                            cellModels: [.init(cellTitle: "app_signOutButton",
