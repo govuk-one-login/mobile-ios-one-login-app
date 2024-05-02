@@ -128,6 +128,7 @@
 		C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1292BB5957500722218 /* WalletCoordinator.swift */; };
 		C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */; };
 		C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1312BB73E2E00722218 /* WindowManager.swift */; };
+		D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */; };
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
@@ -139,7 +140,6 @@
 		D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */; };
 		D08B0B782BDBD32900769CEA /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B772BDBD32900769CEA /* SignInViewModel.swift */; };
 		D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */; };
-		D08B0B7F2BDBF87800769CEA /* TabbedViewSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */; };
 		D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
 		D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
 		D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */; };
@@ -308,6 +308,7 @@
 		C8ECA1292BB5957500722218 /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA1312BB73E2E00722218 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
@@ -319,7 +320,6 @@
 		D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewModel.swift; sourceTree = "<group>"; };
 		D08B0B772BDBD32900769CEA /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionHeader.swift; sourceTree = "<group>"; };
-		D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedViewSectionHeader.xib; sourceTree = "<group>"; };
 		D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedTableViewCell.swift; sourceTree = "<group>"; };
 		D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewCellModel.swift; sourceTree = "<group>"; };
 		D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewControllerTests.swift; sourceTree = "<group>"; };
@@ -643,6 +643,7 @@
 				C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */,
 				C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */,
 				D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */,
+				D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */,
 				C85DF8472AEBFE6D0064F68E /* ViewModels */,
 			);
 			path = Login;
@@ -1021,7 +1022,6 @@
 		D08B0B7B2BDBF82600769CEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D08B0B7E2BDBF87800769CEA /* TabbedViewSectionHeader.xib */,
 				D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */,
 				D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */,
 				D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */,
@@ -1211,7 +1211,6 @@
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
-				D08B0B7F2BDBF87800769CEA /* TabbedViewSectionHeader.xib in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
@@ -1432,6 +1431,7 @@
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockUserStore.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */,
+				D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */,
 				C8ECA1272BB5891000722218 /* MockAnalyticsCenter.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
