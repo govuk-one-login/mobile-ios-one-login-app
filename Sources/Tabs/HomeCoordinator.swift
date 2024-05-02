@@ -14,7 +14,7 @@ final class HomeCoordinator: NSObject,
     
     func start() {
         let viewModel = TabbedViewModel(title: "app_homeTitle",
-                                        sectionModels: createSectionModels())
+                                        sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
 
         let hc = TabbedViewController(viewModel: viewModel,
                                       headerView: SignInView(viewModel: SignInViewModel()))
@@ -33,18 +33,5 @@ final class HomeCoordinator: NSObject,
                                                           networkClient: networkClient)
         navController.setViewControllers([developerMenuVC], animated: true)
         root.present(navController, animated: true)
-    }
-    
-    private func createSectionModels() -> [TabbedViewSectionModel] {
-        #if DEBUG
-        let tabModels = [TabbedViewCellModel(cellTitle: GDSLocalisedString(stringLiteral: "Developer Menu")) {
-            self.showDeveloperMenu()
-        }]
-        let model = TabbedViewSectionModel(sectionTitle: GDSLocalisedString(stringLiteral: "Developer Menu"),
-                                           tabModels: tabModels)
-        #else
-        let model = TabbedViewSectionModel()
-        #endif
-        return [model]
     }
 }
