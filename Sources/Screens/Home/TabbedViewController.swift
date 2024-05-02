@@ -24,13 +24,8 @@ final class TabbedViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: "tabbedTableViewCell")
-        tableView.tableHeaderView = headerView
-        tableView.sectionFooterHeight = UITableView.automaticDimension
-        tableView.delegate = self
-        tableView.dataSource = self
         title = viewModel.navigationTitle?.value
-        
+        configureTableView()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -70,6 +65,17 @@ final class TabbedViewController: BaseViewController {
             tableView.tableHeaderView = headerView
         }
     }
+    
+    private func configureTableView() {
+        tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
+        tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
+        tableView.register(TabbedViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier)
+        tableView.tableHeaderView = headerView
+        tableView.sectionFooterHeight = UITableView.automaticDimension
+        tableView.delegate = self
+        tableView.dataSource = self
+
+    }
 }
 
 extension TabbedViewController: UITableViewDataSource {
@@ -82,7 +88,8 @@ extension TabbedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tabbedTableViewCell", for: indexPath) as? TabbedTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
+                as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
         return cell
     }
@@ -90,7 +97,8 @@ extension TabbedViewController: UITableViewDataSource {
 
 extension TabbedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = TabbedViewSectionHeader(title: viewModel.sectionModels[section].sectionTitle)
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionHeader.identifier) as? TabbedViewSectionHeader
+        headerView?.title = viewModel.sectionModels[section].sectionTitle
         return headerView
     }
     
@@ -99,12 +107,9 @@ extension TabbedViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = TabbedViewSectionFooter(title: viewModel.sectionModels[section].sectionFooter)
+        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionFooter.identifier) as? TabbedViewSectionFooter
+        footerView?.title = viewModel.sectionModels[section].sectionFooter
         return footerView
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-        return TabbedViewSectionFooter().intrinsicContentSize.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
