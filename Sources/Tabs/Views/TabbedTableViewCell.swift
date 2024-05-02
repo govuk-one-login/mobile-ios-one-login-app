@@ -1,6 +1,6 @@
 import UIKit
 
-final class TabbedTableViewCell: UITableViewCell {
+final class TabbedTableViewCell: UITableViewCell, ViewIdentifiable {
     var viewModel: TabbedViewCellModel? {
         didSet {
             textLabel?.text = viewModel?.cellTitle?.value
@@ -12,6 +12,12 @@ final class TabbedTableViewCell: UITableViewCell {
             let imageView = UIImageView(image: accessoryImage)
             accessoryView = imageView
             accessoryView?.tintColor = .secondaryLabel
+        }
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if selected {
+            isHighlighted = false
         }
     }
 }
