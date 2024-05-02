@@ -74,7 +74,6 @@ final class TabbedViewController: BaseViewController {
         tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
-
     }
 }
 
