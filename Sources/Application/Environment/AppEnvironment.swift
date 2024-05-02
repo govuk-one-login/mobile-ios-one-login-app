@@ -71,6 +71,15 @@ extension AppEnvironment {
         components.path = "/privacy-notice"
         return components.url!
     }
+    
+    static var manageAccountURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .externalBaseURL)
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
+        components.path = "/sign-in-or-create"
+        return components.url!
+    }
 
     static var oneLoginClientID: String {
         string(for: .oneLoginClientID)

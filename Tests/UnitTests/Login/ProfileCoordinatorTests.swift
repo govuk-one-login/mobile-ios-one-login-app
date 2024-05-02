@@ -1,33 +1,28 @@
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
 @MainActor
-final class HomeCoordinatorTests: XCTestCase {
-    
-    var sut: HomeCoordinator!
+final class ProfileCoordinatorTests: XCTestCase {
+
+    var sut: ProfileCoordinator!
     var window: UIWindow!
+    var urlOpener: URLOpener!
 
     override func setUp() {
         super.setUp()
-        sut = HomeCoordinator()
+        urlOpener = MockURLOpener()
+        sut = ProfileCoordinator(urlOpener: urlOpener)
         window = .init()
     }
 
     override func tearDown() {
         sut = nil
+        urlOpener = nil
         window = nil
         super.tearDown()
     }
 
-    func test_showDeveloperMenu() throws {
-        sut.start()
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
-        sut.showDeveloperMenu()
-        let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue( presentedViewController.topViewController is DeveloperMenuViewController)
-    }
-    
     func test_updateToken() throws {
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)

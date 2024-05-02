@@ -1,22 +1,13 @@
 import GDSCommon
 import UIKit
 
-final class TabbedViewSectionHeader: NibView {
-    private let title: GDSLocalisedString?
-    
-    init(title: GDSLocalisedString? = nil) {
-        self.title = title
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    @IBOutlet private var sectionTitleLabel: UILabel! {
+final class TabbedViewSectionHeader: UITableViewHeaderFooterView, ViewIdentifiable {
+    var title: GDSLocalisedString? {
         didSet {
-            sectionTitleLabel.font = .bodyBold
-            sectionTitleLabel.text = title?.value
+            textLabel?.text = title?.value
+            textLabel?.font = .bodyBold
+            textLabel?.textColor = .label
+            textLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 }
