@@ -16,6 +16,7 @@ final class HomeCoordinatorTests: XCTestCase {
     override func tearDown() {
         sut = nil
         window = nil
+        super.tearDown()
     }
 
     func test_showDeveloperMenu() throws {

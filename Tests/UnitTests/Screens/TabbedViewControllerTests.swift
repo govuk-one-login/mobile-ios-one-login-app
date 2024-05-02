@@ -10,10 +10,7 @@ final class TabbedViewControllerTests: XCTestCase {
     private var didTapRow = false
     
     override func setUp() {
-        super.setUp()
-        
-        viewModel = TabbedViewModel(sectionHeaderTitles: createSectionHeaders(),
-                                    cellModels: createCellModels())
+        viewModel = TabbedViewModel(sectionModels: createSectionModels())
         sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
         sut.loadViewIfNeeded()
     }
@@ -42,16 +39,28 @@ final class TabbedViewControllerTests: XCTestCase {
         XCTAssertTrue(didTapRow)
     }
     
-    private func createCellModels() -> [[TabbedViewCellModel]] {
-        let testModel = TabbedViewCellModel(cellTitle: GDSLocalisedString(stringLiteral: "Test Cell")) {
-            self.didTapRow = true
-        }
-        
-        return [[testModel]]
+    func test_cellConfiguration() throws {
+        try sut.tabbedTableView.reloadData()
+        let indexPath = IndexPath(row: 0, section: 0)
+        let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
+        let cellLabel = try XCTUnwrap(cell.textLabel)
+        XCTAssertEqual(cellLabel.text, "Test Cell")
+        XCTAssertEqual(cellLabel.font.familyName, UIFont.body.familyName)
+        XCTAssertEqual(cellLabel.textColor, .systemRed)
+        XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
+        XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
     }
     
-    private func createSectionHeaders() -> [GDSLocalisedString] {
-        [GDSLocalisedString(stringLiteral: "Test Header")]
+    private func createSectionModels() -> [TabbedViewSectionModel] {
+        let testSection = TabbedViewSectionFactory.createSection(header: "Test Header",
+                                                                 footer: "Test Footer",
+                                                                 cellModels: [.init(cellTitle: "Test Cell",
+                                                                                   accessoryView: "arrow.up.right",
+                                                                                    textColor: .systemRed) {
+            self.didTapRow = true
+        }])
+        
+        return [testSection]
     }
 }
 
