@@ -123,7 +123,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's returningUserFlow method is called
         sut.returningUserFlow()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
@@ -134,7 +134,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
@@ -152,7 +152,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should get the access token from secure store
-        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
         XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
     }
     
@@ -162,7 +162,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
-        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
@@ -177,7 +177,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
-        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
@@ -192,7 +192,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's getAccessToken method is called
         sut.getAccessToken()
         // THEN the token holder's access token property should not get the access token from secure store
-        XCTAssertEqual(sut.tokenHolder.accessToken, nil)
+        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
