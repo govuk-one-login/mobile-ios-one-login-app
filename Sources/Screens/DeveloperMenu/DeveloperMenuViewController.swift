@@ -66,7 +66,7 @@ final class DeveloperMenuViewController: BaseViewController {
         didSet {
             if AppEnvironment.callingSTSEnabled {
                 unhappyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                unhappyPathButton.setTitle("Hello World Error", for: .normal)
+                unhappyPathButton.setTitle("Hello World Unhappy", for: .normal)
             } else {
                 unhappyPathButton.isHidden = true
             }
@@ -99,6 +99,46 @@ final class DeveloperMenuViewController: BaseViewController {
             unhappyPathResultLabel.isHidden = true
             unhappyPathResultLabel.accessibilityIdentifier = "sts-unhappy-path-result"
             unhappyPathResultLabel.font = .bodyBold
+        }
+    }
+    
+    @IBOutlet private var unsuccessfulPathButton: RoundedButton! {
+        didSet {
+            if AppEnvironment.callingSTSEnabled {
+                unsuccessfulPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
+                unsuccessfulPathButton.setTitle("Hello World Unsuccessful", for: .normal)
+            } else {
+                unsuccessfulPathButton.isHidden = true
+            }
+            unsuccessfulPathButton.accessibilityIdentifier = "sts-unsuccessful-path-button"
+        }
+    }
+    
+    @IBAction private func unsuccessfulPathButtonAction(_ sender: Any) {
+        unsuccessfulPathButton.isLoading = true
+        helloWorldUnsuccessfulPath()
+    }
+    
+    private func helloWorldUnsuccessfulPath() {
+        Task {
+            do {
+                _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                   scope: "sts-test.hello-world.read",
+                                                                   request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+            } catch let error as ServerError {
+                unsuccessfulPathResultLabel.showErrorMessage(error)
+            } catch {
+                unsuccessfulPathResultLabel.showErrorMessage()
+            }
+            unsuccessfulPathButton.isLoading = false
+        }
+    }
+    
+    @IBOutlet private var unsuccessfulPathResultLabel: UILabel! {
+        didSet {
+            unsuccessfulPathResultLabel.isHidden = true
+            unsuccessfulPathResultLabel.accessibilityIdentifier = "sts-unsuccessful-path-result"
+            unsuccessfulPathResultLabel.font = .bodyBold
         }
     }
 }

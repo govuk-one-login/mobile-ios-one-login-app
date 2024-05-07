@@ -15,6 +15,8 @@
                 <outlet property="happyPathResultLabel" destination="MDX-ro-LVP" id="CCs-KH-vlg"/>
                 <outlet property="unhappyPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
                 <outlet property="unhappyPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>
+                <outlet property="unsuccessfulPathButton" destination="j6G-Nm-scc" id="ZVO-Pb-cRK"/>
+                <outlet property="unsuccessfulPathResultLabel" destination="sV8-Lr-k86" id="jgZ-IL-0vf"/>
                 <outlet property="view" destination="z4H-rf-NBX" id="F8f-s3-j9Y"/>
             </connections>
         </placeholder>
@@ -24,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gOd-1g-ftx">
-                    <rect key="frame" x="10" y="59" width="373" height="608.66666666666663"/>
+                    <rect key="frame" x="10" y="59" width="373" height="572"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="770-rc-5aQ">
                             <rect key="frame" x="0.0" y="0.0" width="373" height="49.666666666666664"/>
@@ -50,8 +52,8 @@
                     <viewLayoutGuide key="contentLayoutGuide" id="aTZ-VK-v1o"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="gIb-a0-woS"/>
                 </scrollView>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="B2t-Tn-7OU">
-                    <rect key="frame" x="16" y="683.66666666666663" width="361" height="118.33333333333337"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="B2t-Tn-7OU" userLabel="Stack View_buttons">
+                    <rect key="frame" x="16" y="647" width="361" height="155"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hG1-h3-EEW" customClass="RoundedButton" customModule="GDSCommon">
                             <rect key="frame" x="0.0" y="0.0" width="361" height="0.0"/>
@@ -62,14 +64,14 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Happy hello-world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MDX-ro-LVP">
-                            <rect key="frame" x="0.0" y="21" width="361" height="0.66666666666666785"/>
+                            <rect key="frame" x="0.0" y="15" width="361" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OFa-dn-cnK" customClass="RoundedButton" customModule="GDSCommon">
-                            <rect key="frame" x="0.0" y="42.666666666666742" width="361" height="34.333333333333343"/>
+                            <rect key="frame" x="0.0" y="30" width="361" height="5"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             <connections>
@@ -77,7 +79,23 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unhappy hello-world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiG-tG-gku">
-                            <rect key="frame" x="0.0" y="98" width="361" height="20.333333333333329"/>
+                            <rect key="frame" x="0.0" y="50" width="361" height="20.333333333333329"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="j6G-Nm-scc" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="85.333333333333329" width="361" height="34.333333333333329"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="unsuccessfulPathButtonAction:" destination="-1" eventType="touchUpInside" id="PXN-zy-O2L"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unsuccessful hello-world" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sV8-Lr-k86">
+                            <rect key="frame" x="0.0" y="134.66666666666666" width="361" height="20.333333333333343"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
@@ -97,7 +115,7 @@
                 <constraint firstItem="feM-xc-dbG" firstAttribute="bottom" secondItem="B2t-Tn-7OU" secondAttribute="bottom" constant="16" id="llk-aP-yVF"/>
                 <constraint firstItem="B2t-Tn-7OU" firstAttribute="top" secondItem="gOd-1g-ftx" secondAttribute="bottom" constant="16" id="mkW-6E-gjc"/>
             </constraints>
-            <point key="canvasLocation" x="-946" y="45"/>
+            <point key="canvasLocation" x="-947.32824427480909" y="44.366197183098592"/>
         </view>
     </objects>
     <resources>
