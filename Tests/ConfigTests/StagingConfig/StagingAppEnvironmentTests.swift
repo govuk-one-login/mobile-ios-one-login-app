@@ -9,10 +9,13 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginToken, URL(string: "https://mobile.staging.account.gov.uk/token"))
         XCTAssertEqual(sut.stsToken, URL(string: "https://token.staging.account.gov.uk/token"))
         XCTAssertEqual(sut.privacyPolicyURL, URL(string: "https://signin.account.gov.uk/privacy-notice?lng=en"))
+        XCTAssertEqual(sut.manageAccountURL, URL(string: "https://signin.account.gov.uk/sign-in-or-create?lng=en"))
         XCTAssertEqual(sut.oneLoginClientID, "sdJChz1oGajIz0O0tdPdh0CA2zW")
         XCTAssertEqual(sut.stsClientID, "ctQpngJQrFFCrppZtYQFFoklHaq")
         XCTAssertEqual(sut.oneLoginRedirect, "https://mobile.staging.account.gov.uk/redirect")
         XCTAssertEqual(sut.oneLoginBaseURL, "mobile.staging.account.gov.uk")
+        XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world"))
+        XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world/error"))
         XCTAssertFalse(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
     }

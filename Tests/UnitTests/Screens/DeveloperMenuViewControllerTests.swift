@@ -24,7 +24,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     func test_labelContents_STSEnabled() throws {
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
-        XCTAssertEqual(try sut.unhappyPathButton.title(for: .normal), "Hello World Error")
+        XCTAssertEqual(try sut.unhappyPathButton.title(for: .normal), "Hello World Unhappy")
+        XCTAssertEqual(try sut.unsuccessfulPathButton.title(for: .normal), "Hello World Unsuccessful")
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
     }
     
@@ -47,6 +48,14 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         try sut.unhappyPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.mockNetworkClient.requestFinished == true, timeout: 3)
         XCTAssertEqual(try sut.unhappyPathResultLabel.text, "Error")
+        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+    }
+    
+    func test_unsuccessfulPathButton() throws {
+        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
+        try sut.unsuccessfulPathButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.mockNetworkClient.requestFinished == true, timeout: 3)
+        XCTAssertEqual(try sut.unsuccessfulPathResultLabel.text, "Error")
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
     }
 }
@@ -73,6 +82,18 @@ extension DeveloperMenuViewController {
     var unhappyPathResultLabel: UILabel {
         get throws {
             try XCTUnwrap(view[child: "sts-unhappy-path-result"])
+        }
+    }
+    
+    var unsuccessfulPathButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-unsuccessful-path-button"])
+        }
+    }
+    
+    var unsuccessfulPathResultLabel: UILabel {
+        get throws {
+            try XCTUnwrap(view[child: "sts-unsuccessful-path-result"])
         }
     }
 }
