@@ -29,8 +29,39 @@ final class MainCoordinator: NSObject,
         root.tabBar.tintColor = .gdsGreen
     }
     
+    
     func start() {
         addTabs()
+        showLogin()
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        loginCoordinator?.handleUniversalLink(url)
+    }
+    
+    func evaluateRevisit(action: @escaping () -> Void) {
+        Task {
+            await MainActor.run {
+                if userStore.returningAuthenticatedUser {
+                    do {
+                        tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                        homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+                        action()
+                    } catch {
+                        print("Error getting token: \(error)")
+                    }
+                } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
+                    action()
+                } else {
+                    tokenHolder.accessToken = nil
+                    showLogin()
+                    action()
+                }
+            }
+        }
+    }
+    
+    private func showLogin() {
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
@@ -39,28 +70,6 @@ final class MainCoordinator: NSObject,
                                   tokenHolder: tokenHolder)
         openChildModally(lc, animated: false)
         loginCoordinator = lc
-    }
-    
-    func handleUniversalLink(_ url: URL) {
-        loginCoordinator?.handleUniversalLink(url)
-    }
-    
-    func evaluateRevisit(action: () -> Void) {
-        if userStore.returningAuthenticatedUser {
-            do {
-                tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-                homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-                action()
-            } catch {
-                print("Error getting token: \(error)")
-            }
-        } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
-            action()
-        } else {
-            tokenHolder.accessToken = nil
-            start()
-            action()
-        }
     }
 }
 
