@@ -67,7 +67,7 @@ final class DeveloperMenuViewController: BaseViewController {
         didSet {
             if AppEnvironment.callingSTSEnabled {
                 errorPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                errorPathButton.setTitle("Hello World Unhappy", for: .normal)
+                errorPathButton.setTitle("Hello World Error", for: .normal)
             } else {
                 errorPathButton.isHidden = true
             }
@@ -108,7 +108,7 @@ final class DeveloperMenuViewController: BaseViewController {
         didSet {
             if AppEnvironment.callingSTSEnabled {
                 unauthorizedPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                unauthorizedPathButton.setTitle("Hello World Unsuccessful", for: .normal)
+                unauthorizedPathButton.setTitle("Hello World Unauthorized", for: .normal)
             } else {
                 unauthorizedPathButton.isHidden = true
             }
