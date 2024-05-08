@@ -100,17 +100,18 @@ extension MainCoordinator {
 }
 
 extension MainCoordinator: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController,
+                          didSelect viewController: UIViewController) {
         var event: IconEvent? {
             switch viewController.tabBarItem.tag {
             case 0:
-                return .init(textKey: "Home")
+                .init(textKey: "home")
             case 1:
-                return .init(textKey: "Wallet")
+                .init(textKey: "wallet")
             case 2:
-                return .init(textKey: "Profile")
+                .init(textKey: "profile")
             default:
-                return nil
+                nil
             }
         }
         if let event {
