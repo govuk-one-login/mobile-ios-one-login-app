@@ -24,8 +24,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     func test_labelContents_STSEnabled() throws {
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
-        XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Unhappy")
-        XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unsuccessful")
+        XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Error")
+        XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unauthorized")
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
     }
     
