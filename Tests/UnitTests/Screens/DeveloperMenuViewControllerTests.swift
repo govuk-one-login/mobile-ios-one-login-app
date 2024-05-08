@@ -24,13 +24,15 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     func test_labelContents_STSEnabled() throws {
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
-        XCTAssertEqual(try sut.unhappyPathButton.title(for: .normal), "Hello World Error")
+        XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Error")
+        XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unauthorized")
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
     }
     
     func test_labelContents_STSDisabled() throws {
         XCTAssertTrue(try sut.happyPathButton.isHidden)
-        XCTAssertTrue(try sut.unhappyPathButton.isHidden)
+        XCTAssertTrue(try sut.errorPathButton.isHidden)
+        XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
     }
     
     func test_happyPathButton() throws {
@@ -44,9 +46,17 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     
     func test_unhappyPathButton() throws {
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
-        try sut.unhappyPathButton.sendActions(for: .touchUpInside)
+        try sut.errorPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.mockNetworkClient.requestFinished == true, timeout: 3)
-        XCTAssertEqual(try sut.unhappyPathResultLabel.text, "Error")
+        XCTAssertEqual(try sut.errorPathResultLabel.text, "Error")
+        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+    }
+    
+    func test_unsuccessfulPathButton() throws {
+        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
+        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+        waitForTruth(self.mockNetworkClient.requestFinished == true, timeout: 3)
+        XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
     }
 }
@@ -64,15 +74,27 @@ extension DeveloperMenuViewController {
         }
     }
     
-    var unhappyPathButton: UIButton {
+    var errorPathButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-unhappy-path-button"])
+            try XCTUnwrap(view[child: "sts-error-path-button"])
         }
     }
     
-    var unhappyPathResultLabel: UILabel {
+    var errorPathResultLabel: UILabel {
         get throws {
-            try XCTUnwrap(view[child: "sts-unhappy-path-result"])
+            try XCTUnwrap(view[child: "sts-error-path-result"])
+        }
+    }
+    
+    var unauthorizedPathButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-unauthorized-path-button"])
+        }
+    }
+    
+    var unauthorizedPathResultLabel: UILabel {
+        get throws {
+            try XCTUnwrap(view[child: "sts-unauthorized-path-result"])
         }
     }
 }
