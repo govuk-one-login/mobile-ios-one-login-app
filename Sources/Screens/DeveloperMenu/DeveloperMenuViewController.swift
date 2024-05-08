@@ -38,6 +38,7 @@ final class DeveloperMenuViewController: BaseViewController {
         helloWorldHappyPath()
     }
     
+    // Makes a successful request to the hello-world endpoint as long as the access token is valid
     private func helloWorldHappyPath() {
         Task {
             do {
@@ -62,83 +63,85 @@ final class DeveloperMenuViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private var unhappyPathButton: RoundedButton! {
+    @IBOutlet private var errorPathButton: RoundedButton! {
         didSet {
             if AppEnvironment.callingSTSEnabled {
-                unhappyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                unhappyPathButton.setTitle("Hello World Unhappy", for: .normal)
+                errorPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
+                errorPathButton.setTitle("Hello World Unhappy", for: .normal)
             } else {
-                unhappyPathButton.isHidden = true
+                errorPathButton.isHidden = true
             }
-            unhappyPathButton.accessibilityIdentifier = "sts-unhappy-path-button"
+            errorPathButton.accessibilityIdentifier = "sts-error-path-button"
         }
     }
     
-    @IBAction private func unhappyPathButtonAction(_ sender: Any) {
-        unhappyPathButton.isLoading = true
-        helloWorldUnhappyPath()
+    @IBAction private func errorPathButtonAction(_ sender: Any) {
+        errorPathButton.isLoading = true
+        helloWorldErrorPath()
     }
     
-    private func helloWorldUnhappyPath() {
+    // Makes an unsuccessful request to the hello-world endpoint, the scope is invalid for this so a 400 response is returned
+    private func helloWorldErrorPath() {
         Task {
             do {
                 _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                                                    scope: "sts-test.hello-world",
                                                                    request: URLRequest(url: AppEnvironment.stsHelloWorld))
             } catch let error as ServerError {
-                unhappyPathResultLabel.showErrorMessage(error)
+                errorPathResultLabel.showErrorMessage(error)
             } catch {
-                unhappyPathResultLabel.showErrorMessage()
+                errorPathResultLabel.showErrorMessage()
             }
-            unhappyPathButton.isLoading = false
+            errorPathButton.isLoading = false
         }
     }
     
-    @IBOutlet private var unhappyPathResultLabel: UILabel! {
+    @IBOutlet private var errorPathResultLabel: UILabel! {
         didSet {
-            unhappyPathResultLabel.isHidden = true
-            unhappyPathResultLabel.accessibilityIdentifier = "sts-unhappy-path-result"
-            unhappyPathResultLabel.font = .bodyBold
+            errorPathResultLabel.isHidden = true
+            errorPathResultLabel.accessibilityIdentifier = "sts-error-path-result"
+            errorPathResultLabel.font = .bodyBold
         }
     }
     
-    @IBOutlet private var unsuccessfulPathButton: RoundedButton! {
+    @IBOutlet private var unauthorizedPathButton: RoundedButton! {
         didSet {
             if AppEnvironment.callingSTSEnabled {
-                unsuccessfulPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                unsuccessfulPathButton.setTitle("Hello World Unsuccessful", for: .normal)
+                unauthorizedPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
+                unauthorizedPathButton.setTitle("Hello World Unsuccessful", for: .normal)
             } else {
-                unsuccessfulPathButton.isHidden = true
+                unauthorizedPathButton.isHidden = true
             }
-            unsuccessfulPathButton.accessibilityIdentifier = "sts-unsuccessful-path-button"
+            unauthorizedPathButton.accessibilityIdentifier = "sts-unauthorized-path-button"
         }
     }
     
-    @IBAction private func unsuccessfulPathButtonAction(_ sender: Any) {
-        unsuccessfulPathButton.isLoading = true
-        helloWorldUnsuccessfulPath()
+    @IBAction private func unauthorizedPathButtonAction(_ sender: Any) {
+        unauthorizedPathButton.isLoading = true
+        helloWorldUnauthorizedPath()
     }
     
-    private func helloWorldUnsuccessfulPath() {
+    // Makes an unsuccessful request to the hello-world endpoint, the endpoint returns a 401 unauthorized response
+    private func helloWorldUnauthorizedPath() {
         Task {
             do {
                 _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                                                    scope: "sts-test.hello-world.read",
                                                                    request: URLRequest(url: AppEnvironment.stsHelloWorldError))
             } catch let error as ServerError {
-                unsuccessfulPathResultLabel.showErrorMessage(error)
+                unauthorizedPathResultLabel.showErrorMessage(error)
             } catch {
-                unsuccessfulPathResultLabel.showErrorMessage()
+                unauthorizedPathResultLabel.showErrorMessage()
             }
-            unsuccessfulPathButton.isLoading = false
+            unauthorizedPathButton.isLoading = false
         }
     }
     
-    @IBOutlet private var unsuccessfulPathResultLabel: UILabel! {
+    @IBOutlet private var unauthorizedPathResultLabel: UILabel! {
         didSet {
-            unsuccessfulPathResultLabel.isHidden = true
-            unsuccessfulPathResultLabel.accessibilityIdentifier = "sts-unsuccessful-path-result"
-            unsuccessfulPathResultLabel.font = .bodyBold
+            unauthorizedPathResultLabel.isHidden = true
+            unauthorizedPathResultLabel.accessibilityIdentifier = "sts-unauthorized-path-result"
+            unauthorizedPathResultLabel.font = .bodyBold
         }
     }
 }

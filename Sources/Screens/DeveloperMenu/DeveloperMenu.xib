@@ -11,12 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeveloperMenuViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
+                <outlet property="errorPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
+                <outlet property="errorPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>
                 <outlet property="happyPathButton" destination="hG1-h3-EEW" id="8d8-K6-v5c"/>
                 <outlet property="happyPathResultLabel" destination="MDX-ro-LVP" id="CCs-KH-vlg"/>
-                <outlet property="unhappyPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
-                <outlet property="unhappyPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>
-                <outlet property="unsuccessfulPathButton" destination="j6G-Nm-scc" id="ZVO-Pb-cRK"/>
-                <outlet property="unsuccessfulPathResultLabel" destination="sV8-Lr-k86" id="jgZ-IL-0vf"/>
+                <outlet property="unauthorizedPathButton" destination="j6G-Nm-scc" id="ZVO-Pb-cRK"/>
+                <outlet property="unauthorizedPathResultLabel" destination="sV8-Lr-k86" id="jgZ-IL-0vf"/>
                 <outlet property="view" destination="z4H-rf-NBX" id="F8f-s3-j9Y"/>
             </connections>
         </placeholder>
@@ -63,7 +63,7 @@
                                 <action selector="happyPathButtonAction:" destination="-1" eventType="touchUpInside" id="brf-MF-5pg"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Happy hello-world" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MDX-ro-LVP">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world happy" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MDX-ro-LVP">
                             <rect key="frame" x="0.0" y="15" width="361" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -75,10 +75,10 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             <connections>
-                                <action selector="unhappyPathButtonAction:" destination="-1" eventType="touchUpInside" id="Fe7-R7-t2u"/>
+                                <action selector="errorPathButtonAction:" destination="-1" eventType="touchUpInside" id="Fe7-R7-t2u"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unhappy hello-world" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiG-tG-gku">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world error" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiG-tG-gku">
                             <rect key="frame" x="0.0" y="50" width="361" height="20.333333333333329"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -91,10 +91,10 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             <connections>
-                                <action selector="unsuccessfulPathButtonAction:" destination="-1" eventType="touchUpInside" id="PXN-zy-O2L"/>
+                                <action selector="unauthorizedPathButtonAction:" destination="-1" eventType="touchUpInside" id="PXN-zy-O2L"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unsuccessful hello-world" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sV8-Lr-k86">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world unauthorized" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sV8-Lr-k86">
                             <rect key="frame" x="0.0" y="134.66666666666666" width="361" height="20.333333333333343"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
