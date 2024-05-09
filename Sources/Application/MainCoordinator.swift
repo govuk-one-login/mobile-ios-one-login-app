@@ -1,4 +1,5 @@
 import Coordination
+import GDSAnalytics
 import Networking
 import SecureStore
 import UIKit
@@ -25,11 +26,12 @@ final class MainCoordinator: NSObject,
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
-        root.tabBar.backgroundColor = .systemBackground
-        root.tabBar.tintColor = .gdsGreen
     }
     
     func start() {
+        root.tabBar.backgroundColor = .systemBackground
+        root.tabBar.tintColor = .gdsGreen
+        root.delegate = self
         addTabs()
         showLogin()
     }
@@ -81,22 +83,40 @@ extension MainCoordinator {
     
     private func addHomeTab() {
         let hc = HomeCoordinator()
-        hc.root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         addTab(hc)
         homeCoordinator = hc
     }
     
     private func addWalletTab() {
         let wc = WalletCoordinator()
-        wc.root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
         addTab(wc)
     }
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(urlOpener: UIApplication.shared)
-        pc.root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
         addTab(pc)
         profileCoordinator = pc
+    }
+}
+
+extension MainCoordinator: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController,
+                          didSelect viewController: UIViewController) {
+        var event: IconEvent? {
+            switch viewController.tabBarItem.tag {
+            case 0:
+                .init(textKey: "home")
+            case 1:
+                .init(textKey: "wallet")
+            case 2:
+                .init(textKey: "profile")
+            default:
+                nil
+            }
+        }
+        if let event {
+            analyticsCenter.analyticsService.logEvent(event)
+        }
     }
 }
 
