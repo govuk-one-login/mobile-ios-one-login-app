@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
 import XCTest
@@ -93,6 +94,45 @@ extension MainCoordinatorTests {
         // THEN the access token is removed from the token holder and the action is called
         waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         XCTAssertTrue(evaluateRevisitActionCalled)
+    }
+    
+    func test_didSelect_tabBarItem_home() throws {
+        sut.start()
+        guard let homeVC = tabBarController.viewControllers?[0] else {
+            XCTFail("HomeVC not added as child viewcontroller to tabBarController")
+            return
+        }
+        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: homeVC)
+        let iconEvent = IconEvent(textKey: "home")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
+    }
+    
+    func test_didSelect_tabBarItem_wallet() throws {
+        sut.start()
+        guard let walletVC = tabBarController.viewControllers?[1] else {
+            XCTFail("WalletVC not added as child viewcontroller to tabBarController")
+            return
+        }
+        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: walletVC)
+        let iconEvent = IconEvent(textKey: "wallet")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
+    }
+    
+    func test_didSelect_tabBarItem_profile() throws {
+        sut.start()
+        guard let profileVC = tabBarController.viewControllers?[2] else {
+            XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
+            return
+        }
+        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: profileVC)
+        let iconEvent = IconEvent(textKey: "profile")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
