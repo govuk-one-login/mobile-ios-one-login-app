@@ -118,7 +118,6 @@
 		C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */; };
 		C8C6665A2BCFDBDE00CF249B /* TokenHolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C666592BCFDBDE00CF249B /* TokenHolderTests.swift */; };
 		C8C6665E2BD007BD00CF249B /* OutdatedTokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */; };
-		C8D766DA2BEBE15C00881732 /* TabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D766D92BEBE15C00881732 /* TabAnalytics.swift */; };
 		C8E6A3E82BBC0536005015AF /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3E72BBC0536005015AF /* WindowManagement.swift */; };
 		C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EA2BBC05FA005015AF /* MockSceneDelegate.swift */; };
 		C8E6A3ED2BBC0674005015AF /* MockWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EC2BBC0674005015AF /* MockWindowManager.swift */; };
@@ -300,7 +299,6 @@
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8C666592BCFDBDE00CF249B /* TokenHolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
 		C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OutdatedTokenResponse.json; sourceTree = "<group>"; };
-		C8D766D92BEBE15C00881732 /* TabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabAnalytics.swift; sourceTree = "<group>"; };
 		C8E6A3E72BBC0536005015AF /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		C8E6A3EA2BBC05FA005015AF /* MockSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSceneDelegate.swift; sourceTree = "<group>"; };
 		C8E6A3EC2BBC0674005015AF /* MockWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWindowManager.swift; sourceTree = "<group>"; };
@@ -582,7 +580,6 @@
 		C8178E3C2AEB2C8600059875 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				C8D766D82BEBE13D00881732 /* Tabs */,
 				C87913C22B27B79200545B33 /* Errors */,
 				C8178E3F2AEB2DFE00059875 /* Onboarding */,
 			);
@@ -946,14 +943,6 @@
 				C8C343A42B9232B900E92FB9 /* AnalyticsCenter.swift */,
 			);
 			path = Analytics;
-			sourceTree = "<group>";
-		};
-		C8D766D82BEBE13D00881732 /* Tabs */ = {
-			isa = PBXGroup;
-			children = (
-				C8D766D92BEBE15C00881732 /* TabAnalytics.swift */,
-			);
-			path = Tabs;
 			sourceTree = "<group>";
 		};
 		C8E6A3E92BBC05DB005015AF /* Application */ = {
@@ -1366,7 +1355,6 @@
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
-				C8D766DA2BEBE15C00881732 /* TabAnalytics.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* UserStorable.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* UserStorage.swift in Sources */,
