@@ -23,9 +23,9 @@ final class ProfileCoordinator: NSObject,
     
     func start() {
         root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
-        let viewModel = TabbedViewModel(analyticsService: analyticsService,
-                                        title: "app_profileTitle",
-                                        sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener))
+        let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
+                                            title: "app_profileTitle",
+                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          headerView: SignInView(viewModel: SignInViewModel()))
         baseVc = profileViewController

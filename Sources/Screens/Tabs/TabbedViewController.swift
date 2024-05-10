@@ -5,11 +5,11 @@ import UIKit
 final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
-    private let viewModel: TabbedViewModel
+    private var viewModel: TabbedViewModel & BaseViewModel
     private let headerView: UIView?
     private var accessToken: String?
     
-    init(viewModel: TabbedViewModel,
+    init(viewModel: TabbedViewModel & BaseViewModel,
          headerView: UIView? = nil) {
         self.viewModel = viewModel
         self.headerView = headerView
