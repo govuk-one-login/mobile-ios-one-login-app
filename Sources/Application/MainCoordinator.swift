@@ -82,7 +82,7 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator()
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -93,7 +93,8 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(urlOpener: UIApplication.shared)
+        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                    urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
     }

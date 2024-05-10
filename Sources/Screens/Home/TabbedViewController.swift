@@ -50,6 +50,8 @@ final class TabbedViewController: BaseViewController {
         guard let headerView = headerView as? SignInView else { return }
         headerView.updateEmail("sarahelizabeth_1991@gmail.com")
         resizeHeaderView()
+        viewModel.isLoggedIn = true
+        viewModel.didAppear()
     }
     
     private func resizeHeaderView() {

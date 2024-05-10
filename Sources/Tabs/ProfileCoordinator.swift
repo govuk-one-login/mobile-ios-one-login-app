@@ -1,5 +1,6 @@
 import Coordination
 import GDSCommon
+import Logging
 import UIKit
 
 final class ProfileCoordinator: NSObject,
@@ -7,23 +8,23 @@ final class ProfileCoordinator: NSObject,
                                 ChildCoordinator,
                                 NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
-    let root: UINavigationController
+    let root = UINavigationController()
+    let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
     private (set)var baseVc: TabbedViewController?
     
-    init(parentCoordinator: ParentCoordinator? = nil,
-         root: UINavigationController = UINavigationController(),
+    init(analyticsService: AnalyticsService,
          urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
-        self.parentCoordinator = parentCoordinator
-        self.root = root
+        self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.baseVc = baseVc
     }
     
     func start() {
         root.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 2)
-        let viewModel = TabbedViewModel(title: "app_profileTitle",
+        let viewModel = TabbedViewModel(analyticsService: analyticsService,
+                                        title: "app_profileTitle",
                                         sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          headerView: SignInView(viewModel: SignInViewModel()))

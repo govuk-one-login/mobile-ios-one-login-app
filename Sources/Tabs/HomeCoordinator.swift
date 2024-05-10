@@ -1,5 +1,6 @@
 import Coordination
 import GDSCommon
+import Logging
 import UIKit
 
 final class HomeCoordinator: NSObject,
@@ -8,13 +9,18 @@ final class HomeCoordinator: NSObject,
                              NavigationCoordinator {
     var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
+    let analyticsService: AnalyticsService
     var networkClient: RequestAuthorizing?
-    private var accessToken: String?
     private(set) var baseVc: TabbedViewController?
+    
+    init(analyticsService: AnalyticsService) {
+        self.analyticsService = analyticsService
+    }
     
     func start() {
         root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
-        let viewModel = TabbedViewModel(title: "app_homeTitle",
+        let viewModel = TabbedViewModel(analyticsService: analyticsService,
+                                        title: "app_homeTitle",
                                         sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
         let hc = TabbedViewController(viewModel: viewModel,
                                       headerView: SignInView(viewModel: SignInViewModel()))
