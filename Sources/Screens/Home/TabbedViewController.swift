@@ -51,6 +51,9 @@ final class TabbedViewController: BaseViewController {
         headerView.updateEmail("sarahelizabeth_1991@gmail.com")
         resizeHeaderView()
         viewModel.isLoggedIn = true
+    }
+    
+    func homeScreenAnalytics() {
         viewModel.didAppear()
     }
     

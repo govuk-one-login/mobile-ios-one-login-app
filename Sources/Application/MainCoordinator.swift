@@ -9,7 +9,7 @@ final class MainCoordinator: NSObject,
                              TabCoordinator {
     let windowManager: WindowManagement
     let root: UITabBarController
-    let analyticsCenter: AnalyticsCentral
+    var analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
@@ -116,6 +116,9 @@ extension MainCoordinator: UITabBarControllerDelegate {
             }
         }
         if let event {
+            analyticsCenter.analyticsService.additionalParameters = analyticsCenter.analyticsService.additionalParameters.merging([
+                "taxonomy_level2": event.text
+            ]) { $1 }
             analyticsCenter.analyticsService.logEvent(event)
         }
     }

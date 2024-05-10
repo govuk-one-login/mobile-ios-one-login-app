@@ -35,10 +35,20 @@ class TabbedViewModel: BaseViewModel {
     
     func didAppear() {
         if isLoggedIn, let navigationTitle {
-            analyticsService.additionalParameters = analyticsService.additionalParameters.merging(["taxonomy_level2": "home"]) { $1 }
-            let screen = ScreenView(id: ScreenAnalyticsScreenID.home.rawValue,
-                                    screen: ScreenAnalyticsScreen.home,
-                                    titleKey: navigationTitle.value)
+            analyticsService.additionalParameters = analyticsService.additionalParameters.merging([
+                "taxonomy_level2": navigationTitle.value.lowercased()
+            ]) { $1 }
+            var screen: ScreenView<TabAnalyticsScreen> {
+                if navigationTitle.value == "Home" {
+                    .init(id: TabAnalyticsScreenID.home.rawValue,
+                          screen: TabAnalyticsScreen.home,
+                          titleKey: navigationTitle.value)
+                } else {
+                    .init(id: TabAnalyticsScreenID.profile.rawValue,
+                          screen: TabAnalyticsScreen.profile,
+                          titleKey: navigationTitle.value)
+                }
+            }
             analyticsService.trackScreen(screen)
         }
     }

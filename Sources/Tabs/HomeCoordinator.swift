@@ -30,6 +30,7 @@ final class HomeCoordinator: NSObject,
     
     func updateToken(accessToken: String?) {
         baseVc?.updateToken(accessToken: accessToken)
+        baseVc?.homeScreenAnalytics()
     }
     
     func showDeveloperMenu() {
