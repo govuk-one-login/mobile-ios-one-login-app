@@ -91,6 +91,15 @@
       }
     },
     {
+      "identity" : "jwt-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/jwt-kit.git",
+      "state" : {
+        "revision" : "c2595b9ad7f512d7f334830b4df1fed6e917946a",
+        "version" : "4.13.4"
+      }
+    },
+    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -169,6 +178,15 @@
       "state" : {
         "revision" : "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
         "version" : "2.3.1"
+      }
+    },
+    {
+      "identity" : "swift-crypto",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-crypto.git",
+      "state" : {
+        "revision" : "f0525da24dc3c6cbb2b6b338b65042bc91cbc4bb",
+        "version" : "3.3.0"
       }
     },
     {
