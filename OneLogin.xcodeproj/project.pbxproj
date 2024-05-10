@@ -136,6 +136,7 @@
 		C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1312BB73E2E00722218 /* WindowManager.swift */; };
 		D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */; };
 		D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
+		D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */; };
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
@@ -154,6 +155,12 @@
 		D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */; };
 		D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */; };
 		D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8E2BE1231A00769CEA /* TabbedViewSectionFactory.swift */; };
+		D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */ = {isa = PBXBuildFile; productRef = D0BE243D2BEB7E5E00759529 /* JWTKit */; };
+		D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24402BEBAEF100759529 /* JWTVerifier.swift */; };
+		D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24422BEBB06700759529 /* JWKInfo.swift */; };
+		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
+		D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */; };
+		D0BE24492BEBD43300759529 /* MockNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0BE24482BEBD43300759529 /* MockNetworking */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -323,6 +330,7 @@
 		C8ECA1312BB73E2E00722218 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
 		D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
+		D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyVerifier.swift; sourceTree = "<group>"; };
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
@@ -341,6 +349,10 @@
 		D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionModel.swift; sourceTree = "<group>"; };
 		D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		D08B0B8E2BE1231A00769CEA /* TabbedViewSectionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionFactory.swift; sourceTree = "<group>"; };
+		D0BE24402BEBAEF100759529 /* JWTVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifier.swift; sourceTree = "<group>"; };
+		D0BE24422BEBB06700759529 /* JWKInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWKInfo.swift; sourceTree = "<group>"; };
+		D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierTests.swift; sourceTree = "<group>"; };
+		D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJWKSResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +365,7 @@
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
+				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
@@ -364,6 +377,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0BE24492BEBD43300759529 /* MockNetworking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +541,7 @@
 				41E1A9102BE126C60034B6C7 /* MockNetworkClient.swift */,
 				41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */,
 				41E1A9142BE128610034B6C7 /* MockURLOpener.swift */,
+				D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -651,6 +666,7 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D0BE243F2BEBAEB600759529 /* JWT */,
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 				C8C343A12B92313D00E92FB9 /* Analytics */,
@@ -680,6 +696,7 @@
 			children = (
 				C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */,
 				C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */,
+				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1076,6 +1093,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		D0BE243F2BEBAEB600759529 /* JWT */ = {
+			isa = PBXGroup;
+			children = (
+				D0BE24402BEBAEF100759529 /* JWTVerifier.swift */,
+				D0BE24422BEBB06700759529 /* JWKInfo.swift */,
+				D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */,
+			);
+			path = JWT;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1106,6 +1133,7 @@
 				C8A13CAC2AFBD0CC00FCBD36 /* Logging */,
 				C8A13CAF2AFBD0F100FCBD36 /* Coordination */,
 				C8BADD1F2B8638BA00385FE7 /* SecureStore */,
+				D0BE243D2BEB7E5E00759529 /* JWTKit */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1125,6 +1153,9 @@
 				219601FF2A976305008F3427 /* PBXTargetDependency */,
 			);
 			name = OneLoginUnitTests;
+			packageProductDependencies = (
+				D0BE24482BEBD43300759529 /* MockNetworking */,
+			);
 			productName = "di-mobile-ios-onelogin-appTests";
 			productReference = 219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1231,6 +1262,7 @@
 				C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */,
 				C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */,
 				C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */,
+				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -1394,6 +1426,7 @@
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				C8E6A3E82BBC0536005015AF /* WindowManagement.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
+				D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
@@ -1411,6 +1444,7 @@
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
+				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
@@ -1432,7 +1466,9 @@
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
+				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
+				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,
 				D08B0B782BDBD32900769CEA /* SignInViewModel.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				C8E109092BEE6C0C00B21038 /* HomeTabViewModel.swift in Sources */,
@@ -1463,6 +1499,7 @@
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C82B64522BA47D59000C9524 /* StringTests.swift in Sources */,
 				41E1A9112BE126C60034B6C7 /* MockNetworkClient.swift in Sources */,
+				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */,
 				C8E6A3EF2BBC1181005015AF /* WindowManagerTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
@@ -1818,6 +1855,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
@@ -2460,6 +2498,14 @@
 				kind = branch;
 			};
 		};
+		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vapor/jwt-kit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.13.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2507,6 +2553,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
 			productName = SecureStore;
+		};
+		D0BE243D2BEB7E5E00759529 /* JWTKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */;
+			productName = JWTKit;
+		};
+		D0BE24482BEBD43300759529 /* MockNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */;
+			productName = MockNetworking;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
