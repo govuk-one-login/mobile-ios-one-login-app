@@ -129,6 +129,14 @@ extension AppEnvironment {
         return components.url!
     }
     
+    static var jwskURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .stsBaseURL)
+        components.path = "/.well-known/jwks.json"
+        return components.url!
+    }
+    
     static var stsClientID: String {
         return string(for: .stsClientID)
     }
