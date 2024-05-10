@@ -23,12 +23,10 @@ struct JWKSInfo: Codable {
         case keys
     }
     
-    var signingJWK: JWK? {
-        get throws {
-            guard let signingJWKInfo = self.keys.first(where: { $0.use == "sig" }) else { return nil }
-            guard let json = try signingJWKInfo.jsonString else { return nil }
-            return try JWK(json: json)
-        }
+    func jwkForKID(_ kid: String) throws -> JWK? {
+        guard let jwkInfo = self.keys.first(where: { $0.kid  == kid }) else { return nil }
+        guard let json = try jwkInfo.jsonString else { return nil }
+        return try JWK(json: json)
     }
 }
 
