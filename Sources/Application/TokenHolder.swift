@@ -6,8 +6,13 @@ enum TokenError: Error {
 }
 
 class TokenHolder: AuthenticationProvider {
-    var tokenResponse: TokenResponse?
+    var tokenResponse: TokenResponse? {
+        didSet {
+            accessToken = tokenResponse?.accessToken
+        }
+    }
     var accessToken: String?
+    var idToken: IdTokenInfo?
     
     var bearerToken: String {
         get throws {
