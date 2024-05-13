@@ -1,3 +1,4 @@
+import Authentication
 import Foundation
 import SecureStore
 
@@ -16,12 +17,18 @@ extension UserStorable {
         return accessTokenExpClaim.timeIntervalSinceNow.sign == .plus
     }
     
-    func storeTokenInfo(token: String, tokenExp: Date) throws {
-        try secureStoreService.saveItem(item: token, itemName: .accessToken)
+    func storeTokenInfo(tokenResponse: TokenResponse) throws {
+        let accessToken = tokenResponse.accessToken
+        let tokenExp = tokenResponse.expiryDate
+        try secureStoreService.saveItem(item: accessToken, itemName: .accessToken)
         if AppEnvironment.extendExpClaimEnabled {
             defaultsStore.set(tokenExp + 27 * 60, forKey: .accessTokenExpiry)
         } else {
             defaultsStore.set(tokenExp, forKey: .accessTokenExpiry)
+        }
+        // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
+        if let idToken = tokenResponse.idToken {
+            try secureStoreService.saveItem(item: idToken, itemName: .idToken)
         }
     }
     

@@ -83,8 +83,7 @@ final class EnrolmentCoordinator: NSObject,
     private func storeAccessTokenInfo() {
         guard let tokenResponse = tokenHolder.tokenResponse else { return }
         do {
-            try userStore.storeTokenInfo(token: tokenResponse.accessToken,
-                                         tokenExp: tokenResponse.expiryDate)
+            try userStore.storeTokenInfo(tokenResponse: tokenResponse)
         } catch {
             print("Storing Token Info error: \(error)")
         }
