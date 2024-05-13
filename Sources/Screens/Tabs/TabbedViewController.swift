@@ -53,7 +53,7 @@ final class TabbedViewController: BaseViewController {
         viewModel.isLoggedIn = true
     }
     
-    func homeScreenAnalytics() {
+    func screenAnalytics() {
         viewModel.didAppear()
     }
     

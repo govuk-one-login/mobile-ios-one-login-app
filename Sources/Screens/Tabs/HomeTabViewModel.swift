@@ -26,6 +26,7 @@ class HomeTabViewModel: TabbedViewModel, BaseViewModel {
     
     func didAppear() {
         if isLoggedIn, let navigationTitle {
+            analyticsService.setAdditionalParameters(appTaxonomy: .home)
             let screen = ScreenView(id: TabAnalyticsScreenID.home.rawValue,
                                     screen: TabAnalyticsScreen.home,
                                     titleKey: navigationTitle.value)

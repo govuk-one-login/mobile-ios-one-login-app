@@ -116,10 +116,7 @@ extension MainCoordinator: UITabBarControllerDelegate {
             }
         }
         if let event {
-            analyticsCenter.analyticsService.additionalParameters = analyticsCenter.analyticsService.additionalParameters.merging([
-                "taxonomy_level2": event.text,
-                "taxonomy_level3": event.text == "profile" ? "my profile" : "undefined"
-            ]) { $1 }
+            analyticsCenter.analyticsService.resetAdditionalParameters()
             analyticsCenter.analyticsService.logEvent(event)
         }
     }
