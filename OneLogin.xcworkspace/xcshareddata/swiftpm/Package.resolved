@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "81f1112f7fc54bdd6c227e58927afdf41e9ba915",
-        "version" : "1.1.4"
+        "revision" : "e77765bf539e889bc65fed92227b1ce7c8b5c4dd",
+        "version" : "1.1.5"
       }
     },
     {
