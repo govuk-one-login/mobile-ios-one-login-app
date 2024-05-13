@@ -37,6 +37,6 @@ final class HomeCoordinatorTests: XCTestCase {
         let vc = try XCTUnwrap(sut.baseVc)
         XCTAssertEqual(try vc.emailLabel.text, nil)
         sut.updateToken(accessToken: "testAccessToken")
-        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nsarahelizabeth_1991@gmail.com")
+        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nexample@email.com")
     }
 }
