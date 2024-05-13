@@ -137,6 +137,8 @@
 		D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */; };
 		D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
 		D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */; };
+		D03B04D32BEE734900418C0B /* IdTokenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D22BEE734900418C0B /* IdTokenInfo.swift */; };
+		D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */; };
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
@@ -331,6 +333,8 @@
 		D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
 		D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
 		D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyVerifier.swift; sourceTree = "<group>"; };
+		D03B04D22BEE734900418C0B /* IdTokenInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenInfo.swift; sourceTree = "<group>"; };
+		D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierError.swift; sourceTree = "<group>"; };
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
@@ -1099,6 +1103,8 @@
 				D0BE24402BEBAEF100759529 /* JWTVerifier.swift */,
 				D0BE24422BEBB06700759529 /* JWKInfo.swift */,
 				D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */,
+				D03B04D22BEE734900418C0B /* IdTokenInfo.swift */,
+				D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */,
 			);
 			path = JWT;
 			sourceTree = "<group>";
@@ -1448,6 +1454,7 @@
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
+				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				C896443F2BEE4DE200A05350 /* TabAnalytics.swift in Sources */,
@@ -1467,6 +1474,7 @@
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
+				D03B04D32BEE734900418C0B /* IdTokenInfo.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,
 				D08B0B782BDBD32900769CEA /* SignInViewModel.swift in Sources */,
