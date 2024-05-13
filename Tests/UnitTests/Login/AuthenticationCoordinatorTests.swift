@@ -170,4 +170,16 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be an unknown generic error
         sut.loginError = AuthenticationError.generic
     }
+    
+    func test_loginError_jwterror() throws {
+        mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
+        sut.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and user cancelled the login modal
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        // THEN user is returned to the intro screen
+        // THEN the loginError should be a userCancelled error
+        sut.loginError = JWTVerifierError.unableToFetchJWKs
+    }
 }

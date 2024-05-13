@@ -42,7 +42,7 @@ final class JWTVerifierTests: XCTestCase {
         sut = .init(token: MockJWKSResponse.malformedToken, networkClient: networkClient)
         do {
             _ = try await sut.verifyCredential()
-        } catch JWTVerifier.JWTVerifierError.invalidJWTFormat {
+        } catch JWTVerifierError.invalidJWTFormat {
             exp.fulfill()
         } catch {
             XCTFail("Failed on another error: \(error)")
@@ -59,7 +59,7 @@ final class JWTVerifierTests: XCTestCase {
         sut = .init(token: "This is a fake token", networkClient: networkClient)
         do {
             _ = try await sut.verifyCredential()
-        } catch JWTVerifier.JWTVerifierError.invalidJWTFormat {
+        } catch JWTVerifierError.invalidJWTFormat {
             exp.fulfill()
         } catch {
             XCTFail("Failed on another error: \(error)")
@@ -78,7 +78,7 @@ final class JWTVerifierTests: XCTestCase {
         
         do {
             _ = try await sut.verifyCredential()
-        } catch JWTVerifier.JWTVerifierError.invalidKID {
+        } catch JWTVerifierError.invalidKID {
             exp.fulfill()
         } catch {
             XCTFail("Failed on another error: \(error)")
@@ -87,14 +87,14 @@ final class JWTVerifierTests: XCTestCase {
         await fulfillment(of: [exp], timeout: 3)
     }
     
-    func test_unableToFetchJWKs() async throws {
+    func test_fetchJWKs_networkError() async throws {
         MockURLProtocol.handler = {
-            (.init(), HTTPURLResponse(statusCode: 200))
+            (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 400))
         }
         
         do {
-            let credential = try await sut.verifyCredential()
-            XCTFail("Expected failure: no JWK data")
+            _ = try await sut.verifyCredential()
+            XCTFail("Expected failure: network error")
         } catch {
             // Expect this
         }

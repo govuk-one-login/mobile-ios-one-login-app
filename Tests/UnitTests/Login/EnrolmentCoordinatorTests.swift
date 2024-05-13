@@ -79,6 +79,7 @@ extension EnrolmentCoordinatorTests {
         // THEN the journey should be saved in user defaults
         XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, tokenResponse.expiryDate)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], tokenResponse.accessToken)
+        XCTAssertEqual(mockSecureStore.savedItems["idToken"], tokenResponse.idToken)
     }
 
     func test_start_deviceLocalAuthSet_passcode_fails() throws {
@@ -93,6 +94,7 @@ extension EnrolmentCoordinatorTests {
         // THEN the journey should be saved in user defaults
         XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, nil)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
+        XCTAssertEqual(mockSecureStore.savedItems["idToken"], nil)
     }
 
     func test_start_deviceLocalAuthSet_touchID() throws {
@@ -149,6 +151,7 @@ extension EnrolmentCoordinatorTests {
         // THEN the journey should be saved in user defaults
         waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == tokenResponse.expiryDate, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], tokenResponse.accessToken)
+        XCTAssertEqual(mockSecureStore.savedItems["idToken"], tokenResponse.idToken)
         XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
         XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
     }
@@ -163,6 +166,7 @@ extension EnrolmentCoordinatorTests {
         // THEN the journey should be saved in user defaults
         waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
+        XCTAssertEqual(mockSecureStore.savedItems["idToken"], nil)
     }
     
     func test_enrolLocalAuth_errors() throws {
@@ -175,5 +179,6 @@ extension EnrolmentCoordinatorTests {
         // THEN the journey should be saved in user defaults
         waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 20)
         XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
+        XCTAssertEqual(mockSecureStore.savedItems["idToken"], nil)
     }
 }
