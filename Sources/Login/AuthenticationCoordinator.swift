@@ -28,8 +28,11 @@ final class AuthenticationCoordinator: NSObject,
         Task(priority: .userInitiated) {
             do {
                 tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
-                if let idToken = tokenHolder.tokenResponse?.idToken {
-                    tokenHolder.idToken = try await verifyIDToken(idToken)
+                if AppEnvironment.callingSTSEnabled {
+                    // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
+                    if let idToken = tokenHolder.tokenResponse?.idToken {
+                        tokenHolder.idToken = try await verifyIDToken(idToken)
+                    }
                 }
                 finish()
             } catch let error as LoginError where error == .network {
