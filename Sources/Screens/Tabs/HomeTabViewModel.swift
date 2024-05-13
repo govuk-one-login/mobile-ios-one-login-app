@@ -3,21 +3,17 @@ import GDSCommon
 import Logging
 
 class HomeTabViewModel: TabbedViewModel {
-    let rightBarButtonTitle: GDSLocalisedString?
-    let backButtonIsHidden: Bool
-    var analyticsService: AnalyticsService
-    
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     let sectionModels: [TabbedViewSectionModel]
+    var analyticsService: AnalyticsService
+
+    let rightBarButtonTitle: GDSLocalisedString? = nil
+    let backButtonIsHidden: Bool = true
     
     var isLoggedIn = false
     
-    init(rightBarButtonTitle: GDSLocalisedString? = nil,
-         backButtonIsHidden: Bool = true,
-         analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
          sectionModels: [TabbedViewSectionModel] = [TabbedViewSectionModel]()) {
-        self.rightBarButtonTitle = rightBarButtonTitle
-        self.backButtonIsHidden = backButtonIsHidden
         self.analyticsService = analyticsService
         self.sectionModels = sectionModels
     }

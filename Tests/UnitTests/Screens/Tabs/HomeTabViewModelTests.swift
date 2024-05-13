@@ -6,7 +6,6 @@ final class HomeTabViewModelTests: XCTestCase {
 
     var mockAnalyticsService: MockAnalyticsService!
     var sut: HomeTabViewModel!
-    var didUserLogIn: Bool = false
 
     override func setUp() {
         super.setUp()
@@ -30,8 +29,8 @@ extension HomeTabViewModelTests {
     }
 
     func test_didAppear() throws {
+        sut.isLoggedIn = true
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
-        didUserLogIn = true
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: TabAnalyticsScreenID.home.rawValue,

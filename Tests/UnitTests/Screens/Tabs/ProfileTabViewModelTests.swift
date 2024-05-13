@@ -29,6 +29,7 @@ extension ProfileTabViewModelTests {
     }
 
     func test_didAppear() throws {
+        sut.isLoggedIn = true
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

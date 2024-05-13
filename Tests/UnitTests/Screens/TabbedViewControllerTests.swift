@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
 import XCTest
@@ -8,13 +9,18 @@ final class TabbedViewControllerTests: XCTestCase {
     var sut: TabbedViewController!
     
     private var didTapRow = false
+    private var didAppearCalled = false
+
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        viewModel = HomeTabViewModel(analyticsService: mockAnalyticsService,
-                                     sectionModels: createSectionModels())
+        viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
+                                        navigationTitle: "Test Navigation Title",
+                                        sectionModels: createSectionModels()) {
+            self.didAppearCalled = true
+        }
         sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
         sut.loadViewIfNeeded()
     }
@@ -46,6 +52,16 @@ extension TabbedViewControllerTests {
         XCTAssertTrue(didTapRow)
     }
     
+    func test_headerConfiguration() throws {
+        try sut.tabbedTableView.reloadData()
+        let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 0) as? UITableViewHeaderFooterView
+        let headerLabel = try XCTUnwrap(header?.textLabel)
+        XCTAssertEqual(headerLabel.text, "Test Header")
+        XCTAssertEqual(headerLabel.font, .bodyBold)
+        XCTAssertEqual(headerLabel.textColor, .label)
+        XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
+    }
+    
     func test_cellConfiguration() throws {
         try sut.tabbedTableView.reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
@@ -56,6 +72,23 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(cellLabel.textColor, .systemRed)
         XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
         XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
+    }
+    
+    func test_footerConfiguration() throws {
+        try sut.tabbedTableView.reloadData()
+        let header = sut.tableView(try sut.tabbedTableView, viewForFooterInSection: 0) as? UITableViewHeaderFooterView
+        let headerLabel = try XCTUnwrap(header?.textLabel)
+        XCTAssertEqual(headerLabel.text, "Test Footer")
+        XCTAssertEqual(headerLabel.numberOfLines, 0)
+        XCTAssertEqual(headerLabel.lineBreakMode, .byWordWrapping)
+        XCTAssertEqual(headerLabel.font, .footnote)
+        XCTAssertEqual(headerLabel.textColor, .secondaryLabel)
+        XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
+    }
+    
+    func test_screenAnalytics() throws {
+        sut.screenAnalytics()
+        XCTAssertTrue(didAppearCalled)
     }
     
     private func createSectionModels() -> [TabbedViewSectionModel] {
