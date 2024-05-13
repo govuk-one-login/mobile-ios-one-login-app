@@ -10,7 +10,7 @@ struct IdTokenInfo: JWTPayload {
     var iat: IssuedAtClaim
 
     let email: String
-    let email_verified: BoolClaim
+    let emailVerified: BoolClaim
     
     func verify(using signer: JWTKit.JWTSigner) throws { /* protocol conformance */ }
 }
