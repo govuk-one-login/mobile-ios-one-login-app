@@ -1,18 +1,6 @@
 import Foundation
 import JWTKit
 
-struct UserCredential: JWTPayload {
-
-    var sub: SubjectClaim
-
-    var exp: Int
-
-    let email: String
-    let email_verified: BoolClaim
-    
-    func verify(using signer: JWTKit.JWTSigner) throws { /* protocol conformance */ }
-}
-
 // These wrapper structs are necessary becaue JWTKit does not support encryption JWKs, and will throw
 // a decoding error if one is encountered in the fetched keys.  The wrappers allows us to decode the
 // JSON and extract usable keys before relying on JWTKit to do the heavy lifting.

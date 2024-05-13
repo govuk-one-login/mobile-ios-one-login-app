@@ -2,7 +2,7 @@ import Foundation
 import JWTKit
 
 protocol KeyVerifier {
-    func verify(jwt: String) throws -> UserCredential
+    func verify(jwt: String) throws -> IdTokenInfo
 }
 
 struct ES256KeyVerifier: KeyVerifier {
@@ -12,7 +12,7 @@ struct ES256KeyVerifier: KeyVerifier {
         try signers.use(jwk: jsonWebKey)
     }
     
-    func verify(jwt: String) throws -> UserCredential {
+    func verify(jwt: String) throws -> IdTokenInfo {
         try signers.verify(jwt)
     }
 }

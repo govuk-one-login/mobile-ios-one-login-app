@@ -3,31 +3,21 @@ import JWTKit
 import Networking
 
 final class JWTVerifier {
-    
-    enum JWTVerifierError: Error {
-        case unableToFetchJWKs
-        case invalidKID
-        case invalidJWTFormat
-    }
-    
     let token: String
     let networkClient: NetworkClient
     
-    init(token: String, networkClient: NetworkClient) {
+    init(token: String, networkClient: NetworkClient = NetworkClient()) {
         self.token = token
         self.networkClient = networkClient
     }
 }
 
 extension JWTVerifier {
-    func verifyCredential() async throws -> UserCredential? {
-        guard let jwksInfo = try await fetchJWKs() else {
-            throw JWTVerifierError.unableToFetchJWKs
-        }
+    func verifyCredential() async throws -> IdTokenInfo? {
+        let jwksInfo = try await fetchJWKs()
         
-        guard let kid = try extractKIDFromHeader() else { return nil }
-        
-        guard let jwk = try jwksInfo.jwkForKID(kid) else {
+        guard let kid = try extractKIDFromHeader(),
+              let jwk = try jwksInfo.jwkForKID(kid) else {
             throw JWTVerifierError.invalidKID
         }
         
@@ -38,13 +28,17 @@ extension JWTVerifier {
 }
 
 extension JWTVerifier {
-    private func fetchJWKs() async throws -> JWKSInfo? {
+    private func fetchJWKs() async throws -> JWKSInfo {
         var request = URLRequest(url: AppEnvironment.jwskURL)
         request.httpMethod = "GET"
 
-        let data = try await networkClient.makeRequest(request)
-        let jwksInfo = try JSONDecoder().decode(JWKSInfo.self, from: data)
-        return jwksInfo
+        do {
+            let data = try await networkClient.makeRequest(request)
+            let jwksInfo = try JSONDecoder().decode(JWKSInfo.self, from: data)
+            return jwksInfo
+        } catch {
+            throw JWTVerifierError.unableToFetchJWKs
+        }
     }
 
     private func extractKIDFromHeader() throws -> String? {
