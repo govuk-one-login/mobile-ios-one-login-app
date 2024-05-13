@@ -6,8 +6,7 @@ typealias ModalInfoWithButtons = ModalInfoViewModel &
                                  ModalInfoExtraViewModel &
                                  PageWithPrimaryButtonViewModel &
                                  PageWithSecondaryButtonViewModel &
-                                 PageWithTextButtonViewModel &
-                                 BaseViewModel
+                                 PageWithTextButtonViewModel
 
 struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     let title: GDSLocalisedString = "app_acceptAnalyticsPreferences_title"
@@ -17,9 +16,6 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     let secondaryButtonViewModel: ButtonViewModel
     let textButtonViewModel: ButtonViewModel
     let preventModalDismiss: Bool = true
-
-    var rightBarButtonTitle: GDSLocalisedString?
-    var backButtonIsHidden: Bool = true
     
     init(primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void,
@@ -33,13 +29,5 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
         self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink") {
             textButtonAction()
         }
-    }
-    
-    func didAppear() {
-        // Conforming to BaseViewModel
-    }
-    
-    func didDismiss() {
-        // Conforming to BaseViewModel
     }
 }

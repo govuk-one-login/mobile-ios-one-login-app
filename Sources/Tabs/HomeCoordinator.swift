@@ -20,7 +20,6 @@ final class HomeCoordinator: NSObject,
     func start() {
         root.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
-                                         title: "app_homeTitle",
                                          sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
         let hc = TabbedViewController(viewModel: viewModel,
                                       headerView: SignInView(viewModel: SignInViewModel()))

@@ -5,11 +5,11 @@ import UIKit
 final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
-    private var viewModel: TabbedViewModel & BaseViewModel
+    private var viewModel: TabbedViewModel
     private let headerView: UIView?
     private var accessToken: String?
     
-    init(viewModel: TabbedViewModel & BaseViewModel,
+    init(viewModel: TabbedViewModel,
          headerView: UIView? = nil) {
         self.viewModel = viewModel
         self.headerView = headerView
@@ -24,7 +24,7 @@ final class TabbedViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = viewModel.navigationTitle?.value
+        title = viewModel.navigationTitle.value
         configureTableView()
     }
     

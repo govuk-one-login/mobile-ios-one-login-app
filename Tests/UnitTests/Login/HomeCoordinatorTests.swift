@@ -3,19 +3,23 @@ import XCTest
 
 @MainActor
 final class HomeCoordinatorTests: XCTestCase {
-    
-    var sut: HomeCoordinator!
+    var mockAnalyticsService: MockAnalyticsService!
     var window: UIWindow!
+    var sut: HomeCoordinator!
 
     override func setUp() {
         super.setUp()
-        sut = HomeCoordinator()
+        
+        mockAnalyticsService = MockAnalyticsService()
         window = .init()
+        sut = HomeCoordinator(analyticsService: mockAnalyticsService)
     }
 
     override func tearDown() {
-        sut = nil
+        mockAnalyticsService = nil
         window = nil
+        sut = nil
+        
         super.tearDown()
     }
 

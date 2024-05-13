@@ -3,26 +3,33 @@ import GDSCommon
 import XCTest
 
 final class TabbedViewControllerTests: XCTestCase {
-
+    var mockAnalyticsService: MockAnalyticsService!
     var viewModel: TabbedViewModel!
     var sut: TabbedViewController!
     
     private var didTapRow = false
     
     override func setUp() {
-        viewModel = TabbedViewModel(sectionModels: createSectionModels())
+        super.setUp()
+        
+        mockAnalyticsService = MockAnalyticsService()
+        viewModel = HomeTabViewModel(analyticsService: mockAnalyticsService,
+                                     sectionModels: createSectionModels())
         sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
         sut.loadViewIfNeeded()
     }
-
+    
     override func tearDown() {
+        mockAnalyticsService = nil
         viewModel = nil
         sut = nil
         didTapRow = false
         
         super.tearDown()
     }
-    
+}
+
+extension TabbedViewControllerTests {
     func test_numberOfSections() {
         XCTAssertEqual(sut.numberOfSections(in: try sut.tabbedTableView), 1)
     }
@@ -55,7 +62,7 @@ final class TabbedViewControllerTests: XCTestCase {
         let testSection = TabbedViewSectionFactory.createSection(header: "Test Header",
                                                                  footer: "Test Footer",
                                                                  cellModels: [.init(cellTitle: "Test Cell",
-                                                                                   accessoryView: "arrow.up.right",
+                                                                                    accessoryView: "arrow.up.right",
                                                                                     textColor: .systemRed) {
             self.didTapRow = true
         }])

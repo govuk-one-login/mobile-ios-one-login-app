@@ -24,7 +24,7 @@ extension AnalyticsService {
     mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
         additionalParameters = additionalParameters.merging([
             "taxonomy_level2": appTaxonomy.rawValue,
-            "taxonomy_level3": appTaxonomy.rawValue == "profile" ? "my profile" : "undefined"
+            "taxonomy_level3": appTaxonomy == .profile ? "my profile" : "undefined"
         ]) { $1 }
     }
     

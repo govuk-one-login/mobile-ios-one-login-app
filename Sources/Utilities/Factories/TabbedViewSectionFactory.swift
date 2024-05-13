@@ -6,15 +6,15 @@ struct TabbedViewSectionFactory {
     
     @MainActor
     static func homeSections(coordinator: HomeCoordinator) -> [TabbedViewSectionModel] {
-#if DEBUG
+        #if DEBUG
         let homeSection = createSection(header: "Developer Menu",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "Developer Menu") {
             coordinator.showDeveloperMenu()
         }])
-#else
+        #else
         let homeSection = TabbedViewSectionModel()
-#endif
+        #endif
         return [homeSection]
     }
 
