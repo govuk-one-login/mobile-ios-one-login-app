@@ -116,7 +116,7 @@ extension MainCoordinator: UITabBarControllerDelegate {
             }
         }
         if let event {
-            analyticsCenter.analyticsService.resetAdditionalParameters()
+            analyticsCenter.analyticsService.setAdditionalParameters(appTaxonomy: .login)
             analyticsCenter.analyticsService.logEvent(event)
         }
     }

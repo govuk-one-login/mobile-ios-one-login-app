@@ -4,6 +4,7 @@ import Logging
 typealias ScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
 
 enum AppTaxonomy: String {
+    case login
     case home
     case wallet
     case profile
@@ -25,13 +26,6 @@ extension AnalyticsService {
         additionalParameters = additionalParameters.merging([
             "taxonomy_level2": appTaxonomy.rawValue,
             "taxonomy_level3": appTaxonomy == .profile ? "my profile" : "undefined"
-        ]) { $1 }
-    }
-    
-    mutating func resetAdditionalParameters() {
-        additionalParameters = additionalParameters.merging([
-            "taxonomy_level2": "login",
-            "taxonomy_level3": "undefined"
         ]) { $1 }
     }
 }
