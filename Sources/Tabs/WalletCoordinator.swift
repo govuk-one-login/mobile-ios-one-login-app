@@ -1,4 +1,5 @@
 import Coordination
+import GDSCommon
 import UIKit
 
 final class WalletCoordinator: NSObject,
@@ -9,7 +10,9 @@ final class WalletCoordinator: NSObject,
     let root = UINavigationController()
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: "Wallet", image: UIImage(systemName: "wallet.pass"), tag: 1)
+        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
+                                       image: UIImage(systemName: "wallet.pass"),
+                                       tag: 1)
         let vc = UIViewController()
         root.setViewControllers([vc], animated: true)
     }

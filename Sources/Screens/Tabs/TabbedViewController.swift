@@ -5,7 +5,7 @@ import UIKit
 final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
-    private let viewModel: TabbedViewModel
+    private var viewModel: TabbedViewModel
     private let headerView: UIView?
     private var accessToken: String?
     
@@ -24,7 +24,7 @@ final class TabbedViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = viewModel.navigationTitle?.value
+        title = viewModel.navigationTitle.value
         configureTableView()
     }
     
@@ -50,6 +50,11 @@ final class TabbedViewController: BaseViewController {
         guard let headerView = headerView as? SignInView else { return }
         headerView.updateEmail("sarahelizabeth_1991@gmail.com")
         resizeHeaderView()
+        viewModel.isLoggedIn = true
+    }
+    
+    func screenAnalytics() {
+        viewModel.didAppear()
     }
     
     private func resizeHeaderView() {

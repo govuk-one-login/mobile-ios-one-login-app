@@ -9,7 +9,7 @@ final class MainCoordinator: NSObject,
                              TabCoordinator {
     let windowManager: WindowManagement
     let root: UITabBarController
-    let analyticsCenter: AnalyticsCentral
+    var analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
@@ -82,7 +82,7 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator()
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -93,7 +93,8 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(urlOpener: UIApplication.shared)
+        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                    urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
     }
@@ -105,16 +106,17 @@ extension MainCoordinator: UITabBarControllerDelegate {
         var event: IconEvent? {
             switch viewController.tabBarItem.tag {
             case 0:
-                .init(textKey: "home")
+                .init(textKey: "app_homeTitle")
             case 1:
-                .init(textKey: "wallet")
+                .init(textKey: "app_walletTitle")
             case 2:
-                .init(textKey: "profile")
+                .init(textKey: "app_profileTitle")
             default:
                 nil
             }
         }
         if let event {
+            analyticsCenter.analyticsService.setAdditionalParameters(appTaxonomy: .login)
             analyticsCenter.analyticsService.logEvent(event)
         }
     }

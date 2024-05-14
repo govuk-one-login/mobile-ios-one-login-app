@@ -2,7 +2,7 @@ import Foundation
 import Logging
 
 final class AnalyticsCenter: AnalyticsCentral {
-    private(set) var analyticsService: AnalyticsService
+    var analyticsService: AnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     
     init(analyticsService: AnalyticsService,

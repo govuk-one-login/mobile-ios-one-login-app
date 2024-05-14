@@ -2,7 +2,7 @@ import Logging
 @testable import OneLogin
 
 final class MockAnalyticsCenter: AnalyticsCentral {
-    let analyticsService: AnalyticsService
+    var analyticsService: AnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     
     init(analyticsService: AnalyticsService,

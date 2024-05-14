@@ -94,6 +94,10 @@
 "app_displayEmail" = "Rydych wedi mewngofnodi fel\n%@";
 
 
+// MARK: Wallet screen
+"app_walletTitle" = "Waled";
+
+
 // MARK: Profile screen
 "app_profileTitle" = "Proffil";
 

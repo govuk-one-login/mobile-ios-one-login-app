@@ -94,6 +94,10 @@
 "app_displayEmail" = "You’re signed in as\n%@";
 
 
+// MARK: Wallet screen
+"app_walletTitle" = "Wallet";
+
+
 // MARK: Profile screen
 "app_profileTitle" = "Profile";
 

@@ -3,19 +3,21 @@ import XCTest
 
 final class DeveloperMenuViewControllerTests: XCTestCase {
     var mockNetworkClient: MockNetworkClient!
+    var devMenuViewModel: DeveloperMenuViewModel!
     var sut: DeveloperMenuViewController!
     
     override func setUp() {
         super.setUp()
         
         mockNetworkClient = MockNetworkClient()
-        let devMenuViewModel = DeveloperMenuViewModel()
+        devMenuViewModel = DeveloperMenuViewModel()
         sut = DeveloperMenuViewController(viewModel: devMenuViewModel,
                                           networkClient: mockNetworkClient)
     }
     
     override func tearDown() {
         mockNetworkClient = nil
+        devMenuViewModel = nil
         sut = nil
         
         super.tearDown()

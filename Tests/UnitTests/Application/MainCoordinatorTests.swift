@@ -107,6 +107,8 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_didSelect_tabBarItem_wallet() throws {
@@ -120,6 +122,8 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_didSelect_tabBarItem_profile() throws {
@@ -133,6 +137,8 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {

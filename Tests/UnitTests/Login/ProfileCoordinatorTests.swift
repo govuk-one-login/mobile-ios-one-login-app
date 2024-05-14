@@ -4,22 +4,24 @@ import XCTest
 
 @MainActor
 final class ProfileCoordinatorTests: XCTestCase {
-
-    var sut: ProfileCoordinator!
-    var window: UIWindow!
+    var mockAnalyticsService: MockAnalyticsService!
     var urlOpener: URLOpener!
+    var sut: ProfileCoordinator!
 
     override func setUp() {
         super.setUp()
+        
+        mockAnalyticsService = MockAnalyticsService()
         urlOpener = MockURLOpener()
-        sut = ProfileCoordinator(urlOpener: urlOpener)
-        window = .init()
+        sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
+                                 urlOpener: urlOpener)
     }
 
     override func tearDown() {
-        sut = nil
+        mockAnalyticsService = nil
         urlOpener = nil
-        window = nil
+        sut = nil
+        
         super.tearDown()
     }
 
