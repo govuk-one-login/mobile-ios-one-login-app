@@ -176,10 +176,12 @@ extension AuthenticationCoordinatorTests {
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
-        // and user cancelled the login modal
+        // and the subsequent call to the JWKS service fails
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
-        // THEN user is returned to the intro screen
-        // THEN the loginError should be a userCancelled error
+        // THEN the login error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be an unableToFetchJWKs error
         sut.loginError = JWTVerifierError.unableToFetchJWKs
     }
 }
