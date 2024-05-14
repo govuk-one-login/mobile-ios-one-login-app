@@ -117,25 +117,25 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_profileScreenKeys() {
         XCTAssertEqual("app_profileTitle".getWelshString(),
                        "Proffil")
-        XCTAssertEqual("app_profileSubtitle1".getEnglishString(),
+        XCTAssertEqual("app_profileSubtitle1".getWelshString(),
                        "Eich manylion")
-        XCTAssertEqual("app_manageSignInDetailsLink".getEnglishString(),
+        XCTAssertEqual("app_manageSignInDetailsLink".getWelshString(),
                        "Rheoli manylion mewngofnodi")
-        XCTAssertEqual("app_manageSignInDetailsFootnote".getEnglishString(),
+        XCTAssertEqual("app_manageSignInDetailsFootnote".getWelshString(),
                        "Rheoli eich manylion mewngofnodi gyda'r gwasanaeth gwe GOV.UK One Login. Bydd angen i chi fewngofnodi eto.")
-        XCTAssertEqual("app_signInDetails".getEnglishString(),
+        XCTAssertEqual("app_signInDetails".getWelshString(),
                        "Manylion mewngofnodi")
-        XCTAssertEqual("app_profileSubtitle2".getEnglishString(),
+        XCTAssertEqual("app_profileSubtitle2".getWelshString(),
                        "Cyfreithiol")
-        XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
+        XCTAssertEqual("app_privacyNoticeLink2".getWelshString(),
                        "Rhybudd Preifatrwydd GOV.UK One Login")
-        XCTAssertEqual("app_profileSubtitle3".getEnglishString(),
+        XCTAssertEqual("app_profileSubtitle3".getWelshString(),
                        "Help ac adborth")
-        XCTAssertEqual("app_reportAProblemGiveFeedbackLink".getEnglishString(),
+        XCTAssertEqual("app_reportAProblemGiveFeedbackLink".getWelshString(),
                        "Rhoi gwybod am broblem neu roi adborth")
-        XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
+        XCTAssertEqual("app_appGuidanceLink".getWelshString(),
                        "Canllawiau ar ddefnyddio'r ap")
-        XCTAssertEqual("app_signOutButton".getEnglishString(),
+        XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
     }
 }
