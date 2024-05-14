@@ -101,6 +101,43 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_unlockButton".getWelshString(),
                        "Datgloi")
     }
+    
+    func test_homeScreenKeys() {
+        XCTAssertEqual("app_homeTitle".getWelshString(),
+                       "Hafan")
+        XCTAssertEqual("app_displayEmail".getWelshString(),
+                       "Rydych wedi mewngofnodi fel\n%@")
+    }
+    
+    func test_walletScreenKeys() {
+        XCTAssertEqual("app_walletTitle".getWelshString(),
+                       "Waled")
+    }
+    
+    func test_profileScreenKeys() {
+        XCTAssertEqual("app_profileTitle".getWelshString(),
+                       "Proffil")
+        XCTAssertEqual("app_profileSubtitle1".getEnglishString(),
+                       "Eich manylion")
+        XCTAssertEqual("app_manageSignInDetailsLink".getEnglishString(),
+                       "Rheoli manylion mewngofnodi")
+        XCTAssertEqual("app_manageSignInDetailsFootnote".getEnglishString(),
+                       "Rheoli eich manylion mewngofnodi gyda'r gwasanaeth gwe GOV.UK One Login. Bydd angen i chi fewngofnodi eto.")
+        XCTAssertEqual("app_signInDetails".getEnglishString(),
+                       "Manylion mewngofnodi")
+        XCTAssertEqual("app_profileSubtitle2".getEnglishString(),
+                       "Cyfreithiol")
+        XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
+                       "Rhybudd Preifatrwydd GOV.UK One Login")
+        XCTAssertEqual("app_profileSubtitle3".getEnglishString(),
+                       "Help ac adborth")
+        XCTAssertEqual("app_reportAProblemGiveFeedbackLink".getEnglishString(),
+                       "Rhoi gwybod am broblem neu roi adborth")
+        XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
+                       "Canllawiau ar ddefnyddio'r ap")
+        XCTAssertEqual("app_signOutButton".getEnglishString(),
+                       "Allgofnodi")
+    }
 }
 
 // swiftlint:enable line_length

@@ -106,11 +106,11 @@ extension MainCoordinator: UITabBarControllerDelegate {
         var event: IconEvent? {
             switch viewController.tabBarItem.tag {
             case 0:
-                .init(textKey: "home")
+                .init(textKey: "app_homeTitle")
             case 1:
-                .init(textKey: "wallet")
+                .init(textKey: "app_walletTitle")
             case 2:
-                .init(textKey: "profile")
+                .init(textKey: "app_profileTitle")
             default:
                 nil
             }

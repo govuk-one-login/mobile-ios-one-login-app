@@ -101,6 +101,47 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_unlockButton".getEnglishString(),
                        "Unlock")
     }
+    
+    func test_homeScreenKeys() {
+        XCTAssertEqual("app_homeTitle".getEnglishString(),
+                       "Home")
+        XCTAssertEqual("app_displayEmail".getEnglishString(),
+                       "You’re signed in as\n%@")
+    }
+    
+    func test_walletScreenKeys() {
+        XCTAssertEqual("app_walletTitle".getEnglishString(),
+                       "Wallet")
+    }
+    
+    func test_profileScreenKeys() {
+        XCTAssertEqual("app_profileTitle".getEnglishString(),
+                       "Profile")
+        XCTAssertEqual("app_profileSubtitle1".getEnglishString(),
+                       "Your details")
+        XCTAssertEqual("app_manageSignInDetailsLink".getEnglishString(),
+                       "Manage sign in details")
+        XCTAssertEqual("app_manageSignInDetailsFootnote".getEnglishString(),
+                       "Manage your sign in details with the GOV.UK One Login web service. You’ll need to sign in again.")
+        XCTAssertEqual("app_signInDetails".getEnglishString(),
+                       "Sign in details")
+        XCTAssertEqual("app_profileSubtitle2".getEnglishString(),
+                       "Legal")
+        XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
+                       "GOV.UK One Login privacy notice")
+        XCTAssertEqual("app_profileSubtitle3".getEnglishString(),
+                       "Help and feedback")
+        XCTAssertEqual("app_reportAProblemGiveFeedbackLink".getEnglishString(),
+                       "Report a problem or give feedback")
+        XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
+                       "Guidance about using the app")
+        XCTAssertEqual("app_signOutButton".getEnglishString(),
+                       "Sign out")
+    }
 }
 
 // swiftlint:enable line_length
+
+// "app_appGuidanceLink" = "Guidance about using the app";
+//
+// "app_signOutButton" = "Sign out";

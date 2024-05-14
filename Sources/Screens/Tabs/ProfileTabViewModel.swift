@@ -23,7 +23,7 @@ class ProfileTabViewModel: TabbedViewModel {
             analyticsService.setAdditionalParameters(appTaxonomy: .profile)
             let screen = ScreenView(id: TabAnalyticsScreenID.profile.rawValue,
                                     screen: TabAnalyticsScreen.profile,
-                                    titleKey: navigationTitle.value)
+                                    titleKey: "app_profileTitle")
             analyticsService.trackScreen(screen)
         }
     }

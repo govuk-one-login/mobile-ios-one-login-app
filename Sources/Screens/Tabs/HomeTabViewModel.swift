@@ -23,7 +23,7 @@ class HomeTabViewModel: TabbedViewModel {
             analyticsService.setAdditionalParameters(appTaxonomy: .home)
             let screen = ScreenView(id: TabAnalyticsScreenID.home.rawValue,
                                     screen: TabAnalyticsScreen.home,
-                                    titleKey: navigationTitle.value)
+                                    titleKey: "app_homeTitle")
             analyticsService.trackScreen(screen)
         }
     }
