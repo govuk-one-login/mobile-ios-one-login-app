@@ -2197,7 +2197,7 @@
 			};
 			name = Staging;
 		};
-		C8FBC2C22AF3B3A400C8B6E0 /* Build */ = {
+		C8FBC2C22AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2257,9 +2257,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Build;
+			name = Debug_Build;
 		};
-		C8FBC2C32AF3B3A400C8B6E0 /* Build */ = {
+		C8FBC2C32AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2297,9 +2297,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Build;
+			name = Debug_Build;
 		};
-		C8FBC2C42AF3B3A400C8B6E0 /* Build */ = {
+		C8FBC2C42AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -2317,9 +2317,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
 			};
-			name = Build;
+			name = Debug_Build;
 		};
-		C8FBC2C52AF3B3A400C8B6E0 /* Build */ = {
+		C8FBC2C52AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2341,9 +2341,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
 			};
-			name = Build;
+			name = Debug_Build;
 		};
-		C8FBC2C62AF3B3A400C8B6E0 /* Build */ = {
+		C8FBC2C62AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -2365,9 +2365,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
 			};
-			name = Build;
+			name = Debug_Build;
 		};
-		C8FBC2C72AF3B3A400C8B6E0 /* Build */ = {
+		C8FBC2C72AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -2384,7 +2384,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = OneLogin;
 			};
-			name = Build;
+			name = Debug_Build;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2394,7 +2394,7 @@
 			buildConfigurations = (
 				2196020F2A976305008F3427 /* Debug */,
 				C8176E7B2AF40D0D00C64A0D /* Staging */,
-				C8FBC2C22AF3B3A400C8B6E0 /* Build */,
+				C8FBC2C22AF3B3A400C8B6E0 /* Debug_Build */,
 				219602102A976305008F3427 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2405,7 +2405,7 @@
 			buildConfigurations = (
 				219602122A976305008F3427 /* Debug */,
 				C8176E7C2AF40D0D00C64A0D /* Staging */,
-				C8FBC2C32AF3B3A400C8B6E0 /* Build */,
+				C8FBC2C32AF3B3A400C8B6E0 /* Debug_Build */,
 				219602132A976305008F3427 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2416,7 +2416,7 @@
 			buildConfigurations = (
 				219602152A976305008F3427 /* Debug */,
 				C8176E7D2AF40D0D00C64A0D /* Staging */,
-				C8FBC2C42AF3B3A400C8B6E0 /* Build */,
+				C8FBC2C42AF3B3A400C8B6E0 /* Debug_Build */,
 				219602162A976305008F3427 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2427,7 +2427,7 @@
 			buildConfigurations = (
 				219602182A976305008F3427 /* Debug */,
 				C8176E802AF40D0D00C64A0D /* Staging */,
-				C8FBC2C72AF3B3A400C8B6E0 /* Build */,
+				C8FBC2C72AF3B3A400C8B6E0 /* Debug_Build */,
 				219602192A976305008F3427 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2438,7 +2438,7 @@
 			buildConfigurations = (
 				25537C442AF2B2600059DCD2 /* Debug */,
 				C8176E7E2AF40D0D00C64A0D /* Staging */,
-				C8FBC2C52AF3B3A400C8B6E0 /* Build */,
+				C8FBC2C52AF3B3A400C8B6E0 /* Debug_Build */,
 				25537C462AF2B2600059DCD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2449,7 +2449,7 @@
 			buildConfigurations = (
 				25537C552AF2B38E0059DCD2 /* Debug */,
 				C8176E7F2AF40D0D00C64A0D /* Staging */,
-				C8FBC2C62AF3B3A400C8B6E0 /* Build */,
+				C8FBC2C62AF3B3A400C8B6E0 /* Debug_Build */,
 				25537C572AF2B38E0059DCD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
