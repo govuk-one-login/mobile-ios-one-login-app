@@ -48,7 +48,7 @@ final class TabbedViewController: BaseViewController {
         // TODO: DCMAW-8544 To be replaced by secure token JWT with capability to extract e-mail for display
         self.accessToken = accessToken
         guard let headerView = headerView as? SignInView else { return }
-        headerView.updateEmail("sarahelizabeth_1991@gmail.com")
+        headerView.updateEmail("example@email.com")
         resizeHeaderView()
         viewModel.isLoggedIn = true
     }

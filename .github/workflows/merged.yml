@@ -200,7 +200,7 @@ jobs:
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
 
-          bundle exec fastlane prerelease configuration:"Build" \
+          bundle exec fastlane prerelease configuration:"Debug_Build" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose

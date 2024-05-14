@@ -170,4 +170,18 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be an unknown generic error
         sut.loginError = AuthenticationError.generic
     }
+    
+    func test_loginError_jwterror() throws {
+        mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
+        sut.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and the subsequent call to the JWKS service fails
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        // THEN the login error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be an unableToFetchJWKs error
+        sut.loginError = JWTVerifierError.unableToFetchJWKs
+    }
 }

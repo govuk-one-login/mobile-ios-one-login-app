@@ -28,7 +28,11 @@ final class AuthenticationCoordinator: NSObject,
         Task(priority: .userInitiated) {
             do {
                 tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
-                tokenHolder.accessToken = tokenHolder.tokenResponse?.accessToken
+                // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
+                if AppEnvironment.callingSTSEnabled,
+                    let idToken = tokenHolder.tokenResponse?.idToken {
+                    tokenHolder.idToken = try await verifyIDToken(idToken)
+                }
                 finish()
             } catch let error as LoginError where error == .network {
                 let networkErrorScreen = errorPresenter
@@ -41,17 +45,13 @@ final class AuthenticationCoordinator: NSObject,
             } catch let error as LoginError where error == .non200,
                     let error as LoginError where error == .invalidRequest,
                     let error as LoginError where error == .clientError {
-                let unableToLoginErrorScreen = errorPresenter
-                    .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                              analyticsService: analyticsService) { [unowned self] in
-                        root.popViewController(animated: true)
-                        finish()
-                    }
-                root.pushViewController(unableToLoginErrorScreen, animated: true)
-                loginError = error
+                showLoginErrorScreen(error)
             } catch let error as LoginError where error == .userCancelled {
                 loginError = error
                 finish()
+            } catch let error as JWTVerifierError {
+                loginError = error
+                showLoginErrorScreen(error)
             } catch {
                 let genericErrorScreen = errorPresenter
                     .createGenericError(errorDescription: error.localizedDescription,
@@ -78,5 +78,23 @@ final class AuthenticationCoordinator: NSObject,
             root.pushViewController(genericErrorScreen, animated: true)
             loginError = error
         }
+    }
+}
+
+extension AuthenticationCoordinator {
+    private func verifyIDToken(_ token: String) async throws -> IdTokenInfo? {
+        let verifier = JWTVerifier(token: token)
+        return try await verifier.verifyCredential()
+    }
+    
+    private func showLoginErrorScreen(_ error: Error) {
+        let unableToLoginErrorScreen = errorPresenter
+            .createUnableToLoginError(errorDescription: error.localizedDescription,
+                                      analyticsService: analyticsService) { [unowned self] in
+                root.popViewController(animated: true)
+                finish()
+            }
+        root.pushViewController(unableToLoginErrorScreen, animated: true)
+        loginError = error
     }
 }
