@@ -24,6 +24,16 @@ final class ProfileCoordinatorTests: XCTestCase {
         
         super.tearDown()
     }
+    
+    func test_tabBarItem() throws {
+        sut.start()
+        let profileTab = UITabBarItem(title: "Profile",
+                                      image: UIImage(systemName: "person.crop.circle"),
+                                      tag: 2)
+        XCTAssertEqual(sut.root.tabBarItem.title, profileTab.title)
+        XCTAssertEqual(sut.root.tabBarItem.image, profileTab.image)
+        XCTAssertEqual(sut.root.tabBarItem.tag, profileTab.tag)
+    }
 
     func test_updateToken() throws {
         sut.start()

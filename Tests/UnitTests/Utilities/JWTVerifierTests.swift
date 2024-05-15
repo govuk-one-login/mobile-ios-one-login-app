@@ -5,7 +5,6 @@ import MockNetworking
 import XCTest
 
 final class JWTVerifierTests: XCTestCase {
-
     var sut: JWTVerifier!
     var networkClient: NetworkClient!
     

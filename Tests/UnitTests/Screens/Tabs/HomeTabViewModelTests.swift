@@ -3,21 +3,20 @@ import GDSAnalytics
 import XCTest
 
 final class HomeTabViewModelTests: XCTestCase {
-
     var mockAnalyticsService: MockAnalyticsService!
     var sut: HomeTabViewModel!
-
+    
     override func setUp() {
         super.setUp()
-
+        
         mockAnalyticsService = MockAnalyticsService()
         sut = HomeTabViewModel(analyticsService: mockAnalyticsService)
     }
-
+    
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
-
+        
         super.tearDown()
     }
 }
@@ -27,7 +26,7 @@ extension HomeTabViewModelTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
         XCTAssertTrue(sut.backButtonIsHidden)
     }
-
+    
     func test_didAppear() throws {
         sut.isLoggedIn = true
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)

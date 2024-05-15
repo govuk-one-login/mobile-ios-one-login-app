@@ -3,21 +3,20 @@ import GDSAnalytics
 import XCTest
 
 final class ProfileTabViewModelTests: XCTestCase {
-
     var mockAnalyticsService: MockAnalyticsService!
     var sut: ProfileTabViewModel!
-
+    
     override func setUp() {
         super.setUp()
-
+        
         mockAnalyticsService = MockAnalyticsService()
         sut = ProfileTabViewModel(analyticsService: mockAnalyticsService)
     }
-
+    
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
-
+        
         super.tearDown()
     }
 }
@@ -27,7 +26,7 @@ extension ProfileTabViewModelTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_profileTitle")
         XCTAssertTrue(sut.backButtonIsHidden)
     }
-
+    
     func test_didAppear() throws {
         sut.isLoggedIn = true
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)

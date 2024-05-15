@@ -22,7 +22,7 @@ final class ProfileCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: "app_profileTitle",
+        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_profileTitle").value,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
         let viewModel = ProfileTabViewModel(analyticsService: analyticsService,

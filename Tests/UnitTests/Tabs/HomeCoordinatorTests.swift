@@ -6,7 +6,7 @@ final class HomeCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var window: UIWindow!
     var sut: HomeCoordinator!
-
+    
     override func setUp() {
         super.setUp()
         
@@ -14,7 +14,7 @@ final class HomeCoordinatorTests: XCTestCase {
         window = .init()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService)
     }
-
+    
     override func tearDown() {
         mockAnalyticsService = nil
         window = nil
@@ -22,7 +22,17 @@ final class HomeCoordinatorTests: XCTestCase {
         
         super.tearDown()
     }
-
+    
+    func test_tabBarItem() throws {
+        sut.start()
+        let homeTab = UITabBarItem(title: "Home",
+                                   image: UIImage(systemName: "house"),
+                                   tag: 0)
+        XCTAssertEqual(sut.root.tabBarItem.title, homeTab.title)
+        XCTAssertEqual(sut.root.tabBarItem.image, homeTab.image)
+        XCTAssertEqual(sut.root.tabBarItem.tag, homeTab.tag)
+    }
+    
     func test_showDeveloperMenu() throws {
         sut.start()
         window.rootViewController = sut.root
