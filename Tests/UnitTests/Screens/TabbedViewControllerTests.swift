@@ -10,7 +10,6 @@ final class TabbedViewControllerTests: XCTestCase {
     
     private var didTapRow = false
     private var didAppearCalled = false
-
     
     override func setUp() {
         super.setUp()
