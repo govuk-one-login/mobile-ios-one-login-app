@@ -46,6 +46,8 @@ final class MainCoordinator: NSObject,
                 if userStore.returningAuthenticatedUser {
                     do {
                         tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                        loginCoordinator?.root.dismiss(animated: false)
+                        loginCoordinator?.finish()
                         homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
                         action()
                     } catch {
