@@ -47,8 +47,7 @@ final class MainCoordinator: NSObject,
                     do {
                         tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
                         loginCoordinator?.root.dismiss(animated: false)
-                        loginCoordinator?.finish()
-                        homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+                        updateToken()
                         action()
                     } catch {
                         print("Error getting token: \(error)")
@@ -100,6 +99,13 @@ extension MainCoordinator {
         addTab(pc)
         profileCoordinator = pc
     }
+    
+    private func updateToken() {
+        homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+        profileCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
+        networkClient = NetworkClient(authenticationProvider: tokenHolder)
+        homeCoordinator?.networkClient = networkClient
+    }
 }
 
 extension MainCoordinator: UITabBarControllerDelegate {
@@ -128,10 +134,7 @@ extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
-            homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-            profileCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-            networkClient = NetworkClient(authenticationProvider: tokenHolder)
-            homeCoordinator?.networkClient = networkClient
+            updateToken()
         default:
             break
         }
