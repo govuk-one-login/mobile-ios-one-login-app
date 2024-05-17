@@ -260,5 +260,8 @@ extension LoginCoordinatorTests {
         sut.didRegainFocus(fromChild: authCoordinator)
         // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        let vc = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
+        let introButton: UIButton = try XCTUnwrap(vc.view[child: "intro-button"])
+        XCTAssertTrue(introButton.isEnabled)
     }
 }
