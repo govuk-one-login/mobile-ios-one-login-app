@@ -58,7 +58,7 @@ final class LoginCoordinator: NSObject,
                 do {
                     tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
                     windowManager.hideUnlockWindow()
-                    root.dismiss(animated: true)
+                    root.dismiss(animated: false)
                     finish()
                 } catch SecureStoreError.unableToRetrieveFromUserDefaults,
                         SecureStoreError.cantInitialiseData,
