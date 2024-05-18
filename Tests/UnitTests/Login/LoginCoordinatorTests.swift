@@ -98,13 +98,13 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
         // WHEN the button to login is tapped
-        let introScreen = try XCTUnwrap(navigationController.topViewController as? IntroViewController)
+        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
         let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
         introButton.sendActions(for: .touchUpInside)
         // THEN the displayed screen should be the Network Connection error screen
-        waitForTruth(self.navigationController.viewControllers.count == 2, timeout: 20)
+        waitForTruth(self.sut.root.viewControllers.count == 2, timeout: 20)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
-        let errorScreen = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
     
@@ -260,8 +260,8 @@ extension LoginCoordinatorTests {
         sut.didRegainFocus(fromChild: authCoordinator)
         // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        let vc = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
-        let introButton: UIButton = try XCTUnwrap(vc.view[child: "intro-button"])
+        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
+        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
         XCTAssertTrue(introButton.isEnabled)
     }
 }
