@@ -106,6 +106,9 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
+        let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
+        errorButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(introButton.isEnabled)
     }
     
     func test_firstTimeUserFlow() throws {

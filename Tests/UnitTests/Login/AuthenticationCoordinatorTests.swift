@@ -157,19 +157,6 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be a userCancelled error
         sut.loginError = LoginError.userCancelled
     }
-
-    func test_handleUniversalLink_catchAllError() throws {
-        mockLoginSession.errorFromFinalise = AuthenticationError.generic
-        // WHEN the AuthenticationCoordinator calls finalise on the session
-        // and there is an unknown error
-        let callbackURL = URL(string: "https://www.test.com")!
-        sut.handleUniversalLink(callbackURL)
-        // THEN the 'generic' error screen is shown
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
-        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
-        // THEN the loginError should be an unknown generic error
-        sut.loginError = AuthenticationError.generic
-    }
     
     func test_loginError_jwterror() throws {
         mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
@@ -183,5 +170,18 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
         sut.loginError = JWTVerifierError.unableToFetchJWKs
+    }
+    
+    func test_handleUniversalLink_catchAllError() throws {
+        mockLoginSession.errorFromFinalise = AuthenticationError.generic
+        // WHEN the AuthenticationCoordinator calls finalise on the session
+        // and there is an unknown error
+        let callbackURL = URL(string: "https://www.test.com")!
+        sut.handleUniversalLink(callbackURL)
+        // THEN the 'generic' error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+        // THEN the loginError should be an unknown generic error
+        sut.loginError = AuthenticationError.generic
     }
 }
