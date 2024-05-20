@@ -12,7 +12,7 @@ final class LoginCoordinator: NSObject,
                               ChildCoordinator {
     let windowManager: WindowManagement
     let root: UINavigationController
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     let analyticsCenter: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
@@ -20,8 +20,8 @@ final class LoginCoordinator: NSObject,
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    private unowned var authCoordinator: AuthenticationCoordinator?
-    unowned var introViewController: IntroViewController?
+    private var authCoordinator: AuthenticationCoordinator?
+    var introViewController: IntroViewController?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,

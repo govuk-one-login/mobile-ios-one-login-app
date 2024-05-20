@@ -14,9 +14,9 @@ final class MainCoordinator: NSObject,
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     var networkClient: NetworkClient?
-    private weak var loginCoordinator: LoginCoordinator?
-    private unowned var homeCoordinator: HomeCoordinator?
-    private unowned var profileCoordinator: ProfileCoordinator?
+    private var loginCoordinator: LoginCoordinator?
+    private var homeCoordinator: HomeCoordinator?
+    private var profileCoordinator: ProfileCoordinator?
     
     init(windowManager: WindowManagement,
          root: UITabBarController,

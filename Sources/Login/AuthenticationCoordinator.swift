@@ -7,7 +7,7 @@ final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
     let root: UINavigationController
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     let session: LoginSession
     let analyticsService: AnalyticsService
     let errorPresenter = ErrorPresenter.self

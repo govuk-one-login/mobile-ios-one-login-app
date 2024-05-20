@@ -7,11 +7,11 @@ final class ProfileCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
                                 NavigationCoordinator {
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
-    private (set)var baseVc: TabbedViewController?
+    private(set) var baseVc: TabbedViewController?
     
     init(analyticsService: AnalyticsService,
          urlOpener: URLOpener,

@@ -6,7 +6,7 @@ final class WalletCoordinator: NSObject,
                                AnyCoordinator,
                                ChildCoordinator,
                                NavigationCoordinator {
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     
     func start() {

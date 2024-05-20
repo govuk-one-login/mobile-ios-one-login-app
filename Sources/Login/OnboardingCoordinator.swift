@@ -7,7 +7,7 @@ final class OnboardingCoordinator: NSObject,
                                    AnyCoordinator,
                                    ChildCoordinator {
     let root = UINavigationController()
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let urlOpener: URLOpener
     private let viewControllerFactory = OnboardingViewControllerFactory.self

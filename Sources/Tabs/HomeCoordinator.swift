@@ -7,7 +7,7 @@ final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
                              NavigationCoordinator {
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
     var networkClient: RequestAuthorizing?
