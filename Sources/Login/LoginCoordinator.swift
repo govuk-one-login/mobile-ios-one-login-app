@@ -21,7 +21,7 @@ final class LoginCoordinator: NSObject,
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     private unowned var authCoordinator: AuthenticationCoordinator?
-    private unowned var introViewController: IntroViewController?
+    unowned var introViewController: IntroViewController?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
@@ -83,6 +83,7 @@ final class LoginCoordinator: NSObject,
                 } else {
                     let networkErrorScreen = errorPresenter
                         .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                            introViewController?.enableIntroButton()
                             root.popViewController(animated: true)
                             if networkMonitor.isConnected {
                                 launchAuthenticationCoordinator()

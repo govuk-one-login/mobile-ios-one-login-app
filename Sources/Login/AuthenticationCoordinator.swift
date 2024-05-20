@@ -67,6 +67,9 @@ final class AuthenticationCoordinator: NSObject,
     
     func handleUniversalLink(_ url: URL) {
         do {
+            if let loginCoordinator = parentCoordinator as? LoginCoordinator {
+                loginCoordinator.introViewController?.enableIntroButton()
+            }
             try session.finalise(redirectURL: url)
         } catch {
             let genericErrorScreen = errorPresenter

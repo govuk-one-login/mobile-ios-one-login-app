@@ -256,12 +256,13 @@ extension LoginCoordinatorTests {
         authCoordinator.loginError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()
+        let vc = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
+        vc.loadView()
         // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
         sut.didRegainFocus(fromChild: authCoordinator)
         // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
-        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
+        let introButton: UIButton = try XCTUnwrap(vc.view[child: "intro-button"])
         XCTAssertTrue(introButton.isEnabled)
     }
 }
