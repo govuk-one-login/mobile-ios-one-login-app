@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import GDSCommon
 import LocalAuthentication
 import Logging
 import SecureStore
@@ -11,7 +12,7 @@ final class LoginCoordinator: NSObject,
                               ChildCoordinator {
     let windowManager: WindowManagement
     let root: UINavigationController
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     let analyticsCenter: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
@@ -19,7 +20,8 @@ final class LoginCoordinator: NSObject,
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    private weak var authCoordinator: AuthenticationCoordinator?
+    private var authCoordinator: AuthenticationCoordinator?
+    var introViewController: IntroViewController?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
@@ -81,6 +83,7 @@ final class LoginCoordinator: NSObject,
                 } else {
                     let networkErrorScreen = errorPresenter
                         .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                            introViewController?.enableIntroButton()
                             root.popViewController(animated: true)
                             if networkMonitor.isConnected {
                                 launchAuthenticationCoordinator()
@@ -90,6 +93,7 @@ final class LoginCoordinator: NSObject,
                 }
             }
         root.setViewControllers([rootViewController], animated: true)
+        introViewController = rootViewController
         launchOnboardingCoordinator()
     }
     
@@ -106,7 +110,7 @@ final class LoginCoordinator: NSObject,
                                            analyticsService: analyticsCenter.analyticsService,
                                            tokenHolder: tokenHolder)
         openChildInline(ac)
-        self.authCoordinator = ac
+        authCoordinator = ac
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -128,6 +132,7 @@ extension LoginCoordinator: ParentCoordinator {
         case _ as OnboardingCoordinator:
             return
         case let child as AuthenticationCoordinator where child.loginError != nil:
+            introViewController?.enableIntroButton()
             return
         case let child as AuthenticationCoordinator where child.loginError == nil:
             launchEnrolmentCoordinator(localAuth: LAContext())

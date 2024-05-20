@@ -8,7 +8,7 @@ final class EnrolmentCoordinator: NSObject,
                                   ChildCoordinator,
                                   NavigationCoordinator {
     let root: UINavigationController
-    var parentCoordinator: ParentCoordinator?
+    weak var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
     let userStore: UserStorable
     var localAuth: LAContexting
