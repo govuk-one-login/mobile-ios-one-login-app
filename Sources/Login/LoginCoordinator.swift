@@ -20,8 +20,8 @@ final class LoginCoordinator: NSObject,
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    private var authCoordinator: AuthenticationCoordinator?
-    var introViewController: IntroViewController?
+    private weak var authCoordinator: AuthenticationCoordinator?
+    weak var introViewController: IntroViewController?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
