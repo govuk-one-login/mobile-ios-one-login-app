@@ -2,10 +2,13 @@ import GDSCommon
 import UIKit
 
 final class SignInView: NibView {
-    var viewModel: SignInViewModel
+    var userEmail: String? {
+        didSet {
+            emailLabel.attributedText = attributedEmailString
+        }
+    }
     
-    init(viewModel: SignInViewModel) {
-        self.viewModel = viewModel
+    init() {
         super.init(forcedNibName: "SignInView", bundle: nil)
     }
     
@@ -15,20 +18,14 @@ final class SignInView: NibView {
     
     @IBOutlet private var emailLabel: UILabel! {
         didSet {
-            emailLabel.attributedText = attributedEmailString
             emailLabel.accessibilityIdentifier = "signin-view-email-label"
         }
     }
     
-    func updateEmail(_ email: String) {
-        viewModel.userEmail = email
-        emailLabel.attributedText = attributedEmailString
-    }
-    
     private var attributedEmailString: NSAttributedString? {
-        guard let email = viewModel.userEmail else { return nil }
+        guard let userEmail else { return nil }
         return GDSLocalisedString(stringKey: "app_displayEmail",
-                                  email,
-                                  attributes: [(email, [.font: UIFont.bodyBold])]).attributedValue
+                                  userEmail,
+                                  attributes: [(userEmail, [.font: UIFont.bodyBold])]).attributedValue
     }
 }
