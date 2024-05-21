@@ -13,7 +13,7 @@ final class JWTVerifier {
 }
 
 extension JWTVerifier {
-    func verifyCredential() async throws -> IdTokenInfo? {
+    func verifyCredential() async throws -> IdTokenPayload? {
         let jwksInfo = try await fetchJWKs()
         
         guard let kid = try extractKIDFromHeader(),

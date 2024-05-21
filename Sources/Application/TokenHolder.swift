@@ -12,7 +12,7 @@ class TokenHolder: AuthenticationProvider {
         }
     }
     var accessToken: String?
-    var idToken: IdTokenInfo?
+    var idTokenPayload: IdTokenPayload?
     
     var bearerToken: String {
         get throws {

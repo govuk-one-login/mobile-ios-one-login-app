@@ -31,7 +31,7 @@ final class AuthenticationCoordinator: NSObject,
                 // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
                     let idToken = tokenHolder.tokenResponse?.idToken {
-                    tokenHolder.idToken = try await verifyIDToken(idToken)
+                    tokenHolder.idTokenPayload = try await verifyIDToken(idToken)
                 }
                 finish()
             } catch let error as LoginError where error == .network {
@@ -85,7 +85,7 @@ final class AuthenticationCoordinator: NSObject,
 }
 
 extension AuthenticationCoordinator {
-    private func verifyIDToken(_ token: String) async throws -> IdTokenInfo? {
+    private func verifyIDToken(_ token: String) async throws -> IdTokenPayload? {
         let verifier = JWTVerifier(token: token)
         return try await verifier.verifyCredential()
     }
