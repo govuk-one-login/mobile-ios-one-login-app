@@ -1,5 +1,6 @@
 import Foundation
 import GDSCommon
+import UIKit
 
 struct TabbedViewSectionFactory {
     static let linkDisclosureArrow: String = "arrow.up.right"
@@ -18,7 +19,7 @@ struct TabbedViewSectionFactory {
         return [homeSection]
     }
 
-    static func profileSections(urlOpener: URLOpener) -> [TabbedViewSectionModel] {
+    static func profileSections(urlOpener: URLOpener, action: @escaping () -> Void) -> [TabbedViewSectionModel] {
         let manageDetailsSection = createSection(header: "app_profileSubtitle1",
                                                  footer: "app_manageSignInDetailsFootnote",
                                                  cellModels: [.init(cellTitle: "app_manageSignInDetailsLink",
@@ -42,13 +43,20 @@ struct TabbedViewSectionFactory {
         let signoutSection = createSection(header: nil,
                                            footer: nil,
                                            cellModels: [.init(cellTitle: "app_signOutButton",
-                                                              textColor: .gdsRed)])
+                                                              textColor: .gdsRed) {
+            action()
+        }])
 
         return [manageDetailsSection,
                 legalSection,
                 helpSection,
                 signoutSection]
     }
+
+    @MainActor func signOutPage(coordinator: ProfileCoordinator?) {
+        coordinator!.openSignOutPage()
+    }
+
 
     static func createSection(header: GDSLocalisedString?,
                               footer: GDSLocalisedString?,

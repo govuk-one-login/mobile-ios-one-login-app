@@ -26,7 +26,7 @@ final class ProfileCoordinator: NSObject,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
         let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener))
+                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener, action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          headerView: SignInView())
         baseVc = profileViewController
@@ -35,5 +35,15 @@ final class ProfileCoordinator: NSObject,
     
     func updateToken(_ tokenHolder: TokenHolder) {
         baseVc?.updateToken(tokenHolder)
+    }
+
+    func openSignOutPage() {
+        let navController = UINavigationController()
+        let vm = SignOutPage {
+            print("tapped")
+        }
+        let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
+        navController.setViewControllers([signoutPageVC], animated: true)
+        root.present(navController, animated: true)
     }
 }
