@@ -9,16 +9,18 @@ final class ProfileCoordinator: NSObject,
                                 NavigationCoordinator {
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
-    let analyticsService: AnalyticsService
+    var analyticsCenter: AnalyticsCentral
+    let userStore: UserStorable
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
 
-    init(analyticsService: AnalyticsService,
+    init(analyticsCenter: AnalyticsCentral,
          urlOpener: URLOpener,
+         userStore: UserStorable,
          baseVc: TabbedViewController? = nil) {
-
-        self.analyticsService = analyticsService
+        self.analyticsCenter = analyticsCenter
         self.urlOpener = urlOpener
+        self.userStore = userStore
         self.baseVc = baseVc
     }
     
@@ -26,7 +28,7 @@ final class ProfileCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_profileTitle").value,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
-        let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
+        let viewModel = ProfileTabViewModel(analyticsService: analyticsCenter.analyticsService,
                                             sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener, action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          headerView: SignInView())
@@ -40,8 +42,17 @@ final class ProfileCoordinator: NSObject,
 
     func openSignOutPage() {
         let navController = UINavigationController()
-        let vm = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-            analyticsService.denyAnalyticsPermission()
+        let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            do {
+                print("signing out")
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
+                analyticsCenter.analyticsService.denyAnalyticsPermission()
+                print("Analytics: \(String(describing: analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics))")
+                try userStore.clearTokenInfo()
+                print("token: \(userStore.returningAuthenticatedUser)")
+            } catch {
+                print(error.localizedDescription)
+            }
         }
         let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
         navController.setViewControllers([signoutPageVC], animated: true)

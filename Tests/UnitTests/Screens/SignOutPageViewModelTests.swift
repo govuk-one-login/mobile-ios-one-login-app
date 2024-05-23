@@ -13,7 +13,7 @@ final class SignOutPageViewModelTests: XCTestCase {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutPageViewModel {
+        sut = SignOutPageViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }

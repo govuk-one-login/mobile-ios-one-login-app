@@ -103,8 +103,9 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                    urlOpener: UIApplication.shared)
+        let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
+                                    urlOpener: UIApplication.shared,
+                                    userStore: userStore)
         addTab(pc)
         profileCoordinator = pc
     }
