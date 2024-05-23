@@ -137,6 +137,7 @@
 		C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1312BB73E2E00722218 /* WindowManager.swift */; };
 		D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */; };
 		D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
+		D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */; };
 		D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */; };
 		D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D22BEE734900418C0B /* IdTokenPayload.swift */; };
 		D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */; };
@@ -333,6 +334,7 @@
 		C8ECA1312BB73E2E00722218 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
 		D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
+		D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenVerifier.swift; sourceTree = "<group>"; };
 		D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyVerifier.swift; sourceTree = "<group>"; };
 		D03B04D22BEE734900418C0B /* IdTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenPayload.swift; sourceTree = "<group>"; };
 		D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierError.swift; sourceTree = "<group>"; };
@@ -1113,6 +1115,7 @@
 				D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */,
 				D03B04D22BEE734900418C0B /* IdTokenPayload.swift */,
 				D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */,
+				D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */,
 			);
 			path = JWT;
 			sourceTree = "<group>";
@@ -1461,6 +1464,7 @@
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */,
+				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
