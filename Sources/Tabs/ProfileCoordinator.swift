@@ -39,7 +39,7 @@ final class ProfileCoordinator: NSObject,
 
     func openSignOutPage() {
         let navController = UINavigationController()
-        let vm = SignOutPage {
+        let vm = SignOutPageViewModel {
             print("tapped")
         }
         let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
