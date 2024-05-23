@@ -12,10 +12,11 @@ final class ProfileCoordinator: NSObject,
     let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
-    
+
     init(analyticsService: AnalyticsService,
          urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
+
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.baseVc = baseVc
@@ -39,8 +40,8 @@ final class ProfileCoordinator: NSObject,
 
     func openSignOutPage() {
         let navController = UINavigationController()
-        let vm = SignOutPageViewModel {
-            print("tapped")
+        let vm = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+            analyticsService.denyAnalyticsPermission()
         }
         let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
         navController.setViewControllers([signoutPageVC], animated: true)

@@ -1,19 +1,21 @@
 import GDSCommon
+import Logging
 import UIKit
 
 struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
-    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
-    let backButtonIsHidden: Bool = true
-
     let title: GDSLocalisedString = "app_signOutConfirmationTitle"
     let body: String = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
     var childView = UIView()
-
     let buttonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: (any ButtonViewModel)? = nil
-
+    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     
-    init(buttonAction: @escaping () -> Void) {
+    let secondaryButtonViewModel: (any ButtonViewModel)? = nil
+    let backButtonIsHidden: Bool = true
+    let analyticsService: AnalyticsService
+
+    init(analyticsService: AnalyticsService,
+         buttonAction: @escaping () -> Void) {
+        self.analyticsService = analyticsService
         self.buttonViewModel = StandardButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton") {
             buttonAction()
         }
