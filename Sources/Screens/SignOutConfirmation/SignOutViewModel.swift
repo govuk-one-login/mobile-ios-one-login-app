@@ -29,14 +29,17 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     }
 
     private func configureStackView() -> UIView {
-        var body2Label = UILabel()
-        var body3Label = UILabel()
+        let body2Label = UILabel()
+        body2Label.accessibilityIdentifier = "sign-out-body2-text"
+        let body3Label = UILabel()
+        body2Label.accessibilityIdentifier = "sign-out-body3-text"
         let bulletView: BulletView = BulletView(title: "",
                                                 text: [
                                                  GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
                                                  GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
                                                  GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
                                                 ])
+        bulletView.accessibilityIdentifier = "sign-out-bullet-list"
         body2Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
         body2Label.numberOfLines = 0
         body2Label.font = .bodyBold
@@ -46,23 +49,8 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label, body3Label])
         stackView.axis = .vertical
         stackView.spacing = 12
+        stackView.accessibilityIdentifier = "sign-out-stack-view"
 
         return stackView
     }
-
-//    private func configureLabels() {
-//        var body2Label = UILabel()
-//        var body3Label = UILabel()
-//        let bulletView: BulletView = BulletView(title: "",
-//                                                text: [
-//                                                 GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
-//                                                 GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
-//                                                 GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
-//                                                ])
-//        body2Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
-//        body2Label.numberOfLines = 0
-//        body2Label.font = .bodyBold
-//        body3Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
-//        body3Label.numberOfLines = 0
-//    }
 }
