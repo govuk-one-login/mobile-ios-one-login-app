@@ -2,21 +2,20 @@ import Foundation
 import JWTKit
 import Networking
 
-final class JWTVerifier {
-    let token: String
+final class JWTVerifier: TokenVerifier {
+    
     let networkClient: NetworkClient
     
-    init(token: String, networkClient: NetworkClient = NetworkClient()) {
-        self.token = token
+    init(networkClient: NetworkClient = NetworkClient()) {
         self.networkClient = networkClient
     }
 }
 
 extension JWTVerifier {
-    func verifyCredential() async throws -> IdTokenPayload? {
+    func verifyToken(_ token: String) async throws -> IdTokenPayload? {
         let jwksInfo = try await fetchJWKs()
         
-        guard let kid = try extractKIDFromHeader(),
+        guard let kid = try extractKIDFromTokenHeader(token),
               let jwk = try jwksInfo.jwkForKID(kid) else {
             throw JWTVerifierError.invalidKID
         }
@@ -24,6 +23,11 @@ extension JWTVerifier {
         let verifier = try ES256KeyVerifier(jsonWebKey: jwk)
         
         return try verifier.verify(jwt: token)
+    }
+    
+    func extractPayload(_ token: String) throws -> IdTokenPayload? {
+        let extractor = try ES256KeyVerifier()
+        return try extractor.extract(jwt: token)
     }
 }
 
@@ -41,8 +45,8 @@ extension JWTVerifier {
         }
     }
 
-    private func extractKIDFromHeader() throws -> String? {
-        let parts = try getPartsOfJWT()
+    private func extractKIDFromTokenHeader(_ token: String) throws -> String? {
+        let parts = try getPartsOfJWT(token)
         
         let payloadPaddingString = base64StringWithPadding(encodedString: parts[0])
         guard let payloadData = Data(base64Encoded: payloadPaddingString) else { return nil }
@@ -52,7 +56,7 @@ extension JWTVerifier {
         return kid
     }
     
-    private func getPartsOfJWT() throws -> [String] {
+    private func getPartsOfJWT(_ token: String) throws -> [String] {
         let parts = token.components(separatedBy: ".")
         if parts.count != 3 {
             throw JWTVerifierError.invalidJWTFormat
