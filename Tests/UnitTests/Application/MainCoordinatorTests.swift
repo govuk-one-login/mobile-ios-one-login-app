@@ -1,6 +1,7 @@
 import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 @MainActor
@@ -13,6 +14,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
+    var mockTokenVerifier: MockTokenVerifier!
     var sut: MainCoordinator!
     
     var evaluateRevisitActionCalled = false
@@ -32,10 +34,12 @@ final class MainCoordinatorTests: XCTestCase {
                                       defaultsStore: mockDefaultStore)
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
+        mockTokenVerifier = MockTokenVerifier()
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
-                              userStore: mockUserStore)
+                              userStore: mockUserStore,
+                              tokenVerifier: mockTokenVerifier)
     }
     
     override func tearDown() {
@@ -47,6 +51,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        mockTokenVerifier = nil
         sut = nil
         
         evaluateRevisitActionCalled = false
@@ -68,13 +73,13 @@ extension MainCoordinatorTests {
     }
     
     func test_evaluateRevisit_returningAuthenticatedUser() throws {
-        // GIVEN the secure store has an access token saved and defaults store has the access token expiry saved
-        try mockSecureStore.saveItem(item: "testAccessToken", itemName: .accessToken)
+        // GIVEN the secure store has a valid idToken saved and defaults store has the access token expiry saved
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
-        // THEN the access token is read from the token holder and the action is called
-        waitForTruth(self.sut.tokenHolder.accessToken == "testAccessToken", timeout: 20)
+        // THEN the payload will be extracted from the idToken
+        waitForTruth(self.sut.tokenHolder.idTokenPayload != nil, timeout: 20)
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
@@ -86,6 +91,20 @@ extension MainCoordinatorTests {
         waitForTruth(self.evaluateRevisitActionCalled == true, timeout: 20)
     }
     
+    func test_evaluateRevisit_idTokenExtractedFailed() throws {
+        // GIVEN the secure store has a valid idToken saved and defaults store has the access token expiry saved
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // WHEN the MainCoordinator's evaluateRevisit method is called with an action, and the extraction fails
+        mockTokenVerifier.extractionFailed = true
+        sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        // THEN the access token and expiry will be set to nil
+        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        // AND the login will be shown
+        XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
+    }
+    
     func test_evaluateRevisit_accessTokenNotNil() throws {
         // GIVEN access token has been stored in the token holder
         sut.tokenHolder.accessToken = "testAccessToken"
@@ -94,6 +113,20 @@ extension MainCoordinatorTests {
         // THEN the access token is removed from the token holder and the action is called
         waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         XCTAssertTrue(evaluateRevisitActionCalled)
+    }
+    
+    func test_evaluateRevisit_secureStoreError() throws {
+        // GIVEN the secure store has a valid idToken saved and defaults store has the access token expiry saved
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // WHEN the MainCoordinator's evaluateRevisit method is called with an action, and the secure store read fails
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
+        sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        // THEN the access token and expiry will be set to nil
+        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        // AND the login will be shown
+        XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
     }
     
     func test_didSelect_tabBarItem_home() throws {
@@ -156,8 +189,6 @@ extension MainCoordinatorTests {
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
-        // THEN the network client should be initialised
-        XCTAssertNotNil(sut.networkClient)
         // THEN the token holders bearer token should have the access token
         XCTAssertEqual(try sut.tokenHolder.bearerToken, "testAccessToken")
     }
@@ -175,8 +206,6 @@ extension MainCoordinatorTests {
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
-        // THEN the network client should be initialised
-        XCTAssertNotNil(sut.networkClient)
         // THEN the token holders bearer token should have the access token
         do {
             _ = try sut.tokenHolder.bearerToken

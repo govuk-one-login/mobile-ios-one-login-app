@@ -121,24 +121,24 @@ extension LoginCoordinatorTests {
     }
     
     func test_returningUserFlow() throws {
-        // GIVEN the access token is saved in secure store
-        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        // GIVEN the id token is saved in secure store
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         // WHEN the LoginCoordinator's returningUserFlow method is called
         sut.returningUserFlow()
-        // THEN the token holder's access token property should get the access token from secure store
+        // THEN the token holder's access idTokenPayload should be populated
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
-        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
+        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
     
     func test_start_getAccessToken_succeeds() throws {
         // GIVEN the access token is saved in secure store and the token expiry is in date
-        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator is started
         sut.start()
-        // THEN the token holder's access token property should get the access token from secure store
+        // THEN the token holder's idTokenPayload should be populated
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
-        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
+        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
     
     func test_start_launchOnboardingCoordinator() throws {
@@ -150,20 +150,20 @@ extension LoginCoordinatorTests {
     }
     
     func test_getAccessToken_succeeds() throws {
-        try mockSecureStore.saveItem(item: "123456789", itemName: .accessToken)
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator's getAccessToken method is called
-        sut.getAccessToken()
+        sut.getIdToken()
         // THEN the token holder's access token property should get the access token from secure store
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
-        XCTAssertEqual(sut.tokenHolder.accessToken, "123456789")
+        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
     
     func test_getAccessToken_error_unableToRetrieveFromUserDefaults() throws {
         // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the LoginCoordinator's getAccessToken method is called
-        sut.getAccessToken()
+        sut.getIdToken()
         // THEN the token holder's access token property should not get the access token from secure store
         waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         // THEN user store should be refreshed
@@ -178,7 +178,7 @@ extension LoginCoordinatorTests {
         // GIVEN the secure store returns a cantInitialiseData error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.cantInitialiseData
         // WHEN the LoginCoordinator's getAccessToken method is called
-        sut.getAccessToken()
+        sut.getIdToken()
         // THEN the token holder's access token property should not get the access token from secure store
         waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         // THEN user store should be refreshed
@@ -193,7 +193,7 @@ extension LoginCoordinatorTests {
         // GIVEN the secure store returns a cantRetrieveKey error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
         // WHEN the LoginCoordinator's getAccessToken method is called
-        sut.getAccessToken()
+        sut.getIdToken()
         // THEN the token holder's access token property should not get the access token from secure store
         waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
         // THEN user store should be refreshed

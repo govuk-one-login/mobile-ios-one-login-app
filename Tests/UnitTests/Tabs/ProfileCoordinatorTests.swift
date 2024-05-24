@@ -38,8 +38,10 @@ final class ProfileCoordinatorTests: XCTestCase {
     func test_updateToken() throws {
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
-        XCTAssertEqual(try vc.emailLabel.text, nil)
-        sut.updateToken(accessToken: "testAccessToken")
-        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nexample@email.com")
+        XCTAssertEqual(try vc.emailLabel.text, "")
+        let tokenHolder = TokenHolder()
+        tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
+        sut.updateToken(tokenHolder)
+        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }
 }
