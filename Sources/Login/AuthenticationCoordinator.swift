@@ -41,21 +41,19 @@ final class AuthenticationCoordinator: NSObject,
             } catch let error as LoginError where error == .network {
                 let networkErrorScreen = errorPresenter
                     .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
-                        root.popViewController(animated: true)
-                        finish()
+                        returnFromErrorScreen()
                     }
                 root.pushViewController(networkErrorScreen, animated: true)
-                removeLoginLoadingScreen()
                 loginError = error
             } catch let error as LoginError where error == .non200,
                     let error as LoginError where error == .invalidRequest,
                     let error as LoginError where error == .clientError {
-                showLoginErrorScreen(error)
+                showUnableToLoginErrorScreen(error)
             } catch let error as LoginError where error == .userCancelled {
                 loginError = error
                 finish()
             } catch let error as JWTVerifierError {
-                showLoginErrorScreen(error)
+                showUnableToLoginErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -77,15 +75,13 @@ final class AuthenticationCoordinator: NSObject,
 }
 
 extension AuthenticationCoordinator {
-    private func showLoginErrorScreen(_ error: Error) {
+    private func showUnableToLoginErrorScreen(_ error: Error) {
         let unableToLoginErrorScreen = errorPresenter
             .createUnableToLoginError(errorDescription: error.localizedDescription,
                                       analyticsService: analyticsService) { [unowned self] in
-                root.popViewController(animated: true)
-                finish()
+                returnFromErrorScreen()
             }
         root.pushViewController(unableToLoginErrorScreen, animated: true)
-        removeLoginLoadingScreen()
         loginError = error
     }
     
@@ -93,15 +89,15 @@ extension AuthenticationCoordinator {
         let genericErrorScreen = errorPresenter
             .createGenericError(errorDescription: error.localizedDescription,
                                 analyticsService: analyticsService) { [unowned self] in
-                root.popViewController(animated: true)
-                finish()
+                returnFromErrorScreen()
             }
         root.pushViewController(genericErrorScreen, animated: true)
-        removeLoginLoadingScreen()
         loginError = error
     }
     
-    private func removeLoginLoadingScreen() {
+    private func returnFromErrorScreen() {
         root.viewControllers.remove(at: root.viewControllers.count - 1)
+        root.popViewController(animated: true)
+        finish()
     }
 }
