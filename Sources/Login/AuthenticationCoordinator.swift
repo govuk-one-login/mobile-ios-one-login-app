@@ -37,7 +37,6 @@ final class AuthenticationCoordinator: NSObject,
                     let idToken = tokenHolder.tokenResponse?.idToken {
                     tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
                 }
-                root.dismiss(animated: false)
                 finish()
             } catch let error as LoginError where error == .network {
                 let networkErrorScreen = errorPresenter
@@ -46,6 +45,7 @@ final class AuthenticationCoordinator: NSObject,
                         finish()
                     }
                 root.pushViewController(networkErrorScreen, animated: true)
+                removeLoginLoadingScreen()
                 loginError = error
             } catch let error as LoginError where error == .non200,
                     let error as LoginError where error == .invalidRequest,
@@ -64,6 +64,7 @@ final class AuthenticationCoordinator: NSObject,
                         finish()
                     }
                 root.pushViewController(genericErrorScreen, animated: true)
+                removeLoginLoadingScreen()
                 loginError = error
             }
         }
@@ -75,9 +76,8 @@ final class AuthenticationCoordinator: NSObject,
                 loginCoordinator.introViewController?.enableIntroButton()
             }
             try session.finalise(redirectURL: url)
-            let loadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel())
-            loadingScreen.modalPresentationStyle = .fullScreen
-            root.present(loadingScreen, animated: false)
+            let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel())
+            root.pushViewController(loginLoadingScreen, animated: false)
         } catch {
             let genericErrorScreen = errorPresenter
                 .createGenericError(errorDescription: error.localizedDescription,
@@ -100,6 +100,11 @@ extension AuthenticationCoordinator {
                 finish()
             }
         root.pushViewController(unableToLoginErrorScreen, animated: true)
+        removeLoginLoadingScreen()
         loginError = error
+    }
+    
+    private func removeLoginLoadingScreen() {
+        root.viewControllers.remove(at: root.viewControllers.count - 1)
     }
 }
