@@ -1,6 +1,5 @@
 import Coordination
 import GDSAnalytics
-import Networking
 import SecureStore
 import UIKit
 
@@ -13,19 +12,21 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
-    var networkClient: NetworkClient?
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
+    private var tokenVerifier: TokenVerifier
     
     init(windowManager: WindowManagement,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
-         userStore: UserStorable) {
+         userStore: UserStorable,
+         tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
+        self.tokenVerifier = tokenVerifier
     }
     
     func start() {
@@ -45,12 +46,18 @@ final class MainCoordinator: NSObject,
             await MainActor.run {
                 if userStore.returningAuthenticatedUser {
                     do {
-                        tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
-                        loginCoordinator?.root.dismiss(animated: false)
+                        guard let idToken = try userStore.secureStoreService.readItem(itemName: .idToken) else {
+                            throw SecureStoreError.unableToRetrieveFromUserDefaults
+                        }
+                        tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                         updateToken()
                         action()
                     } catch {
-                        print("Error getting token: \(error)")
+                        loginCoordinator?.root.dismiss(animated: false)
+                        tokenHolder.accessToken = nil
+                        userStore.defaultsStore.set(nil, forKey: .accessTokenExpiry)
+                        showLogin(error)
+                        action()
                     }
                 } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
                     action()
@@ -63,13 +70,14 @@ final class MainCoordinator: NSObject,
         }
     }
     
-    private func showLogin() {
+    private func showLogin(_ error: Error? = nil) {
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
-                                  tokenHolder: tokenHolder)
+                                  tokenHolder: tokenHolder,
+                                  startupError: error)
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }
@@ -83,7 +91,8 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService)
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                 userStore: userStore)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -101,10 +110,8 @@ extension MainCoordinator {
     }
     
     private func updateToken() {
-        homeCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-        profileCoordinator?.updateToken(accessToken: tokenHolder.accessToken)
-        networkClient = NetworkClient(authenticationProvider: tokenHolder)
-        homeCoordinator?.networkClient = networkClient
+        homeCoordinator?.updateToken(tokenHolder)
+        profileCoordinator?.updateToken(tokenHolder)
     }
 }
 
