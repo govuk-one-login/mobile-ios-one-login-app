@@ -57,15 +57,7 @@ final class AuthenticationCoordinator: NSObject,
             } catch let error as JWTVerifierError {
                 showLoginErrorScreen(error)
             } catch {
-                let genericErrorScreen = errorPresenter
-                    .createGenericError(errorDescription: error.localizedDescription,
-                                        analyticsService: analyticsService) { [unowned self] in
-                        root.popViewController(animated: true)
-                        finish()
-                    }
-                root.pushViewController(genericErrorScreen, animated: true)
-                removeLoginLoadingScreen()
-                loginError = error
+                showGenericErrorScreen(error)
             }
         }
     }
@@ -75,18 +67,11 @@ final class AuthenticationCoordinator: NSObject,
             if let loginCoordinator = parentCoordinator as? LoginCoordinator {
                 loginCoordinator.introViewController?.enableIntroButton()
             }
-            try session.finalise(redirectURL: url)
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel())
             root.pushViewController(loginLoadingScreen, animated: false)
+            try session.finalise(redirectURL: url)
         } catch {
-            let genericErrorScreen = errorPresenter
-                .createGenericError(errorDescription: error.localizedDescription,
-                                    analyticsService: analyticsService) { [unowned self] in
-                    root.popViewController(animated: true)
-                    finish()
-                }
-            root.pushViewController(genericErrorScreen, animated: true)
-            loginError = error
+            showGenericErrorScreen(error)
         }
     }
 }
@@ -100,6 +85,18 @@ extension AuthenticationCoordinator {
                 finish()
             }
         root.pushViewController(unableToLoginErrorScreen, animated: true)
+        removeLoginLoadingScreen()
+        loginError = error
+    }
+    
+    private func showGenericErrorScreen(_ error: Error) {
+        let genericErrorScreen = errorPresenter
+            .createGenericError(errorDescription: error.localizedDescription,
+                                analyticsService: analyticsService) { [unowned self] in
+                root.popViewController(animated: true)
+                finish()
+            }
+        root.pushViewController(genericErrorScreen, animated: true)
         removeLoginLoadingScreen()
         loginError = error
     }
