@@ -1,6 +1,7 @@
 import Coordination
 import GDSCommon
 import Logging
+import Networking
 import UIKit
 
 final class HomeCoordinator: NSObject,
@@ -11,10 +12,14 @@ final class HomeCoordinator: NSObject,
     let root = UINavigationController()
     let analyticsService: AnalyticsService
     var networkClient: RequestAuthorizing?
+    private let userStore: UserStorable
+    private var tokenHolder: TokenHolder?
     private(set) var baseVc: TabbedViewController?
     
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: AnalyticsService,
+         userStore: UserStorable) {
         self.analyticsService = analyticsService
+        self.userStore = userStore
     }
     
     func start() {
@@ -24,19 +29,25 @@ final class HomeCoordinator: NSObject,
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
                                          sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
         let hc = TabbedViewController(viewModel: viewModel,
-                                      headerView: SignInView(viewModel: SignInViewModel()))
+                                      headerView: SignInView())
         baseVc = hc
         root.setViewControllers([hc], animated: true)
     }
     
-    func updateToken(accessToken: String?) {
-        baseVc?.updateToken(accessToken: accessToken)
+    func updateToken(_ token: TokenHolder) {
+        baseVc?.updateToken(token)
         baseVc?.screenAnalytics()
+        self.tokenHolder = token
     }
     
     func showDeveloperMenu() {
         let navController = UINavigationController()
         let devMenuViewModel = DeveloperMenuViewModel()
+        if let accessToken = try? userStore.secureStoreService.readItem(itemName: .accessToken),
+            let tokenHolder {
+            tokenHolder.accessToken = accessToken
+            networkClient = NetworkClient(authenticationProvider: tokenHolder)
+        }
         let developerMenuVC = DeveloperMenuViewController(viewModel: devMenuViewModel,
                                                           networkClient: networkClient)
         navController.setViewControllers([developerMenuVC], animated: true)

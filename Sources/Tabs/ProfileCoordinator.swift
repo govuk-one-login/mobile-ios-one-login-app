@@ -28,12 +28,12 @@ final class ProfileCoordinator: NSObject,
         let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
                                             sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener))
         let profileViewController = TabbedViewController(viewModel: viewModel,
-                                                         headerView: SignInView(viewModel: SignInViewModel()))
+                                                         headerView: SignInView())
         baseVc = profileViewController
         root.setViewControllers([profileViewController], animated: true)
     }
     
-    func updateToken(accessToken: String?) {
-        baseVc?.updateToken(accessToken: accessToken)
+    func updateToken(_ tokenHolder: TokenHolder) {
+        baseVc?.updateToken(tokenHolder)
     }
 }
