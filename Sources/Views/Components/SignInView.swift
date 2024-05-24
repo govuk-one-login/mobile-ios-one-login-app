@@ -12,6 +12,7 @@ final class SignInView: NibView {
         super.init(forcedNibName: "SignInView", bundle: nil)
     }
     
+    @available(*, unavailable, renamed: "init()")
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
