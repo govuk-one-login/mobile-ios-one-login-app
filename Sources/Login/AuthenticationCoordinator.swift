@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import GDSCommon
 import Logging
 import UIKit
 
@@ -31,11 +32,12 @@ final class AuthenticationCoordinator: NSObject,
         Task(priority: .userInitiated) {
             do {
                 tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
-                // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
+                // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
                     let idToken = tokenHolder.tokenResponse?.idToken {
                     tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
                 }
+                root.dismiss(animated: false)
                 finish()
             } catch let error as LoginError where error == .network {
                 let networkErrorScreen = errorPresenter
@@ -53,7 +55,6 @@ final class AuthenticationCoordinator: NSObject,
                 loginError = error
                 finish()
             } catch let error as JWTVerifierError {
-                loginError = error
                 showLoginErrorScreen(error)
             } catch {
                 let genericErrorScreen = errorPresenter
@@ -74,6 +75,9 @@ final class AuthenticationCoordinator: NSObject,
                 loginCoordinator.introViewController?.enableIntroButton()
             }
             try session.finalise(redirectURL: url)
+            let loadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel())
+            loadingScreen.modalPresentationStyle = .fullScreen
+            root.present(loadingScreen, animated: false)
         } catch {
             let genericErrorScreen = errorPresenter
                 .createGenericError(errorDescription: error.localizedDescription,
