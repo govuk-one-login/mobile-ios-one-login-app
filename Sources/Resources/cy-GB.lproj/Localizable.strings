@@ -11,6 +11,8 @@
 
 "app_disagreeButton" = "Anghytuno";
 
+"app_loadingBody" = "Llwytho";
+
 "app_maybeLaterButton" = "Efallai nes ymlaen";
 
 "app_enterPasscodeButton" = "Rhowch god mynediad";

@@ -11,6 +11,8 @@
 
 "app_disagreeButton" = "Disagree";
 
+"app_loadingBody" = "Loading";
+
 "app_maybeLaterButton" = "Maybe later";
 
 "app_enterPasscodeButton" = "Enter passcode";
