@@ -65,7 +65,7 @@ final class AuthenticationCoordinator: NSObject,
             if let loginCoordinator = parentCoordinator as? LoginCoordinator {
                 loginCoordinator.introViewController?.enableIntroButton()
             }
-            let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel())
+            let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
             try session.finalise(redirectURL: url)
         } catch {
