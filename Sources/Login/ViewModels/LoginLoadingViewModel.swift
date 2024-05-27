@@ -1,11 +1,12 @@
 import GDSCommon
 
 struct LoginLoadingViewModel: GDSLoadingViewModel, BaseViewModel {
-    var rightBarButtonTitle: GDSLocalisedString?
-    var backButtonIsHidden: Bool = true
-    var loadingLabelKey: GDSLocalisedString = GDSLocalisedString(stringLiteral: "app_loadingBody")
+    let loadingLabelKey: GDSLocalisedString = "app_loadingBody"
+    
+    let rightBarButtonTitle: GDSLocalisedString? = nil
+    let backButtonIsHidden: Bool = true
     
     func didAppear() { }
     
-    func didDismiss() { }
+    func didDismiss() { /* Conforming to BaseViewModel */ }
 }

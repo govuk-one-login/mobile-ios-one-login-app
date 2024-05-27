@@ -45,13 +45,13 @@ final class AuthenticationCoordinator: NSObject,
                     }
                 root.pushViewController(networkErrorScreen, animated: true)
                 loginError = error
+            } catch let error as LoginError where error == .userCancelled {
+                loginError = error
+                finish()
             } catch let error as LoginError where error == .non200,
                     let error as LoginError where error == .invalidRequest,
                     let error as LoginError where error == .clientError {
                 showUnableToLoginErrorScreen(error)
-            } catch let error as LoginError where error == .userCancelled {
-                loginError = error
-                finish()
             } catch let error as JWTVerifierError {
                 showUnableToLoginErrorScreen(error)
             } catch {

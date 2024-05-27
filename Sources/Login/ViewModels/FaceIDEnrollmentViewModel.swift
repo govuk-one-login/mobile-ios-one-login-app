@@ -13,9 +13,10 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     let footnote: GDSLocalisedString? = "app_enableFaceIDFootnote"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel?
+    let analyticsService: AnalyticsService
+    
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-    let analyticsService: AnalyticsService
     
     init(analyticsService: AnalyticsService,
          primaryButtonAction: @escaping () -> Void,
@@ -32,7 +33,6 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
         }
     }
     
-    
     func didAppear() {
         let screen = ScreenView(id: BiometricEnrollmentAnalyticsScreenID.faceIDEnrollment.rawValue,
                                 screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment,
@@ -40,7 +40,5 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
         analyticsService.trackScreen(screen)
     }
     
-    func didDismiss() {
-        // Conforming to BaseViewModel
-    }
+    func didDismiss() { /* Conforming to BaseViewModel */ }
 }

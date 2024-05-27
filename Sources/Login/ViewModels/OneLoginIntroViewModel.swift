@@ -33,7 +33,5 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
         analyticsService.trackScreen(screen)
     }
     
-    func didDismiss() {
-        // Here for BaseViewModel compliance
-    }
+    func didDismiss() { /* Conforming to BaseViewModel */ }
 }

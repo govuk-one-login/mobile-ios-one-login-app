@@ -37,7 +37,5 @@ struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
         analyticsService.trackScreen(screen)
     }
     
-    func didDismiss() {
-        // Here for BaseViewModel compliance
-    }
+    func didDismiss() { /* Conforming to BaseViewModel */ }
 }
