@@ -47,9 +47,9 @@ final class ProfileCoordinator: NSObject,
                 print("signing out")
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
                 analyticsCenter.analyticsService.denyAnalyticsPermission()
-                print("Analytics: \(String(describing: analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics))")
-                try userStore.clearTokenInfo()
                 print("token: \(userStore.returningAuthenticatedUser)")
+                try userStore.clearTokenInfo()
+                try userStore.secureStoreService.delete()
             } catch {
                 print(error.localizedDescription)
             }

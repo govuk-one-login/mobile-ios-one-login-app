@@ -75,19 +75,22 @@ final class ProfileCoordinatorTests: XCTestCase {
         XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
     }
 
-    // should this be testing analyticsService or Preference?
-    func test_clearsAnalyticsPreference() throws {
+    func test_tapSignoutClearsData() throws {
         mockAnalyticsService.hasAcceptedAnalytics = true
+        try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
+        mockDefaultStore.set(Date(), forKey: .accessTokenExpiry)
+        sut.start()
+        window.rootViewController = sut.root
+        window.makeKeyAndVisible()
         sut.openSignOutPage()
-        mockAnalyticsService.denyAnalyticsPermission()
-        XCTAssertFalse(try hasAcceptedAnalytics)
-    }
-
-    // MARK: Test for clearing user store
-    func test_clearsUserStore() throws {
-    }
-
-    // MARK: test for clearing biometrics
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
+        signOutButton.sendActions(for: .touchUpInside)
+        XCTAssertFalse(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics!))
+        XCTAssertNil(try mockUserStore.secureStoreService.readItem(itemName: .accessToken))
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+      }
 }
 
  extension ProfileCoordinatorTests {
