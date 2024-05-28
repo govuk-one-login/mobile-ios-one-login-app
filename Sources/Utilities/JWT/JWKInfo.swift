@@ -13,7 +13,7 @@ struct JWKSInfo: Codable {
     
     func jwkForKID(_ kid: String) throws -> JWK? {
         guard let jwkInfo = self.keys.first(where: { $0.kid  == kid }) else { return nil }
-        guard let json = try jwkInfo.jsonString else { return nil }
+        let json = try jwkInfo.jsonString
         return try JWK(json: json)
     }
 }
@@ -41,10 +41,10 @@ struct JWKInfo: Codable {
         case y
     }
     
-    var jsonString: String? {
+    var jsonString: String {
         get throws {
             let jsonData = try JSONEncoder().encode(self)
-            return String(data: jsonData, encoding: .utf8)
+            return String(decoding: jsonData, as: UTF8.self)
         }
     }
 }

@@ -39,7 +39,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     
     func test_happyPathButton() throws {
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
-        mockNetworkClient.authorizedData = "testData".data(using: .utf8)
+        mockNetworkClient.authorizedData = Data("testData".utf8)
         try sut.happyPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.mockNetworkClient.requestFinished == true, timeout: 3)
         XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
