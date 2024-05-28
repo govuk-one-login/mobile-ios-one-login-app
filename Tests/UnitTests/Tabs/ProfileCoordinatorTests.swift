@@ -75,22 +75,19 @@ final class ProfileCoordinatorTests: XCTestCase {
         XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
     }
 
-    // MARK: Make this test pass to check analytics is false
     // should this be testing analyticsService or Preference?
     func test_clearsAnalyticsPreference() throws {
         mockAnalyticsService.hasAcceptedAnalytics = true
-        sut.start()
         sut.openSignOutPage()
         mockAnalyticsService.denyAnalyticsPermission()
         XCTAssertFalse(try hasAcceptedAnalytics)
     }
 
-    //MARK: Test for clearing user store
+    // MARK: Test for clearing user store
     func test_clearsUserStore() throws {
-        sut.start()
     }
 
-    //MARK: test for clearing biometrics
+    // MARK: test for clearing biometrics
 }
 
  extension ProfileCoordinatorTests {
