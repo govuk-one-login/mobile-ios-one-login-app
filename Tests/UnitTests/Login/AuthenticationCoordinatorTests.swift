@@ -121,9 +121,9 @@ extension AuthenticationCoordinatorTests {
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
-        // and there is a non200 error
+        // and there is a generic error
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
-        // THEN the 'unable to login' error screen is shown
+        // THEN the 'generic' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
@@ -136,9 +136,9 @@ extension AuthenticationCoordinatorTests {
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
-        // and there is a non200 error
+        // and there is an unknown error
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
-        // THEN the 'unable to login' error screen is shown
+        // THEN the 'generic' error screen is shown
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
@@ -193,12 +193,13 @@ extension AuthenticationCoordinatorTests {
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
-        // and there is a non200 error
         waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
-        // THEN the 'unable to login' error screen is shown
+        // THEN an error screen is shown
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // WHEN the primary button of the error screen is selected
         let errorButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
         errorButton.sendActions(for: .touchUpInside)
+        // THEN the added view controller should be removed
         XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
 }
