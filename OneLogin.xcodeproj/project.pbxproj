@@ -62,6 +62,7 @@
 		C82B644A2BA1C300000C9524 /* LAContext+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64492BA1C300000C9524 /* LAContext+OneLogin.swift */; };
 		C82B64522BA47D59000C9524 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* StringTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
+		C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
 		C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
 		C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */; };
@@ -264,6 +265,7 @@
 		C82B64492BA1C300000C9524 /* LAContext+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LAContext+OneLogin.swift"; sourceTree = "<group>"; };
 		C82B64512BA47D59000C9524 /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
+		C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
 		C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycle.swift; sourceTree = "<group>"; };
 		C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycleTests.swift; sourceTree = "<group>"; };
@@ -751,6 +753,7 @@
 				41C8E42D2B7291F80063B8A3 /* FaceIDEnrollmentViewModelTests.swift */,
 				411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */,
 				41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */,
+				C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1536,6 +1539,7 @@
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */,
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
+				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
 				C8C6665A2BCFDBDE00CF249B /* TokenHolderTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrollmentViewModelTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
