@@ -26,7 +26,7 @@ final class MockAnalyticsService: AnalyticsService {
         screenParamsLogged = parameters
     }
     
-    func trackScreen(_ screen: Logging.LoggableScreenV2, parameters: [String: Any]) {
+    func trackScreen(_ screen: LoggableScreenV2, parameters: [String: Any]) {
         screensVisited.append(screen.name)
         
         guard var parameters = parameters as? [String: String] else {
