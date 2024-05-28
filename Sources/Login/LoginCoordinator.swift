@@ -23,7 +23,7 @@ final class LoginCoordinator: NSObject,
     private weak var authCoordinator: AuthenticationCoordinator?
     weak var introViewController: IntroViewController?
     private var tokenVerifier: TokenVerifier
-    var startupError: Error?
+    var tokenReadError: Error?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
@@ -72,6 +72,7 @@ final class LoginCoordinator: NSObject,
                 } catch {
                     userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
                     windowManager.hideUnlockWindow()
+                    tokenReadError = error
                     start()
                 }
             }
@@ -97,9 +98,9 @@ final class LoginCoordinator: NSObject,
             }
 
         root.setViewControllers([rootViewController], animated: true)
-        if let startupError {
+        if let tokenReadError {
             let unableToLoginErrorScreen = ErrorPresenter
-                .createUnableToLoginError(errorDescription: startupError.localizedDescription,
+                .createUnableToLoginError(errorDescription: tokenReadError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.popViewController(animated: true)
                 }

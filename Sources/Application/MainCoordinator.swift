@@ -55,7 +55,7 @@ final class MainCoordinator: NSObject,
                     } catch {
                         loginCoordinator?.root.dismiss(animated: false)
                         tokenHolder.accessToken = nil
-                        userStore.defaultsStore.set(nil, forKey: .accessTokenExpiry)
+                        try? userStore.clearTokenInfo()
                         showLogin(error)
                         action()
                     }
@@ -77,7 +77,7 @@ final class MainCoordinator: NSObject,
                                   networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
                                   tokenHolder: tokenHolder)
-        lc.startupError = error
+        lc.tokenReadError = error
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }

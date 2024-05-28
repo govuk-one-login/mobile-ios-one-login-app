@@ -170,8 +170,8 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
     func test_getAccessToken_error_cantInitialiseData() throws {
@@ -185,8 +185,8 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
     func test_getAccessToken_error_cantRetrieveKey() throws {
@@ -200,8 +200,8 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
