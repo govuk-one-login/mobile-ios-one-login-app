@@ -76,8 +76,8 @@ final class MainCoordinator: NSObject,
                                   analyticsCenter: analyticsCenter,
                                   networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
-                                  tokenHolder: tokenHolder,
-                                  startupError: error)
+                                  tokenHolder: tokenHolder)
+        lc.startupError = error
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }

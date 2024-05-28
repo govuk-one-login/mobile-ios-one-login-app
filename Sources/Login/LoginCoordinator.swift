@@ -23,7 +23,7 @@ final class LoginCoordinator: NSObject,
     private weak var authCoordinator: AuthenticationCoordinator?
     weak var introViewController: IntroViewController?
     private var tokenVerifier: TokenVerifier
-    private var startupError: Error?
+    var startupError: Error?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
@@ -31,8 +31,7 @@ final class LoginCoordinator: NSObject,
          networkMonitor: NetworkMonitoring,
          userStore: UserStorable,
          tokenHolder: TokenHolder,
-         tokenVerifier: TokenVerifier = JWTVerifier(),
-         startupError: Error? = nil) {
+         tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
@@ -40,7 +39,6 @@ final class LoginCoordinator: NSObject,
         self.userStore = userStore
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
-        self.startupError = startupError
         root.modalPresentationStyle = .overFullScreen
     }
     
