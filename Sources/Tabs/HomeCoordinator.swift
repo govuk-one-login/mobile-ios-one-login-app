@@ -43,11 +43,11 @@ final class HomeCoordinator: NSObject,
     func showDeveloperMenu() {
         let navController = UINavigationController()
         let devMenuViewModel = DeveloperMenuViewModel()
-        if let accessToken = try? userStore.secureStoreService.readItem(itemName: .accessToken),
-            let tokenHolder {
-            tokenHolder.accessToken = accessToken
-            networkClient = NetworkClient(authenticationProvider: tokenHolder)
+        if tokenHolder?.accessToken == nil,
+            let accessToken = try? userStore.secureStoreService.readItem(itemName: .accessToken) {
+            tokenHolder?.accessToken = accessToken
         }
+        networkClient = NetworkClient(authenticationProvider: tokenHolder)
         let developerMenuVC = DeveloperMenuViewController(viewModel: devMenuViewModel,
                                                           networkClient: networkClient)
         navController.setViewControllers([developerMenuVC], animated: true)
