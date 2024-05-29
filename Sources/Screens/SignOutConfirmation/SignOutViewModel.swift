@@ -37,8 +37,8 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         let body2Label = UILabel()
         body2Label.accessibilityIdentifier = "sign-out-body2-text"
         let body3Label = UILabel()
-        body2Label.accessibilityIdentifier = "sign-out-body3-text"
-        let bulletView: BulletView = BulletView(title: "",
+        body3Label.accessibilityIdentifier = "sign-out-body3-text"
+        let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
                                                  GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
                                                  GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,

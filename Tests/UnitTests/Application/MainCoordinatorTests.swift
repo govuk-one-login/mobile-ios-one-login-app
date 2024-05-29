@@ -15,6 +15,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var mockTokenVerifier: MockTokenVerifier!
+    var mockURLOpener: MockURLOpener!
     var sut: MainCoordinator!
     
     var evaluateRevisitActionCalled = false
@@ -32,6 +33,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
                                       defaultsStore: mockDefaultStore)
+        mockURLOpener = MockURLOpener()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
         mockTokenVerifier = MockTokenVerifier()
@@ -52,6 +54,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenVerifier = nil
+        mockURLOpener = nil
         sut = nil
         
         evaluateRevisitActionCalled = false
@@ -213,5 +216,16 @@ extension MainCoordinatorTests {
         } catch {
             XCTAssertTrue(error is TokenError)
         }
+    }
+
+    func test_didRegainFocus_fromProfileCoordinator() throws {
+        let profileCoordinator = ProfileCoordinator(analyticsCenter: mockAnalyticsCenter,
+                                                    urlOpener: mockURLOpener,
+                                                    userStore: mockUserStore)
+        // WHEN the MainCoordinator didRegainFocus from ProfileCoordinator (on user sign out)
+        sut.didRegainFocus(fromChild: profileCoordinator)
+        // Then the LoginCoordinator should be launched
+        XCTAssertEqual(sut.childCoordinators.count, 1)
+        XCTAssertTrue(sut.childCoordinators[0] is LoginCoordinator)
     }
 }
