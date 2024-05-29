@@ -6,10 +6,10 @@ final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
     
     let viewModel: DeveloperMenuViewModel
-    let networkClient: RequestAuthorizing?
+    let networkClient: NetworkClient?
     
     init(viewModel: DeveloperMenuViewModel,
-         networkClient: RequestAuthorizing?) {
+         networkClient: NetworkClient?) {
         self.viewModel = viewModel
         self.networkClient = networkClient
         super.init(viewModel: viewModel,
@@ -151,14 +151,14 @@ fileprivate extension UILabel {
         textColor = .red
         isHidden = false
         if let error {
-            self.text = "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")"
+            text = "Error code: \(error.errorCode)\nEndpoint: \(error.endpoint ?? "missing")"
         } else {
-            self.text = "Error"
+            text = "Error"
         }
     }
 
     func showSuccessMessage(_ message: String) {
-        self.textColor = .gdsGreen
+        textColor = .gdsGreen
         isHidden = false
         text = message
     }
