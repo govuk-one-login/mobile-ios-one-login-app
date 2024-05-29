@@ -16,10 +16,13 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     init(analyticsService: AnalyticsService,
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.buttonViewModel = StandardButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton") {
+        self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",
+                                                        backgroundColor: .gdsRed,
+                                                        analyticsService: analyticsService) {
             buttonAction()
         }
         self.childView = configureStackView()
+
     }
 
     func didAppear() {
