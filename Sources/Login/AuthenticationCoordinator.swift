@@ -34,7 +34,7 @@ final class AuthenticationCoordinator: NSObject,
                 tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
-                    let idToken = tokenHolder.tokenResponse?.idToken {
+                   let idToken = tokenHolder.tokenResponse?.idToken {
                     tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
                 }
                 finish()
@@ -96,7 +96,7 @@ extension AuthenticationCoordinator {
     }
     
     private func returnFromErrorScreen() {
-        root.viewControllers.remove(at: root.viewControllers.count - 1)
+        root.viewControllers.removeLast()
         root.popViewController(animated: true)
         finish()
     }
