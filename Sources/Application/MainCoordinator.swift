@@ -143,6 +143,9 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             updateToken()
+        case _ as ProfileCoordinator:
+            showLogin()
+            root.selectedIndex = 0
         default:
             break
         }

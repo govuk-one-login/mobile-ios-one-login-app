@@ -44,12 +44,12 @@ final class ProfileCoordinator: NSObject,
         let navController = UINavigationController()
         let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             do {
-                print("signing out")
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 analyticsCenter.analyticsService.denyAnalyticsPermission()
-                print("token: \(userStore.returningAuthenticatedUser)")
-                try userStore.clearTokenInfo()
-                try userStore.secureStoreService.delete()
+                try? userStore.clearTokenInfo()
+                try? userStore.secureStoreService.delete()
+                root.dismiss(animated: true)
+                finish()
             } catch {
                 print(error.localizedDescription)
             }

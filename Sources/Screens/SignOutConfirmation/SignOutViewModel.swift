@@ -53,6 +53,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
 
         let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label, body3Label])
         stackView.axis = .vertical
+        stackView.alignment = .top
         stackView.spacing = 12
         stackView.accessibilityIdentifier = "sign-out-stack-view"
 
