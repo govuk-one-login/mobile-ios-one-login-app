@@ -17,6 +17,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Agree")
         XCTAssertEqual("app_disagreeButton".getEnglishString(),
                        "Disagree")
+        XCTAssertEqual("app_loadingBody".getEnglishString(),
+                       "Loading")
         XCTAssertEqual("app_maybeLaterButton".getEnglishString(),
                        "Maybe later")
         XCTAssertEqual("app_enterPasscodeButton".getEnglishString(),

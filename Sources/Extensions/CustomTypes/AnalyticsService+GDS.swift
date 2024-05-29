@@ -39,7 +39,7 @@ where Screen: Logging.ScreenType {
     }
     
     public var type: Logging.ScreenType {
-        self.screen
+        screen
     }
 }
 
@@ -50,6 +50,6 @@ where Screen: Logging.ScreenType {
     }
 
     public var type: Logging.ScreenType {
-        self.screen
+        screen
     }
 }
