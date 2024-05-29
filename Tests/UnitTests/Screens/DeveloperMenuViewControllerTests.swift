@@ -54,13 +54,13 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_happyPathButton() throws {
-        let exchangeData = try XCTUnwrap("""
+        let exchangeData = Data("""
             {
                 "access_token": "testAccessToken",
                 "token_type": "testTokenType",
                 "expires_in": 123456789
             }
-        """.data(using: .utf8))
+        """.utf8)
         
         var networkCallsMade = 0
         MockURLProtocol.handler = { [unowned self] in
