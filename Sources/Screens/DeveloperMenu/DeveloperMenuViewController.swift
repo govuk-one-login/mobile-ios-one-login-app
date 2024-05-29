@@ -45,7 +45,7 @@ final class DeveloperMenuViewController: BaseViewController {
                 let data = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                                                           scope: "sts-test.hello-world.read",
                                                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                happyPathResultLabel.showSuccessMessage("Success: \(String(data: data!, encoding: .utf8) ?? "no body")")
+                happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data!, as: UTF8.self))")
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
             } catch {

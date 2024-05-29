@@ -1,7 +1,7 @@
 import Foundation
 import JWTKit
 
-struct IdTokenInfo: JWTPayload {
+struct IdTokenPayload: JWTPayload {
 
     var sub: SubjectClaim
     var aud: AudienceClaim

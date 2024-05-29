@@ -7,7 +7,6 @@ final class TabbedViewController: BaseViewController {
     
     private var viewModel: TabbedViewModel
     private let headerView: UIView?
-    private var accessToken: String?
     
     init(viewModel: TabbedViewModel,
          headerView: UIView? = nil) {
@@ -44,11 +43,9 @@ final class TabbedViewController: BaseViewController {
         }
     }
     
-    func updateToken(accessToken: String?) {
-        // TODO: DCMAW-8544 To be replaced by secure token JWT with capability to extract e-mail for display
-        self.accessToken = accessToken
+    func updateToken(_ tokenHolder: TokenHolder) {
         guard let headerView = headerView as? SignInView else { return }
-        headerView.updateEmail("example@email.com")
+        headerView.userEmail = tokenHolder.idTokenPayload?.email
         resizeHeaderView()
         viewModel.isLoggedIn = true
     }

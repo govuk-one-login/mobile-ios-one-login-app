@@ -1,8 +1,8 @@
 import Foundation
 // swiftlint:disable line_length
 struct MockJWKSResponse {
-    static var jwksJson: Data = {
-        """
+    static var jwksJson: Data =
+        Data("""
         {
             "keys": [
               {
@@ -24,11 +24,10 @@ struct MockJWKSResponse {
               }
             ]
         }
-        """.data(using: .utf8)!
-    }()
+        """.utf8)
     
-    static var jwksJsonNonMatchingKIDs: Data = {
-        """
+    static var jwksJsonNonMatchingKIDs: Data =
+        Data("""
         {
             "keys": [
               {
@@ -50,8 +49,7 @@ struct MockJWKSResponse {
               }
             ]
         }
-        """.data(using: .utf8)!
-    }()
+        """.utf8)
 
     static let idToken =  "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.eyJhdWQiOiJNT0JJTEVfQ0xJRU5UX0lEIiwiaXNzIjoiaHR0cHM6Ly90b2tlbi5idWlsZC5hY2NvdW50Lmdvdi51ayIsInN1YiI6IjljNWFhYzU2LTE0YzAtNDJkNi05MzFkLWI0NmNkM2QzNWFlMSIsImlhdCI6MTcxNTI2NTkwMywiZXhwIjoxNzE2NDc1NTAzLCJlbWFpbCI6ImFiY0BleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlfQ.mlXHI1nb8d4pWRS9Zrt1cDLN2WdzC8t4BuVdvY8uh9VsNMXTA8ORyZW4gIsymKAaggY8oxA1yqaW7C5OQmETAw"
     

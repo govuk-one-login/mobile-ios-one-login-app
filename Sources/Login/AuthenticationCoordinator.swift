@@ -13,15 +13,18 @@ final class AuthenticationCoordinator: NSObject,
     let errorPresenter = ErrorPresenter.self
     var tokenHolder: TokenHolder
     var loginError: Error?
+    private var tokenVerifier: TokenVerifier
     
     init(root: UINavigationController,
          session: LoginSession,
          analyticsService: AnalyticsService,
-         tokenHolder: TokenHolder) {
+         tokenHolder: TokenHolder,
+         tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
         self.session = session
         self.analyticsService = analyticsService
         self.tokenHolder = tokenHolder
+        self.tokenVerifier = tokenVerifier
     }
     
     func start() {
@@ -31,7 +34,7 @@ final class AuthenticationCoordinator: NSObject,
                 // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
                     let idToken = tokenHolder.tokenResponse?.idToken {
-                    tokenHolder.idToken = try await verifyIDToken(idToken)
+                    tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
                 }
                 finish()
             } catch let error as LoginError where error == .network {
@@ -85,11 +88,6 @@ final class AuthenticationCoordinator: NSObject,
 }
 
 extension AuthenticationCoordinator {
-    private func verifyIDToken(_ token: String) async throws -> IdTokenInfo? {
-        let verifier = JWTVerifier(token: token)
-        return try await verifier.verifyCredential()
-    }
-    
     private func showLoginErrorScreen(_ error: Error) {
         let unableToLoginErrorScreen = errorPresenter
             .createUnableToLoginError(errorDescription: error.localizedDescription,

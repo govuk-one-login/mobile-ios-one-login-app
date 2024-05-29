@@ -20,21 +20,25 @@ final class LoginCoordinator: NSObject,
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
-    private var authCoordinator: AuthenticationCoordinator?
-    var introViewController: IntroViewController?
+    private weak var authCoordinator: AuthenticationCoordinator?
+    weak var introViewController: IntroViewController?
+    private var tokenVerifier: TokenVerifier
+    var tokenReadError: Error?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
          networkMonitor: NetworkMonitoring,
          userStore: UserStorable,
-         tokenHolder: TokenHolder) {
+         tokenHolder: TokenHolder,
+         tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.networkMonitor = networkMonitor
         self.userStore = userStore
         self.tokenHolder = tokenHolder
+        self.tokenVerifier = tokenVerifier
         root.modalPresentationStyle = .overFullScreen
     }
     
@@ -49,27 +53,27 @@ final class LoginCoordinator: NSObject,
     
     func returningUserFlow() {
         windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-            getAccessToken()
+            getIdToken()
         }
-        getAccessToken()
+        getIdToken()
     }
     
-    func getAccessToken() {
+    func getIdToken() {
         Task {
             await MainActor.run {
                 do {
-                    tokenHolder.accessToken = try userStore.secureStoreService.readItem(itemName: .accessToken)
+                    guard let idToken = try userStore.secureStoreService.readItem(itemName: .idToken) else {
+                        throw SecureStoreError.unableToRetrieveFromUserDefaults
+                    }
+                    tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                     windowManager.hideUnlockWindow()
                     root.dismiss(animated: false)
                     finish()
-                } catch SecureStoreError.unableToRetrieveFromUserDefaults,
-                        SecureStoreError.cantInitialiseData,
-                        SecureStoreError.cantRetrieveKey {
+                } catch {
                     userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
                     windowManager.hideUnlockWindow()
+                    tokenReadError = error
                     start()
-                } catch {
-                    print("Local Authentication error: \(error)")
                 }
             }
         }
@@ -92,7 +96,16 @@ final class LoginCoordinator: NSObject,
                     root.pushViewController(networkErrorScreen, animated: true)
                 }
             }
+
         root.setViewControllers([rootViewController], animated: true)
+        if let tokenReadError {
+            let unableToLoginErrorScreen = ErrorPresenter
+                .createUnableToLoginError(errorDescription: tokenReadError.localizedDescription,
+                                          analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                    root.popViewController(animated: true)
+                }
+            root.pushViewController(unableToLoginErrorScreen, animated: true)
+        }
         introViewController = rootViewController
         launchOnboardingCoordinator()
     }
