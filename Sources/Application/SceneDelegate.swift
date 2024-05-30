@@ -1,5 +1,6 @@
 import Authentication
 import GAnalytics
+import GDSCommon
 import LocalAuthentication
 import Logging
 import SecureStore
@@ -20,6 +21,7 @@ class SceneDelegate: UIResponder,
             fatalError("Window failed to initialise in SceneDelegate")
         }
         windowManager = WindowManager(windowScene: windowScene)
+        setUpBasicUI()
         initialiseMainCoordinator(windowManager: windowManager!)
     }
     
@@ -57,5 +59,11 @@ class SceneDelegate: UIResponder,
         } else {
             shouldCallSceneWillEnterForeground = true
         }
+    }
+    
+    private func setUpBasicUI() {
+        UITabBar.appearance().tintColor = .gdsGreen
+        UITabBar.appearance().backgroundColor = .systemBackground
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
     }
 }

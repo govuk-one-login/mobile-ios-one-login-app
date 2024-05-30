@@ -98,7 +98,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_enableTouchIDEnableButton".getWelshString(),
                        "Defnyddio Touch ID")
     }
-
+    
     func test_unlockScreenKeys() {
         XCTAssertEqual("app_unlockButton".getWelshString(),
                        "Datgloi")
@@ -139,6 +139,25 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Canllawiau ar ddefnyddio'r ap")
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
+    }
+    
+    func test_signOutPageKeys() {
+        XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
+                       "Bydd allgofnodi yn dileu data eich ap")
+        XCTAssertEqual("app_signOutConfirmationBody1".getWelshString(),
+                       "Pan fyddwch yn allgofnodi, bydd yr holl wybodaeth a dogfennau a gedwir yn eich ap yn cael eu dileu, gan gynnwys:")
+        XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
+                       "unrhyw ddogfennau a arbedwyd yn eich GOV.UK Wallet")
+        XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
+                       "eich gosodiadau ar gyfer mewngofnodi")
+        XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
+                       "eich dewisiadau rhannu dadansoddi")
+        XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
+                       "Mae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
+        XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
+                       "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.")
+        XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
+                       "Allgofnodwch a dileu data yr ap")
     }
 }
 

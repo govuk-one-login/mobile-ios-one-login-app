@@ -16,7 +16,7 @@ final class LoginCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let analyticsCenter: AnalyticsCentral
     let networkMonitor: NetworkMonitoring
-    let userStore: UserStorable
+    var userStore: UserStorable
     let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
@@ -96,7 +96,7 @@ final class LoginCoordinator: NSObject,
                     root.pushViewController(networkErrorScreen, animated: true)
                 }
             }
-
+        
         root.setViewControllers([rootViewController], animated: true)
         if let tokenReadError {
             let unableToLoginErrorScreen = ErrorPresenter
@@ -111,7 +111,8 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        if analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
+        if userStore.shouldPromptForAnalytics {
+            userStore.shouldPromptForAnalytics = false
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }

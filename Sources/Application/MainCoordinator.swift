@@ -30,8 +30,6 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBar.backgroundColor = .systemBackground
-        root.tabBar.tintColor = .gdsGreen
         root.delegate = self
         addTabs()
         showLogin()
@@ -103,8 +101,9 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                    urlOpener: UIApplication.shared)
+        let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
+                                    urlOpener: UIApplication.shared,
+                                    userStore: userStore)
         addTab(pc)
         profileCoordinator = pc
     }
@@ -142,6 +141,9 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             updateToken()
+        case _ as ProfileCoordinator:
+            showLogin()
+            root.selectedIndex = 0
         default:
             break
         }
