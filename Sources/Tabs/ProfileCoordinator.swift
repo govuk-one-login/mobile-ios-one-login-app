@@ -51,9 +51,9 @@ final class ProfileCoordinator: NSObject,
             try? userStore.clearTokenInfo()
             try? userStore.secureStoreService.delete()
             userStore.shouldPromptForAnalytics = true
-            root.dismiss(animated: false, completion: {
-              self.finish()
-            })
+              root.dismiss(animated: false) {
+                  self.finish()
+              }
           } catch {
             print(error.localizedDescription)
           }
