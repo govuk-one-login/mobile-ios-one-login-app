@@ -2583,7 +2583,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 2.2.2;
 			};
 		};
 		C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
@@ -2591,7 +2591,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.12.0;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
@@ -2599,7 +2599,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.5;
 			};
 		};
 		C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */ = {
@@ -2607,7 +2607,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.2.4;
 			};
 		};
 		C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {
@@ -2615,7 +2615,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-coordination.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.0;
 			};
 		};
 		C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */ = {
