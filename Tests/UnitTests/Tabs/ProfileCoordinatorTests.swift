@@ -68,8 +68,7 @@ final class ProfileCoordinatorTests: XCTestCase {
 
     func test_openSignOutPage() throws {
         sut.start()
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
+        windowSetup()
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
@@ -80,8 +79,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
         mockDefaultStore.set(Date(), forKey: .accessTokenExpiry)
         sut.start()
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
+        windowSetup()
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
@@ -100,4 +98,9 @@ final class ProfileCoordinatorTests: XCTestCase {
             try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics)
         }
     }
+
+     private func windowSetup() {
+         window.rootViewController = sut.root
+         window.makeKeyAndVisible()
+     }
  }

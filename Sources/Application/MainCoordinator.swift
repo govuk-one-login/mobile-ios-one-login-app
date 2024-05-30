@@ -30,8 +30,6 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBar.backgroundColor = .systemBackground
-        root.tabBar.tintColor = .gdsGreen
         root.delegate = self
         addTabs()
         showLogin()

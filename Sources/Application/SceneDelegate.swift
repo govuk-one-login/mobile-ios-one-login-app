@@ -21,6 +21,8 @@ class SceneDelegate: UIResponder,
             fatalError("Window failed to initialise in SceneDelegate")
         }
         windowManager = WindowManager(windowScene: windowScene)
+        UITabBar.appearance().tintColor = .gdsGreen
+        UITabBar.appearance().backgroundColor = .systemBackground
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
         initialiseMainCoordinator(windowManager: windowManager!)
     }
