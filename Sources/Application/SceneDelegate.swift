@@ -17,13 +17,12 @@ class SceneDelegate: UIResponder,
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
+        
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
         windowManager = WindowManager(windowScene: windowScene)
-        UITabBar.appearance().tintColor = .gdsGreen
-        UITabBar.appearance().backgroundColor = .systemBackground
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
+        setUpBasicUI()
         initialiseMainCoordinator(windowManager: windowManager!)
     }
     
@@ -61,5 +60,11 @@ class SceneDelegate: UIResponder,
         } else {
             shouldCallSceneWillEnterForeground = true
         }
+    }
+    
+    private func setUpBasicUI() {
+        UITabBar.appearance().tintColor = .gdsGreen
+        UITabBar.appearance().backgroundColor = .systemBackground
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
     }
 }
