@@ -214,7 +214,7 @@ extension LoginCoordinatorTests {
     
     func test_launchOnboardingCoordinator_skips() throws {
         // GIVEN the user has accepted analytics permissions
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
+        mockUserStore.shouldPromptForAnalytics = false
         // WHEN the LoginCoordinator's launchOnboardingCoordinator method is called
         sut.launchOnboardingCoordinator()
         // THEN the OnboardingCoordinator should not be launched
