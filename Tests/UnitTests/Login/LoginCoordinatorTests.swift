@@ -14,7 +14,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
-    var mockURLOpener: URLOpener!
     var sut: LoginCoordinator!
     
     override func setUp() {
@@ -33,7 +32,6 @@ final class LoginCoordinatorTests: XCTestCase {
                                     defaultsStore: mockDefaultStore)
         mockWindowManager.appWindow.rootViewController = navigationController
         mockWindowManager.appWindow.makeKeyAndVisible()
-        mockURLOpener = MockURLOpener()
         sut = LoginCoordinator(windowManager: mockWindowManager,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
@@ -52,7 +50,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
-        mockURLOpener = nil
         sut = nil
         
         super.tearDown()
@@ -241,6 +238,7 @@ extension LoginCoordinatorTests {
     }
     
     func test_didRegainFocus_fromOnboardingCoordinator() throws {
+        let mockURLOpener = MockURLOpener()
         let onboardingCoordinator = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                           urlOpener: mockURLOpener)
         // GIVEN the LoginCoordinator has started and set it's view controllers
