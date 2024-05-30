@@ -29,7 +29,8 @@ final class ProfileCoordinator: NSObject,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
         let viewModel = ProfileTabViewModel(analyticsService: analyticsCenter.analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener, action: openSignOutPage))
+                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener,
+                                                                                                    action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          headerView: SignInView())
         baseVc = profileViewController
@@ -46,6 +47,7 @@ final class ProfileCoordinator: NSObject,
           do {
             analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
             analyticsCenter.analyticsService.denyAnalyticsPermission()
+            // TODO: DCMAW-8933 will handle sign out error scenarios
             try? userStore.clearTokenInfo()
             try? userStore.secureStoreService.delete()
             userStore.shouldPromptForAnalytics = true

@@ -53,11 +53,6 @@ struct TabbedViewSectionFactory {
                 signoutSection]
     }
 
-    @MainActor func signOutPage(coordinator: ProfileCoordinator?) {
-        coordinator!.openSignOutPage()
-    }
-
-
     static func createSection(header: GDSLocalisedString?,
                               footer: GDSLocalisedString?,
                               cellModels: [TabbedViewCellModel]) -> TabbedViewSectionModel {

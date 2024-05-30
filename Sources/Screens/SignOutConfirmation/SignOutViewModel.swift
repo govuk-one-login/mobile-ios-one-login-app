@@ -25,19 +25,13 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
 
     }
 
-    func didAppear() {
+    func didAppear() { /* Conforming to BaseViewModel */ }
 
-    }
-
-    func didDismiss() {
-
-    }
+    func didDismiss() { /* Conforming to BaseViewModel */ }
 
     private func configureStackView() -> UIView {
         let body2Label = UILabel()
-        body2Label.accessibilityIdentifier = "sign-out-body2-text"
         let body3Label = UILabel()
-        body3Label.accessibilityIdentifier = "sign-out-body3-text"
         let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
                                                  GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
@@ -48,8 +42,11 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         body2Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
         body2Label.numberOfLines = 0
         body2Label.font = .bodyBold
+        body2Label.accessibilityIdentifier = "sign-out-body2-text"
+
         body3Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
         body3Label.numberOfLines = 0
+        body3Label.accessibilityIdentifier = "sign-out-body3-text"
 
         let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label, body3Label])
         stackView.axis = .vertical

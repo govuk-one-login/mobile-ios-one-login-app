@@ -43,10 +43,6 @@ extension SignOutPageViewModelTests {
         XCTAssertNotNil(try bulletList)
     }
 
-    func test_didAppear() throws {
-
-    }
-
     func test_buttonAction() throws {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)

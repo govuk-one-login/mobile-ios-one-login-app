@@ -89,6 +89,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         signOutButton.sendActions(for: .touchUpInside)
         XCTAssertFalse(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics!))
         XCTAssertNil(try mockUserStore.secureStoreService.readItem(itemName: .accessToken))
+        XCTAssertNil(try mockUserStore.secureStoreService.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
       }
 }
