@@ -41,8 +41,6 @@
 		41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */; };
 		41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */; };
 		41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */; };
-		41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A90D2BE125B10034B6C7 /* RequestAuthorizing.swift */; };
-		41E1A9112BE126C60034B6C7 /* MockNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9102BE126C60034B6C7 /* MockNetworkClient.swift */; };
 		41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */; };
 		41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9142BE128610034B6C7 /* MockURLOpener.swift */; };
 		41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */; };
@@ -56,6 +54,7 @@
 		C80B87232B029EE90087C6D5 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87222B029EE90087C6D5 /* TimeInterval.swift */; };
 		C80B87262B029F1A0087C6D5 /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87252B029F1A0087C6D5 /* XCUIElement.swift */; };
 		C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87272B029F440087C6D5 /* ScreenObject.swift */; };
+		C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81273A12C07412100059825 /* MockAuthenticationProvider.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
 		C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */; };
@@ -243,8 +242,6 @@
 		41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
 		41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModelTests.swift; sourceTree = "<group>"; };
 		41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
-		41E1A90D2BE125B10034B6C7 /* RequestAuthorizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAuthorizing.swift; sourceTree = "<group>"; };
-		41E1A9102BE126C60034B6C7 /* MockNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkClient.swift; sourceTree = "<group>"; };
 		41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
 		41E1A9142BE128610034B6C7 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
@@ -259,6 +256,7 @@
 		C80B87222B029EE90087C6D5 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		C80B87252B029F1A0087C6D5 /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
 		C80B87272B029F440087C6D5 /* ScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenObject.swift; sourceTree = "<group>"; };
+		C81273A12C07412100059825 /* MockAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthenticationProvider.swift; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
 		C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -550,7 +548,6 @@
 		41E1A90F2BE126910034B6C7 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				41E1A9102BE126C60034B6C7 /* MockNetworkClient.swift */,
 				41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */,
 				41E1A9142BE128610034B6C7 /* MockURLOpener.swift */,
 				D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */,
@@ -724,6 +721,7 @@
 		C85DF8432AEBFDCC0064F68E /* Sessions+Services */ = {
 			isa = PBXGroup;
 			children = (
+				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
 				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
 				D0275CC02C00951600AF9A50 /* MockTokenVerifier.swift */,
@@ -971,7 +969,6 @@
 			children = (
 				41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */,
 				1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */,
-				41E1A90D2BE125B10034B6C7 /* RequestAuthorizing.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1472,7 +1469,6 @@
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
-				41E1A90E2BE125B10034B6C7 /* RequestAuthorizing.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
@@ -1527,7 +1523,6 @@
 				C8E6A3ED2BBC0674005015AF /* MockWindowManager.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C82B64522BA47D59000C9524 /* StringTests.swift in Sources */,
-				41E1A9112BE126C60034B6C7 /* MockNetworkClient.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				C8EBE8042AEFB7FF009B8A06 /* LoginSessionConfigurationTests.swift in Sources */,
 				C8E6A3EF2BBC1181005015AF /* WindowManagerTests.swift in Sources */,
@@ -1560,6 +1555,7 @@
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
+				C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */,
 				D0275CC12C00951600AF9A50 /* MockTokenVerifier.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
 				411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */,

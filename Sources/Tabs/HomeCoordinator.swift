@@ -11,7 +11,7 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
-    var networkClient: RequestAuthorizing?
+    var networkClient: NetworkClient?
     private let userStore: UserStorable
     private var tokenHolder: TokenHolder?
     private(set) var baseVc: TabbedViewController?
