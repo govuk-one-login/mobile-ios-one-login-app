@@ -12,7 +12,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     let secondaryButtonViewModel: (any ButtonViewModel)? = nil
     let backButtonIsHidden: Bool = true
     let analyticsService: AnalyticsService
-
+    
     init(analyticsService: AnalyticsService,
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
@@ -22,38 +22,38 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             buttonAction()
         }
         self.childView = configureStackView()
-
+        
     }
-
+    
     func didAppear() { /* Conforming to BaseViewModel */ }
-
+    
     func didDismiss() { /* Conforming to BaseViewModel */ }
-
+    
     private func configureStackView() -> UIView {
         let body2Label = UILabel()
         let body3Label = UILabel()
         let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
-                                                 GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
-                                                 GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
-                                                 GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
+                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
+                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
+                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
                                                 ])
         bulletView.accessibilityIdentifier = "sign-out-bullet-list"
         body2Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
         body2Label.numberOfLines = 0
         body2Label.font = .bodyBold
         body2Label.accessibilityIdentifier = "sign-out-body2-text"
-
+        
         body3Label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
         body3Label.numberOfLines = 0
         body3Label.accessibilityIdentifier = "sign-out-body3-text"
-
+        
         let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label, body3Label])
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12
         stackView.accessibilityIdentifier = "sign-out-stack-view"
-
+        
         return stackView
     }
 }

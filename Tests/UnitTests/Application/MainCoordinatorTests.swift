@@ -217,7 +217,7 @@ extension MainCoordinatorTests {
             XCTAssertTrue(error is TokenError)
         }
     }
-
+    
     func test_didRegainFocus_fromProfileCoordinator() throws {
         let profileCoordinator = ProfileCoordinator(analyticsCenter: mockAnalyticsCenter,
                                                     urlOpener: mockURLOpener,

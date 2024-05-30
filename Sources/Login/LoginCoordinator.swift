@@ -96,7 +96,7 @@ final class LoginCoordinator: NSObject,
                     root.pushViewController(networkErrorScreen, animated: true)
                 }
             }
-
+        
         root.setViewControllers([rootViewController], animated: true)
         if let tokenReadError {
             let unableToLoginErrorScreen = ErrorPresenter
@@ -117,7 +117,7 @@ final class LoginCoordinator: NSObject,
                                                    urlOpener: UIApplication.shared))
         }
     }
-
+    
     func launchAuthenticationCoordinator() {
         let ac = AuthenticationCoordinator(root: root,
                                            session: AppAuthSession(window: windowManager.appWindow),

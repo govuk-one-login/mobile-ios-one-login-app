@@ -98,7 +98,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_enableTouchIDEnableButton".getWelshString(),
                        "Defnyddio Touch ID")
     }
-
+    
     func test_unlockScreenKeys() {
         XCTAssertEqual("app_unlockButton".getWelshString(),
                        "Datgloi")
@@ -140,7 +140,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
     }
-
+    
     func test_signOutPageKeys() {
         XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
                        "Bydd allgofnodi yn dileu data eich ap")

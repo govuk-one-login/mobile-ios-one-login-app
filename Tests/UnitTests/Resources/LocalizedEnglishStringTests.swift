@@ -98,7 +98,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_enableTouchIDEnableButton".getEnglishString(),
                        "Use Touch ID")
     }
-
+    
     func test_unlockScreenKeys() {
         XCTAssertEqual("app_unlockButton".getEnglishString(),
                        "Unlock")
@@ -140,7 +140,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutButton".getEnglishString(),
                        "Sign out")
     }
-
+    
     func test_signOutPageKeys() {
         XCTAssertEqual("app_signOutConfirmationTitle".getEnglishString(),
                        "Signing out will delete your app data")
@@ -162,7 +162,3 @@ final class LocalizedEnglishStringTests: XCTestCase {
 }
 
 // swiftlint:enable line_length
-
-// "app_appGuidanceLink" = "Guidance about using the app";
-//
-// "app_signOutButton" = "Sign out";
