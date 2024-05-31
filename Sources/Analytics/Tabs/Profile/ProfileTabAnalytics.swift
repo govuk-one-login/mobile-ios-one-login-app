@@ -2,8 +2,8 @@ import GDSAnalytics
 import Logging
 
 enum ProfileAnalyticsScreen: String, ScreenType {
-    case profileScreen = "profileScreen"
-    case signOutScreen = "signOutScreen"
+    case profileScreen
+    case signOutScreen
 }
 
 enum ProfileAnalyticsScreenID: String {

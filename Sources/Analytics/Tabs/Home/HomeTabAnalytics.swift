@@ -2,7 +2,7 @@ import GDSAnalytics
 import Logging
 
 enum HomeAnalyticsScreen: String, ScreenType {
-    case homeScreen = "homeScreen"
+    case homeScreen
 }
 
 enum HomeAnalyticsScreenID: String {
