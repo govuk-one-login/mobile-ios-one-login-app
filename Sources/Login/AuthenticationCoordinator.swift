@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import GDSAnalytics
 import GDSCommon
 import Logging
 import UIKit
@@ -47,6 +48,7 @@ final class AuthenticationCoordinator: NSObject,
                 loginError = error
             } catch let error as LoginError where error == .userCancelled {
                 loginError = error
+                logUserCancelEvent()
                 finish()
             } catch let error as LoginError where error == .non200,
                     let error as LoginError where error == .invalidRequest,
@@ -99,5 +101,10 @@ extension AuthenticationCoordinator {
         root.viewControllers.removeLast()
         root.popViewController(animated: true)
         finish()
+    }
+    
+    private func logUserCancelEvent() {
+        let userCancelEvent = ButtonEvent(textKey: "back")
+        analyticsService.logEvent(userCancelEvent)
     }
 }
