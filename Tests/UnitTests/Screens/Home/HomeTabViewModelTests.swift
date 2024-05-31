@@ -32,8 +32,8 @@ extension HomeTabViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: TabAnalyticsScreenID.home.rawValue,
-                                screen: TabAnalyticsScreen.home,
+        let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
+                                screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: "app_homeTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])

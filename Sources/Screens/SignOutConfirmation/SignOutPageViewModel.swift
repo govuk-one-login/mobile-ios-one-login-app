@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 import Logging
 import UIKit
@@ -24,9 +25,17 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         self.childView = configureStackView()
     }
     
-    func didAppear() { /* Conforming to BaseViewModel */ }
+    func didAppear() {
+        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreen.rawValue,
+                                screen: ProfileAnalyticsScreen.signOutScreen,
+                                titleKey: "app_signOutConfirmationTitle")
+        analyticsService.trackScreen(screen)
+    }
     
-    func didDismiss() { /* Conforming to BaseViewModel */ }
+    func didDismiss() {
+        let event = ButtonEvent(textKey: "back")
+        analyticsService.logEvent(event)
+    }
     
     private func configureStackView() -> UIView {
         let bulletView: BulletView = BulletView(title: nil,

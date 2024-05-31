@@ -32,8 +32,8 @@ extension ProfileTabViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: TabAnalyticsScreenID.profile.rawValue,
-                                screen: TabAnalyticsScreen.profile,
+        let screen = ScreenView(id: ProfileAnalyticsScreenID.profileScreen.rawValue,
+                                screen: ProfileAnalyticsScreen.profileScreen,
                                 titleKey: "app_profileTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
