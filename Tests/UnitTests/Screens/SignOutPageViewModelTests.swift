@@ -7,6 +7,7 @@ import XCTest
 final class SignOutPageViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutPageViewModel!
+    
     var didCallButtonAction = false
     
     override func setUp() {
@@ -26,32 +27,60 @@ final class SignOutPageViewModelTests: XCTestCase {
 }
 
 extension SignOutPageViewModelTests {
-    func test_buttonContents() throws {
-        XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeleteAppDataButton")
-    }
-    
-    func test_textContents() throws {
+    func test_pageConfiguration() throws {
         XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
         XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value)
         XCTAssertNil(sut.secondaryButtonViewModel)
+        XCTAssertEqual(sut.rightBarButtonTitle, GDSLocalisedString(stringLiteral: "app_cancelButton"))
         XCTAssertTrue(sut.backButtonIsHidden)
-        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
-        XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
     }
     
-    func test_bulletsAreAdded() throws {
+    func test_bulletConfiguration() throws {
         XCTAssertNotNil(try bulletList)
+        let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
+        let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
+        let firstBulletText = try XCTUnwrap(firstBullet.text)
+        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value))
+        let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
+        let secondBulletText = try XCTUnwrap(secondBullet.text)
+        XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value))
+        let thirdBullet = try XCTUnwrap(bulletStack.subviews[2] as? UILabel)
+        let thirdBulletText = try XCTUnwrap(thirdBullet.text)
+        XCTAssertTrue(thirdBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value))
+    }
+    
+    func test_viewConfiguration() throws {
+        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
+        XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
+        XCTAssertEqual(try body2Label.numberOfLines, 0)
+        XCTAssertEqual(try body2Label.font, .bodyBold)
+        XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
+        XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
+        XCTAssertEqual(try body3Label.numberOfLines, 0)
+        XCTAssertEqual(try body3Label.font, .body)
+    }
+    
+    func test_buttonConfiuration() throws {
+        XCTAssertTrue(sut.buttonViewModel is AnalyticsButtonViewModel)
+        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeleteAppDataButton"))
+        let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
+        XCTAssertEqual(button.backgroundColor, .gdsRed)
     }
     
     func test_buttonAction() throws {
         XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.buttonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
     }
 }
 
 extension SignOutPageViewModelTests {
+    var bulletList: BulletView {
+        get throws {
+            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
+        }
+    }
+    
     var body2Label: UILabel {
         get throws {
             try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
@@ -61,12 +90,6 @@ extension SignOutPageViewModelTests {
     var body3Label: UILabel {
         get throws {
             try XCTUnwrap(sut.childView[child: "sign-out-body3-text"])
-        }
-    }
-    
-    var bulletList: BulletView {
-        get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
         }
     }
 }
