@@ -1,4 +1,5 @@
 import Authentication
+import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
 import XCTest
@@ -156,6 +157,11 @@ extension AuthenticationCoordinatorTests {
         // THEN user is returned to the intro screen
         // THEN the loginError should be a userCancelled error
         sut.loginError = LoginError.userCancelled
+        // THEN a trackButtonEvent is logged with text value "back"
+        let userCancelledEvent = ButtonEvent(textKey: "back")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [userCancelledEvent.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], userCancelledEvent.parameters["text"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
     }
     
     func test_loginError_jwterror() throws {
