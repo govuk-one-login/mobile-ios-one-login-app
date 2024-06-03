@@ -36,8 +36,9 @@ final class HomeCoordinator: NSObject,
     
     func updateToken(_ token: TokenHolder) {
         baseVc?.updateToken(token)
+        baseVc?.isLoggedIn(true)
         baseVc?.screenAnalytics()
-        self.tokenHolder = token
+        tokenHolder = token
     }
     
     func showDeveloperMenu() {

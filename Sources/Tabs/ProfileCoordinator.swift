@@ -49,8 +49,8 @@ final class ProfileCoordinator: NSObject,
                 try? userStore.clearTokenInfo()
                 try? userStore.secureStoreService.delete()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-                root.dismiss(animated: false) {
-                    self.finish()
+                root.dismiss(animated: false) { [unowned self] in
+                    finish()
                 }
             } catch {
                 print(error.localizedDescription)

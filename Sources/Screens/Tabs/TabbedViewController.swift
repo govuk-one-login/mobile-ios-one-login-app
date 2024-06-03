@@ -47,7 +47,10 @@ final class TabbedViewController: BaseViewController {
         guard let headerView = headerView as? SignInView else { return }
         headerView.userEmail = tokenHolder.idTokenPayload?.email
         resizeHeaderView()
-        viewModel.isLoggedIn = true
+    }
+    
+    func isLoggedIn(_ value: Bool) {
+        viewModel.isLoggedIn = value
     }
     
     func screenAnalytics() {
