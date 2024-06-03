@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "ffe25dcb5c03a05c6f652c334aad75f12f141f76",
-        "version" : "1.2.4"
+        "branch" : "feature/dcmaw-9299-resetting-analytics-permissions",
+        "revision" : "e326fe5e6c02babeeb89284cdba9c3146ec4bd09"
       }
     },
     {

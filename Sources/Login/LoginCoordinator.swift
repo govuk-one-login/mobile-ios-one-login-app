@@ -111,8 +111,7 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        if userStore.shouldPromptForAnalytics {
-            userStore.shouldPromptForAnalytics = false
+        if analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }

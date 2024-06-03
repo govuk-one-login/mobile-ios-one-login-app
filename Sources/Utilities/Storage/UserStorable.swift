@@ -17,17 +17,6 @@ extension UserStorable {
         return accessTokenExpClaim.timeIntervalSinceNow.sign == .plus
     }
     
-    var shouldPromptForAnalytics: Bool {
-        get {
-            guard let shouldPrompt = defaultsStore.value(forKey: .shouldPromptForAnalytics) as? Bool else {
-                return true
-            }
-            return shouldPrompt
-        } set {
-            defaultsStore.set(newValue, forKey: .shouldPromptForAnalytics)
-        }
-    }
-    
     func storeTokenInfo(tokenResponse: TokenResponse) throws {
         let accessToken = tokenResponse.accessToken
         let tokenExp = tokenResponse.expiryDate

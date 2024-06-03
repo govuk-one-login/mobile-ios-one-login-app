@@ -45,12 +45,10 @@ final class ProfileCoordinator: NSObject,
         let navController = UINavigationController()
         let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             do {
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
-                analyticsCenter.analyticsService.denyAnalyticsPermission()
                 // TODO: DCMAW-8933 will handle sign out error scenarios
                 try? userStore.clearTokenInfo()
                 try? userStore.secureStoreService.delete()
-                userStore.shouldPromptForAnalytics = true
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 root.dismiss(animated: false) {
                     self.finish()
                 }
