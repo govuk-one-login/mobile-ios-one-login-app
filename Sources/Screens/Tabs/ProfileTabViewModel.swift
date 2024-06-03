@@ -21,8 +21,8 @@ class ProfileTabViewModel: TabbedViewModel {
     func didAppear() {
         if isLoggedIn {
             analyticsService.setAdditionalParameters(appTaxonomy: .profile)
-            let screen = ScreenView(id: TabAnalyticsScreenID.profile.rawValue,
-                                    screen: TabAnalyticsScreen.profile,
+            let screen = ScreenView(id: ProfileAnalyticsScreenID.profileScreen.rawValue,
+                                    screen: ProfileAnalyticsScreen.profileScreen,
                                     titleKey: "app_profileTitle")
             analyticsService.trackScreen(screen)
         }
