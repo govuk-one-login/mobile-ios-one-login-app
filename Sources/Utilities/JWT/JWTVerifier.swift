@@ -20,14 +20,22 @@ extension JWTVerifier {
             throw JWTVerifierError.invalidKID
         }
         
-        let verifier = try ES256KeyVerifier(jsonWebKey: jwk)
-        
-        return try verifier.verify(jwt: token)
+        do {
+            let verifier = try ES256KeyVerifier(jsonWebKey: jwk)
+            
+            return try verifier.verify(jwt: token)
+        } catch {
+            throw JWTVerifierError.invalidJWTFormat
+        }
     }
     
     func extractPayload(_ token: String) throws -> IdTokenPayload? {
         let extractor = try ES256KeyVerifier()
-        return try extractor.extract(jwt: token)
+        do {
+            return try extractor.extract(jwt: token)
+        } catch {
+            throw JWTVerifierError.invalidJWTFormat
+        }
     }
 }
 
