@@ -51,11 +51,7 @@ final class MainCoordinator: NSObject,
                         updateToken()
                         action()
                     } catch {
-                        loginCoordinator?.root.dismiss(animated: false)
-                        tokenHolder.accessToken = nil
-                        try? userStore.clearTokenInfo()
-                        showLogin(error)
-                        action()
+                        handleLoginError(error, action: action)
                     }
                 } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
                     action()
@@ -66,6 +62,27 @@ final class MainCoordinator: NSObject,
                 }
             }
         }
+    }
+    
+    private func handleLoginError(_ error: Error, action: () -> Void) {
+        switch error {
+        case SecureStoreError.unableToRetrieveFromUserDefaults,
+            SecureStoreError.cantInitialiseData,
+            SecureStoreError.cantRetrieveKey:
+            refreshLogin(error, action: action)
+        case is JWTVerifierError:
+            refreshLogin(error, action: action)
+        default:
+            print("Token retrival error: \(error)")
+        }
+    }
+    
+    private func refreshLogin(_ error: Error, action: () -> Void) {
+        loginCoordinator?.root.dismiss(animated: false)
+        tokenHolder.accessToken = nil
+        try? userStore.clearTokenInfo()
+        showLogin(error)
+        action()
     }
     
     private func showLogin(_ error: Error? = nil) {

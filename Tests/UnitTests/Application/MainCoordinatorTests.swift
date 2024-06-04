@@ -86,8 +86,8 @@ extension MainCoordinatorTests {
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
-    func test_evaluateRevisit_accessTokenNil() throws {
-        // GIVEN access token has not been stored anywhere
+    func test_evaluateRevisit_idTokenNil() throws {
+        // GIVEN id token has not been stored anywhere
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
         // THEN the action is called
@@ -130,6 +130,22 @@ extension MainCoordinatorTests {
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         // AND the login will be shown
         XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
+    }
+    
+    func test_evaluateRevisit_localAuth_fails() throws {
+        // GIVEN the secure store has a valid idToken saved and defaults store has the access token expiry saved
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // WHEN the MainCoordinator's evaluateRevisit method is called with an action, and local auth fails
+        // NOTE: cantDecryptData is the error secure store throws when local auth fails
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantDecryptData
+        sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        // THEN the idToken will be nil
+        waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
+        // THEN the unlock window will not have been dismissed
+        XCTAssertFalse(mockWindowManager.hideUnlockWindowCalled)
+        // THEN the LoginCoordinator will NOT be presented
+        XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     
     func test_didSelect_tabBarItem_home() throws {
