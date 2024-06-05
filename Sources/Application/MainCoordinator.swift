@@ -143,6 +143,7 @@ extension MainCoordinator: ParentCoordinator {
             updateToken()
         case _ as ProfileCoordinator:
             showLogin()
+            homeCoordinator?.baseVc?.isLoggedIn(false)
             root.selectedIndex = 0
         default:
             break

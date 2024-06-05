@@ -85,10 +85,10 @@ final class ProfileCoordinatorTests: XCTestCase {
         XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
-        XCTAssertFalse(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics!))
         XCTAssertNil(try mockUserStore.secureStoreService.readItem(itemName: .accessToken))
         XCTAssertNil(try mockUserStore.secureStoreService.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
     }
 }
 
