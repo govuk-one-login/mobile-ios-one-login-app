@@ -70,10 +70,7 @@ final class LoginCoordinator: NSObject,
                     root.dismiss(animated: false)
                     finish()
                 } catch {
-                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-                    windowManager.hideUnlockWindow()
-                    tokenReadError = error
-                    start()
+                    handleError(error)
                 }
             }
         }
@@ -136,6 +133,29 @@ final class LoginCoordinator: NSObject,
                                              userStore: userStore,
                                              localAuth: localAuth,
                                              tokenHolder: tokenHolder))
+    }
+}
+
+extension LoginCoordinator {
+    private func handleError(_ error: Error) {
+        tokenReadError = error
+        switch error {
+        case SecureStoreError.unableToRetrieveFromUserDefaults,
+            SecureStoreError.cantInitialiseData,
+            SecureStoreError.cantRetrieveKey:
+            restartLoginJourney()
+        case is JWTVerifierError:
+            restartLoginJourney()
+        default:
+            print("Token retrival error: \(error)")
+        }
+    }
+    
+    private func restartLoginJourney() {
+        tokenHolder.accessToken = nil
+        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+        windowManager.hideUnlockWindow()
+        start()
     }
 }
 

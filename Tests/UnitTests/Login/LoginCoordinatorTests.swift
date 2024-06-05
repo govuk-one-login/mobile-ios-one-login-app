@@ -14,6 +14,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
+    var mockTokenVerifier: MockTokenVerifier!
     var sut: LoginCoordinator!
     
     override func setUp() {
@@ -30,6 +31,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                     defaultsStore: mockDefaultStore)
+        mockTokenVerifier = MockTokenVerifier()
         mockWindowManager.appWindow.rootViewController = navigationController
         mockWindowManager.appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(windowManager: mockWindowManager,
@@ -37,7 +39,8 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                networkMonitor: mockNetworkMonitor,
                                userStore: mockUserStore,
-                               tokenHolder: TokenHolder())
+                               tokenHolder: TokenHolder(),
+                               tokenVerifier: mockTokenVerifier)
     }
     
     override func tearDown() {
@@ -127,7 +130,7 @@ extension LoginCoordinatorTests {
         XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
     
-    func test_start_getAccessToken_succeeds() throws {
+    func test_start_getIdToken_succeeds() throws {
         // GIVEN the access token is saved in secure store and the token expiry is in date
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
@@ -146,23 +149,23 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
-    func test_getAccessToken_succeeds() throws {
+    func test_getIdToken_succeeds() throws {
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
-        // WHEN the LoginCoordinator's getAccessToken method is called
+        // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
         // THEN the token holder's access token property should get the access token from secure store
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
         XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
     
-    func test_getAccessToken_error_unableToRetrieveFromUserDefaults() throws {
-        // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from trying to read the access token
+    func test_getIdToken_error_unableToRetrieveFromUserDefaults() throws {
+        // GIVEN the secure store returns a unableToRetrieveFromUserDefaults error from trying to read the id token
         mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
-        // WHEN the LoginCoordinator's getAccessToken method is called
+        // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
-        // THEN the token holder's access token property should not get the access token from secure store
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        // THEN the token holder's id token property should not get the access token from secure store
+        waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
@@ -171,13 +174,13 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
-    func test_getAccessToken_error_cantInitialiseData() throws {
+    func test_getIdToken_error_cantInitialiseData() throws {
         // GIVEN the secure store returns a cantInitialiseData error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.cantInitialiseData
-        // WHEN the LoginCoordinator's getAccessToken method is called
+        // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
-        // THEN the token holder's access token property should not get the access token from secure store
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        // THEN the token holder's id token property should not get the access token from secure store
+        waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
@@ -186,19 +189,54 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
-    func test_getAccessToken_error_cantRetrieveKey() throws {
+    func test_getIdToken_error_cantRetrieveKey() throws {
         // GIVEN the secure store returns a cantRetrieveKey error from trying to read the access token
         mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
-        // WHEN the LoginCoordinator's getAccessToken method is called
+        // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
         // THEN the token holder's access token property should not get the access token from secure store
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertTrue(sut.root.viewControllers.count == 2)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+    }
+    
+    func test_getIDToken_verification_fails() throws {
+        // GIVEN I have a token stored in the secure store
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // GIVEN the extraction of the token fails
+        mockTokenVerifier.extractionFailed = true
+        // WHEN the LoginCoordinator's getIdToken method is called
+        sut.getIdToken()
+        // THEN the token holder's access token property should not get the access token from secure store
+        waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
+        // THEN user store should be refreshed
+        XCTAssertTrue(mockSecureStore.didCallDeleteStore)
+        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+    }
+    
+    func test_getIDToken_localAuth_fails() throws {
+        // GIVEN I have a token stored in the secure store
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // GIVEN the read of the token fails due to a local auth error
+        // NOTE: cantDecryptData is the error secure store throws when local auth fails
+        mockSecureStore.errorFromReadItem = SecureStoreError.cantDecryptData
+        // WHEN the LoginCoordinator's getIdToken method is called
+        sut.start()
+        sut.getIdToken()
+        // THEN the token holder's id token property should not get the access token from secure store
+        waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
+        // THEN the unlock window should be displayed
+        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
+        XCTAssertFalse(mockWindowManager.hideUnlockWindowCalled)
     }
     
     func test_launchOnboardingCoordinator_succeeds() throws {
