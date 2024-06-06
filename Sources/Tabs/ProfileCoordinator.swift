@@ -46,7 +46,7 @@ final class ProfileCoordinator: NSObject,
         let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             do {
                 // TODO: DCMAW-8933 will handle sign out error scenarios
-                try? userStore.clearTokenInfo()
+                userStore.clearTokenInfo()
                 try? userStore.secureStoreService.delete()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 root.dismiss(animated: false) { [unowned self] in
