@@ -164,4 +164,8 @@ extension AppEnvironment {
     static var extendExpClaimEnabled: Bool {
         isFeatureEnabled(for: .extendExpClaim)
     }
+    
+    static var signoutErrorEnabled: Bool {
+        isFeatureEnabled(for: .enableSignoutError)
+    }
 }
