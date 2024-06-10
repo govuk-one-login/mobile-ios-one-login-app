@@ -20,7 +20,10 @@ final class MockSecureStoreService: SecureStorable {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
-            savedItems[itemName] ?? ""
+            guard let savedItem = savedItems[itemName] else {
+                throw SecureStoreError.unableToRetrieveFromUserDefaults
+            }
+            return savedItem
         }
     }
     
