@@ -44,12 +44,10 @@ final class MainCoordinator: NSObject,
             await MainActor.run {
                 if userStore.returningAuthenticatedUser {
                     do {
-                        guard let idToken = try userStore.secureStoreService.readItem(itemName: .idToken) else {
-                            throw SecureStoreError.unableToRetrieveFromUserDefaults
-                        }
+                        let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
                         tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                        updateToken()
                         action()
+                        updateToken()
                     } catch {
                         handleLoginError(error, action: action)
                     }
@@ -80,7 +78,7 @@ final class MainCoordinator: NSObject,
     private func refreshLogin(_ error: Error, action: () -> Void) {
         loginCoordinator?.root.dismiss(animated: false)
         tokenHolder.accessToken = nil
-        try? userStore.clearTokenInfo()
+        userStore.clearTokenInfo()
         showLogin(error)
         action()
     }

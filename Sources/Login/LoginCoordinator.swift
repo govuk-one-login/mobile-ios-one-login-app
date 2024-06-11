@@ -62,9 +62,7 @@ final class LoginCoordinator: NSObject,
         Task {
             await MainActor.run {
                 do {
-                    guard let idToken = try userStore.secureStoreService.readItem(itemName: .idToken) else {
-                        throw SecureStoreError.unableToRetrieveFromUserDefaults
-                    }
+                    let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
                     tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                     windowManager.hideUnlockWindow()
                     root.dismiss(animated: false)
