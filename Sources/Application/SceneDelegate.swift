@@ -34,11 +34,7 @@ class SceneDelegate: UIResponder,
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .currentBiometricsOrPasscode,
-                                                                         localAuthStrings: LAContext().contextStrings))
-        let userStore = UserStorage(secureStoreService: secureStoreService,
-                                    defaultsStore: UserDefaults.standard)
+        let userStore = setUpUserStore()
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
@@ -50,9 +46,14 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        displayUnlockScreen()
-    }
-    
+       let userStore = setUpUserStore()
+       if userStore.returningAuthenticatedUser {
+           displayUnlockScreen()
+       } else {
+           windowManager?.hideUnlockWindow()
+       }
+   }
+
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
             promptToUnlock()
@@ -65,5 +66,13 @@ class SceneDelegate: UIResponder,
         UITabBar.appearance().tintColor = .gdsGreen
         UITabBar.appearance().backgroundColor = .systemBackground
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
+    }
+
+    private func setUpUserStore() -> UserStorable {
+        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: .currentBiometricsOrPasscode,
+                                                                         localAuthStrings: LAContext().contextStrings))
+        return UserStorage(secureStoreService: secureStoreService,
+                                    defaultsStore: UserDefaults.standard)
     }
 }
