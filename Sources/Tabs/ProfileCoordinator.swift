@@ -59,9 +59,8 @@ final class ProfileCoordinator: NSObject,
                     finish()
                 }
             } catch {
-                print(error.localizedDescription)
-                let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription
-                                                                , analyticsService: analyticsCenter.analyticsService) {
+                let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
+                                                                analyticsService: analyticsCenter.analyticsService) {
                     exit(0)
                 }
                 navController.pushViewController(errorVC, animated: true)
