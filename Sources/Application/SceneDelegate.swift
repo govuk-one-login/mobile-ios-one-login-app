@@ -13,7 +13,14 @@ class SceneDelegate: UIResponder,
     let analyticsService: AnalyticsService = GAnalytics()
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
-    
+    private lazy var userStore: UserStorable = {
+        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: .currentBiometricsOrPasscode,
+                                                                         localAuthStrings: LAContext().contextStrings))
+        return UserStorage(secureStoreService: secureStoreService,
+                                    defaultsStore: UserDefaults.standard)
+    }()
+
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -34,11 +41,6 @@ class SceneDelegate: UIResponder,
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .currentBiometricsOrPasscode,
-                                                                         localAuthStrings: LAContext().contextStrings))
-        let userStore = UserStorage(secureStoreService: secureStoreService,
-                                    defaultsStore: UserDefaults.standard)
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
@@ -50,9 +52,11 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        displayUnlockScreen()
-    }
-    
+       if userStore.returningAuthenticatedUser {
+           displayUnlockScreen()
+       }
+   }
+
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
             promptToUnlock()
