@@ -1,6 +1,7 @@
 import Coordination
 import GDSCommon
 import Logging
+import SecureStore
 import UIKit
 
 final class ProfileCoordinator: NSObject,
@@ -47,10 +48,23 @@ final class ProfileCoordinator: NSObject,
             do {
                 userStore.clearTokenInfo()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-                try? userStore.secureStoreService.delete()
+                #if DEBUG
+                if AppEnvironment.signoutErrorEnabled {
+                    throw SecureStoreError.cantDeleteKey
+                }
+                #endif
+
+                try userStore.secureStoreService.delete()
                 root.dismiss(animated: false) { [unowned self] in
                     finish()
                 }
+            } catch {
+                print(error.localizedDescription)
+                let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription
+                                                                , analyticsService: analyticsCenter.analyticsService) {
+                    exit(0)
+                }
+                navController.pushViewController(errorVC, animated: true)
             }
         }
         let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
