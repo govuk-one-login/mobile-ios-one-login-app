@@ -13,7 +13,14 @@ class SceneDelegate: UIResponder,
     let analyticsService: AnalyticsService = GAnalytics()
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
-    
+    private lazy var userStore: UserStorable = {
+        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: .currentBiometricsOrPasscode,
+                                                                         localAuthStrings: LAContext().contextStrings))
+        return UserStorage(secureStoreService: secureStoreService,
+                                    defaultsStore: UserDefaults.standard)
+    }()
+
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -34,7 +41,6 @@ class SceneDelegate: UIResponder,
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        let userStore = setUpUserStore()
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
@@ -46,11 +52,8 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-       let userStore = setUpUserStore()
        if userStore.returningAuthenticatedUser {
            displayUnlockScreen()
-       } else {
-           windowManager?.hideUnlockWindow()
        }
    }
 
@@ -66,13 +69,5 @@ class SceneDelegate: UIResponder,
         UITabBar.appearance().tintColor = .gdsGreen
         UITabBar.appearance().backgroundColor = .systemBackground
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
-    }
-
-    private func setUpUserStore() -> UserStorable {
-        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .currentBiometricsOrPasscode,
-                                                                         localAuthStrings: LAContext().contextStrings))
-        return UserStorage(secureStoreService: secureStoreService,
-                                    defaultsStore: UserDefaults.standard)
     }
 }
