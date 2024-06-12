@@ -45,15 +45,12 @@ final class ProfileCoordinator: NSObject,
         let navController = UINavigationController()
         let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             do {
-                // TODO: DCMAW-8933 will handle sign out error scenarios
-                try? userStore.clearTokenInfo()
-                try? userStore.secureStoreService.delete()
+                userStore.clearTokenInfo()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+                try? userStore.secureStoreService.delete()
                 root.dismiss(animated: false) { [unowned self] in
                     finish()
                 }
-            } catch {
-                print(error.localizedDescription)
             }
         }
         let signoutPageVC = GDSInstructionsViewController(viewModel: vm)

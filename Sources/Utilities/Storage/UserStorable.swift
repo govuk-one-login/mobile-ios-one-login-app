@@ -32,9 +32,9 @@ extension UserStorable {
         }
     }
     
-    func clearTokenInfo() throws {
-        try secureStoreService.deleteItem(itemName: .accessToken)
-        try secureStoreService.deleteItem(itemName: .idToken)
+    func clearTokenInfo() {
+        secureStoreService.deleteItem(itemName: .accessToken)
+        secureStoreService.deleteItem(itemName: .idToken)
         defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
 }

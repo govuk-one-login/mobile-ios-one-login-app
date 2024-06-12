@@ -16,15 +16,18 @@ final class MockSecureStoreService: SecureStorable {
         }
     }
     
-    func readItem(itemName: String) throws -> String? {
+    func readItem(itemName: String) throws -> String {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
-            savedItems[itemName]
+            guard let savedItem = savedItems[itemName] else {
+                throw SecureStoreError.unableToRetrieveFromUserDefaults
+            }
+            return savedItem
         }
     }
     
-    func deleteItem(itemName: String) throws {
+    func deleteItem(itemName: String) {
         savedItems[itemName] = nil
     }
     
@@ -32,5 +35,5 @@ final class MockSecureStoreService: SecureStorable {
         self.didCallDeleteStore = true
     }
     
-    func checkItemExists(itemName: String) throws -> Bool { true }
+    func checkItemExists(itemName: String) -> Bool { true }
 }
