@@ -50,4 +50,15 @@ extension ErrorPresenterTests {
         introButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallAction)
     }
+    
+    func test_signoutError_callsAction() throws {
+        let errorView = sut.createSignoutError(errorDescription: "error description",
+                                               analyticsService: mockAnalyticsService) {
+            self.didCallAction = true
+        }
+        let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])
+        exitButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallAction)
+
+    }
 }

@@ -139,3 +139,10 @@
 "app_signOutConfirmationBody3" = "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.";
 
 "app_signOutAndDeleteAppDataButton" = "Allgofnodwch a dileu data yr ap";
+
+// Mark: Sign Out Error screen
+"app_signOutErrorTitle" = "Roedd problem wrth eich allgofnodi";
+
+"app_signOutErrorBody" = "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.";
+
+"app_exitButton" = "Gadael";

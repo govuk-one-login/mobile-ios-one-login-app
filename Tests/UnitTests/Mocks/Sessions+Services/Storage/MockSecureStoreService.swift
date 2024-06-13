@@ -7,6 +7,7 @@ final class MockSecureStoreService: SecureStorable {
     
     var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
+    var errorFromDeleteItem: Error?
     
     func saveItem(item: String, itemName: String) throws {
         if let errorFromSaveItem {
@@ -33,6 +34,9 @@ final class MockSecureStoreService: SecureStorable {
     
     func delete() throws {
         self.didCallDeleteStore = true
+        if let errorFromDeleteItem {
+            throw errorFromDeleteItem
+        }
     }
     
     func checkItemExists(itemName: String) -> Bool { true }

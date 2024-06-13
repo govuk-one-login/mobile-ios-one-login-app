@@ -29,4 +29,15 @@ final class ErrorPresenter {
         }
         return GDSErrorViewController(viewModel: viewModel)
     }
+    
+    
+    static func createSignoutError(errorDescription: String,
+                                   analyticsService: AnalyticsService,
+                                   action: @escaping () -> Void) -> GDSErrorViewController {
+        let viewModel = SignoutErrorViewModel(errorDescription: errorDescription,
+                                                    analyticsService: analyticsService) {
+            action()
+        }
+        return GDSErrorViewController(viewModel: viewModel)
+    }
 }

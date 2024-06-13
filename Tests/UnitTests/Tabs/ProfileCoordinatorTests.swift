@@ -1,5 +1,6 @@
 import GDSCommon
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 @MainActor
@@ -89,6 +90,29 @@ final class ProfileCoordinatorTests: XCTestCase {
         XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
+    }
+    
+    func test_signoutErrorShowsErrorScreen() throws {
+        // GIVEN the user is on the signout page
+        mockAnalyticsService.hasAcceptedAnalytics = true
+        try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
+        mockDefaultStore.set(Date(), forKey: .accessTokenExpiry)
+        sut.start()
+        sut.openSignOutPage()
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+        // IF there is an error on deleting the keys
+        mockSecureStore.errorFromDeleteItem = SecureStoreError.cantDeleteKey
+        // WHEN the user signs out
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
+        signOutButton.sendActions(for: .touchUpInside)
+        // THEN all other user information will be deleted
+        XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .accessToken))
+        XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .idToken))
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
+        // AND and error page will be shown
+        waitForTruth(presentedVC.topViewController is GDSErrorViewController, timeout: 20)
     }
 }
 
