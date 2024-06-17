@@ -244,4 +244,19 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is LoginCoordinator)
     }
+    
+    func test_performChildCleanup_fromLoginCoordinator() throws {
+        let mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                        defaultsStore: mockDefaultStore)
+        let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
+                                                root: UINavigationController(),
+                                                analyticsCenter: mockAnalyticsCenter,
+                                                networkMonitor: MockNetworkMonitor(),
+                                                userStore: mockUserStore,
+                                                tokenHolder: TokenHolder())
+        // WHEN the MainCoordinator performChildCleanup from the LoginCoordinator
+        sut.performChildCleanup(child: loginCoordinator)
+        // THEN no coordinator should be launched
+        XCTAssertFalse(loginCoordinator.root.isBeingPresented)
+    }
 }
