@@ -1,6 +1,7 @@
 import Coordination
 import GDSCommon
 import UIKit
+import Wallet
 
 final class WalletCoordinator: NSObject,
                                AnyCoordinator,

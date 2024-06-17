@@ -1,4 +1,5 @@
 {
+  "originHash" : "3683584c1cd7a545289ff5c7273b638c309ca3340d1b9e4a6cbde21a88011273",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -163,6 +164,15 @@
       }
     },
     {
+      "identity" : "mobile-wallet-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "56a8441141cf7b2d9f6ca0b3e33f76c2d0b96f50"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
@@ -178,6 +188,24 @@
       "state" : {
         "revision" : "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
         "version" : "2.3.1"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "f3d7ae5f9f31d90b327a64536bb7801cc69fd85b",
+        "version" : "14.9.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift",
+      "state" : {
+        "revision" : "4c4413abd0cd2221f59318f800960fe5bddc1494",
+        "version" : "10.51.0"
       }
     },
     {
@@ -199,5 +227,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

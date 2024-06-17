@@ -146,6 +146,7 @@
 		D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */; };
 		D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D22BEE734900418C0B /* IdTokenPayload.swift */; };
 		D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */; };
+		D06F49A02C20373A009D76A0 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = D06F499F2C20373A009D76A0 /* Wallet */; };
 		D0825A952C12F5B800E940F7 /* SignoutErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */; };
 		D087BCF22C19E4BB00825F60 /* SignoutErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087BCF12C19E4BB00825F60 /* SignoutErrorViewModelTests.swift */; };
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
@@ -387,6 +388,7 @@
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
+				D06F49A02C20373A009D76A0 /* Wallet in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
@@ -1204,6 +1206,7 @@
 				C8A13CAF2AFBD0F100FCBD36 /* Coordination */,
 				C8BADD1F2B8638BA00385FE7 /* SecureStore */,
 				D0BE243D2BEB7E5E00759529 /* JWTKit */,
+				D06F499F2C20373A009D76A0 /* Wallet */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1333,6 +1336,7 @@
 				C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */,
 				C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */,
 				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
+				D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -2658,6 +2662,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vapor/jwt-kit.git";
@@ -2713,6 +2725,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
 			productName = SecureStore;
+		};
+		D06F499F2C20373A009D76A0 /* Wallet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */;
+			productName = Wallet;
 		};
 		D0BE243D2BEB7E5E00759529 /* JWTKit */ = {
 			isa = XCSwiftPackageProductDependency;
