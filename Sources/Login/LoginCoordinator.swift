@@ -64,9 +64,8 @@ final class LoginCoordinator: NSObject,
                 do {
                     let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
                     tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                    windowManager.hideUnlockWindow()
-                    root.dismiss(animated: false)
                     finish()
+                    windowManager.hideUnlockWindow()
                 } catch {
                     handleError(error)
                 }

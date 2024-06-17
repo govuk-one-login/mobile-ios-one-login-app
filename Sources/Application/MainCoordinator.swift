@@ -46,8 +46,10 @@ final class MainCoordinator: NSObject,
                     do {
                         let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
                         tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                        if let loginCoordinator {
+                            childDidFinish(loginCoordinator)
+                        }
                         action()
-                        updateToken()
                     } catch {
                         handleLoginError(error, action: action)
                     }
@@ -162,6 +164,12 @@ extension MainCoordinator: ParentCoordinator {
             root.selectedIndex = 0
         default:
             break
+        }
+    }
+    
+    func performChildCleanup(child: ChildCoordinator) {
+        if let child = child as? LoginCoordinator {
+            child.root.dismiss(animated: false)
         }
     }
 }
