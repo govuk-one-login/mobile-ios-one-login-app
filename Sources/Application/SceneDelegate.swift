@@ -53,6 +53,7 @@ class SceneDelegate: UIResponder,
     
     func sceneDidEnterBackground(_ scene: UIScene) {
        if userStore.returningAuthenticatedUser {
+           shouldCallSceneWillEnterForeground = true
            displayUnlockScreen()
        }
    }
@@ -60,8 +61,6 @@ class SceneDelegate: UIResponder,
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
             promptToUnlock()
-        } else {
-            shouldCallSceneWillEnterForeground = true
         }
     }
     

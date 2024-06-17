@@ -53,8 +53,6 @@ final class MainCoordinator: NSObject,
                     } catch {
                         handleLoginError(error, action: action)
                     }
-                } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
-                    action()
                 } else {
                     tokenHolder.accessToken = nil
                     showLogin()
