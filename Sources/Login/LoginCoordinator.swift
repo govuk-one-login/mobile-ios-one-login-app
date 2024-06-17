@@ -135,13 +135,14 @@ final class LoginCoordinator: NSObject,
 
 extension LoginCoordinator {
     private func handleError(_ error: Error) {
-        tokenReadError = error
         switch error {
         case SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
+            tokenReadError = error
             restartLoginJourney()
         case is JWTVerifierError:
+            tokenReadError = error
             restartLoginJourney()
         default:
             print("Token retrival error: \(error)")
@@ -149,10 +150,9 @@ extension LoginCoordinator {
     }
     
     private func restartLoginJourney() {
-        tokenHolder.accessToken = nil
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-        windowManager.hideUnlockWindow()
         start()
+        windowManager.hideUnlockWindow()
     }
 }
 

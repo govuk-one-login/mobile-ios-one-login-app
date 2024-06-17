@@ -67,8 +67,10 @@ final class MainCoordinator: NSObject,
         case SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
+            loginCoordinator?.tokenReadError = error
             refreshLogin(error, action: action)
         case is JWTVerifierError:
+            loginCoordinator?.tokenReadError = error
             refreshLogin(error, action: action)
         default:
             print("Token retrival error: \(error)")
@@ -76,8 +78,13 @@ final class MainCoordinator: NSObject,
     }
     
     private func refreshLogin(_ error: Error, action: () -> Void) {
-        loginCoordinator?.root.dismiss(animated: false)
+        if let loginCoordinator {
+            childDidFinish(loginCoordinator)
+        }
         tokenHolder.accessToken = nil
+        // Should we be calling
+        // userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+        // instead here? vvv
         userStore.clearTokenInfo()
         showLogin(error)
         action()
@@ -154,8 +161,10 @@ extension MainCoordinator: UITabBarControllerDelegate {
 extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case _ as LoginCoordinator:
-            updateToken()
+        case let child as LoginCoordinator:
+            if child.tokenReadError == nil {
+                updateToken()
+            }
         case _ as ProfileCoordinator:
             showLogin()
             homeCoordinator?.baseVc?.isLoggedIn(false)
