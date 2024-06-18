@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder,
     let analyticsService: AnalyticsService = GAnalytics()
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
-    private lazy var userStore: UserStorable = {
+    private lazy var userStore = {
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))

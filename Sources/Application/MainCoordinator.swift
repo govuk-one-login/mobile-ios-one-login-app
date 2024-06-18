@@ -1,5 +1,6 @@
 import Coordination
 import GDSAnalytics
+import LocalAuthentication
 import SecureStore
 import UIKit
 
@@ -80,10 +81,8 @@ final class MainCoordinator: NSObject,
             childDidFinish(loginCoordinator)
         }
         tokenHolder.accessToken = nil
-        // Should we be calling
-        // userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-        // instead here? vvv
         userStore.clearTokenInfo()
+        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         showLogin(error)
         action()
     }
