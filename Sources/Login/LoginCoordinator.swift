@@ -136,12 +136,10 @@ final class LoginCoordinator: NSObject,
 extension LoginCoordinator {
     private func handleError(_ error: Error) {
         switch error {
-        case SecureStoreError.unableToRetrieveFromUserDefaults,
+        case is JWTVerifierError,
+            SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            tokenReadError = error
-            restartLoginJourney()
-        case is JWTVerifierError:
             tokenReadError = error
             restartLoginJourney()
         default:
