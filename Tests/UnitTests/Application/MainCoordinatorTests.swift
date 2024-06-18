@@ -13,7 +13,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
+    var mockUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
     var mockURLOpener: MockURLOpener!
     var sut: MainCoordinator!
@@ -31,8 +31,8 @@ final class MainCoordinatorTests: XCTestCase {
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                      defaultsStore: mockDefaultStore)
+        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                    defaultsStore: mockDefaultStore)
         mockURLOpener = MockURLOpener()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()

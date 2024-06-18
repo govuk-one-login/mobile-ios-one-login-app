@@ -81,7 +81,6 @@ final class MainCoordinator: NSObject,
             childDidFinish(loginCoordinator)
         }
         tokenHolder.accessToken = nil
-        userStore.clearTokenInfo()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         showLogin(error)
         action()
