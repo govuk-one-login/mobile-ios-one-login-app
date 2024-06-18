@@ -11,9 +11,8 @@ class TokenHolder: AuthenticationProvider {
             accessToken = tokenResponse?.accessToken
         }
     }
-    var accessToken: String?
-    var idTokenPayload: IdTokenPayload?
     
+    var accessToken: String?
     var bearerToken: String {
         get throws {
             guard let accessToken else {
@@ -22,6 +21,8 @@ class TokenHolder: AuthenticationProvider {
             return accessToken
         }
     }
+    
+    var idTokenPayload: IdTokenPayload?
     
     var validAccessToken: Bool {
         tokenResponse?.expiryDate.timeIntervalSinceNow.sign == .plus

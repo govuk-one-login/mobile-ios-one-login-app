@@ -55,6 +55,8 @@ class SceneDelegate: UIResponder,
        if userStore.returningAuthenticatedUser {
            shouldCallSceneWillEnterForeground = true
            displayUnlockScreen()
+       } else {
+           shouldCallSceneWillEnterForeground = false
        }
    }
 
