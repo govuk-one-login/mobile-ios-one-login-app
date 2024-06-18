@@ -93,8 +93,8 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
         // THEN the secure store should be refreshed and the token info should be removed
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
-        XCTAssertNil(mockSecureStore.savedItems[.accessToken])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
     }
     
@@ -167,7 +167,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
@@ -184,7 +184,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
@@ -201,7 +201,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
@@ -221,7 +221,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
