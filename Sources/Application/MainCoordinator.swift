@@ -13,10 +13,12 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
+    private var tokenVerifier: TokenVerifier
+
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
+    private weak var walletCoordinator: WalletCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
-    private var tokenVerifier: TokenVerifier
     
     init(windowManager: WindowManagement,
          root: UITabBarController,
@@ -37,7 +39,14 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        loginCoordinator?.handleUniversalLink(url)
+        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
+        case .login:
+            loginCoordinator?.handleUniversalLink(url)
+        case .wallet:
+            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+        case .unknown:
+            return
+        }
     }
     
     func evaluateRevisit(action: @escaping () -> Void) {
@@ -114,8 +123,11 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator()
+        let wc = WalletCoordinator(window: windowManager.appWindow,
+                                   analyticsService: analyticsCenter.analyticsService,
+                                   secureStoreService: userStore.secureStoreService)
         addTab(wc)
+        walletCoordinator = wc
     }
     
     private func addProfileTab() {
@@ -128,6 +140,7 @@ extension MainCoordinator {
     
     private func updateToken() {
         homeCoordinator?.updateToken(tokenHolder)
+        walletCoordinator?.updateToken(tokenHolder)
         profileCoordinator?.updateToken(tokenHolder)
     }
 }
