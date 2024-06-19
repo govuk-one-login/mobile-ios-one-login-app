@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder,
     let analyticsService: AnalyticsService = GAnalytics()
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
-    private lazy var userStore: UserStorable = {
+    private lazy var userStore = {
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))
@@ -53,15 +53,16 @@ class SceneDelegate: UIResponder,
     
     func sceneDidEnterBackground(_ scene: UIScene) {
        if userStore.returningAuthenticatedUser {
+           shouldCallSceneWillEnterForeground = true
            displayUnlockScreen()
+       } else {
+           shouldCallSceneWillEnterForeground = false
        }
    }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
             promptToUnlock()
-        } else {
-            shouldCallSceneWillEnterForeground = true
         }
     }
     

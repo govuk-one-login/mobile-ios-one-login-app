@@ -1,5 +1,6 @@
 import Coordination
 import GDSAnalytics
+import LocalAuthentication
 import SecureStore
 import UIKit
 
@@ -46,13 +47,13 @@ final class MainCoordinator: NSObject,
                     do {
                         let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
                         tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                        if let loginCoordinator {
+                            childDidFinish(loginCoordinator)
+                        }
                         action()
-                        updateToken()
                     } catch {
                         handleLoginError(error, action: action)
                     }
-                } else if tokenHolder.validAccessToken || tokenHolder.accessToken == nil {
-                    action()
                 } else {
                     tokenHolder.accessToken = nil
                     showLogin()
@@ -64,11 +65,11 @@ final class MainCoordinator: NSObject,
     
     private func handleLoginError(_ error: Error, action: () -> Void) {
         switch error {
-        case SecureStoreError.unableToRetrieveFromUserDefaults,
+        case is JWTVerifierError,
+            SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            refreshLogin(error, action: action)
-        case is JWTVerifierError:
+            loginCoordinator?.tokenReadError = error
             refreshLogin(error, action: action)
         default:
             print("Token retrival error: \(error)")
@@ -76,9 +77,11 @@ final class MainCoordinator: NSObject,
     }
     
     private func refreshLogin(_ error: Error, action: () -> Void) {
-        loginCoordinator?.root.dismiss(animated: false)
+        if let loginCoordinator {
+            childDidFinish(loginCoordinator)
+        }
         tokenHolder.accessToken = nil
-        userStore.clearTokenInfo()
+        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         showLogin(error)
         action()
     }
@@ -154,14 +157,22 @@ extension MainCoordinator: UITabBarControllerDelegate {
 extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case _ as LoginCoordinator:
-            updateToken()
+        case let child as LoginCoordinator:
+            if child.tokenReadError == nil {
+                updateToken()
+            }
         case _ as ProfileCoordinator:
             showLogin()
             homeCoordinator?.baseVc?.isLoggedIn(false)
             root.selectedIndex = 0
         default:
             break
+        }
+    }
+    
+    func performChildCleanup(child: ChildCoordinator) {
+        if let child = child as? LoginCoordinator {
+            child.root.dismiss(animated: false)
         }
     }
 }

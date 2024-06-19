@@ -64,9 +64,8 @@ final class LoginCoordinator: NSObject,
                 do {
                     let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
                     tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                    windowManager.hideUnlockWindow()
-                    root.dismiss(animated: false)
                     finish()
+                    windowManager.hideUnlockWindow()
                 } catch {
                     handleError(error)
                 }
@@ -136,13 +135,12 @@ final class LoginCoordinator: NSObject,
 
 extension LoginCoordinator {
     private func handleError(_ error: Error) {
-        tokenReadError = error
         switch error {
-        case SecureStoreError.unableToRetrieveFromUserDefaults,
+        case is JWTVerifierError,
+            SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            restartLoginJourney()
-        case is JWTVerifierError:
+            tokenReadError = error
             restartLoginJourney()
         default:
             print("Token retrival error: \(error)")
@@ -150,10 +148,9 @@ extension LoginCoordinator {
     }
     
     private func restartLoginJourney() {
-        tokenHolder.accessToken = nil
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-        windowManager.hideUnlockWindow()
         start()
+        windowManager.hideUnlockWindow()
     }
 }
 

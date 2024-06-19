@@ -3,19 +3,19 @@ import JWTKit
 @testable import OneLogin
 
 final class MockTokenVerifier: TokenVerifier {
-    var verificationFailed = false
-    var extractionFailed = false
+    var verificationError: Error?
+    var extractionError: Error?
     
     func verifyToken(_ token: String) async throws -> IdTokenPayload? {
-        if verificationFailed {
-            throw JWTVerifierError.invalidJWTFormat
+        if let verificationError {
+            throw verificationError
         }
         return Self.mockPayload
     }
     
     func extractPayload(_ token: String) throws -> IdTokenPayload? {
-        if extractionFailed {
-            throw JWTVerifierError.invalidJWTFormat
+        if let extractionError {
+            throw extractionError
         }
         return Self.mockPayload
     }

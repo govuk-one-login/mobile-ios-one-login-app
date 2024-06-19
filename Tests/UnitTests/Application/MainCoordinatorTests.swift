@@ -13,7 +13,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
+    var mockUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
     var mockURLOpener: MockURLOpener!
     var sut: MainCoordinator!
@@ -31,8 +31,8 @@ final class MainCoordinatorTests: XCTestCase {
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                      defaultsStore: mockDefaultStore)
+        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                    defaultsStore: mockDefaultStore)
         mockURLOpener = MockURLOpener()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
@@ -92,6 +92,7 @@ extension MainCoordinatorTests {
         sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
         // THEN the action is called
         waitForTruth(self.evaluateRevisitActionCalled == true, timeout: 20)
+        XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
     }
     
     func test_evaluateRevisit_idTokenExtractedFailed() throws {
@@ -99,12 +100,15 @@ extension MainCoordinatorTests {
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action, and the extraction fails
-        mockTokenVerifier.extractionFailed = true
+        mockTokenVerifier.extractionError = JWTVerifierError.invalidJWTFormat
         sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
-        // THEN the access token and expiry will be set to nil
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        waitForTruth(self.evaluateRevisitActionCalled == true, timeout: 20)
+        // THEN the access token is removed from the token holder, the id token is removed
+        // and the access token expiry is cleared
+        XCTAssertNil(sut.tokenHolder.accessToken)
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
-        // AND the login will be shown
+        // AND login will be shown
         XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
     }
     
@@ -113,8 +117,11 @@ extension MainCoordinatorTests {
         sut.tokenHolder.accessToken = "testAccessToken"
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action
         sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
+        waitForTruth(self.evaluateRevisitActionCalled == true, timeout: 20)
         // THEN the access token is removed from the token holder and the action is called
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        // AND login will be shown
+        XCTAssertNil(sut.tokenHolder.accessToken)
+        XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
         XCTAssertTrue(evaluateRevisitActionCalled)
     }
     
@@ -125,10 +132,11 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called with an action, and the secure store read fails
         mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
         sut.evaluateRevisit { self.evaluateRevisitActionCalled = true }
-        // THEN the access token and expiry will be set to nil
-        waitForTruth(self.sut.tokenHolder.accessToken == nil, timeout: 20)
+        waitForTruth(self.evaluateRevisitActionCalled == true, timeout: 20)
+        // THEN the access token and the access token expiry is cleared
+        XCTAssertNil(sut.tokenHolder.accessToken)
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
-        // AND the login will be shown
+        // AND login will be shown
         XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
     }
     
@@ -149,12 +157,15 @@ extension MainCoordinatorTests {
     }
     
     func test_didSelect_tabBarItem_home() throws {
+        // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let homeVC = tabBarController.viewControllers?[0] else {
             XCTFail("HomeVC not added as child viewcontroller to tabBarController")
             return
         }
+        // WHEN the tab bar controller's delegate method didSelect is called with the home view controller
         tabBarController.delegate?.tabBarController?(tabBarController, didSelect: homeVC)
+        // THEN the home view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "home")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
@@ -164,12 +175,15 @@ extension MainCoordinatorTests {
     }
     
     func test_didSelect_tabBarItem_wallet() throws {
+        // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
             XCTFail("WalletVC not added as child viewcontroller to tabBarController")
             return
         }
+        // WHEN the tab bar controller's delegate method didSelect is called with the wallet view controller
         tabBarController.delegate?.tabBarController?(tabBarController, didSelect: walletVC)
+        // THEN the wallet view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "wallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
@@ -179,12 +193,15 @@ extension MainCoordinatorTests {
     }
     
     func test_didSelect_tabBarItem_profile() throws {
+        // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let profileVC = tabBarController.viewControllers?[2] else {
             XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
             return
         }
+        // WHEN the tab bar controller's delegate method didSelect is called with the profile view controller
         tabBarController.delegate?.tabBarController?(tabBarController, didSelect: profileVC)
+        // THEN the profile view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "profile")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
@@ -243,5 +260,20 @@ extension MainCoordinatorTests {
         // Then the LoginCoordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is LoginCoordinator)
+    }
+    
+    func test_performChildCleanup_fromLoginCoordinator() throws {
+        let mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                        defaultsStore: mockDefaultStore)
+        let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
+                                                root: UINavigationController(),
+                                                analyticsCenter: mockAnalyticsCenter,
+                                                networkMonitor: MockNetworkMonitor(),
+                                                userStore: mockUserStore,
+                                                tokenHolder: TokenHolder())
+        // WHEN the MainCoordinator performChildCleanup from the LoginCoordinator
+        sut.performChildCleanup(child: loginCoordinator)
+        // THEN no coordinator should be launched
+        XCTAssertFalse(loginCoordinator.root.isBeingPresented)
     }
 }

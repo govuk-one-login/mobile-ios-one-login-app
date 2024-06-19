@@ -67,10 +67,20 @@ extension LoginCoordinatorTests {
     func test_start_displaysUnlockScreenViewController() throws {
         // GIVEN the LoginCoordinator is started for a returning user
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
-        XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
-        // THEN the visible view controller should be the UnlockScreenViewController
+        // THEN the UnlockScreenViewController should be displayed
         XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
+    }
+    
+    func test_start_succeeds() throws {
+        // GIVEN the access token is saved in secure store and the token expiry is in date
+        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
+        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // WHEN the LoginCoordinator is started
+        sut.start()
+        // THEN the token holder's id token property should get the id token from secure store and store the payload
+        waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
+        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
     
     func test_start_displaysIntroViewController() throws {
@@ -83,9 +93,17 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
         // THEN the secure store should be refreshed and the token info should be removed
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
-        XCTAssertNil(mockSecureStore.savedItems[.accessToken])
+    }
+    
+    func test_start_launchOnboardingCoordinator() throws {
+        // WHEN the LoginCoordinator is started
+        sut.start()
+        // THEN the OnboardingCoordinator should be launched
+        XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
+        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
     func test_introViewController_networkError() throws {
@@ -125,36 +143,17 @@ extension LoginCoordinatorTests {
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         // WHEN the LoginCoordinator's returningUserFlow method is called
         sut.returningUserFlow()
-        // THEN the token holder's access idTokenPayload should be populated
+        // THEN the token holder's id token property should get the id token from secure store and store the payload
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
         XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
-    
-    func test_start_getIdToken_succeeds() throws {
-        // GIVEN the access token is saved in secure store and the token expiry is in date
-        try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
-        mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
-        // WHEN the LoginCoordinator is started
-        sut.start()
-        // THEN the token holder's idTokenPayload should be populated
-        waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
-        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
-    }
-    
-    func test_start_launchOnboardingCoordinator() throws {
-        // WHEN the LoginCoordinator is started
-        sut.start()
-        // THEN the OnboardingCoordinator should be launched
-        XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
-        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
-    }
-    
+
     func test_getIdToken_succeeds() throws {
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
-        // THEN the token holder's access token property should get the access token from secure store
+        // THEN the token holder's id token property should get the id token from secure store and store the payload
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled == true, timeout: 20)
         XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
     }
@@ -164,13 +163,15 @@ extension LoginCoordinatorTests {
         mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
-        // THEN the token holder's id token property should not get the access token from secure store
+        // THEN the token holder's id token property should not get the id token from secure store and store the payload
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.viewControllers[0] is IntroViewController)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
@@ -183,9 +184,11 @@ extension LoginCoordinatorTests {
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.viewControllers[0] is IntroViewController)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
@@ -198,9 +201,11 @@ extension LoginCoordinatorTests {
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.viewControllers[0] is IntroViewController)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
@@ -209,16 +214,18 @@ extension LoginCoordinatorTests {
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
         mockDefaultStore.set(Date() + 60, forKey: .accessTokenExpiry)
         // GIVEN the extraction of the token fails
-        mockTokenVerifier.extractionFailed = true
+        mockTokenVerifier.extractionError = JWTVerifierError.invalidJWTFormat
         // WHEN the LoginCoordinator's getIdToken method is called
         sut.getIdToken()
         // THEN the token holder's access token property should not get the access token from secure store
         waitForTruth(self.sut.tokenHolder.idTokenPayload == nil, timeout: 20)
         // THEN user store should be refreshed
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
-        XCTAssertNil(mockDefaultStore.savedData[.accessTokenExpiry])
+        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
+        // THEN the login should be reinitiated with an error screen
         XCTAssertTrue(sut.root.viewControllers.count == 2)
+        XCTAssertTrue(sut.root.viewControllers[0] is IntroViewController)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
     }
     
