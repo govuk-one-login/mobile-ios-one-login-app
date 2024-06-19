@@ -85,11 +85,6 @@ jobs:
         run: |
           ./store-access-token.sh
 
-      - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
-
       - name: Build App, Run Staging Configuration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -184,7 +179,7 @@ jobs:
           retention-days: 1
 
   deploy_apps:
-    needs: [ test_staging_config, test_build_config, test_ui ]
+    needs: [ test_staging_config, test_build_config, test_ui, run_swiftlint ]
     name: Deploy Staging and Build Apps
     runs-on: macos-14
     steps:
