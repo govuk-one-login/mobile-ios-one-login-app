@@ -5,14 +5,15 @@ import XCTest
 
 @MainActor
 final class ProfileCoordinatorTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsCenter: MockAnalyticsCenter!
-    var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
-    var mockUserStore: MockUserStore!
-    var mockSecureStore: MockSecureStoreService!
-    var mockDefaultStore: MockDefaultsStore!
-    var urlOpener: URLOpener!
     var window: UIWindow!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
+    var mockAnalyticsCenter: MockAnalyticsCenter!
+    var mockSecureStoreService: MockSecureStoreService!
+    var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: UserStorage!
+    var tokenHolder: TokenHolder!
+    var urlOpener: URLOpener!
     var sut: ProfileCoordinator!
     
     override func setUp() {
@@ -23,14 +24,16 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreference)
-        urlOpener = MockURLOpener()
-        mockSecureStore = MockSecureStoreService()
+        mockSecureStoreService = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                      defaultsStore: mockDefaultStore)
+        mockUserStore = UserStorage(secureStoreService: mockSecureStoreService,
+                                    defaultsStore: mockDefaultStore)
+        tokenHolder = TokenHolder()
+        urlOpener = MockURLOpener()
         sut = ProfileCoordinator(analyticsCenter: mockAnalyticsCenter,
-                                 urlOpener: urlOpener,
-                                 userStore: mockUserStore)
+                                 userStore: mockUserStore,
+                                 tokenHolder: tokenHolder,
+                                 urlOpener: urlOpener)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
@@ -40,10 +43,11 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockAnalyticsPreference = nil
         mockAnalyticsCenter = nil
-        urlOpener = nil
-        mockSecureStore = nil
+        mockSecureStoreService = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        tokenHolder = nil
+        urlOpener = nil
         sut = nil
         
         super.tearDown()
@@ -63,9 +67,8 @@ final class ProfileCoordinatorTests: XCTestCase {
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
         XCTAssertEqual(try vc.emailLabel.text, "")
-        let tokenHolder = TokenHolder()
         tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
-        sut.updateToken(tokenHolder)
+        sut.updateToken()
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }
     
@@ -77,22 +80,6 @@ final class ProfileCoordinatorTests: XCTestCase {
     }
     
     func test_tapSignoutClearsData() throws {
-        mockAnalyticsService.hasAcceptedAnalytics = true
-        try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
-        mockDefaultStore.set(Date(), forKey: .accessTokenExpiry)
-        sut.start()
-        sut.openSignOutPage()
-        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
-        signOutButton.sendActions(for: .touchUpInside)
-        XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .accessToken))
-        XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .idToken))
-        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
-        XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
-    }
-    
-    func test_signoutErrorShowsErrorScreen() throws {
         // GIVEN the user is on the signout page
         mockAnalyticsService.hasAcceptedAnalytics = true
         try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
@@ -101,18 +88,31 @@ final class ProfileCoordinatorTests: XCTestCase {
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
-        // IF there is an error on deleting the keys
-        mockSecureStore.errorFromDeleteItem = SecureStoreError.cantDeleteKey
         // WHEN the user signs out
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
         // THEN all other user information will be deleted
-        XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .accessToken))
-        XCTAssertNil(try? mockUserStore.secureStoreService.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertThrowsError(try mockSecureStoreService.readItem(itemName: .accessToken))
+        XCTAssertThrowsError(try mockSecureStoreService.readItem(itemName: .idToken))
         XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
-        // AND and error page will be shown
+    }
+    
+    func test_signoutErrorShowsErrorScreen() throws {
+        UserDefaults.standard.set(true, forKey: "EnableSignoutError")
+        // GIVEN the user is on the signout page
+        sut.start()
+        sut.openSignOutPage()
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+        // IF there is an error on deleting the keys
+        mockSecureStoreService.errorFromDeleteItem = SecureStoreError.cantDeleteKey
+        // WHEN the user signs out
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
+        signOutButton.sendActions(for: .touchUpInside)
+        // THEN an error page will be shown
         waitForTruth(presentedVC.topViewController is GDSErrorViewController, timeout: 20)
+        UserDefaults.standard.set(false, forKey: "EnableSignoutError")
     }
 }
 

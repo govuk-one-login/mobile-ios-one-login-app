@@ -3,15 +3,31 @@ import XCTest
 
 @MainActor
 final class WalletCoordinatorTests: XCTestCase {
+    var window: UIWindow!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockSecureStoreService: MockSecureStoreService!
+    var mockTokenHolder: TokenHolder!
+
     var sut: WalletCoordinator!
     
     override func setUp() {
         super.setUp()
         
-        sut = WalletCoordinator()
+        window = UIWindow()
+        mockAnalyticsService = MockAnalyticsService()
+        mockSecureStoreService = MockSecureStoreService()
+        mockTokenHolder = TokenHolder()
+        sut = WalletCoordinator(window: window,
+                                analyticsService: mockAnalyticsService,
+                                secureStoreService: mockSecureStoreService,
+                                tokenHolder: mockTokenHolder)
     }
     
     override func tearDown() {
+        window = nil
+        mockAnalyticsService = nil
+        mockSecureStoreService = nil
+        mockTokenHolder = nil
         sut = nil
         
         super.tearDown()

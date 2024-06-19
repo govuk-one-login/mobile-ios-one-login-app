@@ -11,21 +11,21 @@ final class WalletCoordinator: NSObject,
                                ChildCoordinator,
                                NavigationCoordinator {
     let window: UIWindow
-    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
+    weak var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
-    private var tokenHolder: TokenHolder
     private let secureStoreService: SecureStorable
+    private var tokenHolder: TokenHolder
     let walletSDK = WalletSDK()
     
     init(window: UIWindow,
          analyticsService: AnalyticsService,
-         tokenHolder: TokenHolder,
-         secureStoreService: SecureStorable) {
+         secureStoreService: SecureStorable,
+         tokenHolder: TokenHolder) {
         self.window = window
         self.analyticsService = analyticsService
-        self.tokenHolder = tokenHolder
         self.secureStoreService = secureStoreService
+        self.tokenHolder = tokenHolder
     }
     
     func start() {

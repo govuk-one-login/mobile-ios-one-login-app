@@ -11,17 +11,17 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
+    private let userStore: UserStorable
     var networkClient: NetworkClient?
     private var tokenHolder: TokenHolder
-    private let userStore: UserStorable
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsService: AnalyticsService,
-         tokenHolder: TokenHolder,
-         userStore: UserStorable) {
+         userStore: UserStorable,
+         tokenHolder: TokenHolder) {
         self.analyticsService = analyticsService
-        self.tokenHolder = tokenHolder
         self.userStore = userStore
+        self.tokenHolder = tokenHolder
     }
     
     func start() {

@@ -14,6 +14,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
+    var mockTokenHolder: TokenHolder!
     var mockTokenVerifier: MockTokenVerifier!
     var sut: LoginCoordinator!
     
@@ -31,15 +32,16 @@ final class LoginCoordinatorTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                     defaultsStore: mockDefaultStore)
+        mockTokenHolder = TokenHolder()
         mockTokenVerifier = MockTokenVerifier()
         mockWindowManager.appWindow.rootViewController = navigationController
         mockWindowManager.appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(windowManager: mockWindowManager,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
-                               networkMonitor: mockNetworkMonitor,
                                userStore: mockUserStore,
-                               tokenHolder: TokenHolder(),
+                               networkMonitor: mockNetworkMonitor,
+                               tokenHolder: mockTokenHolder,
                                tokenVerifier: mockTokenVerifier)
     }
     
@@ -53,6 +55,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        mockTokenHolder = nil
         sut = nil
         
         super.tearDown()
@@ -298,7 +301,7 @@ extension LoginCoordinatorTests {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         session: MockLoginSession(),
                                                         analyticsService: mockAnalyticsService,
-                                                        tokenHolder: TokenHolder())
+                                                        tokenHolder: mockTokenHolder)
         authCoordinator.loginError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()

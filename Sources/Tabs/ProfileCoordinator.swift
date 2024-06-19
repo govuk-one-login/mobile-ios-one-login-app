@@ -9,22 +9,22 @@ final class ProfileCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
                                 NavigationCoordinator {
-    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
+    weak var parentCoordinator: ParentCoordinator?
     var analyticsCenter: AnalyticsCentral
-    private var tokenHolder: TokenHolder
     var userStore: UserStorable
+    private var tokenHolder: TokenHolder
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsCenter: AnalyticsCentral,
-         tokenHolder: TokenHolder,
          userStore: UserStorable,
+         tokenHolder: TokenHolder,
          urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
         self.analyticsCenter = analyticsCenter
-        self.tokenHolder = tokenHolder
         self.userStore = userStore
+        self.tokenHolder = tokenHolder
         self.urlOpener = urlOpener
         self.baseVc = baseVc
     }
@@ -55,10 +55,10 @@ final class ProfileCoordinator: NSObject,
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
+                tokenHolder.clearTokenHolder()
+                userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 root.dismiss(animated: false) { [unowned self] in
-                    tokenHolder.clearTokenHolder()
-                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-                    analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                     finish()
                 }
             } catch {

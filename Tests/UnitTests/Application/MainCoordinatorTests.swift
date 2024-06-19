@@ -218,8 +218,8 @@ extension MainCoordinatorTests {
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
-                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
@@ -235,8 +235,8 @@ extension MainCoordinatorTests {
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
-                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
@@ -253,8 +253,9 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromProfileCoordinator() throws {
         let profileCoordinator = ProfileCoordinator(analyticsCenter: mockAnalyticsCenter,
-                                                    urlOpener: mockURLOpener,
-                                                    userStore: mockUserStore)
+                                                    userStore: mockUserStore,
+                                                    tokenHolder: TokenHolder(),
+                                                    urlOpener: mockURLOpener)
         // WHEN the MainCoordinator didRegainFocus from ProfileCoordinator (on user sign out)
         sut.didRegainFocus(fromChild: profileCoordinator)
         // Then the LoginCoordinator should be launched
@@ -268,8 +269,8 @@ extension MainCoordinatorTests {
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
-                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator performChildCleanup from the LoginCoordinator
         sut.performChildCleanup(child: loginCoordinator)

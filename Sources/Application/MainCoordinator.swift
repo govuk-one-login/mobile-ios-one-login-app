@@ -9,8 +9,8 @@ final class MainCoordinator: NSObject,
                              TabCoordinator {
     let windowManager: WindowManagement
     let root: UITabBarController
-    var analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
+    var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     private var tokenVerifier: TokenVerifier
@@ -65,6 +65,7 @@ final class MainCoordinator: NSObject,
                     }
                 } else {
                     tokenHolder.clearTokenHolder()
+                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
                     showLogin()
                     action()
                 }
@@ -99,8 +100,8 @@ final class MainCoordinator: NSObject,
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
-                                  networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
+                                  networkMonitor: NetworkMonitor.shared,
                                   tokenHolder: tokenHolder)
         lc.tokenReadError = error
         openChildModally(lc, animated: false)
@@ -117,8 +118,8 @@ extension MainCoordinator {
     
     private func addHomeTab() {
         let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 tokenHolder: tokenHolder,
-                                 userStore: userStore)
+                                 userStore: userStore,
+                                 tokenHolder: tokenHolder)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -126,16 +127,16 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
-                                   tokenHolder: tokenHolder,
-                                   secureStoreService: userStore.secureStoreService)
+                                   secureStoreService: userStore.secureStoreService,
+                                   tokenHolder: tokenHolder)
         addTab(wc)
         walletCoordinator = wc
     }
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
-                                    tokenHolder: tokenHolder,
                                     userStore: userStore,
+                                    tokenHolder: tokenHolder,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc

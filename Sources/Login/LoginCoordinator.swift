@@ -15,11 +15,12 @@ final class LoginCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     let analyticsCenter: AnalyticsCentral
-    let networkMonitor: NetworkMonitoring
     var userStore: UserStorable
+    let networkMonitor: NetworkMonitoring
     let tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
     var tokenReadError: Error?
+    
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
     
@@ -29,15 +30,15 @@ final class LoginCoordinator: NSObject,
     init(windowManager: WindowManagement,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
-         networkMonitor: NetworkMonitoring,
          userStore: UserStorable,
+         networkMonitor: NetworkMonitoring,
          tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
-        self.networkMonitor = networkMonitor
         self.userStore = userStore
+        self.networkMonitor = networkMonitor
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
         root.modalPresentationStyle = .overFullScreen
