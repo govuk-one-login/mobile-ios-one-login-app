@@ -85,6 +85,11 @@ jobs:
         run: |
           ./store-access-token.sh
 
+      - name: Lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+
       - name: Build App, Run Staging Configuration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
