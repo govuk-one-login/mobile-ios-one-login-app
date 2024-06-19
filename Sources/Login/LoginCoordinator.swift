@@ -18,12 +18,13 @@ final class LoginCoordinator: NSObject,
     let networkMonitor: NetworkMonitoring
     var userStore: UserStorable
     let tokenHolder: TokenHolder
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
-    private let errorPresenter = ErrorPresenter.self
-    private weak var authCoordinator: AuthenticationCoordinator?
-    weak var introViewController: IntroViewController?
     private var tokenVerifier: TokenVerifier
     var tokenReadError: Error?
+    private let viewControllerFactory = OnboardingViewControllerFactory.self
+    private let errorPresenter = ErrorPresenter.self
+    
+    weak var introViewController: IntroViewController?
+    private weak var authCoordinator: AuthenticationCoordinator?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
@@ -46,6 +47,7 @@ final class LoginCoordinator: NSObject,
         if userStore.returningAuthenticatedUser {
             returningUserFlow()
         } else {
+            tokenHolder.clearTokenHolder()
             userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
             firstTimeUserFlow()
         }
@@ -148,6 +150,7 @@ extension LoginCoordinator {
     }
     
     private func restartLoginJourney() {
+        tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         start()
         windowManager.hideUnlockWindow()

@@ -1,5 +1,6 @@
 import Coordination
 import GDSCommon
+import LocalAuthentication
 import Logging
 import SecureStore
 import UIKit
@@ -11,17 +12,20 @@ final class ProfileCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     var analyticsCenter: AnalyticsCentral
+    private var tokenHolder: TokenHolder
     var userStore: UserStorable
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsCenter: AnalyticsCentral,
-         urlOpener: URLOpener,
+         tokenHolder: TokenHolder,
          userStore: UserStorable,
+         urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
         self.analyticsCenter = analyticsCenter
-        self.urlOpener = urlOpener
+        self.tokenHolder = tokenHolder
         self.userStore = userStore
+        self.urlOpener = urlOpener
         self.baseVc = baseVc
     }
     
@@ -38,7 +42,7 @@ final class ProfileCoordinator: NSObject,
         root.setViewControllers([profileViewController], animated: true)
     }
     
-    func updateToken(_ tokenHolder: TokenHolder) {
+    func updateToken() {
         baseVc?.updateToken(tokenHolder)
     }
     
@@ -46,16 +50,15 @@ final class ProfileCoordinator: NSObject,
         let navController = UINavigationController()
         let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             do {
-                userStore.clearTokenInfo()
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-
-                try userStore.secureStoreService.delete()
                 root.dismiss(animated: false) { [unowned self] in
+                    tokenHolder.clearTokenHolder()
+                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+                    analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                     finish()
                 }
             } catch {

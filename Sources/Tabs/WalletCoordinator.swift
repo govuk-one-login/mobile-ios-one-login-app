@@ -14,15 +14,17 @@ final class WalletCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
+    private var tokenHolder: TokenHolder
     private let secureStoreService: SecureStorable
-    private var tokenHolder: TokenHolder?
     let walletSDK = WalletSDK()
     
     init(window: UIWindow,
          analyticsService: AnalyticsService,
+         tokenHolder: TokenHolder,
          secureStoreService: SecureStorable) {
         self.window = window
         self.analyticsService = analyticsService
+        self.tokenHolder = tokenHolder
         self.secureStoreService = secureStoreService
     }
     
@@ -30,19 +32,15 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        if tokenHolder?.accessToken == nil,
-           let accessToken = try? secureStoreService.readItem(itemName: .accessToken) {
-            tokenHolder?.accessToken = accessToken
-        }
+    }
+    
+    func updateToken() {
         let networkClient = NetworkClient(authenticationProvider: tokenHolder)
         walletSDK.start(in: window,
                         with: root,
                         networkClient: networkClient,
                         analyticsService: analyticsService,
                         persistentSecureStore: secureStoreService)
-    }
-    
-    func updateToken(_ token: TokenHolder) {
-        tokenHolder = token
+
     }
 }

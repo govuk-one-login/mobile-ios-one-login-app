@@ -64,7 +64,7 @@ final class MainCoordinator: NSObject,
                         handleLoginError(error, action: action)
                     }
                 } else {
-                    tokenHolder.accessToken = nil
+                    tokenHolder.clearTokenHolder()
                     showLogin()
                     action()
                 }
@@ -89,7 +89,7 @@ final class MainCoordinator: NSObject,
         if let loginCoordinator {
             childDidFinish(loginCoordinator)
         }
-        tokenHolder.accessToken = nil
+        tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         showLogin(error)
         action()
@@ -117,6 +117,7 @@ extension MainCoordinator {
     
     private func addHomeTab() {
         let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                 tokenHolder: tokenHolder,
                                  userStore: userStore)
         addTab(hc)
         homeCoordinator = hc
@@ -125,6 +126,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
+                                   tokenHolder: tokenHolder,
                                    secureStoreService: userStore.secureStoreService)
         addTab(wc)
         walletCoordinator = wc
@@ -132,16 +134,17 @@ extension MainCoordinator {
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
-                                    urlOpener: UIApplication.shared,
-                                    userStore: userStore)
+                                    tokenHolder: tokenHolder,
+                                    userStore: userStore,
+                                    urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
     }
     
     private func updateToken() {
-        homeCoordinator?.updateToken(tokenHolder)
-        walletCoordinator?.updateToken(tokenHolder)
-        profileCoordinator?.updateToken(tokenHolder)
+        homeCoordinator?.updateToken()
+        walletCoordinator?.updateToken()
+        profileCoordinator?.updateToken()
     }
 }
 
