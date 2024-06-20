@@ -299,8 +299,8 @@ extension LoginCoordinatorTests {
     
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
-                                                        session: MockLoginSession(),
                                                         analyticsService: mockAnalyticsService,
+                                                        session: MockLoginSession(),
                                                         tokenHolder: mockTokenHolder)
         authCoordinator.loginError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers

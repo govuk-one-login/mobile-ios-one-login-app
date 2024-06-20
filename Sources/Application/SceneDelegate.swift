@@ -32,7 +32,8 @@ class SceneDelegate: UIResponder,
         initialiseMainCoordinator(windowManager: windowManager!)
     }
     
-    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+    func scene(_ scene: UIScene,
+               continue userActivity: NSUserActivity) {
         guard let incomingURL = userActivity.webpageURL else { return }
         coordinator?.handleUniversalLink(incomingURL)
     }

@@ -8,8 +8,8 @@ import XCTest
 final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
-    var mockLoginSession: MockLoginSession!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockLoginSession: MockLoginSession!
     var tokenHolder: TokenHolder!
     var sut: AuthenticationCoordinator!
     
@@ -19,20 +19,20 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         
         window = .init()
         navigationController = .init()
-        mockLoginSession = MockLoginSession(window: window)
         mockAnalyticsService = MockAnalyticsService()
+        mockLoginSession = MockLoginSession(window: window)
         tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
-                                        session: mockLoginSession,
                                         analyticsService: mockAnalyticsService,
+                                        session: mockLoginSession,
                                         tokenHolder: tokenHolder)
     }
 
     override func tearDown() {
         window = nil
         navigationController = nil
-        mockLoginSession = nil
         mockAnalyticsService = nil
+        mockLoginSession = nil
         tokenHolder = nil
         sut = nil
 

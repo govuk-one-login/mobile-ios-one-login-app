@@ -10,21 +10,21 @@ final class AuthenticationCoordinator: NSObject,
                                        NavigationCoordinator {
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
-    let session: LoginSession
     let analyticsService: AnalyticsService
+    let session: LoginSession
     let errorPresenter = ErrorPresenter.self
     var tokenHolder: TokenHolder
-    var loginError: Error?
     private var tokenVerifier: TokenVerifier
+    var loginError: Error?
     
     init(root: UINavigationController,
-         session: LoginSession,
          analyticsService: AnalyticsService,
+         session: LoginSession,
          tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
-        self.session = session
         self.analyticsService = analyticsService
+        self.session = session
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
     }
