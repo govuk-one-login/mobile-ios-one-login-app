@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openid/AppAuth-iOS.git",
       "state" : {
-        "revision" : "8c0b028aedf617d6d780d448dc836f7048166d0f",
-        "version" : "1.7.4"
+        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
+        "version" : "1.7.5"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "e77765bf539e889bc65fed92227b1ce7c8b5c4dd",
-        "version" : "1.1.5"
+        "revision" : "d7e4d450744f53b5463d3d43662a5b336e4f1575",
+        "version" : "1.1.6"
       }
     },
     {
