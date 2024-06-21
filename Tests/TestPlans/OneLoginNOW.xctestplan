@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "A28DC0BC-3CBF-444C-B8C6-B1E40FE26618",
+      "name" : "Unit Tests NOW",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "diagnosticCollectionPolicy" : "Always",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:OneLogin.xcodeproj",
+      "identifier" : "D06F4A232C21DB98009D76A0",
+      "name" : "OneLoginNOW"
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "D06F4AB72C241A68009D76A0",
+        "name" : "OneLoginNOWUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

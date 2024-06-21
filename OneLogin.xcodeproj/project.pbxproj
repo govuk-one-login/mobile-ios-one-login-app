@@ -79,7 +79,6 @@
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
 		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
 		C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */; };
-		C86A0D012BF270B50023EC42 /* MockTabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86A0D002BF270B50023EC42 /* MockTabbedViewModel.swift */; };
 		C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */; };
 		C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */; };
 		C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */; };
@@ -146,7 +145,162 @@
 		D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */; };
 		D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D22BEE734900418C0B /* IdTokenPayload.swift */; };
 		D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */; };
-		D06F49A02C20373A009D76A0 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = D06F499F2C20373A009D76A0 /* Wallet */; };
+		D06F4A382C21DB98009D76A0 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
+		D06F4A392C21DB98009D76A0 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
+		D06F4A3A2C21DB98009D76A0 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1232BB4805900722218 /* HomeCoordinator.swift */; };
+		D06F4A3B2C21DB98009D76A0 /* LAContexting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D752B72959A00CCAF3E /* LAContexting.swift */; };
+		D06F4A3C2C21DB98009D76A0 /* TouchIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */; };
+		D06F4A3D2C21DB98009D76A0 /* TabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */; };
+		D06F4A3E2C21DB98009D76A0 /* TokenHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD212B8652F200385FE7 /* TokenHolder.swift */; };
+		D06F4A3F2C21DB98009D76A0 /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3E72BBC0536005015AF /* WindowManagement.swift */; };
+		D06F4A402C21DB98009D76A0 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
+		D06F4A422C21DB98009D76A0 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
+		D06F4A432C21DB98009D76A0 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
+		D06F4A442C21DB98009D76A0 /* TabbedViewSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */; };
+		D06F4A452C21DB98009D76A0 /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
+		D06F4A462C21DB98009D76A0 /* UserStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD282B87D89000385FE7 /* UserStorable.swift */; };
+		D06F4A472C21DB98009D76A0 /* DefaultsStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */; };
+		D06F4A482C21DB98009D76A0 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2C2B87D9C800385FE7 /* UserStorage.swift */; };
+		D06F4A492C21DB98009D76A0 /* AnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A42B9232B900E92FB9 /* AnalyticsCenter.swift */; };
+		D06F4A4A2C21DB98009D76A0 /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
+		D06F4A4B2C21DB98009D76A0 /* LAContext+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64492BA1C300000C9524 /* LAContext+OneLogin.swift */; };
+		D06F4A4C2C21DB98009D76A0 /* PasscodeInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */; };
+		D06F4A4D2C21DB98009D76A0 /* OnboardingViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8520C292AE2C1C5006790C1 /* OnboardingViewControllerFactory.swift */; };
+		D06F4A4E2C21DB98009D76A0 /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
+		D06F4A4F2C21DB98009D76A0 /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
+		D06F4A512C21DB98009D76A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
+		D06F4A522C21DB98009D76A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
+		D06F4A532C21DB98009D76A0 /* String+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343962B909A2F00E92FB9 /* String+OneLogin.swift */; };
+		D06F4A542C21DB98009D76A0 /* KeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */; };
+		D06F4A562C21DB98009D76A0 /* TokenVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */; };
+		D06F4A572C21DB98009D76A0 /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */; };
+		D06F4A582C21DB98009D76A0 /* JWTVerifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */; };
+		D06F4A592C21DB98009D76A0 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
+		D06F4A5A2C21DB98009D76A0 /* StandardButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */; };
+		D06F4A5B2C21DB98009D76A0 /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
+		D06F4A5C2C21DB98009D76A0 /* TabbedViewSectionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8E2BE1231A00769CEA /* TabbedViewSectionFactory.swift */; };
+		D06F4A5D2C21DB98009D76A0 /* TabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */; };
+		D06F4A5E2C21DB98009D76A0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1312BB73E2E00722218 /* WindowManager.swift */; };
+		D06F4A5F2C21DB98009D76A0 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B642BDA478000769CEA /* SignInView.swift */; };
+		D06F4A602C21DB98009D76A0 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
+		D06F4A612C21DB98009D76A0 /* SignoutErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */; };
+		D06F4A622C21DB98009D76A0 /* TabbedViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */; };
+		D06F4A632C21DB98009D76A0 /* TabbedViewSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B862BDFE2DA00769CEA /* TabbedViewSectionFooter.swift */; };
+		D06F4A642C21DB98009D76A0 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B825C22B98C34A00336146 /* LoginCoordinator.swift */; };
+		D06F4A652C21DB98009D76A0 /* ProfileTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1090A2BEE6C4500B21038 /* ProfileTabViewModel.swift */; };
+		D06F4A672C21DB98009D76A0 /* FaceIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */; };
+		D06F4A682C21DB98009D76A0 /* GenericErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */; };
+		D06F4A692C21DB98009D76A0 /* AnalyticsCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */; };
+		D06F4A6A2C21DB98009D76A0 /* LoginLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BEC2932BFFA8C800C9775A /* LoginLoadingViewModel.swift */; };
+		D06F4A6B2C21DB98009D76A0 /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
+		D06F4A6C2C21DB98009D76A0 /* JWKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24422BEBB06700759529 /* JWKInfo.swift */; };
+		D06F4A6D2C21DB98009D76A0 /* IdTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D22BEE734900418C0B /* IdTokenPayload.swift */; };
+		D06F4A6E2C21DB98009D76A0 /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
+		D06F4A6F2C21DB98009D76A0 /* JWTVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24402BEBAEF100759529 /* JWTVerifier.swift */; };
+		D06F4A702C21DB98009D76A0 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
+		D06F4A712C21DB98009D76A0 /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E109082BEE6C0C00B21038 /* HomeTabViewModel.swift */; };
+		D06F4A722C21DB98009D76A0 /* NetworkMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */; };
+		D06F4A732C21DB98009D76A0 /* ProfileTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* ProfileTabAnalytics.swift */; };
+		D06F4A742C21DB98009D76A0 /* BiometricEnrollmentAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4302B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift */; };
+		D06F4A752C21DB98009D76A0 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */; };
+		D06F4A762C21DB98009D76A0 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */; };
+		D06F4A772C21DB98009D76A0 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */; };
+		D06F4A782C21DB98009D76A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
+		D06F4A792C21DB98009D76A0 /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
+		D06F4A7A2C21DB98009D76A0 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
+		D06F4A7B2C21DB98009D76A0 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */; };
+		D06F4A7C2C21DB98009D76A0 /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
+		D06F4A7D2C21DB98009D76A0 /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
+		D06F4A7E2C21DB98009D76A0 /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
+		D06F4A7F2C21DB98009D76A0 /* AnalyticsPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */; };
+		D06F4A802C21DB98009D76A0 /* SignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */; };
+		D06F4A832C21DB98009D76A0 /* UserDetails in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A292C21DB98009D76A0 /* UserDetails */; };
+		D06F4A842C21DB98009D76A0 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A262C21DB98009D76A0 /* GDSCommon */; };
+		D06F4A852C21DB98009D76A0 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A242C21DB98009D76A0 /* GDSAnalytics */; };
+		D06F4A862C21DB98009D76A0 /* GAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A2A2C21DB98009D76A0 /* GAnalytics */; };
+		D06F4A872C21DB98009D76A0 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A272C21DB98009D76A0 /* Authentication */; };
+		D06F4A882C21DB98009D76A0 /* JWTKit in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A322C21DB98009D76A0 /* JWTKit */; };
+		D06F4A892C21DB98009D76A0 /* SecureStore in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A302C21DB98009D76A0 /* SecureStore */; };
+		D06F4A8B2C21DB98009D76A0 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A2E2C21DB98009D76A0 /* Coordination */; };
+		D06F4A8C2C21DB98009D76A0 /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A2C2C21DB98009D76A0 /* HTTPLogging */; };
+		D06F4A8D2C21DB98009D76A0 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4A2D2C21DB98009D76A0 /* Logging */; };
+		D06F4A902C21DB98009D76A0 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
+		D06F4A912C21DB98009D76A0 /* SignInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B672BDA47AD00769CEA /* SignInView.xib */; };
+		D06F4A922C21DB98009D76A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */; };
+		D06F4A932C21DB98009D76A0 /* OneLoginBuild.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */; };
+		D06F4A942C21DB98009D76A0 /* OneLoginStaging.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */; };
+		D06F4A952C21DB98009D76A0 /* OneLoginUnit.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */; };
+		D06F4A962C21DB98009D76A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */; };
+		D06F4A972C21DB98009D76A0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */; };
+		D06F4A982C21DB98009D76A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */; };
+		D06F4A992C21DB98009D76A0 /* TabbedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B722BDA8DD100769CEA /* TabbedView.xib */; };
+		D06F4A9A2C21DB98009D76A0 /* UnlockScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 414D98042B8DF0F100E267EF /* UnlockScreen.xib */; };
+		D06F4A9B2C21DB98009D76A0 /* FeatureFlagsBuild.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */; };
+		D06F4A9C2C21DB98009D76A0 /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
+		D06F4A9D2C21DB98009D76A0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C85507012B7FB58D00AA9375 /* InfoPlist.strings */; };
+		D06F4AA82C21DFF8009D76A0 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4AA72C21DFF8009D76A0 /* Wallet */; };
+		D06F4AAB2C21E17D009D76A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4AAA2C21E178009D76A0 /* AnalyticsService+GDS.swift */; };
+		D06F4AAE2C21E1DA009D76A0 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4AAD2C21E1D4009D76A0 /* MainCoordinator.swift */; };
+		D06F4AF22C241A68009D76A0 /* MockNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D06F4ABA2C241A68009D76A0 /* MockNetworking */; };
+		D06F4B792C243EDF009D76A0 /* OutdatedTokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = D06F4B382C243EDF009D76A0 /* OutdatedTokenResponse.json */; };
+		D06F4B7A2C243EDF009D76A0 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = D06F4B392C243EDF009D76A0 /* TokenResponse.json */; };
+		D06F4B8C2C244110009D76A0 /* MainCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B182C243EDE009D76A0 /* MainCoordinatorTests.swift */; };
+		D06F4B8D2C244110009D76A0 /* SceneLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B192C243EDE009D76A0 /* SceneLifecycleTests.swift */; };
+		D06F4B8E2C244110009D76A0 /* TokenHolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B1A2C243EDE009D76A0 /* TokenHolderTests.swift */; };
+		D06F4B8F2C244110009D76A0 /* WindowManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B1B2C243EDE009D76A0 /* WindowManagerTests.swift */; };
+		D06F4B902C244110009D76A0 /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B0D2C243EDE009D76A0 /* GenericErrorViewModelTests.swift */; };
+		D06F4B912C244110009D76A0 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B0E2C243EDE009D76A0 /* NetworkConnectionErrorViewModelTests.swift */; };
+		D06F4B922C244110009D76A0 /* UnableToLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B0F2C243EDE009D76A0 /* UnableToLoginErrorViewModelTests.swift */; };
+		D06F4B932C244110009D76A0 /* LoginSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B052C243EDE009D76A0 /* LoginSessionConfigurationTests.swift */; };
+		D06F4B942C244110009D76A0 /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B072C243EDE009D76A0 /* StringTests.swift */; };
+		D06F4B952C244110009D76A0 /* FaceIDEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B2B2C243EDF009D76A0 /* FaceIDEnrollmentViewModelTests.swift */; };
+		D06F4B962C244110009D76A0 /* LoginLoadingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B2C2C243EDF009D76A0 /* LoginLoadingViewModelTests.swift */; };
+		D06F4B972C244110009D76A0 /* OneLoginIntroViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B2D2C243EDF009D76A0 /* OneLoginIntroViewModelTests.swift */; };
+		D06F4B982C244110009D76A0 /* PasscodeInformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B2E2C243EDF009D76A0 /* PasscodeInformationViewModelTests.swift */; };
+		D06F4B992C244110009D76A0 /* TouchIDEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B2F2C243EDF009D76A0 /* TouchIDEnrollmentViewModelTests.swift */; };
+		D06F4B9A2C244110009D76A0 /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B302C243EDF009D76A0 /* UnlockScreenViewModelTests.swift */; };
+		D06F4B9B2C244110009D76A0 /* AuthenticationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B322C243EDF009D76A0 /* AuthenticationCoordinatorTests.swift */; };
+		D06F4B9C2C244110009D76A0 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B332C243EDF009D76A0 /* EnrolmentCoordinatorTests.swift */; };
+		D06F4B9D2C244110009D76A0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B342C243EDF009D76A0 /* LoginCoordinatorTests.swift */; };
+		D06F4B9E2C244110009D76A0 /* OnboardingCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B352C243EDF009D76A0 /* OnboardingCoordinatorTests.swift */; };
+		D06F4B9F2C244110009D76A0 /* MockTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B372C243EDF009D76A0 /* MockTokenResponse.swift */; };
+		D06F4BA02C244110009D76A0 /* OutdatedTokenResponse.json in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B382C243EDF009D76A0 /* OutdatedTokenResponse.json */; };
+		D06F4BA12C244110009D76A0 /* TokenResponse.json in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B392C243EDF009D76A0 /* TokenResponse.json */; };
+		D06F4BA22C244110009D76A0 /* MockAnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B3B2C243EDF009D76A0 /* MockAnalyticsCenter.swift */; };
+		D06F4BA32C244110009D76A0 /* MockAnalyticsPreferenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B3C2C243EDF009D76A0 /* MockAnalyticsPreferenceStore.swift */; };
+		D06F4BA42C244110009D76A0 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B3D2C243EDF009D76A0 /* MockAnalyticsService.swift */; };
+		D06F4BA52C244110009D76A0 /* MockSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B3F2C243EDF009D76A0 /* MockSceneDelegate.swift */; };
+		D06F4BA62C244110009D76A0 /* MockWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B402C243EDF009D76A0 /* MockWindowManager.swift */; };
+		D06F4BA72C244110009D76A0 /* MockJWKSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B422C243EDF009D76A0 /* MockJWKSResponse.swift */; };
+		D06F4BA82C244110009D76A0 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B432C243EDF009D76A0 /* MockNetworkMonitor.swift */; };
+		D06F4BA92C244110009D76A0 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B442C243EDF009D76A0 /* MockURLOpener.swift */; };
+		D06F4BAA2C244110009D76A0 /* MockDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B462C243EDF009D76A0 /* MockDefaultsStore.swift */; };
+		D06F4BAB2C244110009D76A0 /* MockSecureStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B472C243EDF009D76A0 /* MockSecureStoreService.swift */; };
+		D06F4BAC2C244110009D76A0 /* MockUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B482C243EDF009D76A0 /* MockUserStore.swift */; };
+		D06F4BAD2C244110009D76A0 /* MockAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B4A2C243EDF009D76A0 /* MockAuthenticationProvider.swift */; };
+		D06F4BAE2C244110009D76A0 /* MockLAContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B4B2C243EDF009D76A0 /* MockLAContext.swift */; };
+		D06F4BAF2C244110009D76A0 /* MockLoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B4C2C243EDF009D76A0 /* MockLoginSession.swift */; };
+		D06F4BB12C244110009D76A0 /* MockTokenVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B4E2C243EDF009D76A0 /* MockTokenVerifier.swift */; };
+		D06F4BB32C244110009D76A0 /* LocalizedEnglishStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B152C243EDE009D76A0 /* LocalizedEnglishStringTests.swift */; };
+		D06F4BB42C244110009D76A0 /* LocalizedWelshStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B162C243EDE009D76A0 /* LocalizedWelshStringTests.swift */; };
+		D06F4BB52C244110009D76A0 /* HomeTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B1D2C243EDE009D76A0 /* HomeTabViewModelTests.swift */; };
+		D06F4BB62C244110009D76A0 /* ProfileTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B1F2C243EDE009D76A0 /* ProfileTabViewModelTests.swift */; };
+		D06F4BB72C244110009D76A0 /* SignoutErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B202C243EDE009D76A0 /* SignoutErrorViewModelTests.swift */; };
+		D06F4BB82C244110009D76A0 /* SignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B212C243EDE009D76A0 /* SignOutPageViewModelTests.swift */; };
+		D06F4BB92C244110009D76A0 /* DeveloperMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B232C243EDE009D76A0 /* DeveloperMenuViewControllerTests.swift */; };
+		D06F4BBA2C244110009D76A0 /* TabbedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B242C243EDE009D76A0 /* TabbedViewControllerTests.swift */; };
+		D06F4BBB2C244110009D76A0 /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B252C243EDE009D76A0 /* UnlockScreenViewControllerTests.swift */; };
+		D06F4BBC2C244110009D76A0 /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B092C243EDE009D76A0 /* HomeCoordinatorTests.swift */; };
+		D06F4BBD2C244110009D76A0 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B0A2C243EDE009D76A0 /* ProfileCoordinatorTests.swift */; };
+		D06F4BBF2C244110009D76A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B112C243EDE009D76A0 /* String+TestExtensions.swift */; };
+		D06F4BC02C244110009D76A0 /* UIView+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B122C243EDE009D76A0 /* UIView+TestExtensions.swift */; };
+		D06F4BC12C244110009D76A0 /* XCTestCase+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B132C243EDE009D76A0 /* XCTestCase+TestExtensions.swift */; };
+		D06F4BC22C244110009D76A0 /* ErrorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B272C243EDE009D76A0 /* ErrorPresenterTests.swift */; };
+		D06F4BC32C244110009D76A0 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B282C243EDE009D76A0 /* JWTVerifierTests.swift */; };
+		D06F4BC42C244110009D76A0 /* OnboardingViewControllerFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B292C243EDE009D76A0 /* OnboardingViewControllerFactoryTests.swift */; };
+		D06F4BC52C2444A3009D76A0 /* MockTabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F4B502C243EDF009D76A0 /* MockTabbedViewModel.swift */; };
+		D06F4BC62C244818009D76A0 /* MockTabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86A0D002BF270B50023EC42 /* MockTabbedViewModel.swift */; };
+		D06F4BC72C244863009D76A0 /* MockJWKSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */; };
 		D0825A952C12F5B800E940F7 /* SignoutErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */; };
 		D087BCF22C19E4BB00825F60 /* SignoutErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087BCF12C19E4BB00825F60 /* SignoutErrorViewModelTests.swift */; };
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
@@ -170,7 +324,6 @@
 		D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24402BEBAEF100759529 /* JWTVerifier.swift */; };
 		D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24422BEBB06700759529 /* JWKInfo.swift */; };
 		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
-		D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */; };
 		D0BE24492BEBD43300759529 /* MockNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0BE24482BEBD43300759529 /* MockNetworking */; };
 /* End PBXBuildFile section */
 
@@ -202,6 +355,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 219601E62A976302008F3427;
 			remoteInfo = OneLogin;
+		};
+		D06F4AFC2C241A88009D76A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 219601DF2A976302008F3427 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D06F4A232C21DB98009D76A0;
+			remoteInfo = OneLoginNOW;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -351,6 +511,67 @@
 		D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyVerifier.swift; sourceTree = "<group>"; };
 		D03B04D22BEE734900418C0B /* IdTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenPayload.swift; sourceTree = "<group>"; };
 		D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierError.swift; sourceTree = "<group>"; };
+		D06F4AA52C21DB98009D76A0 /* OneLoginNOW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneLoginNOW.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06F4AA62C21DB99009D76A0 /* OneLoginNOW-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OneLoginNOW-Info.plist"; path = "/Users/jodubey/Build/GDS/mobile-ios-one-login-app/OneLoginNOW-Info.plist"; sourceTree = "<absolute>"; };
+		D06F4AAA2C21E178009D76A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
+		D06F4AAD2C21E1D4009D76A0 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		D06F4AFB2C241A68009D76A0 /* OneLoginNOWUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginNOWUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06F4B032C242879009D76A0 /* OneLoginNOW.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginNOW.xctestplan; sourceTree = "<group>"; };
+		D06F4B052C243EDE009D76A0 /* LoginSessionConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSessionConfigurationTests.swift; sourceTree = "<group>"; };
+		D06F4B072C243EDE009D76A0 /* StringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
+		D06F4B092C243EDE009D76A0 /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B0A2C243EDE009D76A0 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B0D2C243EDE009D76A0 /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B0E2C243EDE009D76A0 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B0F2C243EDE009D76A0 /* UnableToLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B112C243EDE009D76A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
+		D06F4B122C243EDE009D76A0 /* UIView+TestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+TestExtensions.swift"; sourceTree = "<group>"; };
+		D06F4B132C243EDE009D76A0 /* XCTestCase+TestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+TestExtensions.swift"; sourceTree = "<group>"; };
+		D06F4B152C243EDE009D76A0 /* LocalizedEnglishStringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedEnglishStringTests.swift; sourceTree = "<group>"; };
+		D06F4B162C243EDE009D76A0 /* LocalizedWelshStringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedWelshStringTests.swift; sourceTree = "<group>"; };
+		D06F4B182C243EDE009D76A0 /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B192C243EDE009D76A0 /* SceneLifecycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneLifecycleTests.swift; sourceTree = "<group>"; };
+		D06F4B1A2C243EDE009D76A0 /* TokenHolderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
+		D06F4B1B2C243EDE009D76A0 /* WindowManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowManagerTests.swift; sourceTree = "<group>"; };
+		D06F4B1D2C243EDE009D76A0 /* HomeTabViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B1F2C243EDE009D76A0 /* ProfileTabViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B202C243EDE009D76A0 /* SignoutErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignoutErrorViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B212C243EDE009D76A0 /* SignOutPageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B232C243EDE009D76A0 /* DeveloperMenuViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewControllerTests.swift; sourceTree = "<group>"; };
+		D06F4B242C243EDE009D76A0 /* TabbedViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbedViewControllerTests.swift; sourceTree = "<group>"; };
+		D06F4B252C243EDE009D76A0 /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
+		D06F4B272C243EDE009D76A0 /* ErrorPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorPresenterTests.swift; sourceTree = "<group>"; };
+		D06F4B282C243EDE009D76A0 /* JWTVerifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JWTVerifierTests.swift; sourceTree = "<group>"; };
+		D06F4B292C243EDE009D76A0 /* OnboardingViewControllerFactoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerFactoryTests.swift; sourceTree = "<group>"; };
+		D06F4B2B2C243EDF009D76A0 /* FaceIDEnrollmentViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceIDEnrollmentViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B2C2C243EDF009D76A0 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B2D2C243EDF009D76A0 /* OneLoginIntroViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B2E2C243EDF009D76A0 /* PasscodeInformationViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B2F2C243EDF009D76A0 /* TouchIDEnrollmentViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B302C243EDF009D76A0 /* UnlockScreenViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModelTests.swift; sourceTree = "<group>"; };
+		D06F4B322C243EDF009D76A0 /* AuthenticationCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B332C243EDF009D76A0 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B342C243EDF009D76A0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B352C243EDF009D76A0 /* OnboardingCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinatorTests.swift; sourceTree = "<group>"; };
+		D06F4B372C243EDF009D76A0 /* MockTokenResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTokenResponse.swift; sourceTree = "<group>"; };
+		D06F4B382C243EDF009D76A0 /* OutdatedTokenResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OutdatedTokenResponse.json; sourceTree = "<group>"; };
+		D06F4B392C243EDF009D76A0 /* TokenResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
+		D06F4B3B2C243EDF009D76A0 /* MockAnalyticsCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsCenter.swift; sourceTree = "<group>"; };
+		D06F4B3C2C243EDF009D76A0 /* MockAnalyticsPreferenceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsPreferenceStore.swift; sourceTree = "<group>"; };
+		D06F4B3D2C243EDF009D76A0 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
+		D06F4B3F2C243EDF009D76A0 /* MockSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSceneDelegate.swift; sourceTree = "<group>"; };
+		D06F4B402C243EDF009D76A0 /* MockWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockWindowManager.swift; sourceTree = "<group>"; };
+		D06F4B422C243EDF009D76A0 /* MockJWKSResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockJWKSResponse.swift; sourceTree = "<group>"; };
+		D06F4B432C243EDF009D76A0 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
+		D06F4B442C243EDF009D76A0 /* MockURLOpener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
+		D06F4B462C243EDF009D76A0 /* MockDefaultsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDefaultsStore.swift; sourceTree = "<group>"; };
+		D06F4B472C243EDF009D76A0 /* MockSecureStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSecureStoreService.swift; sourceTree = "<group>"; };
+		D06F4B482C243EDF009D76A0 /* MockUserStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserStore.swift; sourceTree = "<group>"; };
+		D06F4B4A2C243EDF009D76A0 /* MockAuthenticationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAuthenticationProvider.swift; sourceTree = "<group>"; };
+		D06F4B4B2C243EDF009D76A0 /* MockLAContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLAContext.swift; sourceTree = "<group>"; };
+		D06F4B4C2C243EDF009D76A0 /* MockLoginSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLoginSession.swift; sourceTree = "<group>"; };
+		D06F4B4E2C243EDF009D76A0 /* MockTokenVerifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTokenVerifier.swift; sourceTree = "<group>"; };
+		D06F4B502C243EDF009D76A0 /* MockTabbedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTabbedViewModel.swift; sourceTree = "<group>"; };
 		D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignoutErrorViewModel.swift; sourceTree = "<group>"; };
 		D087BCF12C19E4BB00825F60 /* SignoutErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignoutErrorViewModelTests.swift; sourceTree = "<group>"; };
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
@@ -388,7 +609,7 @@
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
-				D06F49A02C20373A009D76A0 /* Wallet in Frameworks */,
+				D06F4AA82C21DFF8009D76A0 /* Wallet in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
@@ -424,6 +645,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D06F4A822C21DB98009D76A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06F4A832C21DB98009D76A0 /* UserDetails in Frameworks */,
+				D06F4A842C21DB98009D76A0 /* GDSCommon in Frameworks */,
+				D06F4A852C21DB98009D76A0 /* GDSAnalytics in Frameworks */,
+				D06F4A862C21DB98009D76A0 /* GAnalytics in Frameworks */,
+				D06F4A872C21DB98009D76A0 /* Authentication in Frameworks */,
+				D06F4A882C21DB98009D76A0 /* JWTKit in Frameworks */,
+				D06F4A892C21DB98009D76A0 /* SecureStore in Frameworks */,
+				D06F4A8B2C21DB98009D76A0 /* Coordination in Frameworks */,
+				D06F4A8C2C21DB98009D76A0 /* HTTPLogging in Frameworks */,
+				D06F4A8D2C21DB98009D76A0 /* Logging in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06F4AF12C241A68009D76A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06F4AF22C241A68009D76A0 /* MockNetworking in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -438,6 +684,7 @@
 				219602002A976305008F3427 /* Tests */,
 				219601E82A976302008F3427 /* Products */,
 				C85E211C2ACEEFC400AF8B4E /* Frameworks */,
+				D06F4AA62C21DB99009D76A0 /* OneLoginNOW-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -449,6 +696,8 @@
 				219602072A976305008F3427 /* OneLoginUITests.xctest */,
 				25537C3D2AF2B2600059DCD2 /* OneLoginStagingConfigTests.xctest */,
 				25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */,
+				D06F4AA52C21DB98009D76A0 /* OneLoginNOW.app */,
+				D06F4AFB2C241A68009D76A0 /* OneLoginNOWUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -456,6 +705,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D06F4B042C243E3F009D76A0 /* UnitTestsNOW */,
 				C8E6C7662AF8223B008C19C9 /* TestPlans */,
 				C8E6C7632AF821D2008C19C9 /* UnitTests */,
 				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
@@ -503,6 +753,7 @@
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				D06F4AAC2C21E1CD009D76A0 /* NOW */,
 				C86B706D2B8F5EF200F4C9BF /* Firebase */,
 				C8BACAFB2B4DD92200530419 /* Environment */,
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
@@ -599,6 +850,7 @@
 		C8098B952AEFF198001517A0 /* CustomTypes */ = {
 			isa = PBXGroup;
 			children = (
+				D06F4AA92C21E16F009D76A0 /* NOW */,
 				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 			);
@@ -1100,6 +1352,7 @@
 		C8E6C7662AF8223B008C19C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
+				D06F4B032C242879009D76A0 /* OneLoginNOW.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
 				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
@@ -1117,6 +1370,252 @@
 				D08B0B7B2BDBF82600769CEA /* Views */,
 			);
 			path = Tabs;
+			sourceTree = "<group>";
+		};
+		D06F4AA92C21E16F009D76A0 /* NOW */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4AAA2C21E178009D76A0 /* AnalyticsService+GDS.swift */,
+			);
+			path = NOW;
+			sourceTree = "<group>";
+		};
+		D06F4AAC2C21E1CD009D76A0 /* NOW */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4AAD2C21E1D4009D76A0 /* MainCoordinator.swift */,
+			);
+			path = NOW;
+			sourceTree = "<group>";
+		};
+		D06F4B042C243E3F009D76A0 /* UnitTestsNOW */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B1C2C243EDE009D76A0 /* Application */,
+				D06F4B102C243EDE009D76A0 /* Errors */,
+				D06F4B082C243EDE009D76A0 /* Extensions */,
+				D06F4B362C243EDF009D76A0 /* Login */,
+				D06F4B522C243EDF009D76A0 /* Mocks */,
+				D06F4B172C243EDE009D76A0 /* Resources */,
+				D06F4B262C243EDE009D76A0 /* Screens */,
+				D06F4B0C2C243EDE009D76A0 /* Tabs */,
+				D06F4B142C243EDE009D76A0 /* TestExtensions */,
+				D06F4B2A2C243EDE009D76A0 /* Utilities */,
+			);
+			path = UnitTestsNOW;
+			sourceTree = "<group>";
+		};
+		D06F4B062C243EDE009D76A0 /* CustomTypes */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B052C243EDE009D76A0 /* LoginSessionConfigurationTests.swift */,
+			);
+			path = CustomTypes;
+			sourceTree = "<group>";
+		};
+		D06F4B082C243EDE009D76A0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B062C243EDE009D76A0 /* CustomTypes */,
+				D06F4B072C243EDE009D76A0 /* StringTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D06F4B0C2C243EDE009D76A0 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B092C243EDE009D76A0 /* HomeCoordinatorTests.swift */,
+				D06F4B0A2C243EDE009D76A0 /* ProfileCoordinatorTests.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		D06F4B102C243EDE009D76A0 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B0D2C243EDE009D76A0 /* GenericErrorViewModelTests.swift */,
+				D06F4B0E2C243EDE009D76A0 /* NetworkConnectionErrorViewModelTests.swift */,
+				D06F4B0F2C243EDE009D76A0 /* UnableToLoginErrorViewModelTests.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		D06F4B142C243EDE009D76A0 /* TestExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B112C243EDE009D76A0 /* String+TestExtensions.swift */,
+				D06F4B122C243EDE009D76A0 /* UIView+TestExtensions.swift */,
+				D06F4B132C243EDE009D76A0 /* XCTestCase+TestExtensions.swift */,
+			);
+			path = TestExtensions;
+			sourceTree = "<group>";
+		};
+		D06F4B172C243EDE009D76A0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B152C243EDE009D76A0 /* LocalizedEnglishStringTests.swift */,
+				D06F4B162C243EDE009D76A0 /* LocalizedWelshStringTests.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D06F4B1C2C243EDE009D76A0 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B182C243EDE009D76A0 /* MainCoordinatorTests.swift */,
+				D06F4B192C243EDE009D76A0 /* SceneLifecycleTests.swift */,
+				D06F4B1A2C243EDE009D76A0 /* TokenHolderTests.swift */,
+				D06F4B1B2C243EDE009D76A0 /* WindowManagerTests.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		D06F4B1E2C243EDE009D76A0 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B1D2C243EDE009D76A0 /* HomeTabViewModelTests.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D06F4B222C243EDE009D76A0 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B1F2C243EDE009D76A0 /* ProfileTabViewModelTests.swift */,
+				D06F4B202C243EDE009D76A0 /* SignoutErrorViewModelTests.swift */,
+				D06F4B212C243EDE009D76A0 /* SignOutPageViewModelTests.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		D06F4B262C243EDE009D76A0 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B1E2C243EDE009D76A0 /* Home */,
+				D06F4B222C243EDE009D76A0 /* Profile */,
+				D06F4B232C243EDE009D76A0 /* DeveloperMenuViewControllerTests.swift */,
+				D06F4B242C243EDE009D76A0 /* TabbedViewControllerTests.swift */,
+				D06F4B252C243EDE009D76A0 /* UnlockScreenViewControllerTests.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		D06F4B2A2C243EDE009D76A0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B272C243EDE009D76A0 /* ErrorPresenterTests.swift */,
+				D06F4B282C243EDE009D76A0 /* JWTVerifierTests.swift */,
+				D06F4B292C243EDE009D76A0 /* OnboardingViewControllerFactoryTests.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		D06F4B312C243EDF009D76A0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B2B2C243EDF009D76A0 /* FaceIDEnrollmentViewModelTests.swift */,
+				D06F4B2C2C243EDF009D76A0 /* LoginLoadingViewModelTests.swift */,
+				D06F4B2D2C243EDF009D76A0 /* OneLoginIntroViewModelTests.swift */,
+				D06F4B2E2C243EDF009D76A0 /* PasscodeInformationViewModelTests.swift */,
+				D06F4B2F2C243EDF009D76A0 /* TouchIDEnrollmentViewModelTests.swift */,
+				D06F4B302C243EDF009D76A0 /* UnlockScreenViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D06F4B362C243EDF009D76A0 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B312C243EDF009D76A0 /* ViewModels */,
+				D06F4B322C243EDF009D76A0 /* AuthenticationCoordinatorTests.swift */,
+				D06F4B332C243EDF009D76A0 /* EnrolmentCoordinatorTests.swift */,
+				D06F4B342C243EDF009D76A0 /* LoginCoordinatorTests.swift */,
+				D06F4B352C243EDF009D76A0 /* OnboardingCoordinatorTests.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		D06F4B3A2C243EDF009D76A0 /* ReturnTypes */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B372C243EDF009D76A0 /* MockTokenResponse.swift */,
+				D06F4B382C243EDF009D76A0 /* OutdatedTokenResponse.json */,
+				D06F4B392C243EDF009D76A0 /* TokenResponse.json */,
+			);
+			path = ReturnTypes;
+			sourceTree = "<group>";
+		};
+		D06F4B3E2C243EDF009D76A0 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B3B2C243EDF009D76A0 /* MockAnalyticsCenter.swift */,
+				D06F4B3C2C243EDF009D76A0 /* MockAnalyticsPreferenceStore.swift */,
+				D06F4B3D2C243EDF009D76A0 /* MockAnalyticsService.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		D06F4B412C243EDF009D76A0 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B3F2C243EDF009D76A0 /* MockSceneDelegate.swift */,
+				D06F4B402C243EDF009D76A0 /* MockWindowManager.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		D06F4B452C243EDF009D76A0 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B422C243EDF009D76A0 /* MockJWKSResponse.swift */,
+				D06F4B432C243EDF009D76A0 /* MockNetworkMonitor.swift */,
+				D06F4B442C243EDF009D76A0 /* MockURLOpener.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		D06F4B492C243EDF009D76A0 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B462C243EDF009D76A0 /* MockDefaultsStore.swift */,
+				D06F4B472C243EDF009D76A0 /* MockSecureStoreService.swift */,
+				D06F4B482C243EDF009D76A0 /* MockUserStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		D06F4B4F2C243EDF009D76A0 /* Sessions+Services */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B3E2C243EDF009D76A0 /* Analytics */,
+				D06F4B412C243EDF009D76A0 /* Application */,
+				D06F4B452C243EDF009D76A0 /* Networking */,
+				D06F4B492C243EDF009D76A0 /* Storage */,
+				D06F4B4A2C243EDF009D76A0 /* MockAuthenticationProvider.swift */,
+				D06F4B4B2C243EDF009D76A0 /* MockLAContext.swift */,
+				D06F4B4C2C243EDF009D76A0 /* MockLoginSession.swift */,
+				D06F4B4E2C243EDF009D76A0 /* MockTokenVerifier.swift */,
+			);
+			path = "Sessions+Services";
+			sourceTree = "<group>";
+		};
+		D06F4B512C243EDF009D76A0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B502C243EDF009D76A0 /* MockTabbedViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D06F4B522C243EDF009D76A0 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				D06F4B3A2C243EDF009D76A0 /* ReturnTypes */,
+				D06F4B4F2C243EDF009D76A0 /* Sessions+Services */,
+				D06F4B512C243EDF009D76A0 /* ViewModels */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		D08B0B522BD7F7D600769CEA /* DeveloperMenu */ = {
@@ -1206,7 +1705,7 @@
 				C8A13CAF2AFBD0F100FCBD36 /* Coordination */,
 				C8BADD1F2B8638BA00385FE7 /* SecureStore */,
 				D0BE243D2BEB7E5E00759529 /* JWTKit */,
-				D06F499F2C20373A009D76A0 /* Wallet */,
+				D06F4AA72C21DFF8009D76A0 /* Wallet */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1287,6 +1786,60 @@
 			productReference = 25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D06F4A232C21DB98009D76A0 /* OneLoginNOW */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D06F4AA02C21DB98009D76A0 /* Build configuration list for PBXNativeTarget "OneLoginNOW" */;
+			buildPhases = (
+				D06F4A362C21DB98009D76A0 /* Run Swiftlint */,
+				D06F4A372C21DB98009D76A0 /* Sources */,
+				D06F4A822C21DB98009D76A0 /* Frameworks */,
+				D06F4A8E2C21DB98009D76A0 /* Setup Firebase Environment GoogleService-Info.plist */,
+				D06F4A8F2C21DB98009D76A0 /* Resources */,
+				D06F4A9E2C21DB98009D76A0 /* Copy Settings Bundle */,
+				D06F4A9F2C21DB98009D76A0 /* Upload Symbols to Firebase */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneLoginNOW;
+			packageProductDependencies = (
+				D06F4A242C21DB98009D76A0 /* GDSAnalytics */,
+				D06F4A262C21DB98009D76A0 /* GDSCommon */,
+				D06F4A272C21DB98009D76A0 /* Authentication */,
+				D06F4A292C21DB98009D76A0 /* UserDetails */,
+				D06F4A2A2C21DB98009D76A0 /* GAnalytics */,
+				D06F4A2C2C21DB98009D76A0 /* HTTPLogging */,
+				D06F4A2D2C21DB98009D76A0 /* Logging */,
+				D06F4A2E2C21DB98009D76A0 /* Coordination */,
+				D06F4A302C21DB98009D76A0 /* SecureStore */,
+				D06F4A322C21DB98009D76A0 /* JWTKit */,
+			);
+			productName = "di-mobile-ios-onelogin-app";
+			productReference = D06F4AA52C21DB98009D76A0 /* OneLoginNOW.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D06F4AB72C241A68009D76A0 /* OneLoginNOWUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D06F4AF62C241A68009D76A0 /* Build configuration list for PBXNativeTarget "OneLoginNOWUnitTests" */;
+			buildPhases = (
+				D06F4ABC2C241A68009D76A0 /* Sources */,
+				D06F4AF12C241A68009D76A0 /* Frameworks */,
+				D06F4AF32C241A68009D76A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D06F4AFD2C241A88009D76A0 /* PBXTargetDependency */,
+			);
+			name = OneLoginNOWUnitTests;
+			packageProductDependencies = (
+				D06F4ABA2C241A68009D76A0 /* MockNetworking */,
+			);
+			productName = "di-mobile-ios-onelogin-appTests";
+			productReference = D06F4AFB2C241A68009D76A0 /* OneLoginNOWUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1315,6 +1868,9 @@
 					25537C4D2AF2B38E0059DCD2 = {
 						CreatedOnToolsVersion = 15.0;
 						TestTargetID = 219601E62A976302008F3427;
+					};
+					D06F4AB72C241A68009D76A0 = {
+						TestTargetID = D06F4A232C21DB98009D76A0;
 					};
 				};
 			};
@@ -1347,6 +1903,8 @@
 				25537C3C2AF2B2600059DCD2 /* OneLoginStagingConfigTests */,
 				25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */,
 				219602062A976305008F3427 /* OneLoginUITests */,
+				D06F4A232C21DB98009D76A0 /* OneLoginNOW */,
+				D06F4AB72C241A68009D76A0 /* OneLoginNOWUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1364,7 +1922,9 @@
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
+				D06F4B792C243EDF009D76A0 /* OutdatedTokenResponse.json in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
+				D06F4B7A2C243EDF009D76A0 /* TokenResponse.json in Resources */,
 				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
@@ -1397,6 +1957,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		25537C4C2AF2B38E0059DCD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06F4A8F2C21DB98009D76A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06F4A902C21DB98009D76A0 /* FeatureFlagsStaging.json in Resources */,
+				D06F4A912C21DB98009D76A0 /* SignInView.xib in Resources */,
+				D06F4A922C21DB98009D76A0 /* Assets.xcassets in Resources */,
+				D06F4A932C21DB98009D76A0 /* OneLoginBuild.xctestplan in Resources */,
+				D06F4A942C21DB98009D76A0 /* OneLoginStaging.xctestplan in Resources */,
+				D06F4A952C21DB98009D76A0 /* OneLoginUnit.xctestplan in Resources */,
+				D06F4A962C21DB98009D76A0 /* Localizable.strings in Resources */,
+				D06F4A972C21DB98009D76A0 /* PrivacyInfo.xcprivacy in Resources */,
+				D06F4A982C21DB98009D76A0 /* LaunchScreen.storyboard in Resources */,
+				D06F4A992C21DB98009D76A0 /* TabbedView.xib in Resources */,
+				D06F4A9A2C21DB98009D76A0 /* UnlockScreen.xib in Resources */,
+				D06F4A9B2C21DB98009D76A0 /* FeatureFlagsBuild.json in Resources */,
+				D06F4A9C2C21DB98009D76A0 /* DeveloperMenu.xib in Resources */,
+				D06F4A9D2C21DB98009D76A0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06F4AF32C241A68009D76A0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1484,6 +2072,84 @@
 			shellPath = /bin/sh;
 			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n    \nif [ \"${CONFIGURATION}\" = \"Staging\" ]; then\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/StagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nelif [ \"${CONFIGURATION}\" = \"Debug_Build\" ]; then\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/BuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nfi\n";
 		};
+		D06F4A362C21DB98009D76A0 /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, please run brew install swiftlint\"\nfi\n\n";
+		};
+		D06F4A8E2C21DB98009D76A0 /* Setup Firebase Environment GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Firebase Environment GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to staging, integration and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_BUILD=${PROJECT_DIR}/Sources/Application/Firebase/BuildConfig/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_STAGING=${PROJECT_DIR}/Sources/Application/Firebase/StagingConfig/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the build version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_BUILD}\"\nif [ ! -f $GOOGLESERVICE_INFO_BUILD ]\nthen\n    echo \"No Build GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the staging version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_STAGING}\"\nif [ ! -f $GOOGLESERVICE_INFO_STAGING ]\nthen\n    echo \"No Staging GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the GoogleService-Info.plist for builds\nif [ \"${CONFIGURATION}\" == \"Debug_Build\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_BUILD}\"\n    cp \"${GOOGLESERVICE_INFO_BUILD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_STAGING}\"\n    cp \"${GOOGLESERVICE_INFO_STAGING}\" \"${PLIST_DESTINATION}\"\nfi\n";
+		};
+		D06F4A9E2C21DB98009D76A0 /* Copy Settings Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Settings Bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n    \nif [ \"${CONFIGURATION}\" = \"Staging\" ]; then\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/StagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nelif [ \"${CONFIGURATION}\" = \"Debug_Build\" ]; then\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/BuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nfi\n";
+		};
+		D06F4A9F2C21DB98009D76A0 /* Upload Symbols to Firebase */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Upload Symbols to Firebase";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\necho \"Upload Symbols Complete\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1500,7 +2166,6 @@
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				C8E6A3E82BBC0536005015AF /* WindowManagement.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
-				D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */,
 				D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */,
@@ -1515,7 +2180,6 @@
 				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
 				1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
-				C86A0D012BF270B50023EC42 /* MockTabbedViewModel.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
@@ -1526,6 +2190,7 @@
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
+				D06F4BC62C244818009D76A0 /* MockTabbedViewModel.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
@@ -1583,6 +2248,7 @@
 				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
 				1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
+				D06F4BC72C244863009D76A0 /* MockJWKSResponse.swift in Sources */,
 				41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeTabViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
@@ -1659,6 +2325,146 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D06F4A372C21DB98009D76A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06F4A382C21DB98009D76A0 /* IntroAnalytics.swift in Sources */,
+				D06F4A392C21DB98009D76A0 /* Flag.swift in Sources */,
+				D06F4A3A2C21DB98009D76A0 /* HomeCoordinator.swift in Sources */,
+				D06F4A3B2C21DB98009D76A0 /* LAContexting.swift in Sources */,
+				D06F4A3C2C21DB98009D76A0 /* TouchIDEnrollmentViewModel.swift in Sources */,
+				D06F4A3D2C21DB98009D76A0 /* TabbedViewController.swift in Sources */,
+				D06F4A3E2C21DB98009D76A0 /* TokenHolder.swift in Sources */,
+				D06F4A3F2C21DB98009D76A0 /* WindowManagement.swift in Sources */,
+				D06F4A402C21DB98009D76A0 /* EnrolmentCoordinator.swift in Sources */,
+				D06F4A422C21DB98009D76A0 /* ErrorAnalytics.swift in Sources */,
+				D06F4A432C21DB98009D76A0 /* HomeTabAnalytics.swift in Sources */,
+				D06F4A442C21DB98009D76A0 /* TabbedViewSectionModel.swift in Sources */,
+				D06F4A452C21DB98009D76A0 /* UnlockScreenViewModel.swift in Sources */,
+				D06F4A462C21DB98009D76A0 /* UserStorable.swift in Sources */,
+				D06F4A472C21DB98009D76A0 /* DefaultsStorable.swift in Sources */,
+				D06F4A482C21DB98009D76A0 /* UserStorage.swift in Sources */,
+				D06F4AAE2C21E1DA009D76A0 /* MainCoordinator.swift in Sources */,
+				D06F4A492C21DB98009D76A0 /* AnalyticsCenter.swift in Sources */,
+				D06F4A4A2C21DB98009D76A0 /* OneLoginIntroViewModel.swift in Sources */,
+				D06F4A4B2C21DB98009D76A0 /* LAContext+OneLogin.swift in Sources */,
+				D06F4A4C2C21DB98009D76A0 /* PasscodeInformationViewModel.swift in Sources */,
+				D06F4A4D2C21DB98009D76A0 /* OnboardingViewControllerFactory.swift in Sources */,
+				D06F4A4E2C21DB98009D76A0 /* InformationAnalytics.swift in Sources */,
+				D06F4A4F2C21DB98009D76A0 /* UnlockScreenViewController.swift in Sources */,
+				D06F4A512C21DB98009D76A0 /* AppDelegate.swift in Sources */,
+				D06F4A522C21DB98009D76A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
+				D06F4A532C21DB98009D76A0 /* String+OneLogin.swift in Sources */,
+				D06F4A542C21DB98009D76A0 /* KeyVerifier.swift in Sources */,
+				D06F4A562C21DB98009D76A0 /* TokenVerifier.swift in Sources */,
+				D06F4A572C21DB98009D76A0 /* AuthenticationCoordinator.swift in Sources */,
+				D06F4A582C21DB98009D76A0 /* JWTVerifierError.swift in Sources */,
+				D06F4A592C21DB98009D76A0 /* ViewIdentifiable.swift in Sources */,
+				D06F4BC52C2444A3009D76A0 /* MockTabbedViewModel.swift in Sources */,
+				D06F4A5A2C21DB98009D76A0 /* StandardButtonViewModel.swift in Sources */,
+				D06F4A5B2C21DB98009D76A0 /* TabbedViewCellModel.swift in Sources */,
+				D06F4A5C2C21DB98009D76A0 /* TabbedViewSectionFactory.swift in Sources */,
+				D06F4A5D2C21DB98009D76A0 /* TabbedViewModel.swift in Sources */,
+				D06F4A5E2C21DB98009D76A0 /* WindowManager.swift in Sources */,
+				D06F4A5F2C21DB98009D76A0 /* SignInView.swift in Sources */,
+				D06F4A602C21DB98009D76A0 /* NetworkConnectionErrorViewModel.swift in Sources */,
+				D06F4A612C21DB98009D76A0 /* SignoutErrorViewModel.swift in Sources */,
+				D06F4A622C21DB98009D76A0 /* TabbedViewSectionHeader.swift in Sources */,
+				D06F4A632C21DB98009D76A0 /* TabbedViewSectionFooter.swift in Sources */,
+				D06F4A642C21DB98009D76A0 /* LoginCoordinator.swift in Sources */,
+				D06F4A652C21DB98009D76A0 /* ProfileTabViewModel.swift in Sources */,
+				D06F4A672C21DB98009D76A0 /* FaceIDEnrollmentViewModel.swift in Sources */,
+				D06F4A682C21DB98009D76A0 /* GenericErrorViewModel.swift in Sources */,
+				D06F4A692C21DB98009D76A0 /* AnalyticsCentral.swift in Sources */,
+				D06F4A6A2C21DB98009D76A0 /* LoginLoadingViewModel.swift in Sources */,
+				D06F4A6B2C21DB98009D76A0 /* UnableToLoginErrorViewModel.swift in Sources */,
+				D06F4A6C2C21DB98009D76A0 /* JWKInfo.swift in Sources */,
+				D06F4A6D2C21DB98009D76A0 /* IdTokenPayload.swift in Sources */,
+				D06F4A6E2C21DB98009D76A0 /* DeveloperMenuViewModel.swift in Sources */,
+				D06F4A6F2C21DB98009D76A0 /* JWTVerifier.swift in Sources */,
+				D06F4A702C21DB98009D76A0 /* AppEnvironment.swift in Sources */,
+				D06F4AAB2C21E17D009D76A0 /* AnalyticsService+GDS.swift in Sources */,
+				D06F4A712C21DB98009D76A0 /* HomeTabViewModel.swift in Sources */,
+				D06F4A722C21DB98009D76A0 /* NetworkMonitoring.swift in Sources */,
+				D06F4A732C21DB98009D76A0 /* ProfileTabAnalytics.swift in Sources */,
+				D06F4A742C21DB98009D76A0 /* BiometricEnrollmentAnalytics.swift in Sources */,
+				D06F4A752C21DB98009D76A0 /* ErrorPresenter.swift in Sources */,
+				D06F4A762C21DB98009D76A0 /* ProfileCoordinator.swift in Sources */,
+				D06F4A772C21DB98009D76A0 /* OnboardingCoordinator.swift in Sources */,
+				D06F4A782C21DB98009D76A0 /* SceneDelegate.swift in Sources */,
+				D06F4A792C21DB98009D76A0 /* DeveloperMenuViewController.swift in Sources */,
+				D06F4A7A2C21DB98009D76A0 /* FlagManager.swift in Sources */,
+				D06F4A7B2C21DB98009D76A0 /* NetworkMonitor.swift in Sources */,
+				D06F4A7C2C21DB98009D76A0 /* AnalyticsButtonViewModel.swift in Sources */,
+				D06F4A7D2C21DB98009D76A0 /* SceneLifecycle.swift in Sources */,
+				D06F4A7E2C21DB98009D76A0 /* TabbedTableViewCell.swift in Sources */,
+				D06F4A7F2C21DB98009D76A0 /* AnalyticsPreferenceViewModel.swift in Sources */,
+				D06F4A802C21DB98009D76A0 /* SignOutPageViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D06F4ABC2C241A68009D76A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D06F4B8C2C244110009D76A0 /* MainCoordinatorTests.swift in Sources */,
+				D06F4B8D2C244110009D76A0 /* SceneLifecycleTests.swift in Sources */,
+				D06F4B8E2C244110009D76A0 /* TokenHolderTests.swift in Sources */,
+				D06F4B8F2C244110009D76A0 /* WindowManagerTests.swift in Sources */,
+				D06F4B902C244110009D76A0 /* GenericErrorViewModelTests.swift in Sources */,
+				D06F4B912C244110009D76A0 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
+				D06F4B922C244110009D76A0 /* UnableToLoginErrorViewModelTests.swift in Sources */,
+				D06F4B932C244110009D76A0 /* LoginSessionConfigurationTests.swift in Sources */,
+				D06F4B942C244110009D76A0 /* StringTests.swift in Sources */,
+				D06F4B952C244110009D76A0 /* FaceIDEnrollmentViewModelTests.swift in Sources */,
+				D06F4B962C244110009D76A0 /* LoginLoadingViewModelTests.swift in Sources */,
+				D06F4B972C244110009D76A0 /* OneLoginIntroViewModelTests.swift in Sources */,
+				D06F4B982C244110009D76A0 /* PasscodeInformationViewModelTests.swift in Sources */,
+				D06F4B992C244110009D76A0 /* TouchIDEnrollmentViewModelTests.swift in Sources */,
+				D06F4B9A2C244110009D76A0 /* UnlockScreenViewModelTests.swift in Sources */,
+				D06F4B9B2C244110009D76A0 /* AuthenticationCoordinatorTests.swift in Sources */,
+				D06F4B9C2C244110009D76A0 /* EnrolmentCoordinatorTests.swift in Sources */,
+				D06F4B9D2C244110009D76A0 /* LoginCoordinatorTests.swift in Sources */,
+				D06F4B9E2C244110009D76A0 /* OnboardingCoordinatorTests.swift in Sources */,
+				D06F4B9F2C244110009D76A0 /* MockTokenResponse.swift in Sources */,
+				D06F4BA02C244110009D76A0 /* OutdatedTokenResponse.json in Sources */,
+				D06F4BA12C244110009D76A0 /* TokenResponse.json in Sources */,
+				D06F4BA22C244110009D76A0 /* MockAnalyticsCenter.swift in Sources */,
+				D06F4BA32C244110009D76A0 /* MockAnalyticsPreferenceStore.swift in Sources */,
+				D06F4BA42C244110009D76A0 /* MockAnalyticsService.swift in Sources */,
+				D06F4BA52C244110009D76A0 /* MockSceneDelegate.swift in Sources */,
+				D06F4BA62C244110009D76A0 /* MockWindowManager.swift in Sources */,
+				D06F4BA72C244110009D76A0 /* MockJWKSResponse.swift in Sources */,
+				D06F4BA82C244110009D76A0 /* MockNetworkMonitor.swift in Sources */,
+				D06F4BA92C244110009D76A0 /* MockURLOpener.swift in Sources */,
+				D06F4BAA2C244110009D76A0 /* MockDefaultsStore.swift in Sources */,
+				D06F4BAB2C244110009D76A0 /* MockSecureStoreService.swift in Sources */,
+				D06F4BAC2C244110009D76A0 /* MockUserStore.swift in Sources */,
+				D06F4BAD2C244110009D76A0 /* MockAuthenticationProvider.swift in Sources */,
+				D06F4BAE2C244110009D76A0 /* MockLAContext.swift in Sources */,
+				D06F4BAF2C244110009D76A0 /* MockLoginSession.swift in Sources */,
+				D06F4BB12C244110009D76A0 /* MockTokenVerifier.swift in Sources */,
+				D06F4BB32C244110009D76A0 /* LocalizedEnglishStringTests.swift in Sources */,
+				D06F4BB42C244110009D76A0 /* LocalizedWelshStringTests.swift in Sources */,
+				D06F4BB52C244110009D76A0 /* HomeTabViewModelTests.swift in Sources */,
+				D06F4BB62C244110009D76A0 /* ProfileTabViewModelTests.swift in Sources */,
+				D06F4BB72C244110009D76A0 /* SignoutErrorViewModelTests.swift in Sources */,
+				D06F4BB82C244110009D76A0 /* SignOutPageViewModelTests.swift in Sources */,
+				D06F4BB92C244110009D76A0 /* DeveloperMenuViewControllerTests.swift in Sources */,
+				D06F4BBA2C244110009D76A0 /* TabbedViewControllerTests.swift in Sources */,
+				D06F4BBB2C244110009D76A0 /* UnlockScreenViewControllerTests.swift in Sources */,
+				D06F4BBC2C244110009D76A0 /* HomeCoordinatorTests.swift in Sources */,
+				D06F4BBD2C244110009D76A0 /* ProfileCoordinatorTests.swift in Sources */,
+				D06F4BBF2C244110009D76A0 /* String+TestExtensions.swift in Sources */,
+				D06F4BC02C244110009D76A0 /* UIView+TestExtensions.swift in Sources */,
+				D06F4BC12C244110009D76A0 /* XCTestCase+TestExtensions.swift in Sources */,
+				D06F4BC22C244110009D76A0 /* ErrorPresenterTests.swift in Sources */,
+				D06F4BC32C244110009D76A0 /* JWTVerifierTests.swift in Sources */,
+				D06F4BC42C244110009D76A0 /* OnboardingViewControllerFactoryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1681,6 +2487,11 @@
 			isa = PBXTargetDependency;
 			target = 219601E62A976302008F3427 /* OneLogin */;
 			targetProxy = 25537C522AF2B38E0059DCD2 /* PBXContainerItemProxy */;
+		};
+		D06F4AFD2C241A88009D76A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D06F4A232C21DB98009D76A0 /* OneLoginNOW */;
+			targetProxy = D06F4AFC2C241A88009D76A0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2542,6 +3353,277 @@
 			};
 			name = Debug_Build;
 		};
+		D06F4AA12C21DB98009D76A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BASE_URL = mobile.staging.account.gov.uk;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = signin.account.gov.uk;
+				FEATURE_FLAG_FILE = FeatureFlagsStaging;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "OneLoginNOW-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
+				STS_BASE_URL = token.staging.account.gov.uk;
+				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D06F4AA22C21DB98009D76A0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BASE_URL = mobile.staging.account.gov.uk;
+				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = signin.account.gov.uk;
+				FEATURE_FLAG_FILE = FeatureFlagsStaging;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "OneLoginNOW-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Staging";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
+				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
+				STS_BASE_URL = token.staging.account.gov.uk;
+				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		D06F4AA32C21DB98009D76A0 /* Debug_Build */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BASE_URL = mobile.build.account.gov.uk;
+				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = signin.account.gov.uk;
+				FEATURE_FLAG_FILE = FeatureFlagsBuild;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "OneLoginNOW-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Build";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
+				ONE_LOGIN_CLIENT_ID = TEST_CLIENT_ID;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REDIRECT_URL = "https://mobile.build.account.gov.uk/redirect";
+				STS_BASE_URL = token.build.account.gov.uk;
+				STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug_Build;
+		};
+		D06F4AA42C21DB98009D76A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				BASE_URL = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				EXTERNAL_BASE_URL = "";
+				FEATURE_FLAG_FILE = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "OneLoginNOW-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONE_LOGIN_AUTHORIZE_URL = "";
+				ONE_LOGIN_CLIENT_ID = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REDIRECT_URL = "";
+				STS_BASE_URL = "";
+				STS_CLIENT_ID = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D06F4AF72C241A68009D76A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLoginNOW.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLoginNOW";
+			};
+			name = Debug;
+		};
+		D06F4AF82C241A68009D76A0 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLoginNOW.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLoginNOW";
+			};
+			name = Staging;
+		};
+		D06F4AF92C241A68009D76A0 /* Debug_Build */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLoginNOW.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLoginNOW";
+			};
+			name = Debug_Build;
+		};
+		D06F4AFA2C241A68009D76A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_TESTABILITY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLoginNOW.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLoginNOW";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2611,6 +3693,28 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D06F4AA02C21DB98009D76A0 /* Build configuration list for PBXNativeTarget "OneLoginNOW" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D06F4AA12C21DB98009D76A0 /* Debug */,
+				D06F4AA22C21DB98009D76A0 /* Staging */,
+				D06F4AA32C21DB98009D76A0 /* Debug_Build */,
+				D06F4AA42C21DB98009D76A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D06F4AF62C241A68009D76A0 /* Build configuration list for PBXNativeTarget "OneLoginNOWUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D06F4AF72C241A68009D76A0 /* Debug */,
+				D06F4AF82C241A68009D76A0 /* Staging */,
+				D06F4AF92C241A68009D76A0 /* Debug_Build */,
+				D06F4AFA2C241A68009D76A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -2670,6 +3774,62 @@
 				kind = branch;
 			};
 		};
+		D06F4A252C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		D06F4A282C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		D06F4A2B2C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		D06F4A2F2C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-coordination.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		D06F4A312C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		D06F4A332C21DB98009D76A0 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vapor/jwt-kit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.13.4;
+			};
+		};
+		D06F4ABB2C241A68009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vapor/jwt-kit.git";
@@ -2726,10 +3886,65 @@
 			package = C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
 			productName = SecureStore;
 		};
-		D06F499F2C20373A009D76A0 /* Wallet */ = {
+		D06F4A242C21DB98009D76A0 /* GDSAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A252C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
+			productName = GDSAnalytics;
+		};
+		D06F4A262C21DB98009D76A0 /* GDSCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A252C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
+			productName = GDSCommon;
+		};
+		D06F4A272C21DB98009D76A0 /* Authentication */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A282C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */;
+			productName = Authentication;
+		};
+		D06F4A292C21DB98009D76A0 /* UserDetails */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A282C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */;
+			productName = UserDetails;
+		};
+		D06F4A2A2C21DB98009D76A0 /* GAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A2B2C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */;
+			productName = GAnalytics;
+		};
+		D06F4A2C2C21DB98009D76A0 /* HTTPLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A2B2C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */;
+			productName = HTTPLogging;
+		};
+		D06F4A2D2C21DB98009D76A0 /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A2B2C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */;
+			productName = Logging;
+		};
+		D06F4A2E2C21DB98009D76A0 /* Coordination */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A2F2C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */;
+			productName = Coordination;
+		};
+		D06F4A302C21DB98009D76A0 /* SecureStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A312C21DB98009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
+			productName = SecureStore;
+		};
+		D06F4A322C21DB98009D76A0 /* JWTKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4A332C21DB98009D76A0 /* XCRemoteSwiftPackageReference "jwt-kit" */;
+			productName = JWTKit;
+		};
+		D06F4AA72C21DFF8009D76A0 /* Wallet */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */;
 			productName = Wallet;
+		};
+		D06F4ABA2C241A68009D76A0 /* MockNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D06F4ABB2C241A68009D76A0 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */;
+			productName = MockNetworking;
 		};
 		D0BE243D2BEB7E5E00759529 /* JWTKit */ = {
 			isa = XCSwiftPackageProductDependency;

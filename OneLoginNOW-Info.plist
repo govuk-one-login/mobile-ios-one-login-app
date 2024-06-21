@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Base URL</key>
+	<string>$(BASE_URL)</string>
+	<key>Configuration</key>
+	<dict>
+		<key>Feature Flag File</key>
+		<string>$(FEATURE_FLAG_FILE)</string>
+	</dict>
+	<key>External Base URL</key>
+	<string>$(EXTERNAL_BASE_URL)</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED</key>
+	<false/>
+	<key>One Login Authorize URL</key>
+	<string>$(ONE_LOGIN_AUTHORIZE_URL)</string>
+	<key>One Login Client ID</key>
+	<string>$(ONE_LOGIN_CLIENT_ID)</string>
+	<key>Redirect URL</key>
+	<string>$(REDIRECT_URL)</string>
+	<key>STS Base URL</key>
+	<string>$(STS_BASE_URL)</string>
+	<key>STS Client ID</key>
+	<string>$(STS_CLIENT_ID)</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>
