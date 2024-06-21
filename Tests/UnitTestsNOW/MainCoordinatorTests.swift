@@ -70,7 +70,6 @@ extension MainCoordinatorTests {
         // THEN the MainCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
-//        XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
     }

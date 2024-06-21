@@ -1,5 +1,10 @@
 import LocalAuthentication
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 
 final class MockLAContext: LAContexting {
     var biometryType: LABiometryType = .touchID

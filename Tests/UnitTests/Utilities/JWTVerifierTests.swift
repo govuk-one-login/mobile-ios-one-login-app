@@ -1,7 +1,12 @@
 import JWTKit
 import MockNetworking
 @testable import Networking
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 import XCTest
 
 final class JWTVerifierTests: XCTestCase {

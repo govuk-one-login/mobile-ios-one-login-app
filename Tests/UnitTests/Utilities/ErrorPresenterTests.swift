@@ -1,4 +1,13 @@
+#if NOW
+@testable import OneLoginNOW
+#else
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
+#endif
 import XCTest
 
 final class ErrorPresenterTests: XCTestCase {

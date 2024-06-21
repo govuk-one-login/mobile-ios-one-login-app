@@ -1,5 +1,10 @@
 import Foundation
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 import SecureStore
 
 class MockUserStore: UserStorable {

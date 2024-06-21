@@ -1,6 +1,11 @@
 import GDSAnalytics
 import GDSCommon
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 import XCTest
 
 

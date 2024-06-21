@@ -1,5 +1,10 @@
 import Authentication
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 import XCTest
 
 final class LoginSessionConfigurationTests: XCTestCase {

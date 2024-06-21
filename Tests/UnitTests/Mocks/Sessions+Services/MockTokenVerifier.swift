@@ -1,6 +1,11 @@
 import Foundation
 import JWTKit
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 
 final class MockTokenVerifier: TokenVerifier {
     var verificationError: Error?

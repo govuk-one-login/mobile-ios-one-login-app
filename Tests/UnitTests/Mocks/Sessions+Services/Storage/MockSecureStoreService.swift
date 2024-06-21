@@ -1,4 +1,9 @@
+#if NOW
+@testable import OneLoginNOW
+#else
 @testable import OneLogin
+#endif
+
 import SecureStore
 
 final class MockSecureStoreService: SecureStorable {
