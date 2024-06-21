@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-       if userStore.validAuthenticatedUser {
+       if userStore.previouslyAuthenticatedUser != nil {
            shouldCallSceneWillEnterForeground = true
            displayUnlockScreen()
        } else {
