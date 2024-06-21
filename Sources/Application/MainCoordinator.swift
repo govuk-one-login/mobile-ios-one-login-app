@@ -108,7 +108,9 @@ extension MainCoordinator {
                                   userStore: userStore,
                                   networkMonitor: NetworkMonitor.shared,
                                   tokenHolder: tokenHolder)
-        lc.loginError = error
+        if error is AuthError {
+            lc.loginError = error
+        }
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }
@@ -184,7 +186,7 @@ extension MainCoordinator: ParentCoordinator {
                 resetApp(child.loginError)
             }
         case _ as ProfileCoordinator:
-            showLogin()
+            resetApp()
             homeCoordinator?.baseVc?.isLoggedIn(false)
             root.selectedIndex = 0
         default:

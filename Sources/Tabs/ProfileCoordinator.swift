@@ -55,8 +55,6 @@ final class ProfileCoordinator: NSObject,
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-                tokenHolder.clearTokenHolder()
-                userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 root.dismiss(animated: false) { [unowned self] in
                     finish()

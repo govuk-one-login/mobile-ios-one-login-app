@@ -53,7 +53,7 @@ final class LoginCoordinator: NSObject,
             }
             getIdToken()
         } else {
-            loginError = LoginError.generic(description: "Token expired")
+            loginError = AuthError.missingToken
             finish()
         }
     }
@@ -164,4 +164,8 @@ extension LoginCoordinator: ParentCoordinator {
             break
         }
     }
+}
+
+enum AuthError: Error {
+    case missingToken
 }
