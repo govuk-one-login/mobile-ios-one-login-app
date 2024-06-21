@@ -108,7 +108,7 @@ extension MainCoordinator {
                                   userStore: userStore,
                                   networkMonitor: NetworkMonitor.shared,
                                   tokenHolder: tokenHolder)
-        if error is AuthError {
+        if !(error is AuthError) {
             lc.loginError = error
         }
         openChildModally(lc, animated: false)
