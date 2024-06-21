@@ -9,14 +9,16 @@ final class MainCoordinator: NSObject,
                              TabCoordinator {
     let windowManager: WindowManagement
     let root: UITabBarController
-    var analyticsCenter: AnalyticsCentral
     var childCoordinators = [ChildCoordinator]()
+    var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
+    private var tokenVerifier: TokenVerifier
+
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
+    private weak var walletCoordinator: WalletCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
-    private var tokenVerifier: TokenVerifier
     
     init(windowManager: WindowManagement,
          root: UITabBarController,
@@ -37,7 +39,14 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        loginCoordinator?.handleUniversalLink(url)
+        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
+        case .login:
+            loginCoordinator?.handleUniversalLink(url)
+        case .wallet:
+            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+        case .unknown:
+            return
+        }
     }
     
     func evaluateRevisit(action: @escaping () -> Void) {
@@ -55,7 +64,8 @@ final class MainCoordinator: NSObject,
                         handleLoginError(error, action: action)
                     }
                 } else {
-                    tokenHolder.accessToken = nil
+                    tokenHolder.clearTokenHolder()
+                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
                     showLogin()
                     action()
                 }
@@ -80,7 +90,7 @@ final class MainCoordinator: NSObject,
         if let loginCoordinator {
             childDidFinish(loginCoordinator)
         }
-        tokenHolder.accessToken = nil
+        tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         showLogin(error)
         action()
@@ -90,8 +100,8 @@ final class MainCoordinator: NSObject,
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
-                                  networkMonitor: NetworkMonitor.shared,
                                   userStore: userStore,
+                                  networkMonitor: NetworkMonitor.shared,
                                   tokenHolder: tokenHolder)
         lc.tokenReadError = error
         openChildModally(lc, animated: false)
@@ -108,27 +118,34 @@ extension MainCoordinator {
     
     private func addHomeTab() {
         let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 userStore: userStore)
+                                 userStore: userStore,
+                                 tokenHolder: tokenHolder)
         addTab(hc)
         homeCoordinator = hc
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator()
+        let wc = WalletCoordinator(window: windowManager.appWindow,
+                                   analyticsService: analyticsCenter.analyticsService,
+                                   secureStoreService: userStore.secureStoreService,
+                                   tokenHolder: tokenHolder)
         addTab(wc)
+        walletCoordinator = wc
     }
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
-                                    urlOpener: UIApplication.shared,
-                                    userStore: userStore)
+                                    userStore: userStore,
+                                    tokenHolder: tokenHolder,
+                                    urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
     }
     
     private func updateToken() {
-        homeCoordinator?.updateToken(tokenHolder)
-        profileCoordinator?.updateToken(tokenHolder)
+        homeCoordinator?.updateToken()
+        walletCoordinator?.updateToken()
+        profileCoordinator?.updateToken()
     }
 }
 

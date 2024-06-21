@@ -75,6 +75,13 @@ extension MainCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
     }
     
+    func test_handleUniversalLink_login() throws {
+        // WHEN the handleUniversalLink method is called
+        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
+        sut.handleUniversalLink(URL(string: "google.co.uk/wallet/123456789")!)
+        sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
+    }
+    
     func test_evaluateRevisit_returningAuthenticatedUser() throws {
         // GIVEN the secure store has a valid idToken saved and defaults store has the access token expiry saved
         try mockSecureStore.saveItem(item: MockJWKSResponse.idToken, itemName: .idToken)
@@ -218,8 +225,8 @@ extension MainCoordinatorTests {
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
-                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
@@ -235,8 +242,8 @@ extension MainCoordinatorTests {
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
-                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
@@ -253,8 +260,9 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromProfileCoordinator() throws {
         let profileCoordinator = ProfileCoordinator(analyticsCenter: mockAnalyticsCenter,
-                                                    urlOpener: mockURLOpener,
-                                                    userStore: mockUserStore)
+                                                    userStore: mockUserStore,
+                                                    tokenHolder: TokenHolder(),
+                                                    urlOpener: mockURLOpener)
         // WHEN the MainCoordinator didRegainFocus from ProfileCoordinator (on user sign out)
         sut.didRegainFocus(fromChild: profileCoordinator)
         // Then the LoginCoordinator should be launched
@@ -268,8 +276,8 @@ extension MainCoordinatorTests {
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
-                                                networkMonitor: MockNetworkMonitor(),
                                                 userStore: mockUserStore,
+                                                networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator performChildCleanup from the LoginCoordinator
         sut.performChildCleanup(child: loginCoordinator)

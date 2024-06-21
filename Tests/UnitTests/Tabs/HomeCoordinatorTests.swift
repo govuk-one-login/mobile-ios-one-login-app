@@ -3,26 +3,37 @@ import XCTest
 
 @MainActor
 final class HomeCoordinatorTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockUserStore: MockUserStore!
     var window: UIWindow!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockSecureStoreService: MockSecureStoreService!
+    var mockDefaultsStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
+    var mockTokenHolder: TokenHolder!
     var sut: HomeCoordinator!
     
     override func setUp() {
         super.setUp()
         
-        mockAnalyticsService = MockAnalyticsService()
-        mockUserStore = MockUserStore(secureStoreService: MockSecureStoreService(), defaultsStore: MockDefaultsStore())
         window = .init()
+        mockAnalyticsService = MockAnalyticsService()
+        mockSecureStoreService = MockSecureStoreService()
+        mockDefaultsStore = MockDefaultsStore()
+        mockUserStore = MockUserStore(secureStoreService: mockSecureStoreService,
+                                      defaultsStore: mockDefaultsStore)
+        mockTokenHolder = TokenHolder()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService,
-                              userStore: mockUserStore)
+                              userStore: mockUserStore,
+                              tokenHolder: mockTokenHolder)
     }
     
     override func tearDown() {
-        mockAnalyticsService = nil
         window = nil
-        sut = nil
+        mockAnalyticsService = nil
+        mockSecureStoreService = nil
+        mockDefaultsStore = nil
         mockUserStore = nil
+        mockTokenHolder = nil
+        sut = nil
         
         super.tearDown()
     }
@@ -50,9 +61,8 @@ final class HomeCoordinatorTests: XCTestCase {
         sut.start()
         XCTAssertNil(sut.networkClient)
         // GIVEN we have a non-nil tokenHolder and access token
-        let tokenHolder = TokenHolder()
-        tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
-        sut.updateToken(tokenHolder)
+        mockTokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
+        sut.updateToken()
         try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
         // THEN the networkClieint will be initialized when the developer menu is shown
         sut.showDeveloperMenu()
@@ -63,9 +73,8 @@ final class HomeCoordinatorTests: XCTestCase {
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
         XCTAssertEqual(try vc.emailLabel.text, "")
-        let tokenHolder = TokenHolder()
-        tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
-        sut.updateToken(tokenHolder)
+        mockTokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
+        sut.updateToken()
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }
 }

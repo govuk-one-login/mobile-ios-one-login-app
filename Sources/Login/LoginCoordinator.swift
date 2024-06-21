@@ -15,28 +15,30 @@ final class LoginCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     let analyticsCenter: AnalyticsCentral
-    let networkMonitor: NetworkMonitoring
     var userStore: UserStorable
+    let networkMonitor: NetworkMonitoring
     let tokenHolder: TokenHolder
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
-    private let errorPresenter = ErrorPresenter.self
-    private weak var authCoordinator: AuthenticationCoordinator?
-    weak var introViewController: IntroViewController?
     private var tokenVerifier: TokenVerifier
     var tokenReadError: Error?
+    
+    private let viewControllerFactory = OnboardingViewControllerFactory.self
+    private let errorPresenter = ErrorPresenter.self
+    
+    weak var introViewController: IntroViewController?
+    private weak var authCoordinator: AuthenticationCoordinator?
     
     init(windowManager: WindowManagement,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
-         networkMonitor: NetworkMonitoring,
          userStore: UserStorable,
+         networkMonitor: NetworkMonitoring,
          tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
-        self.networkMonitor = networkMonitor
         self.userStore = userStore
+        self.networkMonitor = networkMonitor
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
         root.modalPresentationStyle = .overFullScreen
@@ -46,6 +48,7 @@ final class LoginCoordinator: NSObject,
         if userStore.returningAuthenticatedUser {
             returningUserFlow()
         } else {
+            tokenHolder.clearTokenHolder()
             userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
             firstTimeUserFlow()
         }
@@ -113,8 +116,8 @@ final class LoginCoordinator: NSObject,
     
     func launchAuthenticationCoordinator() {
         let ac = AuthenticationCoordinator(root: root,
-                                           session: AppAuthSession(window: windowManager.appWindow),
                                            analyticsService: analyticsCenter.analyticsService,
+                                           session: AppAuthSession(window: windowManager.appWindow),
                                            tokenHolder: tokenHolder)
         openChildInline(ac)
         authCoordinator = ac
@@ -148,6 +151,7 @@ extension LoginCoordinator {
     }
     
     private func restartLoginJourney() {
+        tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         start()
         windowManager.hideUnlockWindow()

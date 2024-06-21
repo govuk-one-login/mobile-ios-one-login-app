@@ -11,15 +11,17 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
-    var networkClient: NetworkClient?
     private let userStore: UserStorable
-    private var tokenHolder: TokenHolder?
+    var networkClient: NetworkClient?
+    private var tokenHolder: TokenHolder
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsService: AnalyticsService,
-         userStore: UserStorable) {
+         userStore: UserStorable,
+         tokenHolder: TokenHolder) {
         self.analyticsService = analyticsService
         self.userStore = userStore
+        self.tokenHolder = tokenHolder
     }
     
     func start() {
@@ -34,19 +36,18 @@ final class HomeCoordinator: NSObject,
         root.setViewControllers([hc], animated: true)
     }
     
-    func updateToken(_ token: TokenHolder) {
-        baseVc?.updateToken(token)
+    func updateToken() {
+        baseVc?.updateToken(tokenHolder)
         baseVc?.isLoggedIn(true)
         baseVc?.screenAnalytics()
-        tokenHolder = token
     }
     
     func showDeveloperMenu() {
         let navController = UINavigationController()
         let devMenuViewModel = DeveloperMenuViewModel()
-        if tokenHolder?.accessToken == nil,
+        if tokenHolder.accessToken == nil,
             let accessToken = try? userStore.secureStoreService.readItem(itemName: .accessToken) {
-            tokenHolder?.accessToken = accessToken
+            tokenHolder.accessToken = accessToken
         }
         networkClient = NetworkClient(authenticationProvider: tokenHolder)
         let developerMenuVC = DeveloperMenuViewController(viewModel: devMenuViewModel,

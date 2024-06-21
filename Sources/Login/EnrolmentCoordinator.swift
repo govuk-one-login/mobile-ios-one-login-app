@@ -12,8 +12,8 @@ final class EnrolmentCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let userStore: UserStorable
     var localAuth: LAContexting
-    let tokenHolder: TokenHolder
     private let viewControllerFactory = OnboardingViewControllerFactory.self
+    let tokenHolder: TokenHolder
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,

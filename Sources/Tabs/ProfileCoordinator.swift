@@ -1,5 +1,6 @@
 import Coordination
 import GDSCommon
+import LocalAuthentication
 import Logging
 import SecureStore
 import UIKit
@@ -8,20 +9,23 @@ final class ProfileCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
                                 NavigationCoordinator {
-    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
+    weak var parentCoordinator: ParentCoordinator?
     var analyticsCenter: AnalyticsCentral
     var userStore: UserStorable
+    private var tokenHolder: TokenHolder
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsCenter: AnalyticsCentral,
-         urlOpener: URLOpener,
          userStore: UserStorable,
+         tokenHolder: TokenHolder,
+         urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
         self.analyticsCenter = analyticsCenter
-        self.urlOpener = urlOpener
         self.userStore = userStore
+        self.tokenHolder = tokenHolder
+        self.urlOpener = urlOpener
         self.baseVc = baseVc
     }
     
@@ -38,7 +42,7 @@ final class ProfileCoordinator: NSObject,
         root.setViewControllers([profileViewController], animated: true)
     }
     
-    func updateToken(_ tokenHolder: TokenHolder) {
+    func updateToken() {
         baseVc?.updateToken(tokenHolder)
     }
     
@@ -46,15 +50,14 @@ final class ProfileCoordinator: NSObject,
         let navController = UINavigationController()
         let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             do {
-                userStore.clearTokenInfo()
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-
-                try userStore.secureStoreService.delete()
+                tokenHolder.clearTokenHolder()
+                userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 root.dismiss(animated: false) { [unowned self] in
                     finish()
                 }

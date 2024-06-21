@@ -27,4 +27,9 @@ class TokenHolder: AuthenticationProvider {
     var validAccessToken: Bool {
         tokenResponse?.expiryDate.timeIntervalSinceNow.sign == .plus
     }
+    
+    func clearTokenHolder() {
+        accessToken = nil
+        idTokenPayload = nil
+    }
 }
