@@ -13,13 +13,7 @@ protocol SceneLifecycle: AnyObject {
 extension SceneLifecycle {
     func displayUnlockScreen() {
         windowManager?.displayUnlockWindow(analyticsService: analyticsService) { [unowned self] in
-            promptToUnlock()
-        }
-    }
-    
-    func promptToUnlock() {
-        coordinator?.evaluateRevisit { [unowned self] in
-            windowManager?.hideUnlockWindow()
+            coordinator?.evaluateRevisit()
         }
     }
     

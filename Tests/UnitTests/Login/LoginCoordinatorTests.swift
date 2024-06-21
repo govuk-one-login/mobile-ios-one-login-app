@@ -302,7 +302,7 @@ extension LoginCoordinatorTests {
                                                         analyticsService: mockAnalyticsService,
                                                         session: MockLoginSession(),
                                                         tokenHolder: mockTokenHolder)
-        authCoordinator.loginError = AuthenticationError.generic
+        authCoordinator.authError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()
         let vc = try XCTUnwrap(sut.root.topViewController as? IntroViewController)

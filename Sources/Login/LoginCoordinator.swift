@@ -19,7 +19,7 @@ final class LoginCoordinator: NSObject,
     let networkMonitor: NetworkMonitoring
     let tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
-    var tokenReadError: Error?
+    var loginError: Error?
     
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
@@ -45,20 +45,17 @@ final class LoginCoordinator: NSObject,
     }
     
     func start() {
-        if userStore.returningAuthenticatedUser {
-            returningUserFlow()
-        } else {
-            tokenHolder.clearTokenHolder()
-            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+        if userStore.previouslyAuthenticatedUser == nil {
             firstTimeUserFlow()
-        }
-    }
-    
-    func returningUserFlow() {
-        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+        } else if userStore.validAuthenticatedUser {
+            windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                getIdToken()
+            }
             getIdToken()
+        } else {
+            loginError = LoginError.generic(description: "Token expired")
+            finish()
         }
-        getIdToken()
     }
     
     func getIdToken() {
@@ -93,11 +90,10 @@ final class LoginCoordinator: NSObject,
                     root.pushViewController(networkErrorScreen, animated: true)
                 }
             }
-        
         root.setViewControllers([rootViewController], animated: true)
-        if let tokenReadError {
+        if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
-                .createUnableToLoginError(errorDescription: tokenReadError.localizedDescription,
+                .createUnableToLoginError(errorDescription: loginError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.popViewController(animated: true)
                 }
@@ -143,18 +139,11 @@ extension LoginCoordinator {
             SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            tokenReadError = error
-            restartLoginJourney()
+            loginError = error
+            finish()
         default:
             print("Token retrival error: \(error)")
         }
-    }
-    
-    private func restartLoginJourney() {
-        tokenHolder.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-        start()
-        windowManager.hideUnlockWindow()
     }
 }
 
@@ -163,10 +152,10 @@ extension LoginCoordinator: ParentCoordinator {
         switch child {
         case _ as OnboardingCoordinator:
             return
-        case let child as AuthenticationCoordinator where child.loginError != nil:
+        case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
             return
-        case let child as AuthenticationCoordinator where child.loginError == nil:
+        case let child as AuthenticationCoordinator where child.authError == nil:
             launchEnrolmentCoordinator(localAuth: LAContext())
         case _ as EnrolmentCoordinator:
             root.dismiss(animated: true)
