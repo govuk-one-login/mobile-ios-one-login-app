@@ -45,35 +45,6 @@ final class LoginCoordinator: NSObject,
     }
     
     func start() {
-        if userStore.previouslyAuthenticatedUser == nil {
-            firstTimeUserFlow()
-        } else if userStore.validAuthenticatedUser {
-            windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                getIdToken()
-            }
-            getIdToken()
-        } else {
-            loginError = AuthError.missingToken
-            finish()
-        }
-    }
-    
-    func getIdToken() {
-        Task {
-            await MainActor.run {
-                do {
-                    let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
-                    tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                    finish()
-                    windowManager.hideUnlockWindow()
-                } catch {
-                    handleError(error)
-                }
-            }
-        }
-    }
-    
-    func firstTimeUserFlow() {
         let rootViewController = viewControllerFactory
             .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
@@ -132,21 +103,6 @@ final class LoginCoordinator: NSObject,
     }
 }
 
-extension LoginCoordinator {
-    private func handleError(_ error: Error) {
-        switch error {
-        case is JWTVerifierError,
-            SecureStoreError.unableToRetrieveFromUserDefaults,
-            SecureStoreError.cantInitialiseData,
-            SecureStoreError.cantRetrieveKey:
-            loginError = error
-            finish()
-        default:
-            print("Token retrival error: \(error)")
-        }
-    }
-}
-
 extension LoginCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
@@ -164,8 +120,4 @@ extension LoginCoordinator: ParentCoordinator {
             break
         }
     }
-}
-
-enum AuthError: Error {
-    case missingToken
 }

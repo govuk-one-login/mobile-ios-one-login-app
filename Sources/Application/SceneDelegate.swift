@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder,
         }
         windowManager = WindowManager(windowScene: windowScene)
         setUpBasicUI()
-        initialiseMainCoordinator(windowManager: windowManager!)
+        startMainCoordinator(windowManager: windowManager!)
     }
     
     func scene(_ scene: UIScene,
@@ -38,7 +38,7 @@ class SceneDelegate: UIResponder,
         coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func initialiseMainCoordinator(windowManager: WindowManagement) {
+    func startMainCoordinator(windowManager: WindowManagement) {
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
