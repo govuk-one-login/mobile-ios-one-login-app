@@ -68,7 +68,7 @@ final class LoginCoordinatorTests: XCTestCase {
 
 extension LoginCoordinatorTests {
     func test_start() {
-        // WHEN the LoginCoordinator's firstTimeUserFlow method is called
+        // WHEN the LoginCoordinator's start method is called
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
@@ -109,7 +109,7 @@ extension LoginCoordinatorTests {
     func test_start_skips_launchOnboardingCoordinator() {
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the LoginCoordinator's launchOnboardingCoordinator method is called
+        // WHEN the LoginCoordinator's start method is called
         sut.start()
         // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
@@ -124,11 +124,13 @@ extension LoginCoordinatorTests {
     }
     
     func test_handleUniversalLink() {
+        // WHEN the handleUniversalLink method is called
+        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         sut.handleUniversalLink(URL(string: "google.com")!)
     }
     
     func test_launchEnrolmentCoordinator() {
-        // GIVEN sufficient test set up to ensure EnrolmentCoordinator does not finish before test assertions
+        // GIVEN sufficient test set up to ensure enrolment coordinator does not finish before test assertions
         let mockLAContext = MockLAContext()
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
