@@ -28,7 +28,7 @@ extension UserStorable {
         if AppEnvironment.extendExpClaimEnabled {
             defaultsStore.set(tokenExp + 27 * 60, forKey: .accessTokenExpiry)
         } else {
-            defaultsStore.set(Date(), forKey: .accessTokenExpiry)
+            defaultsStore.set(tokenExp, forKey: .accessTokenExpiry)
         }
         // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
         if let idToken = tokenResponse.idToken {

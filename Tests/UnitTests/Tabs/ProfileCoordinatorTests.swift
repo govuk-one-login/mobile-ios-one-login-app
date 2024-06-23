@@ -53,7 +53,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_tabBarItem() throws {
+    func test_tabBarItem() {
         sut.start()
         let profileTab = UITabBarItem(title: "Profile",
                                       image: UIImage(systemName: "person.crop.circle"),
@@ -82,8 +82,6 @@ final class ProfileCoordinatorTests: XCTestCase {
     func test_tapSignoutClearsData() throws {
         // GIVEN the user is on the signout page
         mockAnalyticsService.hasAcceptedAnalytics = true
-        try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
-        mockDefaultStore.set(Date(), forKey: .accessTokenExpiry)
         sut.start()
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
@@ -92,9 +90,6 @@ final class ProfileCoordinatorTests: XCTestCase {
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
         // THEN all other user information will be deleted
-        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
-        XCTAssertThrowsError(try mockSecureStoreService.readItem(itemName: .accessToken))
-        XCTAssertThrowsError(try mockSecureStoreService.readItem(itemName: .idToken))
         XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
     }
     

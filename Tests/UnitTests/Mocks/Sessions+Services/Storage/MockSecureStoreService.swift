@@ -33,7 +33,7 @@ final class MockSecureStoreService: SecureStorable {
     }
     
     func delete() throws {
-        self.didCallDeleteStore = true
+        didCallDeleteStore = true
         if let errorFromDeleteItem {
             throw errorFromDeleteItem
         }

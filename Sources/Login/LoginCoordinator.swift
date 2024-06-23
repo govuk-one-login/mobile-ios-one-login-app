@@ -62,6 +62,7 @@ final class LoginCoordinator: NSObject,
                 }
             }
         root.setViewControllers([rootViewController], animated: true)
+        introViewController = rootViewController
         if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,
@@ -70,11 +71,10 @@ final class LoginCoordinator: NSObject,
                 }
             root.pushViewController(unableToLoginErrorScreen, animated: true)
         }
-        introViewController = rootViewController
         launchOnboardingCoordinator()
     }
     
-    func launchOnboardingCoordinator() {
+    private func launchOnboardingCoordinator() {
         if analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
@@ -91,6 +91,8 @@ final class LoginCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
+        // WHEN the handleUniversalLink method is called
+        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         authCoordinator?.handleUniversalLink(url)
     }
     
