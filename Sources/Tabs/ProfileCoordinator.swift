@@ -49,25 +49,12 @@ final class ProfileCoordinator: NSObject,
     func openSignOutPage() {
         let navController = UINavigationController()
         let vm = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-            do {
-                #if DEBUG
-                if AppEnvironment.signoutErrorEnabled {
-                    throw SecureStoreError.cantDeleteKey
-                }
-                #endif
-                root.dismiss(animated: false) { [unowned self] in
-                    finish()
-                }
-            } catch {
-                let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
-                                                                analyticsService: analyticsService) {
-                    exit(0)
-                }
-                navController.pushViewController(errorVC, animated: true)
+            navController.dismiss(animated: true) { [unowned self] in
+                parentCoordinator?.childDidFinish(self)
             }
         }
         let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
-        navController.setViewControllers([signoutPageVC], animated: true)
+        navController.setViewControllers([signoutPageVC], animated: false)
         root.present(navController, animated: true)
     }
 }

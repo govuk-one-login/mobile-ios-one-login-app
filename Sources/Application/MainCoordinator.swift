@@ -171,23 +171,33 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             updateToken()
-        case _ as ProfileCoordinator:
+        default:
+            break
+        }
+    }
+    
+    func performChildCleanup(child: ChildCoordinator) {
+        if child is ProfileCoordinator {
             do {
+                #if DEBUG
+                if AppEnvironment.signoutErrorEnabled {
+                    throw SecureStoreError.cantDeleteKey
+                }
+                #endif
                 try walletCoordinator?.clearWallet()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0
             } catch {
+                let navController = UINavigationController()
                 let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
                                                                 analyticsService: analyticsCenter.analyticsService) {
                     exit(0)
                 }
-                errorVC.modalPresentationStyle = .overFullScreen
-                root.present(errorVC, animated: false)
+                navController.setViewControllers([errorVC], animated: true)
+                root.present(navController, animated: true)
             }
-        default:
-            break
         }
     }
 }

@@ -11,7 +11,7 @@ struct SignoutErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let analyticsService: AnalyticsService
     let errorDescription: String
     
-    let rightBarButtonTitle: GDSLocalisedString? = nil
+    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
     init(errorDescription: String, analyticsService: AnalyticsService, action: @escaping () -> Void) {
