@@ -11,18 +11,18 @@ final class ProfileCoordinator: NSObject,
                                 NavigationCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    var analyticsCenter: AnalyticsCentral
+    var analyticsService: AnalyticsService
     var userStore: UserStorable
     private var tokenHolder: TokenHolder
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
     
-    init(analyticsCenter: AnalyticsCentral,
+    init(analyticsService: AnalyticsService,
          userStore: UserStorable,
          tokenHolder: TokenHolder,
          urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
-        self.analyticsCenter = analyticsCenter
+        self.analyticsService = analyticsService
         self.userStore = userStore
         self.tokenHolder = tokenHolder
         self.urlOpener = urlOpener
@@ -33,7 +33,7 @@ final class ProfileCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_profileTitle").value,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
-        let viewModel = ProfileTabViewModel(analyticsService: analyticsCenter.analyticsService,
+        let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
                                             sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
@@ -48,20 +48,19 @@ final class ProfileCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let vm = SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+        let vm = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             do {
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 root.dismiss(animated: false) { [unowned self] in
                     finish()
                 }
             } catch {
                 let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
-                                                                analyticsService: analyticsCenter.analyticsService) {
+                                                                analyticsService: analyticsService) {
                     exit(0)
                 }
                 navController.pushViewController(errorVC, animated: true)

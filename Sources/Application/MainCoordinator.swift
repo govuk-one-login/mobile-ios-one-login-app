@@ -129,7 +129,7 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
+        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
                                     userStore: userStore,
                                     tokenHolder: tokenHolder,
                                     urlOpener: UIApplication.shared)
@@ -174,6 +174,7 @@ extension MainCoordinator: ParentCoordinator {
         case _ as ProfileCoordinator:
             do {
                 try walletCoordinator?.clearWallet()
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0
