@@ -172,9 +172,19 @@ extension MainCoordinator: ParentCoordinator {
         case _ as LoginCoordinator:
             updateToken()
         case _ as ProfileCoordinator:
-            fullLogin()
-            homeCoordinator?.baseVc?.isLoggedIn(false)
-            root.selectedIndex = 0
+            do {
+                try walletCoordinator?.clearWallet()
+                fullLogin()
+                homeCoordinator?.baseVc?.isLoggedIn(false)
+                root.selectedIndex = 0
+            } catch {
+                let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
+                                                                analyticsService: analyticsCenter.analyticsService) {
+                    exit(0)
+                }
+                errorVC.modalPresentationStyle = .overFullScreen
+                root.present(errorVC, animated: false)
+            }
         default:
             break
         }
