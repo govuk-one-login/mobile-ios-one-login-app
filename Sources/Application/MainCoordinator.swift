@@ -35,14 +35,10 @@ final class MainCoordinator: NSObject,
     func start() {
         root.delegate = self
         addTabs()
-        if userStore.validAuthenticatedUser {
-            windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                evaluateRevisit()
-            }
+        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             evaluateRevisit()
-        } else {
-            fullLogin()
         }
+        evaluateRevisit()
     }
     
     func evaluateRevisit() {
