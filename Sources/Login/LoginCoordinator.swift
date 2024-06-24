@@ -19,7 +19,7 @@ final class LoginCoordinator: NSObject,
     let networkMonitor: NetworkMonitoring
     let tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
-    var tokenReadError: Error?
+    var loginError: Error?
     
     private let viewControllerFactory = OnboardingViewControllerFactory.self
     private let errorPresenter = ErrorPresenter.self
@@ -45,38 +45,6 @@ final class LoginCoordinator: NSObject,
     }
     
     func start() {
-        if userStore.returningAuthenticatedUser {
-            returningUserFlow()
-        } else {
-            tokenHolder.clearTokenHolder()
-            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-            firstTimeUserFlow()
-        }
-    }
-    
-    func returningUserFlow() {
-        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-            getIdToken()
-        }
-        getIdToken()
-    }
-    
-    func getIdToken() {
-        Task {
-            await MainActor.run {
-                do {
-                    let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
-                    tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                    finish()
-                    windowManager.hideUnlockWindow()
-                } catch {
-                    handleError(error)
-                }
-            }
-        }
-    }
-    
-    func firstTimeUserFlow() {
         let rootViewController = viewControllerFactory
             .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
@@ -93,21 +61,20 @@ final class LoginCoordinator: NSObject,
                     root.pushViewController(networkErrorScreen, animated: true)
                 }
             }
-        
         root.setViewControllers([rootViewController], animated: true)
-        if let tokenReadError {
+        introViewController = rootViewController
+        if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
-                .createUnableToLoginError(errorDescription: tokenReadError.localizedDescription,
+                .createUnableToLoginError(errorDescription: loginError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.popViewController(animated: true)
                 }
             root.pushViewController(unableToLoginErrorScreen, animated: true)
         }
-        introViewController = rootViewController
         launchOnboardingCoordinator()
     }
     
-    func launchOnboardingCoordinator() {
+    private func launchOnboardingCoordinator() {
         if analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics == nil {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
@@ -124,6 +91,8 @@ final class LoginCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
+        // WHEN the handleUniversalLink method is called
+        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         authCoordinator?.handleUniversalLink(url)
     }
     
@@ -136,37 +105,15 @@ final class LoginCoordinator: NSObject,
     }
 }
 
-extension LoginCoordinator {
-    private func handleError(_ error: Error) {
-        switch error {
-        case is JWTVerifierError,
-            SecureStoreError.unableToRetrieveFromUserDefaults,
-            SecureStoreError.cantInitialiseData,
-            SecureStoreError.cantRetrieveKey:
-            tokenReadError = error
-            restartLoginJourney()
-        default:
-            print("Token retrival error: \(error)")
-        }
-    }
-    
-    private func restartLoginJourney() {
-        tokenHolder.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-        start()
-        windowManager.hideUnlockWindow()
-    }
-}
-
 extension LoginCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as OnboardingCoordinator:
             return
-        case let child as AuthenticationCoordinator where child.loginError != nil:
+        case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
             return
-        case let child as AuthenticationCoordinator where child.loginError == nil:
+        case let child as AuthenticationCoordinator where child.authError == nil:
             launchEnrolmentCoordinator(localAuth: LAContext())
         case _ as EnrolmentCoordinator:
             root.dismiss(animated: true)

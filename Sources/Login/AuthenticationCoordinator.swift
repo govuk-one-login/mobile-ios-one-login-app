@@ -15,7 +15,7 @@ final class AuthenticationCoordinator: NSObject,
     let errorPresenter = ErrorPresenter.self
     var tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
-    var loginError: Error?
+    var authError: Error?
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
@@ -45,9 +45,9 @@ final class AuthenticationCoordinator: NSObject,
                         returnFromErrorScreen()
                     }
                 root.pushViewController(networkErrorScreen, animated: true)
-                loginError = error
+                authError = error
             } catch let error as LoginError where error == .userCancelled {
-                loginError = error
+                authError = error
                 logUserCancelEvent()
                 finish()
             } catch let error as LoginError where error == .non200,
@@ -84,7 +84,7 @@ extension AuthenticationCoordinator {
                 returnFromErrorScreen()
             }
         root.pushViewController(unableToLoginErrorScreen, animated: true)
-        loginError = error
+        authError = error
     }
     
     private func showGenericErrorScreen(_ error: Error) {
@@ -94,7 +94,7 @@ extension AuthenticationCoordinator {
                 returnFromErrorScreen()
             }
         root.pushViewController(genericErrorScreen, animated: true)
-        loginError = error
+        authError = error
     }
     
     private func returnFromErrorScreen() {

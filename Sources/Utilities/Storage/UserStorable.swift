@@ -10,11 +10,15 @@ protocol UserStorable {
 }
 
 extension UserStorable {
-    var returningAuthenticatedUser: Bool {
-        guard let accessTokenExpClaim = defaultsStore.value(forKey: .accessTokenExpiry) as? Date else {
+    var previouslyAuthenticatedUser: Date? {
+        defaultsStore.value(forKey: .accessTokenExpiry) as? Date
+    }
+    
+    var validAuthenticatedUser: Bool {
+        guard let previouslyAuthenticatedUser else {
             return false
         }
-        return accessTokenExpClaim.timeIntervalSinceNow.sign == .plus
+        return previouslyAuthenticatedUser.timeIntervalSinceNow.sign == .plus
     }
     
     func storeTokenInfo(tokenResponse: TokenResponse) throws {

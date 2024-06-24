@@ -69,7 +69,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
         // THEN the loginError should be a netwok error
-        sut.loginError = LoginError.network
+        sut.authError = LoginError.network
     }
 
     func test_start_loginError_non200() throws {
@@ -84,7 +84,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a non200 error
-        sut.loginError = LoginError.non200
+        sut.authError = LoginError.non200
     }
 
     func test_loginError_invalidRequest() throws {
@@ -99,7 +99,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an invalidRequest error
-        sut.loginError = LoginError.invalidRequest
+        sut.authError = LoginError.invalidRequest
     }
 
     func test_loginError_clientError() throws {
@@ -114,7 +114,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a clientError error
-        sut.loginError = LoginError.clientError
+        sut.authError = LoginError.clientError
     }
 
     func test_loginError_generic() throws {
@@ -129,7 +129,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be a generic error
-        sut.loginError = LoginError.generic(description: "")
+        sut.authError = LoginError.generic(description: "")
     }
 
     func test_loginError_catchAllError() throws {
@@ -144,7 +144,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
-        sut.loginError = AuthenticationError.generic
+        sut.authError = AuthenticationError.generic
     }
 
     func test_loginError_userCancelled() throws {
@@ -156,7 +156,7 @@ extension AuthenticationCoordinatorTests {
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN user is returned to the intro screen
         // THEN the loginError should be a userCancelled error
-        sut.loginError = LoginError.userCancelled
+        sut.authError = LoginError.userCancelled
         // THEN a trackButtonEvent is logged with text value "back"
         let userCancelledEvent = ButtonEvent(textKey: "back")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [userCancelledEvent.name.name])
@@ -175,7 +175,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
-        sut.loginError = JWTVerifierError.unableToFetchJWKs
+        sut.authError = JWTVerifierError.unableToFetchJWKs
     }
     
     func test_handleUniversalLink_catchAllError() throws {
@@ -191,7 +191,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
-        sut.loginError = AuthenticationError.generic
+        sut.authError = AuthenticationError.generic
     }
     
     func test_returnFromErrorScreen() throws {

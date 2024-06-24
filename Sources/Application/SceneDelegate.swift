@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder,
         }
         windowManager = WindowManager(windowScene: windowScene)
         setUpBasicUI()
-        initialiseMainCoordinator(windowManager: windowManager!)
+        startMainCoordinator(windowManager: windowManager!)
     }
     
     func scene(_ scene: UIScene,
@@ -38,7 +38,7 @@ class SceneDelegate: UIResponder,
         coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func initialiseMainCoordinator(windowManager: WindowManagement) {
+    func startMainCoordinator(windowManager: WindowManagement) {
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-       if userStore.returningAuthenticatedUser {
+       if userStore.previouslyAuthenticatedUser != nil {
            shouldCallSceneWillEnterForeground = true
            displayUnlockScreen()
        } else {
@@ -63,7 +63,7 @@ class SceneDelegate: UIResponder,
 
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
-            promptToUnlock()
+            coordinator?.evaluateRevisit()
         }
     }
     

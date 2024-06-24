@@ -14,7 +14,7 @@ final class MainCoordinator: NSObject,
     let userStore: UserStorable
     let tokenHolder = TokenHolder()
     private var tokenVerifier: TokenVerifier
-
+    
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     private weak var walletCoordinator: WalletCoordinator?
@@ -35,7 +35,49 @@ final class MainCoordinator: NSObject,
     func start() {
         root.delegate = self
         addTabs()
-        showLogin()
+        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            evaluateRevisit()
+        }
+        evaluateRevisit()
+    }
+    
+    func evaluateRevisit() {
+        if userStore.validAuthenticatedUser {
+            Task(priority: .userInitiated) {
+                await MainActor.run {
+                    do {
+                        let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
+                        tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                        updateToken()
+                        windowManager.hideUnlockWindow()
+                    } catch {
+                        handleLoginError(error)
+                    }
+                }
+            }
+        } else {
+            fullLogin()
+        }
+    }
+    
+    private func handleLoginError(_ error: Error) {
+        switch error {
+        case is JWTVerifierError,
+            SecureStoreError.unableToRetrieveFromUserDefaults,
+            SecureStoreError.cantInitialiseData,
+            SecureStoreError.cantRetrieveKey:
+            fullLogin(error)
+        default:
+            print("Token retrival error: \(error)")
+            return
+        }
+    }
+
+    private func fullLogin(_ error: Error? = nil) {
+        tokenHolder.clearTokenHolder()
+        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+        showLogin(error)
+        windowManager.hideUnlockWindow()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -48,54 +90,9 @@ final class MainCoordinator: NSObject,
             return
         }
     }
-    
-    func evaluateRevisit(action: @escaping () -> Void) {
-        Task {
-            await MainActor.run {
-                if userStore.returningAuthenticatedUser {
-                    do {
-                        let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
-                        tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                        if let loginCoordinator {
-                            childDidFinish(loginCoordinator)
-                        }
-                        action()
-                    } catch {
-                        handleLoginError(error, action: action)
-                    }
-                } else {
-                    tokenHolder.clearTokenHolder()
-                    userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-                    showLogin()
-                    action()
-                }
-            }
-        }
-    }
-    
-    private func handleLoginError(_ error: Error, action: () -> Void) {
-        switch error {
-        case is JWTVerifierError,
-            SecureStoreError.unableToRetrieveFromUserDefaults,
-            SecureStoreError.cantInitialiseData,
-            SecureStoreError.cantRetrieveKey:
-            loginCoordinator?.tokenReadError = error
-            refreshLogin(error, action: action)
-        default:
-            print("Token retrival error: \(error)")
-        }
-    }
-    
-    private func refreshLogin(_ error: Error, action: () -> Void) {
-        if let loginCoordinator {
-            childDidFinish(loginCoordinator)
-        }
-        tokenHolder.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-        showLogin(error)
-        action()
-    }
-    
+}
+
+extension MainCoordinator {
     private func showLogin(_ error: Error? = nil) {
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
@@ -103,13 +100,11 @@ final class MainCoordinator: NSObject,
                                   userStore: userStore,
                                   networkMonitor: NetworkMonitor.shared,
                                   tokenHolder: tokenHolder)
-        lc.tokenReadError = error
+        lc.loginError = error
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }
-}
-
-extension MainCoordinator {
+    
     private func addTabs() {
         addHomeTab()
         addWalletTab()
@@ -174,22 +169,14 @@ extension MainCoordinator: UITabBarControllerDelegate {
 extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case let child as LoginCoordinator:
-            if child.tokenReadError == nil {
-                updateToken()
-            }
+        case _ as LoginCoordinator:
+            updateToken()
         case _ as ProfileCoordinator:
-            showLogin()
+            fullLogin()
             homeCoordinator?.baseVc?.isLoggedIn(false)
             root.selectedIndex = 0
         default:
             break
-        }
-    }
-    
-    func performChildCleanup(child: ChildCoordinator) {
-        if let child = child as? LoginCoordinator {
-            child.root.dismiss(animated: false)
         }
     }
 }
