@@ -326,34 +326,38 @@ extension MainCoordinatorTests {
     }
     
     func test_performChildCleanup_fromProfileCoordinator_succeeds() throws {
-        // GIVEN the app has token information store and the accessToken is valid
+        // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                                     userStore: mockUserStore,
                                                     tokenHolder: TokenHolder(),
                                                     urlOpener: mockURLOpener)
-        // WHEN the MainCoordinator didRegainFocus from ProfileCoordinator (on user sign out)
+        // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
-        // THEN the tokens should be deleted; the app should be reset
+        // THEN the tokens should be deleted and the analytics should be reset; the app should be reset
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == nil)
         try appReset()
     }
     
     func test_performChildCleanup_fromProfileCoordinator_errors() throws {
         UserDefaults.standard.set(true, forKey: "EnableSignoutError")
-        // GIVEN the app has token information store and the accessToken is valid
+        // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                                     userStore: mockUserStore,
                                                     tokenHolder: TokenHolder(),
                                                     urlOpener: mockURLOpener)
-        // WHEN the MainCoordinator didRegainFocus from ProfileCoordinator (on user sign out)
+        // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
+        // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)
-        // THEN the tokens should be deleted; the app should be reset
+        // THEN the sign out error screen should be presented
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedVC.topViewController is GDSErrorViewController)
+        let errroVC = try XCTUnwrap(presentedVC.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(errroVC.viewModel is SignoutErrorViewModel)
+        // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
         try appNotReset()
         UserDefaults.standard.set(false, forKey: "EnableSignoutError")

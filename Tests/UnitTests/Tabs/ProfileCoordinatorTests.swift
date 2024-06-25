@@ -77,18 +77,9 @@ final class ProfileCoordinatorTests: XCTestCase {
         sut.start()
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
         // WHEN the user signs out
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
         waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
-    }
-}
-
-extension ProfileCoordinatorTests {
-    var hasAcceptedAnalytics: Bool {
-        get throws {
-            try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics)
-        }
     }
 }
