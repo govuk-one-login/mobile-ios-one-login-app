@@ -48,13 +48,13 @@ final class ProfileCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let vm = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+        let viewModel = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 parentCoordinator?.childDidFinish(self)
             }
         }
-        let signoutPageVC = GDSInstructionsViewController(viewModel: vm)
-        navController.setViewControllers([signoutPageVC], animated: false)
+        let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
+        navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)
     }
 }

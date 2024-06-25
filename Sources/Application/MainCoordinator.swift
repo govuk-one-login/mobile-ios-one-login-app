@@ -72,7 +72,7 @@ final class MainCoordinator: NSObject,
             return
         }
     }
-
+    
     private func fullLogin(_ error: Error? = nil) {
         tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
@@ -191,11 +191,11 @@ extension MainCoordinator: ParentCoordinator {
                 root.selectedIndex = 0
             } catch {
                 let navController = UINavigationController()
-                let errorVC = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
-                                                                analyticsService: analyticsCenter.analyticsService) {
+                let signOutErrorScreen = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
+                                                                           analyticsService: analyticsCenter.analyticsService) {
                     exit(0)
                 }
-                navController.setViewControllers([errorVC], animated: true)
+                navController.setViewControllers([signOutErrorScreen], animated: false)
                 root.present(navController, animated: true)
             }
         }
