@@ -86,6 +86,7 @@ platform :ios do
       create_keychain(
         name: "signing_temp",
         password: password,
+        timeout: 1800,
         unlock: true
       )
 
