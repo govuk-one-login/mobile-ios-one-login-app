@@ -20,6 +20,13 @@ class SceneDelegate: UIResponder,
         return UserStorage(secureStoreService: secureStoreService,
                                     defaultsStore: UserDefaults.standard)
     }()
+    private lazy var openAccessUserStore = {
+        let secureStoreService = SecureStoreService(configuration: .init(id: .persistentSessionID,
+                                                                         accessControlLevel: .open,
+                                                                         localAuthStrings: LAContext().contextStrings))
+        return UserStorage(secureStoreService: secureStoreService,
+                                    defaultsStore: UserDefaults.standard)
+    }()
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -45,7 +52,8 @@ class SceneDelegate: UIResponder,
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
-                                      userStore: userStore)
+                                      userStore: userStore,
+                                      openAccessUserStore: openAccessUserStore)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()
         trackSplashScreen(analyticsCenter.analyticsService)

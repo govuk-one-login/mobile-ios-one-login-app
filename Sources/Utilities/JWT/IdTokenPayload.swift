@@ -8,6 +8,7 @@ struct IdTokenPayload: JWTPayload {
     var iss: IssuerClaim
     var exp: ExpirationClaim
     var iat: IssuedAtClaim
+    var persistentId: String
 
     let email: String
     let emailVerified: BoolClaim
