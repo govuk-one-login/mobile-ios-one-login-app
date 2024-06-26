@@ -179,7 +179,7 @@ jobs:
           retention-days: 1
 
   deploy_apps:
-    needs: [ test_staging_config, test_build_config, test_ui ]
+    needs: [ test_staging_config, test_build_config, test_ui, run_swiftlint ]
     name: Deploy Staging and Build Apps
     runs-on: macos-14
     steps:
