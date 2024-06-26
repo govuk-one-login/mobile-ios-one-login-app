@@ -9,7 +9,8 @@ final class StringTests: XCTestCase {
         XCTAssertEqual(String.idToken, "idToken")
         XCTAssertEqual(String.oneLoginTokens, "oneLoginTokens")
         XCTAssertEqual(String.shouldPromptForAnalytics, "shouldPromptForAnalytics")
-        
+        XCTAssertEqual(String.persistentSessionID, "persistentSessionID")
+
         // Universal Link Component
         XCTAssertEqual(String.redirect, "redirect")
         XCTAssertEqual(String.wallet, "wallet")
