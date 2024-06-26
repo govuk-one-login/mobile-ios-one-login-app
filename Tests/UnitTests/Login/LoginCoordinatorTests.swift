@@ -14,6 +14,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
+    var mockOpenAccessUserStore: UserStorage!
     var mockTokenHolder: TokenHolder!
     var mockTokenVerifier: MockTokenVerifier!
     var sut: LoginCoordinator!
@@ -32,6 +33,8 @@ final class LoginCoordinatorTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStore,
                                     defaultsStore: mockDefaultStore)
+        mockOpenAccessUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                              defaultsStore: mockDefaultStore)
         mockTokenHolder = TokenHolder()
         mockTokenVerifier = MockTokenVerifier()
         mockWindowManager.appWindow.rootViewController = navigationController
@@ -40,6 +43,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
                                userStore: mockUserStore,
+                               openAccessUserStore: mockOpenAccessUserStore,
                                networkMonitor: mockNetworkMonitor,
                                tokenHolder: mockTokenHolder,
                                tokenVerifier: mockTokenVerifier)
@@ -155,6 +159,7 @@ extension LoginCoordinatorTests {
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         analyticsService: mockAnalyticsService,
+                                                        openAccessUserStore: mockOpenAccessUserStore,
                                                         session: MockLoginSession(),
                                                         tokenHolder: mockTokenHolder)
         authCoordinator.authError = AuthenticationError.generic

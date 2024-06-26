@@ -11,6 +11,7 @@ final class SceneLifecycleTests: XCTestCase {
     var mockSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
+    var mockOpenAccessUserStore: MockUserStore!
     var mockMainCoordinator: MainCoordinator!
     var sut: MockSceneDelegate!
     
@@ -25,10 +26,13 @@ final class SceneLifecycleTests: XCTestCase {
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
                                       defaultsStore: mockDefaultStore)
+        mockOpenAccessUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                                defaultsStore: mockDefaultStore)
         mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
-                                              userStore: mockUserStore)
+                                              userStore: mockUserStore,
+                                              openAccessUserStore: mockOpenAccessUserStore)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
                                 analyticsService: mockAnalyticsService,
                                 windowManager: mockWindowManager)
@@ -42,6 +46,7 @@ final class SceneLifecycleTests: XCTestCase {
         mockSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        mockOpenAccessUserStore = nil
         mockMainCoordinator = nil
         sut = nil
         

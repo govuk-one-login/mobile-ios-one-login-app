@@ -9,6 +9,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockSecureStore: MockSecureStoreService!
+    var mockDefaultStore: MockDefaultsStore!
+    var mockOpenAccessUserStore: UserStorage!
     var mockLoginSession: MockLoginSession!
     var tokenHolder: TokenHolder!
     var sut: AuthenticationCoordinator!
@@ -21,9 +24,14 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockLoginSession = MockLoginSession(window: window)
+        mockSecureStore = MockSecureStoreService()
+        mockDefaultStore = MockDefaultsStore()
+        mockOpenAccessUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                              defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
                                         analyticsService: mockAnalyticsService,
+                                        openAccessUserStore: mockOpenAccessUserStore,
                                         session: mockLoginSession,
                                         tokenHolder: tokenHolder)
     }
@@ -33,6 +41,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         navigationController = nil
         mockAnalyticsService = nil
         mockLoginSession = nil
+        mockSecureStore = nil
+        mockDefaultStore = nil
+        mockOpenAccessUserStore = nil
         tokenHolder = nil
         sut = nil
 

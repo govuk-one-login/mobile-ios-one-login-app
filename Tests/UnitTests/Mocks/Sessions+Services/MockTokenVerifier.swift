@@ -27,6 +27,7 @@ extension MockTokenVerifier {
                                             iss: "issuer",
                                             exp: .init(value: Date()),
                                             iat: .init(value: Date()),
+                                            persistentId: "persistentId",
                                             email: "mock@email.com",
                                             emailVerified: true)
 }
