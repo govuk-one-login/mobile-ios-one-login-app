@@ -33,7 +33,7 @@ extension SignoutErrorViewModelTests {
         XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
         XCTAssertEqual(sut.body, "app_signOutErrorBody")
         XCTAssertNil(sut.secondaryButtonViewModel)
-        XCTAssertNil(sut.rightBarButtonTitle)
+        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
         XCTAssertTrue(sut.backButtonIsHidden)
         XCTAssertEqual(sut.errorDescription, "Error")
     }

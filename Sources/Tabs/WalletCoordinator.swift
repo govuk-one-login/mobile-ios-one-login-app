@@ -43,4 +43,8 @@ final class WalletCoordinator: NSObject,
                         persistentSecureStore: secureStoreService)
 
     }
+    
+    func clearWallet() throws {
+        try walletSDK.deleteWalletData()
+    }
 }

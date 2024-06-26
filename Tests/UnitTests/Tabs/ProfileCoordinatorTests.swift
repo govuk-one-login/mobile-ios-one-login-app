@@ -7,8 +7,6 @@ import XCTest
 final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStoreService: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
@@ -21,16 +19,13 @@ final class ProfileCoordinatorTests: XCTestCase {
         
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreference = MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                  analyticsPreferenceStore: mockAnalyticsPreference)
         mockSecureStoreService = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStoreService,
                                     defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         urlOpener = MockURLOpener()
-        sut = ProfileCoordinator(analyticsCenter: mockAnalyticsCenter,
+        sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                  userStore: mockUserStore,
                                  tokenHolder: tokenHolder,
                                  urlOpener: urlOpener)
@@ -41,8 +36,6 @@ final class ProfileCoordinatorTests: XCTestCase {
     override func tearDown() {
         window = nil
         mockAnalyticsService = nil
-        mockAnalyticsPreference = nil
-        mockAnalyticsCenter = nil
         mockSecureStoreService = nil
         mockDefaultStore = nil
         mockUserStore = nil
@@ -81,40 +74,12 @@ final class ProfileCoordinatorTests: XCTestCase {
     
     func test_tapSignoutClearsData() throws {
         // GIVEN the user is on the signout page
-        mockAnalyticsService.hasAcceptedAnalytics = true
         sut.start()
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
         // WHEN the user signs out
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
-        // THEN all other user information will be deleted
-        XCTAssertNil(mockAnalyticsPreference.hasAcceptedAnalytics)
-    }
-    
-    func test_signoutErrorShowsErrorScreen() throws {
-        UserDefaults.standard.set(true, forKey: "EnableSignoutError")
-        // GIVEN the user is on the signout page
-        sut.start()
-        sut.openSignOutPage()
-        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
-        // IF there is an error on deleting the keys
-        mockSecureStoreService.errorFromDeleteItem = SecureStoreError.cantDeleteKey
-        // WHEN the user signs out
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController!.view[child: "instructions-button"])
-        signOutButton.sendActions(for: .touchUpInside)
-        // THEN an error page will be shown
-        waitForTruth(presentedVC.topViewController is GDSErrorViewController, timeout: 20)
-        UserDefaults.standard.set(false, forKey: "EnableSignoutError")
-    }
-}
-
-extension ProfileCoordinatorTests {
-    var hasAcceptedAnalytics: Bool {
-        get throws {
-            try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics)
-        }
+        waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
     }
 }

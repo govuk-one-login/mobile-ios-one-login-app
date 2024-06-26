@@ -72,7 +72,7 @@ final class MainCoordinator: NSObject,
             return
         }
     }
-
+    
     private func fullLogin(_ error: Error? = nil) {
         tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
@@ -129,7 +129,7 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(analyticsCenter: analyticsCenter,
+        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
                                     userStore: userStore,
                                     tokenHolder: tokenHolder,
                                     urlOpener: UIApplication.shared)
@@ -171,12 +171,33 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as LoginCoordinator:
             updateToken()
-        case _ as ProfileCoordinator:
-            fullLogin()
-            homeCoordinator?.baseVc?.isLoggedIn(false)
-            root.selectedIndex = 0
         default:
             break
+        }
+    }
+    
+    func performChildCleanup(child: ChildCoordinator) {
+        if child is ProfileCoordinator {
+            do {
+                #if DEBUG
+                if AppEnvironment.signoutErrorEnabled {
+                    throw SecureStoreError.cantDeleteKey
+                }
+                #endif
+                try walletCoordinator?.clearWallet()
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+                fullLogin()
+                homeCoordinator?.baseVc?.isLoggedIn(false)
+                root.selectedIndex = 0
+            } catch {
+                let navController = UINavigationController()
+                let signOutErrorScreen = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
+                                                                           analyticsService: analyticsCenter.analyticsService) {
+                    exit(0)
+                }
+                navController.setViewControllers([signOutErrorScreen], animated: false)
+                root.present(navController, animated: true)
+            }
         }
     }
 }
