@@ -46,7 +46,7 @@ final class HomeCoordinator: NSObject,
         let navController = UINavigationController()
         let devMenuViewModel = DeveloperMenuViewModel()
         if tokenHolder.accessToken == nil,
-            let accessToken = try? userStore.secureStoreService.readItem(itemName: .accessToken) {
+            let accessToken = try? userStore.authenticatedStore.readItem(itemName: .accessToken) {
             tokenHolder.accessToken = accessToken
         }
         networkClient = NetworkClient(authenticationProvider: tokenHolder)

@@ -3,8 +3,8 @@ import Foundation
 import SecureStore
 
 protocol UserStorable {
-    var secureStoreService: SecureStorable { get set }
-    var openSecureStoreService: SecureStorable { get set }
+    var authenticatedStore: SecureStorable { get set }
+    var openStore: SecureStorable { get set }
     var defaultsStore: DefaultsStorable { get }
     
     func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel)
@@ -25,7 +25,7 @@ extension UserStorable {
     func storeTokenInfo(tokenResponse: TokenResponse) throws {
         let accessToken = tokenResponse.accessToken
         let tokenExp = tokenResponse.expiryDate
-        try secureStoreService.saveItem(item: accessToken, itemName: .accessToken)
+        try authenticatedStore.saveItem(item: accessToken, itemName: .accessToken)
         if AppEnvironment.extendExpClaimEnabled {
             defaultsStore.set(tokenExp + 27 * 60, forKey: .accessTokenExpiry)
         } else {
@@ -33,13 +33,13 @@ extension UserStorable {
         }
         // TODO: DCMAW-8570 This should be considiered non-optional once tokenID work is completed on BE
         if let idToken = tokenResponse.idToken {
-            try secureStoreService.saveItem(item: idToken, itemName: .idToken)
+            try authenticatedStore.saveItem(item: idToken, itemName: .idToken)
         }
     }
     
     func clearTokenInfo() {
-        secureStoreService.deleteItem(itemName: .accessToken)
-        secureStoreService.deleteItem(itemName: .idToken)
+        authenticatedStore.deleteItem(itemName: .accessToken)
+        authenticatedStore.deleteItem(itemName: .idToken)
         defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
 }

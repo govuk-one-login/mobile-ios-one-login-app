@@ -32,8 +32,8 @@ final class LoginCoordinatorTests: XCTestCase {
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
-                                    openSecureStoreService: mockOpenSecureStore,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
+                                    openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         mockTokenHolder = TokenHolder()
         mockTokenVerifier = MockTokenVerifier()

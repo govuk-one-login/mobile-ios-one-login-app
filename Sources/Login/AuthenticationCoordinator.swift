@@ -41,7 +41,7 @@ final class AuthenticationCoordinator: NSObject,
                    let idToken = tokenHolder.tokenResponse?.idToken {
                     tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
                     if let persistentSessionID = tokenHolder.idTokenPayload?.persistentId {
-                        try userStore.openSecureStoreService.saveItem(item: persistentSessionID, itemName: .persistentSessionID)
+                        try userStore.openStore.saveItem(item: persistentSessionID, itemName: .persistentSessionID)
                     }
                 }
                 finish()

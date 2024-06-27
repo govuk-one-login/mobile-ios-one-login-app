@@ -17,12 +17,12 @@ class SceneDelegate: UIResponder,
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))
-        let openSecureStoreService = SecureStoreService(configuration: .init(id: .persistentSessionID,
-                                                                             accessControlLevel: .open,
-                                                                             localAuthStrings: LAContext().contextStrings))
-        return UserStorage(secureStoreService: secureStoreService,
-                           openSecureStoreService: openSecureStoreService,
-                                    defaultsStore: UserDefaults.standard)
+        let openStore = SecureStoreService(configuration: .init(id: .persistentSessionID,
+                                                                accessControlLevel: .open,
+                                                                localAuthStrings: LAContext().contextStrings))
+        return UserStorage(authenticatedStore: secureStoreService,
+                           openStore: openStore,
+                           defaultsStore: UserDefaults.standard)
     }()
 
     func scene(_ scene: UIScene,

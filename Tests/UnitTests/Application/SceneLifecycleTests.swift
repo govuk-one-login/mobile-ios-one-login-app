@@ -25,8 +25,8 @@ final class SceneLifecycleTests: XCTestCase {
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                      openSecureStoreService: mockOpenSecureStore,
+        mockUserStore = MockUserStore(authenticatedStore: mockSecureStore,
+                                      openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultStore)
         mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),

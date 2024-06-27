@@ -31,8 +31,8 @@ final class MainCoordinatorTests: XCTestCase {
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
-                                    openSecureStoreService: mockOpenSecureStore,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
+                                    openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         mockURLOpener = MockURLOpener()
         mockWindowManager.appWindow.rootViewController = tabBarController

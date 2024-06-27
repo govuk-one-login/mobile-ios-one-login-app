@@ -2,26 +2,26 @@ import LocalAuthentication
 import SecureStore
 
 final class UserStorage: UserStorable {
-    var secureStoreService: SecureStorable
-    var openSecureStoreService: SecureStorable
+    var authenticatedStore: SecureStorable
+    var openStore: SecureStorable
     let defaultsStore: DefaultsStorable
     
-    init(secureStoreService: SecureStorable,
-         openSecureStoreService: SecureStorable,
+    init(authenticatedStore: SecureStorable,
+         openStore: SecureStorable,
          defaultsStore: DefaultsStorable) {
-        self.secureStoreService = secureStoreService
-        self.openSecureStoreService = openSecureStoreService
+        self.authenticatedStore = authenticatedStore
+        self.openStore = openStore
         self.defaultsStore = defaultsStore
     }
     
     func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel) {
         clearTokenInfo()
         do {
-            try secureStoreService.delete()
+            try authenticatedStore.delete()
         } catch {
             print("Deleting Secure Store error: \(error)")
         }
-        secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+        authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                      accessControlLevel: accessControlLevel,
                                                                      localAuthStrings: LAContext().contextStrings))
     }

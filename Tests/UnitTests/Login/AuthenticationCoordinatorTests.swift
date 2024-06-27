@@ -1,11 +1,11 @@
 import Authentication
-import GDSAnalytics
-import GDSCommon
-@testable import OneLogin
-import XCTest
+ import GDSAnalytics
+ import GDSCommon
+ @testable import OneLogin
+ import XCTest
 
-@MainActor
-final class AuthenticationCoordinatorTests: XCTestCase {
+ @MainActor
+ final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
@@ -28,8 +28,8 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
-                                    openSecureStoreService: mockOpenSecureStore,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
+                                    openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
@@ -57,9 +57,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     private enum AuthenticationError: Error {
         case generic
     }
-}
+ }
 
-extension AuthenticationCoordinatorTests {
+ extension AuthenticationCoordinatorTests {
     func test_start_loginSession_successful() throws {
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -223,4 +223,4 @@ extension AuthenticationCoordinatorTests {
         // THEN the added view controller should be removed
         XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
-}
+ }

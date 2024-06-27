@@ -23,8 +23,8 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                      openSecureStoreService: mockOpenSecureStore,
+        mockUserStore = MockUserStore(authenticatedStore: mockSecureStore,
+                                      openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
         mockLAContext = MockLAContext()
         tokenHolder = TokenHolder()

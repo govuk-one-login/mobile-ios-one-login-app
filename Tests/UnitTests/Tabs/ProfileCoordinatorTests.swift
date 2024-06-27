@@ -28,8 +28,8 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockSecureStoreService = MockSecureStoreService()
         mockOpenSecureStoreService = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStoreService,
-                                    openSecureStoreService: mockOpenSecureStoreService,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStoreService,
+                                    openStore: mockOpenSecureStoreService,
                                     defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         urlOpener = MockURLOpener()
