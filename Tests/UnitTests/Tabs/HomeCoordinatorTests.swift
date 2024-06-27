@@ -6,6 +6,7 @@ final class HomeCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStoreService: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var mockTokenHolder: TokenHolder!
@@ -17,8 +18,10 @@ final class HomeCoordinatorTests: XCTestCase {
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStoreService,
+                                      openSecureStoreService: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
         mockTokenHolder = TokenHolder()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService,
@@ -30,6 +33,7 @@ final class HomeCoordinatorTests: XCTestCase {
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
+        mockOpenSecureStore = nil
         mockDefaultsStore = nil
         mockUserStore = nil
         mockTokenHolder = nil

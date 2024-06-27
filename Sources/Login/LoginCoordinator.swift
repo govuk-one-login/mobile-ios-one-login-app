@@ -16,7 +16,6 @@ final class LoginCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let analyticsCenter: AnalyticsCentral
     var userStore: UserStorable
-    let openAccessUserStore: UserStorable
     let networkMonitor: NetworkMonitoring
     let tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
@@ -32,7 +31,6 @@ final class LoginCoordinator: NSObject,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
-         openAccessUserStore: UserStorable,
          networkMonitor: NetworkMonitoring,
          tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
@@ -40,7 +38,6 @@ final class LoginCoordinator: NSObject,
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
-        self.openAccessUserStore = openAccessUserStore
         self.networkMonitor = networkMonitor
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
@@ -87,7 +84,7 @@ final class LoginCoordinator: NSObject,
     func launchAuthenticationCoordinator() {
         let ac = AuthenticationCoordinator(root: root,
                                            analyticsService: analyticsCenter.analyticsService,
-                                           openAccessUserStore: openAccessUserStore,
+                                           userStore: userStore,
                                            session: AppAuthSession(window: windowManager.appWindow),
                                            tokenHolder: tokenHolder)
         openChildInline(ac)

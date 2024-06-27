@@ -10,8 +10,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
-    var mockOpenAccessUserStore: UserStorage!
+    var mockUserStore: UserStorage!
     var mockLoginSession: MockLoginSession!
     var tokenHolder: TokenHolder!
     var sut: AuthenticationCoordinator!
@@ -25,13 +26,15 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockLoginSession = MockLoginSession(window: window)
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockOpenAccessUserStore = UserStorage(secureStoreService: mockSecureStore,
-                                              defaultsStore: mockDefaultStore)
+        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                    openSecureStoreService: mockOpenSecureStore,
+                                    defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
                                         analyticsService: mockAnalyticsService,
-                                        openAccessUserStore: mockOpenAccessUserStore,
+                                        userStore: mockUserStore,
                                         session: mockLoginSession,
                                         tokenHolder: tokenHolder)
     }
@@ -42,8 +45,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockLoginSession = nil
         mockSecureStore = nil
+        mockOpenSecureStore = nil
         mockDefaultStore = nil
-        mockOpenAccessUserStore = nil
+        mockUserStore = nil
         tokenHolder = nil
         sut = nil
 

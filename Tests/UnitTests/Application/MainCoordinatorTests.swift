@@ -12,9 +12,9 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
-    var mockOpenAccessUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
     var mockURLOpener: MockURLOpener!
     var sut: MainCoordinator!
@@ -29,11 +29,11 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                    openSecureStoreService: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
-        mockOpenAccessUserStore = UserStorage(secureStoreService: mockSecureStore,
-                                              defaultsStore: mockDefaultStore)
         mockURLOpener = MockURLOpener()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
@@ -42,7 +42,6 @@ final class MainCoordinatorTests: XCTestCase {
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
                               userStore: mockUserStore,
-                              openAccessUserStore: mockOpenAccessUserStore,
                               tokenVerifier: mockTokenVerifier)
     }
     
@@ -53,9 +52,9 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
         mockSecureStore = nil
+        mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
-        mockOpenAccessUserStore = nil
         mockTokenVerifier = nil
         mockURLOpener = nil
         sut = nil
@@ -302,7 +301,6 @@ extension MainCoordinatorTests {
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                openAccessUserStore: mockOpenAccessUserStore,
                                                 networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
@@ -316,7 +314,6 @@ extension MainCoordinatorTests {
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                openAccessUserStore: mockOpenAccessUserStore,
                                                 networkMonitor: MockNetworkMonitor(),
                                                 tokenHolder: TokenHolder())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator

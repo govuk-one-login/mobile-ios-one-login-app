@@ -8,6 +8,7 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var mockLAContext: MockLAContext!
@@ -20,8 +21,10 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      openSecureStoreService: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
         mockLAContext = MockLAContext()
         tokenHolder = TokenHolder()
@@ -36,6 +39,7 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         navigationController = nil
         mockAnalyticsService = nil
         mockSecureStore = nil
+        mockOpenSecureStore = nil
         mockDefaultsStore = nil
         mockUserStore = nil
         mockLAContext = nil

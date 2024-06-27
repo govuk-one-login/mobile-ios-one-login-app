@@ -17,14 +17,11 @@ class SceneDelegate: UIResponder,
         let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))
+        let openSecureStoreService = SecureStoreService(configuration: .init(id: .persistentSessionID,
+                                                                             accessControlLevel: .open,
+                                                                             localAuthStrings: LAContext().contextStrings))
         return UserStorage(secureStoreService: secureStoreService,
-                                    defaultsStore: UserDefaults.standard)
-    }()
-    private lazy var openAccessUserStore = {
-        let secureStoreService = SecureStoreService(configuration: .init(id: .persistentSessionID,
-                                                                         accessControlLevel: .open,
-                                                                         localAuthStrings: LAContext().contextStrings))
-        return UserStorage(secureStoreService: secureStoreService,
+                           openSecureStoreService: openSecureStoreService,
                                     defaultsStore: UserDefaults.standard)
     }()
 
@@ -52,8 +49,7 @@ class SceneDelegate: UIResponder,
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
-                                      userStore: userStore,
-                                      openAccessUserStore: openAccessUserStore)
+                                      userStore: userStore)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()
         trackSplashScreen(analyticsCenter.analyticsService)

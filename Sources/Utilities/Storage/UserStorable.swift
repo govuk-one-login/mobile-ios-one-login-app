@@ -4,6 +4,7 @@ import SecureStore
 
 protocol UserStorable {
     var secureStoreService: SecureStorable { get set }
+    var openSecureStoreService: SecureStorable { get set }
     var defaultsStore: DefaultsStorable { get }
     
     func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel)

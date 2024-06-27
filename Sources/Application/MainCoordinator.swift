@@ -12,7 +12,6 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
-    let openAccessUserStore: UserStorable
     let tokenHolder = TokenHolder()
     private var tokenVerifier: TokenVerifier
     
@@ -25,13 +24,11 @@ final class MainCoordinator: NSObject,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
-         openAccessUserStore: UserStorable,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
-        self.openAccessUserStore = openAccessUserStore
         self.tokenVerifier = tokenVerifier
     }
     
@@ -101,7 +98,6 @@ extension MainCoordinator {
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
-                                  openAccessUserStore: openAccessUserStore,
                                   networkMonitor: NetworkMonitor.shared,
                                   tokenHolder: tokenHolder)
         lc.loginError = error

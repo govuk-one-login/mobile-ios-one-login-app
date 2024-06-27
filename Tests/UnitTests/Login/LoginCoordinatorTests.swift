@@ -12,9 +12,9 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
-    var mockOpenAccessUserStore: UserStorage!
     var mockTokenHolder: TokenHolder!
     var mockTokenVerifier: MockTokenVerifier!
     var sut: LoginCoordinator!
@@ -30,11 +30,11 @@ final class LoginCoordinatorTests: XCTestCase {
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+                                    openSecureStoreService: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
-        mockOpenAccessUserStore = UserStorage(secureStoreService: mockSecureStore,
-                                              defaultsStore: mockDefaultStore)
         mockTokenHolder = TokenHolder()
         mockTokenVerifier = MockTokenVerifier()
         mockWindowManager.appWindow.rootViewController = navigationController
@@ -43,7 +43,6 @@ final class LoginCoordinatorTests: XCTestCase {
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
                                userStore: mockUserStore,
-                               openAccessUserStore: mockOpenAccessUserStore,
                                networkMonitor: mockNetworkMonitor,
                                tokenHolder: mockTokenHolder,
                                tokenVerifier: mockTokenVerifier)
@@ -57,6 +56,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockAnalyticsCenter = nil
         mockNetworkMonitor = nil
         mockSecureStore = nil
+        mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenHolder = nil
@@ -159,7 +159,7 @@ extension LoginCoordinatorTests {
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         analyticsService: mockAnalyticsService,
-                                                        openAccessUserStore: mockOpenAccessUserStore,
+                                                        userStore: mockUserStore,
                                                         session: MockLoginSession(),
                                                         tokenHolder: mockTokenHolder)
         authCoordinator.authError = AuthenticationError.generic

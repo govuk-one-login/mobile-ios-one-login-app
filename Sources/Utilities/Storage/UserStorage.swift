@@ -3,11 +3,14 @@ import SecureStore
 
 final class UserStorage: UserStorable {
     var secureStoreService: SecureStorable
+    var openSecureStoreService: SecureStorable
     let defaultsStore: DefaultsStorable
     
     init(secureStoreService: SecureStorable,
+         openSecureStoreService: SecureStorable,
          defaultsStore: DefaultsStorable) {
         self.secureStoreService = secureStoreService
+        self.openSecureStoreService = openSecureStoreService
         self.defaultsStore = defaultsStore
     }
     

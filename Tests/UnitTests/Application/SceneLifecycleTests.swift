@@ -9,9 +9,9 @@ final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
-    var mockOpenAccessUserStore: MockUserStore!
     var mockMainCoordinator: MainCoordinator!
     var sut: MockSceneDelegate!
     
@@ -23,16 +23,15 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+                                      openSecureStoreService: mockOpenSecureStore,
                                       defaultsStore: mockDefaultStore)
-        mockOpenAccessUserStore = MockUserStore(secureStoreService: mockSecureStore,
-                                                defaultsStore: mockDefaultStore)
         mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
-                                              userStore: mockUserStore,
-                                              openAccessUserStore: mockOpenAccessUserStore)
+                                              userStore: mockUserStore)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
                                 analyticsService: mockAnalyticsService,
                                 windowManager: mockWindowManager)
@@ -46,7 +45,6 @@ final class SceneLifecycleTests: XCTestCase {
         mockSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
-        mockOpenAccessUserStore = nil
         mockMainCoordinator = nil
         sut = nil
         

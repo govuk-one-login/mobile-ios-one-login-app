@@ -12,7 +12,7 @@ final class AuthenticationCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
     let session: LoginSession
-    let openAccessUserStore: UserStorable
+    let userStore: UserStorable
     let errorPresenter = ErrorPresenter.self
     var tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
@@ -20,13 +20,13 @@ final class AuthenticationCoordinator: NSObject,
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
-         openAccessUserStore: UserStorable,
+         userStore: UserStorable,
          session: LoginSession,
          tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
         self.analyticsService = analyticsService
-        self.openAccessUserStore = openAccessUserStore
+        self.userStore = userStore
         self.session = session
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
@@ -41,7 +41,7 @@ final class AuthenticationCoordinator: NSObject,
                    let idToken = tokenHolder.tokenResponse?.idToken {
                     tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
                     if let persistentSessionID = tokenHolder.idTokenPayload?.persistentId {
-                        openAccessUserStore.defaultsStore.set(persistentSessionID, forKey: .persistentSessionID)
+                        try userStore.openSecureStoreService.saveItem(item: persistentSessionID, itemName: .persistentSessionID)
                     }
                 }
                 finish()
