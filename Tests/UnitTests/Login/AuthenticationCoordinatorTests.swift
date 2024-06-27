@@ -64,12 +64,15 @@ import Authentication
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
+        tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
         sut.start()
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        try mockUserStore.openStore.saveItem(item: "persistentId", itemName: .persistentSessionID)
         // THEN the tokens are returned
         XCTAssertEqual(tokenHolder.tokenResponse?.accessToken, "accessTokenResponse")
         XCTAssertEqual(tokenHolder.tokenResponse?.refreshToken, "refreshTokenResponse")
         XCTAssertEqual(tokenHolder.tokenResponse?.idToken, "idTokenResponse")
+        XCTAssertEqual(try mockUserStore.openStore.readItem(itemName: .persistentSessionID), tokenHolder.idTokenPayload?.persistentId)
     }
 
     func test_start_loginError_network() throws {
