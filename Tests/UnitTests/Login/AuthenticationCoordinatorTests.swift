@@ -14,6 +14,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var mockLoginSession: MockLoginSession!
+    var mockTokenVerifier: MockTokenVerifier!
     var tokenHolder: TokenHolder!
     var sut: AuthenticationCoordinator!
     
@@ -31,12 +32,15 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
+        mockTokenVerifier = MockTokenVerifier()
         tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
                                         analyticsService: mockAnalyticsService,
                                         userStore: mockUserStore,
                                         session: mockLoginSession,
-                                        tokenHolder: tokenHolder)
+                                        tokenHolder: tokenHolder,
+                                        tokenVerifier: mockTokenVerifier)
+        UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
     
     override func tearDown() {
@@ -48,9 +52,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        mockTokenVerifier = nil
         tokenHolder = nil
         sut = nil
-        
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
         super.tearDown()
     }
     
@@ -64,15 +69,14 @@ extension AuthenticationCoordinatorTests {
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
-        tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
         sut.start()
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
-        try mockUserStore.openStore.saveItem(item: "persistentId", itemName: .persistentSessionID)
         // THEN the tokens are returned
         XCTAssertEqual(tokenHolder.tokenResponse?.accessToken, "accessTokenResponse")
         XCTAssertEqual(tokenHolder.tokenResponse?.refreshToken, "refreshTokenResponse")
         XCTAssertEqual(tokenHolder.tokenResponse?.idToken, "idTokenResponse")
-        XCTAssertEqual(try mockUserStore.openStore.readItem(itemName: .persistentSessionID), tokenHolder.idTokenPayload?.persistentId)
+        // THEN the persistentSessionID is stored.
+        XCTAssertEqual(try mockUserStore.readItem(itemName: .persistentSessionID, storage: .open), tokenHolder.idTokenPayload?.persistentId)
     }
     
     func test_start_loginError_network() throws {
@@ -182,7 +186,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
     }
     
-    func test_loginError_jwterror() throws {
+    func test_loginError_jwtFetchError() throws {
         mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
@@ -194,6 +198,21 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
         sut.authError = JWTVerifierError.unableToFetchJWKs
+    }
+    
+    func test_loginError_jwtVerifyError() throws {
+        mockTokenVerifier.verificationError = JWTVerifierError.invalidJWTFormat
+        sut.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and the subsequent call to the JWKS service fails
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        // THEN the login error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be an unableToFetchJWKs error
+        sut.authError = JWTVerifierError.invalidJWTFormat
+
     }
     
     func test_handleUniversalLink_catchAllError() throws {

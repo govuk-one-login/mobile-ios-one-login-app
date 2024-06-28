@@ -66,8 +66,12 @@ final class MainCoordinatorTests: XCTestCase {
         let accessToken = try MockTokenResponse().getJSONData().accessToken
         sut.tokenHolder.accessToken = accessToken
         sut.tokenHolder.idTokenPayload = try MockTokenVerifier().extractPayload("test")
-        try mockSecureStore.saveItem(item: accessToken, itemName: .accessToken)
-        try mockSecureStore.saveItem(item: XCTUnwrap(MockTokenResponse().getJSONData().idToken), itemName: .idToken)
+        try mockUserStore.saveItem(accessToken,
+                                   itemName: .accessToken,
+                                   storage: .authenticated)
+        try mockUserStore.saveItem(MockTokenResponse().getJSONData().idToken,
+                                   itemName: .idToken,
+                                   storage: .authenticated)
         let date: Date
         if expired {
             date = Date() - 60

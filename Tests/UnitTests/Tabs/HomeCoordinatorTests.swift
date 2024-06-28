@@ -67,7 +67,9 @@ final class HomeCoordinatorTests: XCTestCase {
         // GIVEN we have a non-nil tokenHolder and access token
         mockTokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
         sut.updateToken()
-        try mockUserStore.authenticatedStore.saveItem(item: "accessToken", itemName: .accessToken)
+        try mockUserStore.saveItem("accessToken",
+                                   itemName: .accessToken,
+                                   storage: .authenticated)
         // THEN the networkClieint will be initialized when the developer menu is shown
         sut.showDeveloperMenu()
         XCTAssertNotNil(sut.networkClient)
