@@ -1,11 +1,11 @@
 import Authentication
- import GDSAnalytics
- import GDSCommon
- @testable import OneLogin
- import XCTest
+import GDSAnalytics
+import GDSCommon
+@testable import OneLogin
+import XCTest
 
- @MainActor
- final class AuthenticationCoordinatorTests: XCTestCase {
+@MainActor
+final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
@@ -38,7 +38,7 @@ import Authentication
                                         session: mockLoginSession,
                                         tokenHolder: tokenHolder)
     }
-
+    
     override func tearDown() {
         window = nil
         navigationController = nil
@@ -50,16 +50,16 @@ import Authentication
         mockUserStore = nil
         tokenHolder = nil
         sut = nil
-
+        
         super.tearDown()
     }
-
+    
     private enum AuthenticationError: Error {
         case generic
     }
- }
+}
 
- extension AuthenticationCoordinatorTests {
+extension AuthenticationCoordinatorTests {
     func test_start_loginSession_successful() throws {
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -74,7 +74,7 @@ import Authentication
         XCTAssertEqual(tokenHolder.tokenResponse?.idToken, "idTokenResponse")
         XCTAssertEqual(try mockUserStore.openStore.readItem(itemName: .persistentSessionID), tokenHolder.idTokenPayload?.persistentId)
     }
-
+    
     func test_start_loginError_network() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.network
         sut.start()
@@ -89,7 +89,7 @@ import Authentication
         // THEN the loginError should be a netwok error
         sut.authError = LoginError.network
     }
-
+    
     func test_start_loginError_non200() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
         sut.start()
@@ -104,7 +104,7 @@ import Authentication
         // THEN the loginError should be a non200 error
         sut.authError = LoginError.non200
     }
-
+    
     func test_loginError_invalidRequest() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
         sut.start()
@@ -119,7 +119,7 @@ import Authentication
         // THEN the loginError should be an invalidRequest error
         sut.authError = LoginError.invalidRequest
     }
-
+    
     func test_loginError_clientError() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
         sut.start()
@@ -134,7 +134,7 @@ import Authentication
         // THEN the loginError should be a clientError error
         sut.authError = LoginError.clientError
     }
-
+    
     func test_loginError_generic() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
         sut.start()
@@ -149,7 +149,7 @@ import Authentication
         // THEN the loginError should be a generic error
         sut.authError = LoginError.generic(description: "")
     }
-
+    
     func test_loginError_catchAllError() throws {
         mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
         sut.start()
@@ -164,7 +164,7 @@ import Authentication
         // THEN the loginError should be an unknown generic error
         sut.authError = AuthenticationError.generic
     }
-
+    
     func test_loginError_userCancelled() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
         sut.start()
@@ -226,4 +226,4 @@ import Authentication
         // THEN the added view controller should be removed
         XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
- }
+}

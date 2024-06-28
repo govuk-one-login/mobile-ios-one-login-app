@@ -14,13 +14,13 @@ class SceneDelegate: UIResponder,
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
     private lazy var userStore = {
-        let secureStoreService = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+        let authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))
         let openStore = SecureStoreService(configuration: .init(id: .persistentSessionID,
                                                                 accessControlLevel: .open,
                                                                 localAuthStrings: LAContext().contextStrings))
-        return UserStorage(authenticatedStore: secureStoreService,
+        return UserStorage(authenticatedStore: authenticatedStore,
                            openStore: openStore,
                            defaultsStore: UserDefaults.standard)
     }()
