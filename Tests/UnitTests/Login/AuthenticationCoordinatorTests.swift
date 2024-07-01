@@ -9,7 +9,12 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
+    var mockDefaultStore: MockDefaultsStore!
+    var mockUserStore: UserStorage!
     var mockLoginSession: MockLoginSession!
+    var mockTokenVerifier: MockTokenVerifier!
     var tokenHolder: TokenHolder!
     var sut: AuthenticationCoordinator!
     
@@ -21,24 +26,39 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockLoginSession = MockLoginSession(window: window)
+        mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
+        mockDefaultStore = MockDefaultsStore()
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
+                                    openStore: mockOpenSecureStore,
+                                    defaultsStore: mockDefaultStore)
+        mockTokenVerifier = MockTokenVerifier()
         tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
                                         analyticsService: mockAnalyticsService,
+                                        userStore: mockUserStore,
                                         session: mockLoginSession,
-                                        tokenHolder: tokenHolder)
+                                        tokenHolder: tokenHolder,
+                                        tokenVerifier: mockTokenVerifier)
+        UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
-
+    
     override func tearDown() {
         window = nil
         navigationController = nil
         mockAnalyticsService = nil
         mockLoginSession = nil
+        mockSecureStore = nil
+        mockOpenSecureStore = nil
+        mockDefaultStore = nil
+        mockUserStore = nil
+        mockTokenVerifier = nil
         tokenHolder = nil
         sut = nil
-
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
         super.tearDown()
     }
-
+    
     private enum AuthenticationError: Error {
         case generic
     }
@@ -55,8 +75,10 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(tokenHolder.tokenResponse?.accessToken, "accessTokenResponse")
         XCTAssertEqual(tokenHolder.tokenResponse?.refreshToken, "refreshTokenResponse")
         XCTAssertEqual(tokenHolder.tokenResponse?.idToken, "idTokenResponse")
+        // THEN the persistentSessionID is stored.
+        XCTAssertEqual(try mockUserStore.readItem(itemName: .persistentSessionID, storage: .open), tokenHolder.idTokenPayload?.persistentId)
     }
-
+    
     func test_start_loginError_network() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.network
         sut.start()
@@ -71,7 +93,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be a netwok error
         sut.authError = LoginError.network
     }
-
+    
     func test_start_loginError_non200() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
         sut.start()
@@ -86,7 +108,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be a non200 error
         sut.authError = LoginError.non200
     }
-
+    
     func test_loginError_invalidRequest() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
         sut.start()
@@ -101,7 +123,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be an invalidRequest error
         sut.authError = LoginError.invalidRequest
     }
-
+    
     func test_loginError_clientError() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
         sut.start()
@@ -116,7 +138,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be a clientError error
         sut.authError = LoginError.clientError
     }
-
+    
     func test_loginError_generic() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
         sut.start()
@@ -131,7 +153,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be a generic error
         sut.authError = LoginError.generic(description: "")
     }
-
+    
     func test_loginError_catchAllError() throws {
         mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
         sut.start()
@@ -146,7 +168,7 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be an unknown generic error
         sut.authError = AuthenticationError.generic
     }
-
+    
     func test_loginError_userCancelled() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
         sut.start()
@@ -164,7 +186,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
     }
     
-    func test_loginError_jwterror() throws {
+    func test_loginError_jwtFetchError() throws {
         mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
@@ -176,6 +198,21 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
         sut.authError = JWTVerifierError.unableToFetchJWKs
+    }
+    
+    func test_loginError_jwtVerifyError() throws {
+        mockTokenVerifier.verificationError = JWTVerifierError.invalidJWTFormat
+        sut.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and the subsequent call to the JWKS service fails
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        // THEN the login error screen is shown
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be an unableToFetchJWKs error
+        sut.authError = JWTVerifierError.invalidJWTFormat
+
     }
     
     func test_handleUniversalLink_catchAllError() throws {

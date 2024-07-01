@@ -3,13 +3,16 @@ import Foundation
 import SecureStore
 
 class MockUserStore: UserStorable {
-    var secureStoreService: SecureStorable
+    var authenticatedStore: SecureStorable
+    var openStore: SecureStorable
     let defaultsStore: DefaultsStorable
     var shouldPromptForAnalytics: Bool?
 
-    init(secureStoreService: SecureStorable,
+    init(authenticatedStore: SecureStorable,
+         openStore: SecureStorable,
          defaultsStore: DefaultsStorable) {
-        self.secureStoreService = secureStoreService
+        self.authenticatedStore = authenticatedStore
+        self.openStore = openStore
         self.defaultsStore = defaultsStore
     }
     

@@ -46,7 +46,8 @@ final class MainCoordinator: NSObject,
             Task(priority: .userInitiated) {
                 await MainActor.run {
                     do {
-                        let idToken = try userStore.secureStoreService.readItem(itemName: .idToken)
+                        let idToken = try userStore.readItem(itemName: .idToken,
+                                                             storage: .authenticated)
                         tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                         updateToken()
                         windowManager.hideUnlockWindow()
@@ -122,7 +123,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
-                                   secureStoreService: userStore.secureStoreService,
+                                   secureStoreService: userStore.authenticatedStore,
                                    tokenHolder: tokenHolder)
         addTab(wc)
         walletCoordinator = wc

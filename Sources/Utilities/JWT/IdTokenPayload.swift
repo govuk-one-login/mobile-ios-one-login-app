@@ -3,11 +3,12 @@ import JWTKit
 
 struct IdTokenPayload: JWTPayload {
 
-    var sub: SubjectClaim
-    var aud: AudienceClaim
-    var iss: IssuerClaim
-    var exp: ExpirationClaim
-    var iat: IssuedAtClaim
+    let sub: SubjectClaim
+    let aud: AudienceClaim
+    let iss: IssuerClaim
+    let exp: ExpirationClaim
+    let iat: IssuedAtClaim
+    let persistentId: String
 
     let email: String
     let emailVerified: BoolClaim

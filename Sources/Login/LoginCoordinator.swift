@@ -84,6 +84,7 @@ final class LoginCoordinator: NSObject,
     func launchAuthenticationCoordinator() {
         let ac = AuthenticationCoordinator(root: root,
                                            analyticsService: analyticsCenter.analyticsService,
+                                           userStore: userStore,
                                            session: AppAuthSession(window: windowManager.appWindow),
                                            tokenHolder: tokenHolder)
         openChildInline(ac)

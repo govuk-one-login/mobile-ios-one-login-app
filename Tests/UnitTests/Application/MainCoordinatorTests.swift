@@ -12,6 +12,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
@@ -28,8 +29,10 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
+                                    openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         mockURLOpener = MockURLOpener()
         mockWindowManager.appWindow.rootViewController = tabBarController
@@ -49,6 +52,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
         mockSecureStore = nil
+        mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenVerifier = nil
@@ -62,8 +66,12 @@ final class MainCoordinatorTests: XCTestCase {
         let accessToken = try MockTokenResponse().getJSONData().accessToken
         sut.tokenHolder.accessToken = accessToken
         sut.tokenHolder.idTokenPayload = try MockTokenVerifier().extractPayload("test")
-        try mockSecureStore.saveItem(item: accessToken, itemName: .accessToken)
-        try mockSecureStore.saveItem(item: XCTUnwrap(MockTokenResponse().getJSONData().idToken), itemName: .idToken)
+        try mockUserStore.saveItem(accessToken,
+                                   itemName: .accessToken,
+                                   storage: .authenticated)
+        try mockUserStore.saveItem(MockTokenResponse().getJSONData().idToken,
+                                   itemName: .idToken,
+                                   storage: .authenticated)
         let date: Date
         if expired {
             date = Date() - 60

@@ -12,6 +12,7 @@ final class AuthenticationCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
     let session: LoginSession
+    let userStore: UserStorable
     let errorPresenter = ErrorPresenter.self
     var tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
@@ -19,11 +20,13 @@ final class AuthenticationCoordinator: NSObject,
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
+         userStore: UserStorable,
          session: LoginSession,
          tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
         self.analyticsService = analyticsService
+        self.userStore = userStore
         self.session = session
         self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
@@ -37,6 +40,9 @@ final class AuthenticationCoordinator: NSObject,
                 if AppEnvironment.callingSTSEnabled,
                    let idToken = tokenHolder.tokenResponse?.idToken {
                     tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
+                    try userStore.saveItem(tokenHolder.idTokenPayload?.persistentId,
+                                           itemName: .persistentSessionID,
+                                           storage: .open)
                 }
                 finish()
             } catch let error as LoginError where error == .network {

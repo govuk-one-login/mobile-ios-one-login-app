@@ -12,6 +12,7 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: AnalyticsCentral!
     var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var mockTokenHolder: TokenHolder!
@@ -29,8 +30,10 @@ final class LoginCoordinatorTests: XCTestCase {
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStore,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
+                                    openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         mockTokenHolder = TokenHolder()
         mockTokenVerifier = MockTokenVerifier()
@@ -53,6 +56,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockAnalyticsCenter = nil
         mockNetworkMonitor = nil
         mockSecureStore = nil
+        mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenHolder = nil
@@ -155,6 +159,7 @@ extension LoginCoordinatorTests {
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         analyticsService: mockAnalyticsService,
+                                                        userStore: mockUserStore,
                                                         session: MockLoginSession(),
                                                         tokenHolder: mockTokenHolder)
         authCoordinator.authError = AuthenticationError.generic

@@ -6,6 +6,7 @@ final class HomeCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStoreService: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var mockTokenHolder: TokenHolder!
@@ -17,8 +18,10 @@ final class HomeCoordinatorTests: XCTestCase {
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStoreService,
+        mockUserStore = MockUserStore(authenticatedStore: mockSecureStoreService,
+                                      openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
         mockTokenHolder = TokenHolder()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService,
@@ -30,6 +33,7 @@ final class HomeCoordinatorTests: XCTestCase {
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
+        mockOpenSecureStore = nil
         mockDefaultsStore = nil
         mockUserStore = nil
         mockTokenHolder = nil
@@ -63,7 +67,9 @@ final class HomeCoordinatorTests: XCTestCase {
         // GIVEN we have a non-nil tokenHolder and access token
         mockTokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
         sut.updateToken()
-        try mockUserStore.secureStoreService.saveItem(item: "accessToken", itemName: .accessToken)
+        try mockUserStore.saveItem("accessToken",
+                                   itemName: .accessToken,
+                                   storage: .authenticated)
         // THEN the networkClieint will be initialized when the developer menu is shown
         sut.showDeveloperMenu()
         XCTAssertNotNil(sut.networkClient)

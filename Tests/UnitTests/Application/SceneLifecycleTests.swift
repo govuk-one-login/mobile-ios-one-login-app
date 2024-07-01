@@ -9,6 +9,7 @@ final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSecureStore: MockSecureStoreService!
+    var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var mockMainCoordinator: MainCoordinator!
@@ -22,8 +23,10 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(secureStoreService: mockSecureStore,
+        mockUserStore = MockUserStore(authenticatedStore: mockSecureStore,
+                                      openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultStore)
         mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),

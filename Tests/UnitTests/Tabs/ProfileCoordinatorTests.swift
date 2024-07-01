@@ -8,6 +8,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStoreService: MockSecureStoreService!
+    var mockOpenSecureStoreService: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var tokenHolder: TokenHolder!
@@ -20,8 +21,10 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
+        mockOpenSecureStoreService = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(secureStoreService: mockSecureStoreService,
+        mockUserStore = UserStorage(authenticatedStore: mockSecureStoreService,
+                                    openStore: mockOpenSecureStoreService,
                                     defaultsStore: mockDefaultStore)
         tokenHolder = TokenHolder()
         urlOpener = MockURLOpener()
@@ -37,6 +40,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
+        mockOpenSecureStoreService = nil
         mockDefaultStore = nil
         mockUserStore = nil
         tokenHolder = nil

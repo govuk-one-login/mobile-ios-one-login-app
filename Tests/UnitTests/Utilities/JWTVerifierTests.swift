@@ -31,7 +31,8 @@ final class JWTVerifierTests: XCTestCase {
         let token = MockJWKSResponse.idToken
         let payload = try await sut.verifyToken(token)
         
-        XCTAssertEqual(payload?.email, "abc@example.com")
+        XCTAssertEqual(payload?.email, "mock@email.com")
+        XCTAssertEqual(payload?.persistentId, "1d003342-efd1-4ded-9c11-32e0f15acae6")
     }
 
     func test_verifyInvalidJWT() async throws {
@@ -105,7 +106,8 @@ final class JWTVerifierTests: XCTestCase {
         let token = MockJWKSResponse.idToken
         let payload = try sut.extractPayload(token)
         
-        XCTAssertEqual(payload?.email, "abc@example.com")
+        XCTAssertEqual(payload?.email, "mock@email.com")
+        XCTAssertEqual(payload?.persistentId, "1d003342-efd1-4ded-9c11-32e0f15acae6")
     }
     
     func test_extractTokenFailure() throws {
