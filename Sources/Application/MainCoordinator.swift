@@ -12,7 +12,7 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
-    let tokenHolder = TokenHolder()
+    let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
     
     private weak var loginCoordinator: LoginCoordinator?
@@ -99,8 +99,7 @@ extension MainCoordinator {
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
-                                  networkMonitor: NetworkMonitor.shared,
-                                  tokenHolder: tokenHolder)
+                                  networkMonitor: NetworkMonitor.shared)
         lc.loginError = error
         openChildModally(lc, animated: false)
         loginCoordinator = lc
@@ -113,9 +112,9 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 userStore: userStore,
-                                 tokenHolder: tokenHolder)
+        let hc = HomeCoordinator(window: windowManager.appWindow,
+                                 analyticsService: analyticsCenter.analyticsService,
+                                 userStore: userStore)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -123,8 +122,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
-                                   secureStoreService: userStore.authenticatedStore,
-                                   tokenHolder: tokenHolder)
+                                   secureStoreService: userStore.authenticatedStore)
         addTab(wc)
         walletCoordinator = wc
     }
@@ -132,7 +130,6 @@ extension MainCoordinator {
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
                                     userStore: userStore,
-                                    tokenHolder: tokenHolder,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc

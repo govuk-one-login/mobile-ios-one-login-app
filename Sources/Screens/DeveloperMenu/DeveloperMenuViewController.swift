@@ -6,10 +6,10 @@ final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
     
     let viewModel: DeveloperMenuViewModel
-    let networkClient: NetworkClient?
+    let networkClient: NetworkClient
     
     init(viewModel: DeveloperMenuViewModel,
-         networkClient: NetworkClient?) {
+         networkClient: NetworkClient) {
         self.viewModel = viewModel
         self.networkClient = networkClient
         super.init(viewModel: viewModel,
@@ -42,10 +42,10 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldHappyPath() {
         Task {
             do {
-                let data = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                          scope: "sts-test.hello-world.read",
-                                                                          request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data!, as: UTF8.self))")
+                let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                         scope: "sts-test.hello-world.read",
+                                                                         request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
             } catch {
@@ -84,9 +84,9 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldErrorPath() {
         Task {
             do {
-                _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                   scope: "sts-test.hello-world",
-                                                                   request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                  scope: "sts-test.hello-world",
+                                                                  request: URLRequest(url: AppEnvironment.stsHelloWorld))
             } catch let error as ServerError {
                 errorPathResultLabel.showErrorMessage(error)
             } catch {
@@ -125,9 +125,9 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldUnauthorizedPath() {
         Task {
             do {
-                _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                   scope: "sts-test.hello-world.read",
-                                                                   request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+                _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                  scope: "sts-test.hello-world.read",
+                                                                  request: URLRequest(url: AppEnvironment.stsHelloWorldError))
             } catch let error as ServerError {
                 unauthorizedPathResultLabel.showErrorMessage(error)
             } catch {
@@ -156,7 +156,7 @@ fileprivate extension UILabel {
             text = "Error"
         }
     }
-
+    
     func showSuccessMessage(_ message: String) {
         textColor = .gdsGreen
         isHidden = false

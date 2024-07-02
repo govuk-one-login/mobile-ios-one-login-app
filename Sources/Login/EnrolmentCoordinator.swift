@@ -13,18 +13,16 @@ final class EnrolmentCoordinator: NSObject,
     let userStore: UserStorable
     var localAuth: LAContexting
     private let viewControllerFactory = OnboardingViewControllerFactory.self
-    let tokenHolder: TokenHolder
+    let tokenHolder = TokenHolder.shared
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
          userStore: UserStorable,
-         localAuth: LAContexting,
-         tokenHolder: TokenHolder) {
+         localAuth: LAContexting) {
         self.root = root
         self.analyticsService = analyticsService
         self.userStore = userStore
         self.localAuth = localAuth
-        self.tokenHolder = tokenHolder
     }
     
     func start() {

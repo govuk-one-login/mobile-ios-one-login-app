@@ -8,20 +8,20 @@ final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
                              NavigationCoordinator {
+    let window: UIWindow
     weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
     let analyticsService: AnalyticsService
     private let userStore: UserStorable
-    var networkClient: NetworkClient?
-    private var tokenHolder: TokenHolder
+    private let tokenHolder = TokenHolder.shared
     private(set) var baseVc: TabbedViewController?
     
-    init(analyticsService: AnalyticsService,
-         userStore: UserStorable,
-         tokenHolder: TokenHolder) {
+    init(window: UIWindow,
+         analyticsService: AnalyticsService,
+         userStore: UserStorable) {
+        self.window = window
         self.analyticsService = analyticsService
         self.userStore = userStore
-        self.tokenHolder = tokenHolder
     }
     
     func start() {
@@ -49,9 +49,9 @@ final class HomeCoordinator: NSObject,
            let accessToken = try? userStore.readItem(itemName: .accessToken, storage: .authenticated) {
             tokenHolder.accessToken = accessToken
         }
-        networkClient = NetworkClient(authenticationProvider: tokenHolder)
+        let networkClient = NetworkClient(authenticationProvider: tokenHolder)
         let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                          networkClient: networkClient)
+                                                                networkClient: networkClient)
         navController.setViewControllers([devMenuViewController], animated: true)
         root.present(navController, animated: true)
     }

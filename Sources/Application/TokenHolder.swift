@@ -6,6 +6,8 @@ enum TokenError: Error {
 }
 
 class TokenHolder: AuthenticationProvider {
+    static let shared = TokenHolder()
+    
     var tokenResponse: TokenResponse? {
         didSet {
             accessToken = tokenResponse?.accessToken
@@ -13,6 +15,10 @@ class TokenHolder: AuthenticationProvider {
     }
     
     var accessToken: String?
+    var validAccessToken: Bool {
+        tokenResponse?.expiryDate.timeIntervalSinceNow.sign == .plus
+    }
+    
     var bearerToken: String {
         get throws {
             guard let accessToken else {
@@ -23,10 +29,6 @@ class TokenHolder: AuthenticationProvider {
     }
     
     var idTokenPayload: IdTokenPayload?
-    
-    var validAccessToken: Bool {
-        tokenResponse?.expiryDate.timeIntervalSinceNow.sign == .plus
-    }
     
     func clearTokenHolder() {
         accessToken = nil

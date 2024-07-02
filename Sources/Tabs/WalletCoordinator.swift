@@ -15,17 +15,15 @@ final class WalletCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     let analyticsService: AnalyticsService
     private let secureStoreService: SecureStorable
-    private var tokenHolder: TokenHolder
+    private let tokenHolder = TokenHolder.shared
     let walletSDK = WalletSDK()
     
     init(window: UIWindow,
          analyticsService: AnalyticsService,
-         secureStoreService: SecureStorable,
-         tokenHolder: TokenHolder) {
+         secureStoreService: SecureStorable) {
         self.window = window
         self.analyticsService = analyticsService
         self.secureStoreService = secureStoreService
-        self.tokenHolder = tokenHolder
     }
     
     func start() {

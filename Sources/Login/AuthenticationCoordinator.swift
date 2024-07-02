@@ -14,21 +14,19 @@ final class AuthenticationCoordinator: NSObject,
     let session: LoginSession
     let userStore: UserStorable
     let errorPresenter = ErrorPresenter.self
-    var tokenHolder: TokenHolder
-    private var tokenVerifier: TokenVerifier
+    let tokenHolder = TokenHolder.shared
+    private let tokenVerifier: TokenVerifier
     var authError: Error?
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
          userStore: UserStorable,
          session: LoginSession,
-         tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
         self.analyticsService = analyticsService
         self.userStore = userStore
         self.session = session
-        self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
     }
     

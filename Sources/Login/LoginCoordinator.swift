@@ -17,7 +17,7 @@ final class LoginCoordinator: NSObject,
     let analyticsCenter: AnalyticsCentral
     var userStore: UserStorable
     let networkMonitor: NetworkMonitoring
-    let tokenHolder: TokenHolder
+    let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
     var loginError: Error?
     
@@ -32,14 +32,12 @@ final class LoginCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          networkMonitor: NetworkMonitoring,
-         tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
         self.networkMonitor = networkMonitor
-        self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
         root.modalPresentationStyle = .overFullScreen
     }
@@ -85,8 +83,7 @@ final class LoginCoordinator: NSObject,
         let ac = AuthenticationCoordinator(root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            userStore: userStore,
-                                           session: AppAuthSession(window: windowManager.appWindow),
-                                           tokenHolder: tokenHolder)
+                                           session: AppAuthSession(window: windowManager.appWindow))
         openChildInline(ac)
         authCoordinator = ac
     }
@@ -101,8 +98,7 @@ final class LoginCoordinator: NSObject,
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCenter.analyticsService,
                                              userStore: userStore,
-                                             localAuth: localAuth,
-                                             tokenHolder: tokenHolder))
+                                             localAuth: localAuth))
     }
 }
 
