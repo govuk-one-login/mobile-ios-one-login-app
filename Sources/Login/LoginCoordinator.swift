@@ -104,7 +104,6 @@ extension LoginCoordinator: ParentCoordinator {
             return
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
-            return
         case let child as AuthenticationCoordinator where child.authError == nil:
             launchEnrolmentCoordinator(localAuth: LAContext())
         case _ as EnrolmentCoordinator:

@@ -14,7 +14,7 @@ final class ReauthCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let userStore: UserStorable
     private weak var authCoordinator: AuthenticationCoordinator?
-
+    
     init(window: UIWindow,
          analyticsService: AnalyticsService,
          userStore: UserStorable) {
@@ -25,24 +25,43 @@ final class ReauthCoordinator: NSObject,
     }
     
     func start() {
-        let signOutWarning = ErrorPresenter.createSignoutWarning(analyticsService: analyticsService) { [unowned self] in
-            let ac = AuthenticationCoordinator(root: root,
-                                               analyticsService: analyticsService,
-                                               userStore: userStore,
-                                               session: AppAuthSession(window: window))
-            openChildInline(ac)
-            authCoordinator = ac
-        }
+        let signOutWarning = ErrorPresenter
+            .createSignoutWarning(analyticsService: analyticsService) { [unowned self] in
+                let ac = AuthenticationCoordinator(root: root,
+                                                   analyticsService: analyticsService,
+                                                   userStore: userStore,
+                                                   session: AppAuthSession(window: window))
+                openChildInline(ac)
+                authCoordinator = ac
+            }
         root.setViewControllers([signOutWarning], animated: false)
     }
     
     func handleUniversalLink(_ url: URL) {
         authCoordinator?.handleUniversalLink(url)
     }
+    
+    private func storeAccessTokenInfo() {
+        guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
+        do {
+            try userStore.storeTokenInfo(tokenResponse: tokenResponse)
+        } catch {
+            print("Storing Token Info error: \(error)")
+        }
+    }
 }
 
 extension ReauthCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
-        root.dismiss(animated: true)
+        switch child {
+        case let child as AuthenticationCoordinator where child.authError != nil:
+            return
+        case let child as AuthenticationCoordinator where child.authError == nil:
+            storeAccessTokenInfo()
+            finish()
+            root.dismiss(animated: true)
+        default:
+            break
+        }
     }
 }

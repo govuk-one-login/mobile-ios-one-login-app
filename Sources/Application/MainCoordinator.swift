@@ -14,7 +14,7 @@ final class MainCoordinator: NSObject,
     let userStore: UserStorable
     let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
-    var reauth: Bool = false
+    var reauth = false
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -71,7 +71,6 @@ final class MainCoordinator: NSObject,
             fullLogin(error)
         default:
             print("Token retrival error: \(error)")
-            return
         }
     }
     
@@ -171,11 +170,8 @@ extension MainCoordinator: UITabBarControllerDelegate {
 
 extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
-        switch child {
-        case _ as LoginCoordinator:
+        if child is LoginCoordinator {
             updateToken()
-        default:
-            break
         }
     }
     
@@ -203,9 +199,7 @@ extension MainCoordinator: ParentCoordinator {
                 root.present(navController, animated: true)
             }
         case _ as HomeCoordinator:
-            reauth = true
-            tokenHolder.clearTokenHolder()
-            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+            updateToken()
         default:
             break
         }

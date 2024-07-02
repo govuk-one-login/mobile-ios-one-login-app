@@ -16,8 +16,7 @@ class TokenHolder: AuthenticationProvider {
     
     var accessToken: String?
     var validAccessToken: Bool {
-//        tokenResponse?.expiryDate.timeIntervalSinceNow.sign == .plus
-        false
+        tokenResponse?.expiryDate.timeIntervalSinceNow.sign == .plus
     }
     
     var bearerToken: String {

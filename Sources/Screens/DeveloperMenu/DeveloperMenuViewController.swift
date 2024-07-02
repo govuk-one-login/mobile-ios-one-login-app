@@ -6,15 +6,15 @@ final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
     
     let viewModel: DeveloperMenuViewModel
+    let userStore: UserStorable
     let networkClient: NetworkClient
-    let invalidAccessTokenAction: () -> Void
-    
+        
     init(viewModel: DeveloperMenuViewModel,
-         networkClient: NetworkClient,
-         invalidAccessTokenAction: @escaping () -> Void) {
+         userStore: UserStorable,
+         networkClient: NetworkClient) {
         self.viewModel = viewModel
+        self.userStore = userStore
         self.networkClient = networkClient
-        self.invalidAccessTokenAction = invalidAccessTokenAction
         super.init(viewModel: viewModel,
                    nibName: "DeveloperMenu",
                    bundle: nil)
@@ -43,7 +43,7 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes a successful request to the hello-world endpoint as long as the access token is valid
     private func helloWorldHappyPath() {
-        if TokenHolder.shared.validAccessToken {
+        if userStore.validAuthenticatedUser1 {
             Task {
                 do {
                     let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
@@ -55,11 +55,11 @@ final class DeveloperMenuViewController: BaseViewController {
                 } catch {
                     happyPathResultLabel.showErrorMessage()
                 }
+                happyPathButton.isLoading = false
             }
         } else {
-            invalidAccessTokenAction()
+            viewModel.invalidAccessTokenAction()
         }
-        happyPathButton.isLoading = false
     }
     
     @IBOutlet private var happyPathResultLabel: UILabel! {
@@ -89,7 +89,7 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the scope is invalid for this so a 400 response is returned
     private func helloWorldErrorPath() {
-        if TokenHolder.shared.validAccessToken {
+        if userStore.validAuthenticatedUser {
             Task {
                 do {
                     _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
@@ -100,11 +100,11 @@ final class DeveloperMenuViewController: BaseViewController {
                 } catch {
                     errorPathResultLabel.showErrorMessage()
                 }
+                errorPathButton.isLoading = false
             }
         } else {
-            invalidAccessTokenAction()
+            viewModel.invalidAccessTokenAction()
         }
-        errorPathButton.isLoading = false
     }
     
     @IBOutlet private var errorPathResultLabel: UILabel! {
@@ -134,7 +134,7 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the endpoint returns a 401 unauthorized response
     private func helloWorldUnauthorizedPath() {
-        if TokenHolder.shared.validAccessToken {
+        if userStore.validAuthenticatedUser {
             Task {
                 do {
                     _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
@@ -145,11 +145,11 @@ final class DeveloperMenuViewController: BaseViewController {
                 } catch {
                     unauthorizedPathResultLabel.showErrorMessage()
                 }
+                unauthorizedPathButton.isLoading = false
             }
         } else {
-            invalidAccessTokenAction()
+            viewModel.invalidAccessTokenAction()
         }
-        unauthorizedPathButton.isLoading = false
     }
     
     @IBOutlet private var unauthorizedPathResultLabel: UILabel! {

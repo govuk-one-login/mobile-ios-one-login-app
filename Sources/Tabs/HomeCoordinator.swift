@@ -1,6 +1,7 @@
 import Authentication
 import Coordination
 import GDSCommon
+import LocalAuthentication
 import Logging
 import Networking
 import UIKit
@@ -8,7 +9,6 @@ import UIKit
 final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
-                             ParentCoordinator,
                              NavigationCoordinator {
     let window: UIWindow
     let root = UINavigationController()
@@ -47,28 +47,41 @@ final class HomeCoordinator: NSObject,
     }
     
     func showDeveloperMenu() {
-        let navController = UINavigationController()
-        let viewModel = DeveloperMenuViewModel()
         if tokenHolder.accessToken == nil,
            let accessToken = try? userStore.readItem(itemName: .accessToken, storage: .authenticated) {
             tokenHolder.accessToken = accessToken
         }
         let networkClient = NetworkClient(authenticationProvider: tokenHolder)
-        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                                networkClient: networkClient) { [unowned self] in
+        let viewModel = DeveloperMenuViewModel { [unowned self] in
+            if let mainCoordinator = parentCoordinator as? MainCoordinator {
+                mainCoordinator.reauth = true
+            }
             root.dismiss(animated: true)
-            parentCoordinator?.performChildCleanup(child: self)
+            tokenHolder.clearTokenHolder()
+            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
             let ra = ReauthCoordinator(window: window,
                                        analyticsService: analyticsService,
                                        userStore: userStore)
             openChildModally(ra, animated: true)
             reauthCoordinator = ra
         }
-        navController.setViewControllers([devMenuViewController], animated: true)
+        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
+                                                                userStore: userStore,
+                                                                networkClient: networkClient)
+        let navController = UINavigationController()
+        navController.setViewControllers([devMenuViewController], animated: false)
         root.present(navController, animated: true)
     }
     
     func handleUniversalLink(_ url: URL) {
         reauthCoordinator?.handleUniversalLink(url)
+    }
+}
+
+extension HomeCoordinator: ParentCoordinator {
+    func didRegainFocus(fromChild child: ChildCoordinator?) {
+        if child is ReauthCoordinator {
+            parentCoordinator?.performChildCleanup(child: self)
+        }
     }
 }

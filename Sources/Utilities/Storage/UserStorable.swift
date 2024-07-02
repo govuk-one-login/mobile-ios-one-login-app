@@ -20,6 +20,8 @@ extension UserStorable {
         defaultsStore.value(forKey: .accessTokenExpiry) as? Date
     }
     
+    var validAuthenticatedUser1: Bool { false }
+    
     var validAuthenticatedUser: Bool {
         guard let previouslyAuthenticatedUser else {
             return false
@@ -57,9 +59,9 @@ extension UserStorable {
     
     func readItem(itemName: String, storage: Storage) throws -> String {
         switch storage {
-        case.authenticated:
+        case .authenticated:
             return try authenticatedStore.readItem(itemName: itemName)
-        case.open:
+        case .open:
             return try openStore.readItem(itemName: itemName)
         }
     }
