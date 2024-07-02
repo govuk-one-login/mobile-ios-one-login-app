@@ -26,7 +26,7 @@ final class ReauthCoordinator: NSObject,
     
     func start() {
         let signOutWarning = ErrorPresenter
-            .createSignoutWarning(analyticsService: analyticsService) { [unowned self] in
+            .createSignOutWarning(analyticsService: analyticsService) { [unowned self] in
                 let ac = AuthenticationCoordinator(root: root,
                                                    analyticsService: analyticsService,
                                                    userStore: userStore,

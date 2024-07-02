@@ -20,8 +20,6 @@ extension UserStorable {
         defaultsStore.value(forKey: .accessTokenExpiry) as? Date
     }
     
-    var validAuthenticatedUser1: Bool { false }
-    
     var validAuthenticatedUser: Bool {
         guard let previouslyAuthenticatedUser else {
             return false

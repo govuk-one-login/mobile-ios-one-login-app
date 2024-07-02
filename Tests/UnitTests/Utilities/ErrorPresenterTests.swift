@@ -52,7 +52,7 @@ extension ErrorPresenterTests {
     }
     
     func test_signoutError_callsAction() throws {
-        let errorView = sut.createSignoutError(errorDescription: "error description",
+        let errorView = sut.createSignOutError(errorDescription: "error description",
                                                analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }

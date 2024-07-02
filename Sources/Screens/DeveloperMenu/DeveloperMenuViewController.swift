@@ -43,7 +43,7 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes a successful request to the hello-world endpoint as long as the access token is valid
     private func helloWorldHappyPath() {
-        if userStore.validAuthenticatedUser1 {
+        if userStore.validAuthenticatedUser {
             Task {
                 do {
                     let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),

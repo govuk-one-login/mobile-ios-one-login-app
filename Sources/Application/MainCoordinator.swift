@@ -82,17 +82,17 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        if reauth {
-            homeCoordinator?.handleUniversalLink(url)
-        } else {
-            switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
-            case .login:
+        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
+        case .login:
+            if reauth {
+                homeCoordinator?.handleUniversalLink(url)
+            } else {
                 loginCoordinator?.handleUniversalLink(url)
-            case .wallet:
-                walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
-            case .unknown:
-                return
             }
+        case .wallet:
+            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+        case .unknown:
+            return
         }
     }
 }
@@ -152,11 +152,11 @@ extension MainCoordinator: UITabBarControllerDelegate {
         var event: IconEvent? {
             switch viewController.tabBarItem.tag {
             case 0:
-                .init(textKey: "app_homeTitle")
+                    .init(textKey: "app_homeTitle")
             case 1:
-                .init(textKey: "app_walletTitle")
+                    .init(textKey: "app_walletTitle")
             case 2:
-                .init(textKey: "app_profileTitle")
+                    .init(textKey: "app_profileTitle")
             default:
                 nil
             }
@@ -191,10 +191,11 @@ extension MainCoordinator: ParentCoordinator {
                 root.selectedIndex = 0
             } catch {
                 let navController = UINavigationController()
-                let signOutErrorScreen = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
-                                                                           analyticsService: analyticsCenter.analyticsService) {
-                    exit(0)
-                }
+                let signOutErrorScreen = ErrorPresenter
+                    .createSignOutError(errorDescription: error.localizedDescription,
+                                        analyticsService: analyticsCenter.analyticsService) {
+                        exit(0)
+                    }
                 navController.setViewControllers([signOutErrorScreen], animated: false)
                 root.present(navController, animated: true)
             }
