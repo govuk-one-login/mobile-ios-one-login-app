@@ -2,7 +2,7 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct SignoutErrorViewModel: GDSErrorViewModel, BaseViewModel {
+struct SignOutErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_signOutErrorTitle"
     let body: GDSLocalisedString = "app_signOutErrorBody"
@@ -14,7 +14,9 @@ struct SignoutErrorViewModel: GDSErrorViewModel, BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
-    init(errorDescription: String, analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    init(errorDescription: String,
+         analyticsService: AnalyticsService,
+         action: @escaping () -> Void) {
         self.errorDescription = errorDescription
         self.analyticsService = analyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_exitButton",

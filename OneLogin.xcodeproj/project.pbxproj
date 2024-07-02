@@ -92,6 +92,8 @@
 		C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
+		C88E40E52C3421C8008A3C20 /* ReauthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E42C3421C8008A3C20 /* ReauthCoordinator.swift */; };
+		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
 		C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */; };
 		C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA02AFBD05700FCBD36 /* GDSCommon */; };
 		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
@@ -149,7 +151,7 @@
 		D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D22BEE734900418C0B /* IdTokenPayload.swift */; };
 		D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */; };
 		D06F49A02C20373A009D76A0 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = D06F499F2C20373A009D76A0 /* Wallet */; };
-		D0825A952C12F5B800E940F7 /* SignoutErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */; };
+		D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */; };
 		D087BCF22C19E4BB00825F60 /* SignoutErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087BCF12C19E4BB00825F60 /* SignoutErrorViewModelTests.swift */; };
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
@@ -304,6 +306,8 @@
 		C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenterTests.swift; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		C88E40E42C3421C8008A3C20 /* ReauthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReauthCoordinator.swift; sourceTree = "<group>"; };
+		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModel.swift; sourceTree = "<group>"; };
 		C8AA3B342BF4CF500093A220 /* WalletCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8B05F442B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedEnglishStringTests.swift; sourceTree = "<group>"; };
@@ -355,7 +359,7 @@
 		D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyVerifier.swift; sourceTree = "<group>"; };
 		D03B04D22BEE734900418C0B /* IdTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenPayload.swift; sourceTree = "<group>"; };
 		D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierError.swift; sourceTree = "<group>"; };
-		D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignoutErrorViewModel.swift; sourceTree = "<group>"; };
+		D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutErrorViewModel.swift; sourceTree = "<group>"; };
 		D087BCF12C19E4BB00825F60 /* SignoutErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignoutErrorViewModelTests.swift; sourceTree = "<group>"; };
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
@@ -577,7 +581,8 @@
 				41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */,
 				41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */,
 				C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */,
-				D0825A942C12F5B800E940F7 /* SignoutErrorViewModel.swift */,
+				D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */,
+				C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -825,6 +830,7 @@
 				C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */,
 				C8B320782B062F9100FECDF0 /* AuthenticationCoordinator.swift */,
 				C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */,
+				C88E40E42C3421C8008A3C20 /* ReauthCoordinator.swift */,
 				C85E210B2ACEE92900AF8B4E /* ViewModels */,
 			);
 			path = Login;
@@ -1524,6 +1530,7 @@
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				C86A0D012BF270B50023EC42 /* MockTabbedViewModel.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
+				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
@@ -1539,7 +1546,7 @@
 				C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */,
 				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
-				D0825A952C12F5B800E940F7 /* SignoutErrorViewModel.swift in Sources */,
+				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
@@ -1567,6 +1574,7 @@
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
+				C88E40E52C3421C8008A3C20 /* ReauthCoordinator.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,

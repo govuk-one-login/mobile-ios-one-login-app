@@ -13,7 +13,6 @@ final class AuthenticationCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let session: LoginSession
     let userStore: UserStorable
-    let errorPresenter = ErrorPresenter.self
     let tokenHolder = TokenHolder.shared
     private let tokenVerifier: TokenVerifier
     var authError: Error?
@@ -44,7 +43,7 @@ final class AuthenticationCoordinator: NSObject,
                 }
                 finish()
             } catch let error as LoginError where error == .network {
-                let networkErrorScreen = errorPresenter
+                let networkErrorScreen = ErrorPresenter
                     .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
                         returnFromErrorScreen()
                     }
@@ -82,7 +81,7 @@ final class AuthenticationCoordinator: NSObject,
 
 extension AuthenticationCoordinator {
     private func showUnableToLoginErrorScreen(_ error: Error) {
-        let unableToLoginErrorScreen = errorPresenter
+        let unableToLoginErrorScreen = ErrorPresenter
             .createUnableToLoginError(errorDescription: error.localizedDescription,
                                       analyticsService: analyticsService) { [unowned self] in
                 returnFromErrorScreen()
@@ -92,7 +91,7 @@ extension AuthenticationCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        let genericErrorScreen = errorPresenter
+        let genericErrorScreen = ErrorPresenter
             .createGenericError(errorDescription: error.localizedDescription,
                                 analyticsService: analyticsService) { [unowned self] in
                 returnFromErrorScreen()

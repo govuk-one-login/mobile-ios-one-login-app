@@ -34,8 +34,16 @@ final class ErrorPresenter {
     static func createSignoutError(errorDescription: String,
                                    analyticsService: AnalyticsService,
                                    action: @escaping () -> Void) -> GDSErrorViewController {
-        let viewModel = SignoutErrorViewModel(errorDescription: errorDescription,
-                                                    analyticsService: analyticsService) {
+        let viewModel = SignOutErrorViewModel(errorDescription: errorDescription,
+                                              analyticsService: analyticsService) {
+            action()
+        }
+        return GDSErrorViewController(viewModel: viewModel)
+    }
+    
+    static func createSignoutWarning(analyticsService: AnalyticsService,
+                                     action: @escaping () -> Void) -> GDSErrorViewController {
+        let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) {
             action()
         }
         return GDSErrorViewController(viewModel: viewModel)

@@ -1,3 +1,4 @@
+import Authentication
 import Coordination
 import GDSCommon
 import Logging
@@ -7,14 +8,17 @@ import UIKit
 final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
+                             ParentCoordinator,
                              NavigationCoordinator {
     let window: UIWindow
-    weak var parentCoordinator: ParentCoordinator?
     let root = UINavigationController()
+    weak var parentCoordinator: ParentCoordinator?
+    var childCoordinators = [ChildCoordinator]()
     let analyticsService: AnalyticsService
     private let userStore: UserStorable
     private let tokenHolder = TokenHolder.shared
     private(set) var baseVc: TabbedViewController?
+    private weak var reauthCoordinator: ReauthCoordinator?
     
     init(window: UIWindow,
          analyticsService: AnalyticsService,
@@ -51,8 +55,20 @@ final class HomeCoordinator: NSObject,
         }
         let networkClient = NetworkClient(authenticationProvider: tokenHolder)
         let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                                networkClient: networkClient)
+                                                                networkClient: networkClient) { [unowned self] in
+            root.dismiss(animated: true)
+            parentCoordinator?.performChildCleanup(child: self)
+            let ra = ReauthCoordinator(window: window,
+                                       analyticsService: analyticsService,
+                                       userStore: userStore)
+            openChildModally(ra, animated: true)
+            reauthCoordinator = ra
+        }
         navController.setViewControllers([devMenuViewController], animated: true)
         root.present(navController, animated: true)
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        reauthCoordinator?.handleUniversalLink(url)
     }
 }

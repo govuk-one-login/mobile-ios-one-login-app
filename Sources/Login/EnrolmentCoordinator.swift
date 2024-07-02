@@ -12,7 +12,6 @@ final class EnrolmentCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let userStore: UserStorable
     var localAuth: LAContexting
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
     let tokenHolder = TokenHolder.shared
     
     init(root: UINavigationController,
@@ -47,7 +46,7 @@ final class EnrolmentCoordinator: NSObject,
     private func showEnrolmentGuidance() {
         switch localAuth.biometryType {
         case .touchID:
-            let touchIDEnrollmentScreen = viewControllerFactory
+            let touchIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
                     storeAccessTokenInfo()
                     finish()
@@ -56,7 +55,7 @@ final class EnrolmentCoordinator: NSObject,
                 }
             root.pushViewController(touchIDEnrollmentScreen, animated: true)
         case .faceID:
-            let faceIDEnrollmentScreen = viewControllerFactory
+            let faceIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
                     Task { await enrolLocalAuth(reason: "app_faceId_subtitle") }
                 } secondaryButtonAction: { [unowned self] in
@@ -71,7 +70,7 @@ final class EnrolmentCoordinator: NSObject,
     }
     
     private func showPasscodeInfo() {
-        let passcodeInformationScreen = viewControllerFactory
+        let passcodeInformationScreen = OnboardingViewControllerFactory
             .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
                 finish()
             }

@@ -7,7 +7,7 @@ import Foundation
 
 final class SignoutErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignoutErrorViewModel!
+    var sut: SignOutErrorViewModel!
     
     var didCallButtonAction = false
     
@@ -15,7 +15,7 @@ final class SignoutErrorViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignoutErrorViewModel(errorDescription: "Error",
+        sut = SignOutErrorViewModel(errorDescription: "Error",
                                     analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }

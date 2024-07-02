@@ -21,9 +21,6 @@ final class LoginCoordinator: NSObject,
     private var tokenVerifier: TokenVerifier
     var loginError: Error?
     
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
-    private let errorPresenter = ErrorPresenter.self
-    
     weak var introViewController: IntroViewController?
     private weak var authCoordinator: AuthenticationCoordinator?
     
@@ -43,12 +40,12 @@ final class LoginCoordinator: NSObject,
     }
     
     func start() {
-        let rootViewController = viewControllerFactory
+        let rootViewController = OnboardingViewControllerFactory
             .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
                     launchAuthenticationCoordinator()
                 } else {
-                    let networkErrorScreen = errorPresenter
+                    let networkErrorScreen = ErrorPresenter
                         .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                             introViewController?.enableIntroButton()
                             root.popViewController(animated: true)
@@ -89,8 +86,6 @@ final class LoginCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        // WHEN the handleUniversalLink method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         authCoordinator?.handleUniversalLink(url)
     }
     

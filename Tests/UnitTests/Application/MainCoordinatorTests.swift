@@ -364,7 +364,7 @@ extension MainCoordinatorTests {
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedVC.topViewController is GDSErrorViewController)
         let errroVC = try XCTUnwrap(presentedVC.topViewController as? GDSErrorViewController)
-        XCTAssertTrue(errroVC.viewModel is SignoutErrorViewModel)
+        XCTAssertTrue(errroVC.viewModel is SignOutErrorViewModel)
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
         try appNotReset()

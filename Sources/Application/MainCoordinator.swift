@@ -14,6 +14,7 @@ final class MainCoordinator: NSObject,
     let userStore: UserStorable
     let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
+    var reauth: Bool = false
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -82,13 +83,17 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
-        case .login:
-            loginCoordinator?.handleUniversalLink(url)
-        case .wallet:
-            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
-        case .unknown:
-            return
+        if reauth {
+            homeCoordinator?.handleUniversalLink(url)
+        } else {
+            switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
+            case .login:
+                loginCoordinator?.handleUniversalLink(url)
+            case .wallet:
+                walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+            case .unknown:
+                return
+            }
         }
     }
 }
@@ -175,7 +180,8 @@ extension MainCoordinator: ParentCoordinator {
     }
     
     func performChildCleanup(child: ChildCoordinator) {
-        if child is ProfileCoordinator {
+        switch child {
+        case _ as ProfileCoordinator:
             do {
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
@@ -196,6 +202,12 @@ extension MainCoordinator: ParentCoordinator {
                 navController.setViewControllers([signOutErrorScreen], animated: false)
                 root.present(navController, animated: true)
             }
+        case _ as HomeCoordinator:
+            reauth = true
+            tokenHolder.clearTokenHolder()
+            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+        default:
+            break
         }
     }
 }
