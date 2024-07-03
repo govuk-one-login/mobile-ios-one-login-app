@@ -58,7 +58,19 @@ final class LoginCoordinator: NSObject,
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
-        if let loginError {
+        showAdditionalLoginScreens()
+        launchOnboardingCoordinator()
+    }
+    
+    private func showAdditionalLoginScreens() {
+        if let error = loginError as? TokenError,
+           error == .expired {
+            let signOutWarning = ErrorPresenter
+                .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                    root.popViewController(animated: true)
+                }
+            root.pushViewController(signOutWarning, animated: true)
+        } else if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
@@ -66,7 +78,6 @@ final class LoginCoordinator: NSObject,
                 }
             root.pushViewController(unableToLoginErrorScreen, animated: true)
         }
-        launchOnboardingCoordinator()
     }
     
     private func launchOnboardingCoordinator() {

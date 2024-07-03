@@ -3,6 +3,7 @@ import Networking
 
 enum TokenError: Error {
     case bearerNotPresent
+    case expired
 }
 
 class TokenHolder: AuthenticationProvider {

@@ -58,7 +58,7 @@ final class MainCoordinator: NSObject,
                 }
             }
         } else {
-            fullLogin()
+            fullLogin(error: TokenError.expired)
         }
     }
     
@@ -68,13 +68,13 @@ final class MainCoordinator: NSObject,
             SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            fullLogin(error)
+            fullLogin(error: error)
         default:
             print("Token retrival error: \(error)")
         }
     }
     
-    private func fullLogin(_ error: Error? = nil) {
+    private func fullLogin(error: Error? = nil) {
         tokenHolder.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
         showLogin(error)
