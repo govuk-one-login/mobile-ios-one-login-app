@@ -27,6 +27,15 @@ extension UserStorable {
         return previouslyAuthenticatedUser.timeIntervalSinceNow.sign == .plus
     }
     
+    var tokenExpiryShown: Bool {
+        get {
+            guard let value = defaultsStore.value(forKey: .tokenExpireyShown) as? Bool else { return false }
+            return value
+        } set {
+            defaultsStore.set(newValue, forKey: .tokenExpireyShown)
+        }
+    }
+    
     func storeTokenInfo(tokenResponse: TokenResponse) throws {
         let accessToken = tokenResponse.accessToken
         let tokenExp = tokenResponse.expiryDate

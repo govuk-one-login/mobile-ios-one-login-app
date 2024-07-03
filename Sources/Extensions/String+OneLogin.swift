@@ -4,6 +4,7 @@ extension String {
     static let accessTokenExpiry = "accessTokenExpiry"
     static let idToken = "idToken"
     static let oneLoginTokens = "oneLoginTokens"
+    static let tokenExpireyShown = "tokenExpiryShown"
     static let persistentSessionID = "persistentSessionID"
     static let shouldPromptForAnalytics = "shouldPromptForAnalytics"
     

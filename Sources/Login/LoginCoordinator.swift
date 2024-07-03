@@ -70,6 +70,7 @@ final class LoginCoordinator: NSObject,
                     root.popViewController(animated: true)
                 }
             root.pushViewController(signOutWarningScreen, animated: true)
+            userStore.tokenExpiryShown = true
         } else if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,

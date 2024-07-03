@@ -58,7 +58,11 @@ final class MainCoordinator: NSObject,
                 }
             }
         } else {
-            fullLogin(error: TokenError.expired)
+            if userStore.tokenExpiryShown {
+                fullLogin()
+            } else {
+                fullLogin(error: TokenError.expired)
+            }
         }
     }
     
