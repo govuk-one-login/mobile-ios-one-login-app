@@ -12,7 +12,6 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var mockLAContext: MockLAContext!
-    var tokenHolder: TokenHolder!
     var sut: EnrolmentCoordinator!
     
     override func setUp() {
@@ -27,12 +26,10 @@ final class EnrolmentCoordinatorTests: XCTestCase {
                                       openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
         mockLAContext = MockLAContext()
-        tokenHolder = TokenHolder()
         sut = EnrolmentCoordinator(root: navigationController,
                                    analyticsService: mockAnalyticsService,
                                    userStore: mockUserStore,
-                                   localAuth: mockLAContext,
-                                   tokenHolder: tokenHolder)
+                                   localAuth: mockLAContext)
     }
 
     override func tearDown() {
@@ -43,7 +40,6 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         mockDefaultsStore = nil
         mockUserStore = nil
         mockLAContext = nil
-        tokenHolder = nil
         sut = nil
 
         super.tearDown()

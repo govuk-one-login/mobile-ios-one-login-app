@@ -15,7 +15,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
-    var mockTokenHolder: TokenHolder!
     var mockTokenVerifier: MockTokenVerifier!
     var sut: LoginCoordinator!
     
@@ -35,7 +34,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
-        mockTokenHolder = TokenHolder()
         mockTokenVerifier = MockTokenVerifier()
         mockWindowManager.appWindow.rootViewController = navigationController
         mockWindowManager.appWindow.makeKeyAndVisible()
@@ -44,7 +42,6 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                userStore: mockUserStore,
                                networkMonitor: mockNetworkMonitor,
-                               tokenHolder: mockTokenHolder,
                                tokenVerifier: mockTokenVerifier)
     }
     
@@ -59,7 +56,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
-        mockTokenHolder = nil
         sut = nil
         
         super.tearDown()
@@ -160,8 +156,7 @@ extension LoginCoordinatorTests {
         let authCoordinator = AuthenticationCoordinator(root: navigationController,
                                                         analyticsService: mockAnalyticsService,
                                                         userStore: mockUserStore,
-                                                        session: MockLoginSession(),
-                                                        tokenHolder: mockTokenHolder)
+                                                        session: MockLoginSession())
         authCoordinator.authError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()

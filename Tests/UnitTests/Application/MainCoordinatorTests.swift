@@ -305,8 +305,7 @@ extension MainCoordinatorTests {
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                networkMonitor: MockNetworkMonitor(),
-                                                tokenHolder: TokenHolder())
+                                                networkMonitor: MockNetworkMonitor())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -318,8 +317,7 @@ extension MainCoordinatorTests {
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                networkMonitor: MockNetworkMonitor(),
-                                                tokenHolder: TokenHolder())
+                                                networkMonitor: MockNetworkMonitor())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -339,7 +337,6 @@ extension MainCoordinatorTests {
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                                     userStore: mockUserStore,
-                                                    tokenHolder: TokenHolder(),
                                                     urlOpener: mockURLOpener)
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
@@ -355,7 +352,6 @@ extension MainCoordinatorTests {
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                                     userStore: mockUserStore,
-                                                    tokenHolder: TokenHolder(),
                                                     urlOpener: mockURLOpener)
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out

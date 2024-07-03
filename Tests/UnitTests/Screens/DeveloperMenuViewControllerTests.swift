@@ -1,11 +1,16 @@
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 final class DeveloperMenuViewControllerTests: XCTestCase {
-    var networkClient: NetworkClient!
     var devMenuViewModel: DeveloperMenuViewModel!
+    var mockAuthenicatedSecureStore: SecureStorable!
+    var mockOpenSecureStore: SecureStorable!
+    var mockDefaultsStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
+    var networkClient: NetworkClient!
     var sut: DeveloperMenuViewController!
     
     var requestFinished = false
@@ -16,10 +21,19 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         
+        devMenuViewModel = DeveloperMenuViewModel {
+            
+        }
+        mockAuthenicatedSecureStore = MockSecureStoreService()
+        mockOpenSecureStore = MockSecureStoreService()
+        mockDefaultsStore = MockDefaultsStore()
+        mockUserStore = MockUserStore(authenticatedStore: mockAuthenicatedSecureStore,
+                                      openStore: mockOpenSecureStore,
+                                      defaultsStore: mockDefaultsStore)
         networkClient = NetworkClient(configuration: configuration,
                                       authenticationProvider: MockAuthenticationProvider())
-        devMenuViewModel = DeveloperMenuViewModel()
         sut = DeveloperMenuViewController(viewModel: devMenuViewModel,
+                                          userStore: mockUserStore,
                                           networkClient: networkClient)
     }
     

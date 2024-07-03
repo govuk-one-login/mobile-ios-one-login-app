@@ -15,7 +15,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     var mockUserStore: UserStorage!
     var mockLoginSession: MockLoginSession!
     var mockTokenVerifier: MockTokenVerifier!
-    var tokenHolder: TokenHolder!
     var sut: AuthenticationCoordinator!
     
     
@@ -33,12 +32,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         mockTokenVerifier = MockTokenVerifier()
-        tokenHolder = TokenHolder()
         sut = AuthenticationCoordinator(root: navigationController,
                                         analyticsService: mockAnalyticsService,
                                         userStore: mockUserStore,
                                         session: mockLoginSession,
-                                        tokenHolder: tokenHolder,
                                         tokenVerifier: mockTokenVerifier)
         UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
@@ -53,7 +50,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenVerifier = nil
-        tokenHolder = nil
         sut = nil
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
         super.tearDown()
@@ -72,11 +68,11 @@ extension AuthenticationCoordinatorTests {
         sut.start()
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN the tokens are returned
-        XCTAssertEqual(tokenHolder.tokenResponse?.accessToken, "accessTokenResponse")
-        XCTAssertEqual(tokenHolder.tokenResponse?.refreshToken, "refreshTokenResponse")
-        XCTAssertEqual(tokenHolder.tokenResponse?.idToken, "idTokenResponse")
+        XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")
+        XCTAssertEqual(TokenHolder.shared.tokenResponse?.refreshToken, "refreshTokenResponse")
+        XCTAssertEqual(TokenHolder.shared.tokenResponse?.idToken, "idTokenResponse")
         // THEN the persistentSessionID is stored.
-        XCTAssertEqual(try mockUserStore.readItem(itemName: .persistentSessionID, storage: .open), tokenHolder.idTokenPayload?.persistentId)
+        XCTAssertEqual(try mockUserStore.readItem(itemName: .persistentSessionID, storage: .open), TokenHolder.shared.idTokenPayload?.persistentId)
     }
     
     func test_start_loginError_network() throws {
