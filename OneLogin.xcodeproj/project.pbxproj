@@ -35,6 +35,8 @@
 		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */; };
+		41ACF1C82C3554C800CF30BF /* PactConsumerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 41ACF1C72C3554C800CF30BF /* PactConsumerSwift */; };
+		41ACF1CB2C355E2F00CF30BF /* PactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ACF1CA2C355E2F00CF30BF /* PactTests.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
 		41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */; };
@@ -248,6 +250,7 @@
 		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
+		41ACF1CA2C355E2F00CF30BF /* PactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PactTests.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
@@ -411,6 +414,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41ACF1C82C3554C800CF30BF /* PactConsumerSwift in Frameworks */,
 				D0BE24492BEBD43300759529 /* MockNetworking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -468,6 +472,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				41ACF1C92C35564400CF30BF /* PactTests */,
 				C8E6C7662AF8223B008C19C9 /* TestPlans */,
 				C8E6C7632AF821D2008C19C9 /* UnitTests */,
 				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
@@ -569,6 +574,14 @@
 				C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		41ACF1C92C35564400CF30BF /* PactTests */ = {
+			isa = PBXGroup;
+			children = (
+				41ACF1CA2C355E2F00CF30BF /* PactTests.swift */,
+			);
+			path = PactTests;
 			sourceTree = "<group>";
 		};
 		41E1A90F2BE126910034B6C7 /* Networking */ = {
@@ -1246,6 +1259,7 @@
 			name = OneLoginUnitTests;
 			packageProductDependencies = (
 				D0BE24482BEBD43300759529 /* MockNetworking */,
+				41ACF1C72C3554C800CF30BF /* PactConsumerSwift */,
 			);
 			productName = "di-mobile-ios-onelogin-appTests";
 			productReference = 219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */;
@@ -1355,6 +1369,7 @@
 				C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */,
 				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
 				D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
+				41ACF1C62C3553E900CF30BF /* XCRemoteSwiftPackageReference "pact-consumer-swift" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -1608,6 +1623,7 @@
 				413C58762BF261D300171C06 /* HomeTabViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */,
+				41ACF1CB2C355E2F00CF30BF /* PactTests.swift in Sources */,
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
 				C8C6665A2BCFDBDE00CF249B /* TokenHolderTests.swift in Sources */,
@@ -2638,6 +2654,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		41ACF1C62C3553E900CF30BF /* XCRemoteSwiftPackageReference "pact-consumer-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DiUS/pact-consumer-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
@@ -2705,6 +2729,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		41ACF1C72C3554C800CF30BF /* PactConsumerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41ACF1C62C3553E900CF30BF /* XCRemoteSwiftPackageReference "pact-consumer-swift" */;
+			productName = PactConsumerSwift;
+		};
 		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;

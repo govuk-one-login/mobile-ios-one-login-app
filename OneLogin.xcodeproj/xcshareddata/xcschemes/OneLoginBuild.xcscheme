@@ -27,6 +27,42 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "PATH=/opt/homebrew/bin:$PATH&#10;pact-mock-service start --pact-specification-version 2.0.0 --log &quot;${SRCROOT}/tmp/pact.log&quot; --pact-dir &quot;${SRCROOT}/tmp/pacts&quot; -p 1234&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "219601E62A976302008F3427"
+                     BuildableName = "OneLogin.app"
+                     BlueprintName = "OneLogin"
+                     ReferencedContainer = "container:OneLogin.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
+      <PostActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "PATH=/opt/homebrew/bin:$PATH&#10;pact-mock-service stop&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "219601E62A976302008F3427"
+                     BuildableName = "OneLogin.app"
+                     BlueprintName = "OneLogin"
+                     ReferencedContainer = "container:OneLogin.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PostActions>
       <TestPlans>
          <TestPlanReference
             reference = "container:Tests/TestPlans/OneLoginBuild.xctestplan">
