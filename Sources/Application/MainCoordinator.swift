@@ -43,26 +43,26 @@ final class MainCoordinator: NSObject,
     }
     
     func evaluateRevisit() {
-        if userStore.validAuthenticatedUser {
-            Task(priority: .userInitiated) {
-                await MainActor.run {
-                    do {
-                        let idToken = try userStore.readItem(itemName: .idToken,
-                                                             storage: .authenticated)
-                        tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                        updateToken()
-                        windowManager.hideUnlockWindow()
-                    } catch {
-                        handleLoginError(error)
+        if userStore.previouslyAuthenticatedUser != nil {
+            if userStore.validAuthenticatedUser {
+                Task(priority: .userInitiated) {
+                    await MainActor.run {
+                        do {
+                            let idToken = try userStore.readItem(itemName: .idToken,
+                                                                 storage: .authenticated)
+                            tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                            updateToken()
+                            windowManager.hideUnlockWindow()
+                        } catch {
+                            handleLoginError(error)
+                        }
                     }
                 }
-            }
-        } else {
-            if userStore.tokenExpiryShown {
-                fullLogin()
             } else {
                 fullLogin(error: TokenError.expired)
             }
+        } else {
+            fullLogin()
         }
     }
     

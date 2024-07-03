@@ -21,19 +21,8 @@ extension UserStorable {
     }
     
     var validAuthenticatedUser: Bool {
-        guard let previouslyAuthenticatedUser else {
-            return false
-        }
+        guard let previouslyAuthenticatedUser else { return false }
         return previouslyAuthenticatedUser.timeIntervalSinceNow.sign == .plus
-    }
-    
-    var tokenExpiryShown: Bool {
-        get {
-            guard let value = defaultsStore.value(forKey: .tokenExpireyShown) as? Bool else { return false }
-            return value
-        } set {
-            defaultsStore.set(newValue, forKey: .tokenExpireyShown)
-        }
     }
     
     func storeTokenInfo(tokenResponse: TokenResponse) throws {

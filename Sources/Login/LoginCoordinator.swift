@@ -67,10 +67,10 @@ final class LoginCoordinator: NSObject,
            error == .expired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.popViewController(animated: true)
+                    root.dismiss(animated: true)
                 }
-            root.pushViewController(signOutWarningScreen, animated: true)
-            userStore.tokenExpiryShown = true
+            signOutWarningScreen.modalPresentationStyle = .overFullScreen
+            root.present(signOutWarningScreen, animated: false)
         } else if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,
