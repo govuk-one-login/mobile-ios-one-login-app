@@ -32,7 +32,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "PATH=/opt/homebrew/bin:$PATH&#10;pact-mock-service start --pact-specification-version 2.0.0 --log &quot;${SRCROOT}/tmp/pact.log&quot; --pact-dir &quot;${SRCROOT}/tmp/pacts&quot; -p 1234&#10;">
+               scriptText = "PATH=/opt/homebrew/bin:$PATH&#10;pact-mock-service start --pact-specification-version 2.0.0 --log &quot;${SRCROOT}/pact/pact.log&quot; --pact-dir &quot;${SRCROOT}/pact/pacts&quot; -p 1234&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -74,7 +74,26 @@
          <TestPlanReference
             reference = "container:Tests/TestPlans/OneLoginUI.xctestplan">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:OneLoginPactTestPlan.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/OneLoginPactTestPan.xctestplan">
+         </TestPlanReference>
       </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "41ACF1D02C35941F00CF30BF"
+               BuildableName = "OneLoginPactTests.xctest"
+               BlueprintName = "OneLoginPactTests"
+               ReferencedContainer = "container:OneLogin.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug_Build"

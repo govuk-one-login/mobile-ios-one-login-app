@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "72777F6C-5AD0-4C83-AD41-059511D5DD56",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "41ACF1D02C35941F00CF30BF",
+        "name" : "OneLoginPactTests"
+      }
+    }
+  ],
+  "version" : 1
+}

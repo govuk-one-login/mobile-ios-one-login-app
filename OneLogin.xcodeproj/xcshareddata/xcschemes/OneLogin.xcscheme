@@ -33,6 +33,19 @@
             default = "YES">
          </TestPlanReference>
       </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "41ACF1D02C35941F00CF30BF"
+               BuildableName = "OneLoginPactTests.xctest"
+               BlueprintName = "OneLoginPactTests"
+               ReferencedContainer = "container:OneLogin.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Release"
