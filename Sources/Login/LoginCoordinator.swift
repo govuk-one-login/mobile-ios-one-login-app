@@ -65,11 +65,11 @@ final class LoginCoordinator: NSObject,
     private func showAdditionalLoginScreens() {
         if let error = loginError as? TokenError,
            error == .expired {
-            let signOutWarning = ErrorPresenter
+            let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.popViewController(animated: true)
                 }
-            root.pushViewController(signOutWarning, animated: true)
+            root.pushViewController(signOutWarningScreen, animated: true)
         } else if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,

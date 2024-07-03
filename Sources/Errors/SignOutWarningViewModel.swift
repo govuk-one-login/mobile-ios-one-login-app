@@ -16,7 +16,7 @@ struct SignOutWarningViewModel: GDSErrorViewModel, BaseViewModel {
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "Sign in",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_signInButton",
                                                                analyticsService: analyticsService) {
             action()
         }

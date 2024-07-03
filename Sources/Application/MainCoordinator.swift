@@ -126,7 +126,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
-                                   secureStoreService: userStore.authenticatedStore)
+                                   secureStoreService: userStore.openStore)
         addTab(wc)
         walletCoordinator = wc
     }
@@ -152,11 +152,11 @@ extension MainCoordinator: UITabBarControllerDelegate {
         var event: IconEvent? {
             switch viewController.tabBarItem.tag {
             case 0:
-                    .init(textKey: "app_homeTitle")
+                .init(textKey: "app_homeTitle")
             case 1:
-                    .init(textKey: "app_walletTitle")
+                .init(textKey: "app_walletTitle")
             case 2:
-                    .init(textKey: "app_profileTitle")
+                .init(textKey: "app_profileTitle")
             default:
                 nil
             }
