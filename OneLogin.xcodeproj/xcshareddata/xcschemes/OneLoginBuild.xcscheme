@@ -75,10 +75,7 @@
             reference = "container:Tests/TestPlans/OneLoginUI.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:OneLoginPactTestPlan.xctestplan">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:Tests/TestPlans/OneLoginPactTestPan.xctestplan">
+            reference = "container:Tests/TestPlans/OneLoginPactTestPlan.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>

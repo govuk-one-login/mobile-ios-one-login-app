@@ -261,7 +261,7 @@
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41ACF1CA2C355E2F00CF30BF /* PactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PactTests.swift; sourceTree = "<group>"; };
 		41ACF1D12C35941F00CF30BF /* OneLoginPactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginPactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		41ACF1DF2C3594C500CF30BF /* OneLoginPactTestPan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginPactTestPan.xctestplan; sourceTree = "<group>"; };
+		41ACF1DF2C3594C500CF30BF /* OneLoginPactTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginPactTestPlan.xctestplan; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
@@ -1151,7 +1151,7 @@
 		C8E6C7662AF8223B008C19C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
-				41ACF1DF2C3594C500CF30BF /* OneLoginPactTestPan.xctestplan */,
+				41ACF1DF2C3594C500CF30BF /* OneLoginPactTestPlan.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
 				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,

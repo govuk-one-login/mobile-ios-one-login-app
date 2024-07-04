@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/joe.mcgarry/Documents/mobile-ios-one-login-app/Tests/TestPlans/OneLoginPactTestPan.xctestplan">
-   </FileRef>
-   <FileRef
       location = "group:OneLogin.xcodeproj">
    </FileRef>
 </Workspace>
