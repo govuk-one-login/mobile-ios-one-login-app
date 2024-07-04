@@ -64,8 +64,8 @@ final class MainCoordinatorTests: XCTestCase {
     
     func returningAuthenticatedUser(expired: Bool = false) throws {
         let accessToken = try MockTokenResponse().getJSONData().accessToken
-        sut.tokenHolder.accessToken = accessToken
-        sut.tokenHolder.idTokenPayload = try MockTokenVerifier().extractPayload("test")
+        TokenHolder.shared.accessToken = accessToken
+        TokenHolder.shared.idTokenPayload = try MockTokenVerifier().extractPayload("test")
         try mockUserStore.saveItem(accessToken,
                                    itemName: .accessToken,
                                    storage: .authenticated)
@@ -82,8 +82,8 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     func appNotReset() throws {
-        XCTAssertNotNil(sut.tokenHolder.accessToken)
-        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
+        XCTAssertNotNil(TokenHolder.shared.accessToken)
+        XCTAssertNotNil(TokenHolder.shared.idTokenPayload)
         XCTAssertNotNil(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertNotNil(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertNotNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
@@ -91,8 +91,8 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     func appReset() throws {
-        XCTAssertNil(sut.tokenHolder.accessToken)
-        XCTAssertNil(sut.tokenHolder.idTokenPayload)
+        XCTAssertNil(TokenHolder.shared.accessToken)
+        XCTAssertNil(TokenHolder.shared.idTokenPayload)
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
@@ -300,7 +300,7 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
         // GIVEN access token has been stored in the token holder
-        sut.tokenHolder.accessToken = "testAccessToken"
+        TokenHolder.shared.accessToken = "testAccessToken"
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
@@ -313,6 +313,7 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withoutBearerToken() throws {
+        TokenHolder.shared.accessToken = nil
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
@@ -324,7 +325,7 @@ extension MainCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
         // THEN the token holders bearer token should not have the access token
         do {
-            _ = try sut.tokenHolder.bearerToken
+            _ = try TokenHolder.shared.bearerToken
             XCTFail("Should throw TokenError error")
         } catch {
             XCTAssertTrue(error is TokenError)

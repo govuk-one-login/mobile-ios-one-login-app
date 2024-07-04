@@ -4,10 +4,6 @@
         "isEnabled": false
     },
     {
-        "name": "ExtendExpClaim",
-        "isEnabled": false
-    },
-    {
         "name": "EnableSignoutError",
         "isEnabled": false
     }
