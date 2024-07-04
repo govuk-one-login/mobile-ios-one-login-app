@@ -59,7 +59,7 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the 'passcode information' screen is shown
@@ -73,13 +73,13 @@ extension EnrolmentCoordinatorTests {
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
         // GIVEN the token holder's token response has tokens
         let tokenResponse = try MockTokenResponse().getJSONData()
-        sut.tokenHolder.tokenResponse = tokenResponse
+        TokenHolder.shared.tokenResponse = tokenResponse
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the journey should be saved in user defaults
-        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, tokenResponse.expiryDate)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], tokenResponse.accessToken)
-        XCTAssertEqual(mockSecureStore.savedItems["idToken"], tokenResponse.idToken)
+        XCTAssertEqual(mockDefaultsStore.savedData[.accessTokenExpiry] as? Date, tokenResponse.expiryDate)
+        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], tokenResponse.accessToken)
+        XCTAssertEqual(mockSecureStore.savedItems[.idToken], tokenResponse.idToken)
     }
 
     func test_start_deviceLocalAuthSet_passcode_fails() throws {
@@ -88,20 +88,20 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the secure store returns an error from saving an item
         mockSecureStore.errorFromSaveItem = SecureStoreError.generic
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the journey should be saved in user defaults
-        XCTAssertEqual(mockDefaultsStore.savedData["accessTokenExpiry"] as? Date, nil)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
-        XCTAssertEqual(mockSecureStore.savedItems["idToken"], nil)
+        XCTAssertEqual(mockDefaultsStore.savedData[.accessTokenExpiry] as? Date, nil)
+        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
+        XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
     }
 
     func test_start_deviceLocalAuthSet_touchID() throws {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the 'touch id information' screen is shown
@@ -114,7 +114,7 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the local authentication's biometry type is face id
         mockLAContext.biometryType = .faceID
         // WHEN the EnrolmentCoordinator is started
@@ -129,7 +129,7 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // GIVEN the local authentication's biometry type is optic id
         if #available(iOS 17.0, *) {
             mockLAContext.biometryType = .opticID
@@ -145,13 +145,13 @@ extension EnrolmentCoordinatorTests {
         mockLAContext.returnedFromEvaluatePolicy = true
         // GIVEN the token holder's token response has tokens
         let tokenResponse = try MockTokenResponse().getJSONData()
-        sut.tokenHolder.tokenResponse = tokenResponse
+        TokenHolder.shared.tokenResponse = tokenResponse
         // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
         Task { await sut.enrolLocalAuth(reason: "") }
         // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == tokenResponse.expiryDate, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], tokenResponse.accessToken)
-        XCTAssertEqual(mockSecureStore.savedItems["idToken"], tokenResponse.idToken)
+        waitForTruth(self.mockDefaultsStore.savedData[.accessTokenExpiry] as? Date == tokenResponse.expiryDate, timeout: 20)
+        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], tokenResponse.accessToken)
+        XCTAssertEqual(mockSecureStore.savedItems[.idToken], tokenResponse.idToken)
         XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
         XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
     }
@@ -160,25 +160,25 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication context returned false for evaluatePolicy
         mockLAContext.returnedFromEvaluatePolicy = false
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
         Task { await sut.enrolLocalAuth(reason: "") }
         // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
-        XCTAssertEqual(mockSecureStore.savedItems["idToken"], nil)
+        waitForTruth(self.mockDefaultsStore.savedData[.accessTokenExpiry] as? Date == nil, timeout: 20)
+        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
+        XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
     }
     
     func test_enrolLocalAuth_errors() throws {
         // GIVEN the local authentication context returned an error for evaluatePolicy
         mockLAContext.errorFromEvaluatePolicy = LocalAuthError.generic
         // GIVEN the token holder's token response has tokens
-        sut.tokenHolder.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
         Task { await sut.enrolLocalAuth(reason: "") }
         // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData["accessTokenExpiry"] as? Date == nil, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems["accessToken"], nil)
-        XCTAssertEqual(mockSecureStore.savedItems["idToken"], nil)
+        waitForTruth(self.mockDefaultsStore.savedData[.accessTokenExpiry] as? Date == nil, timeout: 20)
+        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
+        XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
     }
 }

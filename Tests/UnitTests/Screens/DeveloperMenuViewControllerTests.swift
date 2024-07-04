@@ -13,6 +13,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     var networkClient: NetworkClient!
     var sut: DeveloperMenuViewController!
     
+    var invalidAccessTokenActionCalled = false
     var requestFinished = false
     
     override func setUp() {
@@ -20,10 +21,9 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
+        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         
-        devMenuViewModel = DeveloperMenuViewModel {
-            
-        }
+        devMenuViewModel = DeveloperMenuViewModel { self.invalidAccessTokenActionCalled = true }
         mockAuthenicatedSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
@@ -38,10 +38,17 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        networkClient = nil
+        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+
         devMenuViewModel = nil
+        mockAuthenicatedSecureStore = nil
+        mockOpenSecureStore = nil
+        mockDefaultsStore = nil
+        mockUserStore = nil
+        networkClient = nil
         sut = nil
         
+        invalidAccessTokenActionCalled = false
         requestFinished = false
         
         super.tearDown()
@@ -54,20 +61,22 @@ enum MockNetworkClientError: Error {
 
 extension DeveloperMenuViewControllerTests {
     func test_labelContents_STSEnabled() throws {
-        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
         XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Error")
         XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unauthorized")
-        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
     }
     
     func test_labelContents_STSDisabled() throws {
+        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
         XCTAssertTrue(try sut.happyPathButton.isHidden)
         XCTAssertTrue(try sut.errorPathButton.isHidden)
         XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
+        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
     }
     
     func test_happyPathButton() throws {
+        mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        
         let exchangeData = Data("""
             {
                 "access_token": "testAccessToken",
@@ -92,14 +101,19 @@ extension DeveloperMenuViewControllerTests {
             }
         }
         
-        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         try sut.happyPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.requestFinished, timeout: 20)
         XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
-        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+    }
+    
+    func test_happyPathButton_invalidAccessTokenActionCalled() throws {
+        try sut.happyPathButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(invalidAccessTokenActionCalled)
     }
     
     func test_unhappyPathButton() throws {
+        mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
+
         MockURLProtocol.handler = { [unowned self] in
             defer {
                 requestFinished = true
@@ -107,14 +121,19 @@ extension DeveloperMenuViewControllerTests {
             return (Data(), HTTPURLResponse(statusCode: 404))
         }
         
-        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         try sut.errorPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.requestFinished, timeout: 20)
         XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: token")
-        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+    }
+    
+    func test_unhappyPathButton_invalidAccessTokenActionCalled() throws {
+        try sut.errorPathButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(invalidAccessTokenActionCalled)
     }
 
     func test_unsuccessfulPathButton() throws {
+        mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
+
         MockURLProtocol.handler = { [unowned self] in
             defer {
                 requestFinished = true
@@ -122,11 +141,14 @@ extension DeveloperMenuViewControllerTests {
             throw MockNetworkClientError.genericError
         }
         
-        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
-        try sut.errorPathButton.sendActions(for: .touchUpInside)
+        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.requestFinished, timeout: 20)
-        XCTAssertEqual(try sut.errorPathResultLabel.text, "Error")
-        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+        XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
+    }
+    
+    func test_unsuccessfulPathButton_invalidAccessTokenActionCalled() throws {
+        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(invalidAccessTokenActionCalled)
     }
 }
 

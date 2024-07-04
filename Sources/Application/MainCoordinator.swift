@@ -88,7 +88,7 @@ final class MainCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
-            if MainCoordinator.reauth {
+            if Self.reauth {
                 homeCoordinator?.handleUniversalLink(url)
             } else {
                 loginCoordinator?.handleUniversalLink(url)
@@ -205,7 +205,7 @@ extension MainCoordinator: ParentCoordinator {
             }
         case _ as HomeCoordinator:
             updateToken()
-            MainCoordinator.reauth = false
+            Self.reauth = false
         default:
             break
         }
