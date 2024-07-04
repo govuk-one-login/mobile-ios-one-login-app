@@ -1,0 +1,57 @@
+I, [2024-07-04T09:18:02.461710 #11332]  INFO -- : Cleared interactions
+I, [2024-07-04T09:18:02.466886 #11332]  INFO -- : Registered expected interaction POST /pact-test
+D, [2024-07-04T09:18:02.467233 #11332] DEBUG -- : {
+  "description": "A Mock Request",
+  "request": {
+    "method": "post",
+    "path": "/pact-test",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "request": "mock_request"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "response": "mock_response"
+    }
+  },
+  "metadata": null
+}
+I, [2024-07-04T09:18:02.473448 #11332]  INFO -- : Received request POST /pact-test
+D, [2024-07-04T09:18:02.473872 #11332] DEBUG -- : {
+  "path": "/pact-test",
+  "query": "",
+  "method": "post",
+  "body": {
+    "request": "mock_request"
+  },
+  "headers": {
+    "Content-Length": "26",
+    "Content-Type": "application/json",
+    "Host": "localhost:1234",
+    "Connection": "keep-alive",
+    "Accept": "*/*",
+    "User-Agent": "OneLogin/1.0.0 arm64 iOS/17.5 CFNetwork/1.0 Darwin/23.5.0",
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2024-07-04T09:18:02.474781 #11332]  INFO -- : Found matching response for POST /pact-test
+D, [2024-07-04T09:18:02.475037 #11332] DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "response": "mock_response"
+  }
+}
+I, [2024-07-04T09:18:02.477192 #11332]  INFO -- : Verifying - interactions matched
+I, [2024-07-04T09:18:02.479661 #11332]  INFO -- : Writing pact for Mobile:MobilePlatform:DummyProvider to /Users/joe.mcgarry/Documents/mobile-ios-one-login-app/pact/pacts/onelogin_app-mobile:mobileplatform:dummyprovider.json
