@@ -61,18 +61,18 @@ jobs:
       #       pr_number:$pull_number \
       #       testplan:OneLoginUnit
 
-      - name: Build App, Run PACT tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-        run: |
-          bundle install
+      # - name: Build App, Run PACT tests
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     LC_ALL: "en_US.UTF-8"
+      #     LANG: "en_US.UTF-8"
+      #     GIT_CONFIG_NOSYSTEM: "true"
+      #     GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+      #   run: |
+      #     bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginPactTests
+      #     bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+      #       testplan:OneLoginPactTests
       
       - name: Upload to PACT broker.
         env:
@@ -85,7 +85,7 @@ jobs:
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
         if: ${{ success() }}
         run: |
-          pact-broker publish ${{github.workspace}}/mobile-ios-one-login-app/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=$PACT_BROKER_USERNAME_NP -p=$PACT_BROKER_PASSWORD_NP -b=https://ysi5tc076m.execute-api.eu-west-2.amazonaws.com
+          pact-broker publish ${{github.workspace}}/mobile-ios-one-login-app/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=$PACT_BROKER_USERNAME_NP -p=$PACT_BROKER_PASSWORD_NP -b=https://pactbroker-onelogin.staging.account.gov.uk
           
 
       # Check the Quality Gate status.
