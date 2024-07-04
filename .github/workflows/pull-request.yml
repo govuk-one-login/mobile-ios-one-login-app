@@ -85,7 +85,8 @@ jobs:
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
         if: ${{ success() }}
         run: |
-          pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}"
+          curl -X POST -d "u=${{env.PACT_BROKER_USERNAME_NP}}&p=${{env.PACT_BROKER_PASSWORD_NP}}" "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}"
+          pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
           
 
       # Check the Quality Gate status.
