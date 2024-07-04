@@ -313,7 +313,7 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withoutBearerToken() throws {
-        TokenHolder.shared.accessToken = nil
+        TokenHolder.shared.clearTokenHolder()
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,

@@ -123,6 +123,7 @@
 
 "app_signOutButton" = "Allgofnodi";
 
+
 // Mark: Sign Out Confirmation screen
 "app_signOutConfirmationTitle" = "Bydd allgofnodi yn dileu data eich ap";
 
@@ -140,9 +141,16 @@
 
 "app_signOutAndDeleteAppDataButton" = "Allgofnodwch a dileu data yr ap";
 
+
 // Mark: Sign Out Error screen
 "app_signOutErrorTitle" = "Roedd problem wrth eich allgofnodi";
 
 "app_signOutErrorBody" = "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.";
 
 "app_exitButton" = "Gadael";
+
+
+// Mark: Sign Out Warning screen
+"app_signOutWarningTitle" = "TYou’ve been signed-out";
+
+"app_signOutWarningBody" = "You will need to reauthenticate";

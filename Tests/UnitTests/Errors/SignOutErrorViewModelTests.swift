@@ -5,7 +5,7 @@ import XCTest
 
 import Foundation
 
-final class SignoutErrorViewModelTests: XCTestCase {
+final class SignOutErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutErrorViewModel!
     
@@ -28,8 +28,9 @@ final class SignoutErrorViewModelTests: XCTestCase {
     }
 }
 
-extension SignoutErrorViewModelTests {
+extension SignOutErrorViewModelTests {
     func test_pageConfiguration() throws {
+        XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
         XCTAssertEqual(sut.body, "app_signOutErrorBody")
         XCTAssertNil(sut.secondaryButtonViewModel)

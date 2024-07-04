@@ -4,8 +4,8 @@ import Logging
 
 struct SignOutWarningViewModel: GDSErrorViewModel, BaseViewModel {
     let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "You’ve been signed-out"
-    let body: GDSLocalisedString = "You will need to reauthenticate"
+    let title: GDSLocalisedString = "app_signOutWarningTitle"
+    let body: GDSLocalisedString = "app_signOutWarningBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService

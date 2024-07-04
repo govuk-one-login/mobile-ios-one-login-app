@@ -52,6 +52,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockTokenVerifier = nil
         sut = nil
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
+        
         super.tearDown()
     }
     

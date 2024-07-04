@@ -32,6 +32,7 @@ class TokenHolder: AuthenticationProvider {
     var idTokenPayload: IdTokenPayload?
     
     func clearTokenHolder() {
+        tokenResponse = nil
         accessToken = nil
         idTokenPayload = nil
     }
