@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "bigint",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/attaswift/BigInt",
+      "state" : {
+        "revision" : "793a7fac0bfc318e85994bf6900652e827aef33e",
+        "version" : "5.4.1"
+      }
+    },
+    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
@@ -167,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "66968eddd029b1e48163a3d5405a958a6fdb3592"
+        "revision" : "5bab1dfd6602439acca11f753e4d8c0423c2e3cb",
+        "version" : "1.0.0"
       }
     },
     {

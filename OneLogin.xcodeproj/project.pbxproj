@@ -2674,8 +2674,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
