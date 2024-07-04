@@ -37,6 +37,7 @@ jobs:
 
       - name: Install PACT broker
         run: |
+          brew tap pact-foundation/pact-ruby-standalone
           brew install pact-ruby-standalone
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
