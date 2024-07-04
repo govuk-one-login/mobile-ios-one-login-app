@@ -13,7 +13,6 @@ final class ProfileCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var analyticsService: AnalyticsService
     var userStore: UserStorable
-    private let tokenHolder = TokenHolder.shared
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
     
@@ -41,7 +40,7 @@ final class ProfileCoordinator: NSObject,
     }
     
     func updateToken() {
-        baseVc?.updateToken(tokenHolder)
+        baseVc?.updateToken(TokenHolder.shared)
     }
     
     func openSignOutPage() {

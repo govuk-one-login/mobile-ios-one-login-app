@@ -13,6 +13,7 @@ final class ReauthCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let analyticsService: AnalyticsService
     let userStore: UserStorable
+    
     private weak var authCoordinator: AuthenticationCoordinator?
     
     init(window: UIWindow,
@@ -40,15 +41,6 @@ final class ReauthCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         authCoordinator?.handleUniversalLink(url)
     }
-    
-    private func storeAccessTokenInfo() {
-        guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
-        do {
-            try userStore.storeTokenInfo(tokenResponse: tokenResponse)
-        } catch {
-            print("Storing Token Info error: \(error)")
-        }
-    }
 }
 
 extension ReauthCoordinator: ParentCoordinator {
@@ -57,7 +49,7 @@ extension ReauthCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             return
         case let child as AuthenticationCoordinator where child.authError == nil:
-            storeAccessTokenInfo()
+            userStore.storeTokenInfo()
             finish()
             root.dismiss(animated: true)
         default:

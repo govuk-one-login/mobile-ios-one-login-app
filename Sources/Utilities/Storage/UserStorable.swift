@@ -25,16 +25,17 @@ extension UserStorable {
         return previouslyAuthenticatedUser.timeIntervalSinceNow.sign == .plus
     }
     
-    func storeTokenInfo(tokenResponse: TokenResponse) throws {
+    func storeTokenInfo() {
+        guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
         let accessToken = tokenResponse.accessToken
         let tokenExp = tokenResponse.expiryDate
-        try saveItem(accessToken, itemName: .accessToken, storage: .authenticated)
+        try? saveItem(accessToken, itemName: .accessToken, storage: .authenticated)
         if AppEnvironment.extendExpClaimEnabled {
             defaultsStore.set(tokenExp + 27 * 60, forKey: .accessTokenExpiry)
         } else {
-            defaultsStore.set(tokenExp, forKey: .accessTokenExpiry)
+            defaultsStore.set(Date(), forKey: .accessTokenExpiry)
         }
-        try saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated)
+        try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated)
     }
     
     func clearTokenInfo() {

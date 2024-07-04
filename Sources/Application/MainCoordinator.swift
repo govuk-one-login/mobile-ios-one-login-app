@@ -14,7 +14,7 @@ final class MainCoordinator: NSObject,
     let userStore: UserStorable
     let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
-    var reauth = false
+    static var reauth = false
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -88,7 +88,7 @@ final class MainCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
-            if reauth {
+            if MainCoordinator.reauth {
                 homeCoordinator?.handleUniversalLink(url)
             } else {
                 loginCoordinator?.handleUniversalLink(url)
@@ -205,6 +205,7 @@ extension MainCoordinator: ParentCoordinator {
             }
         case _ as HomeCoordinator:
             updateToken()
+            MainCoordinator.reauth = false
         default:
             break
         }

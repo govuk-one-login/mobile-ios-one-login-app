@@ -17,7 +17,6 @@ final class LoginCoordinator: NSObject,
     let analyticsCenter: AnalyticsCentral
     var userStore: UserStorable
     let networkMonitor: NetworkMonitoring
-    let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
     var loginError: Error?
     
@@ -67,7 +66,9 @@ final class LoginCoordinator: NSObject,
            error == .expired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.dismiss(animated: true)
+                    root.dismiss(animated: true) { [unowned self] in
+                        launchAuthenticationCoordinator()
+                    }
                 }
             signOutWarningScreen.modalPresentationStyle = .overFullScreen
             root.present(signOutWarningScreen, animated: false)

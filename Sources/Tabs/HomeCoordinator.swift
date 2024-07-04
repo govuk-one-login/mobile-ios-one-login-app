@@ -17,6 +17,7 @@ final class HomeCoordinator: NSObject,
     let analyticsService: AnalyticsService
     private let userStore: UserStorable
     private let tokenHolder = TokenHolder.shared
+    
     private(set) var baseVc: TabbedViewController?
     private weak var reauthCoordinator: ReauthCoordinator?
     
@@ -53,9 +54,7 @@ final class HomeCoordinator: NSObject,
         }
         let networkClient = NetworkClient(authenticationProvider: tokenHolder)
         let viewModel = DeveloperMenuViewModel { [unowned self] in
-            if let mainCoordinator = parentCoordinator as? MainCoordinator {
-                mainCoordinator.reauth = true
-            }
+            MainCoordinator.reauth = true
             root.dismiss(animated: true)
             tokenHolder.clearTokenHolder()
             userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
