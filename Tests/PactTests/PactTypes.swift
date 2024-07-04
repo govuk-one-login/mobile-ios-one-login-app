@@ -1,9 +1,9 @@
 import Foundation
 
 struct MockRequestBody: Codable {
-    let body: [String: String]
+    let request: String
 }
 
 struct MockResponseBody: Codable {
-    let body: [String: String]
+    let response: String
 }

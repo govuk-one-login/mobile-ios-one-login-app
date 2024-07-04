@@ -1,6 +1,6 @@
-I, [2024-07-04T09:18:02.461710 #11332]  INFO -- : Cleared interactions
-I, [2024-07-04T09:18:02.466886 #11332]  INFO -- : Registered expected interaction POST /pact-test
-D, [2024-07-04T09:18:02.467233 #11332] DEBUG -- : {
+I, [2024-07-04T09:58:12.640659 #13079]  INFO -- : Cleared interactions
+I, [2024-07-04T09:58:12.644269 #13079]  INFO -- : Registered expected interaction POST /pact-test
+D, [2024-07-04T09:58:12.644731 #13079] DEBUG -- : {
   "description": "A Mock Request",
   "request": {
     "method": "post",
@@ -23,8 +23,8 @@ D, [2024-07-04T09:18:02.467233 #11332] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2024-07-04T09:18:02.473448 #11332]  INFO -- : Received request POST /pact-test
-D, [2024-07-04T09:18:02.473872 #11332] DEBUG -- : {
+I, [2024-07-04T09:58:12.649052 #13079]  INFO -- : Received request POST /pact-test
+D, [2024-07-04T09:58:12.649387 #13079] DEBUG -- : {
   "path": "/pact-test",
   "query": "",
   "method": "post",
@@ -43,8 +43,8 @@ D, [2024-07-04T09:18:02.473872 #11332] DEBUG -- : {
     "Version": "HTTP/1.1"
   }
 }
-I, [2024-07-04T09:18:02.474781 #11332]  INFO -- : Found matching response for POST /pact-test
-D, [2024-07-04T09:18:02.475037 #11332] DEBUG -- : {
+I, [2024-07-04T09:58:12.650355 #13079]  INFO -- : Found matching response for POST /pact-test
+D, [2024-07-04T09:58:12.650627 #13079] DEBUG -- : {
   "status": 200,
   "headers": {
     "Content-Type": "application/json"
@@ -53,5 +53,5 @@ D, [2024-07-04T09:18:02.475037 #11332] DEBUG -- : {
     "response": "mock_response"
   }
 }
-I, [2024-07-04T09:18:02.477192 #11332]  INFO -- : Verifying - interactions matched
-I, [2024-07-04T09:18:02.479661 #11332]  INFO -- : Writing pact for Mobile:MobilePlatform:DummyProvider to /Users/joe.mcgarry/Documents/mobile-ios-one-login-app/pact/pacts/onelogin_app-mobile:mobileplatform:dummyprovider.json
+I, [2024-07-04T09:58:12.652725 #13079]  INFO -- : Verifying - interactions matched
+I, [2024-07-04T09:58:12.654309 #13079]  INFO -- : Writing pact for Mobile:MobilePlatform:DummyProvider to /Users/joe.mcgarry/Documents/mobile-ios-one-login-app/pact/pacts/onelogin_app-mobile:mobileplatform:dummyprovider.json
