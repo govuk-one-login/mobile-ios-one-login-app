@@ -242,6 +242,8 @@ extension MainCoordinatorTests {
         // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         sut.handleUniversalLink(URL(string: "google.co.uk/wallet/123456789")!)
         sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
+        MainCoordinator.reauth = true
+        sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
     }
     
     func test_didSelect_tabBarItem_home() {
@@ -366,5 +368,15 @@ extension MainCoordinatorTests {
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
         try appNotReset()
         UserDefaults.standard.set(false, forKey: "EnableSignoutError")
+    }
+    
+    func test_performChildCleanup_fromHomeCoordinator() throws {
+        MainCoordinator.reauth = true
+        let homeCoordinator = HomeCoordinator(window: mockWindowManager.appWindow,
+                                              analyticsService: mockAnalyticsService,
+                                              userStore: mockUserStore)
+        // WHEN the MainCoordinator's performChildCleanup method is called from HomeCoordinator (on user reauth)
+        sut.performChildCleanup(child: homeCoordinator)
+        XCTAssertFalse(MainCoordinator.reauth)
     }
 }

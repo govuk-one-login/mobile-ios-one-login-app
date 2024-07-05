@@ -27,8 +27,8 @@ extension UserStorable {
     
     func storeTokenInfo() {
         guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
-        if let accessToken = try? saveItem(tokenResponse.accessToken, itemName: .accessToken, storage: .authenticated),
-           let idToken = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated) {
+        if let _ = try? saveItem(tokenResponse.accessToken, itemName: .accessToken, storage: .authenticated),
+           let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated) {
             defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
         }
         

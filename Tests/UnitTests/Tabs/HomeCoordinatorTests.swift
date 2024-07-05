@@ -78,4 +78,13 @@ final class HomeCoordinatorTests: XCTestCase {
         sut.updateToken()
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }
+    
+    func test_performChildCleanup_fromReauthCoordinator() {
+        // WHEN the performChildCleanup method is called
+        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
+        let reauthCoordinator = ReauthCoordinator(window: window,
+                                                  analyticsService: mockAnalyticsService,
+                                                  userStore: mockUserStore)
+        sut.performChildCleanup(child: reauthCoordinator)
+    }
 }
