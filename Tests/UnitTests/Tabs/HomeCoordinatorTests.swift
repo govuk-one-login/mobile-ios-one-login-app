@@ -50,12 +50,12 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     func test_showDeveloperMenu() throws {
-        sut.start()
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
+        sut.start()
         sut.showDeveloperMenu()
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue( presentedViewController.topViewController is DeveloperMenuViewController)
+        XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
     
     func test_networkClientInitialized() throws {

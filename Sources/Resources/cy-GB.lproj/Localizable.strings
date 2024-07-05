@@ -17,6 +17,8 @@
 
 "app_enterPasscodeButton" = "Rhowch god mynediad";
 
+"app_exitButton" = "Gadael";
+
 
 // MARK: Local Auth prompt (Face ID)
 "app_faceId_subtitle" = "Rhowch god mynediad iPhone";
@@ -147,10 +149,8 @@
 
 "app_signOutErrorBody" = "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.";
 
-"app_exitButton" = "Gadael";
-
 
 // Mark: Sign Out Warning screen
-"app_signOutWarningTitle" = "TYou’ve been signed-out";
+"app_signOutWarningTitle" = "You’ve been signed-out";
 
 "app_signOutWarningBody" = "You will need to reauthenticate";

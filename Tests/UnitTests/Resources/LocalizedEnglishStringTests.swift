@@ -23,6 +23,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Maybe later")
         XCTAssertEqual("app_enterPasscodeButton".getEnglishString(),
                        "Enter passcode")
+        XCTAssertEqual("app_exitButton".getEnglishString(),
+                       "Exit")
     }
     
     func test_localAuthPrompt_keys() throws {
@@ -158,6 +160,20 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Any deleted documents will still be available online for you to add to your GOV.UK Wallet again.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
                        "Sign out and delete app data")
+    }
+    
+    func test_signOutErrorPageKeys() {
+        XCTAssertEqual("app_signOutErrorTitle".getEnglishString(),
+                       "There was a problem signing you out")
+        XCTAssertEqual("app_signOutErrorBody".getEnglishString(),
+                       "You can force sign out by deleting the app from your device.")
+    }
+    
+    func test_signOutWarningPageKeys() {
+        XCTAssertEqual("app_signOutWarningTitle".getEnglishString(),
+                       "You’ve been signed-out")
+        XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
+                       "You will need to reauthenticate")
     }
 }
 

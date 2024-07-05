@@ -16,6 +16,7 @@ final class ErrorPresenterTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        didCallAction = false
         
         super.tearDown()
     }
@@ -51,7 +52,7 @@ extension ErrorPresenterTests {
         XCTAssertTrue(didCallAction)
     }
     
-    func test_signoutError_callsAction() throws {
+    func test_signOutError_callsAction() throws {
         let errorView = sut.createSignOutError(errorDescription: "error description",
                                                analyticsService: mockAnalyticsService) {
             self.didCallAction = true
@@ -59,6 +60,14 @@ extension ErrorPresenterTests {
         let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])
         exitButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallAction)
-
+    }
+    
+    func test_signOutWarning_callsAction() throws {
+        let errorView = sut.createSignOutWarning(analyticsService: mockAnalyticsService) {
+            self.didCallAction = true
+        }
+        let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])
+        exitButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallAction)
     }
 }

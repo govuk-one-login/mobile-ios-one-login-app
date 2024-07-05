@@ -57,6 +57,18 @@ extension ReauthCoordinatorTests {
         XCTAssertTrue(errorVc.viewModel is SignOutWarningViewModel)
     }
     
+    func test_start_signOutWarningScreen_primaryButton_launchesAuthentticationCoordinator() throws {
+        // WHEN the ReauthCoordinator starts
+        window.rootViewController = sut.root
+        sut.start()
+        // THEN the root view controller should be the sign out warning screen
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        let errorVc = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        let errorButton: UIButton = try XCTUnwrap(errorVc.view[child: "error-primary-button"])
+        errorButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
+    }
+    
     func test_didRegainFocus_fromAuthenticationCoordinator_succeeds() throws {
         let tokenResponse = try MockTokenResponse().getJSONData()
         TokenHolder.shared.tokenResponse = tokenResponse
@@ -90,7 +102,7 @@ extension ReauthCoordinatorTests {
         sut.didRegainFocus(fromChild: authCoordinator)
         // THEN the ReauthCoordinator should still have IntroViewController as it's top view controller
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
-        let introButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
-        XCTAssertTrue(introButton.isEnabled)
+        let errorButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
+        XCTAssertTrue(errorButton.isEnabled)
     }
 }

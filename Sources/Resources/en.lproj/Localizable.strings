@@ -17,6 +17,8 @@
 
 "app_enterPasscodeButton" = "Enter passcode";
 
+"app_exitButton" = "Exit";
+
 
 // MARK: Local Auth prompt (Face ID)
 "app_faceId_subtitle" = "Enter iPhone passcode";
@@ -147,10 +149,8 @@
 
 "app_signOutErrorBody" = "You can force sign out by deleting the app from your device.";
 
-"app_exitButton" = "Exit";
-
 
 // Mark: Sign Out Warning screen
-"app_signOutWarningTitle" = "TYou’ve been signed-out";
+"app_signOutWarningTitle" = "You’ve been signed-out";
 
 "app_signOutWarningBody" = "You will need to reauthenticate";
