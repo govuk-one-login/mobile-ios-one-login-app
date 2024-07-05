@@ -25,7 +25,8 @@ platform :ios do
       workspace: "OneLogin.xcworkspace",
       device: "iPhone SE (3rd generation)",
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      xcodebuild_formatter: ''
     )
   end
 
