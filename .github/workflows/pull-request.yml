@@ -61,6 +61,47 @@ jobs:
             pr_number:$pull_number \
             testplan:OneLoginUnit
 
+  
+
+      # Check the Quality Gate status.
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+        # Force to fail step after specific time.
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  pact:
+    name: Run Pact Tests and Upload to Broker
+    runs-on: macos-14
+
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+        run: |
+          ./store-access-token.sh
+
+      - name: Lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+
+      - name: Install PACT broker
+        run: |
+          brew tap pact-foundation/pact-ruby-standalone
+          brew install pact-ruby-standalone
+
       - name: Build App, Run PACT tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -72,7 +113,7 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginPactTests
+            testplan:OneLoginPactTestPlan
       
       - name: Upload to PACT broker.
         env:
@@ -93,13 +134,5 @@ jobs:
           else 
             echo $response_code
             echo "Login to pact broker failed, results not uploaded"
-          fi          
-
-      # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
-        # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          fi
+          
