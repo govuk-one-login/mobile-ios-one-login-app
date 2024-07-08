@@ -3,8 +3,6 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-import Foundation
-
 final class SignOutWarningViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutWarningViewModel!

@@ -12,9 +12,8 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
-    let tokenHolder = TokenHolder.shared
     private var tokenVerifier: TokenVerifier
-    static var reauth = false
+    static var isReauthing = false
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -50,7 +49,7 @@ final class MainCoordinator: NSObject,
                         do {
                             let idToken = try userStore.readItem(itemName: .idToken,
                                                                  storage: .authenticated)
-                            tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                             updateToken()
                             windowManager.hideUnlockWindow()
                         } catch {
@@ -79,8 +78,8 @@ final class MainCoordinator: NSObject,
     }
     
     private func fullLogin(error: Error? = nil) {
-        tokenHolder.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+        TokenHolder.shared.clearTokenHolder()
+        userStore.refreshStorage(accessControlLevel: nil)
         showLogin(error)
         windowManager.hideUnlockWindow()
     }
@@ -88,7 +87,7 @@ final class MainCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
-            if Self.reauth {
+            if Self.isReauthing {
                 homeCoordinator?.handleUniversalLink(url)
             } else {
                 loginCoordinator?.handleUniversalLink(url)
@@ -205,7 +204,7 @@ extension MainCoordinator: ParentCoordinator {
             }
         case _ as HomeCoordinator:
             updateToken()
-            Self.reauth = false
+            Self.isReauthing = false
         default:
             break
         }

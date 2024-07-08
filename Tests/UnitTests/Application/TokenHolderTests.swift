@@ -2,7 +2,7 @@
 import XCTest
 
 final class TokenHolderTests: XCTestCase {
-    var sut = TokenHolder()
+    var sut = TokenHolder.shared
 }
 
 extension TokenHolderTests {
@@ -12,6 +12,7 @@ extension TokenHolderTests {
     }
     
     func test_bearerToken_errors() throws {
+        sut.accessToken = nil
         do {
             _ = try sut.bearerToken
             XCTFail("Should throw TokenError error")

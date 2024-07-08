@@ -57,11 +57,11 @@ final class LoginCoordinator: NSObject,
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
-        showIfLoginErrorScreens()
+        showLoginErrorIfNecessary()
         launchOnboardingCoordinator()
     }
     
-    private func showIfLoginErrorScreens() {
+    private func showLoginErrorIfNecessary() {
         if let error = loginError as? TokenError,
            error == .expired {
             let signOutWarningScreen = ErrorPresenter

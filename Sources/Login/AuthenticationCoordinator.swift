@@ -13,7 +13,6 @@ final class AuthenticationCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let session: LoginSession
     let userStore: UserStorable
-    let tokenHolder = TokenHolder.shared
     private let tokenVerifier: TokenVerifier
     var authError: Error?
     
@@ -32,12 +31,12 @@ final class AuthenticationCoordinator: NSObject,
     func start() {
         Task(priority: .userInitiated) {
             do {
-                tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                TokenHolder.shared.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
-                   let idToken = tokenHolder.tokenResponse?.idToken {
-                    tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
-                    try userStore.saveItem(tokenHolder.idTokenPayload?.persistentId,
+                   let idToken = TokenHolder.shared.tokenResponse?.idToken {
+                    TokenHolder.shared.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
+                    try userStore.saveItem(TokenHolder.shared.idTokenPayload?.persistentId,
                                            itemName: .persistentSessionID,
                                            storage: .open)
                 }

@@ -16,7 +16,6 @@ final class HomeCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     let analyticsService: AnalyticsService
     private let userStore: UserStorable
-    private let tokenHolder = TokenHolder.shared
     
     private(set) var baseVc: TabbedViewController?
     private weak var reauthCoordinator: ReauthCoordinator?
@@ -42,34 +41,37 @@ final class HomeCoordinator: NSObject,
     }
     
     func updateToken() {
-        baseVc?.updateToken(tokenHolder)
+        baseVc?.updateToken(TokenHolder.shared)
         baseVc?.isLoggedIn(true)
         baseVc?.screenAnalytics()
     }
     
     func showDeveloperMenu() {
-        if tokenHolder.accessToken == nil,
+        if TokenHolder.shared.accessToken == nil,
            let accessToken = try? userStore.readItem(itemName: .accessToken, storage: .authenticated) {
-            tokenHolder.accessToken = accessToken
+            TokenHolder.shared.accessToken = accessToken
         }
-        let networkClient = NetworkClient(authenticationProvider: tokenHolder)
-        let viewModel = DeveloperMenuViewModel { [unowned self] in
-            MainCoordinator.reauth = true
-            root.dismiss(animated: true)
-            tokenHolder.clearTokenHolder()
-            userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
-            let ra = ReauthCoordinator(window: window,
-                                       analyticsService: analyticsService,
-                                       userStore: userStore)
-            openChildModally(ra, animated: true)
-            reauthCoordinator = ra
-        }
-        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
+        let networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
+        let viewModel = DeveloperMenuViewModel()
+        let devMenuViewController = DeveloperMenuViewController(parentCoordinator: self,
+                                                                viewModel: viewModel,
                                                                 userStore: userStore,
                                                                 networkClient: networkClient)
         let navController = UINavigationController()
         navController.setViewControllers([devMenuViewController], animated: false)
         root.present(navController, animated: true)
+    }
+    
+    func accessTokenInvalidAction() {
+        MainCoordinator.isReauthing = true
+        root.dismiss(animated: true)
+        TokenHolder.shared.clearTokenHolder()
+        userStore.refreshStorage(accessControlLevel: nil)
+        let ra = ReauthCoordinator(window: window,
+                                   analyticsService: analyticsService,
+                                   userStore: userStore)
+        openChildModally(ra, animated: true)
+        reauthCoordinator = ra
     }
     
     func handleUniversalLink(_ url: URL) {

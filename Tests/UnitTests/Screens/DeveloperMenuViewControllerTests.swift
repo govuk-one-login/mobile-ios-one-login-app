@@ -5,17 +5,20 @@ import SecureStore
 import XCTest
 
 final class DeveloperMenuViewControllerTests: XCTestCase {
+    var window: UIWindow!
+    var mockAnalyticsService: MockAnalyticsService!
     var devMenuViewModel: DeveloperMenuViewModel!
     var mockAuthenicatedSecureStore: SecureStorable!
     var mockOpenSecureStore: SecureStorable!
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
     var networkClient: NetworkClient!
+    var homeCoordinator: HomeCoordinator!
     var sut: DeveloperMenuViewController!
     
-    var invalidAccessTokenActionCalled = false
     var requestFinished = false
     
+    @MainActor
     override func setUp() {
         super.setUp()
         
@@ -23,7 +26,9 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         
-        devMenuViewModel = DeveloperMenuViewModel { self.invalidAccessTokenActionCalled = true }
+        window = UIWindow()
+        mockAnalyticsService = MockAnalyticsService()
+        devMenuViewModel = DeveloperMenuViewModel()
         mockAuthenicatedSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultsStore = MockDefaultsStore()
@@ -32,23 +37,29 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
                                       defaultsStore: mockDefaultsStore)
         networkClient = NetworkClient(configuration: configuration,
                                       authenticationProvider: MockAuthenticationProvider())
-        sut = DeveloperMenuViewController(viewModel: devMenuViewModel,
+        homeCoordinator = HomeCoordinator(window: window,
+                                          analyticsService: mockAnalyticsService,
+                                          userStore: mockUserStore)
+        sut = DeveloperMenuViewController(parentCoordinator: homeCoordinator,
+                                          viewModel: devMenuViewModel,
                                           userStore: mockUserStore,
                                           networkClient: networkClient)
     }
     
     override func tearDown() {
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
-
+        
+        window = nil
+        mockAnalyticsService = nil
         devMenuViewModel = nil
         mockAuthenicatedSecureStore = nil
         mockOpenSecureStore = nil
         mockDefaultsStore = nil
         mockUserStore = nil
         networkClient = nil
+        homeCoordinator = nil
         sut = nil
         
-        invalidAccessTokenActionCalled = false
         requestFinished = false
         
         super.tearDown()
@@ -59,6 +70,7 @@ enum MockNetworkClientError: Error {
     case genericError
 }
 
+@MainActor
 extension DeveloperMenuViewControllerTests {
     func test_labelContents_STSEnabled() throws {
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
@@ -108,7 +120,8 @@ extension DeveloperMenuViewControllerTests {
     
     func test_happyPathButton_invalidAccessTokenActionCalled() throws {
         try sut.happyPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(invalidAccessTokenActionCalled)
+        XCTAssertTrue(MainCoordinator.isReauthing)
+        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
     
     func test_unhappyPathButton() throws {
@@ -128,7 +141,8 @@ extension DeveloperMenuViewControllerTests {
     
     func test_unhappyPathButton_invalidAccessTokenActionCalled() throws {
         try sut.errorPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(invalidAccessTokenActionCalled)
+        XCTAssertTrue(MainCoordinator.isReauthing)
+        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
 
     func test_unsuccessfulPathButton() throws {
@@ -148,7 +162,8 @@ extension DeveloperMenuViewControllerTests {
     
     func test_unsuccessfulPathButton_invalidAccessTokenActionCalled() throws {
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(invalidAccessTokenActionCalled)
+        XCTAssertTrue(MainCoordinator.isReauthing)
+        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
 }
 

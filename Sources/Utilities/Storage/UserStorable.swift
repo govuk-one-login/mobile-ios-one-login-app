@@ -12,7 +12,7 @@ protocol UserStorable {
     var openStore: SecureStorable { get set }
     var defaultsStore: DefaultsStorable { get }
     
-    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel)
+    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?)
 }
 
 extension UserStorable {
@@ -21,8 +21,7 @@ extension UserStorable {
     }
     
     var validAuthenticatedUser: Bool {
-        guard let previouslyAuthenticatedUser else { return false }
-        return previouslyAuthenticatedUser.timeIntervalSinceNow.sign == .plus
+        previouslyAuthenticatedUser?.timeIntervalSinceNow.sign == .plus
     }
     
     func storeTokenInfo() {
@@ -31,7 +30,6 @@ extension UserStorable {
            let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated) {
             defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
         }
-        
     }
     
     func clearTokenInfo() {

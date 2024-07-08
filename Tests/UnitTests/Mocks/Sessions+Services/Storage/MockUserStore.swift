@@ -16,5 +16,5 @@ class MockUserStore: UserStorable {
         self.defaultsStore = defaultsStore
     }
     
-    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel) { }
+    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?) { }
 }

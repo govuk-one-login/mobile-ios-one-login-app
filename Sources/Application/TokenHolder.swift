@@ -9,6 +9,8 @@ enum TokenError: Error {
 class TokenHolder: AuthenticationProvider {
     static let shared = TokenHolder()
     
+    private init() { }
+    
     var tokenResponse: TokenResponse? {
         didSet {
             accessToken = tokenResponse?.accessToken
