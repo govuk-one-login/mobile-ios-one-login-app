@@ -9,7 +9,7 @@ enum TokenError: Error {
 class TokenHolder: AuthenticationProvider {
     static let shared = TokenHolder()
     
-    private init() { }
+    private init() { /* Empty private initialiser to ensure singleton */ }
     
     var tokenResponse: TokenResponse? {
         didSet {

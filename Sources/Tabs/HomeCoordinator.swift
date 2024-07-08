@@ -67,11 +67,11 @@ final class HomeCoordinator: NSObject,
         root.dismiss(animated: true)
         TokenHolder.shared.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: nil)
-        let ra = ReauthCoordinator(window: window,
+        let rc = ReauthCoordinator(window: window,
                                    analyticsService: analyticsService,
                                    userStore: userStore)
-        openChildModally(ra, animated: true)
-        reauthCoordinator = ra
+        openChildModally(rc, animated: true)
+        reauthCoordinator = rc
     }
     
     func handleUniversalLink(_ url: URL) {

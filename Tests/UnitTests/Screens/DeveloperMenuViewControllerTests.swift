@@ -4,6 +4,7 @@ import MockNetworking
 import SecureStore
 import XCTest
 
+@MainActor
 final class DeveloperMenuViewControllerTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
@@ -18,7 +19,6 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     
     var requestFinished = false
     
-    @MainActor
     override func setUp() {
         super.setUp()
         
@@ -70,7 +70,6 @@ enum MockNetworkClientError: Error {
     case genericError
 }
 
-@MainActor
 extension DeveloperMenuViewControllerTests {
     func test_labelContents_STSEnabled() throws {
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
