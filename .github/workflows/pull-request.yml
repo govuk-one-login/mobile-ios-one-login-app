@@ -131,5 +131,7 @@ jobs:
             echo $response_code
             echo "Login to pact broker failed, results not uploaded"
           fi
-          pact-mock-service stop
-          
+
+      - name: Stop PACT mock service
+        run: |
+          pact-mock-service stop    
