@@ -6,7 +6,6 @@ final class WalletCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStoreService: MockSecureStoreService!
-    var mockTokenHolder: TokenHolder!
 
     var sut: WalletCoordinator!
     
@@ -16,18 +15,15 @@ final class WalletCoordinatorTests: XCTestCase {
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
-        mockTokenHolder = TokenHolder()
         sut = WalletCoordinator(window: window,
                                 analyticsService: mockAnalyticsService,
-                                secureStoreService: mockSecureStoreService,
-                                tokenHolder: mockTokenHolder)
+                                secureStoreService: mockSecureStoreService)
     }
     
     override func tearDown() {
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
-        mockTokenHolder = nil
         sut = nil
         
         super.tearDown()

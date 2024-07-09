@@ -10,7 +10,6 @@ final class OnboardingCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let urlOpener: URLOpener
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
     
     init(analyticsPreferenceStore: AnalyticsPreferenceStore,
          urlOpener: URLOpener) {
@@ -19,7 +18,7 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
-        let analyticsPreferenceScreen = viewControllerFactory
+        let analyticsPreferenceScreen = OnboardingViewControllerFactory
             .createAnalyticsPeferenceScreen { [unowned self] in
                 analyticsPreferenceStore.hasAcceptedAnalytics = true
                 root.dismiss(animated: true)

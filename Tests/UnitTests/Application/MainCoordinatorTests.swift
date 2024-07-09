@@ -64,8 +64,8 @@ final class MainCoordinatorTests: XCTestCase {
     
     func returningAuthenticatedUser(expired: Bool = false) throws {
         let accessToken = try MockTokenResponse().getJSONData().accessToken
-        sut.tokenHolder.accessToken = accessToken
-        sut.tokenHolder.idTokenPayload = try MockTokenVerifier().extractPayload("test")
+        TokenHolder.shared.accessToken = accessToken
+        TokenHolder.shared.idTokenPayload = try MockTokenVerifier().extractPayload("test")
         try mockUserStore.saveItem(accessToken,
                                    itemName: .accessToken,
                                    storage: .authenticated)
@@ -82,8 +82,8 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     func appNotReset() throws {
-        XCTAssertNotNil(sut.tokenHolder.accessToken)
-        XCTAssertNotNil(sut.tokenHolder.idTokenPayload)
+        XCTAssertNotNil(TokenHolder.shared.accessToken)
+        XCTAssertNotNil(TokenHolder.shared.idTokenPayload)
         XCTAssertNotNil(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertNotNil(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertNotNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
@@ -91,8 +91,8 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     func appReset() throws {
-        XCTAssertNil(sut.tokenHolder.accessToken)
-        XCTAssertNil(sut.tokenHolder.idTokenPayload)
+        XCTAssertNil(TokenHolder.shared.accessToken)
+        XCTAssertNil(TokenHolder.shared.idTokenPayload)
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
@@ -242,6 +242,8 @@ extension MainCoordinatorTests {
         // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         sut.handleUniversalLink(URL(string: "google.co.uk/wallet/123456789")!)
         sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
+        MainCoordinator.isReauthing = true
+        sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
     }
     
     func test_didSelect_tabBarItem_home() {
@@ -300,13 +302,12 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
         // GIVEN access token has been stored in the token holder
-        sut.tokenHolder.accessToken = "testAccessToken"
+        TokenHolder.shared.accessToken = "testAccessToken"
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                networkMonitor: MockNetworkMonitor(),
-                                                tokenHolder: TokenHolder())
+                                                networkMonitor: MockNetworkMonitor())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -314,19 +315,19 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withoutBearerToken() throws {
+        TokenHolder.shared.clearTokenHolder()
         let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                networkMonitor: MockNetworkMonitor(),
-                                                tokenHolder: TokenHolder())
+                                                networkMonitor: MockNetworkMonitor())
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
         // THEN the token holders bearer token should not have the access token
         do {
-            _ = try sut.tokenHolder.bearerToken
+            _ = try TokenHolder.shared.bearerToken
             XCTFail("Should throw TokenError error")
         } catch {
             XCTAssertTrue(error is TokenError)
@@ -339,7 +340,6 @@ extension MainCoordinatorTests {
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                                     userStore: mockUserStore,
-                                                    tokenHolder: TokenHolder(),
                                                     urlOpener: mockURLOpener)
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
@@ -355,7 +355,6 @@ extension MainCoordinatorTests {
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                                     userStore: mockUserStore,
-                                                    tokenHolder: TokenHolder(),
                                                     urlOpener: mockURLOpener)
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
@@ -364,10 +363,20 @@ extension MainCoordinatorTests {
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedVC.topViewController is GDSErrorViewController)
         let errroVC = try XCTUnwrap(presentedVC.topViewController as? GDSErrorViewController)
-        XCTAssertTrue(errroVC.viewModel is SignoutErrorViewModel)
+        XCTAssertTrue(errroVC.viewModel is SignOutErrorViewModel)
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
         try appNotReset()
         UserDefaults.standard.set(false, forKey: "EnableSignoutError")
+    }
+    
+    func test_performChildCleanup_fromHomeCoordinator() throws {
+        MainCoordinator.isReauthing = true
+        let homeCoordinator = HomeCoordinator(window: mockWindowManager.appWindow,
+                                              analyticsService: mockAnalyticsService,
+                                              userStore: mockUserStore)
+        // WHEN the MainCoordinator's performChildCleanup method is called from HomeCoordinator (on user reauth)
+        sut.performChildCleanup(child: homeCoordinator)
+        XCTAssertFalse(MainCoordinator.isReauthing)
     }
 }

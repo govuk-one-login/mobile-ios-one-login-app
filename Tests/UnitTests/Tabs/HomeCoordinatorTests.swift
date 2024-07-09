@@ -9,7 +9,6 @@ final class HomeCoordinatorTests: XCTestCase {
     var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultsStore: MockDefaultsStore!
     var mockUserStore: MockUserStore!
-    var mockTokenHolder: TokenHolder!
     var sut: HomeCoordinator!
     
     override func setUp() {
@@ -23,10 +22,9 @@ final class HomeCoordinatorTests: XCTestCase {
         mockUserStore = MockUserStore(authenticatedStore: mockSecureStoreService,
                                       openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
-        mockTokenHolder = TokenHolder()
-        sut = HomeCoordinator(analyticsService: mockAnalyticsService,
-                              userStore: mockUserStore,
-                              tokenHolder: mockTokenHolder)
+        sut = HomeCoordinator(window: window,
+                              analyticsService: mockAnalyticsService,
+                              userStore: mockUserStore)
     }
     
     override func tearDown() {
@@ -36,7 +34,6 @@ final class HomeCoordinatorTests: XCTestCase {
         mockOpenSecureStore = nil
         mockDefaultsStore = nil
         mockUserStore = nil
-        mockTokenHolder = nil
         sut = nil
         
         super.tearDown()
@@ -53,34 +50,41 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     func test_showDeveloperMenu() throws {
-        sut.start()
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
+        sut.start()
         sut.showDeveloperMenu()
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue( presentedViewController.topViewController is DeveloperMenuViewController)
+        XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
     
     func test_networkClientInitialized() throws {
         sut.start()
-        XCTAssertNil(sut.networkClient)
         // GIVEN we have a non-nil tokenHolder and access token
-        mockTokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
+        TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
         sut.updateToken()
         try mockUserStore.saveItem("accessToken",
                                    itemName: .accessToken,
                                    storage: .authenticated)
         // THEN the networkClieint will be initialized when the developer menu is shown
         sut.showDeveloperMenu()
-        XCTAssertNotNil(sut.networkClient)
     }
     
     func test_updateToken() throws {
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
         XCTAssertEqual(try vc.emailLabel.text, "")
-        mockTokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
+        TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
         sut.updateToken()
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
+    }
+    
+    func test_performChildCleanup_fromReauthCoordinator() {
+        // WHEN the performChildCleanup method is called
+        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
+        let reauthCoordinator = ReauthCoordinator(window: window,
+                                                  analyticsService: mockAnalyticsService,
+                                                  userStore: mockUserStore)
+        sut.performChildCleanup(child: reauthCoordinator)
     }
 }

@@ -12,7 +12,7 @@ protocol UserStorable {
     var openStore: SecureStorable { get set }
     var defaultsStore: DefaultsStorable { get }
     
-    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel)
+    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?)
 }
 
 extension UserStorable {
@@ -21,22 +21,15 @@ extension UserStorable {
     }
     
     var validAuthenticatedUser: Bool {
-        guard let previouslyAuthenticatedUser else {
-            return false
-        }
-        return previouslyAuthenticatedUser.timeIntervalSinceNow.sign == .plus
+        previouslyAuthenticatedUser?.timeIntervalSinceNow.sign == .plus
     }
     
-    func storeTokenInfo(tokenResponse: TokenResponse) throws {
-        let accessToken = tokenResponse.accessToken
-        let tokenExp = tokenResponse.expiryDate
-        try saveItem(accessToken, itemName: .accessToken, storage: .authenticated)
-        if AppEnvironment.extendExpClaimEnabled {
-            defaultsStore.set(tokenExp + 27 * 60, forKey: .accessTokenExpiry)
-        } else {
-            defaultsStore.set(tokenExp, forKey: .accessTokenExpiry)
+    func storeTokenInfo() {
+        guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
+        if let _ = try? saveItem(tokenResponse.accessToken, itemName: .accessToken, storage: .authenticated),
+           let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated) {
+            defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
         }
-        try saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated)
     }
     
     func clearTokenInfo() {
@@ -57,9 +50,9 @@ extension UserStorable {
     
     func readItem(itemName: String, storage: Storage) throws -> String {
         switch storage {
-        case.authenticated:
+        case .authenticated:
             return try authenticatedStore.readItem(itemName: itemName)
-        case.open:
+        case .open:
             return try openStore.readItem(itemName: itemName)
         }
     }

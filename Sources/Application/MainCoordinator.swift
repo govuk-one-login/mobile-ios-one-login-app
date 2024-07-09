@@ -12,8 +12,8 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
-    let tokenHolder = TokenHolder()
     private var tokenVerifier: TokenVerifier
+    static var isReauthing = false
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -42,19 +42,23 @@ final class MainCoordinator: NSObject,
     }
     
     func evaluateRevisit() {
-        if userStore.validAuthenticatedUser {
-            Task(priority: .userInitiated) {
-                await MainActor.run {
-                    do {
-                        let idToken = try userStore.readItem(itemName: .idToken,
-                                                             storage: .authenticated)
-                        tokenHolder.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                        updateToken()
-                        windowManager.hideUnlockWindow()
-                    } catch {
-                        handleLoginError(error)
+        if userStore.previouslyAuthenticatedUser != nil {
+            if userStore.validAuthenticatedUser {
+                Task(priority: .userInitiated) {
+                    await MainActor.run {
+                        do {
+                            let idToken = try userStore.readItem(itemName: .idToken,
+                                                                 storage: .authenticated)
+                            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                            updateToken()
+                            windowManager.hideUnlockWindow()
+                        } catch {
+                            handleLoginError(error)
+                        }
                     }
                 }
+            } else {
+                fullLogin(error: TokenError.expired)
             }
         } else {
             fullLogin()
@@ -67,16 +71,15 @@ final class MainCoordinator: NSObject,
             SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            fullLogin(error)
+            fullLogin(error: error)
         default:
             print("Token retrival error: \(error)")
-            return
         }
     }
     
-    private func fullLogin(_ error: Error? = nil) {
-        tokenHolder.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: LAContext().isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode)
+    private func fullLogin(error: Error? = nil) {
+        TokenHolder.shared.clearTokenHolder()
+        userStore.refreshStorage(accessControlLevel: nil)
         showLogin(error)
         windowManager.hideUnlockWindow()
     }
@@ -84,7 +87,11 @@ final class MainCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
-            loginCoordinator?.handleUniversalLink(url)
+            if Self.isReauthing {
+                homeCoordinator?.handleUniversalLink(url)
+            } else {
+                loginCoordinator?.handleUniversalLink(url)
+            }
         case .wallet:
             walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
         case .unknown:
@@ -99,8 +106,7 @@ extension MainCoordinator {
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
-                                  networkMonitor: NetworkMonitor.shared,
-                                  tokenHolder: tokenHolder)
+                                  networkMonitor: NetworkMonitor.shared)
         lc.loginError = error
         openChildModally(lc, animated: false)
         loginCoordinator = lc
@@ -113,9 +119,9 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 userStore: userStore,
-                                 tokenHolder: tokenHolder)
+        let hc = HomeCoordinator(window: windowManager.appWindow,
+                                 analyticsService: analyticsCenter.analyticsService,
+                                 userStore: userStore)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -123,8 +129,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
-                                   secureStoreService: userStore.authenticatedStore,
-                                   tokenHolder: tokenHolder)
+                                   secureStoreService: userStore.openStore)
         addTab(wc)
         walletCoordinator = wc
     }
@@ -132,7 +137,6 @@ extension MainCoordinator {
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
                                     userStore: userStore,
-                                    tokenHolder: tokenHolder,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
@@ -169,16 +173,14 @@ extension MainCoordinator: UITabBarControllerDelegate {
 
 extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
-        switch child {
-        case _ as LoginCoordinator:
+        if child is LoginCoordinator {
             updateToken()
-        default:
-            break
         }
     }
     
     func performChildCleanup(child: ChildCoordinator) {
-        if child is ProfileCoordinator {
+        switch child {
+        case _ as ProfileCoordinator:
             do {
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
@@ -192,13 +194,19 @@ extension MainCoordinator: ParentCoordinator {
                 root.selectedIndex = 0
             } catch {
                 let navController = UINavigationController()
-                let signOutErrorScreen = ErrorPresenter.createSignoutError(errorDescription: error.localizedDescription,
-                                                                           analyticsService: analyticsCenter.analyticsService) {
-                    exit(0)
-                }
+                let signOutErrorScreen = ErrorPresenter
+                    .createSignOutError(errorDescription: error.localizedDescription,
+                                        analyticsService: analyticsCenter.analyticsService) {
+                        exit(0)
+                    }
                 navController.setViewControllers([signOutErrorScreen], animated: false)
                 root.present(navController, animated: true)
             }
+        case _ as HomeCoordinator:
+            updateToken()
+            Self.isReauthing = false
+        default:
+            break
         }
     }
 }

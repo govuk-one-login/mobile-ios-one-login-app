@@ -5,9 +5,9 @@ import XCTest
 
 import Foundation
 
-final class SignoutErrorViewModelTests: XCTestCase {
+final class SignOutErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignoutErrorViewModel!
+    var sut: SignOutErrorViewModel!
     
     var didCallButtonAction = false
     
@@ -15,7 +15,7 @@ final class SignoutErrorViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignoutErrorViewModel(errorDescription: "Error",
+        sut = SignOutErrorViewModel(errorDescription: "Error",
                                     analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
@@ -28,8 +28,9 @@ final class SignoutErrorViewModelTests: XCTestCase {
     }
 }
 
-extension SignoutErrorViewModelTests {
+extension SignOutErrorViewModelTests {
     func test_pageConfiguration() throws {
+        XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
         XCTAssertEqual(sut.body, "app_signOutErrorBody")
         XCTAssertNil(sut.secondaryButtonViewModel)

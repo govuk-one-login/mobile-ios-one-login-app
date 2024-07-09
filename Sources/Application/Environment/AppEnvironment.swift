@@ -161,10 +161,6 @@ extension AppEnvironment {
         isFeatureEnabled(for: .enableCallingSTS)
     }
     
-    static var extendExpClaimEnabled: Bool {
-        isFeatureEnabled(for: .extendExpClaim)
-    }
-    
     static var signoutErrorEnabled: Bool {
         isFeatureEnabled(for: .enableSignoutError)
     }

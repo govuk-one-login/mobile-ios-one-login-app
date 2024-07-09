@@ -1,5 +1,7 @@
+import Authentication
 import Coordination
 import GDSCommon
+import LocalAuthentication
 import Logging
 import Networking
 import UIKit
@@ -8,20 +10,22 @@ final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
                              NavigationCoordinator {
-    weak var parentCoordinator: ParentCoordinator?
+    let window: UIWindow
     let root = UINavigationController()
+    weak var parentCoordinator: ParentCoordinator?
+    var childCoordinators = [ChildCoordinator]()
     let analyticsService: AnalyticsService
     private let userStore: UserStorable
-    var networkClient: NetworkClient?
-    private var tokenHolder: TokenHolder
-    private(set) var baseVc: TabbedViewController?
     
-    init(analyticsService: AnalyticsService,
-         userStore: UserStorable,
-         tokenHolder: TokenHolder) {
+    private(set) var baseVc: TabbedViewController?
+    private weak var reauthCoordinator: ReauthCoordinator?
+    
+    init(window: UIWindow,
+         analyticsService: AnalyticsService,
+         userStore: UserStorable) {
+        self.window = window
         self.analyticsService = analyticsService
         self.userStore = userStore
-        self.tokenHolder = tokenHolder
     }
     
     func start() {
@@ -37,22 +41,48 @@ final class HomeCoordinator: NSObject,
     }
     
     func updateToken() {
-        baseVc?.updateToken(tokenHolder)
+        baseVc?.updateToken(TokenHolder.shared)
         baseVc?.isLoggedIn(true)
         baseVc?.screenAnalytics()
     }
     
     func showDeveloperMenu() {
-        let navController = UINavigationController()
-        let viewModel = DeveloperMenuViewModel()
-        if tokenHolder.accessToken == nil,
+        if TokenHolder.shared.accessToken == nil,
            let accessToken = try? userStore.readItem(itemName: .accessToken, storage: .authenticated) {
-            tokenHolder.accessToken = accessToken
+            TokenHolder.shared.accessToken = accessToken
         }
-        networkClient = NetworkClient(authenticationProvider: tokenHolder)
-        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                          networkClient: networkClient)
-        navController.setViewControllers([devMenuViewController], animated: true)
+        let networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
+        let viewModel = DeveloperMenuViewModel()
+        let devMenuViewController = DeveloperMenuViewController(parentCoordinator: self,
+                                                                viewModel: viewModel,
+                                                                userStore: userStore,
+                                                                networkClient: networkClient)
+        let navController = UINavigationController()
+        navController.setViewControllers([devMenuViewController], animated: false)
         root.present(navController, animated: true)
+    }
+    
+    func accessTokenInvalidAction() {
+        MainCoordinator.isReauthing = true
+        root.dismiss(animated: true)
+        TokenHolder.shared.clearTokenHolder()
+        userStore.refreshStorage(accessControlLevel: nil)
+        let rc = ReauthCoordinator(window: window,
+                                   analyticsService: analyticsService,
+                                   userStore: userStore)
+        openChildModally(rc, animated: true)
+        reauthCoordinator = rc
+    }
+    
+    func handleUniversalLink(_ url: URL) {
+        reauthCoordinator?.handleUniversalLink(url)
+    }
+}
+
+extension HomeCoordinator: ParentCoordinator {
+    func didRegainFocus(fromChild child: ChildCoordinator?) {
+        if child is ReauthCoordinator {
+            parentCoordinator?.performChildCleanup(child: self)
+        }
     }
 }

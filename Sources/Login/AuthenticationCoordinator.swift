@@ -13,40 +13,36 @@ final class AuthenticationCoordinator: NSObject,
     let analyticsService: AnalyticsService
     let session: LoginSession
     let userStore: UserStorable
-    let errorPresenter = ErrorPresenter.self
-    var tokenHolder: TokenHolder
-    private var tokenVerifier: TokenVerifier
+    private let tokenVerifier: TokenVerifier
     var authError: Error?
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
          userStore: UserStorable,
          session: LoginSession,
-         tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
         self.analyticsService = analyticsService
         self.userStore = userStore
         self.session = session
-        self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
     }
     
     func start() {
         Task(priority: .userInitiated) {
             do {
-                tokenHolder.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                TokenHolder.shared.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
                 // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
-                   let idToken = tokenHolder.tokenResponse?.idToken {
-                    tokenHolder.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
-                    try userStore.saveItem(tokenHolder.idTokenPayload?.persistentId,
+                   let idToken = TokenHolder.shared.tokenResponse?.idToken {
+                    TokenHolder.shared.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
+                    try userStore.saveItem(TokenHolder.shared.idTokenPayload?.persistentId,
                                            itemName: .persistentSessionID,
                                            storage: .open)
                 }
                 finish()
             } catch let error as LoginError where error == .network {
-                let networkErrorScreen = errorPresenter
+                let networkErrorScreen = ErrorPresenter
                     .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
                         returnFromErrorScreen()
                     }
@@ -84,7 +80,7 @@ final class AuthenticationCoordinator: NSObject,
 
 extension AuthenticationCoordinator {
     private func showUnableToLoginErrorScreen(_ error: Error) {
-        let unableToLoginErrorScreen = errorPresenter
+        let unableToLoginErrorScreen = ErrorPresenter
             .createUnableToLoginError(errorDescription: error.localizedDescription,
                                       analyticsService: analyticsService) { [unowned self] in
                 returnFromErrorScreen()
@@ -94,7 +90,7 @@ extension AuthenticationCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        let genericErrorScreen = errorPresenter
+        let genericErrorScreen = ErrorPresenter
             .createGenericError(errorDescription: error.localizedDescription,
                                 analyticsService: analyticsService) { [unowned self] in
                 returnFromErrorScreen()

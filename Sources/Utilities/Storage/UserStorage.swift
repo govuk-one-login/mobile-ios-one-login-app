@@ -14,15 +14,22 @@ final class UserStorage: UserStorable {
         self.defaultsStore = defaultsStore
     }
     
-    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel) {
+    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?) {
         clearTokenInfo()
         do {
             try authenticatedStore.delete()
         } catch {
             print("Deleting Secure Store error: \(error)")
         }
-        authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                     accessControlLevel: accessControlLevel,
-                                                                     localAuthStrings: LAContext().contextStrings))
+        let laContext = LAContext()
+        if let accessControlLevel {
+            authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: accessControlLevel,
+                                                                         localAuthStrings: laContext.contextStrings))
+        } else {
+            authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
+                                                                         accessControlLevel: laContext.isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
+                                                                         localAuthStrings: laContext.contextStrings))
+        }
     }
 }

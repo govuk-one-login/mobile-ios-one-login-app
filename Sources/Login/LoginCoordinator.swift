@@ -17,12 +17,8 @@ final class LoginCoordinator: NSObject,
     let analyticsCenter: AnalyticsCentral
     var userStore: UserStorable
     let networkMonitor: NetworkMonitoring
-    let tokenHolder: TokenHolder
     private var tokenVerifier: TokenVerifier
     var loginError: Error?
-    
-    private let viewControllerFactory = OnboardingViewControllerFactory.self
-    private let errorPresenter = ErrorPresenter.self
     
     weak var introViewController: IntroViewController?
     private weak var authCoordinator: AuthenticationCoordinator?
@@ -32,25 +28,23 @@ final class LoginCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          networkMonitor: NetworkMonitoring,
-         tokenHolder: TokenHolder,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
         self.networkMonitor = networkMonitor
-        self.tokenHolder = tokenHolder
         self.tokenVerifier = tokenVerifier
         root.modalPresentationStyle = .overFullScreen
     }
     
     func start() {
-        let rootViewController = viewControllerFactory
+        let rootViewController = OnboardingViewControllerFactory
             .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 if networkMonitor.isConnected {
                     launchAuthenticationCoordinator()
                 } else {
-                    let networkErrorScreen = errorPresenter
+                    let networkErrorScreen = ErrorPresenter
                         .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                             introViewController?.enableIntroButton()
                             root.popViewController(animated: true)
@@ -63,7 +57,22 @@ final class LoginCoordinator: NSObject,
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
-        if let loginError {
+        showLoginErrorIfNecessary()
+        launchOnboardingCoordinator()
+    }
+    
+    private func showLoginErrorIfNecessary() {
+        if let error = loginError as? TokenError,
+           error == .expired {
+            let signOutWarningScreen = ErrorPresenter
+                .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                    root.dismiss(animated: true) { [unowned self] in
+                        launchAuthenticationCoordinator()
+                    }
+                }
+            signOutWarningScreen.modalPresentationStyle = .overFullScreen
+            root.present(signOutWarningScreen, animated: false)
+        } else if let loginError {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
@@ -71,7 +80,6 @@ final class LoginCoordinator: NSObject,
                 }
             root.pushViewController(unableToLoginErrorScreen, animated: true)
         }
-        launchOnboardingCoordinator()
     }
     
     private func launchOnboardingCoordinator() {
@@ -85,15 +93,12 @@ final class LoginCoordinator: NSObject,
         let ac = AuthenticationCoordinator(root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            userStore: userStore,
-                                           session: AppAuthSession(window: windowManager.appWindow),
-                                           tokenHolder: tokenHolder)
+                                           session: AppAuthSession(window: windowManager.appWindow))
         openChildInline(ac)
         authCoordinator = ac
     }
     
     func handleUniversalLink(_ url: URL) {
-        // WHEN the handleUniversalLink method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         authCoordinator?.handleUniversalLink(url)
     }
     
@@ -101,8 +106,7 @@ final class LoginCoordinator: NSObject,
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCenter.analyticsService,
                                              userStore: userStore,
-                                             localAuth: localAuth,
-                                             tokenHolder: tokenHolder))
+                                             localAuth: localAuth))
     }
 }
 
@@ -113,7 +117,6 @@ extension LoginCoordinator: ParentCoordinator {
             return
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
-            return
         case let child as AuthenticationCoordinator where child.authError == nil:
             launchEnrolmentCoordinator(localAuth: LAContext())
         case _ as EnrolmentCoordinator:

@@ -11,7 +11,6 @@ final class ProfileCoordinatorTests: XCTestCase {
     var mockOpenSecureStoreService: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
-    var tokenHolder: TokenHolder!
     var urlOpener: URLOpener!
     var sut: ProfileCoordinator!
     
@@ -26,11 +25,9 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockUserStore = UserStorage(authenticatedStore: mockSecureStoreService,
                                     openStore: mockOpenSecureStoreService,
                                     defaultsStore: mockDefaultStore)
-        tokenHolder = TokenHolder()
         urlOpener = MockURLOpener()
         sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                  userStore: mockUserStore,
-                                 tokenHolder: tokenHolder,
                                  urlOpener: urlOpener)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
@@ -43,7 +40,6 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockOpenSecureStoreService = nil
         mockDefaultStore = nil
         mockUserStore = nil
-        tokenHolder = nil
         urlOpener = nil
         sut = nil
         
@@ -64,7 +60,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
         XCTAssertEqual(try vc.emailLabel.text, "")
-        tokenHolder.idTokenPayload = MockTokenVerifier.mockPayload
+        TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
         sut.updateToken()
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }

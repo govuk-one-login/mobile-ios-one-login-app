@@ -5,12 +5,18 @@ import UIKit
 final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
     
+    weak var parentCoordinator: HomeCoordinator?
     let viewModel: DeveloperMenuViewModel
-    let networkClient: NetworkClient?
-    
-    init(viewModel: DeveloperMenuViewModel,
-         networkClient: NetworkClient?) {
+    let userStore: UserStorable
+    let networkClient: NetworkClient
+        
+    init(parentCoordinator: HomeCoordinator,
+         viewModel: DeveloperMenuViewModel,
+         userStore: UserStorable,
+         networkClient: NetworkClient) {
+        self.parentCoordinator = parentCoordinator
         self.viewModel = viewModel
+        self.userStore = userStore
         self.networkClient = networkClient
         super.init(viewModel: viewModel,
                    nibName: "DeveloperMenu",
@@ -40,18 +46,22 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes a successful request to the hello-world endpoint as long as the access token is valid
     private func helloWorldHappyPath() {
-        Task {
-            do {
-                let data = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                          scope: "sts-test.hello-world.read",
-                                                                          request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data!, as: UTF8.self))")
-            } catch let error as ServerError {
-                happyPathResultLabel.showErrorMessage(error)
-            } catch {
-                happyPathResultLabel.showErrorMessage()
+        if userStore.validAuthenticatedUser || TokenHolder.shared.validAccessToken {
+            Task {
+                do {
+                    let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                             scope: "sts-test.hello-world.read",
+                                                                             request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                    happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
+                } catch let error as ServerError {
+                    happyPathResultLabel.showErrorMessage(error)
+                } catch {
+                    happyPathResultLabel.showErrorMessage()
+                }
+                happyPathButton.isLoading = false
             }
-            happyPathButton.isLoading = false
+        } else {
+            parentCoordinator?.accessTokenInvalidAction()
         }
     }
     
@@ -82,17 +92,21 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the scope is invalid for this so a 400 response is returned
     private func helloWorldErrorPath() {
-        Task {
-            do {
-                _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                   scope: "sts-test.hello-world",
-                                                                   request: URLRequest(url: AppEnvironment.stsHelloWorld))
-            } catch let error as ServerError {
-                errorPathResultLabel.showErrorMessage(error)
-            } catch {
-                errorPathResultLabel.showErrorMessage()
+        if userStore.validAuthenticatedUser || TokenHolder.shared.validAccessToken {
+            Task {
+                do {
+                    _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                      scope: "sts-test.hello-world",
+                                                                      request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                } catch let error as ServerError {
+                    errorPathResultLabel.showErrorMessage(error)
+                } catch {
+                    errorPathResultLabel.showErrorMessage()
+                }
+                errorPathButton.isLoading = false
             }
-            errorPathButton.isLoading = false
+        } else {
+            parentCoordinator?.accessTokenInvalidAction()
         }
     }
     
@@ -123,17 +137,21 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the endpoint returns a 401 unauthorized response
     private func helloWorldUnauthorizedPath() {
-        Task {
-            do {
-                _ = try await networkClient?.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                   scope: "sts-test.hello-world.read",
-                                                                   request: URLRequest(url: AppEnvironment.stsHelloWorldError))
-            } catch let error as ServerError {
-                unauthorizedPathResultLabel.showErrorMessage(error)
-            } catch {
-                unauthorizedPathResultLabel.showErrorMessage()
+        if userStore.validAuthenticatedUser || TokenHolder.shared.validAccessToken {
+            Task {
+                do {
+                    _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                      scope: "sts-test.hello-world.read",
+                                                                      request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+                } catch let error as ServerError {
+                    unauthorizedPathResultLabel.showErrorMessage(error)
+                } catch {
+                    unauthorizedPathResultLabel.showErrorMessage()
+                }
+                unauthorizedPathButton.isLoading = false
             }
-            unauthorizedPathButton.isLoading = false
+        } else {
+            parentCoordinator?.accessTokenInvalidAction()
         }
     }
     
@@ -156,7 +174,7 @@ fileprivate extension UILabel {
             text = "Error"
         }
     }
-
+    
     func showSuccessMessage(_ message: String) {
         textColor = .gdsGreen
         isHidden = false

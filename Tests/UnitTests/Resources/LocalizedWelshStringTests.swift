@@ -23,6 +23,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Efallai nes ymlaen")
         XCTAssertEqual("app_enterPasscodeButton".getWelshString(),
                        "Rhowch god mynediad")
+        XCTAssertEqual("app_exitButton".getWelshString(),
+                       "Gadael")
     }
     
     func test_localAuthPrompt_keys() throws {
@@ -158,6 +160,20 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
                        "Allgofnodwch a dileu data yr ap")
+    }
+    
+    func test_signOutErrorPageKeys() {
+        XCTAssertEqual("app_signOutErrorTitle".getWelshString(),
+                       "Roedd problem wrth eich allgofnodi")
+        XCTAssertEqual("app_signOutErrorBody".getWelshString(),
+                       "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.")
+    }
+    
+    func test_signOutWarningPageKeys() {
+        XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
+                       "You’ve been signed-out")
+        XCTAssertEqual("app_signOutWarningBody".getWelshString(),
+                       "You will need to reauthenticate")
     }
 }
 

@@ -1,7 +1,7 @@
 import Network
 
 final class NetworkMonitor: NetworkMonitoring {
-    static let shared: NetworkMonitoring = NetworkMonitor()
+    static let shared = NetworkMonitor()
     private let monitor = NWPathMonitor()
     var isConnected: Bool = false
 
