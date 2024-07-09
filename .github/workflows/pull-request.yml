@@ -111,6 +111,10 @@ jobs:
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
             testplan:OneLoginPactTestPlan
       
+      - name: Stop PACT mock service
+        run: |
+          pact-mock-service stop    
+      
       - name: Upload to PACT broker.
         env:
           PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
@@ -131,7 +135,3 @@ jobs:
             echo $response_code
             echo "Login to pact broker failed, results not uploaded"
           fi
-
-      - name: Stop PACT mock service
-        run: |
-          pact-mock-service stop    
