@@ -31,7 +31,7 @@ final class AuthenticationCoordinator: NSObject,
     func start() {
         Task(priority: .userInitiated) {
             do {
-                TokenHolder.shared.tokenResponse = try await session.performLoginFlow(configuration: LoginSessionConfiguration.oneLogin)
+                TokenHolder.shared.tokenResponse = try await session.performLoginFlow(configuration: userStore.constructLoginSessionConfiguration())
                 // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
                 if AppEnvironment.callingSTSEnabled,
                    let idToken = TokenHolder.shared.tokenResponse?.idToken {

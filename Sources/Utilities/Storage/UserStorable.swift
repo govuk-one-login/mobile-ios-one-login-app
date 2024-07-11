@@ -56,4 +56,12 @@ extension UserStorable {
             return try openStore.readItem(itemName: itemName)
         }
     }
+    
+    func constructLoginSessionConfiguration() -> LoginSessionConfiguration {
+        let persistentSessionID = try? readItem(itemName: .persistentSessionID, storage: .open)
+        if persistentSessionID == nil {
+            debugPrint("No persistentSessionID found in SecureStore")
+        }
+        return LoginSessionConfiguration.oneLogin(persistentSessionId: persistentSessionID)
+    }
 }
