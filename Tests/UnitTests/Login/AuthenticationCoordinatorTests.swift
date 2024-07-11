@@ -24,13 +24,13 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockLoginSession = MockLoginSession(window: window)
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
+        mockLoginSession = MockLoginSession(window: window)
         mockTokenVerifier = MockTokenVerifier()
         sut = AuthenticationCoordinator(root: navigationController,
                                         analyticsService: mockAnalyticsService,
@@ -44,11 +44,11 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         window = nil
         navigationController = nil
         mockAnalyticsService = nil
-        mockLoginSession = nil
         mockSecureStore = nil
         mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        mockLoginSession = nil
         mockTokenVerifier = nil
         sut = nil
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
@@ -63,10 +63,14 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 
 extension AuthenticationCoordinatorTests {
     func test_start_loginSession_successful() throws {
+        // GIVEN the open secure store has a persistent session ID
+        try mockOpenSecureStore.saveItem(item: "123456789", itemName: .persistentSessionID)
         // WHEN the AuthenticationCoordinator is started
-        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
         sut.start()
+        // THEN the session configuration should have the persistent session ID
+        XCTAssertEqual(mockLoginSession.sessionConfiguration?.persistentSessionId, "123456789")
         waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN the tokens are returned
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")

@@ -2,7 +2,7 @@ import Authentication
 import Foundation
 
 extension LoginSessionConfiguration {
-    static func oneLogin(persistentSessionId: String?) -> Self {
+    static func oneLogin(persistentSessionId: String? = nil) -> Self {
         let env = AppEnvironment.self
         return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsAuthorize : env.oneLoginAuthorize,
                      tokenEndpoint: env.callingSTSEnabled ? env.stsToken : env.oneLoginToken,
