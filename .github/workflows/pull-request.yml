@@ -127,6 +127,8 @@ jobs:
         if: ${{ success() }}
         # The pact broker endpoint requires a query parameter to be accessed from outside the VPN.  However, the broker CLI will ignore this when passed as part of the "-b" parameter
         # By first executing a curl command to the broker endpoint, it allows subsequent connections and results can be published
+        # The 3 second delay between the curl and pact-broker commands has been found to help mitigate 403 errors being returned from the pact-broker
+
         run: |
           response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
           if [ $response_code -eq 200 ]; then
