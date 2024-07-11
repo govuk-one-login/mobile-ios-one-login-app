@@ -118,6 +118,8 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_happyPathButton_invalidAccessTokenActionCalled() throws {
+        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
+        TokenHolder.shared.tokenResponse = nil
         try sut.happyPathButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(MainCoordinator.isReauthing)
         XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
@@ -139,6 +141,8 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_unhappyPathButton_invalidAccessTokenActionCalled() throws {
+        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
+        TokenHolder.shared.tokenResponse = nil
         try sut.errorPathButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(MainCoordinator.isReauthing)
         XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
@@ -160,6 +164,8 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_unsuccessfulPathButton_invalidAccessTokenActionCalled() throws {
+        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
+        TokenHolder.shared.tokenResponse = nil
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(MainCoordinator.isReauthing)
         XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
