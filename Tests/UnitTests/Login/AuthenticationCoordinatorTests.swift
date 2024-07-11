@@ -69,9 +69,9 @@ extension AuthenticationCoordinatorTests {
         // and the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
         sut.start()
+        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN the session configuration should have the persistent session ID
         XCTAssertEqual(mockLoginSession.sessionConfiguration?.persistentSessionId, "123456789")
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
         // THEN the tokens are returned
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.refreshToken, "refreshTokenResponse")
