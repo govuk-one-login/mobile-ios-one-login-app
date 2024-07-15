@@ -1,5 +1,6 @@
 @testable import Authentication
 @testable import Networking
+@testable import OneLogin
 import PactConsumerSwift
 import XCTest
 
@@ -7,16 +8,19 @@ final class PactTests: XCTestCase {
 
     var mockService: MockService!
     var networkClient: NetworkClient?
+    var mockTokenVerifier: MockTokenVerifier!
 
     override func setUp() {
         super.setUp()
-
-        mockService = MockService(provider: "Mobile:MobilePlatform:DummyProvider",
+        
+        mockTokenVerifier = MockTokenVerifier()
+        mockService = MockService(provider: "Mobile:MobilePlatform:StsBackendApi",
                                   consumer: "OneLogin App")
         networkClient = NetworkClient()
     }
 
     override func tearDown() {
+        mockTokenVerifier = nil
         mockService = nil
         networkClient = nil
     }
@@ -81,6 +85,8 @@ final class PactTests: XCTestCase {
     // swiftlint:enable line_length
     @MainActor
     func testAuthorizationRequest() throws {
+        let mockIDToken = MockJWKSResponse.idToken
+        
         var request = URLRequest(url: URL(string: "http://localhost:1234/token")!)
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
@@ -97,16 +103,19 @@ final class PactTests: XCTestCase {
         request.httpBody = body
 
         mockService
+            .given("mock_auth_code is a valid authorization code")
+            .given("https://mock-redirect-uri.gov.uk is the redirect URI used in the authorization request")
+            .given("the code_challenge sent in the authorization request matches the verifier mock_code_verifier")
             .uponReceiving("An authorization request")
             .withRequest(method: .POST, path: "/token",
                          headers: ["Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"],
                          body: urlParser.percentEncodedQuery)
             .willRespondWith(status: 200,
                              headers: ["Content-Type": "application/json"],
-                             body: [ "access_token": "accessToken",
-                                     "id_token": "idToken",
-                                     "token_type": "Bearer",
-                                     "expiry_date": 180])
+                             body: [ "access_token": Matcher.somethingLike("accessToken"),
+                                     "id_token": Matcher.somethingLike(mockIDToken),
+                                     "token_type": Matcher.somethingLike("Bearer"),
+                                     "expiry_date": Matcher.somethingLike(180)])
 
         mockService.run(timeout: 10) { [request] (testComplete) in
 
@@ -117,6 +126,9 @@ final class PactTests: XCTestCase {
                 jsonDecoder.dateDecodingStrategy = .secondsSince1970
                 
                 let tokenResponse = try jsonDecoder.decode(TokenResponse.self, from: result!)
+                let decodedIDToken = try self.mockTokenVerifier.extractPayload(tokenResponse.idToken!)
+
+                XCTAssertEqual(decodedIDToken?.aud, MockTokenVerifier.mockPayload.aud)
                 XCTAssertEqual(tokenResponse.accessToken, "accessToken")
                 XCTAssertEqual(tokenResponse.tokenType, "Bearer")
                 XCTAssertEqual(tokenResponse.expiryDate, Date(timeIntervalSince1970: 180))
