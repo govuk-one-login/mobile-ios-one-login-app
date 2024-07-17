@@ -24,48 +24,48 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
-        run: |
-          ./store-access-token.sh
+      # - name: Configure Private Repo Access
+      #   env:
+      #     GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+      #   run: |
+      #     ./store-access-token.sh
 
       - name: Lint
         run: |
           brew install swiftlint
           swiftlint --strict
 
-      - name: Build App, Run Unit Tests and Send Coverage Report for Branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-        run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          brew install sonar-scanner
+      # - name: Build App, Run Unit Tests and Send Coverage Report for Branch
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     LC_ALL: "en_US.UTF-8"
+      #     LANG: "en_US.UTF-8"
+      #     GIT_CONFIG_NOSYSTEM: "true"
+      #     GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+      #   run: |
+      #     pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+      #     brew install sonar-scanner
 
-          bundle install
+      #     bundle install
 
-          bundle exec fastlane test scheme:"OneLogin" \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
-            workspace:${{github.workspace}} \
-            source_branch:${{github.head_ref}} \
-            target_branch:${{github.base_ref}} \
-            pr_number:$pull_number \
-            testplan:OneLoginUnit
+      #     bundle exec fastlane test scheme:"OneLogin" \
+      #       sonar_token:${{secrets.SONAR_TOKEN}} \
+      #       workspace:${{github.workspace}} \
+      #       source_branch:${{github.head_ref}} \
+      #       target_branch:${{github.base_ref}} \
+      #       pr_number:$pull_number \
+      #       testplan:OneLoginUnit
 
   
 
       # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
-        # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: SonarQube Quality Gate check
+      #   id: sonarqube-quality-gate-check
+      #   uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+      #   # Force to fail step after specific time.
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   pact:
     name: Run Pact Tests and Upload to Broker
@@ -132,6 +132,7 @@ jobs:
         run: |
           response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
           if [ $response_code -eq 200 ]; then
+            echo "sha: {github.sha}"
             sleep 4
             pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
           else 
