@@ -133,8 +133,6 @@ jobs:
         run: |
           response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
           if [ $response_code -eq 200 ]; then
-            echo “Publish the details to test” (or ay message just so we know)
-            echo $github.sha  
             pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
           else 
             echo $response_code
