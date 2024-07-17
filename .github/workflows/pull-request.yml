@@ -118,6 +118,7 @@ jobs:
   upload_to_pact:
     name: Run Pact Tests and Upload to Broker
     runs-on: macos-14
+    if: steps.pact.outcome == 'success'
 
     steps:
       - name: Add Path Globally
