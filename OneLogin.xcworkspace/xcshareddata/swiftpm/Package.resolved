@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "feature/dcmaw-9389-persistent-session-id-in-authorize-request",
-        "revision" : "0a7e616a4007d34f96f72cadf356579864a4876e"
+        "revision" : "ecf0a5614ac205c53702a691971fdfd40dcc9caf",
+        "version" : "1.3.0"
       }
     },
     {
