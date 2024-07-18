@@ -168,7 +168,7 @@ jobs:
         run: |
           response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{ secrets.PACT_BROKER_USERNAME_NP }}:${{ secrets.PACT_BROKER_PASSWORD_NP }} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{secrets.PACT_BROKER_SOURCE_SECRET_NP}}")
           if [ $response_code -eq 200 ]; then
-            sleep 4
+            sleep 10
             echo ${{ github.sha }}
   
           else 
