@@ -1,5 +1,14 @@
 name: iOS Pull Request
 
+env:
+  PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
+  PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
+  PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
+  LC_ALL: "en_US.UTF-8"
+  LANG: "en_US.UTF-8"
+  GIT_CONFIG_NOSYSTEM: "true"
+  GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+
 on:
   pull_request:
     types: [ opened, reopened, synchronize, ready_for_review ]
@@ -142,14 +151,14 @@ jobs:
           brew install pact-ruby-standalone
                 
       - name: Upload to PACT broker.
-        env:
-          PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
-          PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
-          PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+        # env:
+        #   PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
+        #   PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
+        #   PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
+        #   LC_ALL: "en_US.UTF-8"
+        #   LANG: "en_US.UTF-8"
+        #   GIT_CONFIG_NOSYSTEM: "true"
+        #   GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
         if: ${{ success() }}
         # The pact broker endpoint requires a query parameter to be accessed from outside the VPN.  However, the broker CLI will ignore this when passed as part of the "-b" parameter
         # By first executing a curl command to the broker endpoint, it allows subsequent connections and results can be published
