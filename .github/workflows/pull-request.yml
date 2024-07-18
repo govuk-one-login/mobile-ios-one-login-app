@@ -68,7 +68,7 @@ jobs:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   pact:
-    name: Run Pact Tests and Upload to Broker
+    name: Run Pact Tests
     runs-on: macos-14
 
     steps:
@@ -135,6 +135,11 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./store-access-token.sh
+
+      - name: Install PACT broker
+        run: |
+          brew tap pact-foundation/pact-ruby-standalone
+          brew install pact-ruby-standalone
                 
       - name: Upload to PACT broker.
         env:
