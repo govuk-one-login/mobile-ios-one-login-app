@@ -116,9 +116,9 @@ jobs:
           pact-mock-service stop    
 
   upload_to_pact:
+    needs: pact
     name: Run Pact Tests and Upload to Broker
     runs-on: macos-14
-    if: steps.pact.outcome == 'success'
 
     steps:
       - name: Add Path Globally
