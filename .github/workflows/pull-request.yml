@@ -136,10 +136,10 @@ jobs:
         run: |
           ./store-access-token.sh
 
-      - name: Install PACT broker
-        run: |
-          brew tap pact-foundation/pact-ruby-standalone
-          brew install pact-ruby-standalone
+      # - name: Install PACT broker
+      #   run: |
+      #     brew tap pact-foundation/pact-ruby-standalone
+      #     brew install pact-ruby-standalone
                 
       - name: Upload to PACT broker.
         env:
