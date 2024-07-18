@@ -54,7 +54,7 @@ final class PactTests: XCTestCase {
     
     // swiftlint:disable line_length
     func testTokenExchangeRequest() {
-        var request = URLRequest(url: URL(string: "http://localhost:1234/token")!)
+        let request = URLRequest(url: URL(string: "http://localhost:1234/token")!)
         let tokenExchangeRequest = request.tokenExchange(subjectToken: "subjectToken", scope: "sts-test.hello-world.read")
 
         mockService
