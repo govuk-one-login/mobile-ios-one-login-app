@@ -165,7 +165,7 @@ jobs:
         # The 4 second delay between the curl and pact-broker commands has been found to help mitigate 403 errors being returned from the pact-broker
 
         run: |
-          response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
+          response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{ secrets.PACT_BROKER_USERNAME_NP }}:${{ secrets.PACT_BROKER_PASSWORD_NP }} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
           if [ $response_code -eq 200 ]; then
             sleep 4
             echo ${{ github.sha }}
