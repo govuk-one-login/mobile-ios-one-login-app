@@ -140,6 +140,9 @@ jobs:
       #   run: |
       #     brew tap pact-foundation/pact-ruby-standalone
       #     brew install pact-ruby-standalone
+
+      - name: Install PACT broker (ubuntu)
+        run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
                 
       - name: Upload to PACT broker.
         env:
