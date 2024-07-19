@@ -38,6 +38,14 @@ extension UserStorable {
         defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
     
+    func hasPersistentSessionId() -> Bool {
+        openStore.checkItemExists(itemName: .persistentSessionID)
+    }
+    
+    func removePersistentSessionId() {
+        openStore.deleteItem(itemName: .persistentSessionID)
+    }
+    
     func saveItem(_ item: String?, itemName: String, storage: Storage) throws {
         guard let item else { return }
         switch storage {

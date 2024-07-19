@@ -14,7 +14,7 @@ final class LoginCoordinator: NSObject,
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    let analyticsCenter: AnalyticsCentral
+    var analyticsCenter: AnalyticsCentral
     var userStore: UserStorable
     let networkMonitor: NetworkMonitoring
     private var tokenVerifier: TokenVerifier
@@ -67,7 +67,11 @@ final class LoginCoordinator: NSObject,
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.dismiss(animated: true) { [unowned self] in
-                        launchAuthenticationCoordinator()
+                        if !userStore.hasPersistentSessionId() {
+                            NotificationCenter.default.post(name: Notification.Name(.noPersistentSessionID), object: nil)
+                            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+                            launchOnboardingCoordinator()
+                        }
                     }
                 }
             signOutWarningScreen.modalPresentationStyle = .overFullScreen

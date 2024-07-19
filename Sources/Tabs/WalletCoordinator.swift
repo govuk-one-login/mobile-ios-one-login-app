@@ -29,6 +29,11 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(noPersistentSessionId),
+                         name: Notification.Name(.noPersistentSessionID),
+                         object: nil)
     }
     
     func updateToken() {
@@ -43,5 +48,13 @@ final class WalletCoordinator: NSObject,
     
     func clearWallet() throws {
         try walletSDK.deleteWalletData()
+    }
+    
+    @objc func noPersistentSessionId() {
+        do {
+            try clearWallet()
+        } catch {
+            
+        }
     }
 }

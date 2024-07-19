@@ -180,6 +180,9 @@ extension MainCoordinator: ParentCoordinator {
     
     func performChildCleanup(child: ChildCoordinator) {
         switch child {
+        case _ as HomeCoordinator:
+            updateToken()
+            Self.isReauthing = false
         case _ as ProfileCoordinator:
             do {
                 #if DEBUG
@@ -188,6 +191,7 @@ extension MainCoordinator: ParentCoordinator {
                 }
                 #endif
                 try walletCoordinator?.clearWallet()
+                userStore.removePersistentSessionId()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
@@ -202,9 +206,6 @@ extension MainCoordinator: ParentCoordinator {
                 navController.setViewControllers([signOutErrorScreen], animated: false)
                 root.present(navController, animated: true)
             }
-        case _ as HomeCoordinator:
-            updateToken()
-            Self.isReauthing = false
         default:
             break
         }

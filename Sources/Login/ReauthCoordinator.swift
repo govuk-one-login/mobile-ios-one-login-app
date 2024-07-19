@@ -28,6 +28,9 @@ final class ReauthCoordinator: NSObject,
     func start() {
         let signOutWarning = ErrorPresenter
             .createSignOutWarning(analyticsService: analyticsService) { [unowned self] in
+                if !userStore.hasPersistentSessionId() {
+                    NotificationCenter.default.post(name: Notification.Name(.noPersistentSessionID), object: nil)
+                }
                 let ac = AuthenticationCoordinator(root: root,
                                                    analyticsService: analyticsService,
                                                    userStore: userStore,
