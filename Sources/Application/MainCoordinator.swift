@@ -128,7 +128,7 @@ extension MainCoordinator {
     
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
-                                   analyticsService: analyticsCenter.analyticsService,
+                                   analyticsCenter: analyticsCenter,
                                    secureStoreService: userStore.openStore)
         addTab(wc)
         walletCoordinator = wc
@@ -190,7 +190,7 @@ extension MainCoordinator: ParentCoordinator {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-                try walletCoordinator?.clearWallet()
+                try walletCoordinator?.deleteWalletData()
                 userStore.removePersistentSessionId()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()

@@ -62,14 +62,12 @@ final class LoginCoordinator: NSObject,
     }
     
     private func showLoginErrorIfNecessary() {
-        if let error = loginError as? TokenError,
-           error == .expired {
+        if let error = loginError as? TokenError, error == .expired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.dismiss(animated: true) { [unowned self] in
                         if !userStore.hasPersistentSessionId() {
-                            NotificationCenter.default.post(name: Notification.Name(.noPersistentSessionID), object: nil)
-                            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+                            NotificationCenter.default.post(name: Notification.Name(.clearWalletAndAnalytics), object: nil)
                             launchOnboardingCoordinator()
                         }
                     }

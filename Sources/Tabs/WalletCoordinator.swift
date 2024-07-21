@@ -13,15 +13,15 @@ final class WalletCoordinator: NSObject,
     let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    let analyticsService: AnalyticsService
+    var analyticsCenter: AnalyticsCentral
     private let secureStoreService: SecureStorable
     let walletSDK = WalletSDK()
     
     init(window: UIWindow,
-         analyticsService: AnalyticsService,
+         analyticsCenter: AnalyticsCentral,
          secureStoreService: SecureStorable) {
         self.window = window
-        self.analyticsService = analyticsService
+        self.analyticsCenter = analyticsCenter
         self.secureStoreService = secureStoreService
     }
     
@@ -31,8 +31,13 @@ final class WalletCoordinator: NSObject,
                                        tag: 1)
         NotificationCenter.default
             .addObserver(self,
-                         selector: #selector(noPersistentSessionId),
-                         name: Notification.Name(.noPersistentSessionID),
+                         selector: #selector(clearWallet),
+                         name: Notification.Name(.clearWallet),
+                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(clearWalletAndAnalytics),
+                         name: Notification.Name(.clearWalletAndAnalytics),
                          object: nil)
     }
     
@@ -41,20 +46,41 @@ final class WalletCoordinator: NSObject,
         walletSDK.start(in: window,
                         with: root,
                         networkClient: networkClient,
-                        analyticsService: analyticsService,
+                        analyticsService: analyticsCenter.analyticsService,
                         persistentSecureStore: secureStoreService)
 
     }
     
-    func clearWallet() throws {
+    func deleteWalletData() throws {
         try walletSDK.deleteWalletData()
     }
     
-    @objc func noPersistentSessionId() {
+    @objc func clearWallet() {
         do {
-            try clearWallet()
+            try deleteWalletData()
         } catch {
-            
+            showSignOutErrorScreen(error: error)
         }
+    }
+    
+    @objc func clearWalletAndAnalytics() {
+        do {
+            try deleteWalletData()
+            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+        } catch {
+            showSignOutErrorScreen(error: error)
+        }
+    }
+    
+    func showSignOutErrorScreen(error: Error) {
+        let navController = UINavigationController()
+        let unableToLoginErrorScreen = ErrorPresenter
+            .createUnableToLoginError(errorDescription: error.localizedDescription,
+                                      analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                root.dismiss(animated: true)
+            }
+        navController.setViewControllers([unableToLoginErrorScreen], animated: false)
+        unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
+        root.present(navController, animated: true)
     }
 }

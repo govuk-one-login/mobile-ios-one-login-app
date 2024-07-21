@@ -5,7 +5,8 @@ extension String {
     static let idToken = "idToken"
     static let oneLoginTokens = "oneLoginTokens"
     static let persistentSessionID = "persistentSessionID"
-    static let noPersistentSessionID = "noPersistentSessionID"
+    static let clearWallet = "clearWallet"
+    static let clearWalletAndAnalytics = "clearWalletAndAnalytics"
     static let shouldPromptForAnalytics = "shouldPromptForAnalytics"
     
     // Universal Link Component
