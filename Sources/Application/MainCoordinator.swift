@@ -196,21 +196,18 @@ extension MainCoordinator: ParentCoordinator {
                 }
                 #endif
                 try walletCoordinator?.deleteWalletData()
-                userStore.removePersistentSessionId()
-                userStore.defaultsStore.set(nil, forKey: "returningUser")
+                userStore.resetPersistentSession()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0
             } catch {
-                let navController = UINavigationController()
                 let signOutErrorScreen = ErrorPresenter
                     .createSignOutError(errorDescription: error.localizedDescription,
                                         analyticsService: analyticsCenter.analyticsService) {
                         exit(0)
                     }
-                navController.setViewControllers([signOutErrorScreen], animated: false)
-                root.present(navController, animated: true)
+                root.present(signOutErrorScreen, animated: true)
             }
         default:
             break

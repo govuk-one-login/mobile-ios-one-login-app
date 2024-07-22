@@ -57,9 +57,7 @@ final class LoginCoordinator: NSObject,
             root.setViewControllers([rootViewController], animated: true)
             introViewController = rootViewController
             showLoginErrorIfNecessary()
-            if loginError == nil {
-                launchOnboardingCoordinator()
-            }
+            launchOnboardingCoordinator()
         }
     }
     
