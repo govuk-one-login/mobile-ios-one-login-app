@@ -101,18 +101,18 @@ jobs:
           brew install pact-ruby-standalone
           pact-mock-service start --pact-specification-version 2.0.0 --log "${{github.workspace}}/pact/pact.log" --pact-dir "${{github.workspace}}/pact/pacts" -p 1234
 
-      # - name: Build App, Run PACT tests
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     LC_ALL: "en_US.UTF-8"
-      #     LANG: "en_US.UTF-8"
-      #     GIT_CONFIG_NOSYSTEM: "true"
-      #     GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-      #   run: |
-      #     bundle install
+      - name: Build App, Run PACT tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+        run: |
+          bundle install
 
-      #     bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-      #       testplan:OneLoginPactTestPlan
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginPactTestPlan
       
       - name: Stop PACT mock service
         run: |
