@@ -124,10 +124,6 @@ jobs:
           key: pact-${{ github.sha }}
           enableCrossOsArchive: true
 
-      - name: Check Cache Save
-        if: steps.cache-save.outputs.cache-hit != 'true'
-        run: exit 1          
-
   upload_to_pact:
     needs: pact
     name: Run Pact Tests and Upload to Broker
@@ -161,11 +157,7 @@ jobs:
           path: |
             ${{github.workspace}}/pact/pacts
           key: pact-${{ github.sha }}
-          enableCrossOsArchive: true
-
-      - name: Check Cache Restore
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        run: exit 1  
+          fail-on-cache-miss: true
 
       - name: Install PACT broker (ubuntu)
         run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
