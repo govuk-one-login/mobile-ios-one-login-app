@@ -134,7 +134,7 @@ extension MainCoordinator {
     
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
-                                   analyticsCenter: analyticsCenter,
+                                   analyticsService: analyticsCenter.analyticsService,
                                    secureStoreService: userStore.openStore)
         addTab(wc)
         walletCoordinator = wc

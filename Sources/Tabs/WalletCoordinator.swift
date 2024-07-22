@@ -13,15 +13,15 @@ final class WalletCoordinator: NSObject,
     let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    var analyticsCenter: AnalyticsCentral
+    let analyticsService: AnalyticsService
     private let secureStoreService: SecureStorable
     let walletSDK = WalletSDK()
     
     init(window: UIWindow,
-         analyticsCenter: AnalyticsCentral,
+         analyticsService: AnalyticsService,
          secureStoreService: SecureStorable) {
         self.window = window
-        self.analyticsCenter = analyticsCenter
+        self.analyticsService = analyticsService
         self.secureStoreService = secureStoreService
     }
     
@@ -41,7 +41,7 @@ final class WalletCoordinator: NSObject,
         walletSDK.start(in: window,
                         with: root,
                         networkClient: networkClient,
-                        analyticsService: analyticsCenter.analyticsService,
+                        analyticsService: analyticsService,
                         persistentSecureStore: secureStoreService)
     }
     
@@ -55,7 +55,7 @@ final class WalletCoordinator: NSObject,
         } catch {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                          analyticsService: analyticsCenter.analyticsService) {
+                                          analyticsService: analyticsService) {
                     exit(0)
                 }
             unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
