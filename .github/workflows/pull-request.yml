@@ -121,7 +121,7 @@ jobs:
         with:
           path: |
             ${{github.workspace}}/pact/pacts
-          key: pact-${{ github.sha }}
+          key: pact-test-1
           enableCrossOsArchive: true
 
   upload_to_pact:
@@ -156,7 +156,7 @@ jobs:
         with:
           path: |
             ${{github.workspace}}/pact/pacts
-          key: pact-${{ github.sha }}
+          key: pact-test-1
           fail-on-cache-miss: true
 
       - name: Install PACT broker (ubuntu)
