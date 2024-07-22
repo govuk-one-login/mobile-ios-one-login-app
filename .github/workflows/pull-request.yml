@@ -129,8 +129,9 @@ jobs:
         with:
           name: pact-${{ github.sha }}
           path: |
-            ${{github.workspace}}/pact/pacts
+            ${{github.workspace}}/pact/pacts/
           retention-days: 1
+          overwrite: true
 
   upload_to_pact:
     needs: pact
