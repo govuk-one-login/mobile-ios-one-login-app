@@ -1,14 +1,5 @@
 name: iOS Pull Request
 
-env:
-  PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
-  PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
-  PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
-  LC_ALL: "en_US.UTF-8"
-  LANG: "en_US.UTF-8"
-  GIT_CONFIG_NOSYSTEM: "true"
-  GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-
 on:
   pull_request:
     types: [ opened, reopened, synchronize, ready_for_review ]
@@ -76,57 +67,64 @@ jobs:
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  # pact:
-  #   name: Run Pact Tests
-  #   runs-on: macos-14
+pact:
+    name: Run Pact Tests
+    runs-on: macos-14
 
-  #   steps:
-  #     - name: Add Path Globally
-  #       run: echo "/usr/local/bin" >> $GITHUB_PATH
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
 
-  #     - name: Checkout
-  #       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
-  #       with:
-  #         lfs: 'true'
-  #         fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
+        with:
+          lfs: 'true'
+          fetch-depth: 0
 
-  #     - name: Configure Private Repo Access
-  #       env:
-  #         GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
-  #       run: |
-  #         ./store-access-token.sh
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+        run: |
+          ./store-access-token.sh
 
-  #     - name: Lint
-  #       run: |
-  #         brew install swiftlint
-  #         swiftlint --strict
+      - name: Lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict
 
-  #     - name: Install and start PACT broker
-  #       run: |
-  #         brew tap pact-foundation/pact-ruby-standalone
-  #         brew install pact-ruby-standalone
-  #         pact-mock-service start --pact-specification-version 2.0.0 --log "${{github.workspace}}/pact/pact.log" --pact-dir "${{github.workspace}}/pact/pacts" -p 1234
+      - name: Install and start PACT broker
+        run: |
+          brew tap pact-foundation/pact-ruby-standalone
+          brew install pact-ruby-standalone
+          pact-mock-service start --pact-specification-version 2.0.0 --log "${{github.workspace}}/pact/pact.log" --pact-dir "${{github.workspace}}/pact/pacts" -p 1234
 
-  #     - name: Build App, Run PACT tests
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         LC_ALL: "en_US.UTF-8"
-  #         LANG: "en_US.UTF-8"
-  #         GIT_CONFIG_NOSYSTEM: "true"
-  #         GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-  #       run: |
-  #         bundle install
+      - name: Build App, Run PACT tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+        run: |
+          bundle install
 
-  #         bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-  #           testplan:OneLoginPactTestPlan
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginPactTestPlan
       
-  #     - name: Stop PACT mock service
-  #       run: |
-  #         pact-mock-service stop    
+      - name: Stop PACT mock service
+        run: |
+          pact-mock-service stop    
+
+      - name: Cache Pact files
+        uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        with:
+          path: |
+            ${{github.workspace}}/pact/pacts
+          key: pact-${{ github.sha }}
 
   upload_to_pact:
-    # needs: pact
-    name: Run Pact Tests and Upload to Broker
+    needs: pact
+    name: Upload to Broker
     runs-on: ubuntu-latest
 
     steps:
@@ -145,20 +143,30 @@ jobs:
         run: |
           ./store-access-token.sh
 
-      - name: Install PACT broker
-        run: |
-          brew tap pact-foundation/pact-ruby-standalone
-          brew install pact-ruby-standalone
+      # - name: Install PACT broker
+      #   run: |
+      #     brew tap pact-foundation/pact-ruby-standalone
+      #     brew install pact-ruby-standalone
+
+      - name: Restore Cached Pact Files
+        uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        with:
+          path: |
+            ${{github.workspace}}/pact/pacts
+          key: pact-${{ github.sha }}
+
+      - name: Install PACT broker (ubuntu)
+        run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
                 
       - name: Upload to PACT broker.
-        # env:
-        #   PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
-        #   PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
-        #   PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
-        #   LC_ALL: "en_US.UTF-8"
-        #   LANG: "en_US.UTF-8"
-        #   GIT_CONFIG_NOSYSTEM: "true"
-        #   GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+        env:
+          PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
+          PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
+          PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
         if: ${{ success() }}
         # The pact broker endpoint requires a query parameter to be accessed from outside the VPN.  However, the broker CLI will ignore this when passed as part of the "-b" parameter
         # By first executing a curl command to the broker endpoint, it allows subsequent connections and results can be published
@@ -166,11 +174,11 @@ jobs:
 
         run: |
           response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
-
           if [ $response_code -eq 200 ]; then
-            echo "Initial curl successful - attempting a followup without the source secret"
-            curl -v -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk"
+            sleep 4
+            echo ${{ github.sha }}
+            pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
           else 
-            echo "Login to pact broker failed, results not uploaded"
             echo $response_code
-          fi 
+            echo "Login to pact broker failed, results not uploaded"
+          fi
