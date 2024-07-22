@@ -13,7 +13,6 @@ final class MainCoordinator: NSObject,
     var analyticsCenter: AnalyticsCentral
     let userStore: UserStorable
     private var tokenVerifier: TokenVerifier
-    static var isReauthing = false
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -39,6 +38,11 @@ final class MainCoordinator: NSObject,
             evaluateRevisit()
         }
         evaluateRevisit()
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(startReauth),
+                         name: Notification.Name(.startReauth),
+                         object: nil)
     }
     
     func evaluateRevisit() {
@@ -58,11 +62,16 @@ final class MainCoordinator: NSObject,
                     }
                 }
             } else {
+                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin(error: TokenError.expired)
             }
         } else {
             fullLogin()
         }
+    }
+    
+    @objc func startReauth() {
+        fullLogin(reauth: true)
     }
     
     private func handleLoginError(_ error: Error) {
@@ -77,21 +86,17 @@ final class MainCoordinator: NSObject,
         }
     }
     
-    private func fullLogin(error: Error? = nil) {
+    private func fullLogin(error: Error? = nil, reauth: Bool = false) {
         TokenHolder.shared.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: nil)
-        showLogin(error)
+        showLogin(error, reauth: reauth)
         windowManager.hideUnlockWindow()
     }
     
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
-            if Self.isReauthing {
-                homeCoordinator?.handleUniversalLink(url)
-            } else {
-                loginCoordinator?.handleUniversalLink(url)
-            }
+            loginCoordinator?.handleUniversalLink(url)
         case .wallet:
             walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
         case .unknown:
@@ -101,12 +106,13 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    private func showLogin(_ error: Error? = nil) {
+    private func showLogin(_ error: Error?, reauth: Bool) {
         let lc = LoginCoordinator(windowManager: windowManager,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
-                                  networkMonitor: NetworkMonitor.shared)
+                                  networkMonitor: NetworkMonitor.shared,
+                                  reauth: reauth)
         lc.loginError = error
         openChildModally(lc, animated: false)
         loginCoordinator = lc
@@ -182,7 +188,6 @@ extension MainCoordinator: ParentCoordinator {
         switch child {
         case _ as HomeCoordinator:
             updateToken()
-            Self.isReauthing = false
         case _ as ProfileCoordinator:
             do {
                 #if DEBUG
@@ -192,6 +197,7 @@ extension MainCoordinator: ParentCoordinator {
                 #endif
                 try walletCoordinator?.deleteWalletData()
                 userStore.removePersistentSessionId()
+                userStore.defaultsStore.set(nil, forKey: "returningUser")
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)

@@ -8,8 +8,10 @@ final class StringTests: XCTestCase {
         XCTAssertEqual(String.accessTokenExpiry, "accessTokenExpiry")
         XCTAssertEqual(String.idToken, "idToken")
         XCTAssertEqual(String.oneLoginTokens, "oneLoginTokens")
-        XCTAssertEqual(String.shouldPromptForAnalytics, "shouldPromptForAnalytics")
         XCTAssertEqual(String.persistentSessionID, "persistentSessionID")
+        XCTAssertEqual(String.clearWallet, "clearWallet")
+        XCTAssertEqual(String.startReauth, "startReauth")
+        XCTAssertEqual(String.returningUser, "returningUser")
 
         // Universal Link Component
         XCTAssertEqual(String.redirect, "redirect")

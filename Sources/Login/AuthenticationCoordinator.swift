@@ -36,9 +36,6 @@ final class AuthenticationCoordinator: NSObject,
                 if AppEnvironment.callingSTSEnabled,
                    let idToken = TokenHolder.shared.tokenResponse?.idToken {
                     TokenHolder.shared.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
-                    try userStore.saveItem(TokenHolder.shared.idTokenPayload?.persistentId,
-                                           itemName: .persistentSessionID,
-                                           storage: .open)
                 }
                 finish()
             } catch let error as LoginError where error == .network {

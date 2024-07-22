@@ -6,8 +6,8 @@ extension String {
     static let oneLoginTokens = "oneLoginTokens"
     static let persistentSessionID = "persistentSessionID"
     static let clearWallet = "clearWallet"
-    static let clearWalletAndAnalytics = "clearWalletAndAnalytics"
-    static let shouldPromptForAnalytics = "shouldPromptForAnalytics"
+    static let startReauth = "startReauth"
+    static let returningUser = "returningUser"
     
     // Universal Link Component
     static let redirect = "redirect"

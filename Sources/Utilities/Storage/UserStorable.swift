@@ -27,8 +27,10 @@ extension UserStorable {
     func storeTokenInfo() {
         guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
         if let _ = try? saveItem(tokenResponse.accessToken, itemName: .accessToken, storage: .authenticated),
-           let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated) {
+           let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated),
+           let _ = try? saveItem(TokenHolder.shared.idTokenPayload?.persistentId, itemName: .persistentSessionID, storage: .open) {
             defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
+            defaultsStore.set(true, forKey: .returningUser)
         }
     }
     
@@ -38,8 +40,15 @@ extension UserStorable {
         defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
     
-    func hasPersistentSessionId() -> Bool {
-        openStore.checkItemExists(itemName: .persistentSessionID)
+    func missingPersistentId() -> Bool {
+        if !openStore.checkItemExists(itemName: .persistentSessionID) {
+            if defaultsStore.value(forKey: .returningUser) != nil {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
     }
     
     func removePersistentSessionId() {

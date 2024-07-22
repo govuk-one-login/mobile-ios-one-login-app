@@ -34,11 +34,6 @@ final class WalletCoordinator: NSObject,
                          selector: #selector(clearWallet),
                          name: Notification.Name(.clearWallet),
                          object: nil)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(clearWalletAndAnalytics),
-                         name: Notification.Name(.clearWalletAndAnalytics),
-                         object: nil)
     }
     
     func updateToken() {
@@ -48,7 +43,6 @@ final class WalletCoordinator: NSObject,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
                         persistentSecureStore: secureStoreService)
-
     }
     
     func deleteWalletData() throws {
@@ -57,30 +51,16 @@ final class WalletCoordinator: NSObject,
     
     @objc func clearWallet() {
         do {
-            try deleteWalletData()
+            try walletSDK.deleteWalletData()
         } catch {
-            showSignOutErrorScreen(error: error)
+            window.rootViewController?.dismiss(animated: false)
+            let unableToLoginErrorScreen = ErrorPresenter
+                .createUnableToLoginError(errorDescription: error.localizedDescription,
+                                          analyticsService: analyticsCenter.analyticsService) {
+                    exit(0)
+                }
+            unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
+            window.rootViewController?.present(unableToLoginErrorScreen, animated: false)
         }
-    }
-    
-    @objc func clearWalletAndAnalytics() {
-        do {
-            try deleteWalletData()
-            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-        } catch {
-            showSignOutErrorScreen(error: error)
-        }
-    }
-    
-    func showSignOutErrorScreen(error: Error) {
-        let navController = UINavigationController()
-        let unableToLoginErrorScreen = ErrorPresenter
-            .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                      analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                root.dismiss(animated: true)
-            }
-        navController.setViewControllers([unableToLoginErrorScreen], animated: false)
-        unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
-        root.present(navController, animated: true)
     }
 }
