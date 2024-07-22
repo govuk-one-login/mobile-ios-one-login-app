@@ -177,11 +177,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{env.PACT_ARTIFACT_NAME}}
+          path: ${{github.workspace}}/pact
 
       - name: Replace Pact Files With Artifact Files
         run: |
           rm -rf ${{github.workspace}}/pact/pacts
-          unzip ${{github.workspace}}/${{env.PACT_ARTIFACT_NAME}} -d ${{github.workspace}}/pact/pacts
+          # unzip ${{github.workspace}}/${{env.PACT_ARTIFACT_NAME}} -d ${{github.workspace}}/pact/pacts
+          ls -R ${{github.workspace}}/pact
 
       # - name: Install PACT broker (ubuntu)
       #   run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
