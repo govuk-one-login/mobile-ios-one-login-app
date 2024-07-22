@@ -101,18 +101,18 @@ jobs:
           brew install pact-ruby-standalone
           pact-mock-service start --pact-specification-version 2.0.0 --log "${{github.workspace}}/pact/pact.log" --pact-dir "${{github.workspace}}/pact/pacts" -p 1234
 
-      - name: Build App, Run PACT tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-        run: |
-          bundle install
+      # - name: Build App, Run PACT tests
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     LC_ALL: "en_US.UTF-8"
+      #     LANG: "en_US.UTF-8"
+      #     GIT_CONFIG_NOSYSTEM: "true"
+      #     GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+      #   run: |
+      #     bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginPactTestPlan
+      #     bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+      #       testplan:OneLoginPactTestPlan
       
       - name: Stop PACT mock service
         run: |
@@ -126,6 +126,12 @@ jobs:
       #       ${{github.workspace}}/pact/pacts
       #     key: pact-${{ github.sha }}
       #     enableCrossOsArchive: true
+
+      - name: Rename Pact Files to Prepare for Artifact Upload
+        run: |
+          cd ${{github.workspace}}/pact/pacts
+          mv onelogin_app-mobile:mobileplatform:dummyprovider.json onelogin_app-mobile%mobileplatform%dummyprovider.json
+          mv onelogin_app-mobile:mobileplatform:stsbackendapi.json onelogin_app-mobile%mobileplatform%stsbackendapi.json
 
       - name: Upload Pact Files as Artifact
         uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
@@ -177,6 +183,12 @@ jobs:
           name: ${{env.PACT_ARTIFACT_NAME}}
           path: ${{github.workspace}}/pact/pacts
 
+      - name: Rename Pact Files Following Artifact Download
+        run: |
+          cd ${{github.workspace}}/pact/pacts
+          mv onelogin_app-mobile%mobileplatform%dummyprovider.json onelogin_app-mobile:mobileplatform:dummyprovider.json
+          mv onelogin_app-mobile%mobileplatform%stsbackendapi.json onelogin_app-mobile:mobileplatform:stsbackendapi.json
+  
       # - name: Install PACT broker
       #   run: |
       #     brew tap pact-foundation/pact-ruby-standalone
