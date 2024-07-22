@@ -68,59 +68,59 @@ jobs:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 pact:
-    name: Run Pact Tests
-    runs-on: macos-14
+  name: Run Pact Tests
+  runs-on: macos-14
 
-    steps:
-      - name: Add Path Globally
-        run: echo "/usr/local/bin" >> $GITHUB_PATH
+  steps:
+    - name: Add Path Globally
+      run: echo "/usr/local/bin" >> $GITHUB_PATH
 
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
-        with:
-          lfs: 'true'
-          fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
+      with:
+        lfs: 'true'
+        fetch-depth: 0
 
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
-        run: |
-          ./store-access-token.sh
+    - name: Configure Private Repo Access
+      env:
+        GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+      run: |
+        ./store-access-token.sh
 
-      - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
+    - name: Lint
+      run: |
+        brew install swiftlint
+        swiftlint --strict
 
-      - name: Install and start PACT broker
-        run: |
-          brew tap pact-foundation/pact-ruby-standalone
-          brew install pact-ruby-standalone
-          pact-mock-service start --pact-specification-version 2.0.0 --log "${{github.workspace}}/pact/pact.log" --pact-dir "${{github.workspace}}/pact/pacts" -p 1234
+    - name: Install and start PACT broker
+      run: |
+        brew tap pact-foundation/pact-ruby-standalone
+        brew install pact-ruby-standalone
+        pact-mock-service start --pact-specification-version 2.0.0 --log "${{github.workspace}}/pact/pact.log" --pact-dir "${{github.workspace}}/pact/pacts" -p 1234
 
-      - name: Build App, Run PACT tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
-        run: |
-          bundle install
+    - name: Build App, Run PACT tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LC_ALL: "en_US.UTF-8"
+        LANG: "en_US.UTF-8"
+        GIT_CONFIG_NOSYSTEM: "true"
+        GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+      run: |
+        bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
-            testplan:OneLoginPactTestPlan
-      
-      - name: Stop PACT mock service
-        run: |
-          pact-mock-service stop    
+        bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+          testplan:OneLoginPactTestPlan
+    
+    - name: Stop PACT mock service
+      run: |
+        pact-mock-service stop    
 
-      - name: Cache Pact files
-        uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
-        with:
-          path: |
-            ${{github.workspace}}/pact/pacts
-          key: pact-${{ github.sha }}
+    - name: Cache Pact files
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      with:
+        path: |
+          ${{github.workspace}}/pact/pacts
+        key: pact-${{ github.sha }}
 
   upload_to_pact:
     needs: pact
