@@ -1,0 +1,75 @@
+{
+  "consumer": {
+    "name": "OneLogin App"
+  },
+  "provider": {
+    "name": "Mobile-MobilePlatform-MockStsConsumer"
+  },
+  "interactions": [
+    {
+      "description": "An authorization request",
+      "providerState": "the code_challenge sent in the authorization request matches the verifier mock_code_verifier",
+      "request": {
+        "method": "post",
+        "path": "/token",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "body": "code=code&code_verifier=jM6oX_w_wU4biA2hDwmy0nkC_JsgvJRxaX0D-w1Hou0&redirect_uri=https://mobile.build.account.gov.uk/redirect&client_id=bYrcuRVvnylvEgYSSbBjwXzHrwJ&grant_type=authoriztion_code"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "expiry_date": 180,
+          "access_token": "accessToken",
+          "token_type": "Bearer",
+          "id_token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.eyJhdWQiOiJiWXJjdVJWdm55bHZFZ1lTU2JCandYekhyd0oiLCJpc3MiOiJodHRwczovL3Rva2VuLmJ1aWxkLmFjY291bnQuZ292LnVrIiwic3ViIjoiZjk3ZjY0Y2MtNzcyNS00ZDRjLWJiNGQtMzc4OWEwOTU5NDM4IiwicGVyc2lzdGVudF9pZCI6IjFkMDAzMzQyLWVmZDEtNGRlZC05YzExLTMyZTBmMTVhY2FlNiIsImlhdCI6MTcxOTM5NzU3OCwiZXhwIjoxNzE5Mzk3NzU4LCJub25jZSI6ImR5U01yWnNEaFljWlB6dDJHSUZSanJlMUtha053aE1HNWdTbTJRTXdIcUUiLCJlbWFpbCI6Im1vY2tAZW1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9.ACgEiMqIEY8tamcBen9Tm5JVm6gbZka46UYcLmlYYqof-g0RoGxdlGn9pGQK1Ek7hEPY6bFT-JtVZXVmOKeLtg"
+        },
+        "matchingRules": {
+          "$.body.expiry_date": {
+            "match": "type"
+          },
+          "$.body.access_token": {
+            "match": "type"
+          },
+          "$.body.token_type": {
+            "match": "type"
+          },
+          "$.body.id_token": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "A Mock Request",
+      "request": {
+        "method": "post",
+        "path": "/pact-test",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "request": "mock_request"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "response": "mock_response"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

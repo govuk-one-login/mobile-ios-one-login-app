@@ -14,7 +14,7 @@ final class PactTests: XCTestCase {
         super.setUp()
         
         mockTokenVerifier = MockTokenVerifier()
-        mockService = MockService(provider: "Mobile:MobilePlatform:StsBackendApi",
+        mockService = MockService(provider: "Mobile-MobilePlatform-DummyProvider",
                                   consumer: "OneLogin App")
         networkClient = NetworkClient()
     }
@@ -26,6 +26,8 @@ final class PactTests: XCTestCase {
     }
 
     func testMockRequest() {
+        mockService = MockService(provider: "Mobile-MobilePlatform-MockStsConsumer",
+                                  consumer: "OneLogin App")
         var request = URLRequest(url: URL(string: "http://localhost:1234/pact-test")!)
         let requestBody = MockRequestBody(request: "mock_request")
         let encoded = try? JSONEncoder().encode(requestBody)
