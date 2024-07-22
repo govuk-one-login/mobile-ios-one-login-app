@@ -127,8 +127,8 @@ jobs:
   upload_to_pact:
     needs: pact
     name: Run Pact Tests and Upload to Broker
-    # runs-on: ubuntu-latest
-    runs-on: macos-14
+    runs-on: ubuntu-latest
+    # runs-on: macos-14
 
     steps:
       - name: Add Path Globally
