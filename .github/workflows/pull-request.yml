@@ -128,7 +128,7 @@ jobs:
       #     enableCrossOsArchive: true
 
       - name: Upload Pact Files as Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
         with:
           name: ${{env.PACT_ARTIFACT_NAME}}
           path: |
@@ -141,7 +141,6 @@ jobs:
     needs: pact
     name: Run Pact Tests and Upload to Broker
     runs-on: ubuntu-latest
-    # runs-on: macos-14
 
     steps:
       - name: Add Path Globally
@@ -159,10 +158,10 @@ jobs:
         run: |
           ./store-access-token.sh
 
-      # - name: Install PACT broker
-      #   run: |
-      #     brew tap pact-foundation/pact-ruby-standalone
-      #     brew install pact-ruby-standalone
+      - name: Install PACT broker
+        run: |
+          brew tap pact-foundation/pact-ruby-standalone
+          brew install pact-ruby-standalone
 
       # - name: Restore Cached Pact Files
       #   id: cache-restore
@@ -173,20 +172,18 @@ jobs:
       #     key: pact-${{ github.sha }}
       #     fail-on-cache-miss: true
 
-      - name: Download Pact Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{env.PACT_ARTIFACT_NAME}}
-          path: ${{github.workspace}}/pact
-
-      - name: Replace Pact Files With Artifact Files
+      - name: Remove Pact Files in Preparation for Artifact Download
         run: |
           rm -rf ${{github.workspace}}/pact/pacts
-          # unzip ${{github.workspace}}/${{env.PACT_ARTIFACT_NAME}} -d ${{github.workspace}}/pact/pacts
-          ls -R ${{github.workspace}}/pact
 
-      # - name: Install PACT broker (ubuntu)
-      #   run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
+      - name: Download Pact Artifact Files
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: ${{env.PACT_ARTIFACT_NAME}}
+          path: ${{github.workspace}}/pact/pacts
+
+      - name: Install PACT broker (ubuntu)
+        run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
                 
       # - name: Upload to PACT broker.
       #   env:
