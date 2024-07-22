@@ -123,7 +123,7 @@ jobs:
           key: pact-${{ github.sha }}
 
   upload_to_pact:
-    needs: pact
+    needs: pact_tests
     name: Upload to Broker
     runs-on: ubuntu-latest
 
