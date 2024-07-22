@@ -53,13 +53,13 @@ final class WalletCoordinator: NSObject,
         do {
             try walletSDK.deleteWalletData()
         } catch {
-            window.rootViewController?.dismiss(animated: false)
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) {
                     exit(0)
                 }
             unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
+            window.rootViewController?.dismiss(animated: false)
             window.rootViewController?.present(unableToLoginErrorScreen, animated: false)
         }
     }

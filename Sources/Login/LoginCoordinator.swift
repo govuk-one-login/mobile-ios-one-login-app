@@ -42,7 +42,7 @@ final class LoginCoordinator: NSObject,
         if reauth {
             let rootViewController = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    if userStore.missingPersistentId() {
+                    if userStore.missingPersistentId {
                         NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
                     } else {
                         authenticate()
@@ -63,7 +63,7 @@ final class LoginCoordinator: NSObject,
     
     private func authenticate() {
         if networkMonitor.isConnected {
-            if userStore.missingPersistentId() {
+            if userStore.missingPersistentId {
                 NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
             } else {
                 launchAuthenticationCoordinator()
@@ -74,7 +74,7 @@ final class LoginCoordinator: NSObject,
                     introViewController?.enableIntroButton()
                     root.popViewController(animated: true)
                     if networkMonitor.isConnected {
-                        if userStore.missingPersistentId() {
+                        if userStore.missingPersistentId {
                             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
                         } else {
                             launchAuthenticationCoordinator()
@@ -90,7 +90,7 @@ final class LoginCoordinator: NSObject,
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.dismiss(animated: true) { [unowned self] in
-                        if userStore.missingPersistentId() {
+                        if userStore.missingPersistentId {
                             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
                         }
                         launchOnboardingCoordinator()

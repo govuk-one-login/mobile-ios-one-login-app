@@ -40,7 +40,7 @@ extension UserStorable {
         defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
     
-    func missingPersistentId() -> Bool {
+    var missingPersistentId: Bool {
         if !openStore.checkItemExists(itemName: .persistentSessionID) {
             if defaultsStore.value(forKey: .returningUser) != nil {
                 return true
