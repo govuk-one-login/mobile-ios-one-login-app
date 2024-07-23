@@ -107,7 +107,7 @@ final class MainCoordinator: NSObject,
 
 extension MainCoordinator {
     private func showLogin(_ error: Error?, reauth: Bool) {
-        let lc = LoginCoordinator(windowManager: windowManager,
+        let lc = LoginCoordinator(appWindow: windowManager.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,

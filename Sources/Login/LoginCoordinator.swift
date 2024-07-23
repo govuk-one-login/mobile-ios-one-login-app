@@ -10,7 +10,7 @@ final class LoginCoordinator: NSObject,
                               AnyCoordinator,
                               NavigationCoordinator,
                               ChildCoordinator {
-    let windowManager: WindowManagement
+    private let appWindow: UIWindow
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
@@ -23,13 +23,13 @@ final class LoginCoordinator: NSObject,
     weak var introViewController: IntroViewController?
     private weak var authCoordinator: AuthenticationCoordinator?
     
-    init(windowManager: WindowManagement,
+    init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          networkMonitor: NetworkMonitoring,
          reauth: Bool) {
-        self.windowManager = windowManager
+        self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
@@ -111,7 +111,7 @@ final class LoginCoordinator: NSObject,
         let ac = AuthenticationCoordinator(root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            userStore: userStore,
-                                           session: AppAuthSession(window: windowManager.appWindow))
+                                           session: AppAuthSession(window: appWindow))
         openChildInline(ac)
         authCoordinator = ac
     }
