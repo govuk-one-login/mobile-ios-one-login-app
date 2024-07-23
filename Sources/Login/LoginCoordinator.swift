@@ -58,7 +58,7 @@ final class LoginCoordinator: NSObject,
     }
     
     private func authenticate() {
-        if userStore.missingPersistentId {
+        if userStore.missingPersistentSessionId {
             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
         } else {
             if networkMonitor.isConnected {
@@ -82,7 +82,7 @@ final class LoginCoordinator: NSObject,
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     root.dismiss(animated: true) { [unowned self] in
-                        if userStore.missingPersistentId {
+                        if userStore.missingPersistentSessionId {
                             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
                         }
                         launchOnboardingCoordinator()
