@@ -42,11 +42,7 @@ final class LoginCoordinator: NSObject,
         if reauth {
             let rootViewController = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    if userStore.missingPersistentId {
-                        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-                    } else {
-                        authenticate()
-                    }
+                    authenticate()
                 }
             root.setViewControllers([rootViewController], animated: true)
         } else {
@@ -62,26 +58,22 @@ final class LoginCoordinator: NSObject,
     }
     
     private func authenticate() {
-        if networkMonitor.isConnected {
-            if userStore.missingPersistentId {
-                NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-            } else {
-                launchAuthenticationCoordinator()
-            }
+        if userStore.missingPersistentId {
+            NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
         } else {
-            let networkErrorScreen = ErrorPresenter
-                .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    introViewController?.enableIntroButton()
-                    root.popViewController(animated: true)
-                    if networkMonitor.isConnected {
-                        if userStore.missingPersistentId {
-                            NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-                        } else {
+            if networkMonitor.isConnected {
+                launchAuthenticationCoordinator()
+            } else {
+                let networkErrorScreen = ErrorPresenter
+                    .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                        introViewController?.enableIntroButton()
+                        root.popViewController(animated: true)
+                        if networkMonitor.isConnected {
                             launchAuthenticationCoordinator()
                         }
                     }
-                }
-            root.pushViewController(networkErrorScreen, animated: true)
+                root.pushViewController(networkErrorScreen, animated: true)
+            }
         }
     }
     
