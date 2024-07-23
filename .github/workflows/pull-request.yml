@@ -164,11 +164,11 @@ jobs:
           name: ${{env.PACT_ARTIFACT_NAME}}
           path: ${{github.workspace}}/pact/pacts
 
-      - name: Rename Pact Files Following Artifact Download
-        run: |
-          cd ${{github.workspace}}/pact/pacts
-          mv onelogin_app-mobile%mobileplatform%dummyprovider.json onelogin_app-mobile:mobileplatform:dummyprovider.json
-          mv onelogin_app-mobile%mobileplatform%stsbackendapi.json onelogin_app-mobile:mobileplatform:stsbackendapi.json
+      # - name: Rename Pact Files Following Artifact Download
+      #   run: |
+      #     cd ${{github.workspace}}/pact/pacts
+      #     mv onelogin_app-mobile%mobileplatform%dummyprovider.json onelogin_app-mobile:mobileplatform:dummyprovider.json
+      #     mv onelogin_app-mobile%mobileplatform%stsbackendapi.json onelogin_app-mobile:mobileplatform:stsbackendapi.json
 
       - name: Install PACT broker (ubuntu)
         run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
