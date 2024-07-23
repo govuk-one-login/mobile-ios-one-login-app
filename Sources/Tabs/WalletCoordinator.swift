@@ -49,11 +49,12 @@ final class WalletCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         walletSDK.deeplink(with: url.absoluteString)
     }
+    
     func deleteWalletData() throws {
         try walletSDK.deleteWalletData()
     }
     
-    @objc func clearWallet() {
+    @objc private func clearWallet() {
         do {
             try deleteWalletData()
             userStore.resetPersistentSession()

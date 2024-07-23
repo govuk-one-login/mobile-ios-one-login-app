@@ -70,7 +70,7 @@ final class MainCoordinator: NSObject,
         }
     }
     
-    @objc func startReauth() {
+    @objc private func startReauth() {
         fullLogin(reauth: true)
     }
     
