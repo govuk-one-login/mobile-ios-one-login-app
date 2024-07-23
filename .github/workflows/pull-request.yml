@@ -118,8 +118,8 @@ jobs:
       - name: Rename Pact Files to Prepare for Artifact Upload
         run: |
           cd ${{github.workspace}}/pact/pacts
-          mv onelogin_app-mobile:mobileplatform:dummyprovider.json onelogin_app-mobile%mobileplatform%dummyprovider.json
-          mv onelogin_app-mobile:mobileplatform:stsbackendapi.json onelogin_app-mobile%mobileplatform%stsbackendapi.json    
+          mv onelogin_app-mobile-mobileplatform-dummyprovider.json onelogin_app-mobile%mobileplatform%dummyprovider.json
+          mv onelogin_app-mobile-mobileplatform-mockstsconsumer.json onelogin_app-mobile%mobileplatform%stsbackendapi.json    
 
       - name: Upload Pact Files as Artifact
         uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
