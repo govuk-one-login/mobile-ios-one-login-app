@@ -10,19 +10,16 @@ final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
                              NavigationCoordinator {
-    let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    let analyticsService: AnalyticsService
+    private let analyticsService: AnalyticsService
     private let userStore: UserStorable
     
     private(set) var baseVc: TabbedViewController?
     
-    init(window: UIWindow,
-         analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
          userStore: UserStorable) {
-        self.window = window
         self.analyticsService = analyticsService
         self.userStore = userStore
     }

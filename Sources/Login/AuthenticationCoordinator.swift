@@ -10,9 +10,9 @@ final class AuthenticationCoordinator: NSObject,
                                        NavigationCoordinator {
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
-    let analyticsService: AnalyticsService
-    let session: LoginSession
-    let userStore: UserStorable
+    private let analyticsService: AnalyticsService
+    private let session: LoginSession
+    private let userStore: UserStorable
     private let tokenVerifier: TokenVerifier
     var authError: Error?
     

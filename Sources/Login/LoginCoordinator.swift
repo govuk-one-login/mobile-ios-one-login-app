@@ -14,10 +14,10 @@ final class LoginCoordinator: NSObject,
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    let analyticsCenter: AnalyticsCentral
-    let userStore: UserStorable
-    let networkMonitor: NetworkMonitoring
-    let reauth: Bool
+    private let analyticsCenter: AnalyticsCentral
+    private let userStore: UserStorable
+    private let networkMonitor: NetworkMonitoring
+    private let reauth: Bool
     var loginError: Error?
     
     weak var introViewController: IntroViewController?

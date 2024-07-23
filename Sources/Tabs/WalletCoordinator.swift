@@ -10,25 +10,31 @@ final class WalletCoordinator: NSObject,
                                AnyCoordinator,
                                ChildCoordinator,
                                NavigationCoordinator {
-    let window: UIWindow
+    private let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    let analyticsService: AnalyticsService
-    private let secureStoreService: SecureStorable
-    let walletSDK = WalletSDK()
+    private let analyticsService: AnalyticsService
+    private let userStore: UserStorable
+    private let walletSDK = WalletSDK()
+    private var networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
     
     init(window: UIWindow,
          analyticsService: AnalyticsService,
-         secureStoreService: SecureStorable) {
+         userStore: UserStorable) {
         self.window = window
         self.analyticsService = analyticsService
-        self.secureStoreService = secureStoreService
+        self.userStore = userStore
     }
     
     func start() {
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
+        walletSDK.start(in: window,
+                        with: root,
+                        networkClient: networkClient,
+                        analyticsService: analyticsService,
+                        persistentSecureStore: userStore.openStore)
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(clearWallet),
@@ -37,21 +43,20 @@ final class WalletCoordinator: NSObject,
     }
     
     func updateToken() {
-        let networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
-        walletSDK.start(in: window,
-                        with: root,
-                        networkClient: networkClient,
-                        analyticsService: analyticsService,
-                        persistentSecureStore: secureStoreService)
+        networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
     }
     
+    func handleUniversalLink(_ url: URL) {
+        walletSDK.deeplink(with: url.absoluteString)
+    }
     func deleteWalletData() throws {
         try walletSDK.deleteWalletData()
     }
     
     @objc func clearWallet() {
         do {
-            try walletSDK.deleteWalletData()
+            try deleteWalletData()
+            userStore.resetPersistentSession()
         } catch {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,

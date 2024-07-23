@@ -11,17 +11,14 @@ final class ProfileCoordinator: NSObject,
                                 NavigationCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    var analyticsService: AnalyticsService
-    var userStore: UserStorable
+    private let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsService: AnalyticsService,
-         userStore: UserStorable,
          urlOpener: URLOpener,
          baseVc: TabbedViewController? = nil) {
         self.analyticsService = analyticsService
-        self.userStore = userStore
         self.urlOpener = urlOpener
         self.baseVc = baseVc
     }

@@ -7,12 +7,12 @@ import UIKit
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
                              TabCoordinator {
-    let windowManager: WindowManagement
+    private let windowManager: WindowManagement
     let root: UITabBarController
     var childCoordinators = [ChildCoordinator]()
-    var analyticsCenter: AnalyticsCentral
-    let userStore: UserStorable
-    private var tokenVerifier: TokenVerifier
+    private var analyticsCenter: AnalyticsCentral
+    private let userStore: UserStorable
+    private let tokenVerifier: TokenVerifier
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -32,12 +32,12 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        root.delegate = self
         addTabs()
         windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             evaluateRevisit()
         }
         evaluateRevisit()
+        root.delegate = self
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(startReauth),
@@ -98,7 +98,7 @@ final class MainCoordinator: NSObject,
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+            walletCoordinator?.handleUniversalLink(url)
         case .unknown:
             return
         }
@@ -125,8 +125,7 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(window: windowManager.appWindow,
-                                 analyticsService: analyticsCenter.analyticsService,
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
                                  userStore: userStore)
         addTab(hc)
         homeCoordinator = hc
@@ -135,14 +134,13 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsService: analyticsCenter.analyticsService,
-                                   secureStoreService: userStore.openStore)
+                                   userStore: userStore)
         addTab(wc)
         walletCoordinator = wc
     }
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                    userStore: userStore,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
