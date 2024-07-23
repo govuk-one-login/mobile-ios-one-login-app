@@ -3,7 +3,7 @@
     "name": "OneLogin App"
   },
   "provider": {
-    "name": "Mobile-MobilePlatform-DummyProvider"
+    "name": "Mobile-MobilePlatform-MockStsConsumer"
   },
   "interactions": [
     {
@@ -63,28 +63,6 @@
         },
         "body": {
           "response": "mock_response"
-        }
-      }
-    },
-    {
-      "description": "A token exchange request",
-      "request": {
-        "method": "post",
-        "path": "/token",
-        "headers": {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        "body": "grant_type=urn:ietf:params:oauth:grant-type:token-exchange&scope=sts-test.hello-world.read&subject_token=subjectToken&subject_token_type=urn:ietf:params:oauth:token-type:access_token"
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": {
-          "expires_in": 180,
-          "token_type": "Bearer",
-          "access_token": "accessToken"
         }
       }
     }
