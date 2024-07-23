@@ -6,7 +6,6 @@ import XCTest
 
 @MainActor
 final class DeveloperMenuViewControllerTests: XCTestCase {
-    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var devMenuViewModel: DeveloperMenuViewModel!
     var mockAuthenicatedSecureStore: SecureStorable!
@@ -26,7 +25,6 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
         
-        window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         devMenuViewModel = DeveloperMenuViewModel()
         mockAuthenicatedSecureStore = MockSecureStoreService()
@@ -37,8 +35,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
                                       defaultsStore: mockDefaultsStore)
         networkClient = NetworkClient(configuration: configuration,
                                       authenticationProvider: MockAuthenticationProvider())
-        homeCoordinator = HomeCoordinator(window: window,
-                                          analyticsService: mockAnalyticsService,
+        homeCoordinator = HomeCoordinator(analyticsService: mockAnalyticsService,
                                           userStore: mockUserStore)
         sut = DeveloperMenuViewController(parentCoordinator: homeCoordinator,
                                           viewModel: devMenuViewModel,
@@ -49,7 +46,6 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     override func tearDown() {
         UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
         
-        window = nil
         mockAnalyticsService = nil
         devMenuViewModel = nil
         mockAuthenicatedSecureStore = nil
@@ -121,8 +117,6 @@ extension DeveloperMenuViewControllerTests {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.happyPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(MainCoordinator.isReauthing)
-        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
     
     func test_unhappyPathButton() throws {
@@ -144,8 +138,6 @@ extension DeveloperMenuViewControllerTests {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.errorPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(MainCoordinator.isReauthing)
-        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
 
     func test_unsuccessfulPathButton() throws {
@@ -167,8 +159,6 @@ extension DeveloperMenuViewControllerTests {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(MainCoordinator.isReauthing)
-        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
 }
 

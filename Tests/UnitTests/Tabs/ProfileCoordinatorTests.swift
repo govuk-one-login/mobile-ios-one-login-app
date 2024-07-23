@@ -27,7 +27,6 @@ final class ProfileCoordinatorTests: XCTestCase {
                                     defaultsStore: mockDefaultStore)
         urlOpener = MockURLOpener()
         sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                 userStore: mockUserStore,
                                  urlOpener: urlOpener)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()

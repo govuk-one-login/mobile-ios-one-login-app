@@ -5,7 +5,7 @@ import XCTest
 
 @MainActor
 final class LoginCoordinatorTests: XCTestCase {
-    var mockWindowManager: MockWindowManager!
+    var appWindow: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
@@ -15,13 +15,12 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
-    var mockTokenVerifier: MockTokenVerifier!
     var sut: LoginCoordinator!
     
     override func setUp() {
         super.setUp()
         
-        mockWindowManager = MockWindowManager(appWindow: UIWindow())
+        appWindow = UIWindow()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -34,19 +33,17 @@ final class LoginCoordinatorTests: XCTestCase {
         mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
-        mockTokenVerifier = MockTokenVerifier()
-        mockWindowManager.appWindow.rootViewController = navigationController
-        mockWindowManager.appWindow.makeKeyAndVisible()
-        sut = LoginCoordinator(windowManager: mockWindowManager,
+        appWindow.rootViewController = navigationController
+        appWindow.makeKeyAndVisible()
+        sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
                                userStore: mockUserStore,
                                networkMonitor: mockNetworkMonitor,
-                               tokenVerifier: mockTokenVerifier)
+                               reauth: false)
     }
     
     override func tearDown() {
-        mockWindowManager = nil
         navigationController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil

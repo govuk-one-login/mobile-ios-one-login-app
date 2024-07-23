@@ -5,8 +5,10 @@ import XCTest
 final class WalletCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockSecureStoreService: MockSecureStoreService!
-
+    var mockAuthenticatedStore: MockSecureStoreService!
+    var mockOpenStore: MockSecureStoreService!
+    var mockDefaultsStore: MockDefaultsStore!
+    var mockUserStore: MockUserStore!
     var sut: WalletCoordinator!
     
     override func setUp() {
@@ -14,16 +16,24 @@ final class WalletCoordinatorTests: XCTestCase {
         
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
-        mockSecureStoreService = MockSecureStoreService()
+        mockAuthenticatedStore = MockSecureStoreService()
+        mockOpenStore = MockSecureStoreService()
+        mockDefaultsStore = MockDefaultsStore()
+        mockUserStore = MockUserStore(authenticatedStore: mockAuthenticatedStore,
+                                      openStore: mockOpenStore,
+                                      defaultsStore: mockDefaultsStore)
         sut = WalletCoordinator(window: window,
                                 analyticsService: mockAnalyticsService,
-                                secureStoreService: mockSecureStoreService)
+                                userStore: mockUserStore)
     }
     
     override func tearDown() {
         window = nil
         mockAnalyticsService = nil
-        mockSecureStoreService = nil
+        mockAnalyticsService = nil
+        mockOpenStore = nil
+        mockDefaultsStore = nil
+        mockUserStore = nil
         sut = nil
         
         super.tearDown()

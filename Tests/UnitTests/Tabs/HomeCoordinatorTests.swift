@@ -3,7 +3,6 @@ import XCTest
 
 @MainActor
 final class HomeCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStoreService: MockSecureStoreService!
     var mockOpenSecureStore: MockSecureStoreService!
@@ -14,7 +13,6 @@ final class HomeCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
@@ -22,13 +20,11 @@ final class HomeCoordinatorTests: XCTestCase {
         mockUserStore = MockUserStore(authenticatedStore: mockSecureStoreService,
                                       openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
-        sut = HomeCoordinator(window: window,
-                              analyticsService: mockAnalyticsService,
+        sut = HomeCoordinator(analyticsService: mockAnalyticsService,
                               userStore: mockUserStore)
     }
     
     override func tearDown() {
-        window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
         mockOpenSecureStore = nil
@@ -49,10 +45,7 @@ final class HomeCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.tag, homeTab.tag)
     }
     
-    func test_showDeveloperMenu() throws {
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
-        sut.start()
+    func test_showDeveloperMenu() throws {sut.start()
         sut.showDeveloperMenu()
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
@@ -77,14 +70,5 @@ final class HomeCoordinatorTests: XCTestCase {
         TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
         sut.updateToken()
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
-    }
-    
-    func test_performChildCleanup_fromReauthCoordinator() {
-        // WHEN the performChildCleanup method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
-        let reauthCoordinator = ReauthCoordinator(window: window,
-                                                  analyticsService: mockAnalyticsService,
-                                                  userStore: mockUserStore)
-        sut.performChildCleanup(child: reauthCoordinator)
     }
 }

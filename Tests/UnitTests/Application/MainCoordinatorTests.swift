@@ -242,7 +242,6 @@ extension MainCoordinatorTests {
         // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         sut.handleUniversalLink(URL(string: "google.co.uk/wallet/123456789")!)
         sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
-        MainCoordinator.isReauthing = true
         sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
     }
     
@@ -303,11 +302,12 @@ extension MainCoordinatorTests {
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
         // GIVEN access token has been stored in the token holder
         TokenHolder.shared.accessToken = "testAccessToken"
-        let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
+        let loginCoordinator = LoginCoordinator(appWindow: mockWindowManager.appWindow,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                networkMonitor: MockNetworkMonitor())
+                                                networkMonitor: MockNetworkMonitor(),
+                                                reauth: false)
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -316,11 +316,12 @@ extension MainCoordinatorTests {
     
     func test_didRegainFocus_fromLoginCoordinator_withoutBearerToken() throws {
         TokenHolder.shared.clearTokenHolder()
-        let loginCoordinator = LoginCoordinator(windowManager: mockWindowManager,
+        let loginCoordinator = LoginCoordinator(appWindow: mockWindowManager.appWindow,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
-                                                networkMonitor: MockNetworkMonitor())
+                                                networkMonitor: MockNetworkMonitor(),
+                                                reauth: false)
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -339,7 +340,6 @@ extension MainCoordinatorTests {
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                                    userStore: mockUserStore,
                                                     urlOpener: mockURLOpener)
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
@@ -354,7 +354,6 @@ extension MainCoordinatorTests {
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                                    userStore: mockUserStore,
                                                     urlOpener: mockURLOpener)
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
@@ -371,12 +370,9 @@ extension MainCoordinatorTests {
     }
     
     func test_performChildCleanup_fromHomeCoordinator() throws {
-        MainCoordinator.isReauthing = true
-        let homeCoordinator = HomeCoordinator(window: mockWindowManager.appWindow,
-                                              analyticsService: mockAnalyticsService,
+        let homeCoordinator = HomeCoordinator(analyticsService: mockAnalyticsService,
                                               userStore: mockUserStore)
         // WHEN the MainCoordinator's performChildCleanup method is called from HomeCoordinator (on user reauth)
         sut.performChildCleanup(child: homeCoordinator)
-        XCTAssertFalse(MainCoordinator.isReauthing)
     }
 }
