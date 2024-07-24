@@ -84,6 +84,79 @@ final class LoginCoordinatorTests: XCTestCase {
 }
 
 extension LoginCoordinatorTests {
+    // MARK: Reauth Login
+    func test_start_reauth() {
+        // WHEN the LoginCoordinator is started in a reauth flow
+        reauthLogin()
+        sut.start()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+    }
+    
+    func test_start_reauth_missingPersistenId() throws {
+        mockOpenSecureStore.returnFromCheckItemExists = false
+        mockDefaultStore.set(true, forKey: .returningUser)
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
+        // WHEN the LoginCoordinator is started with an error and the persistent session id is missing
+        reauthLogin()
+        sut.start()
+        // THEN the presented view controller should be the GDSErrorViewController
+        let errorVC = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        // THEN the visible view model should be the SignOutWarningViewModel
+        XCTAssertTrue(errorVC.viewModel is SignOutWarningViewModel)
+        let errorButton: UIButton = try XCTUnwrap(errorVC.view[child: "error-primary-button"])
+        // WHEN the button to login is tapped
+        errorButton.sendActions(for: .touchUpInside)
+        // THEN the clear wallet notification should be posted
+        wait(for: [exp], timeout: 20)
+    }
+    
+    func test_start_reauth_opensAuthenticationCoordinator() throws {
+        // WHEN the LoginCoordinator is started in a reauth flow
+        reauthLogin()
+        sut.start()
+        // THEN the presented view controller should be the GDSErrorViewController
+        let errorVC = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        // THEN the visible view model should be the SignOutWarningViewModel
+        XCTAssertTrue(errorVC.viewModel is SignOutWarningViewModel)
+        let errorButton: UIButton = try XCTUnwrap(errorVC.view[child: "error-primary-button"])
+        // WHEN the button to login is tapped
+        errorButton.sendActions(for: .touchUpInside)
+        // THEN the AuthenticationCoordinator should be launched
+        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
+    }
+    
+    func test_start_reauth_noNetwork() throws {
+        // GIVEN the network is not connected
+        mockNetworkMonitor.isConnected = false
+        // WHEN the LoginCoordinator is started in a reauth flow
+        reauthLogin()
+        sut.start()
+        // THEN the visible view controller should be the GDSErrorViewController
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        // WHEN the button to login is tapped
+        let introScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "error-primary-button"])
+        introButton.sendActions(for: .touchUpInside)
+        // THEN the displayed screen should be the Network Connection error screen
+        waitForTruth(self.sut.root.viewControllers.count == 2, timeout: 20)
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        // WHEN the network is back online
+        mockNetworkMonitor.isConnected = true
+        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
+        let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
+        // WHEN the network error screens button is pressed
+        errorButton.sendActions(for: .touchUpInside)
+        // THEN the AuthenticationCoordinator is launched
+        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
+    }
+    
+    // MARK: Standard Login
     func test_start() {
         // WHEN the LoginCoordinator is started
         sut.start()
@@ -95,16 +168,83 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
-    func test_start_reauth() {
-        // WHEN the LoginCoordinator is started in a reauth flow
-        reauthLogin()
+    func test_start_missingPersistenId() throws {
+        mockOpenSecureStore.returnFromCheckItemExists = false
+        mockDefaultStore.set(true, forKey: .returningUser)
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
+        // WHEN the LoginCoordinator is started and the persistent session id is missing
+        sut.start()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // WHEN the button to login is tapped
+        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
+        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
+        introButton.sendActions(for: .touchUpInside)
+        // THEN the clear wallet notification should be posted
+        wait(for: [exp], timeout: 20)
+    }
+    
+    func test_start_opensAuthenticationCoordinator() throws {
+        // WHEN the LoginCoordinator is started
+        sut.start()
+        // THEN the visible view controller should be the IntroViewController
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // WHEN the button to login is tapped
+        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
+        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
+        introButton.sendActions(for: .touchUpInside)
+        // THEN the AuthenticationCoordinator should be launched
+        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
+    }
+    
+    func test_start_noNetwork() throws {
+        // GIVEN the network is not connected
+        mockNetworkMonitor.isConnected = false
+        // WHEN the LoginCoordinator is started for a first time user
+        XCTAssertTrue(sut.root.viewControllers.count == 0)
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
+        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // WHEN the button to login is tapped
+        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
+        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
+        introButton.sendActions(for: .touchUpInside)
+        // THEN the displayed screen should be the Network Connection error screen
+        waitForTruth(self.sut.root.viewControllers.count == 2, timeout: 20)
         XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        // WHEN the network is back online
+        mockNetworkMonitor.isConnected = true
+        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
+        let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
+        // WHEN the network error screens button is pressed
+        errorButton.sendActions(for: .touchUpInside)
+        // THEN the intro screens button is enabled
+        XCTAssertTrue(introButton.isEnabled)
+        // THEN the AuthenticationCoordinator is launched
+        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
-    func test_start_withError_tokenError_expired() throws {
+    // MARK: Login with error
+    func test_start_withError_tokenError_expired_opensOnboardingCoordinator() throws {
+        // WHEN the LoginCoordinator is started with an error
+        loginWithError(TokenError.expired)
+        sut.start()
+        // THEN the presented view controller should be the GDSErrorViewController
+        let errorVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
+        // THEN the visible view model should be the SignOutWarningViewModel
+        XCTAssertTrue(errorVC.viewModel is SignOutWarningViewModel)
+        let errorButton: UIButton = try XCTUnwrap(errorVC.view[child: "error-primary-button"])
+        // WHEN the button to login is tapped
+        errorButton.sendActions(for: .touchUpInside)
+        // THEN the clear wallet notification should be posted
+        XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
+    }
+    
+    func test_start_withError_tokenError_expired_missingPersistentSessionId() throws {
         mockOpenSecureStore.returnFromCheckItemExists = false
         mockDefaultStore.set(true, forKey: .returningUser)
         let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
@@ -135,94 +275,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(errroVC.viewModel is UnableToLoginErrorViewModel)
     }
     
-    func test_start_authenticate_posts_clearWallet_notification() throws {
-        mockOpenSecureStore.returnFromCheckItemExists = false
-        mockDefaultStore.set(true, forKey: .returningUser)
-        let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
-                                               object: nil,
-                                               notificationCenter: NotificationCenter.default)
-        // WHEN the LoginCoordinator is started and the persistent session id is missing
-        sut.start()
-        // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // WHEN the button to login is tapped
-        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
-        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
-        introButton.sendActions(for: .touchUpInside)
-        // THEN the clear wallet notification should be posted
-        wait(for: [exp], timeout: 20)
-    }
-    
-    func test_start_authenticate_opensAuthenticationCoordinator() throws {
-        // WHEN the LoginCoordinator is started
-        sut.start()
-        // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // WHEN the button to login is tapped
-        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
-        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
-        introButton.sendActions(for: .touchUpInside)
-        // THEN the AuthenticationCoordinator should be launched
-        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
-    }
-    
-    func test_login_networkError() throws {
-        // GIVEN the network is not connected
-        mockNetworkMonitor.isConnected = false
-        // WHEN the LoginCoordinator is started for a first time user
-        XCTAssertTrue(sut.root.viewControllers.count == 0)
-        sut.start()
-        // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // WHEN the button to login is tapped
-        let introScreen = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
-        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "intro-button"])
-        introButton.sendActions(for: .touchUpInside)
-        // THEN the displayed screen should be the Network Connection error screen
-        waitForTruth(self.sut.root.viewControllers.count == 2, timeout: 20)
-        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
-        // WHEN the network is back online
-        mockNetworkMonitor.isConnected = true
-        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
-        XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
-        let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
-        // WHEN the network error screens button is pressed
-        errorButton.sendActions(for: .touchUpInside)
-        // THEN the intro screens button is enabled
-        XCTAssertTrue(introButton.isEnabled)
-        // THEN the AuthenticationCoordinator is launched
-        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
-    }
-    
-    func test_reauth_networkError() throws {
-        reauthLogin()
-        // GIVEN the network is not connected
-        mockNetworkMonitor.isConnected = false
-        // WHEN the LoginCoordinator is started for a first time user
-        XCTAssertTrue(sut.root.viewControllers.count == 0)
-        sut.start()
-        // THEN the visible view controller should be the GDSErrorViewController
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
-        // WHEN the button to login is tapped
-        let introScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
-        let introButton: UIButton = try XCTUnwrap(introScreen.view[child: "error-primary-button"])
-        introButton.sendActions(for: .touchUpInside)
-        // THEN the displayed screen should be the Network Connection error screen
-        waitForTruth(self.sut.root.viewControllers.count == 2, timeout: 20)
-        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
-        // WHEN the network is back online
-        mockNetworkMonitor.isConnected = true
-        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
-        XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
-        let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
-        // WHEN the network error screens button is pressed
-        errorButton.sendActions(for: .touchUpInside)
-        // THEN the AuthenticationCoordinator is launched
-        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
-    }
-    
+    // MARK: Coordinator flow
     func test_start_skips_launchOnboardingCoordinator() {
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
