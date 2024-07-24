@@ -46,6 +46,7 @@
 		41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4302B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift */; };
 		41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */; };
 		41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */; };
+		41D6EB312C510B6300EC86D2 /* PactSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 41D6EB302C510B6300EC86D2 /* PactSwift */; };
 		41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */; };
 		41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */; };
 		41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9142BE128610034B6C7 /* MockURLOpener.swift */; };
@@ -455,6 +456,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41D6EB312C510B6300EC86D2 /* PactSwift in Frameworks */,
 				41C280CE2C35952200070215 /* PactConsumerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1356,6 +1358,7 @@
 			name = OneLoginPactTests;
 			packageProductDependencies = (
 				41C280CD2C35952200070215 /* PactConsumerSwift */,
+				41D6EB302C510B6300EC86D2 /* PactSwift */,
 			);
 			productName = OneLoginPactTests;
 			productReference = 41ACF1D12C35941F00CF30BF /* OneLoginPactTests.xctest */;
@@ -1416,6 +1419,7 @@
 				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
 				D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 				41ACF1C62C3553E900CF30BF /* XCRemoteSwiftPackageReference "pact-consumer-swift" */,
+				41D6EB2F2C510B6300EC86D2 /* XCRemoteSwiftPackageReference "PactSwift" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -2833,6 +2837,14 @@
 				kind = branch;
 			};
 		};
+		41D6EB2F2C510B6300EC86D2 /* XCRemoteSwiftPackageReference "PactSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/surpher/PactSwift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
@@ -2904,6 +2916,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 41ACF1C62C3553E900CF30BF /* XCRemoteSwiftPackageReference "pact-consumer-swift" */;
 			productName = PactConsumerSwift;
+		};
+		41D6EB302C510B6300EC86D2 /* PactSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41D6EB2F2C510B6300EC86D2 /* XCRemoteSwiftPackageReference "PactSwift" */;
+			productName = PactSwift;
 		};
 		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

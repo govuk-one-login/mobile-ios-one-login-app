@@ -32,7 +32,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "PATH=/opt/homebrew/bin:$PATH&#10;pact-mock-service start --pact-specification-version 2.0.0 --log &quot;${SRCROOT}/pact/pact.log&quot; --pact-dir &quot;${SRCROOT}/pact/pacts&quot; -p 1234&#10;">
+               scriptText = "#PATH=/opt/homebrew/bin:$PATH&#10;#pact-mock-service start --pact-specification-version 2.0.0 --log &quot;${SRCROOT}/pact/pact.log&quot; --pact-dir &quot;${SRCROOT}/pact/pacts&quot; -p 1234&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -50,7 +50,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "PATH=/opt/homebrew/bin:$PATH&#10;pact-mock-service stop&#10;">
+               scriptText = "#PATH=/opt/homebrew/bin:$PATH&#10;#pact-mock-service stop&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
