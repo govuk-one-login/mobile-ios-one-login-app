@@ -61,11 +61,12 @@ extension WalletCoordinatorTests {
         XCTAssertNoThrow(try sut.deleteWalletData())
     }
     
-//    func test_clearWallet() throws {
-//        try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
-//        mockDefaultsStore.set(true, forKey: .returningUser)
-//        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-//        XCTAssertFalse(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
-//        XCTAssertNil(mockDefaultsStore.value(forKey: .returningUser))
-//    }
+    func test_clearWallet() throws {
+        sut.start()
+        try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        mockDefaultsStore.set(true, forKey: .returningUser)
+        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+        XCTAssertFalse(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
+        XCTAssertNil(mockDefaultsStore.value(forKey: .returningUser))
+    }
 }

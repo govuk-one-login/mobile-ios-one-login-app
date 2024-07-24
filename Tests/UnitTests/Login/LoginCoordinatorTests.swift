@@ -10,29 +10,29 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: AnalyticsCentral!
-    var mockNetworkMonitor: NetworkMonitoring!
     var mockSecureStore: MockSecureStoreService!
     var mockOpenSecureStore: MockSecureStoreService!
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
+    var mockNetworkMonitor: NetworkMonitoring!
     var sut: LoginCoordinator!
     
     override func setUp() {
         super.setUp()
         
-        appWindow = UIWindow()
+        appWindow = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = AnalyticsCenter(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
-        mockNetworkMonitor = MockNetworkMonitor()
         mockSecureStore = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
         mockDefaultStore = MockDefaultsStore()
         mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
+        mockNetworkMonitor = MockNetworkMonitor()
         appWindow.rootViewController = navigationController
         appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(appWindow: appWindow,
@@ -44,15 +44,16 @@ final class LoginCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        appWindow = nil
         navigationController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
-        mockNetworkMonitor = nil
         mockSecureStore = nil
         mockOpenSecureStore = nil
         mockDefaultStore = nil
         mockUserStore = nil
+        mockNetworkMonitor = nil
         sut = nil
         
         super.tearDown()
