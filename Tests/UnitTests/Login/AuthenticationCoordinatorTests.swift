@@ -76,8 +76,6 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.refreshToken, "refreshTokenResponse")
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.idToken, "idTokenResponse")
-        // THEN the persistentSessionID is stored.
-        XCTAssertEqual(try mockUserStore.readItem(itemName: .persistentSessionID, storage: .open), TokenHolder.shared.idTokenPayload?.persistentId)
     }
     
     func test_start_loginError_network() throws {

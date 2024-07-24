@@ -41,6 +41,9 @@ final class MockSecureStoreService: SecureStorable {
     }
     
     func checkItemExists(itemName: String) -> Bool {
-        returnFromCheckItemExists
+        if savedItems[itemName] != nil {
+            return true
+        }
+        return false
     }
 }

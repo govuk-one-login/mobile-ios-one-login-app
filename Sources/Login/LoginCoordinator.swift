@@ -137,6 +137,7 @@ extension LoginCoordinator: ParentCoordinator {
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
             if reauth {
+                userStore.storeTokenInfo()
                 root.dismiss(animated: true)
                 finish()
             } else {
