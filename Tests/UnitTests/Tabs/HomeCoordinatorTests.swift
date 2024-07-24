@@ -3,6 +3,7 @@ import XCTest
 
 @MainActor
 final class HomeCoordinatorTests: XCTestCase {
+    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSecureStoreService: MockSecureStoreService!
     var mockOpenSecureStore: MockSecureStoreService!
@@ -13,6 +14,7 @@ final class HomeCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
@@ -25,6 +27,7 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
         mockOpenSecureStore = nil
@@ -45,7 +48,10 @@ final class HomeCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.tag, homeTab.tag)
     }
     
-    func test_showDeveloperMenu() throws {sut.start()
+    func test_showDeveloperMenu() throws {
+        window.rootViewController = sut.root
+        window.makeKeyAndVisible()
+        sut.start()
         sut.showDeveloperMenu()
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
