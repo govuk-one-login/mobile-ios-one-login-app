@@ -1,5 +1,5 @@
 {
-  "originHash" : "1c1c97e6dc04393daffc9e7f82a4ee21d08c08ca588e5c1aae7dbed0ebbd78f0",
+  "originHash" : "9572bd114345c693eae7da00d2d2655df7889947e01b175bf411e2ba5abda662",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -188,6 +188,15 @@
       "state" : {
         "revision" : "819d0a2173aff699fb8c364b6fb906f7cdb1a692",
         "version" : "2.30909.0"
+      }
+    },
+    {
+      "identity" : "pact-consumer-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DiUS/pact-consumer-swift",
+      "state" : {
+        "branch" : "master",
+        "revision" : "405dcbf565241b8da08ff3ff329ab493229bae83"
       }
     },
     {

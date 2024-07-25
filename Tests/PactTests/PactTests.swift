@@ -9,8 +9,8 @@ class MockProvider {
     var mockService: MockService
 
     private init() {
-        mockService = MockService(consumer: "OneLoginApp",
-                                  provider: "Mobile.MobilePlatform.MockStsConsumer")
+        mockService = MockService(consumer: "Mobile.MobilePlatform.OneLoginApp",
+                                  provider: "Mobile.MobilePlatform.StsBackendApi")
     }
 }
 
@@ -70,20 +70,20 @@ final class OneLoginPactTests: XCTestCase {
             let mockIDToken = MockJWKSResponse.idToken
             var urlParser = URLComponents()
             urlParser.queryItems = [
-                URLQueryItem(name: "code", value: "code"),
-                URLQueryItem(name: "code_verifier", value: "jM6oX_w_wU4biA2hDwmy0nkC_JsgvJRxaX0D-w1Hou0"),
-                URLQueryItem(name: "redirect_uri", value: "https://mobile.build.account.gov.uk/redirect"),
+                URLQueryItem(name: "mock_auth_code", value: "mockAuthCode"),
+                URLQueryItem(name: "code_challenge'", value: "jM6oX_w_wU4biA2hDwmy0nkC_JsgvJRxaX0D-w1Hou0"),
+                URLQueryItem(name: "redirect_uri", value: "https://mock-redirect-uri.gov.uk"),
                 URLQueryItem(name: "client_id", value: "bYrcuRVvnylvEgYSSbBjwXzHrwJ"),
                 URLQueryItem(name: "grant_type", value: "authoriztion_code")
             ]
             mockService
                 .uponReceiving("An authorization request")
                 .given(ProviderState(description: "mock_auth_code is a valid authorization code",
-                                     params: ["mock_auth_code": "mockAuthCode"]))
-                .given(ProviderState(description: "https://mock-redirect-uri.gov.uk is the redirect URI used in the authorization request",
-                                     params: ["redirect_uri": "https://mock-redirect-uri.gov.uk"]))
-                .given(ProviderState(description: "the code_challenge sent in the authorization request matches the verifier mock_code_verifier",
-                                     params: ["code_challenge": "mock_code_verifier"]))
+                                 params: .init()),
+                          ProviderState(description: "https://mock-redirect-uri.gov.uk is the redirect URI used in the authorization request",
+                                 params: .init()),
+                          ProviderState(description: "the code_challenge sent in the authorization request matches the verifier mock_code_verifier",
+                                 params: .init()))
                 .withRequest(
                     method: .POST, path: "/token",
                              headers: ["Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"],
