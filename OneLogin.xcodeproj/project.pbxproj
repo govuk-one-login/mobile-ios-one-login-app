@@ -375,6 +375,7 @@
 		D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyVerifier.swift; sourceTree = "<group>"; };
 		D03B04D22BEE734900418C0B /* IdTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenPayload.swift; sourceTree = "<group>"; };
 		D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierError.swift; sourceTree = "<group>"; };
+		D05109272C52B91200ECA13D /* OneLoginPact.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = OneLoginPact.xctestplan; path = "/Users/jodubey/Build/GDS/mobile-ios-one-login-app/Tests/TestPlans/OneLoginPact.xctestplan"; sourceTree = "<absolute>"; };
 		D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutErrorViewModel.swift; sourceTree = "<group>"; };
 		D087BCF12C19E4BB00825F60 /* SignOutErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutErrorViewModelTests.swift; sourceTree = "<group>"; };
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
@@ -1148,6 +1149,7 @@
 		C8E6C7662AF8223B008C19C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
+				D05109272C52B91200ECA13D /* OneLoginPact.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
 				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
