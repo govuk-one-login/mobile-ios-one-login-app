@@ -11,8 +11,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeveloperMenuViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
+                <outlet property="deletePersistentSessionIDButton" destination="C0t-4e-n5V" id="P9c-kx-nIG"/>
                 <outlet property="errorPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
                 <outlet property="errorPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>
+                <outlet property="expireAccessTokenButton" destination="fiE-gu-qhs" id="Rbb-S3-Ral"/>
                 <outlet property="happyPathButton" destination="hG1-h3-EEW" id="8d8-K6-v5c"/>
                 <outlet property="happyPathResultLabel" destination="MDX-ro-LVP" id="CCs-KH-vlg"/>
                 <outlet property="unauthorizedPathButton" destination="j6G-Nm-scc" id="ZVO-Pb-cRK"/>
@@ -71,7 +73,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OFa-dn-cnK" customClass="RoundedButton" customModule="GDSCommon">
-                            <rect key="frame" x="0.0" y="30" width="361" height="5"/>
+                            <rect key="frame" x="0.0" y="30" width="361" height="0.0"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             <connections>
@@ -79,14 +81,14 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world error" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiG-tG-gku">
-                            <rect key="frame" x="0.0" y="50" width="361" height="20.333333333333329"/>
+                            <rect key="frame" x="0.0" y="45" width="361" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="j6G-Nm-scc" customClass="RoundedButton" customModule="GDSCommon">
-                            <rect key="frame" x="0.0" y="85.333333333333329" width="361" height="34.333333333333329"/>
+                            <rect key="frame" x="0.0" y="60" width="361" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
@@ -95,12 +97,30 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world unauthorized" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sV8-Lr-k86">
-                            <rect key="frame" x="0.0" y="134.66666666666666" width="361" height="20.333333333333343"/>
+                            <rect key="frame" x="0.0" y="75" width="361" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="C0t-4e-n5V" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="90" width="361" height="15.666666666666671"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="deletePersistentSessionIDAction:" destination="-1" eventType="touchUpInside" id="ObN-cf-DcZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="fiE-gu-qhs" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="120.66666666666667" width="361" height="34.333333333333329"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="expireAccessTokenAction:" destination="-1" eventType="touchUpInside" id="UBI-iX-nRU"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </stackView>
             </subviews>

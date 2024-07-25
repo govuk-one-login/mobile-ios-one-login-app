@@ -162,6 +162,40 @@ final class DeveloperMenuViewController: BaseViewController {
             unauthorizedPathResultLabel.font = .bodyBold
         }
     }
+    
+    @IBOutlet private var deletePersistentSessionIDButton: RoundedButton! {
+        didSet {
+            if AppEnvironment.callingSTSEnabled {
+                deletePersistentSessionIDButton.titleLabel?.adjustsFontForContentSizeCategory = true
+                deletePersistentSessionIDButton.setTitle("Delete Persistent Session ID", for: .normal)
+            } else {
+                deletePersistentSessionIDButton.isHidden = true
+            }
+            deletePersistentSessionIDButton.accessibilityIdentifier = "sts-delete-persistent-session-id-path-button"
+        }
+    }
+    
+    @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
+        userStore.openStore.deleteItem(itemName: .persistentSessionID)
+        deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
+    }
+    
+    @IBOutlet private var expireAccessTokenButton: RoundedButton! {
+        didSet {
+            if AppEnvironment.callingSTSEnabled {
+                expireAccessTokenButton.titleLabel?.adjustsFontForContentSizeCategory = true
+                expireAccessTokenButton.setTitle("Expire Access Token", for: .normal)
+            } else {
+                expireAccessTokenButton.isHidden = true
+            }
+            expireAccessTokenButton.accessibilityIdentifier = "sts-expire-access-token-button"
+        }
+    }
+    
+    @IBAction private func expireAccessTokenAction(_ sender: Any) {
+        userStore.defaultsStore.set((Date() - 60), forKey: .accessTokenExpiry)
+        expireAccessTokenButton.backgroundColor = .gdsBrightPurple
+    }
 }
 
 fileprivate extension UILabel {

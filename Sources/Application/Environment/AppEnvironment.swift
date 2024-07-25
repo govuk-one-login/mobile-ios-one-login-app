@@ -164,4 +164,8 @@ extension AppEnvironment {
     static var signoutErrorEnabled: Bool {
         isFeatureEnabled(for: .enableSignoutError)
     }
+    
+    static var clearWalletErrorEnabled: Bool {
+        isFeatureEnabled(for: .enableClearWalletError)
+    }
 }

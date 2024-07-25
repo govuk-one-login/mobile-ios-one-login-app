@@ -1,10 +1,14 @@
 [
     {
         "name": "EnableCallingSTS",
-        "isEnabled": false
+        "isEnabled": true
     },
     {
         "name": "EnableSignoutError",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableClearWalletError",
         "isEnabled": false
     }
 ]
