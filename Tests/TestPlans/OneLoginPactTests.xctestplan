@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "DCA155E3-67D2-4595-A2CF-8451386B81AE",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "414CE2D82C5262C500C73C3D",
+        "name" : "OneLoginPactTests"
+      }
+    }
+  ],
+  "version" : 1
+}

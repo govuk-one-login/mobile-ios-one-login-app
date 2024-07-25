@@ -30,6 +30,9 @@
 		41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */; };
 		413C58762BF261D300171C06 /* HomeTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58752BF261D300171C06 /* HomeTabViewModelTests.swift */; };
 		413C58782BF266A200171C06 /* ProfileTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58772BF266A200171C06 /* ProfileTabViewModelTests.swift */; };
+		414CE2DC2C5262C600C73C3D /* PactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414CE2DB2C5262C600C73C3D /* PactTests.swift */; };
+		414CE2E72C52636900C73C3D /* PactSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 414CE2E62C52636900C73C3D /* PactSwift */; };
+		414CE2E82C5263B700C73C3D /* PactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414CE2DB2C5262C600C73C3D /* PactTests.swift */; };
 		414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
 		414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 414D98042B8DF0F100E267EF /* UnlockScreen.xib */; };
 		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
@@ -209,6 +212,13 @@
 			remoteGlobalIDString = 219601E62A976302008F3427;
 			remoteInfo = OneLogin;
 		};
+		414CE2DD2C5262C600C73C3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 219601DF2A976302008F3427 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 219601E62A976302008F3427;
+			remoteInfo = OneLogin;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -243,6 +253,9 @@
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
 		413C58752BF261D300171C06 /* HomeTabViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModelTests.swift; sourceTree = "<group>"; };
 		413C58772BF266A200171C06 /* ProfileTabViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabViewModelTests.swift; sourceTree = "<group>"; };
+		414CE2D92C5262C500C73C3D /* OneLoginPactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginPactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		414CE2DB2C5262C600C73C3D /* PactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PactTests.swift; sourceTree = "<group>"; };
+		414CE2E42C52630200C73C3D /* OneLoginPactTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = OneLoginPactTests.xctestplan; path = Tests/TestPlans/OneLoginPactTests.xctestplan; sourceTree = SOURCE_ROOT; };
 		414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewController.swift; sourceTree = "<group>"; };
 		414D98042B8DF0F100E267EF /* UnlockScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnlockScreen.xib; sourceTree = "<group>"; };
 		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
@@ -436,6 +449,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		414CE2D62C5262C500C73C3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				414CE2E72C52636900C73C3D /* PactSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -461,6 +482,7 @@
 				219602072A976305008F3427 /* OneLoginUITests.xctest */,
 				25537C3D2AF2B2600059DCD2 /* OneLoginStagingConfigTests.xctest */,
 				25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */,
+				414CE2D92C5262C500C73C3D /* OneLoginPactTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -468,6 +490,7 @@
 		219602002A976305008F3427 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				414CE2DA2C5262C600C73C3D /* PactTests */,
 				C8E6C7662AF8223B008C19C9 /* TestPlans */,
 				C8E6C7632AF821D2008C19C9 /* UnitTests */,
 				C8BA48F62AF3FFBF0028282D /* ConfigTests */,
@@ -536,6 +559,14 @@
 				41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */,
 			);
 			path = SignOutConfirmation;
+			sourceTree = "<group>";
+		};
+		414CE2DA2C5262C600C73C3D /* PactTests */ = {
+			isa = PBXGroup;
+			children = (
+				414CE2DB2C5262C600C73C3D /* PactTests.swift */,
+			);
+			path = PactTests;
 			sourceTree = "<group>";
 		};
 		414D97FF2B8DEBD000E267EF /* Unlock */ = {
@@ -1118,6 +1149,7 @@
 		C8E6C7662AF8223B008C19C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
+				414CE2E42C52630200C73C3D /* OneLoginPactTests.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
 				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
@@ -1305,6 +1337,27 @@
 			productReference = 25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		414CE2D82C5262C500C73C3D /* OneLoginPactTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 414CE2DF2C5262C600C73C3D /* Build configuration list for PBXNativeTarget "OneLoginPactTests" */;
+			buildPhases = (
+				414CE2D52C5262C500C73C3D /* Sources */,
+				414CE2D62C5262C500C73C3D /* Frameworks */,
+				414CE2D72C5262C500C73C3D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				414CE2DE2C5262C600C73C3D /* PBXTargetDependency */,
+			);
+			name = OneLoginPactTests;
+			packageProductDependencies = (
+				414CE2E62C52636900C73C3D /* PactSwift */,
+			);
+			productName = OneLoginPactTests;
+			productReference = 414CE2D92C5262C500C73C3D /* OneLoginPactTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1312,7 +1365,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					219601E62A976302008F3427 = {
@@ -1332,6 +1385,10 @@
 					};
 					25537C4D2AF2B38E0059DCD2 = {
 						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 219601E62A976302008F3427;
+					};
+					414CE2D82C5262C500C73C3D = {
+						CreatedOnToolsVersion = 15.4;
 						TestTargetID = 219601E62A976302008F3427;
 					};
 				};
@@ -1355,6 +1412,7 @@
 				C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */,
 				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
 				D06F499E2C20373A009D76A0 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
+				414CE2E52C52636900C73C3D /* XCRemoteSwiftPackageReference "PactSwift" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -1365,6 +1423,7 @@
 				25537C3C2AF2B2600059DCD2 /* OneLoginStagingConfigTests */,
 				25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */,
 				219602062A976305008F3427 /* OneLoginUITests */,
+				414CE2D82C5262C500C73C3D /* OneLoginPactTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1415,6 +1474,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		25537C4C2AF2B38E0059DCD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		414CE2D72C5262C500C73C3D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1606,6 +1672,7 @@
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
 				41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeTabViewModelTests.swift in Sources */,
+				414CE2E82C5263B700C73C3D /* PactTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */,
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
@@ -1683,6 +1750,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		414CE2D52C5262C500C73C3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				414CE2DC2C5262C600C73C3D /* PactTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1705,6 +1780,11 @@
 			isa = PBXTargetDependency;
 			target = 219601E62A976302008F3427 /* OneLogin */;
 			targetProxy = 25537C522AF2B38E0059DCD2 /* PBXContainerItemProxy */;
+		};
+		414CE2DE2C5262C600C73C3D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 219601E62A976302008F3427 /* OneLogin */;
+			targetProxy = 414CE2DD2C5262C600C73C3D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2141,6 +2221,98 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Release;
+		};
+		414CE2E02C5262C600C73C3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-pactTests.OneLoginPactTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Debug;
+		};
+		414CE2E12C5262C600C73C3D /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-pactTests.OneLoginPactTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Staging;
+		};
+		414CE2E22C5262C600C73C3D /* Debug_Build */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-pactTests.OneLoginPactTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Debug_Build;
+		};
+		414CE2E32C5262C600C73C3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-pactTests.OneLoginPactTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2635,9 +2807,28 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		414CE2DF2C5262C600C73C3D /* Build configuration list for PBXNativeTarget "OneLoginPactTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				414CE2E02C5262C600C73C3D /* Debug */,
+				414CE2E12C5262C600C73C3D /* Staging */,
+				414CE2E22C5262C600C73C3D /* Debug_Build */,
+				414CE2E32C5262C600C73C3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		414CE2E52C52636900C73C3D /* XCRemoteSwiftPackageReference "PactSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/surpher/PactSwift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
@@ -2705,6 +2896,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		414CE2E62C52636900C73C3D /* PactSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 414CE2E52C52636900C73C3D /* XCRemoteSwiftPackageReference "PactSwift" */;
+			productName = PactSwift;
+		};
 		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C8A13C9D2AFBD05700FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-common" */;

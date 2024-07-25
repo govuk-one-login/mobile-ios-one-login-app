@@ -1,4 +1,5 @@
 {
+  "originHash" : "1c1c97e6dc04393daffc9e7f82a4ee21d08c08ca588e5c1aae7dbed0ebbd78f0",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -190,6 +191,24 @@
       }
     },
     {
+      "identity" : "pactswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/surpher/PactSwift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "53762a596549f7727d01114c4405c402d9412e4e"
+      }
+    },
+    {
+      "identity" : "pactswiftserver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/surpher/PactSwiftServer.git",
+      "state" : {
+        "revision" : "12ecc92092ecd3640dcc2dcb98ce6b3d1f2d76f7",
+        "version" : "0.4.7"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
@@ -235,5 +254,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
