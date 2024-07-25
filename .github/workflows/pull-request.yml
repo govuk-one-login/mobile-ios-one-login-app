@@ -118,7 +118,7 @@ jobs:
         with:
           name: ${{env.PACT_ARTIFACT_NAME}}
           path: |
-            ${{github.workspace}}/pact/pacts/
+            /tmp/pacts/
           retention-days: 1
           overwrite: true
           if-no-files-found: error
@@ -146,12 +146,12 @@ jobs:
 
       - name: Remove Pact Files in Preparation for Artifact Download
         run: |
-          rm -rf ${{github.workspace}}/pact/pacts
+          rm -rf /tmp/pacts
       - name: Download Pact Artifact Files
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           name: ${{env.PACT_ARTIFACT_NAME}}
-          path: ${{github.workspace}}/pact/pacts
+          path: /tmp/pacts
 
       - name: Install PACT broker (ubuntu)
         run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
@@ -175,7 +175,7 @@ jobs:
           if [ $response_code -eq 200 ]; then
             sleep 4
             echo ${{ github.sha }}
-            pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
+            pact-broker publish /tmp/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
           else 
             echo $response_code
             echo "Login to pact broker failed, results not uploaded"
