@@ -56,7 +56,6 @@ final class WalletCoordinator: NSObject,
     
     @objc private func clearWallet() {
         do {
-            throw TokenError.launchExpired
             try deleteWalletData()
             userStore.resetPersistentSession()
             let dataDeletionWarningScreen = ErrorPresenter
