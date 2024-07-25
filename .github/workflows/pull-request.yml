@@ -9,6 +9,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  PACT_ARTIFACT_NAME: pact-${{ github.sha }}
+
 jobs:
   build:
     name: Run Unit Tests and Send Coverage Report
@@ -56,7 +59,9 @@ jobs:
             pr_number:$pull_number \
             testplan:OneLoginUnit
 
-      # Check the Quality Gate status.
+  
+
+      #Check the Quality Gate status.
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
@@ -64,3 +69,114 @@ jobs:
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  pact_tests:
+    name: Run Pact Tests
+    runs-on: macos-14
+
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+        run: |
+          ./store-access-token.sh
+
+      - name: Lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+
+      - name: Install PACT broker
+        run: |
+          brew tap pact-foundation/pact-ruby-standalone
+          brew install pact-ruby-standalone
+
+      - name: Build App, Run PACT tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+        run: |
+          bundle install
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            testplan:OneLoginPact
+
+      - name: Upload Pact Files as Artifact
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        with:
+          name: ${{env.PACT_ARTIFACT_NAME}}
+          path: |
+            ${{github.workspace}}/pact/pacts/
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: error
+
+  upload_to_pact:
+    needs: pact_tests
+    name: Upload to Broker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pin@v4
+        with:
+          lfs: 'true'
+          fetch-depth: 0
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+        run: |
+          ./store-access-token.sh
+
+      - name: Remove Pact Files in Preparation for Artifact Download
+        run: |
+          rm -rf ${{github.workspace}}/pact/pacts
+      - name: Download Pact Artifact Files
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: ${{env.PACT_ARTIFACT_NAME}}
+          path: ${{github.workspace}}/pact/pacts
+
+      - name: Install PACT broker (ubuntu)
+        run: curl -fsSL https://raw.githubusercontent.com/pact-foundation/pact-ruby-standalone/master/install.sh | PACT_CLI_VERSION=v2.4.6 bash
+                
+      - name: Upload to PACT broker.
+        env:
+          PACT_BROKER_USERNAME_NP: ${{ secrets.PACT_BROKER_USERNAME_NP }}
+          PACT_BROKER_PASSWORD_NP: ${{ secrets.PACT_BROKER_PASSWORD_NP }}
+          PACT_BROKER_SOURCE_SECRET_NP: ${{ secrets.PACT_BROKER_SOURCE_SECRET_NP }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+        if: ${{ success() }}
+        # The pact broker endpoint requires a query parameter to be accessed from outside the VPN.  However, the broker CLI will ignore this when passed as part of the "-b" parameter
+        # By first executing a curl command to the broker endpoint, it allows subsequent connections and results can be published
+        # The 4 second delay between the curl and pact-broker commands has been found to help mitigate 403 errors being returned from the pact-broker
+
+        run: |
+          response_code=$(curl -o /dev/null -w "%{http_code}\n" -u ${{env.PACT_BROKER_USERNAME_NP}}:${{env.PACT_BROKER_PASSWORD_NP}} "https://pactbroker-onelogin.staging.account.gov.uk/?testSource=${{env.PACT_BROKER_SOURCE_SECRET_NP}}")
+          if [ $response_code -eq 200 ]; then
+            sleep 4
+            echo ${{ github.sha }}
+            pact-broker publish ${{github.workspace}}/pact/pacts --consumer-app-version ${{github.sha}} --branch ${{github.head_ref}} -u=${{env.PACT_BROKER_USERNAME_NP}} -p=${{env.PACT_BROKER_PASSWORD_NP}} -b="https://pactbroker-onelogin.staging.account.gov.uk"
+          else 
+            echo $response_code
+            echo "Login to pact broker failed, results not uploaded"
+          fi
