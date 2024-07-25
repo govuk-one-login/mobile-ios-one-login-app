@@ -62,7 +62,6 @@ final class MainCoordinator: NSObject,
                     }
                 }
             } else {
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin(loginError: TokenError.launchExpired)
             }
         } else {
@@ -132,7 +131,7 @@ extension MainCoordinator {
     
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
-                                   analyticsService: analyticsCenter.analyticsService,
+                                   analyticsCenter: analyticsCenter,
                                    userStore: userStore)
         addTab(wc)
         walletCoordinator = wc

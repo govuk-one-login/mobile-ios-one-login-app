@@ -13,16 +13,16 @@ final class WalletCoordinator: NSObject,
     private let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    private let analyticsService: AnalyticsService
+    private var analyticsCenter: AnalyticsCentral
     private let userStore: UserStorable
     private let walletSDK = WalletSDK()
     private var networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
     
     init(window: UIWindow,
-         analyticsService: AnalyticsService,
+         analyticsCenter: AnalyticsCentral,
          userStore: UserStorable) {
         self.window = window
-        self.analyticsService = analyticsService
+        self.analyticsCenter = analyticsCenter
         self.userStore = userStore
     }
     
@@ -33,7 +33,7 @@ final class WalletCoordinator: NSObject,
         walletSDK.start(in: window,
                         with: root,
                         networkClient: networkClient,
-                        analyticsService: analyticsService,
+                        analyticsService: analyticsCenter.analyticsService,
                         persistentSecureStore: userStore.openStore)
         NotificationCenter.default
             .addObserver(self,
@@ -63,19 +63,19 @@ final class WalletCoordinator: NSObject,
             #endif
             try deleteWalletData()
             userStore.resetPersistentSession()
+            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
             let dataDeletionWarningScreen = ErrorPresenter
-                .createDataDeletionWarning(analyticsService: analyticsService) { [unowned self] in
-                    NotificationCenter.default.post(name: Notification.Name(.enableIntroButton), object: nil)
+                .createDataDeletionWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     window.rootViewController?.presentedViewController?.dismiss(animated: true)
+                    NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
                 }
             dataDeletionWarningScreen.modalPresentationStyle = .overFullScreen
             window.rootViewController?.presentedViewController?.present(dataDeletionWarningScreen, animated: true)
         } catch {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                          analyticsService: analyticsService) { [unowned self] in
-                    NotificationCenter.default.post(name: Notification.Name(.enableIntroButton), object: nil)
-                    window.rootViewController?.presentedViewController?.dismiss(animated: true)
+                                          analyticsService: analyticsCenter.analyticsService) {
+                    exit(0)
                 }
             unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
             window.rootViewController?.presentedViewController?.present(unableToLoginErrorScreen, animated: true)

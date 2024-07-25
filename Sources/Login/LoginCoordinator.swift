@@ -40,7 +40,23 @@ final class LoginCoordinator: NSObject,
     func start() {
         let rootViewController = OnboardingViewControllerFactory
             .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                authenticate()
+                if userStore.missingPersistentSessionId {
+                    NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+                } else {
+                    if networkMonitor.isConnected {
+                        launchAuthenticationCoordinator()
+                    } else {
+                        let networkErrorScreen = ErrorPresenter
+                            .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                                introViewController?.enableIntroButton()
+                                root.popViewController(animated: true)
+                                if networkMonitor.isConnected {
+                                    launchAuthenticationCoordinator()
+                                }
+                            }
+                        root.pushViewController(networkErrorScreen, animated: true)
+                    }
+                }
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
@@ -48,37 +64,34 @@ final class LoginCoordinator: NSObject,
         launchOnboardingCoordinator()
         NotificationCenter.default
             .addObserver(self,
-                         selector: #selector(enableIntroButton),
-                         name: Notification.Name(.enableIntroButton),
+                         selector: #selector(returnToIntroScreen),
+                         name: Notification.Name(.returnToIntroScreen),
                          object: nil)
-    }
-    
-    private func authenticate() {
-        if userStore.missingPersistentSessionId {
-            NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-        } else {
-            if networkMonitor.isConnected {
-                launchAuthenticationCoordinator()
-            } else {
-                let networkErrorScreen = ErrorPresenter
-                    .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                        introViewController?.enableIntroButton()
-                        root.popViewController(animated: true)
-                        if networkMonitor.isConnected {
-                            launchAuthenticationCoordinator()
-                        }
-                    }
-                root.pushViewController(networkErrorScreen, animated: true)
-            }
-        }
     }
     
     private func showLoginErrorIfNecessary() {
         if let error = loginError as? TokenError, error == .launchExpired || error == .useExpired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.dismiss(animated: true)
-                    launchOnboardingCoordinator()
+                    if userStore.missingPersistentSessionId {
+                        root.dismiss(animated: true)
+                        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+                    } else {
+                        if networkMonitor.isConnected {
+                            launchAuthenticationCoordinator(reauth: true)
+                        } else {
+                            root.dismiss(animated: true)
+                            let networkErrorScreen = ErrorPresenter
+                                .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                                    introViewController?.enableIntroButton()
+                                    root.popViewController(animated: true)
+                                    if networkMonitor.isConnected {
+                                        launchAuthenticationCoordinator()
+                                    }
+                                }
+                            root.pushViewController(networkErrorScreen, animated: true)
+                        }
+                    }
                 }
             signOutWarningScreen.modalPresentationStyle = .overFullScreen
             root.present(signOutWarningScreen, animated: false)
@@ -93,8 +106,9 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    @objc private func enableIntroButton() {
+    @objc private func returnToIntroScreen() {
         introViewController?.enableIntroButton()
+        launchOnboardingCoordinator()
     }
     
     private func launchOnboardingCoordinator() {
@@ -104,11 +118,12 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func launchAuthenticationCoordinator() {
+    func launchAuthenticationCoordinator(reauth: Bool = false) {
         let ac = AuthenticationCoordinator(root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            userStore: userStore,
-                                           session: AppAuthSession(window: appWindow))
+                                           session: AppAuthSession(window: appWindow),
+                                           reauth: reauth)
         openChildInline(ac)
         authCoordinator = ac
     }
@@ -133,7 +148,7 @@ extension LoginCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
-            if let error = loginError as? TokenError, error == .useExpired {
+            if let error = loginError as? TokenError, error == .launchExpired || error == .useExpired {
                 userStore.storeTokenInfo()
                 root.dismiss(animated: true)
                 finish()
