@@ -48,4 +48,12 @@ final class ErrorPresenter {
         }
         return GDSErrorViewController(viewModel: viewModel)
     }
+    
+    static func createDataDeletionWarning(analyticsService: AnalyticsService,
+                                          action: @escaping () -> Void) -> GDSErrorViewController {
+        let viewModel = DataDeletedWarningViewModel(analyticsService: analyticsService) {
+            action()
+        }
+        return GDSErrorViewController(viewModel: viewModel)
+    }
 }

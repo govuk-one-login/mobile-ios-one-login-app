@@ -8,6 +8,7 @@ extension String {
     static let clearWallet = "clearWallet"
     static let startReauth = "startReauth"
     static let returningUser = "returningUser"
+    static let enableIntroButton = "enableIntroButton"
     
     // Universal Link Component
     static let redirect = "redirect"

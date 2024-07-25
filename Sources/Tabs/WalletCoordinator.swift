@@ -56,17 +56,25 @@ final class WalletCoordinator: NSObject,
     
     @objc private func clearWallet() {
         do {
+            throw TokenError.launchExpired
             try deleteWalletData()
             userStore.resetPersistentSession()
+            let dataDeletionWarningScreen = ErrorPresenter
+                .createDataDeletionWarning(analyticsService: analyticsService) { [unowned self] in
+                    NotificationCenter.default.post(name: Notification.Name(.enableIntroButton), object: nil)
+                    window.rootViewController?.presentedViewController?.dismiss(animated: true)
+                }
+            dataDeletionWarningScreen.modalPresentationStyle = .overFullScreen
+            window.rootViewController?.presentedViewController?.present(dataDeletionWarningScreen, animated: true)
         } catch {
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                          analyticsService: analyticsService) {
-                    exit(0)
+                                          analyticsService: analyticsService) { [unowned self] in
+                    NotificationCenter.default.post(name: Notification.Name(.enableIntroButton), object: nil)
+                    window.rootViewController?.presentedViewController?.dismiss(animated: true)
                 }
             unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
-            window.rootViewController?.dismiss(animated: false)
-            window.rootViewController?.present(unableToLoginErrorScreen, animated: false)
+            window.rootViewController?.presentedViewController?.present(unableToLoginErrorScreen, animated: true)
         }
     }
 }

@@ -63,9 +63,7 @@ final class AuthenticationCoordinator: NSObject,
     
     func handleUniversalLink(_ url: URL) {
         do {
-            if let loginCoordinator = parentCoordinator as? LoginCoordinator {
-                loginCoordinator.introViewController?.enableIntroButton()
-            }
+            NotificationCenter.default.post(name: Notification.Name(.enableIntroButton), object: nil)
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
             try session.finalise(redirectURL: url)

@@ -17,8 +17,7 @@ final class LoginCoordinator: NSObject,
     private let analyticsCenter: AnalyticsCentral
     private let userStore: UserStorable
     private let networkMonitor: NetworkMonitoring
-    private let reauth: Bool
-    var loginError: Error?
+    let loginError: Error?
     
     weak var introViewController: IntroViewController?
     private weak var authCoordinator: AuthenticationCoordinator?
@@ -28,33 +27,30 @@ final class LoginCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          networkMonitor: NetworkMonitoring,
-         reauth: Bool) {
+         loginError: Error?) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
         self.networkMonitor = networkMonitor
-        self.reauth = reauth
+        self.loginError = loginError
         root.modalPresentationStyle = .overFullScreen
     }
     
     func start() {
-        if reauth {
-            let rootViewController = ErrorPresenter
-                .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    authenticate()
-                }
-            root.setViewControllers([rootViewController], animated: true)
-        } else {
-            let rootViewController = OnboardingViewControllerFactory
-                .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    authenticate()
-                }
-            root.setViewControllers([rootViewController], animated: true)
-            introViewController = rootViewController
-            showLoginErrorIfNecessary()
-            launchOnboardingCoordinator()
-        }
+        let rootViewController = OnboardingViewControllerFactory
+            .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                authenticate()
+            }
+        root.setViewControllers([rootViewController], animated: true)
+        introViewController = rootViewController
+        showLoginErrorIfNecessary()
+        launchOnboardingCoordinator()
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(enableIntroButton),
+                         name: Notification.Name(.enableIntroButton),
+                         object: nil)
     }
     
     private func authenticate() {
@@ -78,15 +74,11 @@ final class LoginCoordinator: NSObject,
     }
     
     private func showLoginErrorIfNecessary() {
-        if let error = loginError as? TokenError, error == .expired {
+        if let error = loginError as? TokenError, error == .launchExpired || error == .useExpired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.dismiss(animated: true) { [unowned self] in
-                        if userStore.missingPersistentSessionId {
-                            NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-                        }
-                        launchOnboardingCoordinator()
-                    }
+                    root.dismiss(animated: true)
+                    launchOnboardingCoordinator()
                 }
             signOutWarningScreen.modalPresentationStyle = .overFullScreen
             root.present(signOutWarningScreen, animated: false)
@@ -94,10 +86,15 @@ final class LoginCoordinator: NSObject,
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.popViewController(animated: true)
+                    root.dismiss(animated: true)
                 }
-            root.pushViewController(unableToLoginErrorScreen, animated: true)
+            unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
+            root.present(unableToLoginErrorScreen, animated: false)
         }
+    }
+    
+    @objc private func enableIntroButton() {
+        introViewController?.enableIntroButton()
     }
     
     private func launchOnboardingCoordinator() {
@@ -136,7 +133,7 @@ extension LoginCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
-            if reauth {
+            if let error = loginError as? TokenError, error == .useExpired {
                 userStore.storeTokenInfo()
                 root.dismiss(animated: true)
                 finish()

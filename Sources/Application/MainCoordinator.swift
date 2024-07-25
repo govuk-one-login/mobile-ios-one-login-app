@@ -63,7 +63,7 @@ final class MainCoordinator: NSObject,
                 }
             } else {
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-                fullLogin(error: TokenError.expired)
+                fullLogin(loginError: TokenError.launchExpired)
             }
         } else {
             fullLogin()
@@ -71,7 +71,7 @@ final class MainCoordinator: NSObject,
     }
     
     @objc private func startReauth() {
-        fullLogin(reauth: true)
+        fullLogin(loginError: TokenError.useExpired)
     }
     
     private func handleLoginError(_ error: Error) {
@@ -80,16 +80,16 @@ final class MainCoordinator: NSObject,
             SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            fullLogin(error: error)
+            fullLogin(loginError: error)
         default:
             print("Token retrival error: \(error)")
         }
     }
     
-    private func fullLogin(error: Error? = nil, reauth: Bool = false) {
+    private func fullLogin(loginError: Error? = nil) {
         TokenHolder.shared.clearTokenHolder()
         userStore.refreshStorage(accessControlLevel: nil)
-        showLogin(error, reauth: reauth)
+        showLogin(loginError)
         windowManager.hideUnlockWindow()
     }
     
@@ -106,14 +106,13 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    private func showLogin(_ error: Error?, reauth: Bool) {
+    private func showLogin(_ loginError: Error?) {
         let lc = LoginCoordinator(appWindow: windowManager.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
                                   networkMonitor: NetworkMonitor.shared,
-                                  reauth: reauth)
-        lc.loginError = error
+                                  loginError: loginError)
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }
