@@ -4,11 +4,11 @@ import XCTest
 
 final class LoginSessionConfigurationTests: XCTestCase {
     func test_oneLoginSessionConfig() throws {
-        XCTAssertEqual(LoginSessionConfiguration.oneLogin().authorizationEndpoint, AppEnvironment.oneLoginAuthorize)
-        XCTAssertEqual(LoginSessionConfiguration.oneLogin().tokenEndpoint, AppEnvironment.oneLoginToken)
+        XCTAssertEqual(LoginSessionConfiguration.oneLogin().authorizationEndpoint, AppEnvironment.stsAuthorize)
+        XCTAssertEqual(LoginSessionConfiguration.oneLogin().tokenEndpoint, AppEnvironment.stsToken)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().responseType, LoginSessionConfiguration.ResponseType.code)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().scopes, [.openid])
-        XCTAssertEqual(LoginSessionConfiguration.oneLogin().clientID, AppEnvironment.oneLoginClientID)
+        XCTAssertEqual(LoginSessionConfiguration.oneLogin().clientID, AppEnvironment.stsClientID)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().prefersEphemeralWebSession, true)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().redirectURI, AppEnvironment.oneLoginRedirect)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().vectorsOfTrust, ["Cl.Cm.P0"])
