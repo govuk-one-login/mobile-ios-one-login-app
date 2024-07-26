@@ -14,6 +14,7 @@ final class HomeCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
@@ -27,6 +28,7 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil

@@ -21,6 +21,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
@@ -43,6 +44,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         window = nil
         navigationController = nil
         mockAnalyticsService = nil

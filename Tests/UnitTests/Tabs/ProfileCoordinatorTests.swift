@@ -17,6 +17,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
@@ -33,6 +34,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil

@@ -20,6 +20,7 @@ final class LoginCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         appWindow = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
@@ -44,6 +45,7 @@ final class LoginCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         appWindow = nil
         navigationController = nil
         mockAnalyticsService = nil

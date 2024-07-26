@@ -12,6 +12,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockURLOpener = MockURLOpener()
@@ -20,6 +21,7 @@ final class OnboardingCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockURLOpener = nil

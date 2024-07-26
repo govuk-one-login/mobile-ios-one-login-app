@@ -34,6 +34,7 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         navigationController = nil
         mockAnalyticsService = nil
         mockSecureStore = nil
@@ -42,7 +43,6 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         mockUserStore = nil
         mockLAContext = nil
         sut = nil
-        TokenHolder.shared.clearTokenHolder()
         
         super.tearDown()
     }

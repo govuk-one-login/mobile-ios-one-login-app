@@ -16,6 +16,7 @@ final class WalletCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -33,6 +34,7 @@ final class WalletCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         window = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
