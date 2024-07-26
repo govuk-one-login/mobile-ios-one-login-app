@@ -45,10 +45,9 @@ extension UserStorable {
         }
     }
     
-    func clearTokenInfo() {
+    func clearTokens() {
         authenticatedStore.deleteItem(itemName: .accessToken)
         authenticatedStore.deleteItem(itemName: .idToken)
-        defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
     
     func resetPersistentSession() {

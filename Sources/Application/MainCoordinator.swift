@@ -62,7 +62,7 @@ final class MainCoordinator: NSObject,
                     }
                 }
             } else {
-                fullLogin(loginError: TokenError.expired)
+                fullLogin(loginError: TokenError.expired, accessExpired: true)
             }
         } else {
             fullLogin()
@@ -70,7 +70,7 @@ final class MainCoordinator: NSObject,
     }
     
     @objc private func startReauth() {
-        fullLogin(loginError: TokenError.expired)
+        fullLogin(loginError: TokenError.expired, accessExpired: true)
     }
     
     private func handleLoginError(_ error: Error) {
@@ -85,9 +85,13 @@ final class MainCoordinator: NSObject,
         }
     }
     
-    private func fullLogin(loginError: Error? = nil) {
+    private func fullLogin(loginError: Error? = nil, accessExpired: Bool = false) {
+        if accessExpired {
+            userStore.clearTokens()
+        } else {
+            userStore.refreshStorage(accessControlLevel: nil)
+        }
         TokenHolder.shared.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: nil)
         showLogin(loginError)
         windowManager.hideUnlockWindow()
     }
@@ -194,6 +198,7 @@ extension MainCoordinator: ParentCoordinator {
                 try walletCoordinator?.deleteWalletData()
                 userStore.resetPersistentSession()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+                userStore.defaultsStore.removeObject(forKey: .accessTokenExpiry)
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0

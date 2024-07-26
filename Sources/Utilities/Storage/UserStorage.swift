@@ -15,7 +15,6 @@ final class UserStorage: UserStorable {
     }
     
     func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?) {
-        clearTokenInfo()
         do {
             try authenticatedStore.delete()
         } catch {

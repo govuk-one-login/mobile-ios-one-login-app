@@ -109,7 +109,8 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchAuthenticationCoordinator(reauth: Bool = false) {
-        let ac = AuthenticationCoordinator(root: root,
+        let ac = AuthenticationCoordinator(window: appWindow,
+                                           root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            userStore: userStore,
                                            session: AppAuthSession(window: appWindow),

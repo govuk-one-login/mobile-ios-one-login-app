@@ -8,6 +8,7 @@ import UIKit
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
+    private let window: UIWindow
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
@@ -17,12 +18,14 @@ final class AuthenticationCoordinator: NSObject,
     private let reauth: Bool
     var authError: Error?
     
-    init(root: UINavigationController,
+    init(window: UIWindow,
+         root: UINavigationController,
          analyticsService: AnalyticsService,
          userStore: UserStorable,
          session: LoginSession,
          tokenVerifier: TokenVerifier = JWTVerifier(),
          reauth: Bool) {
+        self.window = window
         self.root = root
         self.analyticsService = analyticsService
         self.userStore = userStore
@@ -67,7 +70,7 @@ final class AuthenticationCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         do {
             if reauth {
-                root.topViewController?.dismiss(animated: true)
+                window.rootViewController?.presentedViewController?.dismiss(animated: true)
             }
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
@@ -81,9 +84,6 @@ final class AuthenticationCoordinator: NSObject,
 
 extension AuthenticationCoordinator {
     private func showUnableToLoginErrorScreen(_ error: Error) {
-        if reauth {
-            root.topViewController?.dismiss(animated: true)
-        }
         let unableToLoginErrorScreen = ErrorPresenter
             .createUnableToLoginError(errorDescription: error.localizedDescription,
                                       analyticsService: analyticsService) { [unowned self] in
@@ -94,9 +94,6 @@ extension AuthenticationCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        if reauth {
-            root.topViewController?.dismiss(animated: true)
-        }
         let genericErrorScreen = ErrorPresenter
             .createGenericError(errorDescription: error.localizedDescription,
                                 analyticsService: analyticsService) { [unowned self] in
