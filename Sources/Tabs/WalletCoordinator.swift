@@ -58,7 +58,7 @@ final class WalletCoordinator: NSObject,
         do {
             #if DEBUG
             if AppEnvironment.clearWalletErrorEnabled {
-                throw TokenError.useExpired
+                throw TokenError.expired
             }
             #endif
             try deleteWalletData()
