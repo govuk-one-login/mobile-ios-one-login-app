@@ -152,11 +152,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
-    func test_returnToIntro() {
-        sut.start()
-        NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
-    }
-    
     // MARK: Coordinator flow
     func test_start_skips_launchOnboardingCoordinator() {
         // GIVEN the user has accepted analytics permissions
