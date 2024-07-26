@@ -83,7 +83,7 @@ final class LoginCoordinatorTests: XCTestCase {
 }
 
 extension LoginCoordinatorTests {
-    // MARK: Standard Login
+    // MARK: Login
     func test_start() {
         // WHEN the LoginCoordinator is started
         sut.start()
@@ -152,6 +152,11 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
+    func test_returnToIntro() {
+        sut.start()
+        NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
+    }
+    
     // MARK: Coordinator flow
     func test_start_skips_launchOnboardingCoordinator() {
         // GIVEN the user has accepted analytics permissions
@@ -188,15 +193,35 @@ extension LoginCoordinatorTests {
     }
     
     func test_didRegainFocus_fromOnboardingCoordinator() {
-        let mockURLOpener = MockURLOpener()
         let onboardingCoordinator = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
-                                                          urlOpener: mockURLOpener)
+                                                          urlOpener: MockURLOpener())
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()
         // GIVEN the LoginCoordinator regained focus from the OnboardingCoordinator
         sut.didRegainFocus(fromChild: onboardingCoordinator)
         // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+    }
+    
+    func test_didRegainFocus_fromAuthenticationCoordinator_expiredToken() throws {
+        reauthLogin()
+        let tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = tokenResponse
+        TokenHolder.shared.idTokenPayload = try MockTokenVerifier().extractPayload("test")
+        let authCoordinator = AuthenticationCoordinator(window: appWindow,
+                                                        root: navigationController,
+                                                        analyticsService: mockAnalyticsService,
+                                                        userStore: mockUserStore,
+                                                        session: MockLoginSession(),
+                                                        reauth: false)
+        // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
+        sut.didRegainFocus(fromChild: authCoordinator)
+        // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
+        XCTAssertEqual(try mockSecureStore.readItem(itemName: .accessToken), tokenResponse.accessToken)
+        XCTAssertEqual(try mockSecureStore.readItem(itemName: .idToken), tokenResponse.idToken)
+        XCTAssertEqual(try mockOpenSecureStore.readItem(itemName: .persistentSessionID), TokenHolder.shared.idTokenPayload?.persistentId)
+        XCTAssertEqual(mockDefaultStore.value(forKey: .accessTokenExpiry) as? Date, tokenResponse.expiryDate)
+        XCTAssertEqual(mockDefaultStore.value(forKey: .returningUser) as? Bool, true)
     }
     
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {

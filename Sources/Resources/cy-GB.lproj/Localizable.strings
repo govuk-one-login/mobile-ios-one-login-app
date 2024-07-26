@@ -157,6 +157,6 @@
 
 
 // MARK: Data DeletionWarning screen
-"app_dataDeletionWarningBody" = "We’ve deleted the information in your GOV.UK One Login app because we cannot confirm your sign in details.\n\nWe did this to reduce the risk that someone else will see your information.\n\nTo keep using the app, you’ll need to sign in. You’ll then be asked to set your analytics and sign in preferences again.";
+"app_dataDeletionWarningBody" = "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.";
 
-"app_dataDeletionSignInButton" = "Sign in with GOV.UK One Login";
+"app_dataDeletionSignInButton" = "Mewngofnodi gyda GOV.UK One Login";

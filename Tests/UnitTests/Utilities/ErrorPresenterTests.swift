@@ -70,4 +70,13 @@ extension ErrorPresenterTests {
         exitButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didCallAction)
     }
+    
+    func test_dataDeletedWarning_callsAction() throws {
+        let errorView = sut.createDataDeletionWarning(analyticsService: mockAnalyticsService) {
+            self.didCallAction = true
+        }
+        let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])
+        exitButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(didCallAction)
+    }
 }

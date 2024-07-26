@@ -2,11 +2,9 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-import Foundation
-
-final class SignOutErrorViewModelTests: XCTestCase {
+final class DataDeletedWarningViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutErrorViewModel!
+    var sut: SignOutWarningViewModel!
     
     var didCallButtonAction = false
     
@@ -14,8 +12,7 @@ final class SignOutErrorViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutErrorViewModel(errorDescription: "Error",
-                                    analyticsService: mockAnalyticsService) {
+        sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -27,20 +24,19 @@ final class SignOutErrorViewModelTests: XCTestCase {
     }
 }
 
-extension SignOutErrorViewModelTests {
+extension DataDeletedWarningViewModelTests {
     func test_pageConfiguration() throws {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
-        XCTAssertEqual(sut.body, "app_signOutErrorBody")
+        XCTAssertEqual(sut.title.stringKey, "app_somethingWentWrongErrorTitle")
+        XCTAssertEqual(sut.body, "app_dataDeletionWarningBody")
         XCTAssertNil(sut.secondaryButtonViewModel)
-        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
+        XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
-        XCTAssertEqual(sut.errorDescription, "Error")
     }
     
     func test_buttonConfiuration() throws {
         XCTAssertTrue(sut.primaryButtonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.primaryButtonViewModel.title, GDSLocalisedString(stringLiteral: "app_exitButton"))
+        XCTAssertEqual(sut.primaryButtonViewModel.title, GDSLocalisedString(stringLiteral: "app_dataDeletionSignInButton"))
         let button = try XCTUnwrap(sut.primaryButtonViewModel as? AnalyticsButtonViewModel)
         XCTAssertEqual(button.backgroundColor, .gdsGreen)
     }

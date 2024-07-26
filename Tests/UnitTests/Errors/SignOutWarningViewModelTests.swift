@@ -1,4 +1,3 @@
-import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
 import XCTest

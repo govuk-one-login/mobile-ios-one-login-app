@@ -76,4 +76,15 @@ extension WalletCoordinatorTests {
         XCTAssertFalse(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
         XCTAssertNil(mockDefaultsStore.value(forKey: .returningUser))
     }
+    
+    func test_clearWallet_error() throws {
+        UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableClearWalletError.rawValue)
+        sut.start()
+        try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        mockDefaultsStore.set(true, forKey: .returningUser)
+        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+        XCTAssertTrue(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
+        XCTAssertNotNil(mockDefaultsStore.value(forKey: .returningUser))
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableClearWalletError.rawValue)
+    }
 }
