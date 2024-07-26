@@ -4,7 +4,7 @@ import XCTest
 
 final class DataDeletedWarningViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutWarningViewModel!
+    var sut: DataDeletedWarningViewModel!
     
     var didCallButtonAction = false
     
@@ -12,7 +12,7 @@ final class DataDeletedWarningViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {
+        sut = DataDeletedWarningViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }

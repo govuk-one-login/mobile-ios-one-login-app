@@ -119,7 +119,7 @@ extension DeveloperMenuViewControllerTests {
         try sut.happyPathButton.sendActions(for: .touchUpInside)
     }
     
-    func test_unhappyPathButton() throws {
+    func test_errorPathButton() throws {
         mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
 
         MockURLProtocol.handler = { [unowned self] in
@@ -134,13 +134,13 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: token")
     }
     
-    func test_unhappyPathButton_invalidAccessTokenActionCalled() throws {
+    func test_errorPathButton_invalidAccessTokenActionCalled() throws {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.errorPathButton.sendActions(for: .touchUpInside)
     }
 
-    func test_unsuccessfulPathButton() throws {
+    func test_unauthorizedPathButton() throws {
         mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
 
         MockURLProtocol.handler = { [unowned self] in
@@ -155,10 +155,23 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
     }
     
-    func test_unsuccessfulPathButton_invalidAccessTokenActionCalled() throws {
+    func test_unauthorized_invalidAccessTokenActionCalled() throws {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+    }
+    
+    func test_deletePersistentSessionIDButton() throws {
+        try mockOpenSecureStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        try sut.deletePersistentSessionIDButton.sendActions(for: .touchUpInside)
+        XCTAssertFalse(mockOpenSecureStore.checkItemExists(itemName: .persistentSessionID))
+        XCTAssertTrue(try sut.deletePersistentSessionIDButton.backgroundColor == .gdsBrightPurple)
+    }
+    
+    func test_expireAccessTokenButton() throws {
+        mockDefaultsStore.set("123456789", forKey: .accessTokenExpiry)
+        try sut.expireAccessTokenButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
     }
 }
 
@@ -196,6 +209,18 @@ extension DeveloperMenuViewController {
     var unauthorizedPathResultLabel: UILabel {
         get throws {
             try XCTUnwrap(view[child: "sts-unauthorized-path-result"])
+        }
+    }
+    
+    var deletePersistentSessionIDButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-delete-persistent-session-id-path-button"])
+        }
+    }
+    
+    var expireAccessTokenButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-expire-access-token-button"])
         }
     }
 }
