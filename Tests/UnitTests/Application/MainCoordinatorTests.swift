@@ -304,7 +304,7 @@ extension MainCoordinatorTests {
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
                                                 networkMonitor: MockNetworkMonitor(),
-                                                reauth: false)
+                                                loginError: nil)
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -318,7 +318,7 @@ extension MainCoordinatorTests {
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 userStore: mockUserStore,
                                                 networkMonitor: MockNetworkMonitor(),
-                                                reauth: false)
+                                                loginError: nil)
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
@@ -356,7 +356,6 @@ extension MainCoordinatorTests {
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)
         // THEN the sign out error screen should be presented
-        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         let errroVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         XCTAssertTrue(errroVC.viewModel is SignOutErrorViewModel)
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset

@@ -74,7 +74,7 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    private func authenticate(action: (() -> Void)? = nil) {
+    func authenticate(action: (() -> Void)? = nil) {
         if userStore.missingPersistentSessionId {
             action?()
             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)

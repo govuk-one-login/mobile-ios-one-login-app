@@ -32,11 +32,13 @@ final class AuthenticationCoordinatorTests: XCTestCase {
                                     defaultsStore: mockDefaultStore)
         mockLoginSession = MockLoginSession(window: window)
         mockTokenVerifier = MockTokenVerifier()
-        sut = AuthenticationCoordinator(root: navigationController,
+        sut = AuthenticationCoordinator(window: window,
+                                        root: navigationController,
                                         analyticsService: mockAnalyticsService,
                                         userStore: mockUserStore,
                                         session: mockLoginSession,
-                                        tokenVerifier: mockTokenVerifier)
+                                        tokenVerifier: mockTokenVerifier,
+                                        reauth: false)
         UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
     
