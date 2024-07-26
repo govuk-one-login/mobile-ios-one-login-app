@@ -51,16 +51,16 @@ final class WalletCoordinator: NSObject,
     }
     
     func deleteWalletData() throws {
+        #if DEBUG
+        if AppEnvironment.clearWalletErrorEnabled {
+            throw TokenError.expired
+        }
+        #endif
         try walletSDK.deleteWalletData()
     }
     
     @objc private func clearWallet() {
         do {
-            #if DEBUG
-            if AppEnvironment.clearWalletErrorEnabled {
-                throw TokenError.expired
-            }
-            #endif
             try deleteWalletData()
             userStore.resetPersistentSession()
             analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
