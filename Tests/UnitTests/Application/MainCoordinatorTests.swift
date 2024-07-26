@@ -45,6 +45,7 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         mockWindowManager = nil
         tabBarController = nil
         mockAnalyticsService = nil
@@ -56,16 +57,14 @@ final class MainCoordinatorTests: XCTestCase {
         mockUserStore = nil
         mockTokenVerifier = nil
         sut = nil
-        TokenHolder.shared.clearTokenHolder()
         
         super.tearDown()
     }
     
     func returningAuthenticatedUser(expired: Bool = false) throws {
-        let accessToken = try MockTokenResponse().getJSONData().accessToken
-        TokenHolder.shared.accessToken = accessToken
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
         TokenHolder.shared.idTokenPayload = try MockTokenVerifier().extractPayload("test")
-        try mockUserStore.saveItem(accessToken,
+        try mockUserStore.saveItem(TokenHolder.shared.accessToken,
                                    itemName: .accessToken,
                                    storage: .authenticated)
         try mockUserStore.saveItem(MockTokenResponse().getJSONData().idToken,

@@ -1,6 +1,5 @@
 // swiftlint:disable line_length
 
-@testable import OneLogin
 import XCTest
 
 final class LocalizedEnglishStringTests: XCTestCase {
