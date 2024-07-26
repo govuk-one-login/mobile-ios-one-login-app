@@ -146,6 +146,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
         let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
         // WHEN the network error screens button is pressed
+        mockNetworkMonitor.isConnected = true
         errorButton.sendActions(for: .touchUpInside)
         // THEN the AuthenticationCoordinator is launched
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)

@@ -16,12 +16,12 @@ final class MainCoordinatorTests: XCTestCase {
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
-    var mockURLOpener: MockURLOpener!
     var sut: MainCoordinator!
     
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         mockWindowManager = MockWindowManager(appWindow: UIWindow())
         tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
@@ -34,10 +34,9 @@ final class MainCoordinatorTests: XCTestCase {
         mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
-        mockURLOpener = MockURLOpener()
+        mockTokenVerifier = MockTokenVerifier()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
-        mockTokenVerifier = MockTokenVerifier()
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
@@ -56,8 +55,8 @@ final class MainCoordinatorTests: XCTestCase {
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenVerifier = nil
-        mockURLOpener = nil
         sut = nil
+        TokenHolder.shared.clearTokenHolder()
         
         super.tearDown()
     }
@@ -90,12 +89,14 @@ final class MainCoordinatorTests: XCTestCase {
         XCTAssertFalse(mockSecureStore.didCallDeleteStore)
     }
     
-    func appReset() throws {
+    func appReset(accessExpiryDeleted: Bool = false) throws {
         XCTAssertNil(TokenHolder.shared.accessToken)
         XCTAssertNil(TokenHolder.shared.idTokenPayload)
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
-        XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        if accessExpiryDeleted {
+            XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        }
         XCTAssertTrue(mockSecureStore.didCallDeleteStore)
         XCTAssertTrue(mockWindowManager.hideUnlockWindowCalled)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
@@ -131,7 +132,9 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
-        try appReset()
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
+        XCTAssertNotNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
     }
     
     func test_evaluateRevisit_returningAuthenticatedUser() throws {
@@ -231,7 +234,9 @@ extension MainCoordinatorTests {
         NotificationCenter.default
             .post(name: Notification.Name(.startReauth), object: nil)
         // THEN the tokens should be deleted; the app should be reset
-        try appReset()
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
+        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
+        XCTAssertNotNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
     }
     
     func test_handleUniversalLink_login() {
@@ -337,7 +342,7 @@ extension MainCoordinatorTests {
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                                    urlOpener: mockURLOpener)
+                                                    urlOpener: MockURLOpener())
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
         // THEN the tokens should be deleted and the analytics should be reset; the app should be reset
@@ -351,7 +356,7 @@ extension MainCoordinatorTests {
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                                    urlOpener: mockURLOpener)
+                                                    urlOpener: MockURLOpener())
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)

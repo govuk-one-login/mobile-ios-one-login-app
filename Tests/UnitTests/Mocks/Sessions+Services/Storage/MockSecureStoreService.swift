@@ -38,6 +38,7 @@ final class MockSecureStoreService: SecureStorable {
         if let errorFromDeleteItem {
             throw errorFromDeleteItem
         }
+        savedItems = [String: String]()
     }
     
     func checkItemExists(itemName: String) -> Bool {

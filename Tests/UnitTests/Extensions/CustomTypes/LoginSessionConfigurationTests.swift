@@ -14,6 +14,5 @@ final class LoginSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().vectorsOfTrust, ["Cl.Cm.P0"])
         XCTAssertEqual(LoginSessionConfiguration.oneLogin().locale, .en)
         XCTAssertEqual(LoginSessionConfiguration.oneLogin(persistentSessionId: "123456789").persistentSessionId, "123456789")
-
     }
 }
