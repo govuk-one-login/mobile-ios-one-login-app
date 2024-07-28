@@ -31,39 +31,6 @@ final class OneLoginPactTests: XCTestCase {
         networkClient = nil
     }
     
-    // swiftlint:disable line_length
-//    func testTokenExchangeRequest() {
-//        
-//        MockProvider.shared.mockService
-//            .uponReceiving("A token exchange request")
-//            .withRequest(method: .POST, path: "/token",
-//                         headers: ["Content-Type": "application/x-www-form-urlencoded"],
-//                         body: "grant_type=urn:ietf:params:oauth:grant-type:token-exchange&scope=sts-test.hello-world.read&subject_token=subjectToken&subject_token_type=urn:ietf:params:oauth:token-type:access_token")
-//            .willRespondWith(status: 200,
-//                             headers: ["Content-Type": "application/json"],
-//                             body: [ "access_token": "accessToken",
-//                                     "token_type": "Bearer",
-//                                     "expires_in": 180])
-//        
-//        MockProvider.shared.mockService.run(timeout: 60) { baseURL, testComplete in
-//            Task {
-//                let request = URLRequest(url: URL(string: "\(baseURL)/token")!)
-//                let tokenExchangeRequest = request.tokenExchange(subjectToken: "subjectToken", scope: "sts-test.hello-world.read")
-//                let result = try await self.networkClient?.makeRequest(tokenExchangeRequest)
-//                let jsonDecoder = JSONDecoder()
-//                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-//                
-//                let tokenResponse = try jsonDecoder.decode(ServiceTokenResponse.self, from: result!)
-//                XCTAssertEqual(tokenResponse.accessToken, "accessToken")
-//                XCTAssertEqual(tokenResponse.tokenType, "Bearer")
-//                XCTAssertEqual(tokenResponse.expiresIn, 180)
-//                testComplete()
-//            }
-//        }
-//    }
-    // swiftlint:enable line_length
-    
-    
     @MainActor
     func testAccessTokenRequestWithNoPreviouslyRequestedScope() throws {
         
@@ -81,9 +48,9 @@ final class OneLoginPactTests: XCTestCase {
                 body: tokenQuery)
             .willRespondWith(status: 200,
                              headers: ["Content-Type": "application/json"],
-                             body: [ "access_token": Matcher.SomethingLike("mockAccessToken"),
-                                     "token_type": "Bearer",
-                                     "expires_in": Matcher.SomethingLike(180)])
+                             body: ["access_token": Matcher.SomethingLike("mockAccessToken"),
+                                    "token_type": "Bearer",
+                                    "expires_in": Matcher.SomethingLike(180)])
         
         MockProvider.shared.mockService.run(timeout: 20) { [unowned self] baseURL, testComplete in
             Task {
@@ -130,7 +97,7 @@ final class OneLoginPactTests: XCTestCase {
                                      "token_type": "Bearer",
                                      "expires_in": Matcher.SomethingLike(180)])
         
-        MockProvider.shared.mockService.run(timeout: 20) { [unowned self] baseURL, testComplete in
+        MockProvider.shared.mockService.run(timeout: 10) { [unowned self] baseURL, testComplete in
             Task {
                 let request = tokenRequest(baseURL)
                 let result = try await self.networkClient?.makeRequest(request)
@@ -149,7 +116,67 @@ final class OneLoginPactTests: XCTestCase {
             
         }
     }
+    
+    @MainActor
+    func testValidAuthorizationRequest() throws {
+        MockProvider.shared.mockService
+            .uponReceiving("A valid authorization request")
+            .given(ProviderState(description: "there is a registered client with id mock_client_id",
+                                 params: .init()),
+                   ProviderState(description: "https://mock-redirect-uri.gov.uk as a registered redirect URI",
+                                 params: .init()),
+                   ProviderState(description: "openid as a registered scope",
+                                 params: .init()),
+                   ProviderState(description: "code as a registered response type",
+                                 params: .init()))
+            .withRequest(method: .GET,
+                         path: "/authorize",
+                         query: pactAuthorizationQuerySpec)
+            .willRespondWith(status: 200)
+        
+        MockProvider.shared.mockService.run(timeout: 10) { [unowned self] baseURL, testComplete in
+            Task {
+                let request = authorizationRequest(baseURL)
+                _ = try await self.networkClient?.makeRequest(request)
+                testComplete()
+            }
+        }
+    }
+    
+    // swiftlint:disable line_length
+    //    func testTokenExchangeRequest() {
+    //
+    //        MockProvider.shared.mockService
+    //            .uponReceiving("A token exchange request")
+    //            .withRequest(method: .POST, path: "/token",
+    //                         headers: ["Content-Type": "application/x-www-form-urlencoded"],
+    //                         body: "grant_type=urn:ietf:params:oauth:grant-type:token-exchange&scope=sts-test.hello-world.read&subject_token=subjectToken&subject_token_type=urn:ietf:params:oauth:token-type:access_token")
+    //            .willRespondWith(status: 200,
+    //                             headers: ["Content-Type": "application/json"],
+    //                             body: [ "access_token": "accessToken",
+    //                                     "token_type": "Bearer",
+    //                                     "expires_in": 180])
+    //
+    //        MockProvider.shared.mockService.run(timeout: 60) { baseURL, testComplete in
+    //            Task {
+    //                let request = URLRequest(url: URL(string: "\(baseURL)/token")!)
+    //                let tokenExchangeRequest = request.tokenExchange(subjectToken: "subjectToken", scope: "sts-test.hello-world.read")
+    //                let result = try await self.networkClient?.makeRequest(tokenExchangeRequest)
+    //                let jsonDecoder = JSONDecoder()
+    //                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+    //
+    //                let tokenResponse = try jsonDecoder.decode(ServiceTokenResponse.self, from: result!)
+    //                XCTAssertEqual(tokenResponse.accessToken, "accessToken")
+    //                XCTAssertEqual(tokenResponse.tokenType, "Bearer")
+    //                XCTAssertEqual(tokenResponse.expiresIn, 180)
+    //                testComplete()
+    //            }
+    //        }
+    //    }
+    // swiftlint:enable line_length
+}
 
+extension OneLoginPactTests {
     private func tokenRequest(_ baseURL: String) -> URLRequest {
         var request = URLRequest(url: URL(string: "\(baseURL)/token")!)
         request.httpMethod = "POST"
@@ -169,6 +196,35 @@ final class OneLoginPactTests: XCTestCase {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         return urlParser.percentEncodedQuery
+    }
+    
+    private var pactAuthorizationQuerySpec: [String: [Any]] {
+        ["client_id": ["mock_client_id"],
+         "redirect_uri": ["https://mock-redirect-uri.gov.uk"],
+         "state": ["mock_state"],
+         "nonce": ["mock_nonce"],
+         "scope": ["openid"],
+         "response_type'": ["code"],
+         "code_challenge_method": ["S256"],
+         "code_challenge": ["mock_code_challenge"]]
+    }
+    
+    private func authorizationRequest(_ baseURL: String) -> URLRequest {
+        var request = URLRequest(url: URL(string: "\(baseURL)/authorize")!)
+        request.httpMethod = "GET"
+        request.url?.append(queryItems: authorizationQueryItems)
+        return request
+    }
+    
+    private var authorizationQueryItems: [URLQueryItem] {
+        [URLQueryItem(name: "client_id", value: "mock_client_id"),
+         URLQueryItem(name: "redirect_uri", value: "https://mock-redirect-uri.gov.uk"),
+         URLQueryItem(name: "state", value: "mock_state"),
+         URLQueryItem(name: "nonce", value: "mock_nonce"),
+         URLQueryItem(name: "scope", value: "openid"),
+         URLQueryItem(name: "response_type'", value: "code"),
+         URLQueryItem(name: "code_challenge_method", value: "S256"),
+         URLQueryItem(name: "code_challenge", value: "mock_code_challenge")]
     }
     
     private var idTokenPayloadMatching: [String: Any] {
