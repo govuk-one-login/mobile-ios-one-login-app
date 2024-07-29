@@ -66,8 +66,9 @@ final class WalletCoordinator: NSObject,
             analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
             let dataDeletionWarningScreen = ErrorPresenter
                 .createDataDeletionWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    window.rootViewController?.presentedViewController?.dismiss(animated: true)
-                    NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
+                    window.rootViewController?.presentedViewController?.dismiss(animated: true) {
+                        NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
+                    }
                 }
             dataDeletionWarningScreen.modalPresentationStyle = .overFullScreen
             window.rootViewController?.presentedViewController?.present(dataDeletionWarningScreen, animated: true)

@@ -185,10 +185,7 @@ extension MainCoordinator: ParentCoordinator {
     }
     
     func performChildCleanup(child: ChildCoordinator) {
-        switch child {
-        case _ as HomeCoordinator:
-            updateToken()
-        case _ as ProfileCoordinator:
+        if child is ProfileCoordinator {
             do {
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
@@ -210,8 +207,6 @@ extension MainCoordinator: ParentCoordinator {
                     }
                 root.present(signOutErrorScreen, animated: true)
             }
-        default:
-            break
         }
     }
 }
