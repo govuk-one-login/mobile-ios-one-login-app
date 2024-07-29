@@ -200,7 +200,7 @@ extension OneLoginPactTests {
          "state": ["mock_state"],
          "nonce": ["mock_nonce"],
          "scope": ["openid"],
-         "response_type'": ["code"],
+         "response_type": ["code"],
          "code_challenge_method": ["S256"],
          "code_challenge": ["mock_code_challenge"]]
     }
