@@ -218,7 +218,7 @@ extension OneLoginPactTests {
          URLQueryItem(name: "state", value: "mock_state"),
          URLQueryItem(name: "nonce", value: "mock_nonce"),
          URLQueryItem(name: "scope", value: "openid"),
-         URLQueryItem(name: "response_type'", value: "code"),
+         URLQueryItem(name: "response_type", value: "code"),
          URLQueryItem(name: "code_challenge_method", value: "S256"),
          URLQueryItem(name: "code_challenge", value: "mock_code_challenge")]
     }
