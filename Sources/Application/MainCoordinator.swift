@@ -62,7 +62,7 @@ final class MainCoordinator: NSObject,
                     }
                 }
             } else {
-                fullLogin(loginError: TokenError.expired, accessExpired: true)
+                fullLogin(loginError: TokenError.expired)
             }
         } else {
             fullLogin()
@@ -70,7 +70,7 @@ final class MainCoordinator: NSObject,
     }
     
     @objc private func startReauth() {
-        fullLogin(loginError: TokenError.expired, accessExpired: true)
+        fullLogin(loginError: TokenError.expired)
     }
     
     private func handleLoginError(_ error: Error) {
@@ -85,8 +85,8 @@ final class MainCoordinator: NSObject,
         }
     }
     
-    private func fullLogin(loginError: Error? = nil, accessExpired: Bool = false) {
-        if accessExpired {
+    private func fullLogin(loginError: Error? = nil) {
+        if let error = loginError as? TokenError, error == .expired {
             userStore.clearTokens()
         } else {
             userStore.refreshStorage(accessControlLevel: nil)
