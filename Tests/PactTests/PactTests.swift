@@ -103,7 +103,7 @@ final class OneLoginPactTests: XCTestCase {
                 let result = try await self.networkClient?.makeRequest(request)
                 
                 let response = try XCTUnwrap(try? JSONSerialization.jsonObject(with: result!, options: []) as? [String: Any])
-                print("RESPONSE = \(response)")
+                
                 let tokenType = try XCTUnwrap(response["token_type"] as? String)
                 let payload = try XCTUnwrap(response["id_token"] as? String)
                 let verifier = JWTVerifier()
@@ -118,16 +118,11 @@ final class OneLoginPactTests: XCTestCase {
     }
     
     @MainActor
+    // swiftlint:disable line_length
     func testValidAuthorizationRequest() throws {
         MockProvider.shared.mockService
             .uponReceiving("A valid authorization request")
-            .given(ProviderState(description: "there is a registered client with id mock_client_id",
-                                 params: .init()),
-                   ProviderState(description: "https://mock-redirect-uri.gov.uk as a registered redirect URI",
-                                 params: .init()),
-                   ProviderState(description: "openid as a registered scope",
-                                 params: .init()),
-                   ProviderState(description: "code as a registered response type",
+            .given(ProviderState(description: ("there is a registered client with id mock_client_id, with https://mock-redirect-uri.gov.uk as a registered redirect URI, with openid as a registered scope, with code as a registered response type"),
                                  params: .init()))
             .withRequest(method: .GET,
                          path: "/authorize",
@@ -142,6 +137,7 @@ final class OneLoginPactTests: XCTestCase {
             }
         }
     }
+    // swiftlint:enable line_length
     
     // swiftlint:disable line_length
     //    func testTokenExchangeRequest() {
@@ -191,7 +187,7 @@ extension OneLoginPactTests {
         var urlParser = URLComponents()
         urlParser.queryItems = [
             URLQueryItem(name: "code", value: "mock.auth.code"),
-            URLQueryItem(name: "code_verifier'", value: "mock_code_verifier"),
+            URLQueryItem(name: "code_verifier", value: "mock_code_verifier"),
             URLQueryItem(name: "redirect_uri", value: "https://mock-redirect-uri.gov.uk"),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
