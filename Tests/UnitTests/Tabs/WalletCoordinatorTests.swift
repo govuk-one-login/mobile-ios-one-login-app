@@ -51,7 +51,9 @@ final class WalletCoordinatorTests: XCTestCase {
 
 extension WalletCoordinatorTests {
     func test_tabBarItem() throws {
+        // WHEN the WalletCoordinator has started
         sut.start()
+        // THEN the bar button item of the root is correctly configured
         let walletTab = UITabBarItem(title: "Wallet",
                                      image: UIImage(systemName: "wallet.pass"),
                                      tag: 1)
@@ -67,26 +69,37 @@ extension WalletCoordinatorTests {
     }
     
     func test_deleteWalletData() throws {
+        // WHEN the deleteWalletData method is called
+        // THEN no error should be thrown
         XCTAssertNoThrow(try sut.deleteWalletData())
     }
     
     func test_clearWallet() throws {
         sut.start()
+        // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
         try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
         mockDefaultsStore.set(true, forKey: .returningUser)
+        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
+        // WHEN the clearWallet notification is posted
         NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+        // THEN the persistent session id, returning user and analytics preferences have been removed
         XCTAssertFalse(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
         XCTAssertNil(mockDefaultsStore.value(forKey: .returningUser))
+        XCTAssertNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
     }
     
     func test_clearWallet_error() throws {
         UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableClearWalletError.rawValue)
         sut.start()
+        // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
         try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
         mockDefaultsStore.set(true, forKey: .returningUser)
+        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+        // THEN the persistent session id, returning user and analytics preferences should not have been removed
         XCTAssertTrue(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
         XCTAssertNotNil(mockDefaultsStore.value(forKey: .returningUser))
+        XCTAssertNotNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableClearWalletError.rawValue)
     }
 }

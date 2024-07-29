@@ -215,7 +215,6 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
         sut.authError = JWTVerifierError.invalidJWTFormat
-
     }
     
     func test_handleUniversalLink_catchAllError() throws {

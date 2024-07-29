@@ -62,37 +62,31 @@ final class MainCoordinatorTests: XCTestCase {
     }
     
     func returningAuthenticatedUser(expired: Bool = false) throws {
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
+        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
         TokenHolder.shared.idTokenPayload = try MockTokenVerifier().extractPayload("test")
         try mockUserStore.saveItem(TokenHolder.shared.accessToken,
                                    itemName: .accessToken,
                                    storage: .authenticated)
-        try mockUserStore.saveItem(MockTokenResponse().getJSONData().idToken,
+        try mockUserStore.saveItem(TokenHolder.shared.tokenResponse?.idToken,
                                    itemName: .idToken,
                                    storage: .authenticated)
-        let date: Date
-        if expired {
-            date = Date() - 60
-        } else {
-            date = Date() + 60
-        }
-        mockDefaultStore.set(date, forKey: .accessTokenExpiry)
+        mockDefaultStore.set(TokenHolder.shared.tokenResponse?.expiryDate, forKey: .accessTokenExpiry)
     }
     
     func appNotReset() throws {
         XCTAssertNotNil(TokenHolder.shared.accessToken)
         XCTAssertNotNil(TokenHolder.shared.idTokenPayload)
-        XCTAssertNotNil(try mockSecureStore.readItem(itemName: .accessToken))
-        XCTAssertNotNil(try mockSecureStore.readItem(itemName: .idToken))
-        XCTAssertNotNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
+        XCTAssertNotNil(try mockUserStore.readItem(itemName: .accessToken, storage: .authenticated))
+        XCTAssertNotNil(try mockUserStore.readItem(itemName: .idToken, storage: .authenticated))
+        XCTAssertNotNil(mockUserStore.defaultsStore.value(forKey: .accessTokenExpiry))
         XCTAssertFalse(mockSecureStore.didCallDeleteStore)
     }
     
     func appReset(accessExpiryDeleted: Bool = false) throws {
         XCTAssertNil(TokenHolder.shared.accessToken)
         XCTAssertNil(TokenHolder.shared.idTokenPayload)
-        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
-        XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
+        XCTAssertThrowsError(try mockUserStore.readItem(itemName: .accessToken, storage: .authenticated))
+        XCTAssertThrowsError(try mockUserStore.readItem(itemName: .idToken, storage: .authenticated))
         if accessExpiryDeleted {
             XCTAssertNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
         }
@@ -117,20 +111,20 @@ extension MainCoordinatorTests {
     }
     
     func test_evaluateRevisit_newUser() throws {
-        // GIVEN the app has token information store and the accessToken is valid
+        // GIVEN the app has token information stored and the accessToken is valid
         mockDefaultStore.set(nil, forKey: .accessTokenExpiry)
-        // WHEN the MainCoordinator's start method is called
-        sut.evaluateRevisit()
-        // THEN the tokens should be deleted; the app should be reset
-        try appReset()
-    }
-    
-    func test_evaluateRevisit_notAuthenticatedUser() throws {
-        // GIVEN the app has token information store but the accessToken is expired
-        try returningAuthenticatedUser(expired: true)
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
+        try appReset(accessExpiryDeleted: true)
+    }
+    
+    func test_evaluateRevisit_notAuthenticatedUser() throws {
+        // GIVEN the app has token information stored but the accessToken is expired
+        try returningAuthenticatedUser(expired: true)
+        // WHEN the MainCoordinator's evaluateRevisit method is called
+        sut.evaluateRevisit()
+        // THEN the access and id tokens should be deleted; the app should require reauth
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
         XCTAssertNotNil(mockDefaultStore.value(forKey: .accessTokenExpiry))
@@ -141,9 +135,10 @@ extension MainCoordinatorTests {
         try returningAuthenticatedUser()
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
-        // THEN the tokens should not be deleted; the app should not be reset
+        // THEN the is token should be stored in the token holder
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled, timeout: 20)
-        try appNotReset()
+        XCTAssertNotNil(TokenHolder.shared.idTokenPayload)
+        XCTAssertEqual(TokenHolder.shared.idTokenPayload?.email, "mock@email.com")
     }
     
     func test_evaluateRevisit_extractIdTokenPayload_JWTVerifierError() throws {
@@ -301,7 +296,7 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
-        // GIVEN access token has been stored in the token holder
+        // GIVEN the access token has been stored in the token holder
         TokenHolder.shared.accessToken = "testAccessToken"
         let loginCoordinator = LoginCoordinator(appWindow: mockWindowManager.appWindow,
                                                 root: UINavigationController(),
@@ -316,6 +311,7 @@ extension MainCoordinatorTests {
     }
     
     func test_didRegainFocus_fromLoginCoordinator_withoutBearerToken() throws {
+        // GIVEN the token holder does not contain tokens
         TokenHolder.shared.clearTokenHolder()
         let loginCoordinator = LoginCoordinator(appWindow: mockWindowManager.appWindow,
                                                 root: UINavigationController(),
@@ -337,7 +333,7 @@ extension MainCoordinatorTests {
     }
     
     func test_performChildCleanup_fromProfileCoordinator_succeeds() throws {
-        // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
+        // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
         let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
@@ -346,11 +342,11 @@ extension MainCoordinatorTests {
         sut.performChildCleanup(child: profileCoordinator)
         // THEN the tokens should be deleted and the analytics should be reset; the app should be reset
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == nil)
-        try appReset()
+        try appReset(accessExpiryDeleted: true)
     }
     
     func test_performChildCleanup_fromProfileCoordinator_errors() throws {
-        UserDefaults.standard.set(true, forKey: "EnableSignoutError")
+        UserDefaults.standard.set(true, forKey: FeatureFlags.enableSignoutError.rawValue)
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try returningAuthenticatedUser()
@@ -365,7 +361,7 @@ extension MainCoordinatorTests {
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
         try appNotReset()
-        UserDefaults.standard.set(false, forKey: "EnableSignoutError")
+        UserDefaults.standard.set(false, forKey: FeatureFlags.enableSignoutError.rawValue)
     }
     
     func test_performChildCleanup_fromHomeCoordinator() throws {

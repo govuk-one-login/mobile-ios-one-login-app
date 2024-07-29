@@ -41,7 +41,9 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     func test_tabBarItem() throws {
+        // WHEN the HomeCoordinator has started
         sut.start()
+        // THEN the bar button item of the root is correctly configured
         let homeTab = UITabBarItem(title: "Home",
                                    image: UIImage(systemName: "house"),
                                    tag: 0)
@@ -54,7 +56,9 @@ final class HomeCoordinatorTests: XCTestCase {
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
         sut.start()
+        // WHEN the showDeveloperMenu method is called
         sut.showDeveloperMenu()
+        // THEN the presented view controller is the DeveloperMenuViewController
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
@@ -72,11 +76,16 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     func test_updateToken() throws {
+        // WHEN the HomeCoordinator is started
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
+        // THEN the email label should be nil
         XCTAssertEqual(try vc.emailLabel.text, "")
+        // WHEN the token holder's idTokenPayload is populated
         TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
+        // WHEN the updateToken method is called
         sut.updateToken()
+        // THEN the email label should contain te email from the email token
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }
 }

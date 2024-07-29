@@ -104,18 +104,22 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // THEN the presented view controller should be the GDSErrorViewController
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
+        // THEN the presented view model should be the SignOutWarningViewModel
         XCTAssertTrue(warningScreen.viewModel is SignOutWarningViewModel)
     }
     
     func test_start_error() throws {
-        // WHEN the LoginCoordinator is started in a reauth flow
+        // WHEN the LoginCoordinator is started in an error flow
         errorLogin()
         sut.start()
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        // THEN the presented view controller should be the GDSErrorViewController
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
+        // THEN the presented view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(warningScreen.viewModel is UnableToLoginErrorViewModel)
     }
     
@@ -141,7 +145,7 @@ extension LoginCoordinatorTests {
     func test_authenticate_noNetwork() throws {
         // GIVEN the network is not connected
         mockNetworkMonitor.isConnected = false
-        // WHEN the LoginCoordinator is started for a first time user
+        // WHEN the LoginCoordinator's authenticate method is called for a first time user
         sut.authenticate()
         // THEN the visible view controller should be the IntroViewController
         let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
