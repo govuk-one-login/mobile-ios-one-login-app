@@ -28,7 +28,7 @@ struct WelcomeScreen: ScreenObject {
             loginModal.title,
             loginModal.loginButton,
             loginModal.oAuthErrorButton,
-            loginModal.invalidStateButton,
+            loginModal.noAuthCodeButton,
             loginModal.fourHundredResponseErrorButton,
             loginModal.fiveHundredResponseErrorButton
         ]

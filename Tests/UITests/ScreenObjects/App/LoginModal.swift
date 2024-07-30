@@ -23,8 +23,8 @@ struct LoginModal: ScreenObject {
         view.buttons["Redirect with OAuth error"]
     }
     
-    var invalidStateButton: XCUIElement {
-        view.buttons["Redirect with invalid state"]
+    var noAuthCodeButton: XCUIElement {
+        view.buttons["Redirect with no auth code returned"]
     }
     
     var fourHundredResponseErrorButton: XCUIElement {
@@ -51,8 +51,8 @@ struct LoginModal: ScreenObject {
         return ErrorScreen(app: app).waitForAppearance()
     }
     
-    func tapBrowserInvalidStateErrorButton() -> ErrorScreen {
-        invalidStateButton.tap()
+    func tapBrowserNoAuthCodeErrorButton() -> ErrorScreen {
+        noAuthCodeButton.tap()
         
         return ErrorScreen(app: app).waitForAppearance()
     }

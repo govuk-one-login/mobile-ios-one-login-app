@@ -70,12 +70,12 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.oAuthErrorButton.label, "Redirect with OAuth error")
         // Redirect with OAuth error
         let errorScreen = loginModal.tapBrowserRedirectWithOAuthErrorButton()
-        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(errorScreen.title.label, "Something went wrong")
+        XCTAssertEqual(errorScreen.body.label, "Try again later.")
         XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
     
-    func test_invalidStateError() throws {
+    func test_noAuthCodeError() throws {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
@@ -84,11 +84,11 @@ extension LoginUITests {
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
-        XCTAssertEqual(loginModal.invalidStateButton.label, "Redirect with invalid state")
+        XCTAssertEqual(loginModal.noAuthCodeButton.label, "Redirect with no auth code returned")
         // Redirect with invalid state
-        let errorScreen = loginModal.tapBrowserInvalidStateErrorButton()
-        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        let errorScreen = loginModal.tapBrowserNoAuthCodeErrorButton()
+        XCTAssertEqual(errorScreen.title.label, "Something went wrong")
+        XCTAssertEqual(errorScreen.body.label, "Try again later.")
         XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
     
@@ -108,8 +108,8 @@ extension LoginUITests {
         XCTAssertEqual(loginModalSecondScreen.loginButton.label, "Login")
         // Second Modal Screen
         let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
-        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(errorScreen.title.label, "Something went wrong")
+        XCTAssertEqual(errorScreen.body.label, "Try again later.")
         XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
     
@@ -129,8 +129,8 @@ extension LoginUITests {
         XCTAssertEqual(loginModalSecondScreen.loginButton.label, "Login")
         // Second Modal Screen
         let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
-        XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.body.label, "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+        XCTAssertEqual(errorScreen.title.label, "Something went wrong")
+        XCTAssertEqual(errorScreen.body.label, "Try again later.")
         XCTAssertEqual(errorScreen.closeButton.label, "Close")
     }
 }
