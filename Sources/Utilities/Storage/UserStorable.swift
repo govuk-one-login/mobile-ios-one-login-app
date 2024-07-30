@@ -25,14 +25,7 @@ extension UserStorable {
     }
     
     var missingPersistentSessionId: Bool {
-        if !openStore.checkItemExists(itemName: .persistentSessionID) {
-            if defaultsStore.value(forKey: .returningUser) != nil {
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
+        !openStore.checkItemExists(itemName: .persistentSessionID) && defaultsStore.value(forKey: .returningUser) != nil
     }
     
     func storeTokenInfo() {
