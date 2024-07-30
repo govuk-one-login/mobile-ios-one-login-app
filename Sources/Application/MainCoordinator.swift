@@ -7,13 +7,12 @@ import UIKit
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
                              TabCoordinator {
-    let windowManager: WindowManagement
+    private let windowManager: WindowManagement
     let root: UITabBarController
     var childCoordinators = [ChildCoordinator]()
-    var analyticsCenter: AnalyticsCentral
-    let userStore: UserStorable
-    private var tokenVerifier: TokenVerifier
-    static var isReauthing = false
+    private var analyticsCenter: AnalyticsCentral
+    private let userStore: UserStorable
+    private let tokenVerifier: TokenVerifier
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -33,12 +32,17 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        root.delegate = self
         addTabs()
         windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             evaluateRevisit()
         }
         evaluateRevisit()
+        root.delegate = self
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(startReauth),
+                         name: Notification.Name(.startReauth),
+                         object: nil)
     }
     
     func evaluateRevisit() {
@@ -58,11 +62,15 @@ final class MainCoordinator: NSObject,
                     }
                 }
             } else {
-                fullLogin(error: TokenError.expired)
+                fullLogin(loginError: TokenError.expired)
             }
         } else {
             fullLogin()
         }
+    }
+    
+    @objc private func startReauth() {
+        fullLogin(loginError: TokenError.expired)
     }
     
     private func handleLoginError(_ error: Error) {
@@ -71,29 +79,29 @@ final class MainCoordinator: NSObject,
             SecureStoreError.unableToRetrieveFromUserDefaults,
             SecureStoreError.cantInitialiseData,
             SecureStoreError.cantRetrieveKey:
-            fullLogin(error: error)
+            fullLogin(loginError: error)
         default:
             print("Token retrival error: \(error)")
         }
     }
     
-    private func fullLogin(error: Error? = nil) {
+    private func fullLogin(loginError: Error? = nil) {
+        if let error = loginError as? TokenError, error == .expired {
+            userStore.clearTokens()
+        } else {
+            userStore.refreshStorage(accessControlLevel: nil)
+        }
         TokenHolder.shared.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: nil)
-        showLogin(error)
+        showLogin(loginError)
         windowManager.hideUnlockWindow()
     }
     
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
-            if Self.isReauthing {
-                homeCoordinator?.handleUniversalLink(url)
-            } else {
-                loginCoordinator?.handleUniversalLink(url)
-            }
+            loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            walletCoordinator?.walletSDK.deeplink(with: url.absoluteString)
+            walletCoordinator?.handleUniversalLink(url)
         case .unknown:
             return
         }
@@ -101,13 +109,13 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    private func showLogin(_ error: Error? = nil) {
-        let lc = LoginCoordinator(windowManager: windowManager,
+    private func showLogin(_ loginError: Error?) {
+        let lc = LoginCoordinator(appWindow: windowManager.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
-                                  networkMonitor: NetworkMonitor.shared)
-        lc.loginError = error
+                                  networkMonitor: NetworkMonitor.shared,
+                                  loginError: loginError)
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }
@@ -119,8 +127,7 @@ extension MainCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(window: windowManager.appWindow,
-                                 analyticsService: analyticsCenter.analyticsService,
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
                                  userStore: userStore)
         addTab(hc)
         homeCoordinator = hc
@@ -128,15 +135,14 @@ extension MainCoordinator {
     
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
-                                   analyticsService: analyticsCenter.analyticsService,
-                                   secureStoreService: userStore.openStore)
+                                   analyticsCenter: analyticsCenter,
+                                   userStore: userStore)
         addTab(wc)
         walletCoordinator = wc
     }
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                    userStore: userStore,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
         profileCoordinator = pc
@@ -179,34 +185,28 @@ extension MainCoordinator: ParentCoordinator {
     }
     
     func performChildCleanup(child: ChildCoordinator) {
-        switch child {
-        case _ as ProfileCoordinator:
+        if child is ProfileCoordinator {
             do {
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-                try walletCoordinator?.clearWallet()
+                try walletCoordinator?.deleteWalletData()
+                userStore.resetPersistentSession()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
+                userStore.defaultsStore.removeObject(forKey: .accessTokenExpiry)
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0
             } catch {
-                let navController = UINavigationController()
                 let signOutErrorScreen = ErrorPresenter
                     .createSignOutError(errorDescription: error.localizedDescription,
                                         analyticsService: analyticsCenter.analyticsService) {
                         exit(0)
                     }
-                navController.setViewControllers([signOutErrorScreen], animated: false)
-                root.present(navController, animated: true)
+                root.present(signOutErrorScreen, animated: true)
             }
-        case _ as HomeCoordinator:
-            updateToken()
-            Self.isReauthing = false
-        default:
-            break
         }
     }
 }

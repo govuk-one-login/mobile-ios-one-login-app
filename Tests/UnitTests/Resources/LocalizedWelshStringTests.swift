@@ -1,6 +1,5 @@
 // swiftlint:disable line_length
 
-@testable import OneLogin
 import XCTest
 
 final class LocalizedWelshStringTests: XCTestCase {
@@ -174,6 +173,13 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "You’ve been signed-out")
         XCTAssertEqual("app_signOutWarningBody".getWelshString(),
                        "You will need to reauthenticate")
+    }
+    
+    func test_dataDeletedWarningPageKeys() {
+        XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
+                       "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.")
+        XCTAssertEqual("app_dataDeletionSignInButton".getWelshString(),
+                       "Mewngofnodi gyda GOV.UK One Login")
     }
 }
 

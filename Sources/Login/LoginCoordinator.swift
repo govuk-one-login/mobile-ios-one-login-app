@@ -10,64 +10,55 @@ final class LoginCoordinator: NSObject,
                               AnyCoordinator,
                               NavigationCoordinator,
                               ChildCoordinator {
-    let windowManager: WindowManagement
+    private let appWindow: UIWindow
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    let analyticsCenter: AnalyticsCentral
-    var userStore: UserStorable
-    let networkMonitor: NetworkMonitoring
-    private var tokenVerifier: TokenVerifier
-    var loginError: Error?
+    private let analyticsCenter: AnalyticsCentral
+    private let userStore: UserStorable
+    private let networkMonitor: NetworkMonitoring
+    let loginError: Error?
     
     weak var introViewController: IntroViewController?
     private weak var authCoordinator: AuthenticationCoordinator?
     
-    init(windowManager: WindowManagement,
+    init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          networkMonitor: NetworkMonitoring,
-         tokenVerifier: TokenVerifier = JWTVerifier()) {
-        self.windowManager = windowManager
+         loginError: Error?) {
+        self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
         self.networkMonitor = networkMonitor
-        self.tokenVerifier = tokenVerifier
+        self.loginError = loginError
         root.modalPresentationStyle = .overFullScreen
     }
     
     func start() {
         let rootViewController = OnboardingViewControllerFactory
             .createIntroViewController(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                if networkMonitor.isConnected {
-                    launchAuthenticationCoordinator()
-                } else {
-                    let networkErrorScreen = ErrorPresenter
-                        .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                            introViewController?.enableIntroButton()
-                            root.popViewController(animated: true)
-                            if networkMonitor.isConnected {
-                                launchAuthenticationCoordinator()
-                            }
-                        }
-                    root.pushViewController(networkErrorScreen, animated: true)
-                }
+                authenticate()
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
         showLoginErrorIfNecessary()
         launchOnboardingCoordinator()
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(returnToIntroScreen),
+                         name: Notification.Name(.returnToIntroScreen),
+                         object: nil)
     }
     
     private func showLoginErrorIfNecessary() {
-        if let error = loginError as? TokenError,
-           error == .expired {
+        if let error = loginError as? TokenError, error == .expired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.dismiss(animated: true) { [unowned self] in
-                        launchAuthenticationCoordinator()
+                    authenticate { [unowned self] in
+                        root.dismiss(animated: true)
                     }
                 }
             signOutWarningScreen.modalPresentationStyle = .overFullScreen
@@ -76,10 +67,38 @@ final class LoginCoordinator: NSObject,
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: loginError.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    root.popViewController(animated: true)
+                    root.dismiss(animated: true)
                 }
-            root.pushViewController(unableToLoginErrorScreen, animated: true)
+            unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
+            root.present(unableToLoginErrorScreen, animated: false)
         }
+    }
+    
+    func authenticate(action: (() -> Void)? = nil) {
+        if userStore.missingPersistentSessionId {
+            action?()
+            NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+        } else {
+            if networkMonitor.isConnected {
+                launchAuthenticationCoordinator(reauth: true)
+            } else {
+                action?()
+                let networkErrorScreen = ErrorPresenter
+                    .createNetworkConnectionError(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                        introViewController?.enableIntroButton()
+                        root.popViewController(animated: true)
+                        if networkMonitor.isConnected {
+                            launchAuthenticationCoordinator()
+                        }
+                    }
+                root.pushViewController(networkErrorScreen, animated: true)
+            }
+        }
+    }
+    
+    @objc private func returnToIntroScreen() {
+        introViewController?.enableIntroButton()
+        launchOnboardingCoordinator()
     }
     
     private func launchOnboardingCoordinator() {
@@ -89,11 +108,13 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func launchAuthenticationCoordinator() {
-        let ac = AuthenticationCoordinator(root: root,
+    func launchAuthenticationCoordinator(reauth: Bool = false) {
+        let ac = AuthenticationCoordinator(window: appWindow,
+                                           root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            userStore: userStore,
-                                           session: AppAuthSession(window: windowManager.appWindow))
+                                           session: AppAuthSession(window: appWindow),
+                                           reauth: reauth)
         openChildInline(ac)
         authCoordinator = ac
     }
@@ -118,7 +139,13 @@ extension LoginCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
-            launchEnrolmentCoordinator(localAuth: LAContext())
+            if let error = loginError as? TokenError, error == .expired {
+                userStore.storeTokenInfo()
+                root.dismiss(animated: true)
+                finish()
+            } else {
+                launchEnrolmentCoordinator(localAuth: LAContext())
+            }
         case _ as EnrolmentCoordinator:
             root.dismiss(animated: true)
             finish()

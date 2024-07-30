@@ -6,7 +6,6 @@ import XCTest
 
 @MainActor
 final class DeveloperMenuViewControllerTests: XCTestCase {
-    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var devMenuViewModel: DeveloperMenuViewModel!
     var mockAuthenicatedSecureStore: SecureStorable!
@@ -24,9 +23,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
-        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
+        UserDefaults.standard.set(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
         
-        window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         devMenuViewModel = DeveloperMenuViewModel()
         mockAuthenicatedSecureStore = MockSecureStoreService()
@@ -37,8 +35,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
                                       defaultsStore: mockDefaultsStore)
         networkClient = NetworkClient(configuration: configuration,
                                       authenticationProvider: MockAuthenticationProvider())
-        homeCoordinator = HomeCoordinator(window: window,
-                                          analyticsService: mockAnalyticsService,
+        homeCoordinator = HomeCoordinator(analyticsService: mockAnalyticsService,
                                           userStore: mockUserStore)
         sut = DeveloperMenuViewController(parentCoordinator: homeCoordinator,
                                           viewModel: devMenuViewModel,
@@ -47,9 +44,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+        UserDefaults.standard.set(false, forKey: FeatureFlags.enableCallingSTS.rawValue)
         
-        window = nil
         mockAnalyticsService = nil
         devMenuViewModel = nil
         mockAuthenicatedSecureStore = nil
@@ -78,11 +74,11 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_labelContents_STSDisabled() throws {
-        UserDefaults.standard.set(false, forKey: "EnableCallingSTS")
+        UserDefaults.standard.set(false, forKey: FeatureFlags.enableCallingSTS.rawValue)
         XCTAssertTrue(try sut.happyPathButton.isHidden)
         XCTAssertTrue(try sut.errorPathButton.isHidden)
         XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
-        UserDefaults.standard.set(true, forKey: "EnableCallingSTS")
+        UserDefaults.standard.set(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
     
     func test_happyPathButton() throws {
@@ -121,11 +117,9 @@ extension DeveloperMenuViewControllerTests {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.happyPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(MainCoordinator.isReauthing)
-        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
     
-    func test_unhappyPathButton() throws {
+    func test_errorPathButton() throws {
         mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
 
         MockURLProtocol.handler = { [unowned self] in
@@ -140,15 +134,13 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: token")
     }
     
-    func test_unhappyPathButton_invalidAccessTokenActionCalled() throws {
+    func test_errorPathButton_invalidAccessTokenActionCalled() throws {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.errorPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(MainCoordinator.isReauthing)
-        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
     }
 
-    func test_unsuccessfulPathButton() throws {
+    func test_unauthorizedPathButton() throws {
         mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
 
         MockURLProtocol.handler = { [unowned self] in
@@ -163,12 +155,23 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
     }
     
-    func test_unsuccessfulPathButton_invalidAccessTokenActionCalled() throws {
+    func test_unauthorized_invalidAccessTokenActionCalled() throws {
         mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
         TokenHolder.shared.tokenResponse = nil
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(MainCoordinator.isReauthing)
-        XCTAssertTrue(homeCoordinator.childCoordinators.last is ReauthCoordinator)
+    }
+    
+    func test_deletePersistentSessionIDButton() throws {
+        try mockOpenSecureStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        try sut.deletePersistentSessionIDButton.sendActions(for: .touchUpInside)
+        XCTAssertFalse(mockOpenSecureStore.checkItemExists(itemName: .persistentSessionID))
+        XCTAssertTrue(try sut.deletePersistentSessionIDButton.backgroundColor == .gdsBrightPurple)
+    }
+    
+    func test_expireAccessTokenButton() throws {
+        mockDefaultsStore.set("123456789", forKey: .accessTokenExpiry)
+        try sut.expireAccessTokenButton.sendActions(for: .touchUpInside)
+        XCTAssertTrue(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
     }
 }
 
@@ -206,6 +209,18 @@ extension DeveloperMenuViewController {
     var unauthorizedPathResultLabel: UILabel {
         get throws {
             try XCTUnwrap(view[child: "sts-unauthorized-path-result"])
+        }
+    }
+    
+    var deletePersistentSessionIDButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-delete-persistent-session-id-path-button"])
+        }
+    }
+    
+    var expireAccessTokenButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-expire-access-token-button"])
         }
     }
 }

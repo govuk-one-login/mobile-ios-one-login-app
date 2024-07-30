@@ -24,18 +24,28 @@ extension UserStorable {
         previouslyAuthenticatedUser?.timeIntervalSinceNow.sign == .plus
     }
     
+    var missingPersistentSessionId: Bool {
+        !openStore.checkItemExists(itemName: .persistentSessionID) && defaultsStore.value(forKey: .returningUser) != nil
+    }
+    
     func storeTokenInfo() {
         guard let tokenResponse = TokenHolder.shared.tokenResponse else { return }
         if let _ = try? saveItem(tokenResponse.accessToken, itemName: .accessToken, storage: .authenticated),
-           let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated) {
+           let _ = try? saveItem(tokenResponse.idToken, itemName: .idToken, storage: .authenticated),
+           let _ = try? saveItem(TokenHolder.shared.idTokenPayload?.persistentId, itemName: .persistentSessionID, storage: .open) {
             defaultsStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
+            defaultsStore.set(true, forKey: .returningUser)
         }
     }
     
-    func clearTokenInfo() {
+    func clearTokens() {
         authenticatedStore.deleteItem(itemName: .accessToken)
         authenticatedStore.deleteItem(itemName: .idToken)
-        defaultsStore.removeObject(forKey: .accessTokenExpiry)
+    }
+    
+    func resetPersistentSession() {
+        openStore.deleteItem(itemName: .persistentSessionID)
+        defaultsStore.removeObject(forKey: .returningUser)
     }
     
     func saveItem(_ item: String?, itemName: String, storage: Storage) throws {

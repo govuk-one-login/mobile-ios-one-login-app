@@ -6,7 +6,6 @@ class MockUserStore: UserStorable {
     var authenticatedStore: SecureStorable
     var openStore: SecureStorable
     let defaultsStore: DefaultsStorable
-    var shouldPromptForAnalytics: Bool?
 
     init(authenticatedStore: SecureStorable,
          openStore: SecureStorable,

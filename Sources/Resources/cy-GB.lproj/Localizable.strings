@@ -154,3 +154,9 @@
 "app_signOutWarningTitle" = "You’ve been signed-out";
 
 "app_signOutWarningBody" = "You will need to reauthenticate";
+
+
+// MARK: Data DeletionWarning screen
+"app_dataDeletionWarningBody" = "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.";
+
+"app_dataDeletionSignInButton" = "Mewngofnodi gyda GOV.UK One Login";

@@ -1,6 +1,5 @@
 // swiftlint:disable line_length
 
-@testable import OneLogin
 import XCTest
 
 final class LocalizedEnglishStringTests: XCTestCase {
@@ -174,6 +173,13 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "You’ve been signed-out")
         XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
                        "You will need to reauthenticate")
+    }
+    
+    func test_dataDeletedWarningPageKeys() {
+        XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
+                       "We’ve deleted the information in your GOV.UK One Login app because we cannot confirm your sign in details.\n\nWe did this to reduce the risk that someone else will see your information.\n\nTo keep using the app, you’ll need to sign in. You’ll then be asked to set your analytics and sign in preferences again.")
+        XCTAssertEqual("app_dataDeletionSignInButton".getEnglishString(),
+                       "Sign in with GOV.UK One Login")
     }
 }
 

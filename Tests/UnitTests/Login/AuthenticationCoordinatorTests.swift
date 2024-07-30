@@ -21,6 +21,7 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        TokenHolder.shared.clearTokenHolder()
         window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
@@ -32,15 +33,18 @@ final class AuthenticationCoordinatorTests: XCTestCase {
                                     defaultsStore: mockDefaultStore)
         mockLoginSession = MockLoginSession(window: window)
         mockTokenVerifier = MockTokenVerifier()
-        sut = AuthenticationCoordinator(root: navigationController,
+        sut = AuthenticationCoordinator(window: window,
+                                        root: navigationController,
                                         analyticsService: mockAnalyticsService,
                                         userStore: mockUserStore,
                                         session: mockLoginSession,
-                                        tokenVerifier: mockTokenVerifier)
+                                        tokenVerifier: mockTokenVerifier,
+                                        reauth: false)
         UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         window = nil
         navigationController = nil
         mockAnalyticsService = nil
@@ -76,8 +80,6 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.refreshToken, "refreshTokenResponse")
         XCTAssertEqual(TokenHolder.shared.tokenResponse?.idToken, "idTokenResponse")
-        // THEN the persistentSessionID is stored.
-        XCTAssertEqual(try mockUserStore.readItem(itemName: .persistentSessionID, storage: .open), TokenHolder.shared.idTokenPayload?.persistentId)
     }
     
     func test_start_loginError_network() throws {
@@ -213,7 +215,6 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
         sut.authError = JWTVerifierError.invalidJWTFormat
-
     }
     
     func test_handleUniversalLink_catchAllError() throws {

@@ -8,6 +8,7 @@ public enum FeatureFlags: String {
     
     case enableCallingSTS = "EnableCallingSTS"
     case enableSignoutError = "EnableSignoutError"
+    case enableClearWalletError = "EnableClearWalletError"
 }
 
 struct FlagManager {

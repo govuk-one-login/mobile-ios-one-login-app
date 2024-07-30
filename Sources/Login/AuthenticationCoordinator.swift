@@ -8,24 +8,30 @@ import UIKit
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
+    private let window: UIWindow
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
-    let analyticsService: AnalyticsService
-    let session: LoginSession
-    let userStore: UserStorable
+    private let analyticsService: AnalyticsService
+    private let session: LoginSession
+    private let userStore: UserStorable
     private let tokenVerifier: TokenVerifier
+    private let reauth: Bool
     var authError: Error?
     
-    init(root: UINavigationController,
+    init(window: UIWindow,
+         root: UINavigationController,
          analyticsService: AnalyticsService,
          userStore: UserStorable,
          session: LoginSession,
-         tokenVerifier: TokenVerifier = JWTVerifier()) {
+         tokenVerifier: TokenVerifier = JWTVerifier(),
+         reauth: Bool) {
+        self.window = window
         self.root = root
         self.analyticsService = analyticsService
         self.userStore = userStore
         self.session = session
         self.tokenVerifier = tokenVerifier
+        self.reauth = reauth
     }
     
     func start() {
@@ -36,9 +42,6 @@ final class AuthenticationCoordinator: NSObject,
                 if AppEnvironment.callingSTSEnabled,
                    let idToken = TokenHolder.shared.tokenResponse?.idToken {
                     TokenHolder.shared.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
-                    try userStore.saveItem(TokenHolder.shared.idTokenPayload?.persistentId,
-                                           itemName: .persistentSessionID,
-                                           storage: .open)
                 }
                 finish()
             } catch let error as LoginError where error == .network {
@@ -66,12 +69,13 @@ final class AuthenticationCoordinator: NSObject,
     
     func handleUniversalLink(_ url: URL) {
         do {
-            if let loginCoordinator = parentCoordinator as? LoginCoordinator {
-                loginCoordinator.introViewController?.enableIntroButton()
+            if reauth {
+                window.rootViewController?.presentedViewController?.dismiss(animated: true)
             }
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
             try session.finalise(redirectURL: url)
+            NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
         } catch {
             showGenericErrorScreen(error)
         }

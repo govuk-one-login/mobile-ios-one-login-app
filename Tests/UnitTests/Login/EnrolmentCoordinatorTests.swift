@@ -16,7 +16,8 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
+        
+        TokenHolder.shared.clearTokenHolder()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStore = MockSecureStoreService()
@@ -31,8 +32,9 @@ final class EnrolmentCoordinatorTests: XCTestCase {
                                    userStore: mockUserStore,
                                    localAuth: mockLAContext)
     }
-
+    
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         navigationController = nil
         mockAnalyticsService = nil
         mockSecureStore = nil
@@ -41,10 +43,10 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         mockUserStore = nil
         mockLAContext = nil
         sut = nil
-
+        
         super.tearDown()
     }
-
+    
     private enum LocalAuthError: Error {
         case generic
     }
@@ -67,7 +69,7 @@ extension EnrolmentCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
         XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
     }
-
+    
     func test_start_deviceLocalAuthSet_passcode_succeeds() throws {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
@@ -81,7 +83,7 @@ extension EnrolmentCoordinatorTests {
         XCTAssertEqual(mockSecureStore.savedItems[.accessToken], tokenResponse.accessToken)
         XCTAssertEqual(mockSecureStore.savedItems[.idToken], tokenResponse.idToken)
     }
-
+    
     func test_start_deviceLocalAuthSet_passcode_fails() throws {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
@@ -96,7 +98,7 @@ extension EnrolmentCoordinatorTests {
         XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
         XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
     }
-
+    
     func test_start_deviceLocalAuthSet_touchID() throws {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
@@ -109,7 +111,7 @@ extension EnrolmentCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
         XCTAssertTrue(vc.viewModel is TouchIDEnrollmentViewModel)
     }
-
+    
     func test_start_deviceLocalAuthSet_faceID() throws {
         // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
         mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true

@@ -10,20 +10,16 @@ final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
                              NavigationCoordinator {
-    let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    let analyticsService: AnalyticsService
+    private let analyticsService: AnalyticsService
     private let userStore: UserStorable
     
     private(set) var baseVc: TabbedViewController?
-    private weak var reauthCoordinator: ReauthCoordinator?
     
-    init(window: UIWindow,
-         analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
          userStore: UserStorable) {
-        self.window = window
         self.analyticsService = analyticsService
         self.userStore = userStore
     }
@@ -63,26 +59,8 @@ final class HomeCoordinator: NSObject,
     }
     
     func accessTokenInvalidAction() {
-        MainCoordinator.isReauthing = true
-        root.dismiss(animated: true)
-        TokenHolder.shared.clearTokenHolder()
-        userStore.refreshStorage(accessControlLevel: nil)
-        let rc = ReauthCoordinator(window: window,
-                                   analyticsService: analyticsService,
-                                   userStore: userStore)
-        openChildModally(rc, animated: true)
-        reauthCoordinator = rc
-    }
-    
-    func handleUniversalLink(_ url: URL) {
-        reauthCoordinator?.handleUniversalLink(url)
-    }
-}
-
-extension HomeCoordinator: ParentCoordinator {
-    func didRegainFocus(fromChild child: ChildCoordinator?) {
-        if child is ReauthCoordinator {
-            parentCoordinator?.performChildCleanup(child: self)
+        root.dismiss(animated: true) {
+            NotificationCenter.default.post(name: Notification.Name(.startReauth), object: nil)
         }
     }
 }

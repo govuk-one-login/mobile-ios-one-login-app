@@ -14,7 +14,8 @@ final class HomeCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        window = .init()
+        TokenHolder.shared.clearTokenHolder()
+        window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockSecureStoreService = MockSecureStoreService()
         mockOpenSecureStore = MockSecureStoreService()
@@ -22,12 +23,12 @@ final class HomeCoordinatorTests: XCTestCase {
         mockUserStore = MockUserStore(authenticatedStore: mockSecureStoreService,
                                       openStore: mockOpenSecureStore,
                                       defaultsStore: mockDefaultsStore)
-        sut = HomeCoordinator(window: window,
-                              analyticsService: mockAnalyticsService,
+        sut = HomeCoordinator(analyticsService: mockAnalyticsService,
                               userStore: mockUserStore)
     }
     
     override func tearDown() {
+        TokenHolder.shared.clearTokenHolder()
         window = nil
         mockAnalyticsService = nil
         mockSecureStoreService = nil
@@ -40,7 +41,9 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     func test_tabBarItem() throws {
+        // WHEN the HomeCoordinator has started
         sut.start()
+        // THEN the bar button item of the root is correctly configured
         let homeTab = UITabBarItem(title: "Home",
                                    image: UIImage(systemName: "house"),
                                    tag: 0)
@@ -53,7 +56,9 @@ final class HomeCoordinatorTests: XCTestCase {
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
         sut.start()
+        // WHEN the showDeveloperMenu method is called
         sut.showDeveloperMenu()
+        // THEN the presented view controller is the DeveloperMenuViewController
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
@@ -71,20 +76,16 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     func test_updateToken() throws {
+        // WHEN the HomeCoordinator is started
         sut.start()
         let vc = try XCTUnwrap(sut.baseVc)
+        // THEN the email label should be nil
         XCTAssertEqual(try vc.emailLabel.text, "")
+        // WHEN the token holder's idTokenPayload is populated
         TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
+        // WHEN the updateToken method is called
         sut.updateToken()
+        // THEN the email label should contain te email from the email token
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
-    }
-    
-    func test_performChildCleanup_fromReauthCoordinator() {
-        // WHEN the performChildCleanup method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
-        let reauthCoordinator = ReauthCoordinator(window: window,
-                                                  analyticsService: mockAnalyticsService,
-                                                  userStore: mockUserStore)
-        sut.performChildCleanup(child: reauthCoordinator)
     }
 }
