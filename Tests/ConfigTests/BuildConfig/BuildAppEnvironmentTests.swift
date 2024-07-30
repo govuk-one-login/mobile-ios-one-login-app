@@ -16,7 +16,7 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginBaseURL, "mobile.build.account.gov.uk")
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world/error"))
-        XCTAssertFalse(sut.callingSTSEnabled)
+        XCTAssertTrue(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
     }
 }
