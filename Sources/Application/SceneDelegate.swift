@@ -57,8 +57,8 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        if userStore.authenticatedStore.checkItemExists(itemName: .accessToken) &&
-            userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
+        if userStore.authenticatedStore.checkItemExists(itemName: .accessToken),
+           userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
             shouldCallSceneWillEnterForeground = true
             displayUnlockScreen()
         } else {

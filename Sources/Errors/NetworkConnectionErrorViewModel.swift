@@ -29,7 +29,5 @@ struct NetworkConnectionErrorViewModel: GDSErrorViewModel, BaseViewModel {
         analyticsService.trackScreen(screen)
     }
     
-    func didDismiss() {
-        // Here for BaseViewModel compliance
-    }
+    func didDismiss() { /* BaseViewModel compliance */ }
 }

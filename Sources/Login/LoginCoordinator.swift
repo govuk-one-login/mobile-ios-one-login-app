@@ -139,7 +139,8 @@ extension LoginCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
-            if loginError as? TokenError == .expired && userStore.defaultsStore.value(forKey: .returningUser) != nil {
+            if loginError as? TokenError == .expired,
+               userStore.defaultsStore.value(forKey: .returningUser) != nil {
                 userStore.storeTokenInfo()
                 root.dismiss(animated: true)
                 finish()
