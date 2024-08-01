@@ -2,7 +2,7 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct GenericErrorViewModel: GDSErrorViewModel, BaseViewModel {
+struct GenericErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
     let body: GDSLocalisedString = "app_somethingWentWrongErrorBody"

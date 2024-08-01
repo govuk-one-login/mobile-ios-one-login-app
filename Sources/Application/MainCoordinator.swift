@@ -194,7 +194,6 @@ extension MainCoordinator: ParentCoordinator {
                 try walletCoordinator?.deleteWalletData()
                 userStore.resetPersistentSession()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-                userStore.defaultsStore.removeObject(forKey: .accessTokenExpiry)
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0
