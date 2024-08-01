@@ -54,7 +54,7 @@ final class LoginCoordinator: NSObject,
     }
     
     private func showLoginErrorIfNecessary() {
-        if let error = loginError as? TokenError, error == .expired {
+        if loginError as? TokenError == .expired {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     authenticate { [unowned self] in
@@ -139,7 +139,8 @@ extension LoginCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
-            if let error = loginError as? TokenError, error == .expired {
+            if loginError as? TokenError == .expired,
+               userStore.defaultsStore.value(forKey: .returningUser) != nil {
                 userStore.storeTokenInfo()
                 root.dismiss(animated: true)
                 finish()

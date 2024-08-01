@@ -86,12 +86,11 @@ final class MainCoordinator: NSObject,
     }
     
     private func fullLogin(loginError: Error? = nil) {
-        if let error = loginError as? TokenError, error == .expired {
-            userStore.clearTokens()
-        } else {
+        TokenHolder.shared.clearTokenHolder()
+        userStore.clearTokens()
+        if loginError as? TokenError != .expired {
             userStore.refreshStorage(accessControlLevel: nil)
         }
-        TokenHolder.shared.clearTokenHolder()
         showLogin(loginError)
         windowManager.hideUnlockWindow()
     }

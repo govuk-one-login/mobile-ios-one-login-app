@@ -68,6 +68,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                userStore: mockUserStore,
                                networkMonitor: mockNetworkMonitor,
                                loginError: TokenError.expired)
+        mockDefaultStore.set(true, forKey: .returningUser)
     }
     
     func errorLogin() {
@@ -205,6 +206,7 @@ extension LoginCoordinatorTests {
     }
     
     func test_didRegainFocus_fromAuthenticationCoordinator_expiredToken() throws {
+        // GIVEN I'm a reauth user with tokens received in the authentication flow
         reauthLogin()
         let tokenResponse = try MockTokenResponse().getJSONData()
         TokenHolder.shared.tokenResponse = tokenResponse
@@ -217,7 +219,7 @@ extension LoginCoordinatorTests {
                                                         reauth: false)
         // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
         sut.didRegainFocus(fromChild: authCoordinator)
-        // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
+        // THEN the LoginCoordinator should stored those tokens in secure store
         XCTAssertEqual(try mockSecureStore.readItem(itemName: .accessToken), tokenResponse.accessToken)
         XCTAssertEqual(try mockSecureStore.readItem(itemName: .idToken), tokenResponse.idToken)
         XCTAssertEqual(try mockOpenSecureStore.readItem(itemName: .persistentSessionID), TokenHolder.shared.idTokenPayload?.persistentId)

@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder,
                            openStore: openStore,
                            defaultsStore: UserDefaults.standard)
     }()
-
+    
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -57,14 +57,15 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-       if userStore.previouslyAuthenticatedUser != nil {
-           shouldCallSceneWillEnterForeground = true
-           displayUnlockScreen()
-       } else {
-           shouldCallSceneWillEnterForeground = false
-       }
-   }
-
+        if userStore.authenticatedStore.checkItemExists(itemName: .accessToken),
+           userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
+            shouldCallSceneWillEnterForeground = true
+            displayUnlockScreen()
+        } else {
+            shouldCallSceneWillEnterForeground = false
+        }
+    }
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
             coordinator?.evaluateRevisit()
