@@ -132,7 +132,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "feature/dcmaw-9589-error-page-icon",
-        "revision" : "2cb1619c5805d88e9cdcef7f312e32a019f82a77"
+        "revision" : "9ad256e23641c8e57db9347c5d91950336a8b0c0"
       }
     },
     {
