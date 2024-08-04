@@ -58,27 +58,27 @@ platform :ios do
     
     if options.has_key?(:pr_number) then
       sonar(
-	project_key: "di-mobile-ios-onelogin-app"
-	project_name: "di-mobile-ios-onelogin-app"
+	project_key: "di-mobile-ios-onelogin-app",
+	project_name: "di-mobile-ios-onelogin-app",
         project_version: "1.0",
         project_language: "swift",
         sonar_runner_args: "-Dsonar.projectBaseDir=#{options[:workspace]} -Dsonar.sources=Sources/ -Dsonar.tests=Tests/ -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.pullrequest.provider=github -Dsonar.sourceEncoding=UTF-8 -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml",
         pull_request_branch: options[:source_branch],
         pull_request_base: options[:target_branch],
         pull_request_key: options[:pr_number],
-	sonar_organization: "govuk-one-login"
+	sonar_organization: "govuk-one-login",
         sonar_login: options[:sonar_token],
         sonar_url: "https://sonarcloud.io",
       )
     else
       sonar(
-	project_key: "di-mobile-ios-onelogin-app"
-	project_name: "di-mobile-ios-onelogin-app"
+	project_key: "di-mobile-ios-onelogin-app",
+	project_name: "di-mobile-ios-onelogin-app",
         project_version: "1.0",
         project_language: "swift",
         sonar_runner_args: "-Dsonar.projectBaseDir=#{options[:workspace]} -Dsonar.sources=Sources/ -Dsonar.tests=Tests/ -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.pullrequest.provider=github -Dsonar.sourceEncoding=UTF-8 -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml",
         pull_request_branch: options[:source_branch],
-	sonar_organization: "govuk-one-login"
+	sonar_organization: "govuk-one-login",
         sonar_login: options[:sonar_token],
         sonar_url: "https://sonarcloud.io",
       )
