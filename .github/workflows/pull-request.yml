@@ -28,7 +28,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./store-access-token.sh
+          ./scripts/store-access-token.sh
 
       - name: Lint
         run: |
@@ -41,7 +41,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts/override-git-config'
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           brew install sonar-scanner
