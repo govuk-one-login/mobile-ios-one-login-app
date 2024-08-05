@@ -6,8 +6,16 @@ import UIKit
 // NOTE: This type is only being used to build the Wallet implementation, this will be replaced with an actual local auth service
 //
 
-struct DummyLocalAuthService: LocalAuthService {
+final class DummyLocalAuthService: LocalAuthService {
     let context: LAContexting
+    
+    init(context: LAContexting) {
+        self.context = context
+    }
+    
+    convenience init() {
+        self.init(context: LAContext())
+    }
     
     func evaluateLocalAuth(navigationController: UINavigationController,
                            completion: @escaping (AuthType) -> Void) {
