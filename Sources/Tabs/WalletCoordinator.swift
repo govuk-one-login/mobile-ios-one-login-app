@@ -1,5 +1,6 @@
 import Coordination
 import GDSCommon
+import LocalAuthentication
 import Logging
 import Networking
 import SecureStore
@@ -34,7 +35,8 @@ final class WalletCoordinator: NSObject,
                         with: root,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
-                        persistentSecureStore: userStore.openStore)
+                        persistentSecureStore: userStore.openStore,
+                        localAuthService: DummyLocalAuthService(context: LAContext()))
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(clearWallet),
