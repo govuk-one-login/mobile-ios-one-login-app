@@ -2,6 +2,7 @@ import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class GenericErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: GenericErrorViewModel!

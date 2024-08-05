@@ -2,6 +2,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class DataDeletedWarningViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: DataDeletedWarningViewModel!

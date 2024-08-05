@@ -2,6 +2,7 @@ import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class FaceIDEnrollmentViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: FaceIDEnrollmentViewModel!

@@ -2,8 +2,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-import Foundation
-
+@MainActor
 final class SignOutErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutErrorViewModel!

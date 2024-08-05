@@ -1,6 +1,7 @@
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class UnlockScreenViewControllerTests: XCTestCase {
     var viewModel: UnlockScreenViewModel!
     var sut: UnlockScreenViewController!

@@ -2,6 +2,7 @@ import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class TouchIDEnrollmentViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: TouchIDEnrollmentViewModel!

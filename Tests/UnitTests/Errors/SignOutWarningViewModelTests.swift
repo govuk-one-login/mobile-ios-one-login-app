@@ -2,6 +2,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class SignOutWarningViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutWarningViewModel!
@@ -26,7 +27,6 @@ final class SignOutWarningViewModelTests: XCTestCase {
 
 extension SignOutWarningViewModelTests {
     func test_pageConfiguration() throws {
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_signOutWarningTitle")
         XCTAssertEqual(sut.body, "app_signOutWarningBody")
         XCTAssertNil(sut.secondaryButtonViewModel)

@@ -730,6 +730,7 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 				C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */,
@@ -738,7 +739,6 @@
 				D0BE243F2BEBAEB600759529 /* JWT */,
 				C8BADD322B88CBB200385FE7 /* Network */,
 				C8BADD332B88CBBA00385FE7 /* Storage */,
-				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

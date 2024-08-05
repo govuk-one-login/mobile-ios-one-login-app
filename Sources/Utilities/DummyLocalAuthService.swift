@@ -11,13 +11,13 @@ struct DummyLocalAuthService: LocalAuthService {
     
     func evaluateLocalAuth(navigationController: UINavigationController,
                            completion: @escaping (AuthType) -> Void) {
-        if (context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) && context.biometryType == .touchID) {
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) && context.biometryType == .touchID {
             completion(.touch)
-        } else if (context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) && context.biometryType == .faceID) {
+        } else if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) && context.biometryType == .faceID {
             completion(.face)
         } else if !context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) {
             completion(.none)
-        } else{
+        } else {
             completion(.passcode)
         }
     }
