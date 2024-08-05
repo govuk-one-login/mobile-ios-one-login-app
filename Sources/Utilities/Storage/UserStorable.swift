@@ -46,6 +46,7 @@ extension UserStorable {
     func resetPersistentSession() {
         openStore.deleteItem(itemName: .persistentSessionID)
         defaultsStore.removeObject(forKey: .returningUser)
+        defaultsStore.removeObject(forKey: .accessTokenExpiry)
     }
     
     func saveItem(_ item: String?, itemName: String, storage: Storage) throws {

@@ -2,6 +2,7 @@ import Authentication
 import GDSCommon
 import Logging
 
+@MainActor
 final class OnboardingViewControllerFactory {
     static func createIntroViewController(analyticsService: AnalyticsService,
                                           action: @escaping () -> Void) -> IntroViewController {

@@ -65,6 +65,8 @@
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
+		C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */; };
+		C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */; };
 		C8514F682C09E133008E1433 /* ProfileTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* ProfileTabAnalytics.swift */; };
 		C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
 		C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
@@ -278,6 +280,8 @@
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
+		C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyLocalAuthService.swift; sourceTree = "<group>"; };
+		C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyLocalAuthServiceTests.swift; sourceTree = "<group>"; };
 		C8514F672C09E133008E1433 /* ProfileTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabAnalytics.swift; sourceTree = "<group>"; };
 		C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabAnalytics.swift; sourceTree = "<group>"; };
 		C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycle.swift; sourceTree = "<group>"; };
@@ -728,6 +732,7 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
 				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 				C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */,
@@ -755,6 +760,7 @@
 		C85966462AEC31AE006DF61D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */,
 				C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */,
 				C85966472AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
@@ -1541,6 +1547,7 @@
 				C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */,
 				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
+				C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
@@ -1636,6 +1643,7 @@
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
+				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2639,7 +2647,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
@@ -2679,7 +2687,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {

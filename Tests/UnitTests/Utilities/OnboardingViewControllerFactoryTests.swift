@@ -2,6 +2,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class OnboardingViewControllerFactoryTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: OnboardingViewControllerFactory.Type!

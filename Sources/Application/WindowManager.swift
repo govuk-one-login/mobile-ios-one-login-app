@@ -1,6 +1,7 @@
 import Logging
 import UIKit
 
+@MainActor
 final class WindowManager: WindowManagement {
     let windowScene: UIWindowScene
     let appWindow: UIWindow

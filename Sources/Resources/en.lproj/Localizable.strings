@@ -35,6 +35,8 @@
 
 "app_signInButton" = "Sign in";
 
+"app_extendedSignInButton" = "Sign in with GOV.UK One Login";
+
 
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Help improve the app by sharing analytics";
@@ -151,12 +153,10 @@
 
 
 // Mark: Sign Out Warning screen
-"app_signOutWarningTitle" = "You’ve been signed-out";
+"app_signOutWarningTitle" = "You’ve been signed out";
 
-"app_signOutWarningBody" = "You will need to reauthenticate";
+"app_signOutWarningBody" = "This is to keep the information in your GOV.UK One Login app secure.\n\nYou need to sign in again to continue.";
 
 
 // MARK: Data DeletionWarning screen
 "app_dataDeletionWarningBody" = "We’ve deleted the information in your GOV.UK One Login app because we cannot confirm your sign in details.\n\nWe did this to reduce the risk that someone else will see your information.\n\nTo keep using the app, you’ll need to sign in. You’ll then be asked to set your analytics and sign in preferences again.";
-
-"app_dataDeletionSignInButton" = "Sign in with GOV.UK One Login";

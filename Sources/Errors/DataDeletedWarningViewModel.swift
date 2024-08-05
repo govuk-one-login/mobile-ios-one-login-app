@@ -2,7 +2,7 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct DataDeletedWarningViewModel: GDSErrorViewModel, BaseViewModel {
+struct DataDeletedWarningViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
     let body: GDSLocalisedString = "app_dataDeletionWarningBody"
@@ -16,7 +16,7 @@ struct DataDeletedWarningViewModel: GDSErrorViewModel, BaseViewModel {
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_dataDeletionSignInButton",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
                                                                analyticsService: analyticsService) {
             action()
         }

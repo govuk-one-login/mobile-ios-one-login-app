@@ -3,7 +3,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-
+@MainActor
 final class SignOutPageViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutPageViewModel!

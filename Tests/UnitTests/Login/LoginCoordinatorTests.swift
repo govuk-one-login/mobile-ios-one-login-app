@@ -108,7 +108,7 @@ extension LoginCoordinatorTests {
         // THEN the presented view controller should be the GDSErrorViewController
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         // THEN the presented view model should be the SignOutWarningViewModel
-        XCTAssertTrue(warningScreen.viewModel is SignOutWarningViewModel)
+        XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
     }
     
     func test_start_error() throws {

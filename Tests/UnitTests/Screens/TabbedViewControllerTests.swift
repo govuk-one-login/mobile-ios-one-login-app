@@ -3,6 +3,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class TabbedViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var viewModel: TabbedViewModel!

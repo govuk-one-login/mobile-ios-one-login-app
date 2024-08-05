@@ -2,7 +2,7 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct SignOutErrorViewModel: GDSErrorViewModel, BaseViewModel {
+struct SignOutErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_signOutErrorTitle"
     let body: GDSLocalisedString = "app_signOutErrorBody"

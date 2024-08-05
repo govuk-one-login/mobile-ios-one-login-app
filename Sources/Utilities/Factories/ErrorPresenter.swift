@@ -1,6 +1,7 @@
 import GDSCommon
 import Logging
 
+@MainActor
 final class ErrorPresenter {
     static func createGenericError(errorDescription: String,
                                    analyticsService: AnalyticsService,

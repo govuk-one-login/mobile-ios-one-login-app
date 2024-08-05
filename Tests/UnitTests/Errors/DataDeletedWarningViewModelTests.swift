@@ -2,6 +2,7 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class DataDeletedWarningViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: DataDeletedWarningViewModel!
@@ -36,7 +37,7 @@ extension DataDeletedWarningViewModelTests {
     
     func test_buttonConfiuration() throws {
         XCTAssertTrue(sut.primaryButtonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.primaryButtonViewModel.title, GDSLocalisedString(stringLiteral: "app_dataDeletionSignInButton"))
+        XCTAssertEqual(sut.primaryButtonViewModel.title, GDSLocalisedString(stringLiteral: "app_extendedSignInButton"))
         let button = try XCTUnwrap(sut.primaryButtonViewModel as? AnalyticsButtonViewModel)
         XCTAssertEqual(button.backgroundColor, .gdsGreen)
     }

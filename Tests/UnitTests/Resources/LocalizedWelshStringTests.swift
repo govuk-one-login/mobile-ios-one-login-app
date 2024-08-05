@@ -40,6 +40,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mewngofnodwch gyda'r cyfeiriad e-bost rydych yn ei ddefnyddio ar gyfer eich GOV.UK One Login.")
         XCTAssertEqual("app_signInButton".getWelshString(),
                        "Mewngofnodi")
+        XCTAssertEqual("app_extendedSignInButton".getWelshString(),
+                       "Mewngofnodi gyda GOV.UK One Login")
     }
     
     func test_analyticsScreen_keys() throws {
@@ -170,16 +172,14 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_signOutWarningPageKeys() {
         XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
-                       "You’ve been signed-out")
+                       "Rydych wedi cael eich allgofnodi")
         XCTAssertEqual("app_signOutWarningBody".getWelshString(),
-                       "You will need to reauthenticate")
+                       "Mae hyn er mwyn cadw'r wybodaeth yn eich ap GOV.UK One Login yn ddiogel.\n\nMae angen i chi fewngofnodi eto i barhau.")
     }
     
     func test_dataDeletedWarningPageKeys() {
         XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
                        "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.")
-        XCTAssertEqual("app_dataDeletionSignInButton".getWelshString(),
-                       "Mewngofnodi gyda GOV.UK One Login")
     }
 }
 

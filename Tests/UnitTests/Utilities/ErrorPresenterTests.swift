@@ -1,6 +1,7 @@
 @testable import OneLogin
 import XCTest
 
+@MainActor
 final class ErrorPresenterTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: ErrorPresenter.Type!

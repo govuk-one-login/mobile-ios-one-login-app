@@ -35,6 +35,8 @@
 
 "app_signInButton" = "Mewngofnodi";
 
+"app_extendedSignInButton" = "Mewngofnodi gyda GOV.UK One Login";
+
 
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
@@ -151,12 +153,10 @@
 
 
 // Mark: Sign Out Warning screen
-"app_signOutWarningTitle" = "You’ve been signed-out";
+"app_signOutWarningTitle" = "Rydych wedi cael eich allgofnodi";
 
-"app_signOutWarningBody" = "You will need to reauthenticate";
+"app_signOutWarningBody" = "Mae hyn er mwyn cadw'r wybodaeth yn eich ap GOV.UK One Login yn ddiogel.\n\nMae angen i chi fewngofnodi eto i barhau.";
 
 
 // MARK: Data DeletionWarning screen
 "app_dataDeletionWarningBody" = "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.";
-
-"app_dataDeletionSignInButton" = "Mewngofnodi gyda GOV.UK One Login";
