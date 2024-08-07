@@ -53,7 +53,7 @@ platform :ios do
     )
     
     sh(
-      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/#{options[:scheme]}.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+      "bash #{options[:workspace]}/scripts-configs/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/#{options[:scheme]}.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
     
     if options.has_key?(:pr_number) then
@@ -65,7 +65,7 @@ platform :ios do
         project_language: "swift",
         sonar_login: options[:sonar_token],
         sonar_url: "https://sonarcloud.io",
-        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
       )
     else
       sonar(
@@ -74,7 +74,7 @@ platform :ios do
         project_language: "swift",
         sonar_login: options[:sonar_token],
         sonar_url: "https://sonarcloud.io",
-        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
       )
     end
   end
