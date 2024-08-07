@@ -46,7 +46,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./scripts/store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Default Branch
         env:
@@ -54,7 +54,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           brew install sonar-scanner
 
@@ -83,7 +83,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./scripts/store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Build App, Run Staging Configuration Tests
         env:
@@ -91,7 +91,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           bundle install
 
@@ -116,7 +116,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./scripts/store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Build App, Run Build Configuration Tests
         env:
@@ -124,7 +124,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           bundle install
 
@@ -149,7 +149,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./scripts/store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Build App, Run UI Tests
         env:
@@ -157,7 +157,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           bundle install
 
@@ -195,7 +195,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./scripts/store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # pin@v4.0.2
@@ -217,7 +217,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
           echo Pushed to branch: $gitbranch
