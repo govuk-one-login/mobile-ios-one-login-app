@@ -142,6 +142,21 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.clientError
     }
     
+    func test_loginError_serverError() throws {
+        mockLoginSession.errorFromPerformLoginFlow = LoginError.serverError
+        sut.start()
+        // GIVEN the AuthenticationCoordinator has logged in via start()
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and there is a server error
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
+        // THEN the 'unable to login' error screen is shown
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be a serverError error
+        sut.authError = LoginError.serverError
+    }
+    
     func test_loginError_generic() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
         sut.start()
