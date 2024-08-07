@@ -57,7 +57,8 @@ final class AuthenticationCoordinator: NSObject,
                 finish()
             } catch let error as LoginError where error == .non200,
                     let error as LoginError where error == .invalidRequest,
-                    let error as LoginError where error == .clientError {
+                    let error as LoginError where error == .clientError,
+                    let error as LoginError where error == .serverError {
                 showUnableToLoginErrorScreen(error)
             } catch let error as JWTVerifierError {
                 showUnableToLoginErrorScreen(error)
