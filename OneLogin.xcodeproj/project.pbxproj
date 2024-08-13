@@ -41,6 +41,8 @@
 		41C8E42F2B72920F0063B8A3 /* FaceIDEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42D2B7291F80063B8A3 /* FaceIDEnrollmentViewModelTests.swift */; };
 		41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4302B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift */; };
 		41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */; };
+		41D00F622C6B974500331C83 /* UpdateAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D00F612C6B974500331C83 /* UpdateAppViewModel.swift */; };
+		41D00F652C6B9E8300331C83 /* UpdateAppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D00F632C6B9E5600331C83 /* UpdateAppViewModelTests.swift */; };
 		41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */; };
 		41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */; };
 		41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */; };
@@ -255,6 +257,8 @@
 		41C8E42D2B7291F80063B8A3 /* FaceIDEnrollmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrollmentViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E4302B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricEnrollmentAnalytics.swift; sourceTree = "<group>"; };
 		41C8E4322B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
+		41D00F612C6B974500331C83 /* UpdateAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAppViewModel.swift; sourceTree = "<group>"; };
+		41D00F632C6B9E5600331C83 /* UpdateAppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAppViewModelTests.swift; sourceTree = "<group>"; };
 		41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModelTests.swift; sourceTree = "<group>"; };
 		41D9DC442B55851A00FC7DDD /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
@@ -553,6 +557,7 @@
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				41D00F602C6B971E00331C83 /* UpdateApp */,
 				41279DD32BFDD9A700E16537 /* SignOutConfirmation */,
 				D08B0B5D2BD95C4900769CEA /* Tabs */,
 				D08B0B522BD7F7D600769CEA /* DeveloperMenu */,
@@ -572,6 +577,14 @@
 				C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		41D00F602C6B971E00331C83 /* UpdateApp */ = {
+			isa = PBXGroup;
+			children = (
+				41D00F612C6B974500331C83 /* UpdateAppViewModel.swift */,
+			);
+			path = UpdateApp;
 			sourceTree = "<group>";
 		};
 		41E1A90F2BE126910034B6C7 /* Networking */ = {
@@ -930,6 +943,7 @@
 				C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */,
 				C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */,
 				D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */,
+				41D00F632C6B9E5600331C83 /* UpdateAppViewModelTests.swift */,
 				C8514F6A2C09E4B0008E1433 /* Home */,
 				C8514F692C09E4A5008E1433 /* Profile */,
 			);
@@ -1549,6 +1563,7 @@
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
+				41D00F622C6B974500331C83 /* UpdateAppViewModel.swift in Sources */,
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
@@ -1608,6 +1623,7 @@
 				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
 				C8C6665A2BCFDBDE00CF249B /* TokenHolderTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrollmentViewModelTests.swift in Sources */,
+				41D00F652C6B9E8300331C83 /* UpdateAppViewModelTests.swift in Sources */,
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,

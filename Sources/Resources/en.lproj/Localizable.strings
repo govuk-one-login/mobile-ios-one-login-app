@@ -27,6 +27,14 @@
 // MARK: Local Auth prompt (Touch ID)
 "app_touchId_subtitle" = "Unlock to proceed";
 
+// MARK: Update App screen
+"app_updateApp_Title" = "You need to update your app";
+
+"app_updateApp_body1" = "You’re using an old version of the Welcome to GOV.UK One Login app.";
+
+"app_updateApp_body2" = "Update your app to continue.";
+
+"app_updateAppButton" = "Update Welcome to GOV.UK One Login app";
 
 // MARK: Sign in screen
 "app_signInTitle" = "GOV.UK One Login";
