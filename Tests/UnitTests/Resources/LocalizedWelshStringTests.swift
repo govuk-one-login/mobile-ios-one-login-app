@@ -184,9 +184,8 @@ final class LocalizedWelshStringTests: XCTestCase {
 
     func test_updateAppPageKeys() {
         XCTAssertEqual("app_updateApp_Title".getWelshString(), "Mae angen i chi ddiweddaru eich ap")
-        XCTAssertEqual("app_updateApp_body1".getWelshString(), "Rydych yn defnyddio hen fersiwn o'r ap Welcome to GOV.UK One Login.")
-        XCTAssertEqual("app_updateApp_body2".getWelshString(), "Diweddarwch eich ap i barhau.")
-        XCTAssertEqual("app_updateAppButton".getWelshString(), "Diweddaru Ap Welcome to GOV.UK One Login")
+        XCTAssertEqual("app_updateApp_body1".getWelshString(), "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.")
+        XCTAssertEqual("app_updateAppButton".getWelshString(), "Diweddaru Ap GOV.UK One Login")
     }
 }
 

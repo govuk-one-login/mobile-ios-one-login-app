@@ -30,11 +30,9 @@
 // MARK: Update App screen
 "app_updateApp_Title" = "Mae angen i chi ddiweddaru eich ap";
 
-"app_updateApp_body1" = "Rydych yn defnyddio hen fersiwn o'r ap Welcome to GOV.UK One Login.";
+"app_updateApp_body1" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
 
-"app_updateApp_body2" = "Diweddarwch eich ap i barhau.";
-
-"app_updateAppButton" = "Diweddaru Ap Welcome to GOV.UK One Login";
+"app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
 
 // MARK: Sign in screen
 "app_signInTitle" = "GOV.UK One Login";

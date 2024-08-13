@@ -29,8 +29,9 @@ final class UpdateAppViewModelTests: XCTestCase {
 extension UpdateAppViewModelTests {
     func test_label_contents() throws {
         XCTAssertEqual(sut.title.stringKey, "app_updateApp_Title")
-        XCTAssertEqual(sut.body?.stringKey, "app_updateApp_body1")
-        XCTAssertEqual(sut.footnote?.stringKey, "app_updateApp_body2")
+        XCTAssertEqual(sut.body?.stringKey, "app_updateApp_body")
+        XCTAssertEqual(sut.primaryButtonViewModel.title, "app_updateAppButton")
+        XCTAssertEqual(sut.imageWeight, .regular)
         XCTAssertEqual(sut.image, "exclamationmark.arrow.circlepath")
     }
 }
