@@ -14,7 +14,7 @@ public protocol AppInformationServicing {
 public final class AppInformationService: AppInformationServicing {
     private let client: NetworkClient
     
-    /// Initialise a new `UpdateService`
+    /// Initialise a new `AppInformationService`
     ///
     /// No parameters are required.
     public convenience init() {
