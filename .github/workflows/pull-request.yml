@@ -31,7 +31,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Lint
         run: |
@@ -44,7 +44,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           brew install sonar-scanner
@@ -88,7 +88,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Lint
         run: |
@@ -106,7 +106,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           bundle install
 
@@ -142,7 +142,7 @@ jobs:
         env:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
-          ./store-access-token.sh
+          ./scripts-configs/store-access-token.sh
 
       - name: Remove Pact Files in Preparation for Artifact Download
         run: |
@@ -164,7 +164,7 @@ jobs:
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/override-git-config'
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         if: ${{ success() }}
         # The pact broker endpoint requires a query parameter to be accessed from outside the VPN.  However, the broker CLI will ignore this when passed as part of the "-b" parameter
         # By first executing a curl command to the broker endpoint, it allows subsequent connections and results can be published
