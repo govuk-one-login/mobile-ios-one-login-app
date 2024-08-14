@@ -28,9 +28,9 @@
 "app_touchId_subtitle" = "Datgloi i barhau";
 
 // MARK: Update App screen
-"app_updateApp_Title" = "Mae angen i chi ddiweddaru eich ap";
+"app_updateAppTitle" = "Mae angen i chi ddiweddaru eich ap";
 
-"app_updateApp_body1" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
+"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
 
 "app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
 

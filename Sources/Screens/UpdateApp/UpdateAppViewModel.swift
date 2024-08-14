@@ -4,13 +4,13 @@ import Logging
 import UIKit
 
 struct UpdateAppViewModel: GDSInformationViewModel, BaseViewModel {
-    let title: GDSLocalisedString = "app_updateApp_Title"
-    let body: GDSLocalisedString? = "app_updateApp_body"
+    let title: GDSLocalisedString = "app_updateAppTitle"
+    let body: GDSLocalisedString? = "app_updateAppBody"
     let footnote: GDSLocalisedString? = nil
     let image: String = "exclamationmark.arrow.circlepath"
     let imageWeight: UIFont.Weight? = .regular
     let imageColour: UIColor? = nil
-    let imageHeightConstraint: CGFloat? = 107
+    let imageHeightConstraint: CGFloat? = 100
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService

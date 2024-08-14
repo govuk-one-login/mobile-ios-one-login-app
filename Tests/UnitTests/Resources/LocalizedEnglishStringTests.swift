@@ -183,8 +183,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
 
     func test_updateAppPageKeys() {
-        XCTAssertEqual("app_updateApp_Title".getEnglishString(), "You need to update your app")
-        XCTAssertEqual("app_updateApp_body".getEnglishString(), "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
+        XCTAssertEqual("app_updateAppTitle".getEnglishString(), "You need to update your app")
+        XCTAssertEqual("app_updateAppBody".getEnglishString(), "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
         XCTAssertEqual("app_updateAppButton".getEnglishString(), "Update GOV.UK One Login app")
     }
 }
