@@ -105,6 +105,8 @@ final class MainCoordinator: NSObject,
             return
         }
     }
+    
+    // TODO: DCMAW-9866 - Add logic for checking app version & presenting UI
 }
 
 extension MainCoordinator {
