@@ -27,7 +27,7 @@ public final class AppInformationService: AppInformationServicing {
     }
     
     public func fetchAppInfo() async throws -> App {
-        let updateURL = Service.baseURL.appendingPathComponent("appInfo")
+        let updateURL = Service.baseURL!.appendingPathComponent("appInfo")
         var request = URLRequest(url: updateURL)
         request.httpMethod = "GET"
         
