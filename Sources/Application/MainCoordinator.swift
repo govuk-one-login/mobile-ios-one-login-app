@@ -1,7 +1,7 @@
 import Coordination
-import Logging
 import GDSAnalytics
 import LocalAuthentication
+import Logging
 import SecureStore
 import UIKit
 
@@ -110,7 +110,7 @@ final class MainCoordinator: NSObject,
         }
     }
     
-    private func checkAvailabilityAndAppVersion() {
+    private func checkAppVersion() {
         Task {
             do {
                 let appInfo = try await updateService.fetchAppInfo()

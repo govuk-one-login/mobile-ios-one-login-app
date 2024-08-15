@@ -7,10 +7,6 @@ public protocol AppInformationServicing {
     var currentVersion: Version { get }
 }
 
-/// Update Service ensures  the app being run isn't below the minimum supported version
-///
-/// It polls the `appInfo` endpoint on the backend every 15 minutes, and returns results to `isBelowMinimumSupportedVersion` when this is the case.
-///
 public final class AppInformationService: AppInformationServicing {
     private let client: NetworkClient
     
