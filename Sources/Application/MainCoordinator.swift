@@ -1,4 +1,5 @@
 import Coordination
+import Logging
 import GDSAnalytics
 import LocalAuthentication
 import SecureStore
@@ -116,11 +117,16 @@ final class MainCoordinator: NSObject,
                 
                 guard updateService.currentVersion >= appInfo.minimumVersion else {
                     // TODO: DCMAW-9866 - Present 'app update required' screen
-                    
                     return
                 }
+                
             } catch {
-                // TODO: Add error handling
+                let error = ErrorPresenter
+                    .createSignOutError(errorDescription: error.localizedDescription,
+                                        analyticsService: analyticsCenter.analyticsService) {
+                        exit(0)
+                    }
+                root.present(error, animated: true)
             }
         }
     }
