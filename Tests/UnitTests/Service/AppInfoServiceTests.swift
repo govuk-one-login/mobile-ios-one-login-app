@@ -10,22 +10,23 @@ final class AppInfoServiceTests: XCTestCase {
                             available: Bool = true,
                             releaseFlags: [Bool] = [true, false]) -> Data {
         
-        Data("""
-        {
-            "apps": {
-                "android": {
-                    "minimumVersion": "\(minimumVersion)"
-                },
-                "iOS": {
-                    "available": \(available),
-                    "minimumVersion": "\(minimumVersion)",
-                    "releaseFlags": {
-                        \(flagFactory(releaseFlags))
+        Data(
+            """
+            {
+                "apps": {
+                    "android": {
+                        "minimumVersion": "\(minimumVersion)"
+                    },
+                    "iOS": {
+                        "available": \(available),
+                        "minimumVersion": "\(minimumVersion)",
+                        "releaseFlags": {
+                            \(flagFactory(releaseFlags))
+                        }
                     }
                 }
             }
-        }
-        """.utf8)
+            """.utf8)
     }
     
     private func flagFactory(_ flags: [Bool]) -> String {
