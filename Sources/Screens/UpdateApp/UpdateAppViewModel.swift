@@ -18,14 +18,13 @@ struct UpdateAppViewModel: GDSInformationViewModel, BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
 
-    init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    init(urlOpener: URLOpener = UIApplication.shared, analyticsService: AnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         // TODO DCMAW-9612: add event for clicking the link (LinkEvent most likely).
         // update titleKey and action in `primaryButtonViewModel`
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
                                                                analyticsService: analyticsService) {
-            // action should open AppStore
-            action()
+            urlOpener.open(url: AppEnvironment.appStoreURL)
         }
     }
 

@@ -34,4 +34,10 @@ extension UpdateAppViewModelTests {
         XCTAssertEqual(sut.imageWeight, .regular)
         XCTAssertEqual(sut.image, "exclamationmark.arrow.circlepath")
     }
+    
+    func test_didCallButtonAction() throws {
+        XCTAssertFalse(didCallPrimaryButtonAction)
+        sut.primaryButtonViewModel.action()
+        XCTAssertTrue(didCallPrimaryButtonAction)
+    }
 }

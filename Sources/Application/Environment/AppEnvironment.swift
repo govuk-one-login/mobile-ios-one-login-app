@@ -9,6 +9,7 @@ public final class AppEnvironment {
         case oneLoginClientID = "One Login Client ID"
         case stsClientID = "STS Client ID"
         case externalBaseURL = "External Base URL"
+        case appStoreURL = "App Store URL"
     }
     
     private static var appDictionary: [String: Any] {
@@ -143,6 +144,24 @@ extension AppEnvironment {
     
     static var isLocaleWelsh: Bool {
         UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy"
+    }
+}
+
+// MARK: - App Store URL
+extension AppEnvironment {
+    static var appStoreURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = AppEnvironment.string(for: .appStoreURL)
+        return components.url!
+    }
+
+    static var appStore: URL {
+        appStoreURL
+            .appendingPathComponent("gb")
+            .appendingPathExtension("app")
+            .appendingPathExtension("uk.gov.digital-identity")
+        // TODO: DCMAW-9819: Update to App ID
     }
 }
 

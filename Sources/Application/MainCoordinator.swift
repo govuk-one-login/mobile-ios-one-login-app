@@ -14,6 +14,7 @@ final class MainCoordinator: NSObject,
     private let userStore: UserStorable
     private let tokenVerifier: TokenVerifier
     
+    private weak var qualifyingCoordinator: QualifyingCoordinator?
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     private weak var walletCoordinator: WalletCoordinator?
@@ -32,17 +33,20 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        addTabs()
-        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-            evaluateRevisit()
-        }
-        evaluateRevisit()
-        root.delegate = self
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(startReauth),
-                         name: Notification.Name(.startReauth),
-                         object: nil)
+        let qc = QualifyingCoordinator(analyticsCenter: analyticsCenter)
+        openChildModally(qc, animated: false)
+        qualifyingCoordinator = qc
+//        addTabs()
+//        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+//            evaluateRevisit()
+//        }
+//        evaluateRevisit()
+//        root.delegate = self
+//        NotificationCenter.default
+//            .addObserver(self,
+//                         selector: #selector(startReauth),
+//                         name: Notification.Name(.startReauth),
+//                         object: nil)
     }
     
     func evaluateRevisit() {

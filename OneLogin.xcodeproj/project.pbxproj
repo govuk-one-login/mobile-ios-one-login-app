@@ -48,7 +48,7 @@
 		41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */; };
 		41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E1A9142BE128610034B6C7 /* MockURLOpener.swift */; };
 		41F1C8F22C6CE087000E6662 /* QualifyingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1C8F12C6CE087000E6662 /* QualifyingCoordinator.swift */; };
-		41F1C8F52C6CE430000E6662 /* LoadingScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41F1C8F42C6CE430000E6662 /* LoadingScreen.xib */; };
+		41F1C8F72C6DEB1D000E6662 /* QualifyingCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F1C8F62C6DEB1D000E6662 /* QualifyingCoordinatorTests.swift */; };
 		41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */; };
 		41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */; };
 		41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */; };
@@ -266,7 +266,7 @@
 		41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
 		41E1A9142BE128610034B6C7 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		41F1C8F12C6CE087000E6662 /* QualifyingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinator.swift; sourceTree = "<group>"; };
-		41F1C8F42C6CE430000E6662 /* LoadingScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingScreen.xib; sourceTree = "<group>"; };
+		41F1C8F62C6DEB1D000E6662 /* QualifyingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinatorTests.swift; sourceTree = "<group>"; };
 		41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
 		C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -562,7 +562,6 @@
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				41F1C8F32C6CE406000E6662 /* LoadingScreen */,
 				41D00F602C6B971E00331C83 /* UpdateApp */,
 				41279DD32BFDD9A700E16537 /* SignOutConfirmation */,
 				D08B0B5D2BD95C4900769CEA /* Tabs */,
@@ -601,14 +600,6 @@
 				D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */,
 			);
 			path = Networking;
-			sourceTree = "<group>";
-		};
-		41F1C8F32C6CE406000E6662 /* LoadingScreen */ = {
-			isa = PBXGroup;
-			children = (
-				41F1C8F42C6CE430000E6662 /* LoadingScreen.xib */,
-			);
-			path = LoadingScreen;
 			sourceTree = "<group>";
 		};
 		41FF35A82B21F05600419DB3 /* Errors */ = {
@@ -709,6 +700,7 @@
 				C8E6A3EE2BBC1181005015AF /* WindowManagerTests.swift */,
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 				C8C666592BCFDBDE00CF249B /* TokenHolderTests.swift */,
+				41F1C8F62C6DEB1D000E6662 /* QualifyingCoordinatorTests.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1404,7 +1396,6 @@
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
-				41F1C8F52C6CE430000E6662 /* LoadingScreen.xib in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
@@ -1645,6 +1636,7 @@
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
+				41F1C8F72C6DEB1D000E6662 /* QualifyingCoordinatorTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockUserStore.swift in Sources */,

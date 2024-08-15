@@ -14,13 +14,13 @@ final class WindowManager: WindowManagement {
     
     func displayUnlockWindow(analyticsService: AnalyticsService,
                              action: @escaping () -> Void) {
-        unlockWindow = UIWindow(windowScene: windowScene)
-        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) {
-            action()
-        }
-        unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
-        unlockWindow?.windowLevel = .alert
-        unlockWindow?.makeKeyAndVisible()
+//        unlockWindow = UIWindow(windowScene: windowScene)
+//        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) {
+//            action()
+//        }
+//        unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
+//        unlockWindow?.windowLevel = .alert
+//        unlockWindow?.makeKeyAndVisible()
     }
     
     func hideUnlockWindow() {
