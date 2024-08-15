@@ -10,7 +10,7 @@ final class AppInfoServiceTests: XCTestCase {
                             available: Bool = true,
                             releaseFlags: [Bool] = [true, false]) -> Data {
         
-        """
+        Data("""
         {
             "apps": {
                 "android": {
@@ -25,7 +25,7 @@ final class AppInfoServiceTests: XCTestCase {
                 }
             }
         }
-        """.data(using: .utf8)!
+        """.utf8)
     }
     
     private func flagFactory(_ flags: [Bool]) -> String {
@@ -37,7 +37,7 @@ final class AppInfoServiceTests: XCTestCase {
             .joined(separator: ",\n")
     }
     
-    override class func setUp() {
+    override static func setUp() {
         let url = URL(string: "https://example.com/dev")!
         Service.initialize(baseURL: url)
     }
