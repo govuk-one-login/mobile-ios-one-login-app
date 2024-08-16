@@ -54,9 +54,9 @@ final class AppInfoServiceTests: XCTestCase {
     
     
     override func tearDown() {
-        super.tearDown()
         sut = nil
         MockURLProtocol.clear()
+        super.tearDown()
     }
 }
 
