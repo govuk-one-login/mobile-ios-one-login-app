@@ -10,7 +10,6 @@ final class AppInfoServiceTests: XCTestCase {
                             available: Bool = true,
                             releaseFlags: [Bool] = [true, false]) -> Data {
         
-        Data(
             """
             {
                 "apps": {
@@ -26,7 +25,7 @@ final class AppInfoServiceTests: XCTestCase {
                     }
                 }
             }
-            """.utf8)
+            """.data(using: .utf8)!
     }
     
     private func flagFactory(_ flags: [Bool]) -> String {
