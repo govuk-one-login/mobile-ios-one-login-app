@@ -11,7 +11,7 @@ class SceneDelegate: UIResponder,
                      SceneLifecycle {
     var coordinator: MainCoordinator?
     let analyticsService: AnalyticsService = GAnalytics()
-    var windowManager: WindowManagement?
+    var window: UIWindow?
     private var shouldCallSceneWillEnterForeground = false
     private lazy var userStore = {
         let authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
@@ -24,34 +24,34 @@ class SceneDelegate: UIResponder,
                            openStore: openStore,
                            defaultsStore: UserDefaults.standard)
     }()
-    
+
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
-        windowManager = WindowManager(windowScene: windowScene)
+        window = UIWindow(windowScene: windowScene)
         setUpBasicUI()
-        startMainCoordinator(windowManager: windowManager!)
+        startMainCoordinator(window: window!)
     }
-    
+
     func scene(_ scene: UIScene,
                continue userActivity: NSUserActivity) {
         guard let incomingURL = userActivity.webpageURL else { return }
         coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func startMainCoordinator(windowManager: WindowManagement) {
+    func startMainCoordinator(window: UIWindow) {
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        coordinator = MainCoordinator(windowManager: windowManager,
+        coordinator = MainCoordinator(window: window,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
                                       userStore: userStore)
-        windowManager.appWindow.rootViewController = tabController
-        windowManager.appWindow.makeKeyAndVisible()
+        window.rootViewController = tabController
+        window.makeKeyAndVisible()
         trackSplashScreen(analyticsCenter.analyticsService)
         coordinator?.start()
     }
@@ -60,7 +60,7 @@ class SceneDelegate: UIResponder,
         if userStore.authenticatedStore.checkItemExists(itemName: .accessToken),
            userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
             shouldCallSceneWillEnterForeground = true
-            displayUnlockScreen()
+//            displayUnlockScreen()
         } else {
             shouldCallSceneWillEnterForeground = false
         }

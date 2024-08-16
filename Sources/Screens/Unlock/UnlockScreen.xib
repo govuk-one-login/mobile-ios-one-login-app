@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="loadingLabel" destination="YyC-zx-geM" id="2gS-Gp-H5w"/>
                 <outlet property="loadingSpinner" destination="B1a-bA-P9s" id="Zen-Hk-OOH"/>
+                <outlet property="loadingStackView" destination="zZ2-mS-JEI" id="gbI-Vd-r84"/>
                 <outlet property="unlockButton" destination="1Fh-u8-d7f" id="INt-Oi-xJK"/>
                 <outlet property="view" destination="iN0-l3-epB" id="pNR-h8-gha"/>
             </connections>
@@ -29,7 +30,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="hux-3o-9se" userLabel="Stack View_button">
                     <rect key="frame" x="0.0" y="680.66666666666663" width="393" height="121.33333333333337"/>
                     <subviews>
-                        <stackView opaque="NO" tag="1000" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zZ2-mS-JEI">
+                        <stackView opaque="NO" tag="1000" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zZ2-mS-JEI" userLabel="Stack View_loading">
                             <rect key="frame" x="16" y="8" width="361" height="40.333333333333336"/>
                             <subviews>
                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="B1a-bA-P9s">

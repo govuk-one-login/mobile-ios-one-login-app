@@ -1,14 +1,15 @@
 import Coordination
 import GDSAnalytics
 import LocalAuthentication
+import Logging
 import SecureStore
 import UIKit
 
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
                              TabCoordinator {
-    private let windowManager: WindowManagement
     let root: UITabBarController
+    var window: UIWindow
     var childCoordinators = [ChildCoordinator]()
     private var analyticsCenter: AnalyticsCentral
     private let userStore: UserStorable
@@ -19,13 +20,13 @@ final class MainCoordinator: NSObject,
     private weak var homeCoordinator: HomeCoordinator?
     private weak var walletCoordinator: WalletCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
-    
-    init(windowManager: WindowManagement,
+
+    init(window: UIWindow,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
-        self.windowManager = windowManager
+        self.window = window
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
@@ -33,11 +34,12 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        let qc = QualifyingCoordinator(analyticsCenter: analyticsCenter)
+        let qc = QualifyingCoordinator(userStore: userStore,
+                                       analyticsCenter: analyticsCenter)
         openChildModally(qc, animated: false)
         qualifyingCoordinator = qc
 //        addTabs()
-//        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+//        displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
 //            evaluateRevisit()
 //        }
 //        evaluateRevisit()
@@ -59,7 +61,7 @@ final class MainCoordinator: NSObject,
                                                                  storage: .authenticated)
                             TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                             updateToken()
-                            windowManager.hideUnlockWindow()
+//                            windowManager.hideUnlockWindow()
                         } catch {
                             handleLoginError(error)
                         }
@@ -96,7 +98,7 @@ final class MainCoordinator: NSObject,
             userStore.refreshStorage(accessControlLevel: nil)
         }
         showLogin(loginError)
-        windowManager.hideUnlockWindow()
+//        windowManager.hideUnlockWindow()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -113,7 +115,7 @@ final class MainCoordinator: NSObject,
 
 extension MainCoordinator {
     private func showLogin(_ loginError: Error?) {
-        let lc = LoginCoordinator(appWindow: windowManager.appWindow,
+        let lc = LoginCoordinator(appWindow: window,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
@@ -137,7 +139,7 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: windowManager.appWindow,
+        let wc = WalletCoordinator(window: window,
                                    analyticsCenter: analyticsCenter,
                                    userStore: userStore)
         addTab(wc)
@@ -182,11 +184,19 @@ extension MainCoordinator: UITabBarControllerDelegate {
 
 extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
-        if child is QualifyingCoordinator {
-            evaluateRevisit()
-        }
-        if child is LoginCoordinator {
+        switch child {
+        case _ as LoginCoordinator:
             updateToken()
+        case let child as QualifyingCoordinator:
+            guard let _ = child.idToken else {
+                child.root.dismiss(animated: true) {
+                    self.fullLogin()
+                }
+                return
+            }
+            evaluateRevisit()
+        default:
+            break
         }
     }
     

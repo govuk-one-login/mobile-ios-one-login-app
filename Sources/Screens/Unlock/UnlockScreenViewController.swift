@@ -42,9 +42,14 @@ class UnlockScreenViewController: BaseViewController {
         viewModel.primaryButtonViewModel.action()
     }
 
+    @IBOutlet var loadingStackView: UIStackView! {
+        didSet {
+            loadingStackView.accessibilityIdentifier = "unlock-screen-loading-stack-view"
+        }
+    }
+    
     func finishLoading() {
-        self.loadingLabel.isHidden = true
-        self.loadingSpinner.isHidden = true
+        self.loadingStackView.isHidden = true
         self.unlockButton.isHidden = false
     }
 }
