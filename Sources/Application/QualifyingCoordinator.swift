@@ -48,13 +48,11 @@ final class QualifyingCoordinator: NSObject,
     func evaluateRevisit() {
         if userStore.previouslyAuthenticatedUser != nil {
             if userStore.validAuthenticatedUser {
-                // should be prompted for Face/Touch ID
                 fetchIdToken()
             } else {
                 finish()
             }
         } else {
-//            !userStore.previouslyAuthenticatedUser
             finish()
         }
     }

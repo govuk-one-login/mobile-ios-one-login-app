@@ -9,7 +9,7 @@ final class MainCoordinator: NSObject,
                              AnyCoordinator,
                              TabCoordinator {
     let root: UITabBarController
-    var window: WindowManagement
+    var windowManager: WindowManagement
     var childCoordinators = [ChildCoordinator]()
     private var analyticsCenter: AnalyticsCentral
     private let userStore: UserStorable
@@ -21,12 +21,12 @@ final class MainCoordinator: NSObject,
     private weak var walletCoordinator: WalletCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
 
-    init(window: WindowManagement,
+    init(windowManager: WindowManagement,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
          tokenVerifier: TokenVerifier = JWTVerifier()) {
-        self.window = window
+        self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
@@ -82,7 +82,7 @@ final class MainCoordinator: NSObject,
             userStore.refreshStorage(accessControlLevel: nil)
         }
         showLogin(loginError)
-//        windowManager.hideUnlockWindow()
+        windowManager.hideUnlockWindow()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -99,7 +99,7 @@ final class MainCoordinator: NSObject,
 
 extension MainCoordinator {
     private func showLogin(_ loginError: Error?) {
-        let lc = LoginCoordinator(appWindow: window.appWindow,
+        let lc = LoginCoordinator(appWindow: windowManager.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
@@ -125,7 +125,7 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: window.appWindow,
+        let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsCenter: analyticsCenter,
                                    userStore: userStore)
         addTab(wc)
@@ -183,6 +183,7 @@ extension MainCoordinator: ParentCoordinator {
             }
             do {
                 TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                evaluateRevisit(idToken: idToken)
                 addTabs()
                 updateToken()
                 child.root.dismiss(animated: true)

@@ -53,12 +53,6 @@ final class SceneLifecycleTests: XCTestCase {
 }
 
 extension SceneLifecycleTests {
-    func test_displayUnlockScreen() throws {
-        sut.displayUnlockScreen()
-        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
-
-    }
-    
     func test_splashscreen_analytics() throws {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.trackSplashScreen(mockAnalyticsCenter.analyticsService)

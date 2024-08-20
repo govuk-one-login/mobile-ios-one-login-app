@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder,
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        coordinator = MainCoordinator(window: windowManager!,
+        coordinator = MainCoordinator(windowManager: windowManager!,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
                                       userStore: userStore)
