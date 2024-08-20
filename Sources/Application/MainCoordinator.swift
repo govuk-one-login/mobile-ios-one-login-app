@@ -9,7 +9,7 @@ final class MainCoordinator: NSObject,
                              AnyCoordinator,
                              TabCoordinator {
     let root: UITabBarController
-    var window: UIWindow
+    var window: WindowManagement
     var childCoordinators = [ChildCoordinator]()
     private var analyticsCenter: AnalyticsCentral
     private let userStore: UserStorable
@@ -21,7 +21,7 @@ final class MainCoordinator: NSObject,
     private weak var walletCoordinator: WalletCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
 
-    init(window: UIWindow,
+    init(window: WindowManagement,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
@@ -34,47 +34,31 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
+        showQualifyingCoordinator()
+        root.delegate = self
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(startReauth),
+                         name: Notification.Name(.startReauth),
+                         object: nil)
+    }
+
+    func showQualifyingCoordinator() {
         let qc = QualifyingCoordinator(userStore: userStore,
                                        analyticsCenter: analyticsCenter)
         openChildModally(qc, animated: false)
         qualifyingCoordinator = qc
-//        addTabs()
-//        displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-//            evaluateRevisit()
-//        }
-//        evaluateRevisit()
-//        root.delegate = self
-//        NotificationCenter.default
-//            .addObserver(self,
-//                         selector: #selector(startReauth),
-//                         name: Notification.Name(.startReauth),
-//                         object: nil)
     }
-    
-    func evaluateRevisit() {
-        if userStore.previouslyAuthenticatedUser != nil {
-            if userStore.validAuthenticatedUser {
-                Task(priority: .userInitiated) {
-                    await MainActor.run {
-                        do {
-                            let idToken = try userStore.readItem(itemName: .idToken,
-                                                                 storage: .authenticated)
-                            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                            updateToken()
-//                            windowManager.hideUnlockWindow()
-                        } catch {
-                            handleLoginError(error)
-                        }
-                    }
-                }
-            } else {
-                fullLogin(loginError: TokenError.expired)
-            }
-        } else {
-            fullLogin()
+
+    func evaluateRevisit(idToken: String) {
+        do {
+            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+            updateToken()
+        } catch {
+            handleLoginError(error)
         }
     }
-    
+
     @objc private func startReauth() {
         fullLogin(loginError: TokenError.expired)
     }
@@ -115,7 +99,7 @@ final class MainCoordinator: NSObject,
 
 extension MainCoordinator {
     private func showLogin(_ loginError: Error?) {
-        let lc = LoginCoordinator(appWindow: window,
+        let lc = LoginCoordinator(appWindow: window.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   userStore: userStore,
@@ -126,9 +110,11 @@ extension MainCoordinator {
     }
     
     private func addTabs() {
-        addHomeTab()
-        addWalletTab()
-        addProfileTab()
+        if root.tabBar.items?.count == 0 {
+            addHomeTab()
+            addWalletTab()
+            addProfileTab()
+        }
     }
     
     private func addHomeTab() {
@@ -139,7 +125,7 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: window,
+        let wc = WalletCoordinator(window: window.appWindow,
                                    analyticsCenter: analyticsCenter,
                                    userStore: userStore)
         addTab(wc)
@@ -186,15 +172,23 @@ extension MainCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
         case _ as LoginCoordinator:
+            addTabs()
             updateToken()
         case let child as QualifyingCoordinator:
-            guard let _ = child.idToken else {
+            guard let idToken = child.idToken else {
                 child.root.dismiss(animated: true) {
                     self.fullLogin()
                 }
                 return
             }
-            evaluateRevisit()
+            do {
+                TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                addTabs()
+                updateToken()
+                child.root.dismiss(animated: true)
+            } catch {
+                handleLoginError(error)
+            }
         default:
             break
         }

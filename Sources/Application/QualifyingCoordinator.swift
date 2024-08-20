@@ -13,7 +13,6 @@ final class QualifyingCoordinator: NSObject,
     private weak var unlockScreenViewController: UnlockScreenViewController?
     private weak var mainCoordinator: MainCoordinator?
     private let userStore: UserStorable
-//    var isNewUser = false
     var idToken: String?
 
     init(root: UINavigationController = .init(),
@@ -22,6 +21,7 @@ final class QualifyingCoordinator: NSObject,
         self.root = root
         self.userStore = userStore
         self.analyticsCenter = analyticsCenter
+        root.modalPresentationStyle = .overCurrentContext
     }
 
     func start() {
@@ -32,18 +32,17 @@ final class QualifyingCoordinator: NSObject,
         }
         let vc = UnlockScreenViewController(viewModel: unlockScreenViewModel)
         unlockScreenViewController = vc
-        vc.modalPresentationStyle = .fullScreen
-        root.present(vc, animated: false) {
-            print("checking app version")
-            self.checkAppVersion()
-        }
+        root.setViewControllers([vc], animated: false)
+                checkAppVersion()
     }
 
     func checkAppVersion() {
         // TODO: DCMAW-9866 - Add service to call /appInfo
-        sleep(3)
-        unlockScreenViewController?.finishLoading()
-        evaluateRevisit()
+        Task {
+            let seconds = 1.0
+            try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
+            evaluateRevisit()
+        }
     }
 
     func evaluateRevisit() {

@@ -35,6 +35,8 @@
 		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */; };
+		41C539382C74856000321FC4 /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C539372C74856000321FC4 /* WindowManagement.swift */; };
+		41C5393A2C74857C00321FC4 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C539392C74857C00321FC4 /* WindowManager.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
 		41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */; };
@@ -251,6 +253,8 @@
 		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
+		41C539372C74856000321FC4 /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
+		41C539392C74857C00321FC4 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
@@ -514,6 +518,7 @@
 				4195E6C62B0CC6C50065E2BB /* Screens */,
 				C8ECA1282BB5955200722218 /* Tabs */,
 				C85E21152ACEECB000AF8B4E /* Views */,
+				41C539392C74857C00321FC4 /* WindowManager.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 				C85E21032ACEE34900AF8B4E /* MainCoordinator.swift */,
 				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
 				41F1C8F12C6CE087000E6662 /* QualifyingCoordinator.swift */,
+				41C539372C74856000321FC4 /* WindowManagement.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1559,6 +1565,7 @@
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
+				41C539382C74856000321FC4 /* WindowManagement.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
@@ -1566,6 +1573,7 @@
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
+				41C5393A2C74857C00321FC4 /* WindowManager.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* ProfileTabViewModel.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,
