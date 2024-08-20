@@ -60,7 +60,7 @@ class SceneDelegate: UIResponder,
         if userStore.authenticatedStore.checkItemExists(itemName: .accessToken),
            userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
             shouldCallSceneWillEnterForeground = true
-            windowManager?.displayUnlockWindow(analyticsService: analyticsService)
+            displayUnlockScreen()
         } else {
             shouldCallSceneWillEnterForeground = false
         }

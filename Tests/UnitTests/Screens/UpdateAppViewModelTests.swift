@@ -5,22 +5,22 @@ import XCTest
 @MainActor
 final class UpdateAppViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
+    var urlOpener: MockURLOpener!
     var sut: UpdateAppViewModel!
-    var didCallPrimaryButtonAction = false
 
     override func setUp() {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
-        sut = UpdateAppViewModel(analyticsService: mockAnalyticsService) {
-            self.didCallPrimaryButtonAction = true
-        }
+        urlOpener = .init()
+        sut = UpdateAppViewModel(urlOpener: urlOpener,
+                                 analyticsService: mockAnalyticsService) { }
     }
 
     override func tearDown() {
         mockAnalyticsService = nil
+        urlOpener = nil
         sut = nil
-        didCallPrimaryButtonAction = false
 
         super.tearDown()
     }
@@ -36,8 +36,9 @@ extension UpdateAppViewModelTests {
     }
     
     func test_didCallButtonAction() throws {
-        XCTAssertFalse(didCallPrimaryButtonAction)
+        XCTAssertNil(sut.primaryButtonViewModel.icon)
+        XCTAssertFalse(urlOpener.didOpenURL)
         sut.primaryButtonViewModel.action()
-        XCTAssertTrue(didCallPrimaryButtonAction)
+        XCTAssertTrue(urlOpener.didOpenURL)
     }
 }

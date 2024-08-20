@@ -12,9 +12,11 @@ final class WindowManager: WindowManagement {
         self.appWindow = UIWindow(windowScene: windowScene)
     }
 
-    func displayUnlockWindow(analyticsService: AnalyticsService) {
+    func displayUnlockWindow(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         unlockWindow = UIWindow(windowScene: windowScene)
-        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) { }
+        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) {
+            action()
+        }
         unlockWindow?.rootViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()

@@ -50,12 +50,17 @@ final class MainCoordinator: NSObject,
         qualifyingCoordinator = qc
     }
 
-    func evaluateRevisit(idToken: String) {
-        do {
-            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-            updateToken()
-        } catch {
-            handleLoginError(error)
+    func evaluateRevisit(idToken: String? = nil) {
+        if let idToken = idToken {
+            do {
+                TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+                updateToken()
+                fullLogin()
+            } catch {
+                handleLoginError(error)
+            }
+        } else {
+            fullLogin(loginError: TokenError.expired)
         }
     }
 

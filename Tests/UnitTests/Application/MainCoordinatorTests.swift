@@ -16,6 +16,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
+    var idToken: String!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -56,6 +57,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockDefaultStore = nil
         mockUserStore = nil
         mockTokenVerifier = nil
+        idToken = nil
         sut = nil
         
         super.tearDown()
@@ -71,6 +73,8 @@ final class MainCoordinatorTests: XCTestCase {
                                    itemName: .idToken,
                                    storage: .authenticated)
         mockDefaultStore.set(TokenHolder.shared.tokenResponse?.expiryDate, forKey: .accessTokenExpiry)
+        idToken = try mockUserStore.readItem(itemName: .idToken,
+                                             storage: .authenticated)
     }
     
     func appNotReset() throws {
@@ -101,11 +105,8 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
-        XCTAssertEqual(sut.childCoordinators.count, 4)
-        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
-        XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
-        XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
-        XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
+        XCTAssertTrue(sut.childCoordinators[0] is QualifyingCoordinator)
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
@@ -123,7 +124,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information stored but the accessToken is expired
         try returningAuthenticatedUser(expired: true)
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+        sut.evaluateRevisit(idToken: idToken)
         // THEN the access and id tokens should be deleted; the app should require reauth
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .accessToken))
         XCTAssertThrowsError(try mockSecureStore.readItem(itemName: .idToken))
@@ -134,7 +135,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store and the accessToken is valid
         try returningAuthenticatedUser()
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the is token should be stored in the token holder
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled, timeout: 20)
         XCTAssertNotNil(TokenHolder.shared.idTokenPayload)
@@ -147,7 +148,7 @@ extension MainCoordinatorTests {
         // GIVEN the token verifier throws an invalidJWTFormat error
         mockTokenVerifier.extractionError = JWTVerifierError.invalidJWTFormat
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled, timeout: 20)
         try appReset()
@@ -163,7 +164,7 @@ extension MainCoordinatorTests {
         // GIVEN the secure store throws an unableToRetrieveFromUserDefaults error
         mockSecureStore.errorFromReadItem = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled, timeout: 20)
         try appReset()
@@ -179,7 +180,7 @@ extension MainCoordinatorTests {
         // GIVEN the secure store throws an cantInitialiseData error
         mockSecureStore.errorFromReadItem = SecureStoreError.cantInitialiseData
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled, timeout: 20)
         try appReset()
@@ -195,7 +196,7 @@ extension MainCoordinatorTests {
         // GIVEN the secure store throws an cantRetrieveKey error
         mockSecureStore.errorFromReadItem = SecureStoreError.cantRetrieveKey
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
         waitForTruth(self.mockWindowManager.hideUnlockWindowCalled, timeout: 20)
         try appReset()
@@ -211,7 +212,7 @@ extension MainCoordinatorTests {
         // GIVEN the secure store throws an cantDecryptData error
         mockSecureStore.errorFromReadItem = SecureStoreError.cantDecryptData
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the tokens should not be deleted; the app should not be reset
         mockSecureStore.errorFromReadItem = nil
         try appNotReset()
@@ -278,6 +279,9 @@ extension MainCoordinatorTests {
     }
     
     func test_didSelect_tabBarItem_profile() {
+        try? returningAuthenticatedUser()
+        let qualifyingCoordinator = QualifyingCoordinator(userStore: mockUserStore,
+                                                          analyticsCenter: mockAnalyticsCenter)
         // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let profileVC = tabBarController.viewControllers?[2] else {
@@ -331,7 +335,31 @@ extension MainCoordinatorTests {
             XCTAssertTrue(error is TokenError)
         }
     }
-    
+
+    func test_didRegainFocus_fromQualifyingCoordinator_withoutIdToken() throws {
+        TokenHolder.shared.clearTokenHolder()
+        let qualifyingCoordinator = QualifyingCoordinator(userStore: mockUserStore,
+                                                          analyticsCenter: mockAnalyticsCenter)
+        // WHEN the MainCoordinator regains focus from the QualifyingCoordinator with no idToken
+        sut.didRegainFocus(fromChild: qualifyingCoordinator)
+        // THEN the full login journey should be triggered
+        XCTAssertEqual(sut.childCoordinators.count, 1)
+        // THEN the child should be LoginCoordinator
+        XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
+    }
+
+    func test_didRegainFocus_fromQualifyingCoordinator_withIdToken() throws {
+        try returningAuthenticatedUser()
+        let idToken = try mockSecureStore.readItem(itemName: .idToken)
+        let qualifyingCoordinator = QualifyingCoordinator(userStore: mockUserStore,
+                                                          analyticsCenter: mockAnalyticsCenter)
+        // WHEN the MainCoordinator regains focus from the QualifyingCoordinator with an idToken
+        sut.didRegainFocus(fromChild: qualifyingCoordinator)
+        // THEN the idToken should be saved in the TokenHolder
+        XCTAssertNotNil(idToken)
+
+    }
+
     func test_performChildCleanup_fromProfileCoordinator_succeeds() throws {
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true

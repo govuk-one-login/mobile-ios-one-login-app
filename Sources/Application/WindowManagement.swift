@@ -7,6 +7,6 @@ protocol WindowManagement {
     var appWindow: UIWindow { get }
     var unlockWindow: UIWindow? { get set }
 
-    func displayUnlockWindow(analyticsService: AnalyticsService)
+    func displayUnlockWindow(analyticsService: AnalyticsService, action: @escaping () -> Void)
     func hideUnlockWindow()
 }

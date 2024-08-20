@@ -16,7 +16,7 @@ final class MockWindowManager: WindowManagement {
         self.appWindow = appWindow
     }
     
-    func displayUnlockWindow(analyticsService: AnalyticsService) {
+    func displayUnlockWindow(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         displayUnlockWindowCalled = true
     }
     

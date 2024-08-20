@@ -24,7 +24,7 @@ final class WindowManagerTests: XCTestCase {
 
 extension WindowManagerTests {
     func test_displayUnlockWindow() throws {
-        sut.displayUnlockWindow(analyticsService: mockAnalyticsService)
+        sut.displayUnlockWindow(analyticsService: mockAnalyticsService) { }
         XCTAssertNotNil(sut.unlockWindow)
         XCTAssertTrue(sut.unlockWindow?.rootViewController is UnlockScreenViewController)
         XCTAssertEqual(sut.unlockWindow?.windowLevel, .alert)
