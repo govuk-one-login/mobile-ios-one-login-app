@@ -1,6 +1,7 @@
 import Coordination
 import GDSAnalytics
 import LocalAuthentication
+import Logging
 import SecureStore
 import UIKit
 
@@ -13,6 +14,7 @@ final class MainCoordinator: NSObject,
     private var analyticsCenter: AnalyticsCentral
     private let userStore: UserStorable
     private let tokenVerifier: TokenVerifier
+    private let updateService: AppInformationServicing
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -23,12 +25,14 @@ final class MainCoordinator: NSObject,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          userStore: UserStorable,
-         tokenVerifier: TokenVerifier = JWTVerifier()) {
+         tokenVerifier: TokenVerifier = JWTVerifier(),
+         updateService: AppInformationServicing = AppInformationService()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.userStore = userStore
         self.tokenVerifier = tokenVerifier
+        self.updateService = updateService
     }
     
     func start() {
@@ -103,6 +107,26 @@ final class MainCoordinator: NSObject,
             walletCoordinator?.handleUniversalLink(url)
         case .unknown:
             return
+        }
+    }
+    
+    func checkAppVersion() {
+        Task {
+            do {
+                let appInfo = try await updateService.fetchAppInfo()
+                
+                guard updateService.currentVersion >= appInfo.minimumVersion else {
+                    return // TODO: DCMAW-9866 - Present 'app update required' screen
+                }
+                
+            } catch {
+                let error = ErrorPresenter
+                    .createGenericError(errorDescription: error.localizedDescription,
+                                        analyticsService: analyticsCenter.analyticsService) {
+                        exit(0)
+                    }
+                root.present(error, animated: true)
+            }
         }
     }
 }

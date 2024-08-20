@@ -16,6 +16,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockDefaultStore: MockDefaultsStore!
     var mockUserStore: UserStorage!
     var mockTokenVerifier: MockTokenVerifier!
+    var mockUpdateService: MockAppInformationService!
     var sut: MainCoordinator!
     
     override func setUp() {
@@ -35,13 +36,15 @@ final class MainCoordinatorTests: XCTestCase {
                                     openStore: mockOpenSecureStore,
                                     defaultsStore: mockDefaultStore)
         mockTokenVerifier = MockTokenVerifier()
+        mockUpdateService = MockAppInformationService()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
                               userStore: mockUserStore,
-                              tokenVerifier: mockTokenVerifier)
+                              tokenVerifier: mockTokenVerifier,
+                              updateService: mockUpdateService)
     }
     
     override func tearDown() {
@@ -97,6 +100,19 @@ final class MainCoordinatorTests: XCTestCase {
 }
 
 extension MainCoordinatorTests {
+    func test_checkAppVersion_succeeds() {
+        sut.checkAppVersion()
+        waitForTruth(self.mockUpdateService.didCallFetchAppInfo, timeout: 20)
+    }
+    
+    func test_checkAppVersion_throwsError() {
+        mockUpdateService.shouldReturnError = true
+        sut.checkAppVersion()
+        waitForTruth(self.mockUpdateService.didCallFetchAppInfo, timeout: 20)
+        
+        XCTAssertTrue(sut.root.presentedViewController is GDSErrorViewController)
+    }
+    
     func test_start_performsSetUp() {
         // WHEN the MainCoordinator is started
         sut.start()

@@ -18,6 +18,8 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
+        // TODO: DCMAW-9866 - Call func for checking app version
+        
         let analyticsPreferenceScreen = OnboardingViewControllerFactory
             .createAnalyticsPeferenceScreen { [unowned self] in
                 analyticsPreferenceStore.hasAcceptedAnalytics = true
