@@ -43,6 +43,18 @@ public final class AppEnvironment {
         }
         return string
     }
+    
+    public static func updateReleaseFlags(_ flags: [String: Bool]) {
+        releaseFlags.flags = flags
+    }
+}
+
+final class ReleaseFlags: FeatureFlagProvider {
+    var flags: [String: Bool] = [:]
+
+    subscript(key: String) -> Any? {
+        flags[key]
+    }
 }
 
 // MARK: - One Login Info Plist values as Type properties
@@ -166,10 +178,11 @@ extension AppEnvironment {
 }
 
 // MARK: - Feature Flags
+private var releaseFlags = ReleaseFlags()
 
 extension AppEnvironment {
     static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
-        let providers: [FeatureFlagProvider] = [UserDefaults.standard, featureFlags]
+        let providers: [FeatureFlagProvider] = [UserDefaults.standard, featureFlags, releaseFlags]
         return providers
             .lazy
             .compactMap { value(for: key.rawValue, provider: $0) }
@@ -186,5 +199,17 @@ extension AppEnvironment {
     
     static var clearWalletErrorEnabled: Bool {
         isFeatureEnabled(for: .enableClearWalletError)
+    }
+    
+    static var walletVisibleViaDeepLink: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
+    }
+    
+    static var walletVisibleIfExists: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleIfExists)
+    }
+    
+    static var walletVisibleToAll: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleToAll)
     }
 }

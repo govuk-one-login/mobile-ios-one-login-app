@@ -9,6 +9,9 @@ public enum FeatureFlags: String {
     case enableCallingSTS = "EnableCallingSTS"
     case enableSignoutError = "EnableSignoutError"
     case enableClearWalletError = "EnableClearWalletError"
+    case enableWalletVisibleViaDeepLink = "EnableWalletVisibleViaDeepLink"
+    case enableWalletVisibleIfExists = "EnableWalletVisibleIfExists"
+    case enableWalletVisibleToAll = "EnableWalletVisibleToAll"
 }
 
 struct FlagManager {
