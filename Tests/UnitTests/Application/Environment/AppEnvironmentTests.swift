@@ -2,7 +2,7 @@ import Foundation
 @testable import OneLogin
 import XCTest
 
-final class EnvironmentTests: XCTestCase {
+final class AppEnvironmentTests: XCTestCase {
     func test_defaultEnvironment_addingReleaseFlags() {
         // GIVEN no release flags from AppInfo end point
         // pass in release flags to enviroment

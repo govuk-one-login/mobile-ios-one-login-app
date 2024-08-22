@@ -26,7 +26,7 @@ public final class AppEnvironment {
         return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
     }
     
-    /*private*/ static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
+    static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
         provider[key] as? T
     }
     
