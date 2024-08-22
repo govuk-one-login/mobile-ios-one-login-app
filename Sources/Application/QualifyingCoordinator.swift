@@ -9,31 +9,31 @@ final class QualifyingCoordinator: NSObject,
     let root: UINavigationController
     let analyticsCenter: AnalyticsCentral
     weak var parentCoordinator: ParentCoordinator?
+    var windowManager: WindowManagement
 
     private weak var unlockScreenViewController: UnlockScreenViewController?
-    private weak var mainCoordinator: MainCoordinator?
     private let userStore: UserStorable
     var idToken: String?
+    var error: Error?
+    private let tokenVerifier: TokenVerifier
 
     init(root: UINavigationController = .init(),
+         windowManager: WindowManagement,
          userStore: UserStorable,
-         analyticsCenter: AnalyticsCentral) {
+         analyticsCenter: AnalyticsCentral,
+         tokenVerifier: TokenVerifier = JWTVerifier()) {
         self.root = root
         self.userStore = userStore
         self.analyticsCenter = analyticsCenter
+        self.tokenVerifier = tokenVerifier
+        self.windowManager = windowManager
         root.modalPresentationStyle = .overCurrentContext
     }
 
     func start() {
-        // TODO: DCMAW-9866 - Change to factory call to display unlock screen?
-        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) {
-            print("unlock button tapped")
-            // WILL DO SOMETHING
+        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            evaluateRevisit()
         }
-        let vc = UnlockScreenViewController(viewModel: unlockScreenViewModel)
-        unlockScreenViewController = vc
-        root.setViewControllers([vc], animated: false)
-                checkAppVersion()
     }
 
     func checkAppVersion() {
@@ -63,9 +63,11 @@ final class QualifyingCoordinator: NSObject,
                 do {
                     let idToken = try userStore.readItem(itemName: .idToken,
                                                          storage: .authenticated)
+                    TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                     self.idToken = idToken
                     finish()
                 } catch {
+                    self.error = error
                     finish()
                 }
             }

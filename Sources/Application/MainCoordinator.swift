@@ -15,7 +15,7 @@ final class MainCoordinator: NSObject,
     private let userStore: UserStorable
     private let tokenVerifier: TokenVerifier
     
-    private weak var qualifyingCoordinator: QualifyingCoordinator?
+    weak var qualifyingCoordinator: QualifyingCoordinator?
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     private weak var walletCoordinator: WalletCoordinator?
@@ -34,7 +34,9 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
+//        addTabs()
         showQualifyingCoordinator()
+        qualifyUser()
         root.delegate = self
         NotificationCenter.default
             .addObserver(self,
@@ -44,23 +46,47 @@ final class MainCoordinator: NSObject,
     }
 
     func showQualifyingCoordinator() {
-        let qc = QualifyingCoordinator(userStore: userStore,
+        let qc = QualifyingCoordinator(windowManager: windowManager, userStore: userStore,
                                        analyticsCenter: analyticsCenter)
         openChildModally(qc, animated: false)
         qualifyingCoordinator = qc
     }
 
-    func evaluateRevisit(idToken: String? = nil) {
-        if let idToken = idToken {
-            do {
-                TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                updateToken()
-                fullLogin()
-            } catch {
-                handleLoginError(error)
-            }
-        } else {
-            fullLogin(loginError: TokenError.expired)
+    func qualifyUser() {
+        qualifyingCoordinator?.checkAppVersion()
+    }
+
+//    func evaluateRevisit() {
+//        if userStore.previouslyAuthenticatedUser != nil {
+//            if userStore.validAuthenticatedUser {
+//                Task(priority: .userInitiated) {
+//                    await MainActor.run {
+//                        do {
+////                            let idToken = try userStore.readItem(itemName: .idToken,
+////                                                                 storage: .authenticated)
+////                            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+//                            updateToken()
+//                            windowManager.hideUnlockWindow()
+//                        } catch {
+//                            handleLoginError(error)
+//                        }
+//                    }
+//                }
+//            } else {
+//                fullLogin(loginError: TokenError.expired)
+//            }
+//        } else {
+//            fullLogin()
+//        }
+//    }
+
+    func evaluateRevisit(idToken: String) {
+        do {
+//            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+            updateToken()
+            //                fullLogin()
+        } catch {
+            handleLoginError(error)
         }
     }
 
@@ -181,17 +207,19 @@ extension MainCoordinator: ParentCoordinator {
             updateToken()
         case let child as QualifyingCoordinator:
             guard let idToken = child.idToken else {
-                child.root.dismiss(animated: true) {
-                    self.fullLogin()
-                }
+                fullLogin()
+                child.root.dismiss(animated: false)
+                
                 return
             }
+            if let error = child.error {
+                handleLoginError(error)
+            }
             do {
-                TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
+//                TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
                 evaluateRevisit(idToken: idToken)
-                addTabs()
                 updateToken()
-                child.root.dismiss(animated: true)
+                root.dismiss(animated: false)
             } catch {
                 handleLoginError(error)
             }

@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder,
         }
         windowManager = WindowManager(windowScene: windowScene)
         setUpBasicUI()
-        startMainCoordinator(window: windowManager!)
+        startMainCoordinator(windowManager: windowManager!)
     }
 
     func scene(_ scene: UIScene,
@@ -42,16 +42,16 @@ class SceneDelegate: UIResponder,
         coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func startMainCoordinator(window: WindowManagement) {
+    func startMainCoordinator(windowManager: WindowManagement) {
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        coordinator = MainCoordinator(windowManager: windowManager!,
+        coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
                                       userStore: userStore)
-        windowManager?.appWindow.rootViewController = tabController
-        windowManager?.appWindow.makeKeyAndVisible()
+        windowManager.appWindow.rootViewController = tabController
+        windowManager.appWindow.makeKeyAndVisible()
         trackSplashScreen(analyticsCenter.analyticsService)
         coordinator?.start()
     }
@@ -60,7 +60,7 @@ class SceneDelegate: UIResponder,
         if userStore.authenticatedStore.checkItemExists(itemName: .accessToken),
            userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
             shouldCallSceneWillEnterForeground = true
-            displayUnlockScreen()
+            coordinator?.showQualifyingCoordinator()
         } else {
             shouldCallSceneWillEnterForeground = false
         }
@@ -68,8 +68,7 @@ class SceneDelegate: UIResponder,
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
-            windowManager?.hideUnlockWindow()
-            coordinator?.showQualifyingCoordinator()
+            coordinator?.qualifyUser()
         }
     }
     

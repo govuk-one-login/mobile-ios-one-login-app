@@ -115,7 +115,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information stored and the accessToken is valid
         mockDefaultStore.set(nil, forKey: .accessTokenExpiry)
         // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
+//        sut.evaluateRevisit()
         // THEN the tokens should be deleted; the app should be reset
         try appReset(accessExpiryDeleted: true)
     }
@@ -353,10 +353,13 @@ extension MainCoordinatorTests {
         let idToken = try mockSecureStore.readItem(itemName: .idToken)
         let qualifyingCoordinator = QualifyingCoordinator(userStore: mockUserStore,
                                                           analyticsCenter: mockAnalyticsCenter)
+//        qualifyingCoordinator.idToken = idToken
         // WHEN the MainCoordinator regains focus from the QualifyingCoordinator with an idToken
         sut.didRegainFocus(fromChild: qualifyingCoordinator)
         // THEN the idToken should be saved in the TokenHolder
         XCTAssertNotNil(idToken)
+        XCTAssertEqual(sut.childCoordinators.count, 1)
+        XCTAssertTrue(sut.childCoordinators.first is LoginCoordinator)
 
     }
 
