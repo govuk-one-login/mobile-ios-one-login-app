@@ -21,5 +21,8 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
         XCTAssertTrue(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
+        XCTAssertFalse(sut.walletVisibleToAll)
+        XCTAssertFalse(sut.walletVisibleIfExists)
+        XCTAssertFalse(sut.walletVisibleViaDeepLink)
     }
 }

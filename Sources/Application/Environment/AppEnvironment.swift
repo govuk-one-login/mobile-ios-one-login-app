@@ -12,6 +12,8 @@ public final class AppEnvironment {
         case appStoreURL = "App Store URL"
     }
     
+    static var releaseFlags = ReleaseFlags()
+    
     private static var appDictionary: [String: Any] {
         guard let plist = Bundle.main.infoDictionary else {
             fatalError("Cannot load Info.plist from App")
@@ -179,7 +181,6 @@ extension AppEnvironment {
 }
 
 // MARK: - Feature Flags
-var releaseFlags = ReleaseFlags()
 
 extension AppEnvironment {
     static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
