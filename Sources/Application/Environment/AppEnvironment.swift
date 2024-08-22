@@ -26,7 +26,7 @@ public final class AppEnvironment {
         return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
     }
     
-    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
+    /*private*/ static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
         provider[key] as? T
     }
     
@@ -44,12 +44,13 @@ public final class AppEnvironment {
         return string
     }
     
-    public static func updateReleaseFlags(_ flags: [String: Bool]) {
+    public static func updateReleaseFlags(_ flags: [String: Bool]) -> ReleaseFlags {
         releaseFlags.flags = flags
+        return releaseFlags
     }
 }
 
-final class ReleaseFlags: FeatureFlagProvider {
+public class ReleaseFlags: FeatureFlagProvider {
     var flags: [String: Bool] = [:]
 
     subscript(key: String) -> Any? {
@@ -178,7 +179,7 @@ extension AppEnvironment {
 }
 
 // MARK: - Feature Flags
-private var releaseFlags = ReleaseFlags()
+var releaseFlags = ReleaseFlags()
 
 extension AppEnvironment {
     static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {

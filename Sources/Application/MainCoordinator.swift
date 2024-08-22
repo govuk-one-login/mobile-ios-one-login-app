@@ -114,7 +114,7 @@ final class MainCoordinator: NSObject,
         Task {
             do {
                 let appInfo = try await updateService.fetchAppInfo()
-                AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
+                _ = AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
                 
                 guard updateService.currentVersion >= appInfo.minimumVersion else {
                     return // TODO: DCMAW-9866 - Present 'app update required' screen

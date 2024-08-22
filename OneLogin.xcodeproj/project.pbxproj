@@ -55,6 +55,7 @@
 		ABB941FC2C6C088C0007052B /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941FB2C6C088C0007052B /* Service.swift */; };
 		ABB942032C6CCBE60007052B /* AppInfoServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB942012C6CCBE60007052B /* AppInfoServiceTests.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
+		ABBE421D2C775C9100607A7A /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBE421B2C775C7E00607A7A /* File.swift */; };
 		ABF6FBC82C6D6EBE0068D564 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941FF2C6CCAB30007052B /* ServiceTests.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
@@ -278,6 +279,7 @@
 		ABB941FF2C6CCAB30007052B /* ServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		ABB942012C6CCBE60007052B /* AppInfoServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoServiceTests.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
+		ABBE421B2C775C7E00607A7A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C803C21F2B8F8D9C008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
@@ -642,6 +644,14 @@
 				ABB941FF2C6CCAB30007052B /* ServiceTests.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		ABBE421A2C775C6E00607A7A /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				ABBE421B2C775C7E00607A7A /* File.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 		C803C2152B8F8865008DE774 /* BuildConfig */ = {
@@ -1146,6 +1156,7 @@
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				ABBE421A2C775C6E00607A7A /* Environment */,
 				ABB941FE2C6CCA9E0007052B /* Service */,
 				C81ECB1E2B71767500AFC3A6 /* Application */,
 				41A0BD0E2B275155009AE51F /* Errors */,
