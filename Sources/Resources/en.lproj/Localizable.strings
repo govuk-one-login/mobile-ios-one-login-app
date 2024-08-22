@@ -160,3 +160,10 @@
 
 // MARK: Data DeletionWarning screen
 "app_dataDeletionWarningBody" = "We’ve deleted the information in your GOV.UK One Login app because we cannot confirm your sign in details.\n\nWe did this to reduce the risk that someone else will see your information.\n\nTo keep using the app, you’ll need to sign in. You’ll then be asked to set your analytics and sign in preferences again.";
+
+// MARK: Update App screen
+"app_updateAppTitle" = "You need to update your app";
+
+"app_updateAppBody" = "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.";
+
+"app_updateAppButton" = "Update GOV.UK One Login app";

@@ -181,6 +181,12 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
                        "We’ve deleted the information in your GOV.UK One Login app because we cannot confirm your sign in details.\n\nWe did this to reduce the risk that someone else will see your information.\n\nTo keep using the app, you’ll need to sign in. You’ll then be asked to set your analytics and sign in preferences again.")
     }
+
+    func test_updateAppPageKeys() {
+        XCTAssertEqual("app_updateAppTitle".getEnglishString(), "You need to update your app")
+        XCTAssertEqual("app_updateAppBody".getEnglishString(), "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
+        XCTAssertEqual("app_updateAppButton".getEnglishString(), "Update GOV.UK One Login app")
+    }
 }
 
 // swiftlint:enable line_length

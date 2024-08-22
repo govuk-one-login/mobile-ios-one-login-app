@@ -181,6 +181,12 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
                        "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.")
     }
+
+    func test_updateAppPageKeys() {
+        XCTAssertEqual("app_updateAppTitle".getWelshString(), "Mae angen i chi ddiweddaru eich ap")
+        XCTAssertEqual("app_updateAppBody".getWelshString(), "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.")
+        XCTAssertEqual("app_updateAppButton".getWelshString(), "Diweddaru Ap GOV.UK One Login")
+    }
 }
 
 // swiftlint:enable line_length

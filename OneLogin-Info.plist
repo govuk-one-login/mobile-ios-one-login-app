@@ -29,6 +29,8 @@
 	<string>$(STS_BASE_URL)</string>
 	<key>STS Client ID</key>
 	<string>$(STS_CLIENT_ID)</string>
+	<key>App Store URL</key>
+	<string>apps.apple.com</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
