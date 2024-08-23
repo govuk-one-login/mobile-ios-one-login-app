@@ -16,7 +16,7 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.stsToken, URL(string: "https://token.build.account.gov.uk/token"))
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world/error"))
-        XCTAssertEqual(sut.jwskURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
+        XCTAssertEqual(sut.jwksURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
         XCTAssertEqual(sut.appInfoURL, URL(string: "https://token.build.account.gov.uk/appInfo"))
         XCTAssertEqual(sut.stsClientID, "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         XCTAssertEqual(sut.isLocaleWelsh, false)
@@ -33,9 +33,12 @@ final class AppEnvironmentTests: XCTestCase {
         // GIVEN no release flags from AppInfo end point
         // pass in release flags to enviroment
         
-        let releaseFlag = AppEnvironment.updateReleaseFlags(["test1": true, "test2": false])
+        let releaseFlag = AppEnvironment
+            .updateReleaseFlags(["test1": true, "test2": false])
         
         // THEN the flags are set in environment
+        XCTAssertEqual(AppEnvironment.releaseFlags["test1"] as? Bool, true)
+        XCTAssertEqual(AppEnvironment.releaseFlags["test2"] as? Bool, false)
         XCTAssertEqual(AppEnvironment.value(for: "test1", provider: releaseFlag), true)
         XCTAssertEqual(AppEnvironment.value(for: "test2", provider: releaseFlag), false)
         
