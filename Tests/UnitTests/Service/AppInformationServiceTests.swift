@@ -6,6 +6,8 @@ import XCTest
 
 final class AppInformationServiceTests: XCTestCase {
     private var sut: AppInformationService!
+    private var configuration: URLSessionConfiguration!
+    private var client: NetworkClient!
     private func createMock(available: Bool = true,
                             minimumVersion: String = "1.0.0",
                             releaseFlags: [Bool] = [true, false]) -> Data {
@@ -39,15 +41,17 @@ final class AppInformationServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let configuration = URLSessionConfiguration.ephemeral
+        configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
-        let client = NetworkClient(configuration: configuration)
+        client = NetworkClient(configuration: configuration)
         sut = .init(client: client)
     }
     
     override func tearDown() {
-        sut = nil
+        configuration = nil
         MockURLProtocol.clear()
+        client = nil
+        sut = nil
         
         super.tearDown()
     }
