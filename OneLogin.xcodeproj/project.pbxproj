@@ -99,6 +99,7 @@
 		C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */; };
 		C873B1E42AF82700002C39E8 /* StagingAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1E12AF826D3002C39E8 /* StagingAppEnvironmentTests.swift */; };
 		C873B1E52AF82706002C39E8 /* BuildAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1DF2AF826D3002C39E8 /* BuildAppEnvironmentTests.swift */; };
+		C8788F412C787F7D00472EC2 /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8788F402C787F7D00472EC2 /* AppEnvironmentTests.swift */; };
 		C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
@@ -324,6 +325,7 @@
 		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
 		C873B1DF2AF826D3002C39E8 /* BuildAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuildAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C873B1E12AF826D3002C39E8 /* StagingAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StagingAppEnvironmentTests.swift; sourceTree = "<group>"; };
+		C8788F402C787F7D00472EC2 /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenterTests.swift; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
@@ -727,6 +729,7 @@
 				C8E6A3EE2BBC1181005015AF /* WindowManagerTests.swift */,
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 				C8C666592BCFDBDE00CF249B /* TokenHolderTests.swift */,
+				C8788F402C787F7D00472EC2 /* AppEnvironmentTests.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1698,6 +1701,7 @@
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
+				C8788F412C787F7D00472EC2 /* AppEnvironmentTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 			);

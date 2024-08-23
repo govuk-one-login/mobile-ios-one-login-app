@@ -16,6 +16,7 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginBaseURL, "mobile.staging.account.gov.uk")
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world/error"))
+        XCTAssertEqual(sut.jwskURL, URL(string: "https://token.staging.account.gov.uk/.well-known/jwks.json"))
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
         XCTAssertTrue(sut.callingSTSEnabled)
