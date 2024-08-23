@@ -35,7 +35,6 @@ final class WalletCoordinator: NSObject,
                         with: root,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
-                        persistentSecureStore: userStore.openStore,
                         localAuthService: DummyLocalAuthService())
         NotificationCenter.default
             .addObserver(self,
