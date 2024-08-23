@@ -54,6 +54,10 @@ final class AppInformationServiceTests: XCTestCase {
 }
 
 extension AppInformationServiceTests {
+    func test_currentAppVersion() {
+        XCTAssertEqual(sut.currentVersion, Version(1, 0, 0))
+    }
+    
     func test_appInfoIsDecoded_usageIsTrue() async throws {
         MockURLProtocol.handler = {
             (self.createMock(), HTTPURLResponse(statusCode: 200))
