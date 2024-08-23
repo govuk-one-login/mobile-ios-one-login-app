@@ -36,8 +36,8 @@ final class ProfileCoordinator: NSObject,
         root.setViewControllers([profileViewController], animated: true)
     }
     
-    func updateToken() {
-        baseVc?.updateToken(TokenHolder.shared)
+    func updateUser(_ user: User) {
+        baseVc?.updateEmail(user.email)
     }
     
     func openSignOutPage() {

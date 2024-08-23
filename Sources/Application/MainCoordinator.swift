@@ -12,7 +12,7 @@ final class MainCoordinator: NSObject,
     let root: UITabBarController
     var childCoordinators = [ChildCoordinator]()
     private var analyticsCenter: AnalyticsCentral
-    private let userStore: UserStorable
+    private let sessionManager: SessionManager
     private let tokenVerifier: TokenVerifier
     private let updateService: AppInformationServicing
     
@@ -24,13 +24,13 @@ final class MainCoordinator: NSObject,
     init(windowManager: WindowManagement,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
-         userStore: UserStorable,
+         sessionManager: SessionManager,
          tokenVerifier: TokenVerifier = JWTVerifier(),
          updateService: AppInformationServicing = AppInformationService()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
-        self.userStore = userStore
+        self.sessionManager = sessionManager
         self.tokenVerifier = tokenVerifier
         self.updateService = updateService
     }
@@ -50,26 +50,22 @@ final class MainCoordinator: NSObject,
     }
     
     func evaluateRevisit() {
-        if userStore.previouslyAuthenticatedUser != nil {
-            if userStore.validAuthenticatedUser {
-                Task(priority: .userInitiated) {
-                    await MainActor.run {
-                        do {
-                            let idToken = try userStore.readItem(itemName: .idToken,
-                                                                 storage: .authenticated)
-                            TokenHolder.shared.idTokenPayload = try tokenVerifier.extractPayload(idToken)
-                            updateToken()
-                            windowManager.hideUnlockWindow()
-                        } catch {
-                            handleLoginError(error)
-                        }
-                    }
-                }
-            } else {
-                fullLogin(loginError: TokenError.expired)
-            }
-        } else {
+        guard sessionManager.expiryDate != nil else {
             fullLogin()
+            return
+        }
+
+        guard sessionManager.isSessionValid else {
+            fullLogin(loginError: TokenError.expired)
+            return
+        }
+
+        do {
+            try sessionManager.resumeSession()
+            updateToken()
+            windowManager.hideUnlockWindow()
+        } catch {
+            handleLoginError(error)
         }
     }
     
@@ -90,11 +86,12 @@ final class MainCoordinator: NSObject,
     }
     
     private func fullLogin(loginError: Error? = nil) {
-        TokenHolder.shared.clearTokenHolder()
-        userStore.clearTokens()
-        if loginError as? TokenError != .expired {
-            userStore.refreshStorage(accessControlLevel: nil)
-        }
+        sessionManager.endCurrentSession()
+
+//        if loginError as? TokenError != .expired {
+//            todo: userStore.refreshStorage(accessControlLevel: nil)
+//        }
+
         showLogin(loginError)
         windowManager.hideUnlockWindow()
     }
@@ -137,7 +134,7 @@ extension MainCoordinator {
         let lc = LoginCoordinator(appWindow: windowManager.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
-                                  userStore: userStore,
+                                  sessionManager: sessionManager,
                                   networkMonitor: NetworkMonitor.shared,
                                   loginError: loginError)
         openChildModally(lc, animated: false)
@@ -152,7 +149,7 @@ extension MainCoordinator {
     
     private func addHomeTab() {
         let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 userStore: userStore)
+                                 sessionManager: sessionManager)
         addTab(hc)
         homeCoordinator = hc
     }
@@ -160,7 +157,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsCenter: analyticsCenter,
-                                   userStore: userStore)
+                                   sessionManager: sessionManager)
         addTab(wc)
         walletCoordinator = wc
     }
@@ -173,9 +170,10 @@ extension MainCoordinator {
     }
     
     private func updateToken() {
-        homeCoordinator?.updateToken()
-        walletCoordinator?.updateToken()
-        profileCoordinator?.updateToken()
+        if let user = sessionManager.user {
+            homeCoordinator?.updateUser(user)
+            profileCoordinator?.updateUser(user)
+        }
     }
 }
 
@@ -217,7 +215,7 @@ extension MainCoordinator: ParentCoordinator {
                 }
                 #endif
                 try walletCoordinator?.deleteWalletData()
-                userStore.resetPersistentSession()
+                sessionManager.clearAllSessionData()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
                 fullLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)

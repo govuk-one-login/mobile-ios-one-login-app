@@ -13,16 +13,17 @@ class SceneDelegate: UIResponder,
     let analyticsService: AnalyticsService = GAnalytics()
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
-    private lazy var userStore = {
+
+    private lazy var sessionManager: SessionManager = {
         let authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
                                                                          accessControlLevel: .currentBiometricsOrPasscode,
                                                                          localAuthStrings: LAContext().contextStrings))
         let openStore = SecureStoreService(configuration: .init(id: .persistentSessionID,
                                                                 accessControlLevel: .open,
                                                                 localAuthStrings: LAContext().contextStrings))
-        return UserStorage(authenticatedStore: authenticatedStore,
-                           openStore: openStore,
-                           defaultsStore: UserDefaults.standard)
+        return PersistentSessionManager(accessControlEncryptedStore: authenticatedStore,
+                                        encryptedStore: openStore,
+                                        unprotectedStore: UserDefaults.standard)
     }()
     
     func scene(_ scene: UIScene,
@@ -49,7 +50,7 @@ class SceneDelegate: UIResponder,
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
-                                      userStore: userStore)
+                                      sessionManager: sessionManager)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()
         trackSplashScreen(analyticsCenter.analyticsService)
@@ -57,8 +58,7 @@ class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        if userStore.authenticatedStore.checkItemExists(itemName: .accessToken),
-           userStore.authenticatedStore.checkItemExists(itemName: .idToken) {
+        if sessionManager.sessionExists {
             shouldCallSceneWillEnterForeground = true
             displayUnlockScreen()
         } else {

@@ -10,16 +10,16 @@ final class EnrolmentCoordinator: NSObject,
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
-    private let userStore: UserStorable
+    private let sessionManager: SessionManager
     private var localAuth: LAContexting
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
-         userStore: UserStorable,
+         sessionManager: SessionManager,
          localAuth: LAContexting) {
         self.root = root
         self.analyticsService = analyticsService
-        self.userStore = userStore
+        self.sessionManager = sessionManager
         self.localAuth = localAuth
     }
     
@@ -32,8 +32,7 @@ final class EnrolmentCoordinator: NSObject,
             // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
             // keys in the secure enclave if no biometrics are registered on the device.  Hence the store
             // needs to be recreated with access controls that allow it
-            userStore.refreshStorage(accessControlLevel: .anyBiometricsOrPasscode)
-            userStore.storeTokenInfo()
+            // todo: userStore.refreshStorage(accessControlLevel: .anyBiometricsOrPasscode)
             finish()
         }
     }
@@ -47,7 +46,6 @@ final class EnrolmentCoordinator: NSObject,
         case .touchID:
             let touchIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    userStore.storeTokenInfo()
                     finish()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
@@ -82,7 +80,6 @@ final class EnrolmentCoordinator: NSObject,
             if try await localAuth
                 .evaluatePolicy(.deviceOwnerAuthentication,
                                 localizedReason: GDSLocalisedString(stringLiteral: reason).value) {
-                userStore.storeTokenInfo()
                 finish()
             } else {
                 return

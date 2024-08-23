@@ -13,7 +13,7 @@ final class AuthenticationCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
     private let session: LoginSession
-    private let userStore: UserStorable
+    private let sessionManager: SessionManager
     private let tokenVerifier: TokenVerifier
     private let reauth: Bool
     var authError: Error?
@@ -21,14 +21,14 @@ final class AuthenticationCoordinator: NSObject,
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService,
-         userStore: UserStorable,
+         sessionManager: SessionManager,
          session: LoginSession,
          tokenVerifier: TokenVerifier = JWTVerifier(),
          reauth: Bool) {
         self.window = window
         self.root = root
         self.analyticsService = analyticsService
-        self.userStore = userStore
+        self.sessionManager = sessionManager
         self.session = session
         self.tokenVerifier = tokenVerifier
         self.reauth = reauth
@@ -37,12 +37,7 @@ final class AuthenticationCoordinator: NSObject,
     func start() {
         Task(priority: .userInitiated) {
             do {
-                TokenHolder.shared.tokenResponse = try await session.performLoginFlow(configuration: userStore.constructLoginSessionConfiguration())
-                // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
-                if AppEnvironment.callingSTSEnabled,
-                   let idToken = TokenHolder.shared.tokenResponse?.idToken {
-                    TokenHolder.shared.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
-                }
+                try await sessionManager.startSession(using: session)
                 finish()
             } catch let error as LoginError where error == .network {
                 let networkErrorScreen = ErrorPresenter

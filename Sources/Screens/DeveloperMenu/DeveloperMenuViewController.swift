@@ -7,17 +7,21 @@ final class DeveloperMenuViewController: BaseViewController {
     
     weak var parentCoordinator: HomeCoordinator?
     let viewModel: DeveloperMenuViewModel
-    let userStore: UserStorable
+    let sessionManager: SessionManager
     let networkClient: NetworkClient
-        
+
+    private let defaultsStore: DefaultsStorable
+
     init(parentCoordinator: HomeCoordinator,
          viewModel: DeveloperMenuViewModel,
-         userStore: UserStorable,
-         networkClient: NetworkClient) {
+         sessionManager: SessionManager,
+         networkClient: NetworkClient,
+         defaultsStore: DefaultsStorable = UserDefaults.standard) {
         self.parentCoordinator = parentCoordinator
         self.viewModel = viewModel
-        self.userStore = userStore
+        self.sessionManager = sessionManager
         self.networkClient = networkClient
+        self.defaultsStore = defaultsStore
         super.init(viewModel: viewModel,
                    nibName: "DeveloperMenu",
                    bundle: nil)
@@ -46,22 +50,23 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes a successful request to the hello-world endpoint as long as the access token is valid
     private func helloWorldHappyPath() {
-        if userStore.validAuthenticatedUser || TokenHolder.shared.validAccessToken {
-            Task {
-                do {
-                    let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                             scope: "sts-test.hello-world.read",
-                                                                             request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                    happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
-                } catch let error as ServerError {
-                    happyPathResultLabel.showErrorMessage(error)
-                } catch {
-                    happyPathResultLabel.showErrorMessage()
-                }
-                happyPathButton.isLoading = false
-            }
-        } else {
+        guard sessionManager.isSessionValid else {
             parentCoordinator?.accessTokenInvalidAction()
+            return
+        }
+
+        Task {
+            do {
+                let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                         scope: "sts-test.hello-world.read",
+                                                                         request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
+            } catch let error as ServerError {
+                happyPathResultLabel.showErrorMessage(error)
+            } catch {
+                happyPathResultLabel.showErrorMessage()
+            }
+            happyPathButton.isLoading = false
         }
     }
     
@@ -92,21 +97,22 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the scope is invalid for this so a 400 response is returned
     private func helloWorldErrorPath() {
-        if userStore.validAuthenticatedUser || TokenHolder.shared.validAccessToken {
-            Task {
-                do {
-                    _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                      scope: "sts-test.hello-world",
-                                                                      request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                } catch let error as ServerError {
-                    errorPathResultLabel.showErrorMessage(error)
-                } catch {
-                    errorPathResultLabel.showErrorMessage()
-                }
-                errorPathButton.isLoading = false
-            }
-        } else {
+        guard sessionManager.isSessionValid else {
             parentCoordinator?.accessTokenInvalidAction()
+            return
+        }
+
+        Task {
+            do {
+                _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                  scope: "sts-test.hello-world",
+                                                                  request: URLRequest(url: AppEnvironment.stsHelloWorld))
+            } catch let error as ServerError {
+                errorPathResultLabel.showErrorMessage(error)
+            } catch {
+                errorPathResultLabel.showErrorMessage()
+            }
+            errorPathButton.isLoading = false
         }
     }
     
@@ -137,21 +143,22 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the endpoint returns a 401 unauthorized response
     private func helloWorldUnauthorizedPath() {
-        if userStore.validAuthenticatedUser || TokenHolder.shared.validAccessToken {
-            Task {
-                do {
-                    _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                      scope: "sts-test.hello-world.read",
-                                                                      request: URLRequest(url: AppEnvironment.stsHelloWorldError))
-                } catch let error as ServerError {
-                    unauthorizedPathResultLabel.showErrorMessage(error)
-                } catch {
-                    unauthorizedPathResultLabel.showErrorMessage()
-                }
-                unauthorizedPathButton.isLoading = false
-            }
-        } else {
+        guard sessionManager.isSessionValid else {
             parentCoordinator?.accessTokenInvalidAction()
+            return
+        }
+        
+        Task {
+            do {
+                _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                                                  scope: "sts-test.hello-world.read",
+                                                                  request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+            } catch let error as ServerError {
+                unauthorizedPathResultLabel.showErrorMessage(error)
+            } catch {
+                unauthorizedPathResultLabel.showErrorMessage()
+            }
+            unauthorizedPathButton.isLoading = false
         }
     }
     
@@ -176,7 +183,7 @@ final class DeveloperMenuViewController: BaseViewController {
     }
     
     @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
-        userStore.openStore.deleteItem(itemName: .persistentSessionID)
+        sessionManager.clearAllSessionData()
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     
@@ -193,7 +200,7 @@ final class DeveloperMenuViewController: BaseViewController {
     }
     
     @IBAction private func expireAccessTokenAction(_ sender: Any) {
-        userStore.defaultsStore.set((Date() - 60), forKey: .accessTokenExpiry)
+        defaultsStore.set(Date.distantPast, forKey: .accessTokenExpiry)
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

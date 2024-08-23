@@ -15,7 +15,7 @@ final class LoginCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     private let analyticsCenter: AnalyticsCentral
-    private let userStore: UserStorable
+    private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
     let loginError: Error?
     
@@ -25,13 +25,13 @@ final class LoginCoordinator: NSObject,
     init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
-         userStore: UserStorable,
+         sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring,
          loginError: Error?) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
-        self.userStore = userStore
+        self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.loginError = loginError
         root.modalPresentationStyle = .overFullScreen
@@ -75,7 +75,7 @@ final class LoginCoordinator: NSObject,
     }
     
     func authenticate(action: (() -> Void)? = nil) {
-        if userStore.missingPersistentSessionId {
+        if sessionManager.isPersistentSessionIDMissing {
             action?()
             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
         } else {
@@ -112,7 +112,7 @@ final class LoginCoordinator: NSObject,
         let ac = AuthenticationCoordinator(window: appWindow,
                                            root: root,
                                            analyticsService: analyticsCenter.analyticsService,
-                                           userStore: userStore,
+                                           sessionManager: sessionManager,
                                            session: AppAuthSession(window: appWindow),
                                            reauth: reauth)
         openChildInline(ac)
@@ -126,7 +126,7 @@ final class LoginCoordinator: NSObject,
     func launchEnrolmentCoordinator(localAuth: LAContexting) {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCenter.analyticsService,
-                                             userStore: userStore,
+                                             sessionManager: sessionManager,
                                              localAuth: localAuth))
     }
 }
@@ -140,8 +140,7 @@ extension LoginCoordinator: ParentCoordinator {
             introViewController?.enableIntroButton()
         case let child as AuthenticationCoordinator where child.authError == nil:
             if loginError as? TokenError == .expired,
-               userStore.defaultsStore.value(forKey: .returningUser) != nil {
-                userStore.storeTokenInfo()
+               sessionManager.isReturningUser {
                 root.dismiss(animated: true)
                 finish()
             } else {

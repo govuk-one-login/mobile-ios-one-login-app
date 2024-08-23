@@ -15,16 +15,19 @@ final class WalletCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     private var analyticsCenter: AnalyticsCentral
-    private let userStore: UserStorable
+    private let sessionManager: SessionManager
     private let walletSDK = WalletSDK()
-    private var networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
-    
+
+    private lazy var networkClient = {
+        NetworkClient(authenticationProvider: sessionManager.tokenProvider)
+    }()
+
     init(window: UIWindow,
          analyticsCenter: AnalyticsCentral,
-         userStore: UserStorable) {
+         sessionManager: SessionManager) {
         self.window = window
         self.analyticsCenter = analyticsCenter
-        self.userStore = userStore
+        self.sessionManager = sessionManager
     }
     
     func start() {
@@ -43,10 +46,6 @@ final class WalletCoordinator: NSObject,
                          object: nil)
     }
     
-    func updateToken() {
-        networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
-    }
-    
     func handleUniversalLink(_ url: URL) {
         walletSDK.deeplink(with: url.absoluteString)
     }
@@ -63,7 +62,7 @@ final class WalletCoordinator: NSObject,
     @objc private func clearWallet() {
         do {
             try deleteWalletData()
-            userStore.resetPersistentSession()
+            sessionManager.clearAllSessionData()
             analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
             let dataDeletionWarningScreen = ErrorPresenter
                 .createDataDeletionWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
