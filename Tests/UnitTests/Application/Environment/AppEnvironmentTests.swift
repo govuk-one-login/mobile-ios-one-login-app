@@ -17,12 +17,16 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world/error"))
         XCTAssertEqual(sut.jwskURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
+        XCTAssertEqual(sut.appInfoURL, URL(string: "https://token.build.account.gov.uk/appInfo"))
         XCTAssertEqual(sut.stsClientID, "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         XCTAssertEqual(sut.isLocaleWelsh, false)
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
         XCTAssertTrue(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
+        XCTAssertFalse(sut.walletVisibleToAll)
+        XCTAssertFalse(sut.walletVisibleIfExists)
+        XCTAssertFalse(sut.walletVisibleViaDeepLink)
     }
     
     func test_defaultEnvironment_addingReleaseFlags() {
