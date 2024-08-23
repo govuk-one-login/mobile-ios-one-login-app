@@ -160,3 +160,10 @@
 
 // MARK: Data DeletionWarning screen
 "app_dataDeletionWarningBody" = "Rydym wedi dileu'r wybodaeth yn eich ap GOV.UK One Login oherwydd ni allwn gadarnhau eich manylion mewngofnodi.\n\nRydym wedi gwneud hyn i leihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nEr mwyn parhau i ddefnyddio'r ap, bydd angen i chi fewngofnodi. Yna gofynnir i chi osod eich dewisiadau dadansoddi a mewngofnodi eto.";
+
+// MARK: Update App screen
+"app_updateAppTitle" = "Mae angen i chi ddiweddaru eich ap";
+
+"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
+
+"app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
