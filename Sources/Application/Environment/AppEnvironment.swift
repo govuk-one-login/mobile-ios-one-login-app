@@ -145,11 +145,19 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var jwskURL: URL {
+    static var jwksURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = string(for: .stsBaseURL)
         components.path = "/.well-known/jwks.json"
+        return components.url!
+    }
+    
+    static var appInfoURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .stsBaseURL)
+        components.path = "/appInfo"
         return components.url!
     }
     

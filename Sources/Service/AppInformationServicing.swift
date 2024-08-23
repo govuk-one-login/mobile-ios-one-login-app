@@ -22,13 +22,13 @@ public final class AppInformationService: AppInformationServicing {
     }
     
     public var currentVersion: Version {
-        guard let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else { return .one }
+        guard let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
+                as? String else { return .one }
         return Version(string: versionString) ?? .one
     }
     
     public func fetchAppInfo() async throws -> App {
-        let updateURL = Service.baseURL!.appendingPathComponent("appInfo")
-        var request = URLRequest(url: updateURL)
+        var request = URLRequest(url: AppEnvironment.appInfoURL)
         request.httpMethod = "GET"
         
         let data = try await client.makeRequest(request)

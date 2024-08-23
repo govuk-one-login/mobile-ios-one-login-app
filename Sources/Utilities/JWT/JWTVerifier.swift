@@ -41,7 +41,7 @@ extension JWTVerifier {
 
 extension JWTVerifier {
     private func fetchJWKs() async throws -> JWKSInfo {
-        var request = URLRequest(url: AppEnvironment.jwskURL)
+        var request = URLRequest(url: AppEnvironment.jwksURL)
         request.httpMethod = "GET"
 
         do {

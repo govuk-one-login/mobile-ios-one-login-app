@@ -52,11 +52,8 @@
 		41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */; };
 		ABB941F82C6C069A0007052B /* AppInformationServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941F72C6C069A0007052B /* AppInformationServicing.swift */; };
 		ABB941FA2C6C07980007052B /* AppInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941F92C6C07980007052B /* AppInfoResponse.swift */; };
-		ABB941FC2C6C088C0007052B /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941FB2C6C088C0007052B /* Service.swift */; };
-		ABB942032C6CCBE60007052B /* AppInfoServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB942012C6CCBE60007052B /* AppInfoServiceTests.swift */; };
+		ABB942032C6CCBE60007052B /* AppInformationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB942012C6CCBE60007052B /* AppInformationServiceTests.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
-		ABBE421D2C775C9100607A7A /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */; };
-		ABF6FBC82C6D6EBE0068D564 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941FF2C6CCAB30007052B /* ServiceTests.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
 		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
@@ -100,7 +97,6 @@
 		C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */; };
 		C873B1E42AF82700002C39E8 /* StagingAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1E12AF826D3002C39E8 /* StagingAppEnvironmentTests.swift */; };
 		C873B1E52AF82706002C39E8 /* BuildAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1DF2AF826D3002C39E8 /* BuildAppEnvironmentTests.swift */; };
-		C8788F412C787F7D00472EC2 /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8788F402C787F7D00472EC2 /* AppEnvironmentTests.swift */; };
 		C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
@@ -275,9 +271,7 @@
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
 		ABB941F72C6C069A0007052B /* AppInformationServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformationServicing.swift; sourceTree = "<group>"; };
 		ABB941F92C6C07980007052B /* AppInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoResponse.swift; sourceTree = "<group>"; };
-		ABB941FB2C6C088C0007052B /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		ABB941FF2C6CCAB30007052B /* ServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
-		ABB942012C6CCBE60007052B /* AppInfoServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoServiceTests.swift; sourceTree = "<group>"; };
+		ABB942012C6CCBE60007052B /* AppInformationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformationServiceTests.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -327,7 +321,6 @@
 		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
 		C873B1DF2AF826D3002C39E8 /* BuildAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuildAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C873B1E12AF826D3002C39E8 /* StagingAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StagingAppEnvironmentTests.swift; sourceTree = "<group>"; };
-		C8788F402C787F7D00472EC2 /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenterTests.swift; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
@@ -632,7 +625,6 @@
 			children = (
 				ABB941F72C6C069A0007052B /* AppInformationServicing.swift */,
 				ABB941F92C6C07980007052B /* AppInfoResponse.swift */,
-				ABB941FB2C6C088C0007052B /* Service.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -640,8 +632,7 @@
 		ABB941FE2C6CCA9E0007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				ABB942012C6CCBE60007052B /* AppInfoServiceTests.swift */,
-				ABB941FF2C6CCAB30007052B /* ServiceTests.swift */,
+				ABB942012C6CCBE60007052B /* AppInformationServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -740,7 +731,6 @@
 				C8E6A3EE2BBC1181005015AF /* WindowManagerTests.swift */,
 				219602012A976305008F3427 /* MainCoordinatorTests.swift */,
 				C8C666592BCFDBDE00CF249B /* TokenHolderTests.swift */,
-				C8788F402C787F7D00472EC2 /* AppEnvironmentTests.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1598,7 +1588,6 @@
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
-				ABB941FC2C6C088C0007052B /* Service.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
@@ -1677,7 +1666,7 @@
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrollmentViewModelTests.swift in Sources */,
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
-				ABB942032C6CCBE60007052B /* AppInfoServiceTests.swift in Sources */,
+				ABB942032C6CCBE60007052B /* AppInformationServiceTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
@@ -1699,7 +1688,6 @@
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
 				D0275CC12C00951600AF9A50 /* MockTokenVerifier.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
-				ABF6FBC82C6D6EBE0068D564 /* ServiceTests.swift in Sources */,
 				411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */,
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+TestExtensions.swift in Sources */,
@@ -1712,7 +1700,6 @@
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
-				C8788F412C787F7D00472EC2 /* AppEnvironmentTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 			);
@@ -1948,7 +1935,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				OTHER_LDFLAGS = "-ObjC";
@@ -1991,7 +1978,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				ONE_LOGIN_AUTHORIZE_URL = "";
 				ONE_LOGIN_CLIENT_ID = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -2302,7 +2289,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
 				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				OTHER_LDFLAGS = "-ObjC";
@@ -2511,7 +2498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				ONE_LOGIN_AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
 				ONE_LOGIN_CLIENT_ID = TEST_CLIENT_ID;
 				OTHER_LDFLAGS = "-ObjC";
