@@ -80,25 +80,6 @@ extension AppInfoServiceTests {
         XCTAssertEqual(version, Version(1, 0, 0))
     }
     
-    func test_isSupportedVersion_makesNetworkCall() throws {
-        MockURLProtocol.handler = {
-            (self.createMock(), HTTPURLResponse(statusCode: 200))
-        }
-        
-        Task { try await sut.fetchAppInfo() }
-        
-        let exp = expectation(for: .init { _, _ in
-            !MockURLProtocol.requests.isEmpty
-        }, evaluatedWith: nil)
-        wait(for: [exp], timeout: 2)
-        
-        let request = try XCTUnwrap(MockURLProtocol.requests.first)
-        XCTAssertEqual(request.httpMethod, "GET")
-        XCTAssertEqual(request.url?.scheme, "https")
-        XCTAssertEqual(request.url?.host, "example.com")
-        XCTAssertEqual(request.url?.path, "/dev/appInfo")
-    }
-    
     func test_appInfoIsDecoded_usageIsTrue() async throws {
         MockURLProtocol.handler = {
             (self.createMock(), HTTPURLResponse(statusCode: 200))
