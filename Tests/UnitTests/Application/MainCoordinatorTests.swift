@@ -116,7 +116,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the token verifier throws an invalidJWTFormat error
-        mockSessionManager.shouldThrowResumeError = JWTVerifierError.invalidJWTFormat
+        mockSessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
@@ -132,7 +132,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an unableToRetrieveFromUserDefaults error
-        mockSessionManager.shouldThrowResumeError = SecureStoreError.unableToRetrieveFromUserDefaults
+        mockSessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
@@ -148,7 +148,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an cantInitialiseData error
-        mockSessionManager.shouldThrowResumeError = SecureStoreError.cantInitialiseData
+        mockSessionManager.errorFromResumeSession = SecureStoreError.cantInitialiseData
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
@@ -164,7 +164,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an cantRetrieveKey error
-        mockSessionManager.shouldThrowResumeError = SecureStoreError.cantRetrieveKey
+        mockSessionManager.errorFromResumeSession = SecureStoreError.cantRetrieveKey
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
@@ -180,7 +180,7 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an cantDecryptData error
-        mockSessionManager.shouldThrowResumeError = SecureStoreError.cantDecryptData
+        mockSessionManager.errorFromResumeSession = SecureStoreError.cantDecryptData
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should not end the current session

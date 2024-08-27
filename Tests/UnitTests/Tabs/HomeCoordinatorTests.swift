@@ -77,6 +77,6 @@ final class HomeCoordinatorTests: XCTestCase {
         let user = MockUser()
         sut.updateUser(user)
         // THEN the email label should contain te email from the email token
-        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
+        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\ntest@example.com")
     }
 }

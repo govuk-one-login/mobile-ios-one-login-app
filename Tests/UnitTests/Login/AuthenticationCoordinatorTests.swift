@@ -55,17 +55,12 @@ extension AuthenticationCoordinatorTests {
         // and the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
         sut.start()
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
-        // THEN the session configuration should have the persistent session ID
-        XCTAssertEqual(mockLoginSession.sessionConfiguration?.persistentSessionId, "123456789")
-        // THEN the tokens are returned
-        // TODO: what is the expected result here?
-        // is it that `finish` is called on the parent because the authentication is complete?
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
     }
     
     @MainActor
     func test_start_loginError_network() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.network
+        mockSessionManager.errorFromStartSession = LoginError.network
         sut.start()
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -81,7 +76,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_start_loginError_non200() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
+        mockSessionManager.errorFromStartSession = LoginError.non200
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -97,7 +92,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_invalidRequest() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
+        mockSessionManager.errorFromStartSession = LoginError.invalidRequest
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -113,7 +108,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_clientError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
+        mockSessionManager.errorFromStartSession = LoginError.clientError
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -129,7 +124,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_serverError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.serverError
+        mockSessionManager.errorFromStartSession = LoginError.serverError
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -145,7 +140,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_generic() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
+        mockSessionManager.errorFromStartSession = LoginError.generic(description: "")
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -161,7 +156,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_catchAllError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
+        mockSessionManager.errorFromStartSession = AuthenticationError.generic
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -177,12 +172,12 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_userCancelled() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
+        mockSessionManager.errorFromStartSession = LoginError.userCancelled
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and user cancelled the login modal
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN user is returned to the intro screen
         // THEN the loginError should be a userCancelled error
         sut.authError = LoginError.userCancelled
@@ -195,12 +190,12 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_jwtFetchError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
+        mockSessionManager.errorFromStartSession = JWTVerifierError.unableToFetchJWKs
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and the subsequent call to the JWKS service fails
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the login error screen is shown
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
@@ -210,12 +205,12 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_loginError_jwtVerifyError() throws {
-        mockTokenVerifier.verificationError = JWTVerifierError.invalidJWTFormat
+        mockSessionManager.errorFromStartSession = JWTVerifierError.invalidJWTFormat
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and the subsequent call to the JWKS service fails
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the login error screen is shown
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
@@ -242,7 +237,7 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_returnFromErrorScreen() throws {
-        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
+        mockSessionManager.errorFromStartSession = AuthenticationError.generic
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session

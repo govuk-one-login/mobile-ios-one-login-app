@@ -19,8 +19,8 @@ final class MockSessionManager: SessionManager {
     var didCallEndCurrentSession = false
     var didCallClearAllSessionData = false
 
-    var shouldThrowResumeError: Error?
-
+    var errorFromStartSession: Error?
+    var errorFromResumeSession: Error?
 
     init(expiryDate: Date? = nil,
          sessionExists: Bool = false,
@@ -39,13 +39,18 @@ final class MockSessionManager: SessionManager {
     }
 
     func startSession(using session: any LoginSession) async throws {
-        didCallStartSession = true
+        defer {
+            didCallStartSession = true
+        }
+        if let errorFromStartSession {
+            throw errorFromStartSession
+        }
     }
     
     func resumeSession() throws {
         didCallResumeSession = true
-        if let shouldThrowResumeError {
-            throw shouldThrowResumeError
+        if let errorFromResumeSession {
+            throw errorFromResumeSession
         }
     }
     

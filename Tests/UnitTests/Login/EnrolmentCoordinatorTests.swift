@@ -76,7 +76,7 @@ extension EnrolmentCoordinatorTests {
         // GIVEN the local authentication is enabled on the device
         mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
         // GIVEN the secure store returns an error from saving an item
-        mockSessionManager.shouldThrowResumeError = SecureStoreError.generic
+        mockSessionManager.errorFromResumeSession = SecureStoreError.generic
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // WHEN the EnrolmentCoordinator is started
