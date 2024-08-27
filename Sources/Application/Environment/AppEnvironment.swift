@@ -12,6 +12,8 @@ public final class AppEnvironment {
         case appStoreURL = "App Store URL"
     }
     
+    static var releaseFlags = ReleaseFlags()
+    
     private static var appDictionary: [String: Any] {
         guard let plist = Bundle.main.infoDictionary else {
             fatalError("Cannot load Info.plist from App")
@@ -26,7 +28,7 @@ public final class AppEnvironment {
         return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
     }
     
-    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
+    static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
         provider[key] as? T
     }
     
@@ -42,6 +44,18 @@ public final class AppEnvironment {
             preconditionFailure("Key not found in Info.plist")
         }
         return string
+    }
+    
+    static func updateReleaseFlags(_ flags: [String: Bool]) {
+        releaseFlags.flags = flags
+    }
+}
+
+class ReleaseFlags: FeatureFlagProvider {
+    var flags: [String: Bool] = [:]
+
+    subscript(key: String) -> Any? {
+        flags[key]
     }
 }
 
@@ -130,11 +144,19 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var jwskURL: URL {
+    static var jwksURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = string(for: .stsBaseURL)
         components.path = "/.well-known/jwks.json"
+        return components.url!
+    }
+    
+    static var appInfoURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .stsBaseURL)
+        components.path = "/appInfo"
         return components.url!
     }
     
@@ -169,7 +191,7 @@ extension AppEnvironment {
 
 extension AppEnvironment {
     static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
-        let providers: [FeatureFlagProvider] = [UserDefaults.standard, featureFlags]
+        let providers: [FeatureFlagProvider] = [UserDefaults.standard, featureFlags, releaseFlags]
         return providers
             .lazy
             .compactMap { value(for: key.rawValue, provider: $0) }
@@ -186,5 +208,17 @@ extension AppEnvironment {
     
     static var clearWalletErrorEnabled: Bool {
         isFeatureEnabled(for: .enableClearWalletError)
+    }
+    
+    static var walletVisibleViaDeepLink: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
+    }
+    
+    static var walletVisibleIfExists: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleIfExists)
+    }
+    
+    static var walletVisibleToAll: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleToAll)
     }
 }

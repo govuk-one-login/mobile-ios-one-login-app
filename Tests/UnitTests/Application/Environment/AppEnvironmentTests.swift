@@ -1,7 +1,8 @@
+import Foundation
 @testable import OneLogin
 import XCTest
 
-final class BuildAppEnvironmentTests: XCTestCase {
+final class AppEnvironmentTests: XCTestCase {
     func test_appEnvironmentValues() throws {
         let sut = AppEnvironment.self
         XCTAssertEqual(sut.oneLoginAuthorize, URL(string: "https://auth-stub.mobile.build.account.gov.uk/authorize"))
@@ -15,12 +16,34 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.stsToken, URL(string: "https://token.build.account.gov.uk/token"))
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world/error"))
-        XCTAssertEqual(sut.jwskURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
+        XCTAssertEqual(sut.jwksURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
+        XCTAssertEqual(sut.appInfoURL, URL(string: "https://token.build.account.gov.uk/appInfo"))
         XCTAssertEqual(sut.stsClientID, "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         XCTAssertEqual(sut.isLocaleWelsh, false)
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
-        XCTAssertTrue(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
+        XCTAssertFalse(sut.walletVisibleToAll)
+        XCTAssertFalse(sut.walletVisibleIfExists)
+        XCTAssertFalse(sut.walletVisibleViaDeepLink)
+    }
+    
+    func test_releaseFlags() {
+        // GIVEN no release flags from AppInfo end point
+        // pass in release flags to enviroment
+        AppEnvironment.updateReleaseFlags(["test1": true, "test2": false])
+        
+        // THEN the flags are set in environment
+        XCTAssertEqual(AppEnvironment.releaseFlags["test1"] as? Bool, true)
+        XCTAssertEqual(AppEnvironment.releaseFlags["test2"] as? Bool, false)
+        
+        XCTAssertNil(AppEnvironment.releaseFlags["shouldBeNil"] as? Bool)
+        
+        // WHEN updated to remove release flags from enviroment
+        AppEnvironment.updateReleaseFlags([:])
+        
+        // THEN the release flags are unset in the environment
+        XCTAssertNil(AppEnvironment.releaseFlags["test1"] as? Bool)
+        XCTAssertNil(AppEnvironment.releaseFlags["test2"] as? Bool)
     }
 }
