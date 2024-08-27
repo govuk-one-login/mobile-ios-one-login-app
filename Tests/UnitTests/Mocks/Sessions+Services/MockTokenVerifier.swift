@@ -6,14 +6,14 @@ final class MockTokenVerifier: TokenVerifier {
     var verificationError: Error?
     var extractionError: Error?
     
-    func verifyToken(_ token: String) async throws -> IdTokenPayload? {
+    func verifyToken(_ token: String) async throws -> IdTokenPayload {
         if let verificationError {
             throw verificationError
         }
         return Self.mockPayload
     }
     
-    func extractPayload(_ token: String) throws -> IdTokenPayload? {
+    func extractPayload(_ token: String) throws -> IdTokenPayload {
         if let extractionError {
             throw extractionError
         }

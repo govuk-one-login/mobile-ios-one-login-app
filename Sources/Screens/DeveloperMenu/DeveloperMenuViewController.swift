@@ -57,9 +57,11 @@ final class DeveloperMenuViewController: BaseViewController {
 
         Task {
             do {
-                let data = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                         scope: "sts-test.hello-world.read",
-                                                                         request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                // TODO: refactor network requests into a Service object
+                let data = try await networkClient
+                    .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                           scope: "sts-test.hello-world.read",
+                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
                 happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
@@ -104,9 +106,11 @@ final class DeveloperMenuViewController: BaseViewController {
 
         Task {
             do {
-                _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                  scope: "sts-test.hello-world",
-                                                                  request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                // TODO: refactor network requests into a Service object
+                _ = try await networkClient
+                    .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                           scope: "sts-test.hello-world",
+                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
             } catch let error as ServerError {
                 errorPathResultLabel.showErrorMessage(error)
             } catch {
@@ -150,9 +154,11 @@ final class DeveloperMenuViewController: BaseViewController {
         
         Task {
             do {
-                _ = try await networkClient.makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
-                                                                  scope: "sts-test.hello-world.read",
-                                                                  request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+                // TODO: refactor network requests into a Service object
+                _ = try await networkClient
+                    .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
+                                           scope: "sts-test.hello-world.read",
+                                           request: URLRequest(url: AppEnvironment.stsHelloWorldError))
             } catch let error as ServerError {
                 unauthorizedPathResultLabel.showErrorMessage(error)
             } catch {

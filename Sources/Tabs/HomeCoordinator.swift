@@ -52,8 +52,7 @@ final class HomeCoordinator: NSObject,
                                                                 viewModel: viewModel,
                                                                 sessionManager: sessionManager,
                                                                 networkClient: networkClient)
-        let navController = UINavigationController()
-        navController.setViewControllers([devMenuViewController], animated: false)
+        let navController = UINavigationController(rootViewController: devMenuViewController)
         root.present(navController, animated: true)
     }
     

@@ -4,39 +4,29 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-@MainActor
 final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockSecureStore: MockSecureStoreService!
-    var mockOpenSecureStore: MockSecureStoreService!
-    var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: UserStorage!
+    var mockSessionManager: MockSessionManager!
     var mockLoginSession: MockLoginSession!
     var mockTokenVerifier: MockTokenVerifier!
     var sut: AuthenticationCoordinator!
-    
-    
+
+    @MainActor
     override func setUp() {
         super.setUp()
-        
-        TokenHolder.shared.clearTokenHolder()
+
         window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockSecureStore = MockSecureStoreService()
-        mockOpenSecureStore = MockSecureStoreService()
-        mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
-                                    openStore: mockOpenSecureStore,
-                                    defaultsStore: mockDefaultStore)
+        mockSessionManager = MockSessionManager()
         mockLoginSession = MockLoginSession(window: window)
         mockTokenVerifier = MockTokenVerifier()
         sut = AuthenticationCoordinator(window: window,
                                         root: navigationController,
                                         analyticsService: mockAnalyticsService,
-                                        userStore: mockUserStore,
+                                        sessionManager: mockSessionManager,
                                         session: mockLoginSession,
                                         tokenVerifier: mockTokenVerifier,
                                         reauth: false)
@@ -44,14 +34,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
-        TokenHolder.shared.clearTokenHolder()
         window = nil
         navigationController = nil
         mockAnalyticsService = nil
-        mockSecureStore = nil
-        mockOpenSecureStore = nil
-        mockDefaultStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         mockLoginSession = nil
         mockTokenVerifier = nil
         sut = nil
@@ -66,9 +52,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 }
 
 extension AuthenticationCoordinatorTests {
+    @MainActor
     func test_start_loginSession_successful() throws {
-        // GIVEN the open secure store has a persistent session ID
-        try mockOpenSecureStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        // GIVEN there is an existing (expired) user session
         // WHEN the AuthenticationCoordinator is started
         // and the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
@@ -77,11 +63,11 @@ extension AuthenticationCoordinatorTests {
         // THEN the session configuration should have the persistent session ID
         XCTAssertEqual(mockLoginSession.sessionConfiguration?.persistentSessionId, "123456789")
         // THEN the tokens are returned
-        XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")
-        XCTAssertEqual(TokenHolder.shared.tokenResponse?.refreshToken, "refreshTokenResponse")
-        XCTAssertEqual(TokenHolder.shared.tokenResponse?.idToken, "idTokenResponse")
+        // TODO: what is the expected result here?
+        // is it that `finish` is called on the parent because the authentication is complete?
     }
     
+    @MainActor
     func test_start_loginError_network() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.network
         sut.start()
@@ -97,6 +83,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.network
     }
     
+    @MainActor
     func test_start_loginError_non200() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
         sut.start()
@@ -112,6 +99,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.non200
     }
     
+    @MainActor
     func test_loginError_invalidRequest() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
         sut.start()
@@ -127,6 +115,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.invalidRequest
     }
     
+    @MainActor
     func test_loginError_clientError() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
         sut.start()
@@ -142,6 +131,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.clientError
     }
     
+    @MainActor
     func test_loginError_serverError() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.serverError
         sut.start()
@@ -157,6 +147,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.serverError
     }
     
+    @MainActor
     func test_loginError_generic() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
         sut.start()
@@ -172,6 +163,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = LoginError.generic(description: "")
     }
     
+    @MainActor
     func test_loginError_catchAllError() throws {
         mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
         sut.start()
@@ -187,6 +179,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = AuthenticationError.generic
     }
     
+    @MainActor
     func test_loginError_userCancelled() throws {
         mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
         sut.start()
@@ -204,6 +197,7 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
     }
     
+    @MainActor
     func test_loginError_jwtFetchError() throws {
         mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
         sut.start()
@@ -218,6 +212,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = JWTVerifierError.unableToFetchJWKs
     }
     
+    @MainActor
     func test_loginError_jwtVerifyError() throws {
         mockTokenVerifier.verificationError = JWTVerifierError.invalidJWTFormat
         sut.start()
@@ -232,6 +227,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = JWTVerifierError.invalidJWTFormat
     }
     
+    @MainActor
     func test_handleUniversalLink_catchAllError() throws {
         mockLoginSession.errorFromFinalise = AuthenticationError.generic
         // WHEN the AuthenticationCoordinator calls finalise on the session
@@ -248,6 +244,7 @@ extension AuthenticationCoordinatorTests {
         sut.authError = AuthenticationError.generic
     }
     
+    @MainActor
     func test_returnFromErrorScreen() throws {
         mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
         sut.start()

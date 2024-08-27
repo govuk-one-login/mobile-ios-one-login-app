@@ -8,10 +8,7 @@ final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
-    var mockSecureStore: MockSecureStoreService!
-    var mockOpenSecureStore: MockSecureStoreService!
-    var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
+    var mockSessionManager: MockSessionManager!
     var mockMainCoordinator: MainCoordinator!
     var sut: MockSceneDelegate!
     
@@ -22,16 +19,11 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
-        mockSecureStore = MockSecureStoreService()
-        mockOpenSecureStore = MockSecureStoreService()
-        mockDefaultStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(authenticatedStore: mockSecureStore,
-                                      openStore: mockOpenSecureStore,
-                                      defaultsStore: mockDefaultStore)
+        mockSessionManager = MockSessionManager()
         mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
-                                              userStore: mockUserStore)
+                                              sessionManager: mockSessionManager)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
                                 analyticsService: mockAnalyticsService,
                                 windowManager: mockWindowManager)
@@ -42,9 +34,7 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
-        mockSecureStore = nil
-        mockDefaultStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         mockMainCoordinator = nil
         sut = nil
         

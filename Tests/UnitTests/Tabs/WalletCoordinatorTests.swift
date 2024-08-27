@@ -7,42 +7,29 @@ final class WalletCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: AnalyticsCentral!
-    var mockAuthenticatedStore: MockSecureStoreService!
-    var mockOpenStore: MockSecureStoreService!
-    var mockDefaultsStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
+    var mockSessionManager: MockSessionManager!
     var sut: WalletCoordinator!
     
     override func setUp() {
         super.setUp()
-        
-        TokenHolder.shared.clearTokenHolder()
+
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
-        mockAuthenticatedStore = MockSecureStoreService()
-        mockOpenStore = MockSecureStoreService()
-        mockDefaultsStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(authenticatedStore: mockAuthenticatedStore,
-                                      openStore: mockOpenStore,
-                                      defaultsStore: mockDefaultsStore)
+        mockSessionManager = MockSessionManager()
         sut = WalletCoordinator(window: window,
                                 analyticsCenter: mockAnalyticsCenter,
-                                userStore: mockUserStore)
+                                sessionManager: mockSessionManager)
     }
     
     override func tearDown() {
-        TokenHolder.shared.clearTokenHolder()
         window = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
-        mockAuthenticatedStore = nil
-        mockOpenStore = nil
-        mockDefaultsStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         sut = nil
         
         super.tearDown()
@@ -77,28 +64,28 @@ extension WalletCoordinatorTests {
     func test_clearWallet() throws {
         sut.start()
         // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
-        try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
-        mockDefaultsStore.set(true, forKey: .returningUser)
+        mockSessionManager.user = MockUser(persistentID: "123456789")
+        mockSessionManager.isReturningUser = true
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         // WHEN the clearWallet notification is posted
         NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
         // THEN the persistent session id, returning user and analytics preferences have been removed
-        XCTAssertFalse(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
-        XCTAssertNil(mockDefaultsStore.value(forKey: .returningUser))
+        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
         XCTAssertNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
     }
     
     func test_clearWallet_error() throws {
         UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableClearWalletError.rawValue)
+
         sut.start()
         // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
-        try mockOpenStore.saveItem(item: "123456789", itemName: .persistentSessionID)
-        mockDefaultsStore.set(true, forKey: .returningUser)
+        mockSessionManager.user = MockUser(persistentID: "123456789")
+        mockSessionManager.isReturningUser = true
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
+        // WHEN the clearWallet notification is posted
         NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
         // THEN the persistent session id, returning user and analytics preferences should not have been removed
-        XCTAssertTrue(mockOpenStore.checkItemExists(itemName: .persistentSessionID))
-        XCTAssertNotNil(mockDefaultsStore.value(forKey: .returningUser))
+        XCTAssertFalse(mockSessionManager.didCallClearAllSessionData)
         XCTAssertNotNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableClearWalletError.rawValue)
     }

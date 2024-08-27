@@ -29,8 +29,7 @@ final class PersistentSessionManager: SessionManager {
     }
 
     var sessionExists: Bool {
-        accessControlEncryptedStore.checkItemExists(itemName: .accessToken)
-        && accessControlEncryptedStore.checkItemExists(itemName: .idToken)
+        tokenProvider.accessToken != nil
     }
 
     var isSessionValid: Bool {
@@ -121,12 +120,5 @@ final class PersistentSessionManager: SessionManager {
         encryptedStore.deleteItem(itemName: .persistentSessionID)
         unprotectedStore.removeObject(forKey: .returningUser)
         unprotectedStore.removeObject(forKey: .accessTokenExpiry)
-    }
-}
-
-extension Date {
-    @backDeployed(before: iOS 15)
-    public static var now: Date {
-        Date()
     }
 }

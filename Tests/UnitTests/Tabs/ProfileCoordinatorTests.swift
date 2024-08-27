@@ -7,25 +7,16 @@ import XCTest
 final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockSecureStoreService: MockSecureStoreService!
-    var mockOpenSecureStoreService: MockSecureStoreService!
-    var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: UserStorage!
+    var mockSessionManager: MockSessionManager!
     var urlOpener: URLOpener!
     var sut: ProfileCoordinator!
     
     override func setUp() {
         super.setUp()
-        
-        TokenHolder.shared.clearTokenHolder()
+
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockSecureStoreService = MockSecureStoreService()
-        mockOpenSecureStoreService = MockSecureStoreService()
-        mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(authenticatedStore: mockSecureStoreService,
-                                    openStore: mockOpenSecureStoreService,
-                                    defaultsStore: mockDefaultStore)
+        mockSessionManager = MockSessionManager()
         urlOpener = MockURLOpener()
         sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                  urlOpener: urlOpener)
@@ -34,13 +25,9 @@ final class ProfileCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
-        TokenHolder.shared.clearTokenHolder()
         window = nil
         mockAnalyticsService = nil
-        mockSecureStoreService = nil
-        mockOpenSecureStoreService = nil
-        mockDefaultStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         urlOpener = nil
         sut = nil
         
@@ -64,11 +51,9 @@ final class ProfileCoordinatorTests: XCTestCase {
         sut.start()
         // THEN the email label should be nil
         let vc = try XCTUnwrap(sut.baseVc)
-        // WHEN the token holder's idTokenPayload is populated
         XCTAssertEqual(try vc.emailLabel.text, "")
-        TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
-        // WHEN the updateToken method is called
-        sut.updateToken()
+        // WHEN the update email method is called
+        sut.updateUser(MockUser(email: "mock@email.com"))
         // THEN the email label should contain te email from the email token
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }

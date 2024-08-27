@@ -32,7 +32,7 @@ final class EnrolmentCoordinator: NSObject,
             // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
             // keys in the secure enclave if no biometrics are registered on the device.  Hence the store
             // needs to be recreated with access controls that allow it
-            // todo: userStore.refreshStorage(accessControlLevel: .anyBiometricsOrPasscode)
+            // TODO: userStore.refreshStorage(accessControlLevel: .anyBiometricsOrPasscode)
             finish()
         }
     }

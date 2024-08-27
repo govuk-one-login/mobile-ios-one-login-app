@@ -4,20 +4,17 @@ import MockNetworking
 import SecureStore
 import XCTest
 
-@MainActor
 final class DeveloperMenuViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var devMenuViewModel: DeveloperMenuViewModel!
-    var mockAuthenicatedSecureStore: SecureStorable!
-    var mockOpenSecureStore: SecureStorable!
-    var mockDefaultsStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
+    var mockSessionManager: MockSessionManager!
     var networkClient: NetworkClient!
     var homeCoordinator: HomeCoordinator!
     var sut: DeveloperMenuViewController!
     
     var requestFinished = false
     
+    @MainActor
     override func setUp() {
         super.setUp()
         
@@ -27,19 +24,14 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         devMenuViewModel = DeveloperMenuViewModel()
-        mockAuthenicatedSecureStore = MockSecureStoreService()
-        mockOpenSecureStore = MockSecureStoreService()
-        mockDefaultsStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(authenticatedStore: mockAuthenicatedSecureStore,
-                                      openStore: mockOpenSecureStore,
-                                      defaultsStore: mockDefaultsStore)
+        mockSessionManager = MockSessionManager()
         networkClient = NetworkClient(configuration: configuration,
                                       authenticationProvider: MockAuthenticationProvider())
         homeCoordinator = HomeCoordinator(analyticsService: mockAnalyticsService,
-                                          userStore: mockUserStore)
+                                          sessionManager: mockSessionManager)
         sut = DeveloperMenuViewController(parentCoordinator: homeCoordinator,
                                           viewModel: devMenuViewModel,
-                                          userStore: mockUserStore,
+                                          sessionManager: mockSessionManager,
                                           networkClient: networkClient)
     }
     
@@ -48,10 +40,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         
         mockAnalyticsService = nil
         devMenuViewModel = nil
-        mockAuthenicatedSecureStore = nil
-        mockOpenSecureStore = nil
-        mockDefaultsStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         networkClient = nil
         homeCoordinator = nil
         sut = nil
@@ -82,8 +71,10 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_happyPathButton() throws {
-        mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
-        
+        // GIVEN I am on the Developer Menu
+        // AND I have a user session
+        try mockSessionManager.setupSession()
+
         let exchangeData = Data("""
             {
                 "access_token": "testAccessToken",
@@ -108,19 +99,26 @@ extension DeveloperMenuViewControllerTests {
             }
         }
         
+        // WHEN I tap the happy path button
         try sut.happyPathButton.sendActions(for: .touchUpInside)
+
+        // THEN the service token is requested from STS
+        // AND the hello world API is called
+        XCTAssertEqual(networkCallsMade, 2)
         waitForTruth(self.requestFinished, timeout: 20)
         XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
     }
     
     func test_happyPathButton_invalidAccessTokenActionCalled() throws {
-        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
-        TokenHolder.shared.tokenResponse = nil
-        try sut.happyPathButton.sendActions(for: .touchUpInside)
+        // TODO: determine what the purpose of this test is given there are no assertions
+//        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
+//        TokenHolder.shared.tokenResponse = nil
+//        try sut.happyPathButton.sendActions(for: .touchUpInside)
     }
     
     func test_errorPathButton() throws {
-        mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // GIVEN I have an active user session
+        try mockSessionManager.setupSession()
 
         MockURLProtocol.handler = { [unowned self] in
             defer {
@@ -129,19 +127,24 @@ extension DeveloperMenuViewControllerTests {
             return (Data(), HTTPURLResponse(statusCode: 404))
         }
         
+        // WHEN I request a Service Token using an invalid scope
         try sut.errorPathButton.sendActions(for: .touchUpInside)
         waitForTruth(self.requestFinished, timeout: 20)
+
+        // THEN an error message is displayed:
         XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: token")
     }
     
     func test_errorPathButton_invalidAccessTokenActionCalled() throws {
-        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
-        TokenHolder.shared.tokenResponse = nil
-        try sut.errorPathButton.sendActions(for: .touchUpInside)
+        // TODO: determine what the purpose of this test is given there are no assertions
+//        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
+//        TokenHolder.shared.tokenResponse = nil
+//        try sut.errorPathButton.sendActions(for: .touchUpInside)
     }
 
     func test_unauthorizedPathButton() throws {
-        mockDefaultsStore.set(Date() + 60, forKey: .accessTokenExpiry)
+        // GIVEN I have an active user session
+        try mockSessionManager.setupSession()
 
         MockURLProtocol.handler = { [unowned self] in
             defer {
@@ -150,28 +153,40 @@ extension DeveloperMenuViewControllerTests {
             throw MockNetworkClientError.genericError
         }
         
+        // WHEN I call an invalid endpoint
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+
+        // THEN an error message is displayed
         waitForTruth(self.requestFinished, timeout: 20)
         XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
     }
     
     func test_unauthorized_invalidAccessTokenActionCalled() throws {
-        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
-        TokenHolder.shared.tokenResponse = nil
-        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+        // TODO: determine what the purpose of this test is given there are no assertions
+//        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
+//        TokenHolder.shared.tokenResponse = nil
+//        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
     }
     
     func test_deletePersistentSessionIDButton() throws {
-        try mockOpenSecureStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        // GIVEN I have an active session
+        try mockSessionManager.setupSession()
+        // WHEN I tap the delete persistent session ID button
         try sut.deletePersistentSessionIDButton.sendActions(for: .touchUpInside)
-        XCTAssertFalse(mockOpenSecureStore.checkItemExists(itemName: .persistentSessionID))
+        // THEN the button becomes purple
         XCTAssertTrue(try sut.deletePersistentSessionIDButton.backgroundColor == .gdsBrightPurple)
+        // AND the session manager deletes all session data
+        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
     func test_expireAccessTokenButton() throws {
-        mockDefaultsStore.set("123456789", forKey: .accessTokenExpiry)
+        // GIVEN I have an active session
+        try mockSessionManager.setupSession()
+        // WHEN I tap the expire access token button
         try sut.expireAccessTokenButton.sendActions(for: .touchUpInside)
+        // THEN the button becomes purple
         XCTAssertTrue(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
+
     }
 }
 

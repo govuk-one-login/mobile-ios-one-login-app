@@ -1,7 +1,7 @@
 import Authentication
 import Foundation
 
-class MockTokenResponse {
+final class MockTokenResponse {
     enum DecodeError: Error {
         case invalid
     }

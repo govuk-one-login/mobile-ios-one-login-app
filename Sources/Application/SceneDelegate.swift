@@ -59,6 +59,7 @@ class SceneDelegate: UIResponder,
     
     func sceneDidEnterBackground(_ scene: UIScene) {
         if sessionManager.sessionExists {
+            sessionManager.endCurrentSession()
             shouldCallSceneWillEnterForeground = true
             displayUnlockScreen()
         } else {

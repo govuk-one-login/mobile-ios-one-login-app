@@ -3,11 +3,6 @@ import Foundation
 import Networking
 import SecureStore
 
-enum Storage {
-    case authenticated
-    case open
-}
-
 protocol SessionManager {
     // func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?)
 
