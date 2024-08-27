@@ -44,6 +44,30 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.isPersistentSessionIDMissing)
     }
 
+    func testSessionExpiryDate() {
+        // GIVEN the unprotected store contains a session expiry date
+        let date = Date()
+        unprotectedStore.set(date, forKey: .accessTokenExpiry)
+        // THEN it is exposed by the session manager
+        XCTAssertEqual(sut.expiryDate, date)
+    }
+
+    func testSessionIsValidWhenNotExpired() {
+        // GIVEN the unprotected store contains a session expiry date in the future
+        let date = Date.distantFuture
+        unprotectedStore.set(date, forKey: .accessTokenExpiry)
+        // THEN the session is not valid
+        XCTAssertTrue(sut.isSessionValid)
+    }
+
+    func testSessionIsInvalidWhenExpired() {
+        // GIVEN the unprotected store contains a session expiry date in the past
+        let date = Date()
+        unprotectedStore.set(date, forKey: .accessTokenExpiry)
+        // THEN the session is not valid
+        XCTAssertFalse(sut.isSessionValid)
+    }
+
     func testStartSession_logsTheUserIn() async throws {
         // GIVEN I am not logged in
         let loginSession = MockLoginSession()
@@ -63,11 +87,7 @@ extension PersistentSessionManagerTests {
 
         let loginSession = MockLoginSession()
         // WHEN I start a session
-        do {
-            try await sut.startSession(using: loginSession)
-        } catch {
-
-        }
+        try await sut.startSession(using: loginSession)
         // THEN a login screen is shown
         XCTAssertTrue(loginSession.didCallPerformLoginFlow)
         // AND a persistent session ID is provided
