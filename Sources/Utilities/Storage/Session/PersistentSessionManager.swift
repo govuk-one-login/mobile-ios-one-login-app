@@ -21,7 +21,7 @@ final class PersistentSessionManager: SessionManager {
     }
 
     private var persistentID: String? {
-        unprotectedStore.value(forKey: .persistentSessionID) as? String
+        try? encryptedStore.readItem(itemName: .persistentSessionID)
     }
 
     var expiryDate: Date? {
@@ -46,13 +46,6 @@ final class PersistentSessionManager: SessionManager {
 
     var isPersistentSessionIDMissing: Bool {
         persistentID == nil && isReturningUser
-    }
-
-    func resumeSession() throws {
-        let idToken = try accessControlEncryptedStore.readItem(itemName: .idToken)
-        user = try IDTokenUserRepresentation(idToken: idToken)
-
-        // TODO: retrieve other values / tokens from storage
     }
 
 //    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?) {
@@ -106,6 +99,14 @@ final class PersistentSessionManager: SessionManager {
 
         unprotectedStore.set(response.expiryDate, forKey: .accessTokenExpiry)
         unprotectedStore.set(true, forKey: .returningUser)
+    }
+
+    func resumeSession() throws {
+        let idToken = try accessControlEncryptedStore
+            .readItem(itemName: .idToken)
+        user = try IDTokenUserRepresentation(idToken: idToken)
+
+        // TODO: retrieve other values (access token) from storage
     }
 
     func endCurrentSession() {

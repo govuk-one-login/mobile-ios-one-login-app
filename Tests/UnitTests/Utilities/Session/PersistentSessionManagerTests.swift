@@ -68,6 +68,11 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.isSessionValid)
     }
 
+    func testIsReturningUserPullsFromStore() {
+        unprotectedStore.set(true, forKey: .returningUser)
+        XCTAssertTrue(sut.isReturningUser)
+    }
+
     func testStartSession_logsTheUserIn() async throws {
         // GIVEN I am not logged in
         let loginSession = MockLoginSession()
@@ -83,7 +88,8 @@ extension PersistentSessionManagerTests {
     func testStartSession_reauthenticatesTheUser() async throws {
         // GIVEN my session has expired
         let persistentSessionID = UUID().uuidString
-        unprotectedStore.set(persistentSessionID, forKey: .persistentSessionID)
+        try encryptedStore.saveItem(item: persistentSessionID,
+                                    itemName: .persistentSessionID)
 
         let loginSession = MockLoginSession()
         // WHEN I start a session
@@ -93,5 +99,57 @@ extension PersistentSessionManagerTests {
         // AND a persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertEqual(configuration.persistentSessionId, persistentSessionID)
+    }
+
+    func testResumeSession_restoresUserAndAccessToken() throws {
+        // GIVEN my session has not expired
+        unprotectedStore.set(Date.distantPast,
+                             forKey: .accessTokenExpiry)
+        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
+                                    itemName: .idToken)
+        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
+                                    itemName: .accessToken)
+        // WHEN I return to the app
+        try sut.resumeSession()
+
+        // THEN my session data is re-populated
+        XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user?.email, "mock@email.com")
+
+        XCTAssertEqual(sut.tokenProvider.accessToken, MockJWKSResponse.idToken)
+    }
+
+    func testEndCurrentSession_clearsDataFromSession() throws {
+        // GIVEN my session is valid
+        unprotectedStore.set(Date.distantPast,
+                             forKey: .accessTokenExpiry)
+        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
+                                    itemName: .idToken)
+        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
+                                    itemName: .accessToken)
+        try sut.resumeSession()
+        // WHEN I end the session
+        sut.endCurrentSession()
+        // THEN my data is cleared
+        XCTAssertNil(sut.tokenProvider.accessToken)
+        XCTAssertNil(sut.user)
+
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
+    }
+
+    func testEndCurrentSession_clearsAllPersistedData() {
+        // GIVEN I have an expired session
+        unprotectedStore.savedData = [
+            .returningUser: UUID(),
+            .accessTokenExpiry: Date.distantPast
+        ]
+        encryptedStore.savedItems = [
+            .persistentSessionID: UUID().uuidString
+        ]
+        // WHEN I clear all session data
+        sut.clearAllSessionData()
+        // THEN my session data is deleted
+        XCTAssertEqual(unprotectedStore.savedData.count, 0)
+        XCTAssertEqual(encryptedStore.savedItems, [:])
     }
 }
