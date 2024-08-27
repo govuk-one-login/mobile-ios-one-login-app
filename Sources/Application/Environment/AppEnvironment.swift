@@ -46,13 +46,12 @@ public final class AppEnvironment {
         return string
     }
     
-    public static func updateReleaseFlags(_ flags: [String: Bool]) -> ReleaseFlags {
+    static func updateReleaseFlags(_ flags: [String: Bool]) {
         releaseFlags.flags = flags
-        return releaseFlags
     }
 }
 
-public class ReleaseFlags: FeatureFlagProvider {
+class ReleaseFlags: FeatureFlagProvider {
     var flags: [String: Bool] = [:]
 
     subscript(key: String) -> Any? {

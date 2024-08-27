@@ -22,43 +22,28 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.isLocaleWelsh, false)
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
-        XCTAssertTrue(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
         XCTAssertFalse(sut.walletVisibleToAll)
         XCTAssertFalse(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleViaDeepLink)
     }
     
-    func test_defaultEnvironment_addingReleaseFlags() {
+    func test_releaseFlags() {
         // GIVEN no release flags from AppInfo end point
         // pass in release flags to enviroment
-        
-        let releaseFlag = AppEnvironment
-            .updateReleaseFlags(["test1": true, "test2": false])
+        AppEnvironment.updateReleaseFlags(["test1": true, "test2": false])
         
         // THEN the flags are set in environment
         XCTAssertEqual(AppEnvironment.releaseFlags["test1"] as? Bool, true)
         XCTAssertEqual(AppEnvironment.releaseFlags["test2"] as? Bool, false)
-        XCTAssertEqual(AppEnvironment.value(for: "test1", provider: releaseFlag), true)
-        XCTAssertEqual(AppEnvironment.value(for: "test2", provider: releaseFlag), false)
         
-        let shouldBeNil: Bool? = AppEnvironment.value(for: "shouldBeNil", provider: ReleaseFlags())
-        XCTAssertNil(shouldBeNil)
-    }
-    
-    func test_defaultEnvironment_removingReleaseFlags() {
-        // GIVEN there are release flags in Environment
-        var releaseFlag = AppEnvironment
-            .updateReleaseFlags(["test1": true, "test2": false])
-
+        XCTAssertNil(AppEnvironment.releaseFlags["shouldBeNil"] as? Bool)
+        
         // WHEN updated to remove release flags from enviroment
-        releaseFlag = AppEnvironment.updateReleaseFlags([:])
-
+        AppEnvironment.updateReleaseFlags([:])
+        
         // THEN the release flags are unset in the environment
-        let testFlag1: Bool? = AppEnvironment.value(for: "test1", provider: releaseFlag)
-        XCTAssertNil(testFlag1)
-
-        let testFlag2: Bool? = AppEnvironment.value(for: "test2", provider: releaseFlag)
-        XCTAssertNil(testFlag2)
+        XCTAssertNil(AppEnvironment.releaseFlags["test1"] as? Bool)
+        XCTAssertNil(AppEnvironment.releaseFlags["test2"] as? Bool)
     }
 }
