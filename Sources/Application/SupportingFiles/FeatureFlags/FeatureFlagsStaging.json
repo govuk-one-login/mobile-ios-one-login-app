@@ -10,5 +10,9 @@
     {
         "name": "EnableClearWalletError",
         "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleToAll",
+        "isEnabled": false
     }
 ]

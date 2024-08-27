@@ -147,11 +147,13 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: windowManager.appWindow,
-                                   analyticsCenter: analyticsCenter,
-                                   sessionManager: sessionManager)
-        addTab(wc)
-        walletCoordinator = wc
+        if AppEnvironment.walletVisibleToAll == true {
+            let wc = WalletCoordinator(window: windowManager.appWindow,
+                                       analyticsCenter: analyticsCenter,
+                                       sessionManager: sessionManager)
+            addTab(wc)
+            walletCoordinator = wc
+        }
     }
     
     private func addProfileTab() {
