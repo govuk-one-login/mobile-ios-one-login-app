@@ -1,7 +1,7 @@
 import LocalAuthentication
 @testable import OneLogin
 
-final class MockLAContext: LAContexting {
+final class MockLAContext: LocalAuthFacility {
     var biometryType: LABiometryType = .touchID
     
     var localizedFallbackTitle: String?

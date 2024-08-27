@@ -1,7 +1,7 @@
 import GDSCommon
 import LocalAuthentication
 
-protocol LAContexting {
+protocol LocalAuthFacility {
     var biometryType: LABiometryType { get }
     
     var localizedFallbackTitle: String? { get set }
@@ -11,9 +11,9 @@ protocol LAContexting {
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool
 }
 
-extension LAContext: LAContexting { }
+extension LAContext: LocalAuthFacility { }
 
-extension LAContexting {
+extension LocalAuthFacility {
     mutating func localizeAuthPromptStrings() {
         localizedFallbackTitle = GDSLocalisedString(stringLiteral: "app_enterPasscodeButton").value
         localizedCancelTitle = GDSLocalisedString(stringLiteral: "app_cancelButton").value

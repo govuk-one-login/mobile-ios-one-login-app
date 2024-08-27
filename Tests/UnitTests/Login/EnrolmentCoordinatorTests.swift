@@ -7,7 +7,7 @@ final class EnrolmentCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
-    var mockLAContext: MockLAContext!
+    var mockLocalAuthManager: MockLocalAuthManager!
     var sut: EnrolmentCoordinator!
     
     @MainActor
@@ -17,25 +17,21 @@ final class EnrolmentCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
-        mockLAContext = MockLAContext()
+        mockLocalAuthManager = MockLocalAuthManager()
         sut = EnrolmentCoordinator(root: navigationController,
                                    analyticsService: mockAnalyticsService,
                                    sessionManager: mockSessionManager,
-                                   localAuth: mockLAContext)
+                                   localAuthManager: mockLocalAuthManager)
     }
     
     override func tearDown() {
         navigationController = nil
         mockAnalyticsService = nil
         mockSessionManager = nil
-        mockLAContext = nil
+        mockLocalAuthManager = nil
         sut = nil
         
         super.tearDown()
-    }
-    
-    private enum LocalAuthError: Error {
-        case generic
     }
     
     private enum SecureStoreError: Error {
@@ -47,7 +43,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_noDeviceLocalAuthSet() throws {
         // GIVEN the local authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForAuthentication = false
         // AND the user is logged in
         mockSessionManager.user = MockUser()
         // WHEN the EnrolmentCoordinator is started
@@ -61,7 +57,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_passcode_succeeds() throws {
         // GIVEN the local authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForAuthentication = true
         // AND there is a valid session
         try mockSessionManager.setupSession()
         // WHEN the EnrolmentCoordinator is started
@@ -74,7 +70,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_passcode_fails() throws {
         // GIVEN the local authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForAuthentication = true
         // GIVEN the secure store returns an error from saving an item
         mockSessionManager.errorFromResumeSession = SecureStoreError.generic
         // AND the user has a valid session
@@ -88,7 +84,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_touchID() throws {
         // GIVEN the biometric authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // WHEN the EnrolmentCoordinator is started
@@ -102,11 +98,11 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_faceID() throws {
         // GIVEN the biometric authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // GIVEN the local authentication's biometry type is face id
-        mockLAContext.biometryType = .faceID
+        mockLocalAuthManager.biometryType = .faceID
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the 'face id information' screen is shown
@@ -118,51 +114,16 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_opticID() throws {
         // GIVEN the biometric authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // GIVEN the local authentication's biometry type is optic id
         if #available(iOS 17.0, *) {
-            mockLAContext.biometryType = .opticID
+            mockLocalAuthManager.biometryType = .opticID
         }
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the no screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 0)
-    }
-    
-    func test_enrolLocalAuth_succeeds() throws {
-        // GIVEN the biometric authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
-        // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
-        Task { await sut.enrolLocalAuth(reason: "") }
-        // THEN the journey should be saved in user defaults
-        // TODO: what is the expected effect here?
-        XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
-        XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
-    }
-    
-    func test_enrolLocalAuth_fails() throws {
-        // GIVEN the biometric authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
-        // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
-        Task { await sut.enrolLocalAuth(reason: "") }
-        // THEN the journey should be saved in user defaults
-        // TODO: what is the expected effect here?
-    }
-    
-    func test_enrolLocalAuth_errors() throws {
-        // GIVEN the biometric authentication is enabled on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
-        // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
-        Task { await sut.enrolLocalAuth(reason: "") }
-        // THEN the journey should be saved in user defaults
-        // TODO: what is the expected effect here?
     }
 }

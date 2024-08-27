@@ -11,22 +11,22 @@ final class EnrolmentCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-    private var localAuth: LAContexting
+    private var localAuthManager: LocalAuthManagement
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
          sessionManager: SessionManager,
-         localAuth: LAContexting) {
+         localAuthManager: LocalAuthManagement) {
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
-        self.localAuth = localAuth
+        self.localAuthManager = localAuthManager
     }
     
     func start() {
-        if canUseLocalAuth(.deviceOwnerAuthenticationWithBiometrics) {
+        if localAuthManager.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics) {
             showEnrolmentGuidance()
-        } else if !canUseLocalAuth(.deviceOwnerAuthentication) {
+        } else if !localAuthManager.canUseLocalAuth(type: .deviceOwnerAuthentication) {
             showPasscodeInfo()
         } else {
             // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
@@ -37,12 +37,8 @@ final class EnrolmentCoordinator: NSObject,
         }
     }
     
-    private func canUseLocalAuth(_ policy: LAPolicy) -> Bool {
-        localAuth.canEvaluatePolicy(policy, error: nil)
-    }
-    
     private func showEnrolmentGuidance() {
-        switch localAuth.biometryType {
+        switch localAuthManager.biometryType {
         case .touchID:
             let touchIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
@@ -54,7 +50,9 @@ final class EnrolmentCoordinator: NSObject,
         case .faceID:
             let faceIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    Task { await enrolLocalAuth(reason: "app_faceId_subtitle") }
+                    Task {
+                        try? await localAuthManager.enrolLocalAuth(reason: "app_faceId_subtitle")
+                    }
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
@@ -72,20 +70,5 @@ final class EnrolmentCoordinator: NSObject,
                 finish()
             }
         root.pushViewController(passcodeInformationScreen, animated: true)
-    }
-    
-    func enrolLocalAuth(reason: String) async {
-        do {
-            localAuth.localizeAuthPromptStrings()
-            if try await localAuth
-                .evaluatePolicy(.deviceOwnerAuthentication,
-                                localizedReason: GDSLocalisedString(stringLiteral: reason).value) {
-                finish()
-            } else {
-                return
-            }
-        } catch {
-            return
-        }
     }
 }

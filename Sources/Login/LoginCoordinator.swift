@@ -122,11 +122,11 @@ final class LoginCoordinator: NSObject,
         authCoordinator?.handleUniversalLink(url)
     }
     
-    func launchEnrolmentCoordinator(localAuth: LAContexting) {
+    func launchEnrolmentCoordinator(localAuthManager: LocalAuthManagement) {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCenter.analyticsService,
                                              sessionManager: sessionManager,
-                                             localAuth: localAuth))
+                                             localAuthManager: localAuthManager))
     }
 }
 
@@ -143,7 +143,7 @@ extension LoginCoordinator: ParentCoordinator {
                 root.dismiss(animated: true)
                 finish()
             } else {
-                launchEnrolmentCoordinator(localAuth: LAContext())
+                launchEnrolmentCoordinator(localAuthManager: LocalAuthManager())
             }
         case _ as EnrolmentCoordinator:
             root.dismiss(animated: true)

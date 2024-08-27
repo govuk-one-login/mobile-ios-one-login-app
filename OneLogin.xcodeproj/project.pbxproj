@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
 		1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D722B72937500CCAF3E /* MockLAContext.swift */; };
-		1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D752B72959A00CCAF3E /* LAContexting.swift */; };
+		1E717D772B72976D00CCAF3E /* LocalAuthFacility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D752B72959A00CCAF3E /* LocalAuthFacility.swift */; };
 		1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
 		1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */; };
@@ -106,6 +106,8 @@
 		C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
+		C889587F2C7E4CBD00663299 /* LocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C889587E2C7E4CBD00663299 /* LocalAuthManager.swift */; };
+		C88958822C7E795200663299 /* MockLocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958812C7E795200663299 /* MockLocalAuthManager.swift */; };
 		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
 		C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */; };
 		C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */; };
@@ -227,7 +229,7 @@
 /* Begin PBXFileReference section */
 		1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
 		1E717D722B72937500CCAF3E /* MockLAContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLAContext.swift; sourceTree = "<group>"; };
-		1E717D752B72959A00CCAF3E /* LAContexting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LAContexting.swift; sourceTree = "<group>"; };
+		1E717D752B72959A00CCAF3E /* LocalAuthFacility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthFacility.swift; sourceTree = "<group>"; };
 		1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModel.swift; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
 		1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModelTests.swift; sourceTree = "<group>"; };
@@ -335,6 +337,8 @@
 		C87913C02B275F4900545B33 /* ErrorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenterTests.swift; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		C889587E2C7E4CBD00663299 /* LocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthManager.swift; sourceTree = "<group>"; };
+		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
 		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
 		C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModel.swift; sourceTree = "<group>"; };
@@ -813,12 +817,12 @@
 			isa = PBXGroup;
 			children = (
 				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
-				1E717D752B72959A00CCAF3E /* LAContexting.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 				C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */,
 				C8C343A12B92313D00E92FB9 /* Analytics */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				D0BE243F2BEBAEB600759529 /* JWT */,
+				C889587D2C7E4CA600663299 /* LocalAuth */,
 				C8BADD322B88CBB200385FE7 /* Network */,
 				C8BADD332B88CBBA00385FE7 /* Storage */,
 			);
@@ -863,16 +867,15 @@
 		C85DF8432AEBFDCC0064F68E /* Sessions+Services */ = {
 			isa = PBXGroup;
 			children = (
-				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
-				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
-				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
-				D0275CC02C00951600AF9A50 /* MockTokenVerifier.swift */,
-				41E1A90F2BE126910034B6C7 /* Networking */,
-				C8E6A3E92BBC05DB005015AF /* Application */,
-				C8C3439E2B92226900E92FB9 /* Analytics */,
-				C8BADD352B88CC0100385FE7 /* Storage */,
 				ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */,
 				7C81ADD22C78A5B000A73010 /* MockUser.swift */,
+				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
+				D0275CC02C00951600AF9A50 /* MockTokenVerifier.swift */,
+				C8C3439E2B92226900E92FB9 /* Analytics */,
+				C8E6A3E92BBC05DB005015AF /* Application */,
+				C88958832C7E8A1100663299 /* LocalAuth */,
+				41E1A90F2BE126910034B6C7 /* Networking */,
+				C8BADD352B88CC0100385FE7 /* Storage */,
 			);
 			path = "Sessions+Services";
 			sourceTree = "<group>";
@@ -1020,6 +1023,32 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
+		C889587D2C7E4CA600663299 /* LocalAuth */ = {
+			isa = PBXGroup;
+			children = (
+				1E717D752B72959A00CCAF3E /* LocalAuthFacility.swift */,
+				C889587E2C7E4CBD00663299 /* LocalAuthManager.swift */,
+			);
+			path = LocalAuth;
+			sourceTree = "<group>";
+		};
+		C88958802C7E793200663299 /* LocalAuth */ = {
+			isa = PBXGroup;
+			children = (
+				C88958812C7E795200663299 /* MockLocalAuthManager.swift */,
+			);
+			path = LocalAuth;
+			sourceTree = "<group>";
+		};
+		C88958832C7E8A1100663299 /* LocalAuth */ = {
+			isa = PBXGroup;
+			children = (
+				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
+				1E717D722B72937500CCAF3E /* MockLAContext.swift */,
+			);
+			path = LocalAuth;
+			sourceTree = "<group>";
+		};
 		C896443D2BEE4DD100A05350 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1151,6 +1180,7 @@
 		C8C3439E2B92226900E92FB9 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				C88958802C7E793200663299 /* LocalAuth */,
 				C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */,
 				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
 				C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */,
@@ -1591,7 +1621,7 @@
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */,
-				1E717D772B72976D00CCAF3E /* LAContexting.swift in Sources */,
+				1E717D772B72976D00CCAF3E /* LocalAuthFacility.swift in Sources */,
 				41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
@@ -1633,7 +1663,9 @@
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				C8ECA1322BB73E2E00722218 /* WindowManager.swift in Sources */,
 				41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */,
+				C889587F2C7E4CBD00663299 /* LocalAuthManager.swift in Sources */,
 				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
+				C88958822C7E795200663299 /* MockLocalAuthManager.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,

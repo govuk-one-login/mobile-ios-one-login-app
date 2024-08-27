@@ -185,10 +185,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchEnrolmentCoordinator() {
         // GIVEN sufficient test set up to ensure enrolment coordinator does not finish before test assertions
-        let mockLAContext = MockLAContext()
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        let mockLocalAuthManager = MockLocalAuthManager()
+        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
-        sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
+        sut.launchEnrolmentCoordinator(localAuthManager: mockLocalAuthManager)
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
