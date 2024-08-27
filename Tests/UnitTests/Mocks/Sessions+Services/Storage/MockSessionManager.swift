@@ -14,18 +14,19 @@ final class MockSessionManager: SessionManager {
     var isPersistentSessionIDMissing: Bool
     var tokenProvider: TokenHolder
 
-    var didCallEndCurrentSession: Bool = false
-    var didCallClearAllSessionData: Bool = false
+    var didCallStartSession = false
+    var didCallResumeSession = false
+    var didCallEndCurrentSession = false
+    var didCallClearAllSessionData = false
 
     var shouldThrowResumeError: Error?
 
-    var didCallStartSession: Bool = false
 
     init(expiryDate: Date? = nil,
          sessionExists: Bool = false,
          isSessionValid: Bool = false,
          isReturningUser: Bool = false,
-         user: (any OneLogin.User)? = nil,
+         user: (any User)? = nil,
          isPersistentSessionIDMissing: Bool = false,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
@@ -42,6 +43,7 @@ final class MockSessionManager: SessionManager {
     }
     
     func resumeSession() throws {
+        didCallResumeSession = true
         if let shouldThrowResumeError {
             throw shouldThrowResumeError
         }
@@ -55,12 +57,13 @@ final class MockSessionManager: SessionManager {
         didCallClearAllSessionData = true
     }
 
-    func setupSession(isReturningUser: Bool = true, expired: Bool = false) throws {
+    func setupSession(returningUser: Bool = true, expired: Bool = false) throws {
         let tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
         tokenProvider.update(tokens: tokenResponse)
 
         user = MockUser()
-        self.isReturningUser = isReturningUser
-        expiryDate = .distantFuture
+        isReturningUser = returningUser
+        expiryDate = expired ? .distantPast : .distantFuture
+        isSessionValid = !expired
     }
 }

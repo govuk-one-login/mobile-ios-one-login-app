@@ -13,7 +13,6 @@ final class MainCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
-    private let tokenVerifier: TokenVerifier
     private let updateService: AppInformationServicing
     
     private weak var loginCoordinator: LoginCoordinator?
@@ -25,13 +24,11 @@ final class MainCoordinator: NSObject,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager,
-         tokenVerifier: TokenVerifier = JWTVerifier(),
          updateService: AppInformationServicing = AppInformationService()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
-        self.tokenVerifier = tokenVerifier
         self.updateService = updateService
     }
     
@@ -65,7 +62,15 @@ final class MainCoordinator: NSObject,
             updateToken()
             windowManager.hideUnlockWindow()
         } catch {
-            handleLoginError(error)
+            switch error {
+            case is JWTVerifierError,
+                SecureStoreError.unableToRetrieveFromUserDefaults,
+                SecureStoreError.cantInitialiseData,
+                SecureStoreError.cantRetrieveKey:
+                fullLogin(loginError: error)
+            default:
+                print("Token retrival error: \(error)")
+            }
         }
     }
     
@@ -73,25 +78,8 @@ final class MainCoordinator: NSObject,
         fullLogin(loginError: TokenError.expired)
     }
     
-    private func handleLoginError(_ error: Error) {
-        switch error {
-        case is JWTVerifierError,
-            SecureStoreError.unableToRetrieveFromUserDefaults,
-            SecureStoreError.cantInitialiseData,
-            SecureStoreError.cantRetrieveKey:
-            fullLogin(loginError: error)
-        default:
-            print("Token retrival error: \(error)")
-        }
-    }
-    
     private func fullLogin(loginError: Error? = nil) {
         sessionManager.endCurrentSession()
-
-//        if loginError as? TokenError != .expired {
-//            todo: userStore.refreshStorage(accessControlLevel: nil)
-//        }
-
         showLogin(loginError)
         windowManager.hideUnlockWindow()
     }

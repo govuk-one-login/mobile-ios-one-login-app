@@ -22,14 +22,11 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         mockLoginSession = MockLoginSession(window: window)
-        mockTokenVerifier = MockTokenVerifier()
         sut = AuthenticationCoordinator(window: window,
                                         root: navigationController,
                                         analyticsService: mockAnalyticsService,
                                         sessionManager: mockSessionManager,
-                                        session: mockLoginSession,
-                                        tokenVerifier: mockTokenVerifier,
-                                        reauth: false)
+                                        session: mockLoginSession)
         UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
     }
     
@@ -39,7 +36,6 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockSessionManager = nil
         mockLoginSession = nil
-        mockTokenVerifier = nil
         sut = nil
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
         

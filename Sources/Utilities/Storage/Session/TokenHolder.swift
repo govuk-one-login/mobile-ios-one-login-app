@@ -23,7 +23,7 @@ final class TokenHolder: AuthenticationProvider {
     private var tokenResponse: TokenResponse?
 
     func update(tokens: TokenResponse) {
-        self.tokenResponse = tokens
+        tokenResponse = tokens
     }
 
     func clear() {

@@ -14,24 +14,18 @@ final class AuthenticationCoordinator: NSObject,
     private let analyticsService: AnalyticsService
     private let session: LoginSession
     private let sessionManager: SessionManager
-    private let tokenVerifier: TokenVerifier
-    private let reauth: Bool
     var authError: Error?
     
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService,
          sessionManager: SessionManager,
-         session: LoginSession,
-         tokenVerifier: TokenVerifier = JWTVerifier(),
-         reauth: Bool) {
+         session: LoginSession) {
         self.window = window
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.session = session
-        self.tokenVerifier = tokenVerifier
-        self.reauth = reauth
     }
     
     func start() {
@@ -65,9 +59,7 @@ final class AuthenticationCoordinator: NSObject,
     
     func handleUniversalLink(_ url: URL) {
         do {
-            if reauth {
-                window.rootViewController?.presentedViewController?.dismiss(animated: true)
-            }
+            window.rootViewController?.presentedViewController?.dismiss(animated: true)
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
             try session.finalise(redirectURL: url)

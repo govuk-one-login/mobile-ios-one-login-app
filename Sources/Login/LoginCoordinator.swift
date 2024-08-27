@@ -80,7 +80,7 @@ final class LoginCoordinator: NSObject,
             NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
         } else {
             if networkMonitor.isConnected {
-                launchAuthenticationCoordinator(reauth: true)
+                launchAuthenticationCoordinator()
             } else {
                 action?()
                 let networkErrorScreen = ErrorPresenter
@@ -108,13 +108,12 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func launchAuthenticationCoordinator(reauth: Bool = false) {
+    func launchAuthenticationCoordinator() {
         let ac = AuthenticationCoordinator(window: appWindow,
                                            root: root,
                                            analyticsService: analyticsCenter.analyticsService,
                                            sessionManager: sessionManager,
-                                           session: AppAuthSession(window: appWindow),
-                                           reauth: reauth)
+                                           session: AppAuthSession(window: appWindow))
         openChildInline(ac)
         authCoordinator = ac
     }

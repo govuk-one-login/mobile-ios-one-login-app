@@ -217,8 +217,7 @@ extension LoginCoordinatorTests {
                                                         root: navigationController,
                                                         analyticsService: mockAnalyticsService,
                                                         sessionManager: mockSessionManager,
-                                                        session: MockLoginSession(),
-                                                        reauth: false)
+                                                        session: MockLoginSession())
         sut.didRegainFocus(fromChild: authCoordinator)
         // THEN the LoginCoordinator ...
         // TODO: does what?
@@ -230,8 +229,7 @@ extension LoginCoordinatorTests {
                                                         root: navigationController,
                                                         analyticsService: mockAnalyticsService,
                                                         sessionManager: mockSessionManager,
-                                                        session: MockLoginSession(),
-                                                        reauth: false)
+                                                        session: MockLoginSession())
         authCoordinator.authError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()
