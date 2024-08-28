@@ -7,9 +7,7 @@ enum TokenError: Error {
 }
 
 final class TokenHolder: AuthenticationProvider {
-    var accessToken: String? {
-        tokenResponse?.accessToken
-    }
+    private(set) var accessToken: String?
 
     var bearerToken: String {
         get throws {
@@ -20,13 +18,11 @@ final class TokenHolder: AuthenticationProvider {
         }
     }
 
-    private var tokenResponse: TokenResponse?
-
-    func update(tokens: TokenResponse) {
-        tokenResponse = tokens
+    func update(accessToken: String) {
+        self.accessToken = accessToken
     }
 
     func clear() {
-        tokenResponse = nil
+        accessToken = nil
     }
 }

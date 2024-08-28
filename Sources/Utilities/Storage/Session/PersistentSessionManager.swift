@@ -73,7 +73,7 @@ final class PersistentSessionManager: SessionManager {
             .performLoginFlow(configuration: configuration)
 
         // update curent state
-        tokenProvider.update(tokens: response)
+        tokenProvider.update(accessToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if AppEnvironment.callingSTSEnabled,
            let idToken = response.idToken {
@@ -106,7 +106,9 @@ final class PersistentSessionManager: SessionManager {
             .readItem(itemName: .idToken)
         user = try IDTokenUserRepresentation(idToken: idToken)
 
-        // TODO: retrieve other values (access token) from storage
+        let accessToken = try accessControlEncryptedStore
+            .readItem(itemName: .accessToken)
+        tokenProvider.update(accessToken: accessToken)
     }
 
     func endCurrentSession() {
