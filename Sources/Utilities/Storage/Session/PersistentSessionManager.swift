@@ -20,6 +20,29 @@ final class PersistentSessionManager: SessionManager {
         self.tokenProvider = TokenHolder()
     }
 
+    convenience init(context: LocalAuthenticationContext = LAContext()) {
+        // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
+        // keys in the secure enclave if no biometrics are registered on the device.
+        // Hence the store needs to be created with access controls that allow it
+        let accessControlConfiguration = SecureStorageConfiguration(
+            id: .oneLoginTokens,
+            accessControlLevel: context.isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
+            localAuthStrings: context.contextStrings
+        )
+
+        let encryptedConfiguration = SecureStorageConfiguration(
+            id: .persistentSessionID,
+            accessControlLevel: .open,
+            localAuthStrings: context.contextStrings
+        )
+
+        self.init(
+            accessControlEncryptedStore: SecureStoreService(configuration: accessControlConfiguration),
+            encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
+            unprotectedStore: UserDefaults.standard
+        )
+    }
+
     private var persistentID: String? {
         try? encryptedStore.readItem(itemName: .persistentSessionID)
     }
@@ -47,24 +70,6 @@ final class PersistentSessionManager: SessionManager {
     var isPersistentSessionIDMissing: Bool {
         persistentID == nil && isReturningUser
     }
-
-//    func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?) {
-//        do {
-//            try authenticatedStore.delete()
-//        } catch {
-//            print("Deleting Secure Store error: \(error)")
-//        }
-//        let laContext = LAContext()
-//        if let accessControlLevel {
-//            authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-//                                                                         accessControlLevel: accessControlLevel,
-//                                                                         localAuthStrings: laContext.contextStrings))
-//        } else {
-//            authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-//                                                                         accessControlLevel: laContext.isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
-//                                                                         localAuthStrings: laContext.contextStrings))
-//        }
-//    }
 
     func startSession(using session: any LoginSession) async throws {
         let configuration = LoginSessionConfiguration

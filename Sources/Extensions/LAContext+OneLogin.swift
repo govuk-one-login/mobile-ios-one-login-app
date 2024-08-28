@@ -2,7 +2,12 @@ import GDSCommon
 import LocalAuthentication
 import SecureStore
 
-extension LAContext {
+protocol LocalAuthenticationContext {
+    var isPasscodeOnly: Bool { get }
+    var contextStrings: LocalAuthenticationLocalizedStrings? { get }
+}
+
+extension LAContext: LocalAuthenticationContext {
     var contextStrings: LocalAuthenticationLocalizedStrings? {
         if canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
             let biometryTypeString = biometryType == .touchID ? "touch" : "face"

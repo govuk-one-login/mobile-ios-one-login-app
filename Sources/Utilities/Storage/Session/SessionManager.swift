@@ -4,8 +4,6 @@ import Networking
 import SecureStore
 
 protocol SessionManager {
-    // func refreshStorage(accessControlLevel: SecureStorageConfiguration.AccessControlLevel?)
-
     var expiryDate: Date? { get }
     
     var sessionExists: Bool { get }
@@ -24,6 +22,9 @@ protocol SessionManager {
     /// Resumes an existing session by restoring tokens from on-device storage
     func resumeSession() throws
 
+    /// Ends the current session - removing and deleting session related data such as access and ID token
     func endCurrentSession()
+
+    /// Completely removes all user session data (including the persistent session and Wallet data) from the device
     func clearAllSessionData()
 }

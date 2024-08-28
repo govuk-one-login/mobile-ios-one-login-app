@@ -14,18 +14,8 @@ class SceneDelegate: UIResponder,
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
 
-    private lazy var sessionManager: SessionManager = {
-        let authenticatedStore = SecureStoreService(configuration: .init(id: .oneLoginTokens,
-                                                                         accessControlLevel: .currentBiometricsOrPasscode,
-                                                                         localAuthStrings: LAContext().contextStrings))
-        let openStore = SecureStoreService(configuration: .init(id: .persistentSessionID,
-                                                                accessControlLevel: .open,
-                                                                localAuthStrings: LAContext().contextStrings))
-        return PersistentSessionManager(accessControlEncryptedStore: authenticatedStore,
-                                        encryptedStore: openStore,
-                                        unprotectedStore: UserDefaults.standard)
-    }()
-    
+    private lazy var sessionManager: SessionManager = PersistentSessionManager()
+
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
