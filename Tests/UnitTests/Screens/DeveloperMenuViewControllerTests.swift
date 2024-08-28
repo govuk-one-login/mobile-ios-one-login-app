@@ -47,6 +47,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         networkClient = nil
         homeCoordinator = nil
         sut = nil
+        MockURLProtocol.clear()
         
         requestFinished = false
         
@@ -113,8 +114,8 @@ extension DeveloperMenuViewControllerTests {
 
         // THEN the service token is requested from STS
         // AND the hello world API is called
-        XCTAssertEqual(networkCallsMade, 2)
         waitForTruth(self.requestFinished, timeout: 20)
+        XCTAssertEqual(networkCallsMade, 2)
         XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
     }
     

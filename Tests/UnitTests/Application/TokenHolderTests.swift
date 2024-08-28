@@ -8,7 +8,8 @@ final class TokenHolderTests: XCTestCase {
 extension TokenHolderTests {
     func test_bearerToken_returns() throws {
         let tokenResponse = try MockTokenResponse().getJSONData()
-        XCTAssertEqual(try sut.bearerToken, "testAccessToken")
+        sut.update(tokens: tokenResponse)
+        XCTAssertEqual(try sut.bearerToken, "accessTokenResponse")
     }
     
     func test_bearerToken_errors() throws {

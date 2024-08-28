@@ -20,6 +20,8 @@ final class JWTVerifierTests: XCTestCase {
     override func tearDown() {
         sut = nil
         networkClient = nil
+        MockURLProtocol.clear()
+        
         super.tearDown()
     }
     
