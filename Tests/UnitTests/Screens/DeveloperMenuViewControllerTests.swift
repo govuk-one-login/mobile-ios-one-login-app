@@ -120,10 +120,11 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_happyPathButton_invalidAccessTokenActionCalled() throws {
-        // TODO: determine what the purpose of this test is given there are no assertions
-//        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
-//        TokenHolder.shared.tokenResponse = nil
-//        try sut.happyPathButton.sendActions(for: .touchUpInside)
+        // GIVEN I have no active session
+        // AND the happy path bitton is tapped
+        try sut.happyPathButton.sendActions(for: .touchUpInside)
+        // THEN a notification is sent requesting reauthentication
+        // TODO: detect that notification is received
     }
     
     func test_errorPathButton() throws {
@@ -146,10 +147,11 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_errorPathButton_invalidAccessTokenActionCalled() throws {
-        // TODO: determine what the purpose of this test is given there are no assertions
-//        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
-//        TokenHolder.shared.tokenResponse = nil
-//        try sut.errorPathButton.sendActions(for: .touchUpInside)
+        // GIVEN I have no active session
+        // AND the error path button is tapped
+        try sut.errorPathButton.sendActions(for: .touchUpInside)
+        // THEN a notification is sent requesting reauthentication
+        // TODO: detect that notification is received
     }
 
     func test_unauthorizedPathButton() throws {
@@ -172,10 +174,11 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_unauthorized_invalidAccessTokenActionCalled() throws {
-        // TODO: determine what the purpose of this test is given there are no assertions
-//        mockDefaultsStore.removeObject(forKey: .accessTokenExpiry)
-//        TokenHolder.shared.tokenResponse = nil
-//        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+        // GIVEN I have no active session
+        // AND the happy path bitton is tapped
+        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
+        // THEN a notification is sent requesting reauthentication
+        // TODO: detect that notification is received
     }
     
     func test_deletePersistentSessionIDButton() throws {

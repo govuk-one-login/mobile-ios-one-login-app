@@ -53,20 +53,6 @@ final class HomeCoordinatorTests: XCTestCase {
     }
     
     @MainActor
-    func test_networkClientInitialized() throws {
-        // TODO: I don't understand the purpose of this test as it has no assertions:
-//        sut.start()
-//        // GIVEN we have a non-nil tokenHolder and access token
-//        TokenHolder.shared.idTokenPayload = MockTokenVerifier.mockPayload
-//        sut.updateToken()
-//        try mockUserStore.saveItem("accessToken",
-//                                   itemName: .accessToken,
-//                                   storage: .authenticated)
-//        // THEN the networkClient will be initialized when the developer menu is shown
-//        sut.showDeveloperMenu()
-    }
-    
-    @MainActor
     func test_updateToken() throws {
         // WHEN the HomeCoordinator is started
         sut.start()

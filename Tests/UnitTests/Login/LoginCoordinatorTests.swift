@@ -219,8 +219,9 @@ extension LoginCoordinatorTests {
                                                         sessionManager: mockSessionManager,
                                                         session: MockLoginSession())
         sut.didRegainFocus(fromChild: authCoordinator)
-        // THEN the LoginCoordinator ...
-        // TODO: does what?
+        // THEN the LoginCoordinator is dismissed
+        // TODO: check parent coordinator is also notified (childDidFinish)
+        waitForTruth(self.sut.root.isBeingDismissed, timeout: 4)
     }
     
     @MainActor
