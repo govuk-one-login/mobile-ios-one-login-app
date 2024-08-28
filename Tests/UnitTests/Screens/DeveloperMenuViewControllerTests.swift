@@ -120,11 +120,14 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_happyPathButton_invalidAccessTokenActionCalled() throws {
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.startReauth),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
         // GIVEN I have no active session
         // AND the happy path bitton is tapped
         try sut.happyPathButton.sendActions(for: .touchUpInside)
         // THEN a notification is sent requesting reauthentication
-        // TODO: detect that notification is received
+        wait(for: [exp], timeout: 20)
     }
     
     func test_errorPathButton() throws {
@@ -147,11 +150,14 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_errorPathButton_invalidAccessTokenActionCalled() throws {
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.startReauth),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
         // GIVEN I have no active session
         // AND the error path button is tapped
         try sut.errorPathButton.sendActions(for: .touchUpInside)
         // THEN a notification is sent requesting reauthentication
-        // TODO: detect that notification is received
+        wait(for: [exp], timeout: 20)
     }
 
     func test_unauthorizedPathButton() throws {
@@ -174,11 +180,14 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_unauthorized_invalidAccessTokenActionCalled() throws {
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.startReauth),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
         // GIVEN I have no active session
         // AND the happy path bitton is tapped
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
         // THEN a notification is sent requesting reauthentication
-        // TODO: detect that notification is received
+        wait(for: [exp], timeout: 20)
     }
     
     func test_deletePersistentSessionIDButton() throws {
@@ -199,7 +208,6 @@ extension DeveloperMenuViewControllerTests {
         try sut.expireAccessTokenButton.sendActions(for: .touchUpInside)
         // THEN the button becomes purple
         XCTAssertTrue(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
-
     }
 }
 
