@@ -57,7 +57,7 @@ final class DeveloperMenuViewController: BaseViewController {
 
         Task {
             do {
-                // TODO: refactor network requests into a Service object
+                // TODO: DCMAW-10076 | Refactor network requests into a Service object
                 let data = try await networkClient
                     .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                            scope: "sts-test.hello-world.read",
@@ -106,7 +106,7 @@ final class DeveloperMenuViewController: BaseViewController {
 
         Task {
             do {
-                // TODO: refactor network requests into a Service object
+                // TODO: DCMAW-10076 | Refactor network requests into a Service object
                 _ = try await networkClient
                     .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                            scope: "sts-test.hello-world",
@@ -154,7 +154,7 @@ final class DeveloperMenuViewController: BaseViewController {
         
         Task {
             do {
-                // TODO: refactor network requests into a Service object
+                // TODO: DCMAW-10076 | Refactor network requests into a Service object
                 _ = try await networkClient
                     .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                            scope: "sts-test.hello-world.read",
