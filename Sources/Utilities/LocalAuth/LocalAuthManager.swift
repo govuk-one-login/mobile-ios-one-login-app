@@ -22,7 +22,7 @@ final class LocalAuthManager: LocalAuthManagement {
         localAuthContext.canEvaluatePolicy(policy, error: nil)
     }
     
-    func enrolLocalAuth(reason: String) async throws -> Bool {
+    @discardableResult func enrolLocalAuth(reason: String) async throws -> Bool {
         localAuthContext.localizeAuthPromptStrings()
         return try await localAuthContext
             .evaluatePolicy(.deviceOwnerAuthentication,
