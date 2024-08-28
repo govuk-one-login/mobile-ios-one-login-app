@@ -75,7 +75,9 @@ extension WalletCoordinatorTests {
     }
     
     func test_clearWallet_error() throws {
-        UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableClearWalletError.rawValue)
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableClearWalletError.rawValue: true
+        ])
 
         sut.start()
         // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
@@ -87,6 +89,7 @@ extension WalletCoordinatorTests {
         // THEN the persistent session id, returning user and analytics preferences should not have been removed
         XCTAssertFalse(mockSessionManager.didCallClearAllSessionData)
         XCTAssertNotNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableClearWalletError.rawValue)
+
+        AppEnvironment.updateReleaseFlags([:])
     }
 }

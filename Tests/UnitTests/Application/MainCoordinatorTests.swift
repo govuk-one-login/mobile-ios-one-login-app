@@ -43,7 +43,9 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsCenter = nil
         mockSessionManager = nil
         sut = nil
-        
+
+        AppEnvironment.updateReleaseFlags([:])
+
         super.tearDown()
     }
 }
@@ -299,7 +301,9 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromProfileCoordinator_errors() throws {
-        UserDefaults.standard.set(true, forKey: FeatureFlags.enableSignoutError.rawValue)
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableSignoutError.rawValue: true
+        ])
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
@@ -314,6 +318,5 @@ extension MainCoordinatorTests {
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
-        UserDefaults.standard.set(false, forKey: FeatureFlags.enableSignoutError.rawValue)
     }
 }
