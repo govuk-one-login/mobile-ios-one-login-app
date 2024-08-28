@@ -75,7 +75,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
         // THEN the loginError should be a netwok error
-        sut.authError = LoginError.network
+        XCTAssertTrue(sut.authError as? LoginError == .network)
     }
     
     @MainActor
@@ -91,7 +91,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a non200 error
-        sut.authError = LoginError.non200
+        XCTAssertTrue(sut.authError as? LoginError == .non200)
     }
     
     @MainActor
@@ -107,7 +107,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an invalidRequest error
-        sut.authError = LoginError.invalidRequest
+        XCTAssertTrue(sut.authError as? LoginError == .invalidRequest)
     }
     
     @MainActor
@@ -123,7 +123,8 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a clientError error
-        sut.authError = LoginError.clientError
+        XCTAssertTrue(sut.authError as? LoginError == .clientError)
+
     }
     
     @MainActor
@@ -139,7 +140,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a serverError error
-        sut.authError = LoginError.serverError
+        XCTAssertTrue(sut.authError as? LoginError == .serverError)
     }
     
     @MainActor
@@ -155,7 +156,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be a generic error
-        sut.authError = LoginError.generic(description: "")
+        XCTAssertTrue(sut.authError as? LoginError == .generic(description: ""))
     }
     
     @MainActor
@@ -171,7 +172,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
-        sut.authError = AuthenticationError.generic
+        XCTAssertTrue(sut.authError as? AuthenticationError == .generic)
     }
     
     @MainActor
@@ -204,7 +205,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
-        sut.authError = JWTVerifierError.unableToFetchJWKs
+        XCTAssertTrue(sut.authError as? JWTVerifierError == .unableToFetchJWKs)
     }
     
     @MainActor
@@ -219,7 +220,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
-        sut.authError = JWTVerifierError.invalidJWTFormat
+        XCTAssertTrue(sut.authError as? JWTVerifierError == .invalidJWTFormat)
     }
     
     @MainActor
@@ -236,7 +237,7 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
-        sut.authError = AuthenticationError.generic
+        XCTAssertTrue(sut.authError as? AuthenticationError == .generic)
     }
     
     @MainActor
