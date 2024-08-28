@@ -27,7 +27,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
                                         analyticsService: mockAnalyticsService,
                                         sessionManager: mockSessionManager,
                                         session: mockLoginSession)
-        UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
+
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: true
+        ])
     }
     
     override func tearDown() {
@@ -37,8 +40,9 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockSessionManager = nil
         mockLoginSession = nil
         sut = nil
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
-        
+
+        AppEnvironment.updateReleaseFlags([:])
+
         super.tearDown()
     }
     

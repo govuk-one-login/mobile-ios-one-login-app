@@ -20,8 +20,11 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
-        UserDefaults.standard.set(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
-        
+
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: true
+        ])
+
         mockAnalyticsService = MockAnalyticsService()
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
@@ -36,8 +39,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        UserDefaults.standard.set(false, forKey: FeatureFlags.enableCallingSTS.rawValue)
-        
+        AppEnvironment.updateReleaseFlags([:])
+
         mockAnalyticsService = nil
         devMenuViewModel = nil
         mockSessionManager = nil
@@ -63,11 +66,17 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_labelContents_STSDisabled() throws {
-        UserDefaults.standard.set(false, forKey: FeatureFlags.enableCallingSTS.rawValue)
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: false
+        ])
+
         XCTAssertTrue(try sut.happyPathButton.isHidden)
         XCTAssertTrue(try sut.errorPathButton.isHidden)
         XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
-        UserDefaults.standard.set(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
+
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: true
+        ])
     }
     
     func test_happyPathButton() throws {

@@ -26,6 +26,8 @@ final class PersistentSessionManagerTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
 
+        AppEnvironment.updateReleaseFlags([:])
+
         sut = nil
 
         unprotectedStore = nil
@@ -99,6 +101,22 @@ extension PersistentSessionManagerTests {
         // AND a persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertEqual(configuration.persistentSessionId, persistentSessionID)
+    }
+
+    func testStartSession_exposesUserAndAccessToken() async throws {
+        // GIVEN I am not logged in
+        let loginSession = MockLoginSession()
+        // AND I am calling STS
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: true
+        ])
+        // WHEN I start a session
+        try await sut.startSession(using: loginSession)
+        // THEN my User details
+        XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user?.email, "mock@email.com")
+        // AND access token are populated
+        XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
     }
 
     func testResumeSession_restoresUserAndAccessToken() throws {
