@@ -188,7 +188,7 @@ extension LoginCoordinatorTests {
         let mockLocalAuthManager = MockLocalAuthManager()
         mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
-        sut.launchEnrolmentCoordinator(localAuthManager: mockLocalAuthManager)
+        sut.launchEnrolmentCoordinator()
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)

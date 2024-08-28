@@ -1,7 +1,7 @@
 import LocalAuthentication
 
-final class MockLocalAuthManager: LocalAuthManagement {
-    var biometryType: LABiometryType = .touchID
+final class MockLocalAuthManager: LocalAuthenticationManager {
+    var type: LocalAuthenticationType = .touchID
     
     var returnedFromCanUseLocalAuthForBiometrics: Bool = false
     var returnedFromCanUseLocalAuthForAuthentication: Bool = false

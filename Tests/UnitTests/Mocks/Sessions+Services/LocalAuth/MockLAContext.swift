@@ -1,12 +1,15 @@
 import LocalAuthentication
 @testable import OneLogin
+import SecureStore
 
-final class MockLAContext: LocalAuthFacility {
+final class MockLAContext: LocalAuthenticationContext {
     var biometryType: LABiometryType = .touchID
-    
+
     var localizedFallbackTitle: String?
     var localizedCancelTitle: String?
-    
+
+    var contextStrings: LocalAuthenticationLocalizedStrings?
+
     var returnedFromCanEvaluatePolicyForBiometrics: Bool = false
     var returnedFromCanEvaluatePolicyForAuthentication: Bool = false
     var errorFromEvaluatePolicy: Error?

@@ -8,6 +8,8 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var encryptedStore: MockSecureStoreService!
     private var unprotectedStore: MockDefaultsStore!
 
+    private var localAuthentication: MockLocalAuthManager!
+
     override func setUp() {
         super.setUp()
 
@@ -16,10 +18,13 @@ final class PersistentSessionManagerTests: XCTestCase {
 
         unprotectedStore = MockDefaultsStore()
 
+        localAuthentication = MockLocalAuthManager()
+
         sut = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedStore,
             encryptedStore: encryptedStore,
-            unprotectedStore: unprotectedStore
+            unprotectedStore: unprotectedStore,
+            localAuthentication: localAuthentication
         )
     }
 

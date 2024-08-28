@@ -11,34 +11,21 @@ final class EnrolmentCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-    private var localAuthManager: LocalAuthManagement
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
-         sessionManager: SessionManager,
-         localAuthManager: LocalAuthManagement) {
+         sessionManager: SessionManager) {
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
-        self.localAuthManager = localAuthManager
     }
     
     func start() {
-        if localAuthManager.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics) {
-            showEnrolmentGuidance()
-        } else if !localAuthManager.canUseLocalAuth(type: .deviceOwnerAuthentication) {
-            showPasscodeInfo()
-        } else {
-            finish()
-        }
-    }
-    
-    private func showEnrolmentGuidance() {
-        switch localAuthManager.biometryType {
+        switch sessionManager.localAuthentication.type {
         case .touchID:
             let touchIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    finish()
+                    completeEnrolment()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
@@ -46,24 +33,34 @@ final class EnrolmentCoordinator: NSObject,
         case .faceID:
             let faceIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    Task {
-                        try? await localAuthManager.enrolLocalAuth(reason: "app_faceId_subtitle")
-                    }
+                    completeEnrolment()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
             root.pushViewController(faceIDEnrollmentScreen, animated: true)
-        case .opticID, .none:
-            return
-        @unknown default:
-            return
+        case .passcodeOnly:
+            showPasscodeInfo()
+        case .none:
+            finish()
         }
     }
-    
+
+    private func completeEnrolment() {
+        Task {
+            do {
+                try await sessionManager.saveSession()
+                finish()
+            } catch {
+                // TODO: handle errors thrown here:
+                fatalError("Handle these errors")
+            }
+        }
+    }
+
     private func showPasscodeInfo() {
         let passcodeInformationScreen = OnboardingViewControllerFactory
             .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
-                finish()
+                completeEnrolment()
             }
         root.pushViewController(passcodeInformationScreen, animated: true)
     }

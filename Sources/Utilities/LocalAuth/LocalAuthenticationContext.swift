@@ -2,9 +2,15 @@ import GDSCommon
 import LocalAuthentication
 import SecureStore
 
-protocol LocalAuthenticationContext {
-    var isPasscodeOnly: Bool { get }
+protocol LocalAuthenticationContext: AnyObject {
+    var biometryType: LABiometryType { get }
     var contextStrings: LocalAuthenticationLocalizedStrings? { get }
+
+    var localizedFallbackTitle: String? { get set }
+    var localizedCancelTitle: String? { get set }
+
+    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool
+    func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool
 }
 
 extension LAContext: LocalAuthenticationContext {

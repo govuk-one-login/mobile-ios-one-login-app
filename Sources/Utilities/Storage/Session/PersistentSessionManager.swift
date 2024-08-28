@@ -6,27 +6,35 @@ final class PersistentSessionManager: SessionManager {
     private let accessControlEncryptedStore: SecureStorable
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
-    
+
+    let localAuthentication: LocalAuthenticationManager
+
     let tokenProvider: TokenHolder
+    private var tokenResponse: TokenResponse?
+
     private(set) var user: (any User)?
 
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
-         unprotectedStore: DefaultsStorable) {
+         unprotectedStore: DefaultsStorable,
+         localAuthentication: LocalAuthenticationManager) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
+        self.localAuthentication = localAuthentication
 
         self.tokenProvider = TokenHolder()
     }
 
     convenience init(context: LocalAuthenticationContext = LAContext()) {
+        let localAuthentication = LALocalAuthenticationManager(context: context)
         // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
         // keys in the secure enclave if no biometrics are registered on the device.
         // Hence the store needs to be created with access controls that allow it
         let accessControlConfiguration = SecureStorageConfiguration(
             id: .oneLoginTokens,
-            accessControlLevel: context.isPasscodeOnly ? .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
+            accessControlLevel: localAuthentication.type == .passcodeOnly ?
+                .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
             localAuthStrings: context.contextStrings
         )
 
@@ -39,7 +47,8 @@ final class PersistentSessionManager: SessionManager {
         self.init(
             accessControlEncryptedStore: SecureStoreService(configuration: accessControlConfiguration),
             encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
-            unprotectedStore: UserDefaults.standard
+            unprotectedStore: UserDefaults.standard,
+            localAuthentication: localAuthentication
         )
     }
 
@@ -76,6 +85,7 @@ final class PersistentSessionManager: SessionManager {
             .oneLogin(persistentSessionId: persistentID)
         let response = try await session
             .performLoginFlow(configuration: configuration)
+        self.tokenResponse = response
 
         // update curent state
         tokenProvider.update(accessToken: response.accessToken)
@@ -87,10 +97,40 @@ final class PersistentSessionManager: SessionManager {
             user = nil
         }
 
-        // persist access / id tokens
-        try accessControlEncryptedStore.saveItem(item: response.accessToken, itemName: .accessToken)
+        guard isReturningUser else {
+            // user has not yet enrolled in local authentication
+            // so tokens should not be saved !
+            return
+        }
 
-        if let idToken = response.idToken {
+        try await saveSession()
+    }
+
+    private func enrolInLocalAuthIfRequired() async throws -> Bool {
+        guard localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics) else {
+            // enrolment is not required unless biometrics are available
+            return true
+        }
+        
+        return try await localAuthentication.enrolLocalAuth(reason: "app_faceId_subtitle")
+    }
+
+    func saveSession() async throws {
+        guard let tokenResponse else {
+            assertionFailure("Could not save session as token response was not set")
+            return
+        }
+
+        guard try await enrolInLocalAuthIfRequired() else {
+            // user decided not to enable local auth
+            // we will not save session data
+            return
+        }
+
+        // persist access / id tokens
+        try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
+
+        if let idToken = tokenResponse.idToken {
             try accessControlEncryptedStore.saveItem(item: idToken, itemName: .idToken)
         } else {
             accessControlEncryptedStore.deleteItem(itemName: .idToken)
@@ -102,7 +142,7 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: .persistentSessionID)
         }
 
-        unprotectedStore.set(response.expiryDate, forKey: .accessTokenExpiry)
+        unprotectedStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
         unprotectedStore.set(true, forKey: .returningUser)
     }
 

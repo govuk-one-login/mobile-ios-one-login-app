@@ -22,6 +22,8 @@ final class MockSessionManager: SessionManager {
     var errorFromStartSession: Error?
     var errorFromResumeSession: Error?
 
+    var localAuthentication: LocalAuthenticationManager = MockLocalAuthManager()
+
     init(expiryDate: Date? = nil,
          sessionExists: Bool = false,
          isSessionValid: Bool = false,
@@ -46,7 +48,11 @@ final class MockSessionManager: SessionManager {
             throw errorFromStartSession
         }
     }
-    
+
+    func saveSession() async throws {
+
+    }
+
     func resumeSession() throws {
         didCallResumeSession = true
         if let errorFromResumeSession {
