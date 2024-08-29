@@ -186,7 +186,7 @@ extension LoginCoordinatorTests {
     func test_launchEnrolmentCoordinator() {
         // GIVEN sufficient test set up to ensure enrolment coordinator does not finish before test assertions
         let mockLocalAuthManager = MockLocalAuthManager()
-        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator()
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator

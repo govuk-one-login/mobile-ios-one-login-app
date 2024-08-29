@@ -134,7 +134,6 @@ extension PersistentSessionManagerTests {
     func testStartSession_savesTokensForReturningUsers() async throws {
         // GIVEN I am a returning user
         unprotectedStore.savedData = [.returningUser: true]
-
         let persistentSessionID = UUID().uuidString
         try encryptedStore.saveItem(item: persistentSessionID,
                                     itemName: .persistentSessionID)
@@ -159,13 +158,19 @@ extension PersistentSessionManagerTests {
         try await sut.saveSession()
         // THEN the user is asked to consent to biometrics if available
         XCTAssertTrue(localAuthentication.didCallEnrolFaceIDIfAvailable)
+        // THEN my session data is updated in the store
+        XCTAssertEqual(accessControlEncryptedStore.savedItems,
+                       [.idToken: try MockTokenResponse().getJSONData().idToken,
+                        .accessToken: "accessTokenResponse"])
+        XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+        XCTAssertEqual(unprotectedStore.savedData.count, 2)
    }
 
     func test_saveSession_doesNotSaveDataWhenDeclinesPermissionForFaceID() async throws {
         // GIVEN I am a new user
         unprotectedStore.savedData = [.returningUser: false]
         // AND I decline consent for Face ID
-        localAuthentication.returnedFromEnrolLocalAuth = false
+        localAuthentication.userDidConsentToFaceID = false
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)

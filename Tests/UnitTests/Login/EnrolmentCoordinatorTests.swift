@@ -42,7 +42,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_passcodeOnly() throws {
         // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // GIVEN the local authentication's biometry type is optic id
@@ -58,7 +58,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_touchID() throws {
         // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // WHEN the EnrolmentCoordinator is started
@@ -72,7 +72,7 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_start_deviceLocalAuthSet_faceID() throws {
         // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.returnedFromCanUseLocalAuthForBiometrics = true
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
         // AND the user has a valid session
         try mockSessionManager.setupSession()
         // GIVEN the local authentication's biometry type is face id
