@@ -106,15 +106,6 @@ final class PersistentSessionManager: SessionManager {
         try await saveSession()
     }
 
-    private func enrolFaceIDIfPresent() async throws -> Bool {
-        guard localAuthentication.type == .faceID else {
-            // enrolment is not required unless biometric type is FaceID
-            return true
-        }
-        
-        return try await localAuthentication.enrolLocalAuth(reason: "app_faceId_subtitle")
-    }
-
     func saveSession() async throws {
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
@@ -122,7 +113,7 @@ final class PersistentSessionManager: SessionManager {
         }
 
         if !isReturningUser {
-            guard try await enrolFaceIDIfPresent() else {
+            guard try await localAuthentication.enrolFaceIDIfAvailable() else {
                 // first time user fails FaceID scan
                 // so tokens should not be saved !
                 return

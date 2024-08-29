@@ -12,7 +12,7 @@ protocol LocalAuthenticationManager {
     var type: LocalAuthenticationType { get }
 
     func canUseLocalAuth(type policy: LAPolicy) -> Bool
-    func enrolLocalAuth(reason: String) async throws -> Bool
+    func enrolFaceIDIfAvailable() async throws -> Bool
 }
 
 final class LALocalAuthenticationManager: LocalAuthenticationManager {
@@ -44,12 +44,15 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         context.canEvaluatePolicy(policy, error: nil)
     }
     
-    func enrolLocalAuth(reason: String) async throws -> Bool {
+    func enrolFaceIDIfAvailable() async throws -> Bool {
+        guard type == .faceID else {
+            // enrolment is not required unless biometric type is FaceID
+            return true
+        }
         localizeAuthPromptStrings()
-        // TODO: should this be with biometrics???
         return try await context
-            .evaluatePolicy(.deviceOwnerAuthentication,
-                            localizedReason: GDSLocalisedString(stringLiteral: reason).value)
+            .evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                            localizedReason: GDSLocalisedString(stringLiteral: "app_faceId_subtitle").value)
     }
 
     private func localizeAuthPromptStrings() {

@@ -23,7 +23,7 @@ final class DummyLocalAuthServiceTests: XCTestCase {
 extension DummyLocalAuthServiceTests {
     func test_faceID() {
         mockLAContext.biometryType = .faceID
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLAContext.localAuthIsEnabledOnTheDevice = true
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
             XCTAssertEqual(authType, .face)
         }
@@ -31,14 +31,14 @@ extension DummyLocalAuthServiceTests {
     
     func test_touchID() {
         mockLAContext.biometryType = .touchID
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLAContext.localAuthIsEnabledOnTheDevice = true
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
             XCTAssertEqual(authType, .touch)
         }
     }
     
     func test_none() {
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
+        mockLAContext.localAuthIsEnabledOnTheDevice = false
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
             XCTAssertEqual(authType, .none)
         }
@@ -46,7 +46,7 @@ extension DummyLocalAuthServiceTests {
     
     func test_passcode() {
         mockLAContext.biometryType = .none
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLAContext.localAuthIsEnabledOnTheDevice = true
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
             XCTAssertEqual(authType, .passcode)
         }

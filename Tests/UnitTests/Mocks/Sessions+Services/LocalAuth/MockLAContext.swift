@@ -9,24 +9,27 @@ final class MockLAContext: LocalAuthenticationContext {
     var localizedCancelTitle: String?
 
     var contextStrings: LocalAuthenticationLocalizedStrings?
+    
+    var didCallEvaluatePolicy = false
 
-    var returnedFromCanEvaluatePolicyForBiometrics: Bool = false
-    var returnedFromCanEvaluatePolicyForAuthentication: Bool = false
+    var biometricsIsEnabledOnTheDevice = false
+    var localAuthIsEnabledOnTheDevice = false
     var errorFromEvaluatePolicy: Error?
-    var returnedFromEvaluatePolicy: Bool = true
+    var userConsentedToBiometrics = true
     
     func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
         if policy == .deviceOwnerAuthenticationWithBiometrics {
-            return returnedFromCanEvaluatePolicyForBiometrics
+            return biometricsIsEnabledOnTheDevice
         } else {
-            return returnedFromCanEvaluatePolicyForAuthentication
+            return localAuthIsEnabledOnTheDevice
         }
     }
     
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool {
+        didCallEvaluatePolicy = true
         if let errorFromEvaluatePolicy {
             throw errorFromEvaluatePolicy
         }
-        return returnedFromEvaluatePolicy
+        return userConsentedToBiometrics
     }
 }

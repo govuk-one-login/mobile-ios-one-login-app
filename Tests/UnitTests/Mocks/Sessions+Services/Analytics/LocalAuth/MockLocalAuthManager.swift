@@ -16,7 +16,7 @@ final class MockLocalAuthManager: LocalAuthenticationManager {
         }
     }
     
-    func enrolLocalAuth(reason: String) async throws -> Bool {
+    func enrolFaceIDIfAvailable() async throws -> Bool {
         if let errorFromEnrolLocalAuth {
             throw errorFromEnrolLocalAuth
         }

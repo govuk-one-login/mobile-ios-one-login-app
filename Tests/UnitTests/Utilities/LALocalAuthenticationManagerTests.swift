@@ -24,27 +24,27 @@ final class LALocalAuthenticationManagerTests: XCTestCase {
 extension LALocalAuthenticationManagerTests {
     func test_biometryType_passcodeOnly() {
         // GIVEN the device has no biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = false
+        mockLAContext.biometricsIsEnabledOnTheDevice = false
         mockLAContext.biometryType = .none
         // AND a passcode is set on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLAContext.localAuthIsEnabledOnTheDevice = true
         // then the type is touch ID
         XCTAssertEqual(sut.type, .passcodeOnly)
     }
 
     func test_biometryType_noPasscode() {
         // GIVEN the device has no biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = false
+        mockLAContext.biometricsIsEnabledOnTheDevice = false
         mockLAContext.biometryType = .none
         // AND a passcode is set on the device
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
+        mockLAContext.localAuthIsEnabledOnTheDevice = false
         // then the type is touch ID
         XCTAssertEqual(sut.type, .none)
     }
 
     func test_biometryType_touchID() {
         // if the device has biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
         // and the biometric type is touch id
         mockLAContext.biometryType = .touchID
         // then the type is touch ID
@@ -53,7 +53,7 @@ extension LALocalAuthenticationManagerTests {
 
     func test_biometryType_faceID() {
         // if the device has biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
         // and the biometric type is Face ID
         mockLAContext.biometryType = .faceID
         // then the type is Face ID
@@ -63,9 +63,9 @@ extension LALocalAuthenticationManagerTests {
     @available(iOS 17, *)
     func test_biometryType_opticID_withPasscode() {
         // if the device has biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
         // and a passcode is set
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLAContext.localAuthIsEnabledOnTheDevice = true
         // and the biometric type is Optic ID
         mockLAContext.biometryType = .opticID
         // then the type is Face ID
@@ -75,9 +75,9 @@ extension LALocalAuthenticationManagerTests {
     @available(iOS 17, *)
     func test_biometryType_opticID_withoutPasscode() {
         // if the device has biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
         // and a passcode is set
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
+        mockLAContext.localAuthIsEnabledOnTheDevice = false
         // and the biometric type is Optic ID
         mockLAContext.biometryType = .opticID
         // then the type is Face ID
@@ -85,33 +85,51 @@ extension LALocalAuthenticationManagerTests {
     }
 
     func test_canUseLocalAuth_usesLAContext() {
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
         XCTAssertTrue(sut.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics))
 
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = false
+        mockLAContext.biometricsIsEnabledOnTheDevice = false
         XCTAssertFalse(sut.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics))
 
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        mockLAContext.localAuthIsEnabledOnTheDevice = true
         XCTAssertTrue(sut.canUseLocalAuth(type: .deviceOwnerAuthentication))
 
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
+        mockLAContext.localAuthIsEnabledOnTheDevice = false
         XCTAssertFalse(sut.canUseLocalAuth(type: .deviceOwnerAuthentication))
     }
     
     func test_enrolLocalAuth_providesLocalisedStrings() async throws {
-        _ = try await sut.enrolLocalAuth(reason: "any")
+        // GIVEN FaceID is enabled on the device
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
+        mockLAContext.biometryType = .faceID
+        // WHEN I try to enrol FaceID
+        _ = try await sut.enrolFaceIDIfAvailable()
+        // THEN the context strings are set correctly
         XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
         XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
     }
-
-    func test_enrolLocalAuth_callsEvaluatePolicyForAuthentication() async throws {
-        mockLAContext.returnedFromEvaluatePolicy = false
-        var isEnrolled = try await sut.enrolLocalAuth(reason: "any")
-        XCTAssertFalse(isEnrolled)
-
-        mockLAContext.returnedFromEvaluatePolicy = true
-        isEnrolled = try await sut.enrolLocalAuth(reason: "any")
+    
+    func test_enrolFaceIDIfRequired_returnsTrueIfUserConsents() async throws {
+        // GIVEN FaceID is enabled on the device
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
+        mockLAContext.biometryType = .faceID
+        // WHEN I try to enrol FaceID
+        mockLAContext.userConsentedToBiometrics = true
+        let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        // THEN the user has been asked for consent
+        XCTAssertTrue(mockLAContext.didCallEvaluatePolicy)
+        // THEN enrolment is successful
         XCTAssertTrue(isEnrolled)
+    }
 
+    func test_enrolFaceIDIfRequired_returnsFalseIfUserDeclinesConsent() async throws {
+        // GIVEN FaceID is enabled on the device
+        mockLAContext.userConsentedToBiometrics = false
+        let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        XCTAssertFalse(isEnrolled)
+    }
+    
+    func test_enrolFaceIDIfRequired_returnsTrueIfFaceIDUnavailable() async throws {
+        
     }
 }
