@@ -12,6 +12,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockUpdateService: MockAppInformationService!
+    var walletAvailabilityService = WalletAvailabilityService()
     var sut: MainCoordinator!
     
     @MainActor
@@ -67,8 +68,27 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
-    func test_start_performsSetUp() {
+    func test_start_performsSetUpWithoutWallet() {
+        // WHEN th wallet feature flag is off
+        UserDefaults.standard.set(false, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        walletAvailabilityService.hasAccessedWalletBefore = false
+        
         // WHEN the MainCoordinator is started
+        sut.start()
+        // THEN the MainCoordinator should have child coordinators
+        XCTAssertEqual(sut.childCoordinators.count, 3)
+        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
+        XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
+        // THEN the root's delegate is the MainCoordinator
+        XCTAssertTrue(sut.root.delegate === sut)
+    }
+    
+    func test_start_performsSetUpWithWallet() {
+        // WHEN th wallet feature flag is on
+        UserDefaults.standard.set(true, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        
+        // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 4)
@@ -78,6 +98,8 @@ extension MainCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
+        
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
     }
     
     @MainActor
@@ -235,6 +257,7 @@ extension MainCoordinatorTests {
     @MainActor
     func test_didSelect_tabBarItem_wallet() {
         // GIVEN the MainCoordinator has started and added it's tab bar items
+        UserDefaults.standard.set(true, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
             XCTFail("WalletVC not added as child viewcontroller to tabBarController")
@@ -249,13 +272,15 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+        
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
     }
     
     @MainActor
     func test_didSelect_tabBarItem_profile() {
         // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
-        guard let profileVC = tabBarController.viewControllers?[2] else {
+        guard let profileVC = tabBarController.viewControllers?[1] else {
             XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
             return
         }
