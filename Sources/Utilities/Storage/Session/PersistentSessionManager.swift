@@ -106,9 +106,9 @@ final class PersistentSessionManager: SessionManager {
         try await saveSession()
     }
 
-    private func enrolInLocalAuthIfRequired() async throws -> Bool {
-        guard localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics) else {
-            // enrolment is not required unless biometrics are available
+    private func enrolFaceIDIfPresent() async throws -> Bool {
+        guard localAuthentication.type == .faceID else {
+            // enrolment is not required unless biometric type is FaceID
             return true
         }
         
@@ -121,12 +121,14 @@ final class PersistentSessionManager: SessionManager {
             return
         }
 
-        guard try await enrolInLocalAuthIfRequired() else {
-            // user decided not to enable local auth
-            // we will not save session data
-            return
+        if !isReturningUser {
+            guard try await enrolFaceIDIfPresent() else {
+                // first time user fails FaceID scan
+                // so tokens should not be saved !
+                return
+            }
         }
-
+        
         // persist access / id tokens
         try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
 

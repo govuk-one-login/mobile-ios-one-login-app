@@ -51,7 +51,7 @@ final class EnrolmentCoordinator: NSObject,
                 try await sessionManager.saveSession()
                 finish()
             } catch {
-                // TODO: handle errors thrown here:
+                // TODO: DCMAW-9700 - handle errors thrown here:
                 fatalError("Handle these errors")
             }
         }
