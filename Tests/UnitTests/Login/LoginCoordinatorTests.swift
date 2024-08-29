@@ -230,7 +230,7 @@ extension LoginCoordinatorTests {
                                                         root: navigationController,
                                                         analyticsService: mockAnalyticsService,
                                                         sessionManager: mockSessionManager,
-                                                        session: MockLoginSession())
+                                                        session: MockLoginSession(window: UIWindow()))
         authCoordinator.authError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()
