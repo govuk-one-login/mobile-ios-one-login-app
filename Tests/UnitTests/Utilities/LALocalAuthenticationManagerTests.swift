@@ -124,12 +124,27 @@ extension LALocalAuthenticationManagerTests {
 
     func test_enrolFaceIDIfRequired_returnsFalseIfUserDeclinesConsent() async throws {
         // GIVEN FaceID is enabled on the device
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
+        mockLAContext.biometryType = .faceID
+        // WHEN I try to enrol FaceID
         mockLAContext.userConsentedToBiometrics = false
         let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        // THEN the user has been asked for consent
+        XCTAssertTrue(mockLAContext.didCallEvaluatePolicy)
+        // THEN enrolment is not successful
         XCTAssertFalse(isEnrolled)
     }
     
     func test_enrolFaceIDIfRequired_returnsTrueIfFaceIDUnavailable() async throws {
-        
+        // GIVEN the biometrics are disabled on the device
+        mockLAContext.biometricsIsEnabledOnTheDevice = false
+        mockLAContext.biometryType = .none
+        // WHEN I try to enrol FaceID
+        mockLAContext.userConsentedToBiometrics = false
+        let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        // THEN the user has not been asked for consent
+        XCTAssertFalse(mockLAContext.didCallEvaluatePolicy)
+        // THEN enrolment is successful
+        XCTAssertTrue(isEnrolled)
     }
 }

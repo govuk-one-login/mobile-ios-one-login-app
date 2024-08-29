@@ -149,6 +149,34 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
     }
 
+    func test_saveSession_enrolsLocalAuthenticationForNewUsers() async throws {
+        // GIVEN I am a new user
+        unprotectedStore.savedData = [.returningUser: false]
+        // AND I have logged in
+        let loginSession = await MockLoginSession(window: UIWindow())
+        try await sut.startSession(using: loginSession)
+        // WHEN I attempt to save my session
+        try await sut.saveSession()
+        // THEN the user is asked to consent to biometrics if available
+        XCTAssertTrue(localAuthentication.didCallEnrolFaceIDIfAvailable)
+   }
+
+    func test_saveSession_doesNotSaveDataWhenDeclinesPermissionForFaceID() async throws {
+        // GIVEN I am a new user
+        unprotectedStore.savedData = [.returningUser: false]
+        // AND I decline consent for Face ID
+        localAuthentication.returnedFromEnrolLocalAuth = false
+        // AND I have logged in
+        let loginSession = await MockLoginSession(window: UIWindow())
+        try await sut.startSession(using: loginSession)
+        // WHEN I attempt to save my session
+        try await sut.saveSession()
+        // THEN my session data is not stored
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
+        XCTAssertEqual(encryptedStore.savedItems, [:])
+        XCTAssertEqual(unprotectedStore.savedData.count, 1)
+   }
+
     func testResumeSession_restoresUserAndAccessToken() throws {
         // GIVEN I have tokens saved in secure store
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
@@ -166,7 +194,7 @@ extension PersistentSessionManagerTests {
     }
     
     func testEndCurrentSession_clearsDataFromSession() throws {
-        // GIEVN I have tokens saved in secure store
+        // GIVEN I have tokens saved in secure store
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
                                                  itemName: .idToken)
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,

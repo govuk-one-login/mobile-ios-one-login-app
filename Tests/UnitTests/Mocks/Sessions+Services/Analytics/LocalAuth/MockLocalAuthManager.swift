@@ -7,7 +7,9 @@ final class MockLocalAuthManager: LocalAuthenticationManager {
     var returnedFromCanUseLocalAuthForAuthentication: Bool = false
     var errorFromEnrolLocalAuth: Error?
     var returnedFromEnrolLocalAuth: Bool = true
-    
+
+    var didCallEnrolFaceIDIfAvailable = false
+
     func canUseLocalAuth(type policy: LAPolicy) -> Bool {
         if policy == .deviceOwnerAuthenticationWithBiometrics {
             return returnedFromCanUseLocalAuthForBiometrics
@@ -17,6 +19,8 @@ final class MockLocalAuthManager: LocalAuthenticationManager {
     }
     
     func enrolFaceIDIfAvailable() async throws -> Bool {
+        didCallEnrolFaceIDIfAvailable = true
+
         if let errorFromEnrolLocalAuth {
             throw errorFromEnrolLocalAuth
         }
