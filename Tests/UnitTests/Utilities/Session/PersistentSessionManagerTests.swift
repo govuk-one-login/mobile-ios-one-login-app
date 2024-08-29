@@ -105,7 +105,7 @@ extension PersistentSessionManagerTests {
     }
     
     func testStartSession_exposesUserAndAccessToken() async throws {
-        // GIVEN I am not logged in
+        // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // AND I am calling STS
         AppEnvironment.updateReleaseFlags([
@@ -118,6 +118,25 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user?.email, "mock@email.com")
         // AND access token are populated
         XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
+    }
+    
+    func testSaveSession() async throws {
+        // GIVEN I am logged in
+        let loginSession = await MockLoginSession(window: UIWindow())
+        // AND I am calling STS
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: true
+        ])
+        // WHEN I start a session
+        try await sut.startSession(using: loginSession)
+        // WHEN I save my session
+        try await sut.saveSession()
+        // THEN my stores should hold my session information
+        XCTAssertEqual(accessControlEncryptedStore.savedItems,
+                       [.idToken: try MockTokenResponse().getJSONData().idToken,
+                        .accessToken: "accessTokenResponse"])
+        XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+        XCTAssertEqual(unprotectedStore.savedData.count, 2)
     }
     
     func testResumeSession_restoresUserAndAccessToken() throws {

@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder,
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
 
-    private lazy var sessionManager: SessionManager = PersistentSessionManager()
+    private lazy var sessionManager = PersistentSessionManager()
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
