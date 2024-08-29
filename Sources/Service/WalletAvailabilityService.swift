@@ -6,10 +6,10 @@ import UIKit
 public final class WalletAvailabilityService {
     var hasAccessedWalletBefore: Bool = false
     let defaults = UserDefaults.standard
-
-    var showWallet: Bool {
+    
+    func showWallet() -> Bool {
         var shouldShowWallet = AppEnvironment.walletVisibleToAll
-        var deeplinkAccepted = AppEnvironment.walletVisibleViaDeepLink
+        let deeplinkAccepted = AppEnvironment.walletVisibleViaDeepLink
         
         if shouldShowWallet == false {
             guard deeplinkAccepted == true else {

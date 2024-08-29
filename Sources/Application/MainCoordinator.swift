@@ -34,7 +34,6 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        _ = walletAvailabilityService.showWallet
         addTabs()
         windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             evaluateRevisit()
@@ -149,7 +148,7 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        if walletAvailabilityService.showWallet == true {
+        if walletAvailabilityService.showWallet() == true {
             let wc = WalletCoordinator(window: windowManager.appWindow,
                                        analyticsCenter: analyticsCenter,
                                        sessionManager: sessionManager)
