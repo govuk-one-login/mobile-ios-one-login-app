@@ -14,5 +14,9 @@
     {
         "name": "EnableWalletVisibleToAll",
         "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleViaDeepLink",
+        "isEnabled": false
     }
 ]
