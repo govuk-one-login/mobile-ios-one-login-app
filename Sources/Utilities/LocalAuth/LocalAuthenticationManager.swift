@@ -46,12 +46,13 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
     
     func enrolLocalAuth(reason: String) async throws -> Bool {
         localizeAuthPromptStrings()
+        // TODO: should this be with biometrics???
         return try await context
             .evaluatePolicy(.deviceOwnerAuthentication,
                             localizedReason: GDSLocalisedString(stringLiteral: reason).value)
     }
 
-    func localizeAuthPromptStrings() {
+    private func localizeAuthPromptStrings() {
         context.localizedFallbackTitle = GDSLocalisedString(stringLiteral: "app_enterPasscodeButton").value
         context.localizedCancelTitle = GDSLocalisedString(stringLiteral: "app_cancelButton").value
     }

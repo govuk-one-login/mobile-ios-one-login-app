@@ -119,26 +119,36 @@ extension PersistentSessionManagerTests {
         // AND access token are populated
         XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
     }
-    
-    func testSaveSession() async throws {
-        // GIVEN I am logged in
+
+    func testStartSession_skipsSavingTokensForNewUsers() async throws {
+        // GIVEN I am not logged in
         let loginSession = await MockLoginSession(window: UIWindow())
-        // AND I am calling STS
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
-        // WHEN I save my session
-        try await sut.saveSession()
-        // THEN my stores should hold my session information
+        // THEN my session data is not saved
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
+        XCTAssertEqual(encryptedStore.savedItems, [:])
+        XCTAssertEqual(unprotectedStore.savedData.count, 0)
+    }
+
+    func testStartSession_savesTokensForReturningUsers() async throws {
+        // GIVEN I am a returning user
+        unprotectedStore.savedData = [.returningUser: true]
+
+        let persistentSessionID = UUID().uuidString
+        try encryptedStore.saveItem(item: persistentSessionID,
+                                    itemName: .persistentSessionID)
+        // WHEN I re-authenticate
+        let loginSession = await MockLoginSession(window: UIWindow())
+        try await sut.startSession(using: loginSession)
+        // THEN my session data is updated in the store
         XCTAssertEqual(accessControlEncryptedStore.savedItems,
                        [.idToken: try MockTokenResponse().getJSONData().idToken,
                         .accessToken: "accessTokenResponse"])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
     }
-    
+
     func testResumeSession_restoresUserAndAccessToken() throws {
         // GIVEN I have tokens saved in secure store
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,

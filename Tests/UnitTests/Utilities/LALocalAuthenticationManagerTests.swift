@@ -84,13 +84,34 @@ extension LALocalAuthenticationManagerTests {
         XCTAssertEqual(sut.type, .none)
     }
 
-    func test_canUseLocalAuth() {
+    func test_canUseLocalAuth_usesLAContext() {
+        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        XCTAssertTrue(sut.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics))
+
+        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = false
+        XCTAssertFalse(sut.canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics))
+
+        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
+        XCTAssertTrue(sut.canUseLocalAuth(type: .deviceOwnerAuthentication))
+
+        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
         XCTAssertFalse(sut.canUseLocalAuth(type: .deviceOwnerAuthentication))
     }
     
-    func test_enrolLocalAuth() async throws {
-        try await sut.enrolLocalAuth(reason: "")
+    func test_enrolLocalAuth_providesLocalisedStrings() async throws {
+        _ = try await sut.enrolLocalAuth(reason: "any")
         XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
         XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
+    }
+
+    func test_enrolLocalAuth_callsEvaluatePolicyForAuthentication() async throws {
+        mockLAContext.returnedFromEvaluatePolicy = false
+        var isEnrolled = try await sut.enrolLocalAuth(reason: "any")
+        XCTAssertFalse(isEnrolled)
+
+        mockLAContext.returnedFromEvaluatePolicy = true
+        isEnrolled = try await sut.enrolLocalAuth(reason: "any")
+        XCTAssertTrue(isEnrolled)
+
     }
 }
