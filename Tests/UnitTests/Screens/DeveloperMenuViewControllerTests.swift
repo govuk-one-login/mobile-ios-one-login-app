@@ -124,7 +124,10 @@ extension DeveloperMenuViewControllerTests {
                                                object: nil,
                                                notificationCenter: NotificationCenter.default)
         // GIVEN I have no active session
-        // AND the happy path bitton is tapped
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
+        // AND the happy path button is tapped
         try sut.happyPathButton.sendActions(for: .touchUpInside)
         // THEN a notification is sent requesting reauthentication
         wait(for: [exp], timeout: 20)
@@ -154,6 +157,9 @@ extension DeveloperMenuViewControllerTests {
                                                object: nil,
                                                notificationCenter: NotificationCenter.default)
         // GIVEN I have no active session
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
         // AND the error path button is tapped
         try sut.errorPathButton.sendActions(for: .touchUpInside)
         // THEN a notification is sent requesting reauthentication
@@ -184,6 +190,9 @@ extension DeveloperMenuViewControllerTests {
                                                object: nil,
                                                notificationCenter: NotificationCenter.default)
         // GIVEN I have no active session
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
         // AND the happy path bitton is tapped
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
         // THEN a notification is sent requesting reauthentication
@@ -197,8 +206,6 @@ extension DeveloperMenuViewControllerTests {
         try sut.deletePersistentSessionIDButton.sendActions(for: .touchUpInside)
         // THEN the button becomes purple
         XCTAssertTrue(try sut.deletePersistentSessionIDButton.backgroundColor == .gdsBrightPurple)
-        // AND the session manager deletes all session data
-        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
     func test_expireAccessTokenButton() throws {

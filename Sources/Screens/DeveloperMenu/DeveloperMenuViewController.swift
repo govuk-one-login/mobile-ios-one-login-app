@@ -1,5 +1,7 @@
+import Authentication
 import GDSCommon
 import Networking
+import SecureStore
 import UIKit
 
 final class DeveloperMenuViewController: BaseViewController {
@@ -50,19 +52,16 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes a successful request to the hello-world endpoint as long as the access token is valid
     private func helloWorldHappyPath() {
-        guard sessionManager.isSessionValid else {
-            parentCoordinator?.accessTokenInvalidAction()
-            return
-        }
-
         Task {
             do {
-                // TODO: DCMAW-10076 | Refactor network requests into a Service object
+                // TODO: DCMAW-10076 - Refactor network requests into a Service object
                 let data = try await networkClient
                     .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                            scope: "sts-test.hello-world.read",
                                            request: URLRequest(url: AppEnvironment.stsHelloWorld))
                 happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
+            } catch let error as ServerError where error.errorCode == 400 {
+                parentCoordinator?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
             } catch {
@@ -99,11 +98,6 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the scope is invalid for this so a 400 response is returned
     private func helloWorldErrorPath() {
-        guard sessionManager.isSessionValid else {
-            parentCoordinator?.accessTokenInvalidAction()
-            return
-        }
-
         Task {
             do {
                 // TODO: DCMAW-10076 | Refactor network requests into a Service object
@@ -111,6 +105,8 @@ final class DeveloperMenuViewController: BaseViewController {
                     .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                            scope: "sts-test.hello-world",
                                            request: URLRequest(url: AppEnvironment.stsHelloWorld))
+            } catch let error as ServerError where error.errorCode == 400 {
+                parentCoordinator?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 errorPathResultLabel.showErrorMessage(error)
             } catch {
@@ -147,11 +143,6 @@ final class DeveloperMenuViewController: BaseViewController {
     
     // Makes an unsuccessful request to the hello-world endpoint, the endpoint returns a 401 unauthorized response
     private func helloWorldUnauthorizedPath() {
-        guard sessionManager.isSessionValid else {
-            parentCoordinator?.accessTokenInvalidAction()
-            return
-        }
-        
         Task {
             do {
                 // TODO: DCMAW-10076 | Refactor network requests into a Service object
@@ -159,6 +150,8 @@ final class DeveloperMenuViewController: BaseViewController {
                     .makeAuthorizedRequest(exchangeRequest: URLRequest(url: AppEnvironment.stsToken),
                                            scope: "sts-test.hello-world.read",
                                            request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+            } catch let error as ServerError where error.errorCode == 400 {
+                parentCoordinator?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 unauthorizedPathResultLabel.showErrorMessage(error)
             } catch {
@@ -189,7 +182,12 @@ final class DeveloperMenuViewController: BaseViewController {
     }
     
     @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
-        sessionManager.clearAllSessionData()
+        let encryptedConfiguration = SecureStorageConfiguration(
+            id: .persistentSessionID,
+            accessControlLevel: .open
+        )
+        let persistentSessionStore = SecureStoreService(configuration: encryptedConfiguration)
+        persistentSessionStore.deleteItem(itemName: .persistentSessionID)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     
@@ -206,7 +204,13 @@ final class DeveloperMenuViewController: BaseViewController {
     }
     
     @IBAction private func expireAccessTokenAction(_ sender: Any) {
-        defaultsStore.set(Date.distantPast, forKey: .accessTokenExpiry)
+        // swiftlint:disable line_length
+        let expiredToken = """
+        eyJhbGciOiJFUzI1NiIsInR5cCI6ImF0K0pXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.eyJpc3MiOiJodHRwczovL3Rva2VuLmJ1aWxkLmFjY291bnQuZ292LnVrIiwic3ViIjoiMDc5NGJmZWMtZjg0Yy00NzI2LWI5MzYtZDEyZTZhNDU2Y2I4IiwiYXVkIjoiaHR0cHM6Ly90b2tlbi5idWlsZC5hY2NvdW50Lmdvdi51ayIsIm5vbmNlIjoiXy1GN0RxZkVDUWR4QWR5eVdwLXV3VFFPcTRRcEM5TzFfamtkVFBuaVEyRSIsImlhdCI6MTcyNTAzMjcwMiwiZXhwIjoxNzI1MDM0NTAyfQ.bIfKSKu3HG5F50fTVw1FR9Xqxc5EjwCFZ3efj24mOaKH4kBDWfTI7rrJAXZi6158oU02xPU6gqNJOYzhXHYKDQ
+        """
+        // swiftlint:enable line_length
+        sessionManager.tokenProvider.update(accessToken: expiredToken)
+        
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

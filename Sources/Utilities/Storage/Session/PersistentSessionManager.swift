@@ -40,8 +40,7 @@ final class PersistentSessionManager: SessionManager {
 
         let encryptedConfiguration = SecureStorageConfiguration(
             id: .persistentSessionID,
-            accessControlLevel: .open,
-            localAuthStrings: context.contextStrings
+            accessControlLevel: .open
         )
 
         self.init(
@@ -61,7 +60,7 @@ final class PersistentSessionManager: SessionManager {
     }
 
     var sessionExists: Bool {
-        tokenProvider.accessToken != nil
+        tokenProvider.accessToken != nil && isReturningUser
     }
 
     var isSessionValid: Bool {
@@ -149,16 +148,13 @@ final class PersistentSessionManager: SessionManager {
         tokenProvider.update(accessToken: accessToken)
     }
     
-    func stopCurrentSession() {
+    func endCurrentSession() {
+        accessControlEncryptedStore.deleteItem(itemName: .accessToken)
+        accessControlEncryptedStore.deleteItem(itemName: .idToken)
+        
         tokenProvider.clear()
         tokenResponse = nil
         user = nil
-    }
-
-    func endCurrentSession() {
-        stopCurrentSession()
-        accessControlEncryptedStore.deleteItem(itemName: .accessToken)
-        accessControlEncryptedStore.deleteItem(itemName: .idToken)
     }
 
     func clearAllSessionData() {
