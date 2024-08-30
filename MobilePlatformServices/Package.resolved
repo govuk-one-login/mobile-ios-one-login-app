@@ -1,0 +1,15 @@
+{
+  "originHash" : "908cd8b818a1c2fba23ec8b8903408b3c02da6451c4c243ec4112c301053c624",
+  "pins" : [
+    {
+      "identity" : "mobile-ios-networking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
+      "state" : {
+        "revision" : "7ea8b9091042545403eb1db2ad2cc60e9ce17191",
+        "version" : "3.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

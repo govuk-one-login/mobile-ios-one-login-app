@@ -1,4 +1,5 @@
 import Foundation
+@testable import MobilePlatformServices
 import Networking
 
 @testable import OneLogin

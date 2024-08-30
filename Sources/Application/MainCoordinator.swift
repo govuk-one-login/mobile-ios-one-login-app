@@ -2,6 +2,7 @@ import Coordination
 import GDSAnalytics
 import LocalAuthentication
 import Logging
+import MobilePlatformServices
 import Networking
 import SecureStore
 import UIKit
@@ -29,7 +30,7 @@ final class MainCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager,
-         updateService: AppInformationServicing = AppInformationService(),
+         updateService: AppInformationServicing = AppInformationService(baseURL: AppEnvironment.appInfoURL),
          walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
         self.windowManager = windowManager
         self.root = root
