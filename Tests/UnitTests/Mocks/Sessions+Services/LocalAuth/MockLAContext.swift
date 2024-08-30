@@ -7,8 +7,6 @@ final class MockLAContext: LocalAuthenticationContext {
 
     var localizedFallbackTitle: String?
     var localizedCancelTitle: String?
-
-    var contextStrings: LocalAuthenticationLocalizedStrings?
     
     var didCallEvaluatePolicy = false
 

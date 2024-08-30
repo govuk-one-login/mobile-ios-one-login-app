@@ -13,7 +13,8 @@ protocol LocalAuthenticationContext: AnyObject {
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool
 }
 
-extension LAContext: LocalAuthenticationContext {
+extension LAContext: LocalAuthenticationContext { }
+extension LocalAuthenticationContext {
     var contextStrings: LocalAuthenticationLocalizedStrings? {
         if canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
             let biometryTypeString = biometryType == .touchID ? "touch" : "face"

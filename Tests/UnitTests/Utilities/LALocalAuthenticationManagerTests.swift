@@ -1,5 +1,6 @@
 import LocalAuthentication
 @testable import OneLogin
+@testable import SecureStore
 import XCTest
 
 final class LALocalAuthenticationManagerTests: XCTestCase {
@@ -82,6 +83,33 @@ extension LALocalAuthenticationManagerTests {
         mockLAContext.biometryType = .opticID
         // then the type is Face ID
         XCTAssertEqual(sut.type, .none)
+    }
+
+    func test_contextStrings_correctForFaceID() throws {
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
+        mockLAContext.biometryType = .faceID
+
+        let strings = try XCTUnwrap(mockLAContext.contextStrings)
+
+        XCTAssertEqual(strings.localizedReason, "Enter iPhone passcode")
+        XCTAssertEqual(strings.localisedFallbackTitle, "Enter passcode")
+        XCTAssertEqual(strings.localisedCancelTitle, "Cancel")
+    }
+
+    func test_contextStrings_correctForTouchID() throws {
+        mockLAContext.biometricsIsEnabledOnTheDevice = true
+        mockLAContext.biometryType = .touchID
+
+        let strings = try XCTUnwrap(mockLAContext.contextStrings)
+       
+        XCTAssertEqual(strings.localizedReason, "Unlock to proceed")
+        XCTAssertEqual(strings.localisedFallbackTitle, "Enter passcode")
+        XCTAssertEqual(strings.localisedCancelTitle, "Cancel")
+    }
+
+    func test_contextStrings_nilForNone() throws {
+        mockLAContext.biometryType = .none
+        XCTAssertNil(mockLAContext.contextStrings)
     }
 
     func test_canUseLocalAuth_usesLAContext() {
