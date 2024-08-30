@@ -57,19 +57,23 @@ final class MainCoordinator: NSObject,
             return
         }
 
-        do {
-            try sessionManager.resumeSession()
-            updateToken()
-            windowManager.hideUnlockWindow()
-        } catch {
-            switch error {
-            case is JWTVerifierError,
-                SecureStoreError.unableToRetrieveFromUserDefaults,
-                SecureStoreError.cantInitialiseData,
-                SecureStoreError.cantRetrieveKey:
-                fullLogin(loginError: error)
-            default:
-                print("Token retrival error: \(error)")
+        Task {
+            await MainActor.run {
+                do {
+                    try sessionManager.resumeSession()
+                    updateToken()
+                    windowManager.hideUnlockWindow()
+                } catch {
+                    switch error {
+                    case is JWTVerifierError,
+                        SecureStoreError.unableToRetrieveFromUserDefaults,
+                        SecureStoreError.cantInitialiseData,
+                        SecureStoreError.cantRetrieveKey:
+                        fullLogin(loginError: error)
+                    default:
+                        print("Token retrival error: \(error)")
+                    }
+                }
             }
         }
     }

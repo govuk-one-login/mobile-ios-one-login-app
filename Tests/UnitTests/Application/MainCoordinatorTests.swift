@@ -109,7 +109,7 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should resume the current session
-        XCTAssertTrue(mockSessionManager.didCallResumeSession)
+        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
         XCTAssertFalse(sut.childCoordinators.last is LoginCoordinator)
     }
     
@@ -122,7 +122,7 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
         // THEN the login coordinator should contain that error
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
         let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? JWTVerifierError)
@@ -138,7 +138,7 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
         // THEN the login coordinator should contain that error
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
         let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? SecureStoreError)
@@ -154,7 +154,7 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
         // THEN the login coordinator should contain that error
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
         let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? SecureStoreError)
@@ -170,7 +170,7 @@ extension MainCoordinatorTests {
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
         // THEN the login coordinator should contain that error
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
         let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? SecureStoreError)

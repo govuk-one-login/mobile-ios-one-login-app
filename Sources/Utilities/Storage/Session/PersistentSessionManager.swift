@@ -85,7 +85,7 @@ final class PersistentSessionManager: SessionManager {
             .oneLogin(persistentSessionId: persistentID)
         let response = try await session
             .performLoginFlow(configuration: configuration)
-        self.tokenResponse = response
+        tokenResponse = response
 
         // update curent state
         tokenProvider.update(accessToken: response.accessToken)
@@ -148,13 +148,17 @@ final class PersistentSessionManager: SessionManager {
             .readItem(itemName: .accessToken)
         tokenProvider.update(accessToken: accessToken)
     }
+    
+    func stopCurrentSession() {
+        tokenProvider.clear()
+        tokenResponse = nil
+        user = nil
+    }
 
     func endCurrentSession() {
+        stopCurrentSession()
         accessControlEncryptedStore.deleteItem(itemName: .accessToken)
         accessControlEncryptedStore.deleteItem(itemName: .idToken)
-
-        tokenProvider.clear()
-        user = nil
     }
 
     func clearAllSessionData() {
