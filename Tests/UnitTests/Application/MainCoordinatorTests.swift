@@ -80,8 +80,11 @@ extension MainCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
-        // THEN the root's delegate is the MainCoordinator
+        // AND the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
+        
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        UserDefaults.standard.removeObject(forKey: "hasAccessedWalletBefore")
     }
     
     func test_start_performsSetUpWithWallet() {

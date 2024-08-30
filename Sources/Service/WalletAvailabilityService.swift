@@ -11,8 +11,8 @@ public final class WalletAvailabilityService {
         var shouldShowWallet = AppEnvironment.walletVisibleToAll
         let deeplinkAccepted = AppEnvironment.walletVisibleViaDeepLink
         
-        if shouldShowWallet == false {
-            guard deeplinkAccepted == true else {
+        if !shouldShowWallet {
+            guard deeplinkAccepted else {
                 return UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
             }
             shouldShowWallet = true
