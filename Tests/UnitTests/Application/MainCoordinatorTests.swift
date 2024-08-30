@@ -69,11 +69,11 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
-        // WHEN th wallet feature flag is off
+        // WHEN the Wallet Feature Flag is off
         UserDefaults.standard.set(false, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
-        walletAvailabilityService.hasAccessedWalletBefore = false
+        UserDefaults.standard.set(false, forKey: "hasAccessedWalletBefore")
         
-        // WHEN the MainCoordinator is started
+        // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 3)
@@ -85,7 +85,7 @@ extension MainCoordinatorTests {
     }
     
     func test_start_performsSetUpWithWallet() {
-        // WHEN th wallet feature flag is on
+        // WHEN the wallet feature flag is on
         UserDefaults.standard.set(true, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
         
         // AND the MainCoordinator is started
@@ -98,7 +98,7 @@ extension MainCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
-        
+
         UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
     }
     
@@ -256,14 +256,16 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_wallet() {
-        // GIVEN the MainCoordinator has started and added it's tab bar items
+        // GIVEN the wallet feature flag is on
         UserDefaults.standard.set(true, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        
+        // WHEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
             XCTFail("WalletVC not added as child viewcontroller to tabBarController")
             return
         }
-        // WHEN the tab bar controller's delegate method didSelect is called with the wallet view controller
+        // AND the tab bar controller's delegate method didSelect is called with the wallet view controller
         tabBarController.delegate?.tabBarController?(tabBarController, didSelect: walletVC)
         // THEN the wallet view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "wallet")
@@ -278,6 +280,9 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_profile() {
+        UserDefaults.standard.set(false, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        UserDefaults.standard.set(false, forKey: "hasAccessedWalletBefore")
+        
         // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let profileVC = tabBarController.viewControllers?[1] else {
@@ -293,6 +298,9 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+        
+        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        UserDefaults.standard.removeObject(forKey: "hasAccessedWalletBefore")
     }
     
     @MainActor
