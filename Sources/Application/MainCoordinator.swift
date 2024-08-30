@@ -148,7 +148,7 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        if walletAvailabilityService.showWallet() == true {
+        if walletAvailabilityService.showWallet() {
             let wc = WalletCoordinator(window: windowManager.appWindow,
                                        analyticsCenter: analyticsCenter,
                                        sessionManager: sessionManager)
