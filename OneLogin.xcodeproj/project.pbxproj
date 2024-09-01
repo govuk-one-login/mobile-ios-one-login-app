@@ -65,6 +65,7 @@
 		7CA719742C848EF600973585 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 7CA719732C848EF600973585 /* Wallet */; };
 		7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */ = {isa = PBXBuildFile; productRef = 7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */; };
 		7CDC2EC22C8B1E9400EAA592 /* WalletAvailabilityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC2EC02C8B1E8000EAA592 /* WalletAvailabilityServiceTests.swift */; };
+		7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
@@ -300,6 +301,7 @@
 		7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+AuthorizationTests.swift"; sourceTree = "<group>"; };
 		7CA719662C846E5100973585 /* TokenHolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
 		7CDC2EC02C8B1E8000EAA592 /* WalletAvailabilityServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityServiceTests.swift; sourceTree = "<group>"; };
+		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
 		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -924,6 +926,7 @@
 				C8BADD352B88CC0100385FE7 /* Storage */,
 				C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */,
 				41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */,
+				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 			);
 			path = "Sessions+Services";
 			sourceTree = "<group>";
@@ -1770,6 +1773,7 @@
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C823CA142C871647000BDD5D /* MockWalletAvailabilityService.swift in Sources */,
 				C82B64522BA47D59000C9524 /* String+OneLoginTests.swift in Sources */,
+				7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				C8E6A3EF2BBC1181005015AF /* WindowManagerTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,

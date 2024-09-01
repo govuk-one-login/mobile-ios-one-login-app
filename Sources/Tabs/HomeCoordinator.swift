@@ -3,6 +3,7 @@ import Coordination
 import GDSCommon
 import LocalAuthentication
 import Logging
+import MobilePlatformServices
 import Networking
 import UIKit
 
@@ -47,14 +48,17 @@ final class HomeCoordinator: NSObject,
     
     func showDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
-        let devMenuViewController = DeveloperMenuViewController(parentCoordinator: self,
+        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsToken)
+        let devMenuViewController = DeveloperMenuViewController(delegate: self,
                                                                 viewModel: viewModel,
                                                                 sessionManager: sessionManager,
-                                                                networkClient: networkClient)
+                                                                helloWorldProvider: service)
         let navController = UINavigationController(rootViewController: devMenuViewController)
         root.present(navController, animated: true)
     }
-    
+}
+
+extension HomeCoordinator: DeveloperMenuDelegate {
     func accessTokenInvalidAction() {
         root.dismiss(animated: true) {
             NotificationCenter.default.post(name: Notification.Name(.startReauth), object: nil)

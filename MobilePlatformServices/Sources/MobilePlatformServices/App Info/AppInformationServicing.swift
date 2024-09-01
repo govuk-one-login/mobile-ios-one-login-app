@@ -1,5 +1,5 @@
+import Foundation
 import Networking
-import UIKit
 
 public protocol AppInformationServicing {
     func fetchAppInfo() async throws -> App
