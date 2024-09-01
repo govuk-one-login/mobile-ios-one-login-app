@@ -1,6 +1,6 @@
-import Authentication
 import LocalAuthentication
 import UIKit
+import Wallet
 
 //
 // NOTE: This type is only being used to build the Wallet implementation, this will be replaced with an actual local auth service

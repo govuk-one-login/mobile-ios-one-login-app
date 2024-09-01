@@ -1,3 +1,4 @@
+import Networking
 @testable import OneLogin
 import XCTest
 
@@ -21,6 +22,7 @@ final class WalletCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         sut = WalletCoordinator(window: window,
                                 analyticsCenter: mockAnalyticsCenter,
+                                networkClient: NetworkClient(),
                                 sessionManager: mockSessionManager)
     }
     

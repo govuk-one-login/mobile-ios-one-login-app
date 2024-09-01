@@ -1,5 +1,6 @@
 import GDSAnalytics
 import GDSCommon
+import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -33,6 +34,7 @@ final class MainCoordinatorTests: XCTestCase {
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
+                              networkClient: NetworkClient(),
                               sessionManager: mockSessionManager,
                               updateService: mockUpdateService,
                               walletAvailabilityService: mockWalletAvailabilityService)

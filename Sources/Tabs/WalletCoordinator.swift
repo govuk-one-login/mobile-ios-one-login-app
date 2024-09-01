@@ -18,15 +18,15 @@ final class WalletCoordinator: NSObject,
     private let sessionManager: SessionManager
     private let walletSDK = WalletSDK()
 
-    private lazy var networkClient = {
-        NetworkClient(authenticationProvider: sessionManager.tokenProvider)
-    }()
+    private let networkClient: NetworkClient
 
     init(window: UIWindow,
          analyticsCenter: AnalyticsCentral,
+         networkClient: NetworkClient,
          sessionManager: SessionManager) {
         self.window = window
         self.analyticsCenter = analyticsCenter
+        self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
     
@@ -38,7 +38,8 @@ final class WalletCoordinator: NSObject,
                         with: root,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
-                        localAuthService: DummyLocalAuthService())
+                        localAuthService: DummyLocalAuthService(),
+                        credentialIssuer: "")
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(clearWallet),

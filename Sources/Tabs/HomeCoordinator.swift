@@ -15,16 +15,15 @@ final class HomeCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-
-    private lazy var networkClient: NetworkClient = {
-        NetworkClient(authenticationProvider: sessionManager.tokenProvider)
-    }()
-
     private(set) var baseVc: TabbedViewController?
-    
+
+    private let networkClient: NetworkClient
+
     init(analyticsService: AnalyticsService,
+         networkClient: NetworkClient,
          sessionManager: SessionManager) {
         self.analyticsService = analyticsService
+        self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
     

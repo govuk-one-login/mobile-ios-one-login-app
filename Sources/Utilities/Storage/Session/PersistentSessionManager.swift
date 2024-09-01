@@ -1,5 +1,6 @@
 import Authentication
 import LocalAuthentication
+import Networking
 import SecureStore
 
 final class PersistentSessionManager: SessionManager {
@@ -22,7 +23,6 @@ final class PersistentSessionManager: SessionManager {
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
-
         self.tokenProvider = TokenHolder()
     }
 
@@ -60,7 +60,7 @@ final class PersistentSessionManager: SessionManager {
     }
 
     var sessionExists: Bool {
-        tokenProvider.accessToken != nil
+        tokenProvider.subjectToken != nil
     }
 
     var isSessionValid: Bool {
@@ -87,7 +87,7 @@ final class PersistentSessionManager: SessionManager {
         tokenResponse = response
 
         // update curent state
-        tokenProvider.update(accessToken: response.accessToken)
+        tokenProvider.update(subjectToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if AppEnvironment.callingSTSEnabled,
            let idToken = response.idToken {
@@ -145,7 +145,7 @@ final class PersistentSessionManager: SessionManager {
 
         let accessToken = try accessControlEncryptedStore
             .readItem(itemName: .accessToken)
-        tokenProvider.update(accessToken: accessToken)
+        tokenProvider.update(subjectToken: accessToken)
     }
     
     func endCurrentSession() {

@@ -2,6 +2,7 @@ import Coordination
 import GDSAnalytics
 import LocalAuthentication
 import Logging
+import Networking
 import SecureStore
 import UIKit
 
@@ -11,10 +12,12 @@ final class MainCoordinator: NSObject,
     private let windowManager: WindowManagement
     let root: UITabBarController
     var childCoordinators = [ChildCoordinator]()
+
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let updateService: AppInformationServicing
-    let walletAvailabilityService: WalletFeatureAvailabilityService
+    private let walletAvailabilityService: WalletFeatureAvailabilityService
+    private let networkClient: NetworkClient
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -24,12 +27,14 @@ final class MainCoordinator: NSObject,
     init(windowManager: WindowManagement,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
+         networkClient: NetworkClient,
          sessionManager: SessionManager,
          updateService: AppInformationServicing = AppInformationService(),
          walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
+        self.networkClient = networkClient
         self.sessionManager = sessionManager
         self.updateService = updateService
         self.walletAvailabilityService = walletAvailabilityService
@@ -149,6 +154,7 @@ extension MainCoordinator {
     
     private func addHomeTab() {
         let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                 networkClient: networkClient,
                                  sessionManager: sessionManager)
         addTab(hc)
         homeCoordinator = hc
@@ -157,6 +163,7 @@ extension MainCoordinator {
     private func addWalletTab() {
         let wc = WalletCoordinator(window: windowManager.appWindow,
                                    analyticsCenter: analyticsCenter,
+                                   networkClient: networkClient,
                                    sessionManager: sessionManager)
         addTab(wc)
         root.viewControllers?.sort {

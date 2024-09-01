@@ -1,5 +1,7 @@
 import Networking
 
-struct MockAuthenticationProvider: AuthenticationProvider {
-    let bearerToken: String = "testBearerToken"
+struct MockAuthenticationProvider: AuthorizationProvider {
+    func fetchToken(withScope scope: String) async throws -> String {
+        "testBearerToken"
+    }
 }

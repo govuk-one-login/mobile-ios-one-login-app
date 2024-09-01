@@ -1,3 +1,4 @@
+import Networking
 @testable import OneLogin
 import XCTest
 
@@ -7,7 +8,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var encryptedStore: MockSecureStoreService!
     private var unprotectedStore: MockDefaultsStore!
     private var localAuthentication: MockLocalAuthManager!
-    
+
     override func setUp() {
         super.setUp()
         
@@ -31,7 +32,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         encryptedStore = nil
         unprotectedStore = nil
         localAuthentication = nil
-        
+
         sut = nil
         
         super.tearDown()
@@ -117,7 +118,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user?.email, "mock@email.com")
         // AND access token are populated
-        XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
+        XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
     }
 
     func testStartSession_skipsSavingTokensForNewUsers() async throws {
@@ -195,7 +196,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user?.email, "mock@email.com")
         
-        XCTAssertEqual(sut.tokenProvider.accessToken, MockJWKSResponse.idToken)
+        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWKSResponse.idToken)
     }
     
     func testEndCurrentSession_clearsDataFromSession() throws {
@@ -208,7 +209,7 @@ extension PersistentSessionManagerTests {
         // WHEN I end the session
         sut.endCurrentSession()
         // THEN my data is cleared
-        XCTAssertNil(sut.tokenProvider.accessToken)
+        XCTAssertNil(sut.tokenProvider.subjectToken)
         XCTAssertNil(sut.user)
         
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])

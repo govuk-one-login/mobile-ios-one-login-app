@@ -3,6 +3,7 @@ import GAnalytics
 import GDSCommon
 import LocalAuthentication
 import Logging
+import Networking
 import SecureStore
 import UIKit
 
@@ -14,7 +15,13 @@ class SceneDelegate: UIResponder,
     var windowManager: WindowManagement?
     private var shouldCallSceneWillEnterForeground = false
 
-    private lazy var sessionManager = PersistentSessionManager()
+    private lazy var client = NetworkClient()
+
+    private lazy var sessionManager = {
+        let manager = PersistentSessionManager()
+        self.client.authorizationProvider = manager.tokenProvider
+        return manager
+    }()
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -40,6 +47,7 @@ class SceneDelegate: UIResponder,
         coordinator = MainCoordinator(windowManager: windowManager,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
+                                      networkClient: client,
                                       sessionManager: sessionManager)
         windowManager.appWindow.rootViewController = tabController
         windowManager.appWindow.makeKeyAndVisible()
