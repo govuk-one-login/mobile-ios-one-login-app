@@ -60,7 +60,7 @@ final class PersistentSessionManager: SessionManager {
     }
 
     var sessionExists: Bool {
-        tokenProvider.accessToken != nil && isReturningUser
+        tokenProvider.accessToken != nil
     }
 
     var isSessionValid: Bool {
