@@ -69,9 +69,7 @@ extension MainCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet Feature Flag is off
-        UserDefaults.standard.set(false, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
-        UserDefaults.standard.set(false, forKey: "hasAccessedWalletBefore")
-        
+        sut.walletAvailabilityService.walletVisibleToAll = false
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
@@ -81,15 +79,12 @@ extension MainCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
         // AND the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
-        
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
-        UserDefaults.standard.removeObject(forKey: "hasAccessedWalletBefore")
     }
     
+    @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
-        UserDefaults.standard.set(true, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
-        
+        sut.walletAvailabilityService.walletVisibleToAll = true
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
@@ -101,7 +96,6 @@ extension MainCoordinatorTests {
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
 
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
     }
     
     @MainActor
@@ -259,7 +253,7 @@ extension MainCoordinatorTests {
     @MainActor
     func test_didSelect_tabBarItem_wallet() {
         // GIVEN the wallet feature flag is on
-        UserDefaults.standard.set(true, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        sut.walletAvailabilityService.walletVisibleToAll = true
         
         // WHEN the MainCoordinator has started and added it's tab bar items
         sut.start()

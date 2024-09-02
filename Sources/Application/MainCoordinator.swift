@@ -14,7 +14,7 @@ final class MainCoordinator: NSObject,
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let updateService: AppInformationServicing
-    private let walletAvailabilityService = WalletAvailabilityService()
+    let walletAvailabilityService = WalletAvailabilityService()
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
