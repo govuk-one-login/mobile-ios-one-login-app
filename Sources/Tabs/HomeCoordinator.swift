@@ -14,14 +14,18 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: AnalyticsService
-    private let userStore: UserStorable
-    
+    private let sessionManager: SessionManager
+
+    private lazy var networkClient: NetworkClient = {
+        NetworkClient(authenticationProvider: sessionManager.tokenProvider)
+    }()
+
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsService: AnalyticsService,
-         userStore: UserStorable) {
+         sessionManager: SessionManager) {
         self.analyticsService = analyticsService
-        self.userStore = userStore
+        self.sessionManager = sessionManager
     }
     
     func start() {
@@ -36,25 +40,19 @@ final class HomeCoordinator: NSObject,
         root.setViewControllers([hc], animated: true)
     }
     
-    func updateToken() {
-        baseVc?.updateToken(TokenHolder.shared)
+    func updateUser(_ user: User) {
+        baseVc?.updateEmail(user.email)
         baseVc?.isLoggedIn(true)
         baseVc?.screenAnalytics()
     }
     
     func showDeveloperMenu() {
-        if TokenHolder.shared.accessToken == nil,
-           let accessToken = try? userStore.readItem(itemName: .accessToken, storage: .authenticated) {
-            TokenHolder.shared.accessToken = accessToken
-        }
-        let networkClient = NetworkClient(authenticationProvider: TokenHolder.shared)
         let viewModel = DeveloperMenuViewModel()
         let devMenuViewController = DeveloperMenuViewController(parentCoordinator: self,
                                                                 viewModel: viewModel,
-                                                                userStore: userStore,
+                                                                sessionManager: sessionManager,
                                                                 networkClient: networkClient)
-        let navController = UINavigationController()
-        navController.setViewControllers([devMenuViewController], animated: false)
+        let navController = UINavigationController(rootViewController: devMenuViewController)
         root.present(navController, animated: true)
     }
     

@@ -43,9 +43,9 @@ final class TabbedViewController: BaseViewController {
         }
     }
     
-    func updateToken(_ tokenHolder: TokenHolder) {
+    func updateEmail(_ email: String) {
         guard let headerView = headerView as? SignInView else { return }
-        headerView.userEmail = tokenHolder.idTokenPayload?.email
+        headerView.userEmail = email
         resizeHeaderView()
     }
     

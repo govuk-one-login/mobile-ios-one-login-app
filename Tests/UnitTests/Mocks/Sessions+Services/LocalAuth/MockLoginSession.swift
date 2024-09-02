@@ -8,7 +8,7 @@ final class MockLoginSession: LoginSession {
     var errorFromPerformLoginFlow: Error?
     var errorFromFinalise: Error?
 
-    init(window: UIWindow = UIWindow()) {
+    init(window: UIWindow) {
         self.window = window
     }
 

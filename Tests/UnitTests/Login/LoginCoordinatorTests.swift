@@ -3,79 +3,68 @@ import GDSCommon
 import SecureStore
 import XCTest
 
-@MainActor
 final class LoginCoordinatorTests: XCTestCase {
     var appWindow: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: AnalyticsCentral!
-    var mockSecureStore: MockSecureStoreService!
-    var mockOpenSecureStore: MockSecureStoreService!
-    var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: UserStorage!
+    var mockSessionManager: MockSessionManager!
     var mockNetworkMonitor: NetworkMonitoring!
     var sut: LoginCoordinator!
     
+    @MainActor
     override func setUp() {
         super.setUp()
-        
-        TokenHolder.shared.clearTokenHolder()
+
         appWindow = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = AnalyticsCenter(analyticsService: mockAnalyticsService,
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
-        mockSecureStore = MockSecureStoreService()
-        mockOpenSecureStore = MockSecureStoreService()
-        mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
-                                    openStore: mockOpenSecureStore,
-                                    defaultsStore: mockDefaultStore)
+        mockSessionManager = MockSessionManager()
         mockNetworkMonitor = MockNetworkMonitor()
         appWindow.rootViewController = navigationController
         appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
-                               userStore: mockUserStore,
+                               sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                loginError: nil)
     }
     
     override func tearDown() {
-        TokenHolder.shared.clearTokenHolder()
         appWindow = nil
         navigationController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
-        mockSecureStore = nil
-        mockOpenSecureStore = nil
-        mockDefaultStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         mockNetworkMonitor = nil
         sut = nil
         
         super.tearDown()
     }
     
+    @MainActor
     func reauthLogin() {
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
-                               userStore: mockUserStore,
+                               sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                loginError: TokenError.expired)
-        mockDefaultStore.set(true, forKey: .returningUser)
+        mockSessionManager.isReturningUser = true
     }
     
+    @MainActor
     func errorLogin() {
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
-                               userStore: mockUserStore,
+                               sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                loginError: JWTVerifierError.invalidJWTFormat)
     }
@@ -87,6 +76,7 @@ final class LoginCoordinatorTests: XCTestCase {
 
 extension LoginCoordinatorTests {
     // MARK: Login
+    @MainActor
     func test_start() {
         // WHEN the LoginCoordinator is started
         sut.start()
@@ -98,6 +88,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
+    @MainActor
     func test_start_reauth() throws {
         // WHEN the LoginCoordinator is started in a reauth flow
         reauthLogin()
@@ -111,6 +102,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
     }
     
+    @MainActor
     func test_start_error() throws {
         // WHEN the LoginCoordinator is started in an error flow
         errorLogin()
@@ -124,9 +116,11 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(warningScreen.viewModel is UnableToLoginErrorViewModel)
     }
     
+    @MainActor
     func test_authenticate_missingPersistenId() throws {
-        mockOpenSecureStore.returnFromCheckItemExists = false
-        mockDefaultStore.set(true, forKey: .returningUser)
+        mockSessionManager.isReturningUser = true
+        mockSessionManager.isPersistentSessionIDMissing = true
+
         let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
                                                object: nil,
                                                notificationCenter: NotificationCenter.default)
@@ -136,6 +130,7 @@ extension LoginCoordinatorTests {
         wait(for: [exp], timeout: 20)
     }
     
+    @MainActor
     func test_authenticate_opensAuthenticationCoordinator() throws {
         // WHEN the LoginCoordinator is started
         sut.authenticate()
@@ -143,6 +138,7 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
     }
     
+    @MainActor
     func test_authenticate_noNetwork() throws {
         // GIVEN the network is not connected
         mockNetworkMonitor.isConnected = false
@@ -160,6 +156,7 @@ extension LoginCoordinatorTests {
     }
     
     // MARK: Coordinator flow
+    @MainActor
     func test_start_skips_launchOnboardingCoordinator() {
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
@@ -168,7 +165,8 @@ extension LoginCoordinatorTests {
         // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
-    
+
+    @MainActor
     func test_launchAuthenticationCoordinator() {
         // WHEN the LoginCoordinator's launchAuthenticationCoordinator method is called
         sut.launchAuthenticationCoordinator()
@@ -177,23 +175,26 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is AuthenticationCoordinator)
     }
     
+    @MainActor
     func test_handleUniversalLink() {
         // WHEN the handleUniversalLink method is called
         // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
         sut.handleUniversalLink(URL(string: "google.com")!)
     }
     
+    @MainActor
     func test_launchEnrolmentCoordinator() {
         // GIVEN sufficient test set up to ensure enrolment coordinator does not finish before test assertions
-        let mockLAContext = MockLAContext()
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
+        let mockLocalAuthManager = MockLocalAuthManager()
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
-        sut.launchEnrolmentCoordinator(localAuth: mockLAContext)
+        sut.launchEnrolmentCoordinator()
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
     }
     
+    @MainActor
     func test_didRegainFocus_fromOnboardingCoordinator() {
         let onboardingCoordinator = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                           urlOpener: MockURLOpener())
@@ -205,35 +206,13 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
-    func test_didRegainFocus_fromAuthenticationCoordinator_expiredToken() throws {
-        // GIVEN I'm a reauth user with tokens received in the authentication flow
-        reauthLogin()
-        let tokenResponse = try MockTokenResponse().getJSONData()
-        TokenHolder.shared.tokenResponse = tokenResponse
-        TokenHolder.shared.idTokenPayload = try MockTokenVerifier().extractPayload("test")
-        let authCoordinator = AuthenticationCoordinator(window: appWindow,
-                                                        root: navigationController,
-                                                        analyticsService: mockAnalyticsService,
-                                                        userStore: mockUserStore,
-                                                        session: MockLoginSession(),
-                                                        reauth: false)
-        // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
-        sut.didRegainFocus(fromChild: authCoordinator)
-        // THEN the LoginCoordinator should stored those tokens in secure store
-        XCTAssertEqual(try mockSecureStore.readItem(itemName: .accessToken), tokenResponse.accessToken)
-        XCTAssertEqual(try mockSecureStore.readItem(itemName: .idToken), tokenResponse.idToken)
-        XCTAssertEqual(try mockOpenSecureStore.readItem(itemName: .persistentSessionID), TokenHolder.shared.idTokenPayload?.persistentId)
-        XCTAssertEqual(mockDefaultStore.value(forKey: .accessTokenExpiry) as? Date, tokenResponse.expiryDate)
-        XCTAssertEqual(mockDefaultStore.value(forKey: .returningUser) as? Bool, true)
-    }
-    
+    @MainActor
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(window: appWindow,
                                                         root: navigationController,
                                                         analyticsService: mockAnalyticsService,
-                                                        userStore: mockUserStore,
-                                                        session: MockLoginSession(),
-                                                        reauth: false)
+                                                        sessionManager: mockSessionManager,
+                                                        session: MockLoginSession(window: UIWindow()))
         authCoordinator.authError = AuthenticationError.generic
         // GIVEN the LoginCoordinator has started and set it's view controllers
         sut.start()

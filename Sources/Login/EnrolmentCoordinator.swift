@@ -10,45 +10,22 @@ final class EnrolmentCoordinator: NSObject,
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
-    private let userStore: UserStorable
-    private var localAuth: LAContexting
+    private let sessionManager: SessionManager
     
     init(root: UINavigationController,
          analyticsService: AnalyticsService,
-         userStore: UserStorable,
-         localAuth: LAContexting) {
+         sessionManager: SessionManager) {
         self.root = root
         self.analyticsService = analyticsService
-        self.userStore = userStore
-        self.localAuth = localAuth
+        self.sessionManager = sessionManager
     }
     
     func start() {
-        if canUseLocalAuth(.deviceOwnerAuthenticationWithBiometrics) {
-            showEnrolmentGuidance()
-        } else if !canUseLocalAuth(.deviceOwnerAuthentication) {
-            showPasscodeInfo()
-        } else {
-            // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
-            // keys in the secure enclave if no biometrics are registered on the device.  Hence the store
-            // needs to be recreated with access controls that allow it
-            userStore.refreshStorage(accessControlLevel: .anyBiometricsOrPasscode)
-            userStore.storeTokenInfo()
-            finish()
-        }
-    }
-    
-    private func canUseLocalAuth(_ policy: LAPolicy) -> Bool {
-        localAuth.canEvaluatePolicy(policy, error: nil)
-    }
-    
-    private func showEnrolmentGuidance() {
-        switch localAuth.biometryType {
+        switch sessionManager.localAuthentication.type {
         case .touchID:
             let touchIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    userStore.storeTokenInfo()
-                    finish()
+                    completeEnrolment()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
@@ -56,39 +33,35 @@ final class EnrolmentCoordinator: NSObject,
         case .faceID:
             let faceIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    Task { await enrolLocalAuth(reason: "app_faceId_subtitle") }
+                    completeEnrolment()
                 } secondaryButtonAction: { [unowned self] in
                     finish()
                 }
             root.pushViewController(faceIDEnrollmentScreen, animated: true)
-        case .opticID, .none:
-            return
-        @unknown default:
-            return
+        case .passcodeOnly:
+            showPasscodeInfo()
+        case .none:
+            finish()
         }
     }
-    
+
+    private func completeEnrolment() {
+        Task {
+            do {
+                try await sessionManager.saveSession()
+                finish()
+            } catch {
+                // TODO: DCMAW-9700 - handle errors thrown here:
+                fatalError("Handle these errors")
+            }
+        }
+    }
+
     private func showPasscodeInfo() {
         let passcodeInformationScreen = OnboardingViewControllerFactory
             .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
-                finish()
+                completeEnrolment()
             }
         root.pushViewController(passcodeInformationScreen, animated: true)
-    }
-    
-    func enrolLocalAuth(reason: String) async {
-        do {
-            localAuth.localizeAuthPromptStrings()
-            if try await localAuth
-                .evaluatePolicy(.deviceOwnerAuthentication,
-                                localizedReason: GDSLocalisedString(stringLiteral: reason).value) {
-                userStore.storeTokenInfo()
-                finish()
-            } else {
-                return
-            }
-        } catch {
-            return
-        }
     }
 }

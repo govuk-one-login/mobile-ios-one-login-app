@@ -3,107 +3,64 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-@MainActor
 final class EnrolmentCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockSecureStore: MockSecureStoreService!
-    var mockOpenSecureStore: MockSecureStoreService!
-    var mockDefaultsStore: MockDefaultsStore!
-    var mockUserStore: MockUserStore!
-    var mockLAContext: MockLAContext!
+    var mockSessionManager: MockSessionManager!
+    var mockLocalAuthManager: MockLocalAuthManager!
     var sut: EnrolmentCoordinator!
     
-    override func setUp() {
+    @MainActor
+    override func setUpWithError() throws {
         super.setUp()
-        
-        TokenHolder.shared.clearTokenHolder()
+
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockSecureStore = MockSecureStoreService()
-        mockOpenSecureStore = MockSecureStoreService()
-        mockDefaultsStore = MockDefaultsStore()
-        mockUserStore = MockUserStore(authenticatedStore: mockSecureStore,
-                                      openStore: mockOpenSecureStore,
-                                      defaultsStore: mockDefaultsStore)
-        mockLAContext = MockLAContext()
+        mockSessionManager = MockSessionManager()
+
+        mockLocalAuthManager = try XCTUnwrap(
+            mockSessionManager.localAuthentication as? MockLocalAuthManager
+        )
+
         sut = EnrolmentCoordinator(root: navigationController,
                                    analyticsService: mockAnalyticsService,
-                                   userStore: mockUserStore,
-                                   localAuth: mockLAContext)
+                                   sessionManager: mockSessionManager)
     }
     
     override func tearDown() {
-        TokenHolder.shared.clearTokenHolder()
         navigationController = nil
         mockAnalyticsService = nil
-        mockSecureStore = nil
-        mockOpenSecureStore = nil
-        mockDefaultsStore = nil
-        mockUserStore = nil
-        mockLAContext = nil
+        mockSessionManager = nil
+        mockLocalAuthManager = nil
         sut = nil
         
         super.tearDown()
     }
-    
-    private enum LocalAuthError: Error {
-        case generic
-    }
-    
-    private enum SecureStoreError: Error {
-        case generic
-    }
 }
 
 extension EnrolmentCoordinatorTests {
-    func test_start_noDeviceLocalAuthSet() throws {
-        // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = false
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
+    @MainActor
+    func test_start_deviceLocalAuthSet_passcodeOnly() throws {
+        // GIVEN the biometric authentication is enabled on the device
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
+        // AND the user has a valid session
+        try mockSessionManager.setupSession()
+        // GIVEN the local authentication's biometry type is optic id
+        mockLocalAuthManager.type = .passcodeOnly
         // WHEN the EnrolmentCoordinator is started
         sut.start()
-        // THEN the 'passcode information' screen is shown
+        // THEN the no screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 1)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
         XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
     }
-    
-    func test_start_deviceLocalAuthSet_passcode_succeeds() throws {
-        // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
-        // GIVEN the token holder's token response has tokens
-        let tokenResponse = try MockTokenResponse().getJSONData()
-        TokenHolder.shared.tokenResponse = tokenResponse
-        // WHEN the EnrolmentCoordinator is started
-        sut.start()
-        // THEN the journey should be saved in user defaults
-        XCTAssertEqual(mockDefaultsStore.savedData[.accessTokenExpiry] as? Date, tokenResponse.expiryDate)
-        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], tokenResponse.accessToken)
-        XCTAssertEqual(mockSecureStore.savedItems[.idToken], tokenResponse.idToken)
-    }
-    
-    func test_start_deviceLocalAuthSet_passcode_fails() throws {
-        // GIVEN the local authentication context returned true for canEvaluatePolicy for authentication
-        mockLAContext.returnedFromCanEvaluatePolicyForAuthentication = true
-        // GIVEN the secure store returns an error from saving an item
-        mockSecureStore.errorFromSaveItem = SecureStoreError.generic
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
-        // WHEN the EnrolmentCoordinator is started
-        sut.start()
-        // THEN the journey should be saved in user defaults
-        XCTAssertEqual(mockDefaultsStore.savedData[.accessTokenExpiry] as? Date, nil)
-        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
-        XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
-    }
-    
+
+    @MainActor
     func test_start_deviceLocalAuthSet_touchID() throws {
-        // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
+        // GIVEN the biometric authentication is enabled on the device
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
+        // AND the user has a valid session
+        try mockSessionManager.setupSession()
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the 'touch id information' screen is shown
@@ -112,75 +69,19 @@ extension EnrolmentCoordinatorTests {
         XCTAssertTrue(vc.viewModel is TouchIDEnrollmentViewModel)
     }
     
+    @MainActor
     func test_start_deviceLocalAuthSet_faceID() throws {
-        // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
+        // GIVEN the biometric authentication is enabled on the device
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
+        // AND the user has a valid session
+        try mockSessionManager.setupSession()
         // GIVEN the local authentication's biometry type is face id
-        mockLAContext.biometryType = .faceID
+        mockLocalAuthManager.type = .faceID
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the 'face id information' screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 1)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
         XCTAssertTrue(vc.viewModel is FaceIDEnrollmentViewModel)
-    }
-    
-    func test_start_deviceLocalAuthSet_opticID() throws {
-        // GIVEN the local authentication context returned true for canEvaluatePolicy for biometrics
-        mockLAContext.returnedFromCanEvaluatePolicyForBiometrics = true
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
-        // GIVEN the local authentication's biometry type is optic id
-        if #available(iOS 17.0, *) {
-            mockLAContext.biometryType = .opticID
-        }
-        // WHEN the EnrolmentCoordinator is started
-        sut.start()
-        // THEN the no screen is shown
-        XCTAssertEqual(navigationController.viewControllers.count, 0)
-    }
-    
-    func test_enrolLocalAuth_succeeds() throws {
-        // GIVEN the local authentication context returned true for evaluatePolicy
-        mockLAContext.returnedFromEvaluatePolicy = true
-        // GIVEN the token holder's token response has tokens
-        let tokenResponse = try MockTokenResponse().getJSONData()
-        TokenHolder.shared.tokenResponse = tokenResponse
-        // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
-        Task { await sut.enrolLocalAuth(reason: "") }
-        // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData[.accessTokenExpiry] as? Date == tokenResponse.expiryDate, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], tokenResponse.accessToken)
-        XCTAssertEqual(mockSecureStore.savedItems[.idToken], tokenResponse.idToken)
-        XCTAssertEqual(mockLAContext.localizedFallbackTitle, "Enter passcode")
-        XCTAssertEqual(mockLAContext.localizedCancelTitle, "Cancel")
-    }
-    
-    func test_enrolLocalAuth_fails() throws {
-        // GIVEN the local authentication context returned false for evaluatePolicy
-        mockLAContext.returnedFromEvaluatePolicy = false
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
-        // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
-        Task { await sut.enrolLocalAuth(reason: "") }
-        // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData[.accessTokenExpiry] as? Date == nil, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
-        XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
-    }
-    
-    func test_enrolLocalAuth_errors() throws {
-        // GIVEN the local authentication context returned an error for evaluatePolicy
-        mockLAContext.errorFromEvaluatePolicy = LocalAuthError.generic
-        // GIVEN the token holder's token response has tokens
-        TokenHolder.shared.tokenResponse = try MockTokenResponse().getJSONData()
-        // WHEN the EnrolmentCoordinator's enrolLocalAuth method is called
-        Task { await sut.enrolLocalAuth(reason: "") }
-        // THEN the journey should be saved in user defaults
-        waitForTruth(self.mockDefaultsStore.savedData[.accessTokenExpiry] as? Date == nil, timeout: 20)
-        XCTAssertEqual(mockSecureStore.savedItems[.accessToken], nil)
-        XCTAssertEqual(mockSecureStore.savedItems[.idToken], nil)
     }
 }

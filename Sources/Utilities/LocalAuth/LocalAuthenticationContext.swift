@@ -2,7 +2,19 @@ import GDSCommon
 import LocalAuthentication
 import SecureStore
 
-extension LAContext {
+protocol LocalAuthenticationContext: AnyObject {
+    var biometryType: LABiometryType { get }
+    var contextStrings: LocalAuthenticationLocalizedStrings? { get }
+
+    var localizedFallbackTitle: String? { get set }
+    var localizedCancelTitle: String? { get set }
+
+    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool
+    func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool
+}
+
+extension LAContext: LocalAuthenticationContext { }
+extension LocalAuthenticationContext {
     var contextStrings: LocalAuthenticationLocalizedStrings? {
         if canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
             let biometryTypeString = biometryType == .touchID ? "touch" : "face"

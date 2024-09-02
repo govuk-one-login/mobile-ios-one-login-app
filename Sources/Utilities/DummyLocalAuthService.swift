@@ -7,9 +7,9 @@ import UIKit
 //
 
 final class DummyLocalAuthService: LocalAuthService {
-    let context: LAContexting
-    
-    init(context: LAContexting) {
+    let context: LocalAuthenticationContext
+
+    init(context: LocalAuthenticationContext) {
         self.context = context
     }
     

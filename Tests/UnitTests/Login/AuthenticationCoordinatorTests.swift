@@ -4,59 +4,45 @@ import GDSCommon
 @testable import OneLogin
 import XCTest
 
-@MainActor
 final class AuthenticationCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockSecureStore: MockSecureStoreService!
-    var mockOpenSecureStore: MockSecureStoreService!
-    var mockDefaultStore: MockDefaultsStore!
-    var mockUserStore: UserStorage!
+    var mockSessionManager: MockSessionManager!
     var mockLoginSession: MockLoginSession!
     var mockTokenVerifier: MockTokenVerifier!
     var sut: AuthenticationCoordinator!
-    
-    
+
+    @MainActor
     override func setUp() {
         super.setUp()
-        
-        TokenHolder.shared.clearTokenHolder()
+
         window = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockSecureStore = MockSecureStoreService()
-        mockOpenSecureStore = MockSecureStoreService()
-        mockDefaultStore = MockDefaultsStore()
-        mockUserStore = UserStorage(authenticatedStore: mockSecureStore,
-                                    openStore: mockOpenSecureStore,
-                                    defaultsStore: mockDefaultStore)
+        mockSessionManager = MockSessionManager()
         mockLoginSession = MockLoginSession(window: window)
-        mockTokenVerifier = MockTokenVerifier()
         sut = AuthenticationCoordinator(window: window,
                                         root: navigationController,
                                         analyticsService: mockAnalyticsService,
-                                        userStore: mockUserStore,
-                                        session: mockLoginSession,
-                                        tokenVerifier: mockTokenVerifier,
-                                        reauth: false)
-        UserDefaults.standard.setValue(true, forKey: FeatureFlags.enableCallingSTS.rawValue)
+                                        sessionManager: mockSessionManager,
+                                        session: mockLoginSession)
+
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableCallingSTS.rawValue: true
+        ])
     }
     
     override func tearDown() {
-        TokenHolder.shared.clearTokenHolder()
         window = nil
         navigationController = nil
         mockAnalyticsService = nil
-        mockSecureStore = nil
-        mockOpenSecureStore = nil
-        mockDefaultStore = nil
-        mockUserStore = nil
+        mockSessionManager = nil
         mockLoginSession = nil
-        mockTokenVerifier = nil
         sut = nil
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableCallingSTS.rawValue)
-        
+
+        AppEnvironment.updateReleaseFlags([:])
+
         super.tearDown()
     }
     
@@ -66,24 +52,19 @@ final class AuthenticationCoordinatorTests: XCTestCase {
 }
 
 extension AuthenticationCoordinatorTests {
+    @MainActor
     func test_start_loginSession_successful() throws {
-        // GIVEN the open secure store has a persistent session ID
-        try mockOpenSecureStore.saveItem(item: "123456789", itemName: .persistentSessionID)
+        // GIVEN there is an existing (expired) user session
         // WHEN the AuthenticationCoordinator is started
         // and the AuthenticationCoordinator calls performLoginFlow on the session
         // and there is no error
         sut.start()
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
-        // THEN the session configuration should have the persistent session ID
-        XCTAssertEqual(mockLoginSession.sessionConfiguration?.persistentSessionId, "123456789")
-        // THEN the tokens are returned
-        XCTAssertEqual(TokenHolder.shared.tokenResponse?.accessToken, "accessTokenResponse")
-        XCTAssertEqual(TokenHolder.shared.tokenResponse?.refreshToken, "refreshTokenResponse")
-        XCTAssertEqual(TokenHolder.shared.tokenResponse?.idToken, "idTokenResponse")
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
     }
     
+    @MainActor
     func test_start_loginError_network() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.network
+        mockSessionManager.errorFromStartSession = LoginError.network
         sut.start()
         // WHEN the AuthenticationCoordinator is started
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -94,11 +75,12 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
         // THEN the loginError should be a netwok error
-        sut.authError = LoginError.network
+        XCTAssertTrue(sut.authError as? LoginError == .network)
     }
     
+    @MainActor
     func test_start_loginError_non200() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.non200
+        mockSessionManager.errorFromStartSession = LoginError.non200
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -109,11 +91,12 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a non200 error
-        sut.authError = LoginError.non200
+        XCTAssertTrue(sut.authError as? LoginError == .non200)
     }
     
+    @MainActor
     func test_loginError_invalidRequest() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.invalidRequest
+        mockSessionManager.errorFromStartSession = LoginError.invalidRequest
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -124,11 +107,12 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an invalidRequest error
-        sut.authError = LoginError.invalidRequest
+        XCTAssertTrue(sut.authError as? LoginError == .invalidRequest)
     }
     
+    @MainActor
     func test_loginError_clientError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.clientError
+        mockSessionManager.errorFromStartSession = LoginError.clientError
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -139,11 +123,13 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a clientError error
-        sut.authError = LoginError.clientError
+        XCTAssertTrue(sut.authError as? LoginError == .clientError)
+
     }
     
+    @MainActor
     func test_loginError_serverError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.serverError
+        mockSessionManager.errorFromStartSession = LoginError.serverError
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -154,11 +140,12 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be a serverError error
-        sut.authError = LoginError.serverError
+        XCTAssertTrue(sut.authError as? LoginError == .serverError)
     }
     
+    @MainActor
     func test_loginError_generic() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.generic(description: "")
+        mockSessionManager.errorFromStartSession = LoginError.generic(description: "")
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -169,11 +156,12 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be a generic error
-        sut.authError = LoginError.generic(description: "")
+        XCTAssertTrue(sut.authError as? LoginError == .generic(description: ""))
     }
     
+    @MainActor
     func test_loginError_catchAllError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
+        mockSessionManager.errorFromStartSession = AuthenticationError.generic
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
@@ -184,16 +172,17 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
-        sut.authError = AuthenticationError.generic
+        XCTAssertTrue(sut.authError as? AuthenticationError == .generic)
     }
     
+    @MainActor
     func test_loginError_userCancelled() throws {
-        mockLoginSession.errorFromPerformLoginFlow = LoginError.userCancelled
+        mockSessionManager.errorFromStartSession = LoginError.userCancelled
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and user cancelled the login modal
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN user is returned to the intro screen
         // THEN the loginError should be a userCancelled error
         sut.authError = LoginError.userCancelled
@@ -204,34 +193,37 @@ extension AuthenticationCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
     }
     
+    @MainActor
     func test_loginError_jwtFetchError() throws {
-        mockLoginSession.errorFromPerformLoginFlow = JWTVerifierError.unableToFetchJWKs
+        mockSessionManager.errorFromStartSession = JWTVerifierError.unableToFetchJWKs
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and the subsequent call to the JWKS service fails
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the login error screen is shown
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
-        sut.authError = JWTVerifierError.unableToFetchJWKs
+        XCTAssertTrue(sut.authError as? JWTVerifierError == .unableToFetchJWKs)
     }
     
+    @MainActor
     func test_loginError_jwtVerifyError() throws {
-        mockTokenVerifier.verificationError = JWTVerifierError.invalidJWTFormat
+        mockSessionManager.errorFromStartSession = JWTVerifierError.invalidJWTFormat
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
         // and the subsequent call to the JWKS service fails
-        waitForTruth(self.mockLoginSession.didCallPerformLoginFlow, timeout: 20)
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the login error screen is shown
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
         // THEN the loginError should be an unableToFetchJWKs error
-        sut.authError = JWTVerifierError.invalidJWTFormat
+        XCTAssertTrue(sut.authError as? JWTVerifierError == .invalidJWTFormat)
     }
     
+    @MainActor
     func test_handleUniversalLink_catchAllError() throws {
         mockLoginSession.errorFromFinalise = AuthenticationError.generic
         // WHEN the AuthenticationCoordinator calls finalise on the session
@@ -245,11 +237,12 @@ extension AuthenticationCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
-        sut.authError = AuthenticationError.generic
+        XCTAssertTrue(sut.authError as? AuthenticationError == .generic)
     }
     
+    @MainActor
     func test_returnFromErrorScreen() throws {
-        mockLoginSession.errorFromPerformLoginFlow = AuthenticationError.generic
+        mockSessionManager.errorFromStartSession = AuthenticationError.generic
         sut.start()
         // GIVEN the AuthenticationCoordinator has logged in via start()
         // WHEN the AuthenticationCoordinator calls performLoginFlow on the session

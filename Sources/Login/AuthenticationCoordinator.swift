@@ -13,36 +13,25 @@ final class AuthenticationCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
     private let session: LoginSession
-    private let userStore: UserStorable
-    private let tokenVerifier: TokenVerifier
-    private let reauth: Bool
+    private let sessionManager: SessionManager
     var authError: Error?
     
     init(window: UIWindow,
          root: UINavigationController,
          analyticsService: AnalyticsService,
-         userStore: UserStorable,
-         session: LoginSession,
-         tokenVerifier: TokenVerifier = JWTVerifier(),
-         reauth: Bool) {
+         sessionManager: SessionManager,
+         session: LoginSession) {
         self.window = window
         self.root = root
         self.analyticsService = analyticsService
-        self.userStore = userStore
+        self.sessionManager = sessionManager
         self.session = session
-        self.tokenVerifier = tokenVerifier
-        self.reauth = reauth
     }
     
     func start() {
         Task(priority: .userInitiated) {
             do {
-                TokenHolder.shared.tokenResponse = try await session.performLoginFlow(configuration: userStore.constructLoginSessionConfiguration())
-                // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
-                if AppEnvironment.callingSTSEnabled,
-                   let idToken = TokenHolder.shared.tokenResponse?.idToken {
-                    TokenHolder.shared.idTokenPayload = try await tokenVerifier.verifyToken(idToken)
-                }
+                try await sessionManager.startSession(using: session)
                 finish()
             } catch let error as LoginError where error == .network {
                 let networkErrorScreen = ErrorPresenter
@@ -70,9 +59,7 @@ final class AuthenticationCoordinator: NSObject,
     
     func handleUniversalLink(_ url: URL) {
         do {
-            if reauth {
-                window.rootViewController?.presentedViewController?.dismiss(animated: true)
-            }
+            window.rootViewController?.presentedViewController?.dismiss(animated: true)
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
             try session.finalise(redirectURL: url)
