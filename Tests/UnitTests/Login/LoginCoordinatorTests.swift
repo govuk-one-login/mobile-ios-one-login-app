@@ -206,24 +206,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
-//    @MainActor
-//    func test_didRegainFocus_fromAuthenticationCoordinator_expiredToken() throws {
-//        // GIVEN I am a user with an expired session
-//        reauthLogin()
-//        // WHEN I successfully re-authenticate
-//        try mockSessionManager.setupSession()
-//
-//        let authCoordinator = AuthenticationCoordinator(window: appWindow,
-//                                                        root: navigationController,
-//                                                        analyticsService: mockAnalyticsService,
-//                                                        sessionManager: mockSessionManager,
-//                                                        session: MockLoginSession())
-//        sut.didRegainFocus(fromChild: authCoordinator)
-//        // THEN the LoginCoordinator is dismissed
-          // TODO: DCMAW-10066 - check parent coordinator is also notified (childDidFinish)
-//        waitForTruth(self.sut.root.isBeingDismissed, timeout: 4)
-//    }
-    
     @MainActor
     func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
         let authCoordinator = AuthenticationCoordinator(window: appWindow,
