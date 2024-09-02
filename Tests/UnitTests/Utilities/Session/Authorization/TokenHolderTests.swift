@@ -79,7 +79,18 @@ extension TokenHolderTests {
         XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"),
                        "application/x-www-form-urlencoded")
 
-        // TODO: check subjectToken & scope
+        let data = try XCTUnwrap(request.httpBodyData())
+        let body = String(decoding: data, as: UTF8.self)
+
+        var components = URLComponents()
+        components.query = body
+
+        XCTAssertEqual(components.queryItems, [
+            URLQueryItem(name: "grant_type", value: "urn:ietf:params:oauth:grant-type:token-exchange"),
+            URLQueryItem(name: "scope", value: scope),
+            URLQueryItem(name: "subject_token", value: subjectToken),
+            URLQueryItem(name: "subject_token_type", value: "urn:ietf:params:oauth:token-type:access_token")
+        ])
     }
 
     func testFetchToken_returnsExpectedToken() throws {
@@ -89,16 +100,14 @@ extension TokenHolderTests {
 
         let expectedToken = UUID().uuidString
         MockURLProtocol.handler = {
-            exp.fulfill()
-
             let response = """
             {
-                "accessToken": "\(expectedToken)"
+                "accessToken": "\(expectedToken)",
                 "tokenType": "jwt",
                 "expiresIn": 180
             }
             """
-            return (Data("testData".utf8), HTTPURLResponse(statusCode: 200))
+            return (Data(response.utf8), HTTPURLResponse(statusCode: 200))
         }
 
         // AND I have an valid access token
@@ -107,9 +116,16 @@ extension TokenHolderTests {
 
         // WHEN the a scoped token is requested
         Task {
-            let token = try await sut
-                .fetchToken(withScope: "sts.hello-world.read")
-            XCTAssertEqual(token, expectedToken)
+            do {
+                let token = try await sut
+                    .fetchToken(withScope: "sts.hello-world.read")
+
+                // THEN the expected token is returned
+                XCTAssertEqual(token, expectedToken)
+            } catch {
+                XCTFail("Expected success but error (\(error)) occurred")
+            }
+
             exp.fulfill()
         }
 
