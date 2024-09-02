@@ -12,7 +12,6 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockUpdateService: MockAppInformationService!
-    var walletAvailabilityService = WalletAvailabilityService()
     var sut: MainCoordinator!
     
     @MainActor

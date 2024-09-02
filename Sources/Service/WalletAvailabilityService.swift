@@ -4,24 +4,21 @@ import UIKit
 
 
 public final class WalletAvailabilityService {
-    var hasAccessedWalletBefore: Bool = false
     let defaults = UserDefaults.standard
     
+    var walletVisibleToAll = AppEnvironment.walletVisibleToAll
+    var deeplinkAccepted = AppEnvironment.walletVisibleViaDeepLink
+    
     func showWallet() -> Bool {
-        var shouldShowWallet = AppEnvironment.walletVisibleToAll
-        let deeplinkAccepted = AppEnvironment.walletVisibleViaDeepLink
-        
-        if !shouldShowWallet {
+        if !walletVisibleToAll {
             guard deeplinkAccepted else {
                 return UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
             }
-            shouldShowWallet = true
         }
-        return shouldShowWallet
+        return true
     }
     
     func hasAccessedPreviously() {
-        hasAccessedWalletBefore = true
-        defaults.set(hasAccessedWalletBefore, forKey: "hasAccessedWalletBefore")
+        defaults.set(true, forKey: "hasAccessedWalletBefore")
     }
 }
