@@ -14,7 +14,7 @@ final class MainCoordinator: NSObject,
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let updateService: AppInformationServicing
-    let walletAvailabilityService = WalletAvailabilityService()
+    let walletAvailabilityService: WalletFeatureAvailabilityService
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -25,12 +25,14 @@ final class MainCoordinator: NSObject,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager,
-         updateService: AppInformationServicing = AppInformationService()) {
+         updateService: AppInformationServicing = AppInformationService(),
+         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
         self.updateService = updateService
+        self.walletAvailabilityService = walletAvailabilityService
     }
     
     func start() {
@@ -94,7 +96,10 @@ final class MainCoordinator: NSObject,
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            walletCoordinator?.handleUniversalLink(url)
+            if walletAvailabilityService.shouldShowFeatureOnUniversalLink {
+                addWalletTab()
+                walletCoordinator?.handleUniversalLink(url)
+            }
         case .unknown:
             return
         }
@@ -136,7 +141,9 @@ extension MainCoordinator {
     
     private func addTabs() {
         addHomeTab()
-        addWalletTab()
+        if walletAvailabilityService.shouldShowFeature {
+            addWalletTab()
+        }
         addProfileTab()
     }
     
@@ -148,14 +155,12 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        if walletAvailabilityService.showWallet() {
-            let wc = WalletCoordinator(window: windowManager.appWindow,
-                                       analyticsCenter: analyticsCenter,
-                                       sessionManager: sessionManager)
-            addTab(wc)
-            walletCoordinator = wc
-            walletAvailabilityService.hasAccessedPreviously()
-        }
+        let wc = WalletCoordinator(window: windowManager.appWindow,
+                                   analyticsCenter: analyticsCenter,
+                                   sessionManager: sessionManager)
+        addTab(wc)
+        walletCoordinator = wc
+        walletAvailabilityService.hasAccessedPreviously()
     }
     
     private func addProfileTab() {

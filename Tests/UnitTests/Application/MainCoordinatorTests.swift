@@ -12,6 +12,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockUpdateService: MockAppInformationService!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: MainCoordinator!
     
     @MainActor
@@ -26,13 +27,15 @@ final class MainCoordinatorTests: XCTestCase {
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         mockUpdateService = MockAppInformationService()
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
                               sessionManager: mockSessionManager,
-                              updateService: mockUpdateService)
+                              updateService: mockUpdateService,
+                              walletAvailabilityService: mockWalletAvailabilityService)
     }
     
     override func tearDown() {
@@ -42,6 +45,8 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
         mockSessionManager = nil
+        mockUpdateService = nil
+        mockWalletAvailabilityService = nil
         sut = nil
 
         AppEnvironment.updateReleaseFlags([:])
@@ -69,10 +74,10 @@ extension MainCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
+        mockWalletAvailabilityService.shouldShowFeature = false
         AppEnvironment.updateReleaseFlags([
             "hasAccessedWalletBefore": false
         ])
-        sut.walletAvailabilityService.walletVisibleToAll = false
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
@@ -87,7 +92,7 @@ extension MainCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
-        sut.walletAvailabilityService.walletVisibleToAll = true
+        mockWalletAvailabilityService.shouldShowFeature = true
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
@@ -98,7 +103,6 @@ extension MainCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
-
     }
     
     @MainActor
@@ -256,8 +260,8 @@ extension MainCoordinatorTests {
     @MainActor
     func test_didSelect_tabBarItem_wallet() {
         // GIVEN the wallet feature flag is on
-        sut.walletAvailabilityService.walletVisibleToAll = true
-        
+        mockWalletAvailabilityService.shouldShowFeature = true
+
         // WHEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
@@ -273,14 +277,14 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
-        
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
     }
     
     @MainActor
     func test_didSelect_tabBarItem_profile() {
-        UserDefaults.standard.set(false, forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
-        UserDefaults.standard.set(false, forKey: "hasAccessedWalletBefore")
+        mockWalletAvailabilityService.shouldShowFeature = false
+        AppEnvironment.updateReleaseFlags([
+            "hasAccessedWalletBefore": false
+        ])
         
         // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
@@ -297,9 +301,6 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
-        
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
-        UserDefaults.standard.removeObject(forKey: "hasAccessedWalletBefore")
     }
     
     @MainActor

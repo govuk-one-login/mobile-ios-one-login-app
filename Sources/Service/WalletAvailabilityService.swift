@@ -2,23 +2,40 @@ import Foundation
 import Networking
 import UIKit
 
+protocol FeatureAvailabilityService {
+    var shouldShowFeature: Bool { get }
+    func hasAccessedPreviously()
+}
 
-public final class WalletAvailabilityService {
-    let defaults = UserDefaults.standard
-    
-    var walletVisibleToAll = AppEnvironment.walletVisibleToAll
-    var deeplinkAccepted = AppEnvironment.walletVisibleViaDeepLink
-    
-    func showWallet() -> Bool {
-        if !walletVisibleToAll {
-            guard deeplinkAccepted else {
-                return UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
+protocol UniversalLinkFeatureAvailabilityService {
+    var shouldShowFeatureOnUniversalLink: Bool { get }
+}
+
+typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService
+
+class WalletAvailabilityService: WalletFeatureAvailabilityService {
+    var shouldShowFeature: Bool {
+        guard AppEnvironment.walletVisibleToAll else {
+            guard AppEnvironment.walletVisibleIfExists,
+                  UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore") else {
+                return false
             }
+            return true
+        }
+        return true
+    }
+    
+    var shouldShowFeatureOnUniversalLink: Bool {
+        guard AppEnvironment.walletVisibleToAll else {
+            guard AppEnvironment.walletVisibleViaDeepLink else {
+                return false
+            }
+            return true
         }
         return true
     }
     
     func hasAccessedPreviously() {
-        defaults.set(true, forKey: "hasAccessedWalletBefore")
+        UserDefaults.standard.set(true, forKey: "hasAccessedWalletBefore")
     }
 }

@@ -7,7 +7,6 @@ final class WalletAvailabilityServiceTests: XCTestCase {
     
     override func setUp() {
         sut = WalletAvailabilityService()
-        UserDefaults.standard.set(false, forKey: "hasAccessedWalletBefore")
         
         super.setUp()
     }
@@ -15,7 +14,7 @@ final class WalletAvailabilityServiceTests: XCTestCase {
     override func tearDown() {
         sut = nil
         
-        UserDefaults.standard.removeObject(forKey: FeatureFlags.enableWalletVisibleToAll.rawValue)
+        AppEnvironment.updateReleaseFlags([:])
         UserDefaults.standard.removeObject(forKey: "hasAccessedWalletBefore")
         
         super.tearDown()
@@ -23,37 +22,72 @@ final class WalletAvailabilityServiceTests: XCTestCase {
 }
 
 extension WalletAvailabilityServiceTests {
-    func test_showWallet_whenFlagEnabled() {
-        sut.walletVisibleToAll = false
-        XCTAssertFalse(sut.showWallet())
+    func test_showWallet_flagEnabled_visibleToAll() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: true
+        ])
         
-        sut.walletVisibleToAll = true
-        XCTAssertTrue(sut.showWallet())
+        XCTAssertTrue(sut.shouldShowFeature)
     }
     
-    func test_showWallet_whenDeeplinkFlagEnabled() {
-        sut.deeplinkAccepted = false
-        XCTAssertFalse(sut.showWallet())
+    func test_hideWallet_flagEnabled_visibleToAll() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: false
+        ])
         
-        sut.deeplinkAccepted = true
-        XCTAssertTrue(sut.showWallet())
+        XCTAssertFalse(sut.shouldShowFeature)
     }
-
-    func test_hasAccessedWalletBefore() {
-        XCTAssertFalse(sut.defaults.bool(forKey: "hasAccessedWalletBefore"))
-
+    
+    func test_showWallet_flagEnabled_ifExists_accessedBefore() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: false,
+            FeatureFlags.enableWalletVisibleIfExists.rawValue: true
+        ])
         sut.hasAccessedPreviously()
-
-        XCTAssertTrue(sut.defaults.bool(forKey: "hasAccessedWalletBefore"))
+        
+        XCTAssertTrue(sut.shouldShowFeature)
     }
-
-    func test_hasAccessedWalletBefore_whenFlagNotEnabled() {
-        sut.defaults.set(true, forKey: "hasAccessedWalletBefore")
-        sut.walletVisibleToAll = false
-        sut.deeplinkAccepted = false
-
-        _ = sut.showWallet()
-
-        XCTAssertTrue(sut.showWallet())
+    
+    func test_hideWallet_flagEnabled_ifExists_notAccessBefore() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: false,
+            FeatureFlags.enableWalletVisibleIfExists.rawValue: false
+        ])
+        
+        XCTAssertFalse(sut.shouldShowFeature)
+    }
+    
+    func test_hideWallet_flagEnabled_accessedBefore_notExists() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: false
+        ])
+        sut.hasAccessedPreviously()
+        
+        XCTAssertFalse(sut.shouldShowFeature)
+    }
+    
+    func test_showViaDeepLink_flagEnabled_visibleViaDeepLink() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: true
+        ])
+        
+        XCTAssertTrue(sut.shouldShowFeatureOnUniversalLink)
+    }
+    
+    func test_hideViaDeepLink_flagEnabled_visibleToAll() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: false
+        ])
+        
+        XCTAssertFalse(sut.shouldShowFeatureOnUniversalLink)
+    }
+    
+    func test_hideViaDeepLink_flagEnabled_visibleViaDeepLink() {
+        AppEnvironment.updateReleaseFlags([
+            FeatureFlags.enableWalletVisibleToAll.rawValue: false,
+            FeatureFlags.enableWalletVisibleViaDeepLink.rawValue: true
+        ])
+        
+        XCTAssertTrue(sut.shouldShowFeatureOnUniversalLink)
     }
 }
