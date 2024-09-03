@@ -68,7 +68,10 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
-        // WHEN the Wallet Feature Flag is off
+        // WHEN the Wallet the Feature Flag is off
+        AppEnvironment.updateReleaseFlags([
+            "hasAccessedWalletBefore": false
+        ])
         sut.walletAvailabilityService.walletVisibleToAll = false
         // AND the MainCoordinator is started
         sut.start()
