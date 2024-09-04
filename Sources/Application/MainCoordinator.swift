@@ -159,9 +159,7 @@ extension MainCoordinator {
                                    analyticsCenter: analyticsCenter,
                                    sessionManager: sessionManager)
         addTab(wc)
-        root.viewControllers?.sort(by: {
-            $0.tabBarItem.tag < $1.tabBarItem.tag
-        })
+        sortTabs()
         walletCoordinator = wc
         walletAvailabilityService.hasAccessedPreviously()
     }
@@ -178,6 +176,12 @@ extension MainCoordinator {
             homeCoordinator?.updateUser(user)
             profileCoordinator?.updateUser(user)
         }
+    }
+    
+    private func sortTabs() {
+        root.viewControllers?.sort(by: {
+            $0.tabBarItem.tag < $1.tabBarItem.tag
+        })
     }
 }
 
