@@ -39,7 +39,9 @@ final class WalletCoordinator: NSObject,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
-                        credentialIssuer: "")
+                        // TEMPORARY FIX
+                        credentialIssuer:
+                            "https://example-credential-issuer.mobile.build.account.gov.uk")
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(clearWallet),
