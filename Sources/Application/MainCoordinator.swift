@@ -159,6 +159,9 @@ extension MainCoordinator {
                                    analyticsCenter: analyticsCenter,
                                    sessionManager: sessionManager)
         addTab(wc)
+        root.viewControllers?.sort(by: {
+            $0.tabBarItem.tag < $1.tabBarItem.tag
+        })
         walletCoordinator = wc
         walletAvailabilityService.hasAccessedPreviously()
     }
