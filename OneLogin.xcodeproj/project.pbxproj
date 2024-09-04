@@ -869,13 +869,13 @@
 				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 				C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */,
+				C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */,
 				C8C343A12B92313D00E92FB9 /* Analytics */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				D0BE243F2BEBAEB600759529 /* JWT */,
 				C889587D2C7E4CA600663299 /* LocalAuth */,
 				C8BADD322B88CBB200385FE7 /* Network */,
 				C8BADD332B88CBBA00385FE7 /* Storage */,
-				C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
