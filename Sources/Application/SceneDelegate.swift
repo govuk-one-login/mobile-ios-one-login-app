@@ -10,13 +10,12 @@ import UIKit
 class SceneDelegate: UIResponder,
                      UIWindowSceneDelegate,
                      SceneLifecycle {
-    var coordinator: MainCoordinator?
-    let analyticsService: AnalyticsService = GAnalytics()
     var windowManager: WindowManagement?
+    var appQualifyingManager: AppQualifyingManager?
+    var coordinator: MainCoordinator?
     private var shouldCallSceneWillEnterForeground = false
-
+    
     private lazy var client = NetworkClient()
-
     private lazy var sessionManager = {
         let manager = PersistentSessionManager()
         self.client.authorizationProvider = manager.tokenProvider
@@ -29,9 +28,16 @@ class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
+        trackSplashScreen(analyticsService)
         windowManager = WindowManager(windowScene: windowScene)
+        let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
+                                              analyticsPreferenceStore: UserDefaultsPreferenceStore())
+        appQualifyingManager = AppQualifyingManager(windowManager: windowManager!,
+                                                    appQualifyingService: <#AppQualifyingService#>,
+                                                    analyticsCenter: analyticsCenter,
+                                                    sessionManager: sessionManager)
+        appQualifyingManager?.start()
         setUpBasicUI()
-        startMainCoordinator(windowManager: windowManager!)
     }
     
     func scene(_ scene: UIScene,
@@ -40,19 +46,20 @@ class SceneDelegate: UIResponder,
         coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func startMainCoordinator(windowManager: WindowManagement) {
+    func startMainCoordinator() {
         let tabController = UITabBarController()
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        coordinator = MainCoordinator(windowManager: windowManager,
+        coordinator = MainCoordinator(windowManager: windowManager!,
                                       root: tabController,
                                       analyticsCenter: analyticsCenter,
                                       networkClient: client,
                                       sessionManager: sessionManager)
-        windowManager.appWindow.rootViewController = tabController
-        windowManager.appWindow.makeKeyAndVisible()
+        windowManager?.appWindow.rootViewController = tabController
+        windowManager?.appWindow.makeKeyAndVisible()
         trackSplashScreen(analyticsCenter.analyticsService)
         coordinator?.start()
+        windowManager?.hideUnlockWindow()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {

@@ -3,7 +3,14 @@ import Foundation
 import Networking
 import SecureStore
 
+enum UserState {
+    case authenticated
+    case notAuthenticated
+}
+
 protocol SessionManager {
+    var state: UserState { get }
+    
     var expiryDate: Date? { get }
     
     var sessionExists: Bool { get }
