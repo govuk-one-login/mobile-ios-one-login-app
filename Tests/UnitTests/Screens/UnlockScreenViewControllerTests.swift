@@ -26,7 +26,7 @@ final class UnlockScreenViewControllerTests: XCTestCase {
 }
 
 extension UnlockScreenViewControllerTests {
-    func test_labelContents() throws {
+    func test_ButtonLabelContents() throws {
         XCTAssertEqual(try sut.unlockButton.titleLabel?.adjustsFontForContentSizeCategory, true)
         XCTAssertEqual(try sut.unlockButton.titleLabel?.font, UIFont(style: .title3, weight: .bold))
         XCTAssertEqual(try sut.unlockButton.title(for: .normal), "Unlock")
@@ -37,12 +37,32 @@ extension UnlockScreenViewControllerTests {
         try sut.unlockButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didPressButton)
     }
+
+    func test_loadingLabelContents() throws {
+        XCTAssertEqual(try sut.loadingLabel.text, "Loading")
+    }
+
+    func test_loadingSpinner() throws {
+        XCTAssertEqual(try sut.loadingSpinner.style, .medium)
+    }
 }
 
 extension UnlockScreenViewController {
     var unlockButton: UIButton {
         get throws {
             try XCTUnwrap(view[child: "unlock-screen-button"])
+        }
+    }
+
+    var loadingLabel: UILabel {
+        get throws {
+            try XCTUnwrap(view[child: "unlock-screen-loading-label"])
+        }
+    }
+
+    var loadingSpinner: UIActivityIndicatorView {
+        get throws {
+            try XCTUnwrap(view[child: "unlock-screen-loading-spinner"])
         }
     }
 }

@@ -9,8 +9,6 @@ enum UserState {
 }
 
 protocol SessionManager {
-    var state: UserState { get }
-    
     var expiryDate: Date? { get }
     
     var sessionExists: Bool { get }

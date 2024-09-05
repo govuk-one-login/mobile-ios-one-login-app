@@ -11,8 +11,7 @@ class SceneDelegate: UIResponder,
                      UIWindowSceneDelegate,
                      SceneLifecycle {
     var windowManager: WindowManagement?
-    var appQualifyingManager: AppQualifyingManager?
-    var coordinator: MainCoordinator?
+    var appQualifyingManager: QualifyingCoordinator?
     private var shouldCallSceneWillEnterForeground = false
     
     private lazy var client = NetworkClient()
@@ -30,36 +29,24 @@ class SceneDelegate: UIResponder,
         }
         trackSplashScreen(analyticsService)
         windowManager = WindowManager(windowScene: windowScene)
-        let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
-                                              analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        appQualifyingManager = AppQualifyingManager(windowManager: windowManager!,
-                                                    appQualifyingService: <#AppQualifyingService#>,
-                                                    analyticsCenter: analyticsCenter,
-                                                    sessionManager: sessionManager)
-        appQualifyingManager?.start()
+        startApp()
         setUpBasicUI()
     }
     
     func scene(_ scene: UIScene,
                continue userActivity: NSUserActivity) {
-        guard let incomingURL = userActivity.webpageURL else { return }
-        coordinator?.handleUniversalLink(incomingURL)
+//        guard let incomingURL = userActivity.webpageURL else { return }
+//        coordinator?.handleUniversalLink(incomingURL)
     }
     
-    func startMainCoordinator() {
-        let tabController = UITabBarController()
+    func startApp() {
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        coordinator = MainCoordinator(windowManager: windowManager!,
-                                      root: tabController,
-                                      analyticsCenter: analyticsCenter,
-                                      networkClient: client,
-                                      sessionManager: sessionManager)
-        windowManager?.appWindow.rootViewController = tabController
-        windowManager?.appWindow.makeKeyAndVisible()
-        trackSplashScreen(analyticsCenter.analyticsService)
-        coordinator?.start()
-        windowManager?.hideUnlockWindow()
+        appQualifyingManager = QualifyingCoordinator(windowManager: windowManager!,
+                                                     appQualifyingService: AppQualifyingService(sessionManager: sessionManager),
+                                                     analyticsCenter: analyticsCenter,
+                                                     sessionManager: sessionManager)
+        appQualifyingManager?.start()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -73,7 +60,7 @@ class SceneDelegate: UIResponder,
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         if shouldCallSceneWillEnterForeground {
-            coordinator?.evaluateRevisit()
+//            coordinator?.evaluateRevisit()
         }
     }
     

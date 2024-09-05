@@ -1,49 +1,99 @@
+import Networking
+import SecureStore
+
 protocol QualifyingService {
     var delegate: AppQualifyingServiceDelegate? { get set }
-    func qualifyAppVersion() async throws
+    func evaluateUser() async
 }
 
 enum AppInformationState {
-    case offline
-    case unconfirmed
-    case unavailable
-    case onlineConfirmed(app: App)
+    case appOffline
+    case appUnconfirmed
+    case appUnavailable
+    case appConfirmed
+}
+
+enum AppLocalAuthState {
+    case userFailed
+    case userExpired
+    case userUnconfirmed
+    case userConfirmed
 }
 
 final class AppQualifyingService: QualifyingService {
     private let updateService: AppInformationServicing
+    private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
     
-    private var state: AppInformationState = .unconfirmed {
+    private var appState: AppInformationState = .appUnconfirmed {
         didSet {
-            delegate?.didChangeState(state: state)
+            if appState == .appOffline {
+                // Query cache?
+            }
+            delegate?.didChangeAppInfoState(state: appState)
         }
     }
     
-    init(updateService: AppInformationServicing = AppInformationService()) {
+    private var userState: AppLocalAuthState = .userUnconfirmed {
+        didSet {
+            guard appState == .appConfirmed else {
+                // State should not be achieved, delete all session data?
+                return
+            }
+            delegate?.didChangeUserState(state: userState)
+        }
+    }
+    
+    init(updateService: AppInformationServicing = AppInformationService(),
+         sessionManager: SessionManager) {
         self.updateService = updateService
+        self.sessionManager = sessionManager
         initiate()
     }
     
-    func initiate() {
+    private func initiate() {
         Task {
             do {
                 try await qualifyAppVersion()
-            } catch {
-                state = .offline
+                await evaluateUser()
+            } catch let error as ServerError where 500..<600 ~= error.errorCode {
+                appState = .appOffline
             }
         }
     }
     
-    func qualifyAppVersion() async throws {
+    private func qualifyAppVersion() async throws {
         let appInfo = try await updateService.fetchAppInfo()
         AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
         
         guard updateService.currentVersion >= appInfo.minimumVersion else {
-            state = .unavailable
+            appState = .appUnavailable
             return
         }
         
-        state = .onlineConfirmed(app: appInfo)
+        appState = .appConfirmed
+    }
+    
+    func evaluateUser() async {
+        guard sessionManager.expiryDate != nil else {
+            userState = .userUnconfirmed
+            return
+        }
+        
+        guard sessionManager.isSessionValid else {
+            userState = .userExpired
+            return
+        }
+        
+        do {
+            try await MainActor.run {
+                try sessionManager.resumeSession()
+                userState = .userConfirmed
+            }
+        } catch {
+            sessionManager.endCurrentSession()
+            sessionManager.clearAllSessionData()
+            userState = .userFailed
+        }
     }
 }

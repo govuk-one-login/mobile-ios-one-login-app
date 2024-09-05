@@ -8,5 +8,6 @@ protocol WindowManagement {
     var unlockWindow: UIWindow? { get set }
     
     func displayUnlockWindow(analyticsService: AnalyticsService, action: @escaping () -> Void)
+    func unlockScreenFinishLoading()
     func hideUnlockWindow()
 }

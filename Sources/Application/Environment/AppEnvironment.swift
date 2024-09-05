@@ -152,7 +152,7 @@ extension AppEnvironment {
     static var appInfoURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseURL)
+        components.host = string(for: .baseURL)
         components.path = "/appInfo"
         return components.url!
     }

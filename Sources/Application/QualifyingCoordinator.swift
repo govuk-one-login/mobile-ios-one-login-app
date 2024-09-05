@@ -4,7 +4,8 @@ import SecureStore
 import UIKit
 
 protocol AppQualifyingServiceDelegate: AnyObject {
-    func didChangeState(state: AppInformationState)
+    func didChangeAppInfoState(state: AppInformationState)
+    func didChangeUserState(state: AppLocalAuthState)
 }
 
 final class QualifyingCoordinator: NSObject,
@@ -13,81 +14,68 @@ final class QualifyingCoordinator: NSObject,
     private let windowManager: WindowManagement
     var childCoordinators = [ChildCoordinator]()
     private let analyticsCenter: AnalyticsCentral
-    private let appQualifyingService: QualifyingService
+    private var appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     
     init(windowManager: WindowManagement,
-         appQualifyingService: QualifyingService = AppQualifyingService(),
+         appQualifyingService: QualifyingService,
          analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager) {
         self.windowManager = windowManager
         self.appQualifyingService = appQualifyingService
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
-        self.appQualifyingService.delegate = self
     }
     
     func start() {
+        appQualifyingService.delegate = self
         windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-            evaluateUser()
+            Task {
+                await appQualifyingService.evaluateUser()
+            }
         }
-        evaluateUser()
     }
     
-    func didChangeState(state: AppInformationState) {
+    func didChangeAppInfoState(state: AppInformationState) {
         switch state {
-        case .offline:
-            return
-        case .unconfirmed:
-            return
-        case .unavailable:
+        case .appConfirmed:
+            // End loading state and enable button
+            windowManager.unlockScreenFinishLoading()
+        case .appUnavailable:
             // TODO: Display app unavailable screen
             // let appUnavailableScreen = AppUnavailableViewController(viewModel AppUnavailableViewModel())
             // windowManager.appWindow.rootViewController = appUnavailableScreen
             // windowManager.appWindow.makeKeyAndVisible()
             // windowManager.hideUnlockWindow()
             return
-        case .onlineConfirmed(app: let app):
-            let tabController = UITabBarController()
-            let coordinator = MainCoordinator(windowManager: windowManager,
-                                              root: tabController,
-                                              analyticsCenter: analyticsCenter,
-                                              sessionManager: sessionManager)
-            windowManager.appWindow.rootViewController = tabController
-            windowManager.appWindow.makeKeyAndVisible()
-            coordinator.start()
-            windowManager.hideUnlockWindow()
+        case .appUnconfirmed:
+            return
+        case .appOffline:
+            // Error screen for app offline and no cached data
+            return
         }
     }
     
-    func evaluateUser() {
-        guard sessionManager.expiryDate != nil else {
-            return
-        }
-        
-        guard sessionManager.isSessionValid else {
-            return
-        }
-        
-        Task {
-            await MainActor.run {
-                do {
-                    try sessionManager.resumeSession()
-                    //                    updateToken()
-                    windowManager.hideUnlockWindow()
-                } catch {
-                    switch error {
-                    case is JWTVerifierError,
-                        SecureStoreError.unableToRetrieveFromUserDefaults,
-                        SecureStoreError.cantInitialiseData,
-                        SecureStoreError.cantRetrieveKey:
-                        return
-                        //                        fullLogin(loginError: error)
-                    default:
-                        print("Token retrival error: \(error)")
-                    }
-                }
+    @MainActor
+    func didChangeUserState(state: AppLocalAuthState) {
+        switch state {
+        case .userConfirmed, .userUnconfirmed:
+            Task { @MainActor in
+                let tabController = UITabBarController()
+                let coordinator = MainCoordinator(windowManager: windowManager,
+                                                  root: tabController,
+                                                  analyticsCenter: analyticsCenter,
+                                                  sessionManager: sessionManager)
+                windowManager.appWindow.rootViewController = tabController
+                windowManager.appWindow.makeKeyAndVisible()
+                coordinator.start()
+                windowManager.hideUnlockWindow()
             }
+        case .userExpired:
+            // Launch MainCoordinator with an error which would prompt reauth
+            return
+        case .userFailed:
+            exit(0)
         }
     }
 }
