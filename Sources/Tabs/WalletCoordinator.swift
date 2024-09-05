@@ -39,7 +39,7 @@ final class WalletCoordinator: NSObject,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
-                        credentialIssuer: "")
+                        credentialIssuer: AppEnvironment.walletCredentialIssuer)
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(clearWallet),

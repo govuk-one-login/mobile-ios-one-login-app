@@ -2058,6 +2058,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WALLET_CREDENTIAL_ISSUER_URL = "https://example-credential-issuer.mobile.build.account.gov.uk";
 			};
 			name = Debug;
 		};
@@ -2101,6 +2102,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WALLET_CREDENTIAL_ISSUER_URL = "";
 			};
 			name = Release;
 		};
@@ -2412,6 +2414,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WALLET_CREDENTIAL_ISSUER_URL = "https://example-credential-issuer.mobile.staging.account.gov.uk";
 			};
 			name = Staging;
 		};
@@ -2621,6 +2624,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WALLET_CREDENTIAL_ISSUER_URL = "https://example-credential-issuer.mobile.build.account.gov.uk";
 			};
 			name = Debug_Build;
 		};
