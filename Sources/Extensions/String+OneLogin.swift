@@ -13,4 +13,5 @@ extension String {
     // Universal Link Component
     static let redirect = "redirect"
     static let wallet = "wallet"
+    static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
 }

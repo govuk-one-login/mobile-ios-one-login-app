@@ -12,6 +12,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockUpdateService: MockAppInformationService!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: MainCoordinator!
     
     @MainActor
@@ -26,13 +27,15 @@ final class MainCoordinatorTests: XCTestCase {
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         mockUpdateService = MockAppInformationService()
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
                               sessionManager: mockSessionManager,
-                              updateService: mockUpdateService)
+                              updateService: mockUpdateService,
+                              walletAvailabilityService: mockWalletAvailabilityService)
     }
     
     override func tearDown() {
@@ -42,6 +45,8 @@ final class MainCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
         mockSessionManager = nil
+        mockUpdateService = nil
+        mockWalletAvailabilityService = nil
         sut = nil
 
         AppEnvironment.updateReleaseFlags([:])
@@ -67,8 +72,28 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
-    func test_start_performsSetUp() {
-        // WHEN the MainCoordinator is started
+    func test_start_performsSetUpWithoutWallet() {
+        // WHEN the Wallet the Feature Flag is off
+        mockWalletAvailabilityService.shouldShowFeature = false
+        AppEnvironment.updateReleaseFlags([
+            "hasAccessedWalletBefore": false
+        ])
+        // AND the MainCoordinator is started
+        sut.start()
+        // THEN the MainCoordinator should have child coordinators
+        XCTAssertEqual(sut.childCoordinators.count, 3)
+        XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
+        XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
+        // AND the root's delegate is the MainCoordinator
+        XCTAssertTrue(sut.root.delegate === sut)
+    }
+    
+    @MainActor
+    func test_start_performsSetUpWithWallet() {
+        // WHEN the wallet feature flag is on
+        mockWalletAvailabilityService.shouldShowFeature = true
+        // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 4)
@@ -234,13 +259,16 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_wallet() {
-        // GIVEN the MainCoordinator has started and added it's tab bar items
+        // GIVEN the wallet feature flag is on
+        mockWalletAvailabilityService.shouldShowFeature = true
+
+        // WHEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
             XCTFail("WalletVC not added as child viewcontroller to tabBarController")
             return
         }
-        // WHEN the tab bar controller's delegate method didSelect is called with the wallet view controller
+        // AND the tab bar controller's delegate method didSelect is called with the wallet view controller
         tabBarController.delegate?.tabBarController?(tabBarController, didSelect: walletVC)
         // THEN the wallet view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "wallet")
@@ -253,9 +281,14 @@ extension MainCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_profile() {
+        mockWalletAvailabilityService.shouldShowFeature = false
+        AppEnvironment.updateReleaseFlags([
+            "hasAccessedWalletBefore": false
+        ])
+        
         // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
-        guard let profileVC = tabBarController.viewControllers?[2] else {
+        guard let profileVC = tabBarController.viewControllers?[1] else {
             XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
             return
         }

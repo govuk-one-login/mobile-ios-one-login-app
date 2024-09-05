@@ -55,6 +55,8 @@
 		7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD22C78A5B000A73010 /* MockUser.swift */; };
 		7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */; };
 		7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */; };
+		AB6EA8732C80C7E300E18C4B /* WalletAvailabilityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6EA8722C80C7E300E18C4B /* WalletAvailabilityServiceTests.swift */; };
+		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABB941F82C6C069A0007052B /* AppInformationServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941F72C6C069A0007052B /* AppInformationServicing.swift */; };
 		ABB941FA2C6C07980007052B /* AppInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB941F92C6C07980007052B /* AppInfoResponse.swift */; };
 		ABB942032C6CCBE60007052B /* AppInformationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB942012C6CCBE60007052B /* AppInformationServiceTests.swift */; };
@@ -71,6 +73,7 @@
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
 		C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */; };
+		C823CA142C871647000BDD5D /* MockWalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */; };
 		C82B64522BA47D59000C9524 /* String+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* String+OneLoginTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */; };
@@ -282,6 +285,8 @@
 		7C81ADD22C78A5B000A73010 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentSessionManagerTests.swift; sourceTree = "<group>"; };
 		7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+OneLogin.swift"; sourceTree = "<group>"; };
+		AB6EA8722C80C7E300E18C4B /* WalletAvailabilityServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityServiceTests.swift; sourceTree = "<group>"; };
+		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABB941F72C6C069A0007052B /* AppInformationServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformationServicing.swift; sourceTree = "<group>"; };
 		ABB941F92C6C07980007052B /* AppInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoResponse.swift; sourceTree = "<group>"; };
 		ABB942012C6CCBE60007052B /* AppInformationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformationServiceTests.swift; sourceTree = "<group>"; };
@@ -301,6 +306,7 @@
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
 		C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
+		C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletAvailabilityService.swift; sourceTree = "<group>"; };
 		C82B64512BA47D59000C9524 /* String+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+OneLoginTests.swift"; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
@@ -658,6 +664,7 @@
 			isa = PBXGroup;
 			children = (
 				ABB941F72C6C069A0007052B /* AppInformationServicing.swift */,
+				ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */,
 				ABB941F92C6C07980007052B /* AppInfoResponse.swift */,
 			);
 			path = Service;
@@ -667,6 +674,7 @@
 			isa = PBXGroup;
 			children = (
 				ABB942012C6CCBE60007052B /* AppInformationServiceTests.swift */,
+				AB6EA8722C80C7E300E18C4B /* WalletAvailabilityServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -876,6 +884,7 @@
 				C88958832C7E8A1100663299 /* LocalAuth */,
 				41E1A90F2BE126910034B6C7 /* Networking */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
+				C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */,
 			);
 			path = "Sessions+Services";
 			sourceTree = "<group>";
@@ -1638,6 +1647,7 @@
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
 				7C47BE162C7883B800DCE5D2 /* User.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
+				ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */,
 				C8C343A62B9233FC00E92FB9 /* AnalyticsCenter.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */,
@@ -1715,6 +1725,7 @@
 				C8E6A3ED2BBC0674005015AF /* MockWindowManager.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
+				C823CA142C871647000BDD5D /* MockWalletAvailabilityService.swift in Sources */,
 				C82B64522BA47D59000C9524 /* String+OneLoginTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				C8E6A3EF2BBC1181005015AF /* WindowManagerTests.swift in Sources */,
@@ -1745,6 +1756,7 @@
 				C8ECA1272BB5891000722218 /* MockAnalyticsCenter.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
+				AB6EA8732C80C7E300E18C4B /* WalletAvailabilityServiceTests.swift in Sources */,
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				413C58782BF266A200171C06 /* ProfileTabViewModelTests.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
@@ -1988,7 +2000,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BASE_URL = mobile.staging.account.gov.uk;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsStaging;
@@ -2031,7 +2043,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BASE_URL = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = "";
 				FEATURE_FLAG_FILE = "";
@@ -2342,7 +2354,7 @@
 				BASE_URL = mobile.staging.account.gov.uk;
 				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsStaging;
@@ -2551,7 +2563,7 @@
 				BASE_URL = mobile.build.account.gov.uk;
 				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsBuild;

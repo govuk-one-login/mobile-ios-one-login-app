@@ -10,5 +10,17 @@
     {
         "name": "EnableClearWalletError",
         "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleToAll",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleViaDeepLink",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleIfExists",
+        "isEnabled": false
     }
 ]
