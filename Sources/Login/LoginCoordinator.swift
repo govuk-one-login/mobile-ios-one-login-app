@@ -44,7 +44,7 @@ final class LoginCoordinator: NSObject,
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
-        noLocalAuth()
+        checkLocalAuth()
         showLoginErrorIfNecessary()
         launchOnboardingCoordinator()
         NotificationCenter.default
@@ -54,7 +54,7 @@ final class LoginCoordinator: NSObject,
                          object: nil)
     }
     
-    private func noLocalAuth() {
+    private func checkLocalAuth() {
         if loginError as? LocalAuthenticationError == .noBiometricsOrPasscode {
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) {
