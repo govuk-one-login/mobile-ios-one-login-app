@@ -111,6 +111,18 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
+    func test_evaluateRevisit_whenLocalAuthRemoved() throws {
+        // GIVEN the app has token information stored and the accessToken is valid
+        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = false
+        try mockSessionManager.setupSession(returningUser: true, expired: false)
+        // WHEN the MainCoordinator's evaluateRevisit method is called
+        sut.evaluateRevisit()
+        // THEN the session manager should end the current session
+        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
+    }
+    
+    @MainActor
     func test_evaluateRevisit_requiresNewUserToLogin() throws {
         // GIVEN the app has token information stored and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: false, expired: true)

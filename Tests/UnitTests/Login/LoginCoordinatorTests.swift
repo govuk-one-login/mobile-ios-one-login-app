@@ -69,6 +69,16 @@ final class LoginCoordinatorTests: XCTestCase {
                                loginError: JWTVerifierError.invalidJWTFormat)
     }
     
+    @MainActor
+    func checkLocalAuth() {
+        sut = LoginCoordinator(appWindow: appWindow,
+                               root: navigationController,
+                               analyticsCenter: mockAnalyticsCenter,
+                               sessionManager: mockSessionManager,
+                               networkMonitor: mockNetworkMonitor,
+                               loginError: LocalAuthenticationError.noBiometricsOrPasscode)
+    }
+    
     private enum AuthenticationError: Error {
         case generic
     }
@@ -97,6 +107,16 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
         // THEN the presented view controller should be the GDSErrorViewController
+        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
+        // THEN the presented view model should be the SignOutWarningViewModel
+        XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
+    }
+    
+    @MainActor
+    func test_start_withNoBiometricsOrPasscode() throws {
+        checkLocalAuth()
+        sut.start()
+        
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         // THEN the presented view model should be the SignOutWarningViewModel
         XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
