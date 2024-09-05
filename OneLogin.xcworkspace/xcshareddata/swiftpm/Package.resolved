@@ -175,10 +175,10 @@
     {
       "identity" : "mobile-wallet-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios",
+      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
-        "branch" : "feature/localauthservice",
-        "revision" : "5e98f75a518403d6b9c5984d4d55a5df38eefc32"
+        "revision" : "c0d632c22fbc51788916cfb18619b1acb00a4b16",
+        "version" : "4.0.0"
       }
     },
     {
