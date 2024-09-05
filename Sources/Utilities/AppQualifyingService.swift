@@ -9,17 +9,32 @@ protocol QualifyingService {
 
 enum AppInformationState {
     case appOffline
-    case appUnconfirmed
     case appUnavailable
+    case appOutdated
+    case appUnconfirmed
     case appConfirmed
 }
 
-enum AppLocalAuthState {
-    case userFailed
+enum AppLocalAuthState: Equatable {
+    case userFailed(_ error: Error)
     case userExpired
     case userUnconfirmed
     case userOneTime
     case userConfirmed
+    
+    static func == (lhs: AppLocalAuthState, rhs: AppLocalAuthState) -> Bool {
+        switch (lhs, rhs) {
+        case (.userFailed(let lhsError), .userFailed(let rhsError)):
+            return true
+        case (.userExpired, .userExpired),
+            (.userUnconfirmed, .userUnconfirmed),
+            (.userOneTime, .userOneTime),
+            (.userConfirmed, .userConfirmed):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 final class AppQualifyingService: QualifyingService {
@@ -38,10 +53,6 @@ final class AppQualifyingService: QualifyingService {
     
     private var userState: AppLocalAuthState = .userUnconfirmed {
         didSet {
-            guard appInfoState == .appConfirmed else {
-                // State should not be achieved, delete all session data?
-                return
-            }
             delegate?.didChangeUserState(state: userState)
         }
     }
@@ -55,28 +66,35 @@ final class AppQualifyingService: QualifyingService {
     
     func initiate() {
         Task {
-            do {
-                try await qualifyAppVersion()
-                await evaluateUser()
-            } catch let error as ServerError where 500..<600 ~= error.errorCode {
-                appInfoState = .appOffline
-            }
+            await qualifyAppVersion()
+            await evaluateUser()
         }
     }
     
-    private func qualifyAppVersion() async throws {
-        let appInfo = try await updateService.fetchAppInfo()
-        AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
-        
-        guard updateService.currentVersion >= appInfo.minimumVersion else {
+    private func qualifyAppVersion() async {
+        do {
+            let appInfo = try await updateService.fetchAppInfo()
+            AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
+            
+            guard updateService.currentVersion >= appInfo.minimumVersion else {
+                appInfoState = .appOutdated
+                return
+            }
+            
+            appInfoState = .appConfirmed
+        } catch let error as ServerError where 500..<600 ~= error.errorCode {
+            appInfoState = .appOffline
+        } catch {
             appInfoState = .appUnavailable
-            return
         }
-        
-        appInfoState = .appConfirmed
     }
     
     func evaluateUser() async {
+        guard appInfoState == .appConfirmed else {
+            // Do not continue with local auth unless app info qualifies
+            return
+        }
+        
         if sessionManager.isOneTimeUser {
             userState = .userOneTime
         } else {
@@ -98,7 +116,7 @@ final class AppQualifyingService: QualifyingService {
             } catch {
                 sessionManager.endCurrentSession()
                 sessionManager.clearAllSessionData()
-                userState = .userFailed
+                userState = .userFailed(error)
             }
         }
     }

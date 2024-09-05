@@ -16,9 +16,9 @@ final class MainCoordinator: NSObject,
 
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
-    private let updateService: AppInformationProvider
     private let walletAvailabilityService: WalletFeatureAvailabilityService
     private let networkClient: NetworkClient
+    var userState: AppLocalAuthState?
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
@@ -30,21 +30,21 @@ final class MainCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager,
-         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
+         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService(),
+         userState: AppLocalAuthState) {
         self.windowManager = windowManager
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.networkClient = networkClient
         self.sessionManager = sessionManager
-        self.updateService = updateService
         self.walletAvailabilityService = walletAvailabilityService
+        self.userState = userState
     }
     
     func start() {
         root.delegate = self
         addTabs()
-        fullLogin()
+        determineLogin()
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(startReauth),
@@ -53,12 +53,17 @@ final class MainCoordinator: NSObject,
     }
     
     @objc private func startReauth() {
-        fullLogin(loginError: TokenError.expired)
+        userState = .userExpired
+        determineLogin()
     }
     
-    private func fullLogin(loginError: Error? = nil) {
+    func determineLogin() {
+        guard let userState,
+                userState == .userUnconfirmed || userState == .userExpired else {
+            return
+        }
         sessionManager.endCurrentSession()
-        showLogin(loginError)
+        showLogin(userState)
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -77,18 +82,22 @@ final class MainCoordinator: NSObject,
 }
 
 extension MainCoordinator {
-    private func showLogin(_ loginError: Error?) {
+    private func showLogin(_ userState: AppLocalAuthState) {
         let lc = LoginCoordinator(appWindow: windowManager.appWindow,
                                   root: UINavigationController(),
                                   analyticsCenter: analyticsCenter,
                                   sessionManager: sessionManager,
                                   networkMonitor: NetworkMonitor.shared,
-                                  loginError: loginError)
+                                  userState: userState)
         openChildModally(lc, animated: false)
         loginCoordinator = lc
     }
     
     private func addTabs() {
+        guard let tabs = root.viewControllers,
+              tabs.isEmpty else {
+            return
+        }
         addHomeTab()
         if walletAvailabilityService.shouldShowFeature {
             addWalletTab()
@@ -172,7 +181,7 @@ extension MainCoordinator: ParentCoordinator {
                 try walletCoordinator?.deleteWalletData()
                 sessionManager.clearAllSessionData()
                 analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-                fullLogin()
+                determineLogin()
                 homeCoordinator?.baseVc?.isLoggedIn(false)
                 root.selectedIndex = 0
             } catch {

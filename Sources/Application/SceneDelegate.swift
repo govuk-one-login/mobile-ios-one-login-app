@@ -38,12 +38,12 @@ class SceneDelegate: UIResponder,
     }
     
     func startApp(windowManager: WindowManagement) {
-        appQualifyingService = AppQualifyingService(sessionManager: sessionManager)
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
+        appQualifyingService = AppQualifyingService(sessionManager: sessionManager)
         appQualifyingManager = QualifyingCoordinator(windowManager: windowManager,
-                                                     appQualifyingService: appQualifyingService!,
                                                      analyticsCenter: analyticsCenter,
+                                                     appQualifyingService: appQualifyingService!,
                                                      sessionManager: sessionManager)
         appQualifyingService?.delegate = appQualifyingManager
         appQualifyingManager?.start()

@@ -21,8 +21,8 @@ final class QualifyingCoordinator: NSObject,
     private weak var mainCoordinator: MainCoordinator?
     
     init(windowManager: WindowManagement,
-         appQualifyingService: QualifyingService,
          analyticsCenter: AnalyticsCentral,
+         appQualifyingService: QualifyingService,
          sessionManager: SessionManager) {
         self.windowManager = windowManager
         self.appQualifyingService = appQualifyingService
@@ -43,12 +43,14 @@ final class QualifyingCoordinator: NSObject,
         case .appConfirmed:
             // End loading state and enable button
             windowManager.unlockScreenFinishLoading()
-        case .appUnavailable:
-            // TODO: Display app unavailable screen
+        case .appOutdated:
             let appUnavailableScreen = GDSInformationViewController(viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService))
-            windowManager.startAppWith(appUnavailableScreen)
+            windowManager.openAppWith(appUnavailableScreen)
             windowManager.hideUnlockWindow()
         case .appUnconfirmed:
+            return
+        case .appUnavailable:
+            // Generic error screen?
             return
         case .appOffline:
             // Error screen for app offline and no cached data
@@ -58,23 +60,33 @@ final class QualifyingCoordinator: NSObject,
     
     func didChangeUserState(state userState: AppLocalAuthState) {
         switch userState {
-        case .userConfirmed, .userUnconfirmed:
-            Task { @MainActor in
-                let coordinator = MainCoordinator(windowManager: windowManager,
-                                                  root: UITabBarController(),
-                                                  analyticsCenter: analyticsCenter,
-                                                  sessionManager: sessionManager)
-                windowManager.startAppWith(coordinator.root)
-                coordinator.start()
-                windowManager.hideUnlockWindow()
+        case .userConfirmed, .userUnconfirmed, .userExpired:
+            if let mainCoordinator {
+                mainCoordinator.userState = userState
+                mainCoordinator.start()
+            } else {
+                Task { @MainActor in
+                    let coordinator = MainCoordinator(windowManager: windowManager,
+                                                      root: UITabBarController(),
+                                                      analyticsCenter: analyticsCenter,
+                                                      sessionManager: sessionManager,
+                                                      userState: userState)
+                    mainCoordinator = coordinator
+                    windowManager.openAppWith(coordinator.root)
+                    coordinator.start()
+                }
             }
-        case .userExpired:
-            // Launch MainCoordinator with an error which would prompt reauth
-            return
+            windowManager.hideUnlockWindow()
         case .userOneTime:
             windowManager.hideUnlockWindow()
-        case .userFailed:
-            exit(0)
+        case .userFailed(let error):
+            let unableToLoginErrorScreen = ErrorPresenter
+                .createUnableToLoginError(errorDescription: error.localizedDescription,
+                                          analyticsService: analyticsCenter.analyticsService) {
+                    exit(0)
+                }
+            windowManager.openAppWith(unableToLoginErrorScreen)
+            windowManager.hideUnlockWindow()
         }
     }
     

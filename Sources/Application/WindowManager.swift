@@ -29,11 +29,13 @@ final class WindowManager: WindowManagement {
     }
     
     func hideUnlockWindow() {
-        unlockWindow?.isHidden = true
-        unlockWindow = nil
+        Task { @MainActor in
+            unlockWindow?.isHidden = true
+            unlockWindow = nil
+        }
     }
     
-    func startAppWith(_ viewController: UIViewController) {
+    func openAppWith(_ viewController: UIViewController) {
         appWindow.rootViewController = viewController
         appWindow.makeKeyAndVisible()
     }
