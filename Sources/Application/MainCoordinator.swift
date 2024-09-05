@@ -64,6 +64,11 @@ final class MainCoordinator: NSObject,
             fullLogin(loginError: TokenError.expired)
             return
         }
+        
+        guard sessionManager.localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) else {
+            fullLogin(loginError: LocalAuthenticationError.noBiometricsOrPasscode)
+            return
+        }
 
         Task {
             await MainActor.run {

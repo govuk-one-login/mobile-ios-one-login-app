@@ -8,6 +8,10 @@ enum LocalAuthenticationType {
     case none
 }
 
+enum LocalAuthenticationError: Error {
+    case noBiometricsOrPasscode
+}
+
 protocol LocalAuthenticationManager {
     var type: LocalAuthenticationType { get }
 
