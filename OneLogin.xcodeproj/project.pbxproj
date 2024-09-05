@@ -282,6 +282,10 @@
 		41E1A9142BE128610034B6C7 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
+		7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Build.xcconfig; sourceTree = "<group>"; };
+		7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
+		7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		7C0CCED12C8A12F200F61C11 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7C47BE152C7883B800DCE5D2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDTokenUserRepresentation.swift; sourceTree = "<group>"; };
 		7C81ADD22C78A5B000A73010 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
@@ -642,6 +646,17 @@
 				C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		7C0CCECD2C8A12A500F61C11 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */,
+				7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */,
+				7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */,
+				7C0CCED12C8A12F200F61C11 /* Release.xcconfig */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		7C47BE142C787FD100DCE5D2 /* Session */ = {
@@ -1164,6 +1179,7 @@
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				7C0CCECD2C8A12A500F61C11 /* Configuration */,
 				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 				C8BACAFE2B4DE1C300530419 /* Flag.swift */,
 				C8BACAFC2B4DD93C00530419 /* FlagManager.swift */,
@@ -2020,19 +2036,15 @@
 		};
 		219602122A976305008F3427 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BASE_URL = mobile.staging.account.gov.uk;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
-				EXTERNAL_BASE_URL = signin.account.gov.uk;
-				FEATURE_FLAG_FILE = FeatureFlagsStaging;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Debug";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2043,14 +2055,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
-				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
-				STS_BASE_URL = token.staging.account.gov.uk;
-				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2058,25 +2065,20 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WALLET_CREDENTIAL_ISSUER_URL = "https://example-credential-issuer.mobile.build.account.gov.uk";
 			};
 			name = Debug;
 		};
 		219602132A976305008F3427 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C0CCED12C8A12F200F61C11 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BASE_URL = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
-				EXTERNAL_BASE_URL = "";
-				FEATURE_FLAG_FILE = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "One Login";
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2087,14 +2089,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				ONE_LOGIN_AUTHORIZE_URL = "";
-				ONE_LOGIN_CLIENT_ID = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REDIRECT_URL = "";
-				STS_BASE_URL = "";
-				STS_CLIENT_ID = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2102,7 +2099,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WALLET_CREDENTIAL_ISSUER_URL = "";
 			};
 			name = Release;
 		};
@@ -2375,20 +2371,16 @@
 		};
 		C8176E7C2AF40D0D00C64A0D /* Staging */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BASE_URL = mobile.staging.account.gov.uk;
 				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
-				EXTERNAL_BASE_URL = signin.account.gov.uk;
-				FEATURE_FLAG_FILE = FeatureFlagsStaging;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Staging";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2399,14 +2391,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk;
-				ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REDIRECT_URL = "https://mobile.staging.account.gov.uk/redirect";
-				STS_BASE_URL = token.staging.account.gov.uk;
-				STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2414,7 +2401,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WALLET_CREDENTIAL_ISSUER_URL = "https://example-credential-issuer.mobile.staging.account.gov.uk";
 			};
 			name = Staging;
 		};
@@ -2585,20 +2571,16 @@
 		};
 		C8FBC2C32AF3B3A400C8B6E0 /* Debug_Build */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BASE_URL = mobile.build.account.gov.uk;
 				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
-				EXTERNAL_BASE_URL = signin.account.gov.uk;
-				FEATURE_FLAG_FILE = FeatureFlagsBuild;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "One Login - Build";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app does not use the camera";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2609,14 +2591,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				ONE_LOGIN_AUTHORIZE_URL = "auth-stub.mobile.build.account.gov.uk";
-				ONE_LOGIN_CLIENT_ID = TEST_CLIENT_ID;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REDIRECT_URL = "https://mobile.build.account.gov.uk/redirect";
-				STS_BASE_URL = token.build.account.gov.uk;
-				STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2624,7 +2601,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WALLET_CREDENTIAL_ISSUER_URL = "https://example-credential-issuer.mobile.build.account.gov.uk";
 			};
 			name = Debug_Build;
 		};
