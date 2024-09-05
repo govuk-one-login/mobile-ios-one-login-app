@@ -2000,7 +2000,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BASE_URL = mobile.staging.account.gov.uk;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsStaging;
@@ -2043,7 +2043,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BASE_URL = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = "";
 				FEATURE_FLAG_FILE = "";
@@ -2354,7 +2354,7 @@
 				BASE_URL = mobile.staging.account.gov.uk;
 				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsStaging;
@@ -2563,7 +2563,7 @@
 				BASE_URL = mobile.build.account.gov.uk;
 				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = N8W395F695;
 				EXTERNAL_BASE_URL = signin.account.gov.uk;
 				FEATURE_FLAG_FILE = FeatureFlagsBuild;
