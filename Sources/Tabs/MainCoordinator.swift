@@ -42,34 +42,14 @@ final class MainCoordinator: NSObject,
     }
     
     func start() {
-        addTabs()
-        windowManager.displayUnlockWindow(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-            evaluateRevisit()
-        }
-        evaluateRevisit()
         root.delegate = self
+        addTabs()
+        fullLogin()
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(startReauth),
                          name: Notification.Name(.startReauth),
                          object: nil)
-    }
-    
-    func evaluateRevisit() {
-        Task {
-            await MainActor.run {
-                do {
-                    try sessionManager.resumeSession()
-                    updateToken()
-                    windowManager.hideUnlockWindow()
-                } catch PersistentSessionError.noSessionExists {
-                    // New user, so there is no session to resume
-                    fullLogin()
-                } catch {
-                    fullLogin(loginError: error)
-                }
-            }
-        }
     }
     
     @objc private func startReauth() {
@@ -79,7 +59,6 @@ final class MainCoordinator: NSObject,
     private func fullLogin(loginError: Error? = nil) {
         sessionManager.endCurrentSession()
         showLogin(loginError)
-        windowManager.hideUnlockWindow()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -93,27 +72,6 @@ final class MainCoordinator: NSObject,
             }
         case .unknown:
             return
-        }
-    }
-    
-    func checkAppVersion() {
-        Task {
-            do {
-                let appInfo = try await updateService.fetchAppInfo()
-                AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
-                
-                guard updateService.currentVersion >= appInfo.minimumVersion else {
-                    return // TODO: DCMAW-9866 - Present 'app update required' screen
-                }
-                
-            } catch {
-                let error = ErrorPresenter
-                    .createGenericError(errorDescription: error.localizedDescription,
-                                        analyticsService: analyticsCenter.analyticsService) {
-                        exit(0)
-                    }
-                root.present(error, animated: true)
-            }
         }
     }
 }

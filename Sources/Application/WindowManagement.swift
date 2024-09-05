@@ -10,4 +10,5 @@ protocol WindowManagement {
     func displayUnlockWindow(analyticsService: AnalyticsService, action: @escaping () -> Void)
     func unlockScreenFinishLoading()
     func hideUnlockWindow()
+    func startAppWith(_ viewController: UIViewController)
 }

@@ -3,6 +3,7 @@ import SecureStore
 
 protocol QualifyingService {
     var delegate: AppQualifyingServiceDelegate? { get set }
+    func initiate()
     func evaluateUser() async
 }
 
@@ -17,6 +18,7 @@ enum AppLocalAuthState {
     case userFailed
     case userExpired
     case userUnconfirmed
+    case userOneTime
     case userConfirmed
 }
 
@@ -25,18 +27,18 @@ final class AppQualifyingService: QualifyingService {
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
     
-    private var appState: AppInformationState = .appUnconfirmed {
+    private var appInfoState: AppInformationState = .appUnconfirmed {
         didSet {
-            if appState == .appOffline {
+            if appInfoState == .appOffline {
                 // Query cache?
             }
-            delegate?.didChangeAppInfoState(state: appState)
+            delegate?.didChangeAppInfoState(state: appInfoState)
         }
     }
     
     private var userState: AppLocalAuthState = .userUnconfirmed {
         didSet {
-            guard appState == .appConfirmed else {
+            guard appInfoState == .appConfirmed else {
                 // State should not be achieved, delete all session data?
                 return
             }
@@ -51,13 +53,13 @@ final class AppQualifyingService: QualifyingService {
         initiate()
     }
     
-    private func initiate() {
+    func initiate() {
         Task {
             do {
                 try await qualifyAppVersion()
                 await evaluateUser()
             } catch let error as ServerError where 500..<600 ~= error.errorCode {
-                appState = .appOffline
+                appInfoState = .appOffline
             }
         }
     }
@@ -67,33 +69,37 @@ final class AppQualifyingService: QualifyingService {
         AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
         
         guard updateService.currentVersion >= appInfo.minimumVersion else {
-            appState = .appUnavailable
+            appInfoState = .appUnavailable
             return
         }
         
-        appState = .appConfirmed
+        appInfoState = .appConfirmed
     }
     
     func evaluateUser() async {
-        guard sessionManager.expiryDate != nil else {
-            userState = .userUnconfirmed
-            return
-        }
-        
-        guard sessionManager.isSessionValid else {
-            userState = .userExpired
-            return
-        }
-        
-        do {
-            try await MainActor.run {
-                try sessionManager.resumeSession()
-                userState = .userConfirmed
+        if sessionManager.isOneTimeUser {
+            userState = .userOneTime
+        } else {
+            guard sessionManager.expiryDate != nil else {
+                userState = .userUnconfirmed
+                return
             }
-        } catch {
-            sessionManager.endCurrentSession()
-            sessionManager.clearAllSessionData()
-            userState = .userFailed
+            
+            guard sessionManager.isSessionValid else {
+                userState = .userExpired
+                return
+            }
+            
+            do {
+                try await MainActor.run {
+                    try sessionManager.resumeSession()
+                    userState = .userConfirmed
+                }
+            } catch {
+                sessionManager.endCurrentSession()
+                sessionManager.clearAllSessionData()
+                userState = .userFailed
+            }
         }
     }
 }

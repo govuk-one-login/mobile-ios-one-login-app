@@ -10,9 +10,8 @@ import UIKit
 class SceneDelegate: UIResponder,
                      UIWindowSceneDelegate,
                      SceneLifecycle {
-    var windowManager: WindowManagement?
+    var appQualifyingService: QualifyingService?
     var appQualifyingManager: QualifyingCoordinator?
-    private var shouldCallSceneWillEnterForeground = false
     
     private lazy var client = NetworkClient()
     private lazy var sessionManager = {
@@ -27,41 +26,35 @@ class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
-        trackSplashScreen(analyticsService)
-        windowManager = WindowManager(windowScene: windowScene)
-        startApp()
+        trackSplashScreen()
+        startApp(windowManager: WindowManager(windowScene: windowScene))
         setUpBasicUI()
     }
     
     func scene(_ scene: UIScene,
                continue userActivity: NSUserActivity) {
-//        guard let incomingURL = userActivity.webpageURL else { return }
-//        coordinator?.handleUniversalLink(incomingURL)
+        guard let incomingURL = userActivity.webpageURL else { return }
+        appQualifyingManager?.handleUniversalLink(incomingURL)
     }
     
-    func startApp() {
+    func startApp(windowManager: WindowManagement) {
+        appQualifyingService = AppQualifyingService(sessionManager: sessionManager)
         let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                               analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        appQualifyingManager = QualifyingCoordinator(windowManager: windowManager!,
-                                                     appQualifyingService: AppQualifyingService(sessionManager: sessionManager),
+        appQualifyingManager = QualifyingCoordinator(windowManager: windowManager,
+                                                     appQualifyingService: appQualifyingService!,
                                                      analyticsCenter: analyticsCenter,
                                                      sessionManager: sessionManager)
+        appQualifyingService?.delegate = appQualifyingManager
         appQualifyingManager?.start()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        if sessionManager.isSessionValid {
-            displayUnlockScreen()
-            shouldCallSceneWillEnterForeground = true
-        } else {
-            shouldCallSceneWillEnterForeground = false
-        }
+        appQualifyingManager?.start()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        if shouldCallSceneWillEnterForeground {
-//            coordinator?.evaluateRevisit()
-        }
+        appQualifyingService?.initiate()
     }
     
     private func setUpBasicUI() {

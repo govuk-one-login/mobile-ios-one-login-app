@@ -80,6 +80,10 @@ final class PersistentSessionManager: SessionManager {
         unprotectedStore.value(forKey: .returningUser) as? Bool
             ?? false
     }
+    
+    var isOneTimeUser: Bool {
+        sessionExists && !isReturningUser
+    }
 
     var isPersistentSessionIDMissing: Bool {
         persistentID == nil && isReturningUser

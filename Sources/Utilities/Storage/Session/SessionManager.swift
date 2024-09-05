@@ -14,6 +14,7 @@ protocol SessionManager {
     var sessionExists: Bool { get }
     var isSessionValid: Bool { get }
     var isReturningUser: Bool { get }
+    var isOneTimeUser: Bool { get }
 
     var user: User? { get }
 

@@ -15,10 +15,9 @@ final class WindowManager: WindowManagement {
     
     func displayUnlockWindow(analyticsService: AnalyticsService, action: @escaping () -> Void) {
         unlockWindow = UIWindow(windowScene: windowScene)
-        let unlockScreenViewModel = UnlockScreenViewModel(analyticsService: analyticsService) {
+        let unlockViewController = OnboardingViewControllerFactory.createUnlockScreen(analyticsService: analyticsService) {
             action()
         }
-        let unlockViewController = UnlockScreenViewController(viewModel: unlockScreenViewModel)
         unlockScreen = unlockViewController
         unlockWindow?.rootViewController = unlockViewController
         unlockWindow?.windowLevel = .alert
@@ -32,5 +31,10 @@ final class WindowManager: WindowManagement {
     func hideUnlockWindow() {
         unlockWindow?.isHidden = true
         unlockWindow = nil
+    }
+    
+    func startAppWith(_ viewController: UIViewController) {
+        appWindow.rootViewController = viewController
+        appWindow.makeKeyAndVisible()
     }
 }
