@@ -1,8 +1,7 @@
 extension String {
     // Token & Login
-    static let accessToken = "accessToken"
     static let accessTokenExpiry = "accessTokenExpiry"
-    static let idToken = "idToken"
+    static let storedTokens = "storedTokens"
     static let oneLoginTokens = "oneLoginTokens"
     static let persistentSessionID = "persistentSessionID"
     static let clearWallet = "clearWallet"

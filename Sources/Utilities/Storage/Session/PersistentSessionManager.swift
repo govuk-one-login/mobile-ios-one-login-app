@@ -17,6 +17,7 @@ final class PersistentSessionManager: SessionManager {
 
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
+    private let storeKeyService: StoredKeyServicing
 
     private(set) var user: (any User)?
 
@@ -28,6 +29,8 @@ final class PersistentSessionManager: SessionManager {
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
+        self.storeKeyService = StoredKeyService(accessControlEncryptedStore: accessControlEncryptedStore)
+
         self.tokenProvider = TokenHolder()
     }
 
@@ -127,15 +130,21 @@ final class PersistentSessionManager: SessionManager {
                 return
             }
         }
-        
-        // persist access / id tokens
-        try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
+        guard let idToken = tokenResponse.idToken else { return }
+        var storedKeys = StoredKeys(idToken: idToken, accessToken: tokenResponse.accessToken)
 
-        if let idToken = tokenResponse.idToken {
-            try accessControlEncryptedStore.saveItem(item: idToken, itemName: .idToken)
-        } else {
-            accessControlEncryptedStore.deleteItem(itemName: .idToken)
-        }
+        try storeKeyService.saveStoredKeys(keys: storedKeys)
+
+        let keys = try storeKeyService.fetchStoredKeys()
+
+        // persist access / id tokens
+//        try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
+//
+//        if let idToken = tokenResponse.idToken {
+//            try accessControlEncryptedStore.saveItem(item: idToken, itemName: .idToken)
+//        } else {
+//            accessControlEncryptedStore.deleteItem(itemName: .idToken)
+//        }
 
         if let persistentID = user?.persistentID {
             try encryptedStore.saveItem(item: persistentID, itemName: .persistentSessionID)

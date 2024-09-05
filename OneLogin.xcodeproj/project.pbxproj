@@ -33,6 +33,8 @@
 		414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
 		414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 414D98042B8DF0F100E267EF /* UnlockScreen.xib */; };
 		414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */; };
+		4193D2E32C89BB6100073EB8 /* StoredKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193D2E22C89BB6100073EB8 /* StoredKeys.swift */; };
+		4193D2E52C89F48800073EB8 /* StoredKeysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193D2E42C89F48800073EB8 /* StoredKeysTests.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
@@ -266,6 +268,8 @@
 		414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewController.swift; sourceTree = "<group>"; };
 		414D98042B8DF0F100E267EF /* UnlockScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnlockScreen.xib; sourceTree = "<group>"; };
 		414D98062B8E078700E267EF /* UnlockScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModel.swift; sourceTree = "<group>"; };
+		4193D2E22C89BB6100073EB8 /* StoredKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredKeys.swift; sourceTree = "<group>"; };
+		4193D2E42C89F48800073EB8 /* StoredKeysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredKeysTests.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
@@ -896,6 +900,7 @@
 				C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */,
 				C88958842C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift */,
 				7C81ADD42C78A8F500A73010 /* Session */,
+				4193D2E42C89F48800073EB8 /* StoredKeysTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1201,6 +1206,7 @@
 			children = (
 				7C47BE142C787FD100DCE5D2 /* Session */,
 				C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */,
+				4193D2E22C89BB6100073EB8 /* StoredKeys.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1747,6 +1753,7 @@
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
+				4193D2E32C89BB6100073EB8 /* StoredKeys.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				ABB941FA2C6C07980007052B /* AppInfoResponse.swift in Sources */,
@@ -1823,6 +1830,7 @@
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
+				4193D2E52C89F48800073EB8 /* StoredKeysTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 			);
