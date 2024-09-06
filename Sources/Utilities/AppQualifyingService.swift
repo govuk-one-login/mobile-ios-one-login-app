@@ -1,5 +1,5 @@
-import Networking
 import Foundation
+import Networking
 import SecureStore
 
 protocol QualifyingService: AnyObject {

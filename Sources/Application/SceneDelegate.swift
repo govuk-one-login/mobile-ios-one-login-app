@@ -13,10 +13,11 @@ final class SceneDelegate: UIResponder,
     var appQualifyingService: QualifyingService?
     var appQualifyingManager: QualifyingCoordinator?
     
-    private lazy var client = NetworkClient()
+    let analyticsService: AnalyticsService = GAnalytics()
+    private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let manager = PersistentSessionManager()
-        self.client.authorizationProvider = manager.tokenProvider
+        networkClient.authorizationProvider = manager.tokenProvider
         return manager
     }()
 
@@ -44,7 +45,8 @@ final class SceneDelegate: UIResponder,
         appQualifyingManager = QualifyingCoordinator(windowManager: windowManager,
                                                      analyticsCenter: analyticsCenter,
                                                      appQualifyingService: appQualifyingService!,
-                                                     sessionManager: sessionManager)
+                                                     sessionManager: sessionManager,
+                                                     networkClient: networkClient)
         appQualifyingManager?.start()
     }
     

@@ -1,6 +1,7 @@
 import Coordination
 import GDSCommon
 import Logging
+import Networking
 import SecureStore
 import UIKit
 
@@ -17,17 +18,20 @@ final class QualifyingCoordinator: NSObject,
     private let analyticsCenter: AnalyticsCentral
     private var appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
+    private let networkClient: NetworkClient
     
     private weak var mainCoordinator: MainCoordinator?
     
     init(windowManager: WindowManagement,
          analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager,
+         networkClient: NetworkClient) {
         self.windowManager = windowManager
         self.appQualifyingService = appQualifyingService
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
+        self.networkClient = networkClient
         super.init()
         self.appQualifyingService.delegate = self
     }
@@ -71,6 +75,7 @@ final class QualifyingCoordinator: NSObject,
                     let coordinator = MainCoordinator(windowManager: windowManager,
                                                       root: UITabBarController(),
                                                       analyticsCenter: analyticsCenter,
+                                                      networkClient: networkClient,
                                                       sessionManager: sessionManager,
                                                       userState: userState)
                     mainCoordinator = coordinator
