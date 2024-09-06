@@ -1,0 +1,16 @@
+INFOPLIST_KEY_CFBundleDisplayName = One Login - Debug
+INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
+
+BASE_URL = mobile.staging.account.gov.uk
+EXTERNAL_BASE_URL = signin.account.gov.uk
+
+FEATURE_FLAG_FILE = FeatureFlagsStaging
+
+ONE_LOGIN_AUTHORIZE_URL = oidc.integration.account.gov.uk
+ONE_LOGIN_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW
+
+REDIRECT_URL = https:/$()/mobile.staging.account.gov.uk/redirect
+STS_BASE_URL = token.staging.account.gov.uk
+STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
+
+WALLET_CREDENTIAL_ISSUER_URL = https:/$()/example-credential-issuer.mobile.staging.account.gov.uk
