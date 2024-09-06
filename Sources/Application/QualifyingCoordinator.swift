@@ -28,6 +28,8 @@ final class QualifyingCoordinator: NSObject,
         self.appQualifyingService = appQualifyingService
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
+        super.init()
+        self.appQualifyingService.delegate = self
     }
     
     func start() {

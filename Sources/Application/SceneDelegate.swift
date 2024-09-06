@@ -7,9 +7,9 @@ import Networking
 import SecureStore
 import UIKit
 
-class SceneDelegate: UIResponder,
-                     UIWindowSceneDelegate,
-                     SceneLifecycle {
+final class SceneDelegate: UIResponder,
+                           UIWindowSceneDelegate,
+                           SceneLifecycle {
     var appQualifyingService: QualifyingService?
     var appQualifyingManager: QualifyingCoordinator?
     
@@ -45,7 +45,6 @@ class SceneDelegate: UIResponder,
                                                      analyticsCenter: analyticsCenter,
                                                      appQualifyingService: appQualifyingService!,
                                                      sessionManager: sessionManager)
-        appQualifyingService?.delegate = appQualifyingManager
         appQualifyingManager?.start()
     }
     

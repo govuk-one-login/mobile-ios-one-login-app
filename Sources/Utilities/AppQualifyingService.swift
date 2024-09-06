@@ -1,7 +1,8 @@
 import Networking
+import Foundation
 import SecureStore
 
-protocol QualifyingService {
+protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
     func initiate()
     func evaluateUser() async
@@ -82,11 +83,14 @@ final class AppQualifyingService: QualifyingService {
             }
             
             appInfoState = .appConfirmed
-        } catch let error as ServerError where 500..<600 ~= error.errorCode {
+        } catch URLError.notConnectedToInternet {
             appInfoState = .appOffline
         } catch {
+            // This would account for all non-successful server responses & any other error
+            // To be discussed whether this should route users through the access to the app when offline path
             appInfoState = .appUnavailable
         }
+        
     }
     
     func evaluateUser() async {
