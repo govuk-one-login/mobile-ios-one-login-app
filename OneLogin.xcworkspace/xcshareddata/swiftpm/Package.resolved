@@ -1,12 +1,13 @@
 {
+  "originHash" : "077e9e3b2ef50f6ec7144bfcccc304a7b8fe3cd4da1214f28ef4c6fce7fe5559",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/abseil-cpp-binary.git",
       "state" : {
-        "revision" : "bfc0b6f81adc06ce5121eb23f628473638d67c5c",
-        "version" : "1.2022062300.0"
+        "revision" : "194a6706acbd25e4ef639bcaddea16e8758a3e27",
+        "version" : "1.2024011602.0"
       }
     },
     {
@@ -14,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "5746b2d35c91c50581590ed97abe4c06b5037274",
-        "version" : "10.18.0"
+        "revision" : "21fe1af9be463a359aaf8d96789ef73fc3760d09",
+        "version" : "11.0.1"
       }
     },
     {
@@ -41,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "d9bcd141c3e4ad48a9500e6faeebb073f43cbcbd",
-        "version" : "10.19.0"
+        "revision" : "9118aca998dbe2ceac45d64b21a91c6376928df7",
+        "version" : "11.1.0"
       }
     },
     {
@@ -50,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "6b332152355c372ace9966d8ee76ed191f97025e",
-        "version" : "10.17.0"
+        "revision" : "07a2f57d147d2bf368a0d2dcb5579ff082d9e44f",
+        "version" : "11.1.0"
       }
     },
     {
@@ -59,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleDataTransport.git",
       "state" : {
-        "revision" : "a732a4b47f59e4f725a2ea10f0c77e93a7131117",
-        "version" : "9.3.0"
+        "revision" : "617af071af9aa1d6a091d59a202910ac482128f9",
+        "version" : "10.1.0"
       }
     },
     {
@@ -68,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "bc27fad73504f3d4af235de451f02ee22586ebd3",
-        "version" : "7.12.1"
+        "revision" : "53156c7ec267db846e6b64c9f4c4e31ba4cf75eb",
+        "version" : "8.0.2"
       }
     },
     {
@@ -77,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/grpc-binary.git",
       "state" : {
-        "revision" : "a673bc2937fbe886dd1f99c401b01b6d977a9c98",
-        "version" : "1.49.1"
+        "revision" : "f56d8fc3162de9a498377c7b6cea43431f4f5083",
+        "version" : "1.65.1"
       }
     },
     {
@@ -86,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
-        "revision" : "115f75e43851774934d695449a4836123c3246e1",
-        "version" : "3.2.0"
+        "revision" : "a2ab612cb980066ee56d90d60d8462992c07f24b",
+        "version" : "3.5.0"
       }
     },
     {
@@ -122,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "a28f10bd17e70719b50b11c5c1143f236663c758",
-        "version" : "1.4.0"
+        "revision" : "a587c692d70745453d9bddd47c1fb43440aa4f40",
+        "version" : "2.0.0"
       }
     },
     {
@@ -149,8 +150,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "24a513dcfcfa3f348db13c66a60a4d2a3de125f7",
-        "version" : "1.2.6"
+        "revision" : "f8aab4d8eaccb5e90c2ff2e811ead84ac5da5d04",
+        "version" : "2.0.1"
       }
     },
     {
@@ -158,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "918f35817b1419d5293aa2974380d1eb058d2d3b",
-        "version" : "2.2.2"
+        "revision" : "7ea8b9091042545403eb1db2ad2cc60e9ce17191",
+        "version" : "3.0.0"
       }
     },
     {
@@ -176,8 +177,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
-        "revision" : "7a29e7b0d9651b8fae51e57788b40193235dc3a9",
-        "version" : "3.8.0"
+        "revision" : "c0d632c22fbc51788916cfb18619b1acb00a4b16",
+        "version" : "4.0.0"
       }
     },
     {
@@ -185,8 +186,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
       "state" : {
-        "revision" : "819d0a2173aff699fb8c364b6fb906f7cdb1a692",
-        "version" : "2.30909.0"
+        "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+        "version" : "2.30910.0"
       }
     },
     {
@@ -194,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "e70e889c0196c76d22759eb50d6a0270ca9f1d9e",
-        "version" : "2.3.1"
+        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+        "version" : "2.4.0"
       }
     },
     {
@@ -203,8 +204,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "f3d7ae5f9f31d90b327a64536bb7801cc69fd85b",
-        "version" : "14.9.0"
+        "revision" : "c2552e1d36867cb42b28130e894a81fc17081062",
+        "version" : "14.12.0"
       }
     },
     {
@@ -212,8 +213,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "revision" : "4c4413abd0cd2221f59318f800960fe5bddc1494",
-        "version" : "10.51.0"
+        "revision" : "9815e6c29d43cb5314add5dff8705c5476ab556c",
+        "version" : "10.53.0"
       }
     },
     {

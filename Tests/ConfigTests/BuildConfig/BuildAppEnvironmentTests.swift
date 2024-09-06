@@ -21,6 +21,7 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.isLocaleWelsh, false)
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
+        XCTAssertEqual(sut.walletCredentialIssuer, "https://example-credential-issuer.mobile.build.account.gov.uk")
         XCTAssertTrue(sut.callingSTSEnabled)
         XCTAssertFalse(sut.isLocaleWelsh)
         XCTAssertFalse(sut.walletVisibleToAll)

@@ -48,5 +48,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>Wallet Credential Issuer URL</key>
+	<string>$(WALLET_CREDENTIAL_ISSUER_URL)</string>
 </dict>
 </plist>

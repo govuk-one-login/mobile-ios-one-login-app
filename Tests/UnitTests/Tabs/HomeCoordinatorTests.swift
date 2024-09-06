@@ -1,3 +1,4 @@
+import Networking
 @testable import OneLogin
 import XCTest
 
@@ -15,6 +16,7 @@ final class HomeCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService,
+                              networkClient: NetworkClient(),
                               sessionManager: mockSessionManager)
     }
     

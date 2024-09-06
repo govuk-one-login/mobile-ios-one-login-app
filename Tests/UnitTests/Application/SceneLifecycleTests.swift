@@ -1,4 +1,5 @@
 import GDSAnalytics
+import Networking
 @testable import OneLogin
 import XCTest
 
@@ -23,6 +24,7 @@ final class SceneLifecycleTests: XCTestCase {
         mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
+                                              networkClient: NetworkClient(),
                                               sessionManager: mockSessionManager)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
                                 analyticsService: mockAnalyticsService,

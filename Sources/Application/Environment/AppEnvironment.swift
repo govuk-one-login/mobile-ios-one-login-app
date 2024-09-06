@@ -10,6 +10,7 @@ public final class AppEnvironment {
         case stsClientID = "STS Client ID"
         case externalBaseURL = "External Base URL"
         case appStoreURL = "App Store URL"
+        case credentialIssuerURL = "Wallet Credential Issuer URL"
     }
     
     static var releaseFlags = ReleaseFlags()
@@ -106,6 +107,10 @@ extension AppEnvironment {
     
     static var oneLoginBaseURL: String {
         string(for: .baseURL)
+    }
+    
+    static var walletCredentialIssuer: String {
+        string(for: .credentialIssuerURL)
     }
 }
 

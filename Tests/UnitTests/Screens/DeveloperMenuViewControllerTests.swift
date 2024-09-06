@@ -21,6 +21,9 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
+        networkClient = NetworkClient(configuration: configuration)
+        networkClient.authorizationProvider = MockAuthenticationProvider()
+
         AppEnvironment.updateReleaseFlags([
             FeatureFlags.enableCallingSTS.rawValue: true
         ])
@@ -28,9 +31,8 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
-        networkClient = NetworkClient(configuration: configuration,
-                                      authenticationProvider: MockAuthenticationProvider())
         homeCoordinator = HomeCoordinator(analyticsService: mockAnalyticsService,
+                                          networkClient: networkClient,
                                           sessionManager: mockSessionManager)
         sut = DeveloperMenuViewController(parentCoordinator: homeCoordinator,
                                           viewModel: devMenuViewModel,
@@ -85,28 +87,11 @@ extension DeveloperMenuViewControllerTests {
         // AND I have a user session
         try mockSessionManager.setupSession()
 
-        let exchangeData = Data("""
-            {
-                "access_token": "testAccessToken",
-                "token_type": "testTokenType",
-                "expires_in": 123456789
-            }
-        """.utf8)
-        
-        var networkCallsMade = 0
-        MockURLProtocol.handler = { [unowned self] in
+        MockURLProtocol.handler = {[unowned self] in
             defer {
-                networkCallsMade += 1
-                if networkCallsMade > 1 {
-                    requestFinished = true
-                }
+                requestFinished = true
             }
-            switch networkCallsMade {
-            case 0:
-                return (exchangeData, HTTPURLResponse(statusCode: 200))
-            default:
-                return (Data("testData".utf8), HTTPURLResponse(statusCode: 200))
-            }
+            return (Data("testData".utf8), HTTPURLResponse(statusCode: 200))
         }
         
         // WHEN I tap the happy path button
@@ -114,8 +99,7 @@ extension DeveloperMenuViewControllerTests {
 
         // THEN the service token is requested from STS
         // AND the hello world API is called
-        waitForTruth(self.requestFinished, timeout: 20)
-        XCTAssertEqual(networkCallsMade, 2)
+        waitForTruth(self.requestFinished, timeout: 10)
         XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
     }
     
@@ -146,10 +130,10 @@ extension DeveloperMenuViewControllerTests {
         
         // WHEN I request a Service Token using an invalid scope
         try sut.errorPathButton.sendActions(for: .touchUpInside)
-        waitForTruth(self.requestFinished, timeout: 20)
+        waitForTruth(self.requestFinished, timeout: 10)
 
         // THEN an error message is displayed:
-        XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: token")
+        XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: hello-world")
     }
     
     func test_errorPathButton_invalidAccessTokenActionCalled() throws {
