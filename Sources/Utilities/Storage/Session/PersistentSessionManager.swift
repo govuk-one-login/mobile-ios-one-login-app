@@ -78,7 +78,15 @@ final class PersistentSessionManager: SessionManager {
     var isPersistentSessionIDMissing: Bool {
         persistentID == nil && isReturningUser
     }
-
+    
+    var hasNotRemovedLocalAuth: Bool {
+        guard localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication),
+              isReturningUser else {
+            return false
+        }
+        return true
+    }
+    
     func startSession(using session: any LoginSession) async throws {
         let configuration = LoginSessionConfiguration
             .oneLogin(persistentSessionId: persistentID)

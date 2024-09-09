@@ -9,6 +9,8 @@ protocol SessionManager {
     var sessionExists: Bool { get }
     var isSessionValid: Bool { get }
     var isReturningUser: Bool { get }
+    
+    var hasNotRemovedLocalAuth: Bool { get }
 
     var user: User? { get }
 

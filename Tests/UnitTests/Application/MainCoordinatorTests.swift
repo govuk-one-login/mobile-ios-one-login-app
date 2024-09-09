@@ -32,7 +32,6 @@ final class MainCoordinatorTests: XCTestCase {
         mockWalletAvailabilityService = MockWalletAvailabilityService()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
-        mockLocalAuthManager = mockSessionManager.localAuthentication as? MockLocalAuthManager
         
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
@@ -113,7 +112,7 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_whenLocalAuthRemoved() throws {
         // GIVEN the app has token information stored and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = false
+        mockSessionManager.hasNotRemovedLocalAuth = false
         try mockSessionManager.setupSession(returningUser: true, expired: false)
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
@@ -147,7 +146,6 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_showsHomeScreenForExistingSession() throws {
         // GIVEN the app has token information store and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = true
         try mockSessionManager.setupSession(returningUser: true)
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
@@ -159,7 +157,6 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_extractIdTokenPayload_JWTVerifierError() throws {
         // GIVEN the app has token information store and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = true
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the token verifier throws an invalidJWTFormat error
         mockSessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
@@ -176,7 +173,6 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_readFromSecureStore_SecureStoreError_unableToRetrieveFromUserDefaults() throws {
         // GIVEN the app has token information store and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = true
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an unableToRetrieveFromUserDefaults error
         mockSessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
@@ -193,7 +189,6 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_readFromSecureStore_SecureStoreError_cantInitialiseData() throws {
         // GIVEN the app has token information store and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = true
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an cantInitialiseData error
         mockSessionManager.errorFromResumeSession = SecureStoreError.cantInitialiseData
@@ -210,7 +205,6 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_readFromSecureStore_SecureStoreError_cantRetrieveKey() throws {
         // GIVEN the app has token information store and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = true
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an cantRetrieveKey error
         mockSessionManager.errorFromResumeSession = SecureStoreError.cantRetrieveKey
@@ -227,7 +221,6 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_readFromSecureStore_SecureStoreError_cantDecryptData() throws {
         // GIVEN the app has token information store and the accessToken is valid
-        mockLocalAuthManager.LAlocalAuthIsEnabledOnTheDevice = true
         try mockSessionManager.setupSession(returningUser: true)
         // GIVEN the secure store throws an cantDecryptData error
         mockSessionManager.errorFromResumeSession = SecureStoreError.cantDecryptData
