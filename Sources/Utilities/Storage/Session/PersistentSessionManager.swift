@@ -135,17 +135,6 @@ final class PersistentSessionManager: SessionManager {
 
         try storeKeyService.saveStoredKeys(keys: storedKeys)
 
-//        let keys = try storeKeyService.fetchStoredKeys()
-
-        // persist access / id tokens
-//        try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
-//
-//        if let idToken = tokenResponse.idToken {
-//            try accessControlEncryptedStore.saveItem(item: idToken, itemName: .idToken)
-//        } else {
-//            accessControlEncryptedStore.deleteItem(itemName: .idToken)
-//        }
-
         if let persistentID = user?.persistentID {
             try encryptedStore.saveItem(item: persistentID, itemName: .persistentSessionID)
         } else {

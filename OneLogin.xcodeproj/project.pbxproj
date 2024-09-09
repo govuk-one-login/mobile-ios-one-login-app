@@ -37,6 +37,7 @@
 		4193D2E52C89F48800073EB8 /* StoredKeysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4193D2E42C89F48800073EB8 /* StoredKeysTests.swift */; };
 		41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD092B272118009AE51F /* ErrorScreen.swift */; };
 		41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */; };
+		41C0F5B92C8F45DA0055C571 /* MockStoredKeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C0F5B82C8F45DA0055C571 /* MockStoredKeyService.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
 		41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */; };
@@ -272,6 +273,7 @@
 		4193D2E42C89F48800073EB8 /* StoredKeysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredKeysTests.swift; sourceTree = "<group>"; };
 		41A0BD092B272118009AE51F /* ErrorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreen.swift; sourceTree = "<group>"; };
 		41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModelTests.swift; sourceTree = "<group>"; };
+		41C0F5B82C8F45DA0055C571 /* MockStoredKeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStoredKeyService.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E42B2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrollmentViewModel.swift; sourceTree = "<group>"; };
@@ -928,6 +930,7 @@
 				41E1A90F2BE126910034B6C7 /* Networking */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
 				C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */,
+				41C0F5B82C8F45DA0055C571 /* MockStoredKeyService.swift */,
 			);
 			path = "Sessions+Services";
 			sourceTree = "<group>";
@@ -1824,6 +1827,7 @@
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
 				C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
+				41C0F5B92C8F45DA0055C571 /* MockStoredKeyService.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
