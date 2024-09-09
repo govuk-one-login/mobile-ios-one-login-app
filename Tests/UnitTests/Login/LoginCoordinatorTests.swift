@@ -114,11 +114,12 @@ extension LoginCoordinatorTests {
     
     @MainActor
     func test_start_withNoBiometricsOrPasscode() throws {
+        // WHEN the LoginCoordinator is started with no local auth set up
         checkLocalAuth()
         sut.start()
-        
+        // THEN the presented view controller should be the GDSErrorViewController
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // THEN the presented view model should be the SignOutWarningViewModel
+        // AND the presented view model should be the SignOutWarningViewModel
         XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
     }
     
