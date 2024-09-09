@@ -19,11 +19,14 @@ final class StoredKeyService: StoredKeyServicing {
     }
     
     func fetchStoredKeys() throws -> StoredKeys {
-        let data = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
+        let storedKeys = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
         // how decode data as it returns as string
         // need to put it as base64 like this:
-        //let base64EncodedData = base64EncodedString.data(using: .utf8),
-    //        let data = Data(base64Encoded: base64EncodedData)
+       
+        let keysAsData = storedKeys.data(using: .utf8)
+        let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData!)
+        let keys = StoredKeys(idToken: decodedKeys.idToken, accessToken: decodedKeys.accessToken)
+        print("keys: \(keys)")
         return keys
     }
     
@@ -36,6 +39,5 @@ final class StoredKeyService: StoredKeyServicing {
         try accessControlEncryptedStore.saveItem(item: encodedData, itemName: .storedTokens)
         print("save successful")
     }
-    
 
 }

@@ -20,7 +20,7 @@ final class StoredKeysTests: XCTestCase {
 
 extension StoredKeysTests {
     func test_canFetchStoredKeys() throws {
-
+        
     }
 
     func test_canSaveKeys() throws {
