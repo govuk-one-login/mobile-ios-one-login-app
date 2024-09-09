@@ -10,94 +10,48 @@ import UIKit
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
                              TabCoordinator {
-    private let windowManager: WindowManagement
+    private let appWindow: UIWindow
     let root: UITabBarController
     var childCoordinators = [ChildCoordinator]()
-
     private var analyticsCenter: AnalyticsCentral
+    private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     private let walletAvailabilityService: WalletFeatureAvailabilityService
-    private let networkClient: NetworkClient
-    var userState: AppLocalAuthState?
     
     private weak var loginCoordinator: LoginCoordinator?
     private weak var homeCoordinator: HomeCoordinator?
     private weak var walletCoordinator: WalletCoordinator?
     private weak var profileCoordinator: ProfileCoordinator?
     
-    init(windowManager: WindowManagement,
+    init(appWindow: UIWindow,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager,
-         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService(),
-         userState: AppLocalAuthState) {
-        self.windowManager = windowManager
+         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
+        self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.networkClient = networkClient
         self.sessionManager = sessionManager
         self.walletAvailabilityService = walletAvailabilityService
-        self.userState = userState
     }
     
     func start() {
         root.delegate = self
         addTabs()
-        determineLogin()
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(startReauth),
-                         name: Notification.Name(.startReauth),
-                         object: nil)
-    }
-    
-    @objc private func startReauth() {
-        userState = .userExpired
-        determineLogin()
-    }
-    
-    func determineLogin() {
-        guard let userState,
-                userState == .userUnconfirmed || userState == .userExpired else {
-            return
-        }
-        sessionManager.endCurrentSession()
-        showLogin(userState)
     }
     
     func handleUniversalLink(_ url: URL) {
-        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
-        case .login:
-            loginCoordinator?.handleUniversalLink(url)
-        case .wallet:
-            if walletAvailabilityService.shouldShowFeatureOnUniversalLink {
-                addWalletTab()
-                walletCoordinator?.handleUniversalLink(url)
-            }
-        case .unknown:
-            return
+        if walletAvailabilityService.shouldShowFeatureOnUniversalLink {
+            addWalletTab()
+            walletCoordinator?.handleUniversalLink(url)
         }
     }
 }
 
 extension MainCoordinator {
-    private func showLogin(_ userState: AppLocalAuthState) {
-        let lc = LoginCoordinator(appWindow: windowManager.appWindow,
-                                  root: UINavigationController(),
-                                  analyticsCenter: analyticsCenter,
-                                  sessionManager: sessionManager,
-                                  networkMonitor: NetworkMonitor.shared,
-                                  userState: userState)
-        openChildModally(lc, animated: false)
-        loginCoordinator = lc
-    }
-    
     private func addTabs() {
-        guard let tabs = root.viewControllers,
-              tabs.isEmpty else {
-            return
-        }
         addHomeTab()
         if walletAvailabilityService.shouldShowFeature {
             addWalletTab()
@@ -114,7 +68,7 @@ extension MainCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: windowManager.appWindow,
+        let wc = WalletCoordinator(window: appWindow,
                                    analyticsCenter: analyticsCenter,
                                    networkClient: networkClient,
                                    sessionManager: sessionManager)
@@ -180,10 +134,9 @@ extension MainCoordinator: ParentCoordinator {
                 #endif
                 try walletCoordinator?.deleteWalletData()
                 sessionManager.clearAllSessionData()
-                analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-                determineLogin()
-                homeCoordinator?.baseVc?.isLoggedIn(false)
-                root.selectedIndex = 0
+                analyticsCenter.resetAnalyticsPreferences()
+                NotificationCenter.default
+                    .post(name: Notification.Name(.logOut), object: nil)
             } catch {
                 let signOutErrorScreen = ErrorPresenter
                     .createSignOutError(errorDescription: error.localizedDescription,

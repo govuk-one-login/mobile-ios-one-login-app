@@ -35,7 +35,7 @@ final class WindowManager: WindowManagement {
         }
     }
     
-    func openAppWith(_ viewController: UIViewController) {
+    func showWindowWith(_ viewController: UIViewController) {
         appWindow.rootViewController = viewController
         appWindow.makeKeyAndVisible()
     }

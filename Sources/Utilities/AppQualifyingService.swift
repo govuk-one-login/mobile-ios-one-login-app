@@ -10,10 +10,11 @@ protocol QualifyingService: AnyObject {
 
 enum AppInformationState {
     case appOffline
-    case appUnavailable
+    case appInfoError
     case appOutdated
     case appUnconfirmed
     case appConfirmed
+    // TODO: DCMAW-9824 - New state may be needed for appInfo.allowAppUsage which corresponds to 'available' in appInfo json
 }
 
 enum AppLocalAuthState: Equatable {
@@ -25,9 +26,8 @@ enum AppLocalAuthState: Equatable {
     
     static func == (lhs: AppLocalAuthState, rhs: AppLocalAuthState) -> Bool {
         switch (lhs, rhs) {
-        case (.userFailed(let lhsError), .userFailed(let rhsError)):
-            return true
-        case (.userExpired, .userExpired),
+        case (.userFailed, .userFailed),
+            (.userExpired, .userExpired),
             (.userUnconfirmed, .userUnconfirmed),
             (.userOneTime, .userOneTime),
             (.userConfirmed, .userConfirmed):
@@ -88,9 +88,8 @@ final class AppQualifyingService: QualifyingService {
         } catch {
             // This would account for all non-successful server responses & any other error
             // To be discussed whether this should route users through the access to the app when offline path
-            appInfoState = .appUnavailable
+            appInfoState = .appInfoError
         }
-        
     }
     
     func evaluateUser() async {

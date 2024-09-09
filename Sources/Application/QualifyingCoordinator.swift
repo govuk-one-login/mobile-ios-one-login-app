@@ -11,15 +11,17 @@ protocol AppQualifyingServiceDelegate: AnyObject {
 }
 
 final class QualifyingCoordinator: NSObject,
-                                   ParentCoordinator,
+                                   NavigationCoordinator,
                                    AppQualifyingServiceDelegate {
     private let windowManager: WindowManagement
+    let root = UINavigationController()
     var childCoordinators = [ChildCoordinator]()
     private let analyticsCenter: AnalyticsCentral
     private var appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     
+    private weak var loginCoordinator: LoginCoordinator?
     private weak var mainCoordinator: MainCoordinator?
     
     init(windowManager: WindowManagement,
@@ -42,6 +44,7 @@ final class QualifyingCoordinator: NSObject,
                 await appQualifyingService.evaluateUser()
             }
         }
+        subscribeToNotifications()
     }
     
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
@@ -51,11 +54,11 @@ final class QualifyingCoordinator: NSObject,
             windowManager.unlockScreenFinishLoading()
         case .appOutdated:
             let appUnavailableScreen = GDSInformationViewController(viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService))
-            windowManager.openAppWith(appUnavailableScreen)
+            windowManager.showWindowWith(appUnavailableScreen)
             windowManager.hideUnlockWindow()
         case .appUnconfirmed:
             return
-        case .appUnavailable:
+        case .appInfoError:
             // Generic error screen?
             return
         case .appOffline:
@@ -66,39 +69,93 @@ final class QualifyingCoordinator: NSObject,
     
     func didChangeUserState(state userState: AppLocalAuthState) {
         switch userState {
-        case .userConfirmed, .userUnconfirmed, .userExpired:
-            if let mainCoordinator {
-                mainCoordinator.userState = userState
-                mainCoordinator.start()
-            } else {
-                Task { @MainActor in
-                    let coordinator = MainCoordinator(windowManager: windowManager,
-                                                      root: UITabBarController(),
-                                                      analyticsCenter: analyticsCenter,
-                                                      networkClient: networkClient,
-                                                      sessionManager: sessionManager,
-                                                      userState: userState)
-                    mainCoordinator = coordinator
-                    windowManager.openAppWith(coordinator.root)
-                    coordinator.start()
-                }
-            }
-            windowManager.hideUnlockWindow()
-        case .userOneTime:
-            windowManager.hideUnlockWindow()
+        case .userConfirmed, .userOneTime:
+            // Launch MainCoordinator if not present
+            launchMainCoordinator()
+        case .userUnconfirmed, .userExpired:
+            // Launch LoginCoordinator
+            launchLoginCoordinator(userState: userState)
         case .userFailed(let error):
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) {
                     exit(0)
                 }
-            windowManager.openAppWith(unableToLoginErrorScreen)
-            windowManager.hideUnlockWindow()
+            windowManager.showWindowWith(unableToLoginErrorScreen)
+        }
+        windowManager.hideUnlockWindow()
+    }
+    
+    func launchLoginCoordinator(userState: AppLocalAuthState) {
+        if loginCoordinator == nil {
+            Task { @MainActor in
+                let loginCoordinator = LoginCoordinator(appWindow: windowManager.appWindow,
+                                                        root: root,
+                                                        analyticsCenter: analyticsCenter,
+                                                        sessionManager: sessionManager,
+                                                        userState: userState)
+                openChildInline(loginCoordinator)
+                windowManager.showWindowWith(loginCoordinator.root)
+                self.loginCoordinator = loginCoordinator
+                mainCoordinator = nil
+            }
+        }
+    }
+    
+    func launchMainCoordinator() {
+        if mainCoordinator == nil {
+            Task { @MainActor in
+                let mainCoordinator = MainCoordinator(appWindow: windowManager.appWindow,
+                                                      root: UITabBarController(),
+                                                      analyticsCenter: analyticsCenter,
+                                                      networkClient: networkClient,
+                                                      sessionManager: sessionManager)
+                mainCoordinator.start()
+                windowManager.showWindowWith(mainCoordinator.root)
+                self.mainCoordinator = mainCoordinator
+                loginCoordinator = nil
+            }
         }
     }
     
     func handleUniversalLink(_ url: URL) {
         // Ensure qualifying checks have completed
-        mainCoordinator?.handleUniversalLink(url)
+        switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
+        case .login:
+            loginCoordinator?.handleUniversalLink(url)
+        case .wallet:
+            mainCoordinator?.handleUniversalLink(url)
+        case .unknown:
+            return
+        }
+    }
+}
+
+extension QualifyingCoordinator {
+    func subscribeToNotifications() {
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(startReauth),
+                         name: Notification.Name(.startReauth),
+                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(logOut),
+                         name: Notification.Name(.logOut),
+                         object: nil)
+    }
+    
+    @objc private func startReauth() {
+        launchLoginCoordinator(userState: AppLocalAuthState.userExpired)
+    }
+    
+    @objc private func logOut() {
+        launchLoginCoordinator(userState: AppLocalAuthState.userUnconfirmed)
+    }
+}
+
+extension QualifyingCoordinator: ParentCoordinator {
+    func didRegainFocus(fromChild child: ChildCoordinator?) {
+        launchMainCoordinator()
     }
 }
