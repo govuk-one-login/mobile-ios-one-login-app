@@ -204,6 +204,7 @@ final class DeveloperMenuViewController: BaseViewController {
         """
         // swiftlint:enable line_length
         sessionManager.tokenProvider.update(subjectToken: expiredToken)
+        UserDefaults.standard.set(Date.distantPast, forKey: .accessTokenExpiry)
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

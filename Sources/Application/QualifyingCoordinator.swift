@@ -87,34 +87,36 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func launchLoginCoordinator(userState: AppLocalAuthState) {
-        if loginCoordinator == nil {
-            Task { @MainActor in
-                let loginCoordinator = LoginCoordinator(appWindow: windowManager.appWindow,
-                                                        root: root,
-                                                        analyticsCenter: analyticsCenter,
-                                                        sessionManager: sessionManager,
-                                                        userState: userState)
-                openChildInline(loginCoordinator)
-                windowManager.showWindowWith(loginCoordinator.root)
-                self.loginCoordinator = loginCoordinator
-                mainCoordinator = nil
-            }
+        guard loginCoordinator == nil else {
+            return
+        }
+        Task { @MainActor in
+            let loginCoordinator = LoginCoordinator(appWindow: windowManager.appWindow,
+                                                    root: root,
+                                                    analyticsCenter: analyticsCenter,
+                                                    sessionManager: sessionManager,
+                                                    userState: userState)
+            windowManager.showWindowWith(loginCoordinator.root)
+            openChildInline(loginCoordinator)
+            self.loginCoordinator = loginCoordinator
+            mainCoordinator = nil
         }
     }
     
     func launchMainCoordinator() {
-        if mainCoordinator == nil {
-            Task { @MainActor in
-                let mainCoordinator = MainCoordinator(appWindow: windowManager.appWindow,
-                                                      root: UITabBarController(),
-                                                      analyticsCenter: analyticsCenter,
-                                                      networkClient: networkClient,
-                                                      sessionManager: sessionManager)
-                mainCoordinator.start()
-                windowManager.showWindowWith(mainCoordinator.root)
-                self.mainCoordinator = mainCoordinator
-                loginCoordinator = nil
-            }
+        guard mainCoordinator == nil else {
+            return
+        }
+        Task { @MainActor in
+            let mainCoordinator = MainCoordinator(appWindow: windowManager.appWindow,
+                                                  root: UITabBarController(),
+                                                  analyticsCenter: analyticsCenter,
+                                                  networkClient: networkClient,
+                                                  sessionManager: sessionManager)
+            windowManager.showWindowWith(mainCoordinator.root)
+            mainCoordinator.start()
+            self.mainCoordinator = mainCoordinator
+            loginCoordinator = nil
         }
     }
     
