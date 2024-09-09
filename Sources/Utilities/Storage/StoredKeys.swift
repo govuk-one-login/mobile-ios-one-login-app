@@ -26,7 +26,8 @@ final class StoredKeyService: StoredKeyServicing {
         let keysAsData = storedKeys.data(using: .utf8)
         let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData!)
         let keys = StoredKeys(idToken: decodedKeys.idToken, accessToken: decodedKeys.accessToken)
-        print("keys: \(keys)")
+        print("idToken: \(keys.idToken)")
+        print("accessToken: \(keys.accessToken)")
         return keys
     }
     
@@ -38,6 +39,12 @@ final class StoredKeyService: StoredKeyServicing {
         }
         try accessControlEncryptedStore.saveItem(item: encodedData, itemName: .storedTokens)
         print("save successful")
+        let storedKeys = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
+        let keysAsData = storedKeys.data(using: .utf8)
+        let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData)
+        let keys = StoredKeys(idToken: decodedKeys.idToken, accessToken: decodedKeys.accessToken)
+        print("idToken: \(keys.idToken)")
+        print("accessToken: \(keys.accessToken)")
     }
 
 }

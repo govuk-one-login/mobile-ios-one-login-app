@@ -131,11 +131,11 @@ final class PersistentSessionManager: SessionManager {
             }
         }
         guard let idToken = tokenResponse.idToken else { return }
-        var storedKeys = StoredKeys(idToken: idToken, accessToken: tokenResponse.accessToken)
+        var storedKeys = StoredKeys(idToken: "idToken", accessToken: "tokenResponse.accessToken")
 
         try storeKeyService.saveStoredKeys(keys: storedKeys)
 
-        let keys = try storeKeyService.fetchStoredKeys()
+//        let keys = try storeKeyService.fetchStoredKeys()
 
         // persist access / id tokens
 //        try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
@@ -169,6 +169,8 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
+        let keys = try storeKeyService.fetchStoredKeys()
+
         let idToken = try accessControlEncryptedStore
             .readItem(itemName: .idToken)
         user = try IDTokenUserRepresentation(idToken: idToken)
