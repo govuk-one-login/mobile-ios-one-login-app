@@ -20,18 +20,18 @@ final class StoredKeyService: StoredKeyServicing {
     
     func fetchStoredKeys() throws -> StoredKeys {
         let storedKeys = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
-        // how decode data as it returns as string
-        // need to put it as base64 like this:
-       
-        let keysAsData = storedKeys.data(using: .utf8)
-        let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData!)
-        let keys = StoredKeys(idToken: decodedKeys.idToken, accessToken: decodedKeys.accessToken)
-        print("idToken: \(keys.idToken)")
-        print("accessToken: \(keys.accessToken)")
-        return keys
+        guard let keysAsData = Data(base64Encoded: storedKeys) else {
+                    // Change returned error
+                    throw TokenError.bearerNotPresent
+                }
+        let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData)
+        print("idToken: \(decodedKeys.idToken)")
+        print("accessToken: \(decodedKeys.accessToken)")
+        return decodedKeys
     }
     
     func saveStoredKeys(keys: StoredKeys) throws {
+        print("KEYS: \(keys)")
         let data = try? JSONEncoder().encode(keys)
         guard let encodedData = data?.base64EncodedString() else {
             print("Nothing here, chief")
@@ -39,12 +39,6 @@ final class StoredKeyService: StoredKeyServicing {
         }
         try accessControlEncryptedStore.saveItem(item: encodedData, itemName: .storedTokens)
         print("save successful")
-        let storedKeys = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
-        let keysAsData = storedKeys.data(using: .utf8)
-        let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData)
-        let keys = StoredKeys(idToken: decodedKeys.idToken, accessToken: decodedKeys.accessToken)
-        print("idToken: \(keys.idToken)")
-        print("accessToken: \(keys.accessToken)")
     }
 
 }

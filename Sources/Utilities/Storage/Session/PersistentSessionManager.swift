@@ -131,7 +131,7 @@ final class PersistentSessionManager: SessionManager {
             }
         }
         guard let idToken = tokenResponse.idToken else { return }
-        var storedKeys = StoredKeys(idToken: "idToken", accessToken: "tokenResponse.accessToken")
+        var storedKeys = StoredKeys(idToken: idToken, accessToken: tokenResponse.accessToken)
 
         try storeKeyService.saveStoredKeys(keys: storedKeys)
 
@@ -170,19 +170,15 @@ final class PersistentSessionManager: SessionManager {
         }
         
         let keys = try storeKeyService.fetchStoredKeys()
-
-        let idToken = try accessControlEncryptedStore
-            .readItem(itemName: .idToken)
+        let idToken = keys.idToken
         user = try IDTokenUserRepresentation(idToken: idToken)
 
-        let accessToken = try accessControlEncryptedStore
-            .readItem(itemName: .accessToken)
-        tokenProvider.update(subjectToken: accessToken)
+        let accessToken = keys.accessToken
+        tokenProvider.update(accessToken: accessToken)
     }
     
     func endCurrentSession() {
-        accessControlEncryptedStore.deleteItem(itemName: .accessToken)
-        accessControlEncryptedStore.deleteItem(itemName: .idToken)
+        accessControlEncryptedStore.deleteItem(itemName: .storedTokens)
         
         tokenProvider.clear()
         tokenResponse = nil
