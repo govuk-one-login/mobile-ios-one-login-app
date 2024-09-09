@@ -77,6 +77,24 @@ extension PersistentSessionManagerTests {
         XCTAssertTrue(sut.isReturningUser)
     }
     
+    func test_hasNotRemovedLocalAuth() throws {
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        unprotectedStore.set(true, forKey: .returningUser)
+        XCTAssertTrue(sut.hasNotRemovedLocalAuth)
+    }
+    
+    func test_hasRemovedLocalAuth() throws {
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
+        unprotectedStore.set(true, forKey: .returningUser)
+        XCTAssertFalse(sut.hasNotRemovedLocalAuth)
+    }
+    
+    func test_hasRemovedLocalAuth_inverse() throws {
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        unprotectedStore.set(false, forKey: .returningUser)
+        XCTAssertFalse(sut.hasNotRemovedLocalAuth)
+    }
+    
     func testStartSession_logsTheUserIn() async throws {
         // GIVEN I am not logged in
         let loginSession = await MockLoginSession(window: UIWindow())
