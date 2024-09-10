@@ -4,7 +4,7 @@ import Networking
 
 @testable import OneLogin
 
-final class MockAppInformationService: AppInformationServicing {
+final class MockAppInformationService: AppInformationProvider {
     var currentVersion: Networking.Version = .init(.max, .max, .max)
 
     var didCallFetchAppInfo = false

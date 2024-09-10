@@ -1,12 +1,12 @@
 import Foundation
 import Networking
 
-public protocol AppInformationServicing {
+public protocol AppInformationProvider {
     func fetchAppInfo() async throws -> App
     var currentVersion: Version { get }
 }
 
-public final class AppInformationService: AppInformationServicing {
+public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
     private let baseURL: URL
 
