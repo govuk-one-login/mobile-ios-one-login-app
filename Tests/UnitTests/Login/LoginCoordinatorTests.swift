@@ -76,7 +76,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: LocalAuthenticationError.noBiometricsOrPasscode)
+                               loginError: PersistentSessionError.userRemovedLocalAuth)
     }
     
     private enum AuthenticationError: Error {

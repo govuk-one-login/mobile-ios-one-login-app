@@ -207,9 +207,12 @@ extension PersistentSessionManagerTests {
                                                  itemName: .idToken)
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
                                                  itemName: .accessToken)
+        // AND I am a returning user with local auth enabled
+        let date = Date.distantFuture
+        unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
         // WHEN I return to the app and authenticate successfully
         try sut.resumeSession()
-        
         // THEN my session data is re-populated
         XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user?.email, "mock@email.com")
@@ -223,6 +226,10 @@ extension PersistentSessionManagerTests {
                                                  itemName: .idToken)
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
                                                  itemName: .accessToken)
+        // AND I am a returning user with local auth enabled
+        let date = Date.distantFuture
+        unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
         try sut.resumeSession()
         // WHEN I end the session
         sut.endCurrentSession()

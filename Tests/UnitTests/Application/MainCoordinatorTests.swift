@@ -92,7 +92,7 @@ extension MainCoordinatorTests {
         // AND the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
-    
+
     @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
@@ -112,23 +112,25 @@ extension MainCoordinatorTests {
     @MainActor
     func test_evaluateRevisit_whenLocalAuthRemoved() throws {
         // GIVEN the app has token information stored and the accessToken is valid
-        mockSessionManager.hasNotRemovedLocalAuth = false
         try mockSessionManager.setupSession(returningUser: true, expired: false)
-        // WHEN the MainCoordinator's evaluateRevisit method is called
+        // WHEN local auth is removed
+        mockSessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
+        // AND the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
     }
     
     @MainActor
     func test_evaluateRevisit_requiresNewUserToLogin() throws {
-        // GIVEN the app has token information stored and the accessToken is valid
+        // GIVEN the app has no token information stored
         try mockSessionManager.setupSession(returningUser: false, expired: true)
+        mockSessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
     }
     
@@ -136,10 +138,11 @@ extension MainCoordinatorTests {
     func test_evaluateRevisit_requiresExpiredUserToLogin() throws {
         // GIVEN the app has token information stored but the accessToken is expired
         try mockSessionManager.setupSession(expired: true)
+        mockSessionManager.errorFromResumeSession = TokenError.expired
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
     }
     
