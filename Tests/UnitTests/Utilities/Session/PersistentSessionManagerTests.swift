@@ -162,10 +162,11 @@ extension PersistentSessionManagerTests {
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
+        let storedKeys = StoredKeys(idToken: MockJWKSResponse.idToken, accessToken: "accessTokenResponse")
+        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
         // THEN my session data is updated in the store
         XCTAssertEqual(accessControlEncryptedStore.savedItems,
-                       [.idToken: try MockTokenResponse().getJSONData().idToken,
-                        .accessToken: "accessTokenResponse"])
+                       [.storedTokens: data])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
     }
@@ -176,14 +177,15 @@ extension PersistentSessionManagerTests {
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
+        let storedKeys = StoredKeys(idToken: MockJWKSResponse.idToken, accessToken: "accessTokenResponse")
+        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN the user is asked to consent to biometrics if available
         XCTAssertTrue(localAuthentication.didCallEnrolFaceIDIfAvailable)
         // THEN my session data is updated in the store
         XCTAssertEqual(accessControlEncryptedStore.savedItems,
-                       [.idToken: try MockTokenResponse().getJSONData().idToken,
-                        .accessToken: "accessTokenResponse"])
+                       [.storedTokens: data])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
    }
@@ -205,11 +207,13 @@ extension PersistentSessionManagerTests {
    }
 
     func testResumeSession_restoresUserAndAccessToken() throws {
+        let idToken = MockJWKSResponse.idToken
+        let accessToken = MockJWKSResponse.idToken
+        let storedKeys = StoredKeys(idToken: MockJWKSResponse.idToken, accessToken: MockJWKSResponse.idToken)
+        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
         // GIVEN I have tokens saved in secure store
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .idToken)
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .accessToken)
+        try accessControlEncryptedStore.saveItem(item: data,
+                                                 itemName: .storedTokens)
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
@@ -224,15 +228,18 @@ extension PersistentSessionManagerTests {
     }
     
     func testEndCurrentSession_clearsDataFromSession() throws {
+        let idToken = MockJWKSResponse.idToken
+        let accessToken = MockJWKSResponse.idToken
+        let storedKeys = StoredKeys(idToken: idToken, accessToken: accessToken)
+        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
         // GIVEN I have tokens saved in secure store
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .idToken)
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .accessToken)
+        try accessControlEncryptedStore.saveItem(item: data,
+                                                 itemName: .storedTokens)
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
         localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+
         try sut.resumeSession()
         // WHEN I end the session
         sut.endCurrentSession()
