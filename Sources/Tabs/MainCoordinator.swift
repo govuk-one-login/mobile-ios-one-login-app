@@ -9,20 +9,29 @@ import UIKit
 
 final class MainCoordinator: NSObject,
                              AnyCoordinator,
-                             TabCoordinator {
+                             TabCoordinator,
+                             ChildCoordinator {
     private let appWindow: UIWindow
     let root: UITabBarController
+    weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     private var analyticsCenter: AnalyticsCentral
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     private let walletAvailabilityService: WalletFeatureAvailabilityService
-    
-    private weak var loginCoordinator: LoginCoordinator?
-    private weak var homeCoordinator: HomeCoordinator?
-    private weak var walletCoordinator: WalletCoordinator?
-    private weak var profileCoordinator: ProfileCoordinator?
-    
+
+    private var homeCoordinator: HomeCoordinator? {
+        childCoordinators.first as? HomeCoordinator
+    }
+
+    private var walletCoordinator: WalletCoordinator? {
+        childCoordinators.first as? WalletCoordinator
+    }
+
+    private var profileCoordinator: ProfileCoordinator? {
+        childCoordinators.first as? ProfileCoordinator
+    }
+
     init(appWindow: UIWindow,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
@@ -64,7 +73,6 @@ extension MainCoordinator {
                                  networkClient: networkClient,
                                  sessionManager: sessionManager)
         addTab(hc)
-        homeCoordinator = hc
     }
     
     private func addWalletTab() {
@@ -76,7 +84,6 @@ extension MainCoordinator {
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        walletCoordinator = wc
         walletAvailabilityService.hasAccessedPreviously()
     }
     
@@ -84,7 +91,6 @@ extension MainCoordinator {
         let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
-        profileCoordinator = pc
     }
     
     private func updateToken() {

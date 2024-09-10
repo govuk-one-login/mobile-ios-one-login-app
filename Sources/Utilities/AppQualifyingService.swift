@@ -48,13 +48,17 @@ final class AppQualifyingService: QualifyingService {
             if appInfoState == .appOffline {
                 // Query cache?
             }
-            delegate?.didChangeAppInfoState(state: appInfoState)
+            Task {
+                await delegate?.didChangeAppInfoState(state: appInfoState)
+            }
         }
     }
     
     private var userState: AppLocalAuthState = .userUnconfirmed {
         didSet {
-            delegate?.didChangeUserState(state: userState)
+            Task {
+                await delegate?.didChangeUserState(state: userState)
+            }
         }
     }
     

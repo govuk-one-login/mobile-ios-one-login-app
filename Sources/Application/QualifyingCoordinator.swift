@@ -5,25 +5,39 @@ import Networking
 import SecureStore
 import UIKit
 
+@MainActor
 protocol AppQualifyingServiceDelegate: AnyObject {
     func didChangeAppInfoState(state appInfoState: AppInformationState)
     func didChangeUserState(state userState: AppLocalAuthState)
 }
 
+/// A type that is responsible for coordinating the user's eligibility to access the main functionality of the app.
+///
+/// Performs orchestration based on the state of the app to send the user to either:
+/// - Login Coordinator: requiring the user to authenticate to enter the app.
+/// - Main Coordinator: allowing the user to access the main app functionality (i.e. Wallet)
+///
+@MainActor
 final class QualifyingCoordinator: NSObject,
-                                   NavigationCoordinator,
+                                   Coordinator,
                                    AppQualifyingServiceDelegate {
+
     private let windowManager: WindowManagement
-    let root = UINavigationController()
     var childCoordinators = [ChildCoordinator]()
+
     private let analyticsCenter: AnalyticsCentral
     private var appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     
-    private weak var loginCoordinator: LoginCoordinator?
-    private weak var mainCoordinator: MainCoordinator?
-    
+    private var loginCoordinator: LoginCoordinator? {
+        childCoordinators.first as? LoginCoordinator
+    }
+
+    private var mainCoordinator: MainCoordinator? {
+        childCoordinators.first as? MainCoordinator
+    }
+
     init(windowManager: WindowManagement,
          analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
@@ -59,10 +73,10 @@ final class QualifyingCoordinator: NSObject,
         case .appUnconfirmed:
             return
         case .appInfoError:
-            // Generic error screen?
+            // todo: display generic error screen?
             return
         case .appOffline:
-            // Error screen for app offline and no cached data
+            // todo: display error screen for app offline and no cached data
             return
         }
     }
@@ -90,34 +104,23 @@ final class QualifyingCoordinator: NSObject,
         guard loginCoordinator == nil else {
             return
         }
-        Task { @MainActor in
-            let loginCoordinator = LoginCoordinator(appWindow: windowManager.appWindow,
-                                                    root: root,
-                                                    analyticsCenter: analyticsCenter,
-                                                    sessionManager: sessionManager,
-                                                    userState: userState)
-            windowManager.showWindowWith(loginCoordinator.root)
-            openChildInline(loginCoordinator)
-            self.loginCoordinator = loginCoordinator
-            mainCoordinator = nil
-        }
+        let loginCoordinator = LoginCoordinator(appWindow: windowManager.appWindow,
+                                                root: UINavigationController(),
+                                                analyticsCenter: analyticsCenter,
+                                                sessionManager: sessionManager,
+                                                userState: userState)
+        displayChildCoordinator(loginCoordinator)
     }
-    
+
     func launchMainCoordinator() {
-        guard mainCoordinator == nil else {
-            return
-        }
-        Task { @MainActor in
-            let mainCoordinator = MainCoordinator(appWindow: windowManager.appWindow,
-                                                  root: UITabBarController(),
-                                                  analyticsCenter: analyticsCenter,
-                                                  networkClient: networkClient,
-                                                  sessionManager: sessionManager)
-            windowManager.showWindowWith(mainCoordinator.root)
-            mainCoordinator.start()
-            self.mainCoordinator = mainCoordinator
-            loginCoordinator = nil
-        }
+        let mainCoordinator = mainCoordinator ?? MainCoordinator(
+            appWindow: windowManager.appWindow,
+            root: UITabBarController(),
+            analyticsCenter: analyticsCenter,
+            networkClient: networkClient,
+            sessionManager: sessionManager)
+
+        displayChildCoordinator(mainCoordinator)
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -130,6 +133,16 @@ final class QualifyingCoordinator: NSObject,
         case .unknown:
             return
         }
+    }
+
+    private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
+        // todo: call `openChild` within `ParentCoordinator.swift`
+        childCoordinators.append(coordinator)
+        coordinator.parentCoordinator = self
+        coordinator.start()
+
+        // display in window:
+        windowManager.showWindowWith(coordinator.root)
     }
 }
 
