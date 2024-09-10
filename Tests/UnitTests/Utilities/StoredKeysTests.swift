@@ -23,7 +23,13 @@ final class StoredKeysTests: XCTestCase {
 
 extension StoredKeysTests {
     func test_canFetchStoredKeys() throws {
-        
+        let keysToSave = StoredKeys(idToken: "idToken", accessToken: "accessToken")
+        let data = try JSONEncoder().encode(keysToSave).base64EncodedString()
+        try sut.saveStoredKeys(keys: keysToSave)
+        let storedKeys = try sut.fetchStoredKeys()
+        XCTAssertEqual(storedKeys.accessToken, keysToSave.accessToken)
+        XCTAssertEqual(storedKeys.idToken, keysToSave.idToken)
+
     }
 
     func test_canSaveKeys() throws {
