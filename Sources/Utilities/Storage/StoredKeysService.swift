@@ -35,5 +35,4 @@ final class StoredKeyService: StoredKeyServicing {
         }
         try accessControlEncryptedStore.saveItem(item: encodedData, itemName: .storedTokens)
     }
-
 }

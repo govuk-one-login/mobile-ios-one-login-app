@@ -9,6 +9,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var unprotectedStore: MockDefaultsStore!
     private var localAuthentication: MockLocalAuthManager!
     private var storedKeyService: MockStoredKeyService!
+    private var storedKeys: StoredKeys!
 
     override func setUp() {
         super.setUp()
@@ -35,6 +36,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         unprotectedStore = nil
         localAuthentication = nil
         storedKeyService = nil
+        storedKeys = nil
 
         sut = nil
         
@@ -162,8 +164,8 @@ extension PersistentSessionManagerTests {
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
-        let storedKeys = StoredKeys(idToken: MockJWKSResponse.idToken, accessToken: "accessTokenResponse")
-        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
+        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
+                              accessToken: "accessTokenResponse")
         // THEN my session data is updated in the store
         XCTAssertEqual(accessControlEncryptedStore.savedItems,
                        [.storedTokens: data])
@@ -177,8 +179,8 @@ extension PersistentSessionManagerTests {
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
-        let storedKeys = StoredKeys(idToken: MockJWKSResponse.idToken, accessToken: "accessTokenResponse")
-        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
+        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
+                              accessToken: "accessTokenResponse")
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN the user is asked to consent to biometrics if available
@@ -207,10 +209,8 @@ extension PersistentSessionManagerTests {
    }
 
     func testResumeSession_restoresUserAndAccessToken() throws {
-        let idToken = MockJWKSResponse.idToken
-        let accessToken = MockJWKSResponse.idToken
-        let storedKeys = StoredKeys(idToken: MockJWKSResponse.idToken, accessToken: MockJWKSResponse.idToken)
-        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
+        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
+                              accessToken: MockJWKSResponse.idToken)
         // GIVEN I have tokens saved in secure store
         try accessControlEncryptedStore.saveItem(item: data,
                                                  itemName: .storedTokens)
@@ -228,10 +228,8 @@ extension PersistentSessionManagerTests {
     }
     
     func testEndCurrentSession_clearsDataFromSession() throws {
-        let idToken = MockJWKSResponse.idToken
-        let accessToken = MockJWKSResponse.idToken
-        let storedKeys = StoredKeys(idToken: idToken, accessToken: accessToken)
-        let data = try JSONEncoder().encode(storedKeys).base64EncodedString()
+        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
+                              accessToken: MockJWKSResponse.idToken)
         // GIVEN I have tokens saved in secure store
         try accessControlEncryptedStore.saveItem(item: data,
                                                  itemName: .storedTokens)
@@ -300,5 +298,18 @@ extension PersistentSessionManagerTests {
 extension PersistentSessionManagerTests {
     var hasNotRemovedLocalAuth: Bool {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && sut.isReturningUser
+    }
+}
+
+extension PersistentSessionManagerTests {
+    private func encodeKeys(idToken: String, accessToken: String) -> String {
+        storedKeys = StoredKeys(idToken: idToken, accessToken: accessToken)
+        var keysAsData: String = ""
+        do {
+            keysAsData = try JSONEncoder().encode(storedKeys).base64EncodedString()
+        } catch {
+            print("error")
+        }
+        return keysAsData
     }
 }
