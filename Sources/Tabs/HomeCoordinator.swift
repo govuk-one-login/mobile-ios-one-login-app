@@ -48,7 +48,7 @@ final class HomeCoordinator: NSObject,
     
     func showDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
-        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsToken)
+        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
         let devMenuViewController = DeveloperMenuViewController(delegate: self,
                                                                 viewModel: viewModel,
                                                                 sessionManager: sessionManager,

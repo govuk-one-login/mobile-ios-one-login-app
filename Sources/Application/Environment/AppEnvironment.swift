@@ -141,14 +141,6 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var stsHelloWorldError: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "hello-world.\(string(for: .stsBaseURL))"
-        components.path = "/hello-world/error"
-        return components.url!
-    }
-    
     static var jwksURL: URL {
         var components = URLComponents()
         components.scheme = "https"
