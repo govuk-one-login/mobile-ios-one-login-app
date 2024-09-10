@@ -23,18 +23,23 @@ final class StoredKeysTests: XCTestCase {
 
 extension StoredKeysTests {
     func test_canFetchStoredKeys() throws {
-        let keysToSave = StoredTokens(idToken: "idToken", accessToken: "accessToken")
-        _ = try JSONEncoder().encode(keysToSave).base64EncodedString()
-        try sut.save(tokens: keysToSave)
-        let storedKeys = try sut.fetch()
-        XCTAssertEqual(storedKeys.accessToken, keysToSave.accessToken)
-        XCTAssertEqual(storedKeys.idToken, keysToSave.idToken)
+        let tokensToSave = StoredTokens(idToken: "idToken", accessToken: "accessToken")
+        _ = try JSONEncoder().encode(tokensToSave).base64EncodedString()
+        try sut.save(tokens: tokensToSave)
+        let storedTokens = try sut.fetch()
+        XCTAssertEqual(storedTokens.accessToken, tokensToSave.accessToken)
+        XCTAssertEqual(storedTokens.idToken, tokensToSave.idToken)
     }
 
     func test_canSaveKeys() throws {
-        let keys = StoredTokens(idToken: "idToken", accessToken: "accessToken")
-        let data = try JSONEncoder().encode(keys).base64EncodedString()
-        try sut.save(tokens: keys)
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [.storedTokens: data])
+        let tokens = StoredTokens(idToken: "idToken", accessToken: "accessToken")
+        let tokensAsData = try JSONEncoder().encode(tokens).base64EncodedString()
+        try sut.save(tokens: tokens)
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [.storedTokens: tokensAsData])
+    }
+
+    func test_deletesTokens() throws {
+        sut.delete()
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }
 }

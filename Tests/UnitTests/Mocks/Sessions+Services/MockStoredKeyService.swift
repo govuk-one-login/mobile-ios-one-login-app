@@ -1,18 +1,23 @@
 import Foundation
 @testable import OneLogin
 
-final class MockStoredKeyService: StoredKeyServicing {
+final class MockSecureTokenStore: TokenStore {
     var mockStoredKeys: StoredTokens?
-    var didCallFetchStoredKeys: Bool = false
-    var didCallSaveStoredKeys: Bool = false
+    var didCallFetch: Bool = false
+    var didCallSave: Bool = false
+    var didCallDelete: Bool = false
 
-    func fetchStoredKeys() throws -> StoredTokens {
-        didCallFetchStoredKeys = true
+    func fetch() throws -> StoredTokens {
+        didCallFetch = true
 //      This is force unwrapped, ensure the value is assigned above before calling `fetchStoreKeys` in tests
         return mockStoredKeys!
     }
     
-    func saveStoredKeys(keys: StoredTokens) throws {
-        didCallSaveStoredKeys = true
+    func save(tokens: StoredTokens) throws {
+        didCallSave = true
+    }
+
+    func delete() {
+        didCallDelete = true
     }
 }

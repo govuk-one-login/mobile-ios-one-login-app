@@ -8,17 +8,17 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var encryptedStore: MockSecureStoreService!
     private var unprotectedStore: MockDefaultsStore!
     private var localAuthentication: MockLocalAuthManager!
-    private var storedKeyService: MockStoredKeyService!
+    private var secureTokenStore: MockSecureTokenStore!
     private var storedKeys: StoredTokens!
 
     override func setUp() {
         super.setUp()
-        
+
         accessControlEncryptedStore = MockSecureStoreService()
         encryptedStore = MockSecureStoreService()
         unprotectedStore = MockDefaultsStore()
         localAuthentication = MockLocalAuthManager()
-        storedKeyService = MockStoredKeyService()
+        secureTokenStore = MockSecureTokenStore()
 
         sut = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -35,7 +35,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         encryptedStore = nil
         unprotectedStore = nil
         localAuthentication = nil
-        storedKeyService = nil
+        secureTokenStore = nil
         storedKeys = nil
 
         sut = nil
@@ -150,7 +150,6 @@ extension PersistentSessionManagerTests {
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN my session data is not saved
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
         XCTAssertEqual(encryptedStore.savedItems, [:])
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
     }
@@ -164,11 +163,7 @@ extension PersistentSessionManagerTests {
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
-        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
-                              accessToken: "accessTokenResponse")
         // THEN my session data is updated in the store
-        XCTAssertEqual(accessControlEncryptedStore.savedItems,
-                       [.storedTokens: data])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
     }
@@ -179,15 +174,11 @@ extension PersistentSessionManagerTests {
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
-        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
-                              accessToken: "accessTokenResponse")
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN the user is asked to consent to biometrics if available
         XCTAssertTrue(localAuthentication.didCallEnrolFaceIDIfAvailable)
         // THEN my session data is updated in the store
-        XCTAssertEqual(accessControlEncryptedStore.savedItems,
-                       [.storedTokens: data])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
    }
@@ -203,7 +194,6 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN my session data is not stored
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
         XCTAssertEqual(encryptedStore.savedItems, [:])
         XCTAssertEqual(unprotectedStore.savedData.count, 1)
    }
