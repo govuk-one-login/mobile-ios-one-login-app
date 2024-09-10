@@ -131,9 +131,9 @@ final class PersistentSessionManager: SessionManager {
             }
         }
         guard let idToken = tokenResponse.idToken else { return }
-        let storedKeys = StoredKeys(idToken: idToken, accessToken: tokenResponse.accessToken)
+        let tokens = StoredTokens(idToken: idToken, accessToken: tokenResponse.accessToken)
 
-        try storeKeyService.saveStoredKeys(keys: storedKeys)
+        try storeKeyService.saveStoredKeys(keys: tokens)
 
         if let persistentID = user?.persistentID {
             try encryptedStore.saveItem(item: persistentID, itemName: .persistentSessionID)

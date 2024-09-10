@@ -1,14 +1,14 @@
 import Foundation
 import SecureStore
 
-public struct StoredKeys: Codable {
+public struct StoredTokens: Codable {
     var idToken: String
     var accessToken: String
 }
 
 public protocol StoredKeyServicing {
-    func fetchStoredKeys() throws -> StoredKeys
-    func saveStoredKeys(keys: StoredKeys) throws
+    func fetchStoredKeys() throws -> StoredTokens
+    func saveStoredKeys(keys: StoredTokens) throws
 }
 
 final class StoredKeyService: StoredKeyServicing {
@@ -18,21 +18,21 @@ final class StoredKeyService: StoredKeyServicing {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
-    func fetchStoredKeys() throws -> StoredKeys {
-        let storedKeys = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
-        guard let keysAsData = Data(base64Encoded: storedKeys) else {
+    func fetchStoredKeys() throws -> StoredTokens {
+        let storedTokens = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
+        guard let tokensAsData = Data(base64Encoded: storedTokens) else {
                     // Change returned error
                     throw TokenError.bearerNotPresent
                 }
-        let decodedKeys = try JSONDecoder().decode(StoredKeys.self, from: keysAsData)
-        return decodedKeys
+        let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
+        return decodedTokens
     }
     
-    func saveStoredKeys(keys: StoredKeys) throws {
-        let data = try? JSONEncoder().encode(keys)
-        guard let encodedData = data?.base64EncodedString() else {
+    func saveStoredKeys(keys: StoredTokens) throws {
+        let tokensAsData = try? JSONEncoder().encode(keys)
+        guard let encodedTokens = tokensAsData?.base64EncodedString() else {
             return
         }
-        try accessControlEncryptedStore.saveItem(item: encodedData, itemName: .storedTokens)
+        try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: .storedTokens)
     }
 }

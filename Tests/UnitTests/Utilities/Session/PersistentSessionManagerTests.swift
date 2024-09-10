@@ -9,7 +9,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var unprotectedStore: MockDefaultsStore!
     private var localAuthentication: MockLocalAuthManager!
     private var storedKeyService: MockStoredKeyService!
-    private var storedKeys: StoredKeys!
+    private var storedKeys: StoredTokens!
 
     override func setUp() {
         super.setUp()
@@ -303,7 +303,7 @@ extension PersistentSessionManagerTests {
 
 extension PersistentSessionManagerTests {
     private func encodeKeys(idToken: String, accessToken: String) -> String {
-        storedKeys = StoredKeys(idToken: idToken, accessToken: accessToken)
+        storedKeys = StoredTokens(idToken: idToken, accessToken: accessToken)
         var keysAsData: String = ""
         do {
             keysAsData = try JSONEncoder().encode(storedKeys).base64EncodedString()
