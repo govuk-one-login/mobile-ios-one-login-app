@@ -131,7 +131,7 @@ final class PersistentSessionManager: SessionManager {
             }
         }
         guard let idToken = tokenResponse.idToken else { return }
-        var storedKeys = StoredKeys(idToken: idToken, accessToken: tokenResponse.accessToken)
+        let storedKeys = StoredKeys(idToken: idToken, accessToken: tokenResponse.accessToken)
 
         try storeKeyService.saveStoredKeys(keys: storedKeys)
 
