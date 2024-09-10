@@ -2,23 +2,24 @@ import Foundation
 import SecureStore
 
 public struct StoredTokens: Codable {
-    var idToken: String
+    var idToken: String?
     var accessToken: String
 }
 
-public protocol StoredKeyServicing {
-    func fetchStoredKeys() throws -> StoredTokens
-    func saveStoredKeys(keys: StoredTokens) throws
+public protocol TokenStore {
+    func fetch() throws -> StoredTokens
+    func save(tokens: StoredTokens) throws
+    func delete()
 }
 
-final class StoredKeyService: StoredKeyServicing {
+final class SecureTokenStore: TokenStore {
     private let accessControlEncryptedStore: SecureStorable
 
     init(accessControlEncryptedStore: SecureStorable) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
-    func fetchStoredKeys() throws -> StoredTokens {
+    func fetch() throws -> StoredTokens {
         let storedTokens = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
         guard let tokensAsData = Data(base64Encoded: storedTokens) else {
                     // Change returned error
@@ -28,11 +29,15 @@ final class StoredKeyService: StoredKeyServicing {
         return decodedTokens
     }
     
-    func saveStoredKeys(keys: StoredTokens) throws {
-        let tokensAsData = try? JSONEncoder().encode(keys)
+    func save(tokens: StoredTokens) throws {
+        let tokensAsData = try? JSONEncoder().encode(tokens)
         guard let encodedTokens = tokensAsData?.base64EncodedString() else {
             return
         }
         try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: .storedTokens)
+    }
+
+    func delete() {
+        accessControlEncryptedStore.deleteItem(itemName: .storedTokens)
     }
 }

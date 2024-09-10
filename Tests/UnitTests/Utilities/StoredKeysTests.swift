@@ -3,14 +3,14 @@ import Foundation
 import XCTest
 
 final class StoredKeysTests: XCTestCase {
-    private var sut: StoredKeyService!
+    private var sut: SecureTokenStore!
     private var accessControlEncryptedStore: MockSecureStoreService!
 
     override func setUp() {
         super.setUp()
         
         accessControlEncryptedStore = MockSecureStoreService()
-        sut = StoredKeyService(accessControlEncryptedStore: accessControlEncryptedStore)
+        sut = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
     }
 
     override func tearDown() {
@@ -25,8 +25,8 @@ extension StoredKeysTests {
     func test_canFetchStoredKeys() throws {
         let keysToSave = StoredTokens(idToken: "idToken", accessToken: "accessToken")
         _ = try JSONEncoder().encode(keysToSave).base64EncodedString()
-        try sut.saveStoredKeys(keys: keysToSave)
-        let storedKeys = try sut.fetchStoredKeys()
+        try sut.save(tokens: keysToSave)
+        let storedKeys = try sut.fetch()
         XCTAssertEqual(storedKeys.accessToken, keysToSave.accessToken)
         XCTAssertEqual(storedKeys.idToken, keysToSave.idToken)
     }
@@ -34,7 +34,7 @@ extension StoredKeysTests {
     func test_canSaveKeys() throws {
         let keys = StoredTokens(idToken: "idToken", accessToken: "accessToken")
         let data = try JSONEncoder().encode(keys).base64EncodedString()
-        try sut.saveStoredKeys(keys: keys)
+        try sut.save(tokens: keys)
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [.storedTokens: data])
     }
 }
