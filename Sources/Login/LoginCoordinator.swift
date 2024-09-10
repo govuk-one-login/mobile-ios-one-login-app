@@ -55,14 +55,15 @@ final class LoginCoordinator: NSObject,
     }
     
     private func checkLocalAuth() {
-        if loginError as? LocalAuthenticationError == .noBiometricsOrPasscode {
-            let signOutWarningScreen = ErrorPresenter
-                .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) {
-                    self.root.dismiss(animated: true)
-                }
-            signOutWarningScreen.modalPresentationStyle = .overFullScreen
-            root.present(signOutWarningScreen, animated: false)
+        guard loginError as? PersistentSessionError == .userRemovedLocalAuth else {
+            return
         }
+        let signOutWarningScreen = ErrorPresenter
+            .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) {
+                self.root.dismiss(animated: true)
+            }
+        signOutWarningScreen.modalPresentationStyle = .overFullScreen
+        root.present(signOutWarningScreen, animated: false)
     }
     
     private func showLoginErrorIfNecessary() {

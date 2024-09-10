@@ -3,6 +3,11 @@ import LocalAuthentication
 import Networking
 import SecureStore
 
+enum PersistentSessionError: Error {
+    case noSessionExists
+    case userRemovedLocalAuth
+}
+
 final class PersistentSessionManager: SessionManager {
     private let accessControlEncryptedStore: SecureStorable
     private let encryptedStore: SecureStorable
@@ -143,6 +148,18 @@ final class PersistentSessionManager: SessionManager {
     }
 
     func resumeSession() throws {
+        guard expiryDate != nil else {
+            throw PersistentSessionError.noSessionExists
+        }
+        
+        guard isSessionValid else {
+            throw TokenError.expired
+        }
+        
+        guard hasNotRemovedLocalAuth else {
+            throw PersistentSessionError.userRemovedLocalAuth
+        }
+        
         let idToken = try accessControlEncryptedStore
             .readItem(itemName: .idToken)
         user = try IDTokenUserRepresentation(idToken: idToken)
