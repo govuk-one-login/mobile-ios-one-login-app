@@ -22,7 +22,7 @@ final class SecureTokenStoreTests: XCTestCase {
 }
 
 extension SecureTokenStoreTests {
-    func test_canFetchStoredKeys() throws {
+    func test_canFetchStoredTokens() throws {
         let tokensToSave = StoredTokens(idToken: "idToken", accessToken: "accessToken")
         _ = try JSONEncoder().encode(tokensToSave).base64EncodedString()
         try sut.save(tokens: tokensToSave)
