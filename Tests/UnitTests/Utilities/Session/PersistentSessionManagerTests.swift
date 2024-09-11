@@ -80,19 +80,19 @@ extension PersistentSessionManagerTests {
     func test_hasNotRemovedLocalAuth() throws {
         localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
         unprotectedStore.set(true, forKey: .returningUser)
-        XCTAssertTrue(sut.hasNotRemovedLocalAuth)
+        XCTAssertTrue(hasNotRemovedLocalAuth)
     }
     
     func test_hasRemovedLocalAuth() throws {
         localAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
         unprotectedStore.set(true, forKey: .returningUser)
-        XCTAssertFalse(sut.hasNotRemovedLocalAuth)
+        XCTAssertFalse(hasNotRemovedLocalAuth)
     }
     
     func test_hasRemovedLocalAuth_inverse() throws {
         localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
         unprotectedStore.set(false, forKey: .returningUser)
-        XCTAssertFalse(sut.hasNotRemovedLocalAuth)
+        XCTAssertFalse(hasNotRemovedLocalAuth)
     }
     
     func testStartSession_logsTheUserIn() async throws {
@@ -254,5 +254,11 @@ extension PersistentSessionManagerTests {
         // THEN my session data is deleted
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
         XCTAssertEqual(encryptedStore.savedItems, [:])
+    }
+}
+
+extension PersistentSessionManagerTests {
+    var hasNotRemovedLocalAuth: Bool {
+        localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && sut.isReturningUser
     }
 }

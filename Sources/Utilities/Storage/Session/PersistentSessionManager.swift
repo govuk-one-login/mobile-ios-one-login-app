@@ -84,7 +84,7 @@ final class PersistentSessionManager: SessionManager {
         persistentID == nil && isReturningUser
     }
     
-    var hasNotRemovedLocalAuth: Bool {
+    private var hasNotRemovedLocalAuth: Bool {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
     }
     
