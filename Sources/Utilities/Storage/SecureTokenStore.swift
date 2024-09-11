@@ -1,6 +1,10 @@
 import Foundation
 import SecureStore
 
+enum StoredTokenError: Error {
+    case unableToDecodeTokens
+}
+
 public struct StoredTokens: Codable {
     var idToken: String?
     var accessToken: String
@@ -22,9 +26,8 @@ final class SecureTokenStore: TokenStore {
     func fetch() throws -> StoredTokens {
         let storedTokens = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
         guard let tokensAsData = Data(base64Encoded: storedTokens) else {
-                    // Change returned error
-                    throw TokenError.bearerNotPresent
-                }
+            throw StoredTokenError.unableToDecodeTokens
+        }
         let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
         return decodedTokens
     }
