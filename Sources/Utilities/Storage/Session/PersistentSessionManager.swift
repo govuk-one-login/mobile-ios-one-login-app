@@ -163,7 +163,6 @@ final class PersistentSessionManager: SessionManager {
         if let idToken = keys.idToken {
             user = try IDTokenUserRepresentation(idToken: idToken)
         }
-        user = try IDTokenUserRepresentation(idToken: idToken)
 
         let accessToken = keys.accessToken
         tokenProvider.update(subjectToken: accessToken)
