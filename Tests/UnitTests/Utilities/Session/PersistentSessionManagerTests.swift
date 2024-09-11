@@ -255,6 +255,36 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
         XCTAssertEqual(encryptedStore.savedItems, [:])
     }
+    
+    func test_isSessionValid_throwsError() throws {
+        // GIVEN I have an expired session
+        unprotectedStore.savedData = [
+            .returningUser: true,
+            .accessTokenExpiry: Date.distantPast
+        ]
+        encryptedStore.savedItems = [
+            .persistentSessionID: UUID().uuidString
+        ]
+        
+        // WHEN I try to resume a session
+        XCTAssertThrowsError(try sut.resumeSession()) { error in
+        // THEN an error is thrown
+            XCTAssertEqual(error as? TokenError, .expired)
+        }
+    }
+    
+    func test_hasNotRemovedLocalAuth_throwsError_whenPasscodeRemoved() throws {
+        // GIVEN I am a returning user with an active session
+        let date = Date.distantFuture
+        unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
+        // WHEN remove my passcode
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
+        // AND I try to resume a session
+        XCTAssertThrowsError(try sut.resumeSession()) { error in
+        // THEN an error is thrown
+            XCTAssertEqual(error as? PersistentSessionError, .userRemovedLocalAuth)
+        }
+    }
 }
 
 extension PersistentSessionManagerTests {
