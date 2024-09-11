@@ -85,10 +85,9 @@ extension MainCoordinatorTests {
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
-        XCTAssertEqual(sut.childCoordinators.count, 3)
+        XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
-        XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
         // AND the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
@@ -100,11 +99,10 @@ extension MainCoordinatorTests {
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
-        XCTAssertEqual(sut.childCoordinators.count, 4)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
-        XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
