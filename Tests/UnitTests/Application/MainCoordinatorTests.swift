@@ -14,6 +14,7 @@ final class MainCoordinatorTests: XCTestCase {
     var mockSessionManager: MockSessionManager!
     var mockUpdateService: MockAppInformationService!
     var mockWalletAvailabilityService: MockWalletAvailabilityService!
+    var mockLocalAuthManager: MockLocalAuthManager!
     var sut: MainCoordinator!
     
     @MainActor
@@ -31,6 +32,7 @@ final class MainCoordinatorTests: XCTestCase {
         mockWalletAvailabilityService = MockWalletAvailabilityService()
         mockWindowManager.appWindow.rootViewController = tabBarController
         mockWindowManager.appWindow.makeKeyAndVisible()
+        
         sut = MainCoordinator(windowManager: mockWindowManager,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
@@ -83,14 +85,13 @@ extension MainCoordinatorTests {
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
-        XCTAssertEqual(sut.childCoordinators.count, 3)
+        XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
-        XCTAssertTrue(sut.childCoordinators[2] is LoginCoordinator)
         // AND the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
-    
+
     @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
@@ -98,23 +99,36 @@ extension MainCoordinatorTests {
         // AND the MainCoordinator is started
         sut.start()
         // THEN the MainCoordinator should have child coordinators
-        XCTAssertEqual(sut.childCoordinators.count, 4)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
-        XCTAssertTrue(sut.childCoordinators[3] is LoginCoordinator)
         // THEN the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
     
     @MainActor
-    func test_evaluateRevisit_requiresNewUserToLogin() throws {
+    func test_evaluateRevisit_whenLocalAuthRemoved() throws {
         // GIVEN the app has token information stored and the accessToken is valid
+        try mockSessionManager.setupSession(returningUser: true, expired: false)
+        // WHEN local auth is removed
+        mockSessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
+        // AND the MainCoordinator's evaluateRevisit method is called
+        sut.evaluateRevisit()
+        // THEN the session manager should end the current session
+        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
+        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
+    }
+    
+    @MainActor
+    func test_evaluateRevisit_requiresNewUserToLogin() throws {
+        // GIVEN the app has no token information stored
         try mockSessionManager.setupSession(returningUser: false, expired: true)
+        mockSessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
     }
     
@@ -122,10 +136,11 @@ extension MainCoordinatorTests {
     func test_evaluateRevisit_requiresExpiredUserToLogin() throws {
         // GIVEN the app has token information stored but the accessToken is expired
         try mockSessionManager.setupSession(expired: true)
+        mockSessionManager.errorFromResumeSession = TokenError.expired
         // WHEN the MainCoordinator's evaluateRevisit method is called
         sut.evaluateRevisit()
         // THEN the session manager should end the current session
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
+        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
     }
     

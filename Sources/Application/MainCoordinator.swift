@@ -55,32 +55,17 @@ final class MainCoordinator: NSObject,
     }
     
     func evaluateRevisit() {
-        guard sessionManager.expiryDate != nil else {
-            fullLogin()
-            return
-        }
-
-        guard sessionManager.isSessionValid else {
-            fullLogin(loginError: TokenError.expired)
-            return
-        }
-
         Task {
             await MainActor.run {
                 do {
                     try sessionManager.resumeSession()
                     updateToken()
                     windowManager.hideUnlockWindow()
+                } catch PersistentSessionError.noSessionExists {
+                    // New user, so there is no session to resume
+                    fullLogin()
                 } catch {
-                    switch error {
-                    case is JWTVerifierError,
-                        SecureStoreError.unableToRetrieveFromUserDefaults,
-                        SecureStoreError.cantInitialiseData,
-                        SecureStoreError.cantRetrieveKey:
-                        fullLogin(loginError: error)
-                    default:
-                        print("Token retrival error: \(error)")
-                    }
+                    fullLogin(loginError: error)
                 }
             }
         }

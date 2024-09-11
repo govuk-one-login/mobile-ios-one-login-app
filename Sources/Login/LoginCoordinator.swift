@@ -44,6 +44,7 @@ final class LoginCoordinator: NSObject,
             }
         root.setViewControllers([rootViewController], animated: true)
         introViewController = rootViewController
+        checkLocalAuth()
         showLoginErrorIfNecessary()
         launchOnboardingCoordinator()
         NotificationCenter.default
@@ -51,6 +52,18 @@ final class LoginCoordinator: NSObject,
                          selector: #selector(returnToIntroScreen),
                          name: Notification.Name(.returnToIntroScreen),
                          object: nil)
+    }
+    
+    private func checkLocalAuth() {
+        guard loginError as? PersistentSessionError == .userRemovedLocalAuth else {
+            return
+        }
+        let signOutWarningScreen = ErrorPresenter
+            .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) {
+                self.root.dismiss(animated: true)
+            }
+        signOutWarningScreen.modalPresentationStyle = .overFullScreen
+        root.present(signOutWarningScreen, animated: false)
     }
     
     private func showLoginErrorIfNecessary() {

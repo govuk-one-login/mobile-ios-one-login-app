@@ -77,6 +77,24 @@ extension PersistentSessionManagerTests {
         XCTAssertTrue(sut.isReturningUser)
     }
     
+    func test_hasNotRemovedLocalAuth() throws {
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        unprotectedStore.set(true, forKey: .returningUser)
+        XCTAssertTrue(hasNotRemovedLocalAuth)
+    }
+    
+    func test_hasRemovedLocalAuth() throws {
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
+        unprotectedStore.set(true, forKey: .returningUser)
+        XCTAssertFalse(hasNotRemovedLocalAuth)
+    }
+    
+    func test_hasRemovedLocalAuth_inverse() throws {
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        unprotectedStore.set(false, forKey: .returningUser)
+        XCTAssertFalse(hasNotRemovedLocalAuth)
+    }
+    
     func testStartSession_logsTheUserIn() async throws {
         // GIVEN I am not logged in
         let loginSession = await MockLoginSession(window: UIWindow())
@@ -189,9 +207,12 @@ extension PersistentSessionManagerTests {
                                                  itemName: .idToken)
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
                                                  itemName: .accessToken)
+        // AND I am a returning user with local auth enabled
+        let date = Date.distantFuture
+        unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
         // WHEN I return to the app and authenticate successfully
         try sut.resumeSession()
-        
         // THEN my session data is re-populated
         XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user?.email, "mock@email.com")
@@ -205,6 +226,10 @@ extension PersistentSessionManagerTests {
                                                  itemName: .idToken)
         try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
                                                  itemName: .accessToken)
+        // AND I am a returning user with local auth enabled
+        let date = Date.distantFuture
+        unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
         try sut.resumeSession()
         // WHEN I end the session
         sut.endCurrentSession()
@@ -229,5 +254,41 @@ extension PersistentSessionManagerTests {
         // THEN my session data is deleted
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
         XCTAssertEqual(encryptedStore.savedItems, [:])
+    }
+    
+    func test_isSessionValid_throwsError() throws {
+        // GIVEN I have an expired session
+        unprotectedStore.savedData = [
+            .returningUser: true,
+            .accessTokenExpiry: Date.distantPast
+        ]
+        encryptedStore.savedItems = [
+            .persistentSessionID: UUID().uuidString
+        ]
+        
+        // WHEN I try to resume a session
+        XCTAssertThrowsError(try sut.resumeSession()) { error in
+        // THEN an error is thrown
+            XCTAssertEqual(error as? TokenError, .expired)
+        }
+    }
+    
+    func test_hasNotRemovedLocalAuth_throwsError_whenPasscodeRemoved() throws {
+        // GIVEN I am a returning user with an active session
+        let date = Date.distantFuture
+        unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
+        // WHEN remove my passcode
+        localAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
+        // AND I try to resume a session
+        XCTAssertThrowsError(try sut.resumeSession()) { error in
+        // THEN an error is thrown
+            XCTAssertEqual(error as? PersistentSessionError, .userRemovedLocalAuth)
+        }
+    }
+}
+
+extension PersistentSessionManagerTests {
+    var hasNotRemovedLocalAuth: Bool {
+        localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && sut.isReturningUser
     }
 }

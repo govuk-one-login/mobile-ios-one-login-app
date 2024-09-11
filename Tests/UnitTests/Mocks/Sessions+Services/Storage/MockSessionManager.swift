@@ -9,6 +9,8 @@ final class MockSessionManager: SessionManager {
     var isSessionValid: Bool
     var isReturningUser: Bool
     
+    var hasNotRemovedLocalAuth: Bool
+    
     var user: (any OneLogin.User)?
     
     var isPersistentSessionIDMissing: Bool
@@ -28,6 +30,7 @@ final class MockSessionManager: SessionManager {
          sessionExists: Bool = false,
          isSessionValid: Bool = false,
          isReturningUser: Bool = false,
+         hasNotRemovedLocalAuth: Bool = true,
          user: (any User)? = nil,
          isPersistentSessionIDMissing: Bool = false,
          tokenProvider: TokenHolder = TokenHolder()) {
@@ -35,6 +38,7 @@ final class MockSessionManager: SessionManager {
         self.sessionExists = sessionExists
         self.isSessionValid = isSessionValid
         self.isReturningUser = isReturningUser
+        self.hasNotRemovedLocalAuth = hasNotRemovedLocalAuth
         self.user = user
         self.isPersistentSessionIDMissing = isPersistentSessionIDMissing
         self.tokenProvider = tokenProvider
