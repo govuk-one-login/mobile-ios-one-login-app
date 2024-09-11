@@ -33,10 +33,8 @@ final class SecureTokenStore: TokenStore {
     }
     
     func save(tokens: StoredTokens) throws {
-        let tokensAsData = try? JSONEncoder().encode(tokens)
-        guard let encodedTokens = tokensAsData?.base64EncodedString() else {
-            return
-        }
+        let tokensAsData = try JSONEncoder().encode(tokens)
+        let encodedTokens = tokensAsData.base64EncodedString()
         try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: .storedTokens)
     }
 

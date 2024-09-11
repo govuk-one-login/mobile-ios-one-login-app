@@ -31,14 +31,7 @@ extension SecureTokenStoreTests {
         XCTAssertEqual(storedTokens.idToken, tokensToSave.idToken)
     }
 
-    func test_canSaveKeys() throws {
-        let tokens = StoredTokens(idToken: "idToken", accessToken: "accessToken")
-        let tokensAsData = try JSONEncoder().encode(tokens).base64EncodedString()
-        try sut.save(tokens: tokens)
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [.storedTokens: tokensAsData])
-    }
-
-    func test_ErrorThrownIfTokensHaveIncorrectFormat() async throws {
+    func test_fetchThrowsErrorIfTokensHaveIncorrectFormat() async throws {
         accessControlEncryptedStore.savedItems = [.storedTokens: "normal string"]
         let exp = expectation(description: "Failed to retreive key object in secure store")
         do {
@@ -51,7 +44,15 @@ extension SecureTokenStoreTests {
         await fulfillment(of: [exp], timeout: 3)
     }
 
+    func test_canSaveKeys() throws {
+        let tokens = StoredTokens(idToken: "idToken", accessToken: "accessToken")
+        let tokensAsData = try JSONEncoder().encode(tokens).base64EncodedString()
+        try sut.save(tokens: tokens)
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [.storedTokens: tokensAsData])
+    }
+
     func test_deletesTokens() throws {
+        accessControlEncryptedStore.savedItems = [.storedTokens: "tokens"]
         sut.delete()
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }
