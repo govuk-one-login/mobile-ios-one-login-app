@@ -108,7 +108,7 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
-    func test_evaluateRevisit_whenLocalAuthRemoved() throws {
+    func test_evaluateRevisit_whenLocalAuthRemoved_throwsError() throws {
         // GIVEN the app has token information stored and the accessToken is valid
         try mockSessionManager.setupSession(returningUser: true, expired: false)
         // WHEN local auth is removed
@@ -118,6 +118,10 @@ extension MainCoordinatorTests {
         // THEN the session manager should end the current session
         waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
+        // AND the login coordinator should contain an error
+        let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
+        let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? PersistentSessionError)
+        XCTAssertTrue(loginCoordinatorError == .userRemovedLocalAuth)
     }
     
     @MainActor
@@ -133,7 +137,7 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
-    func test_evaluateRevisit_requiresExpiredUserToLogin() throws {
+    func test_evaluateRevisit_requiresExpiredUserToLogin_andThrowsError() throws {
         // GIVEN the app has token information stored but the accessToken is expired
         try mockSessionManager.setupSession(expired: true)
         mockSessionManager.errorFromResumeSession = TokenError.expired
@@ -142,6 +146,10 @@ extension MainCoordinatorTests {
         // THEN the session manager should end the current session
         waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
         XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
+        // AND the login coordinator should contain that error
+        let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
+        let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? TokenError)
+        XCTAssertTrue(loginCoordinatorError == .expired)
     }
     
     @MainActor
