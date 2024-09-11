@@ -5,7 +5,7 @@ import XCTest
 
 @MainActor
 final class SceneLifecycleTests: XCTestCase {
-    var mockWindowManager: MockWindowManager!
+    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
@@ -15,24 +15,23 @@ final class SceneLifecycleTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        mockWindowManager = MockWindowManager(appWindow: UIWindow())
+        window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
-        mockMainCoordinator = MainCoordinator(windowManager: mockWindowManager,
+        mockMainCoordinator = MainCoordinator(appWindow: window,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
                                               networkClient: NetworkClient(),
                                               sessionManager: mockSessionManager)
         sut = MockSceneDelegate(coordinator: mockMainCoordinator,
-                                analyticsService: mockAnalyticsService,
-                                windowManager: mockWindowManager)
+                                analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
-        mockWindowManager = nil
+        window = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
@@ -45,15 +44,9 @@ final class SceneLifecycleTests: XCTestCase {
 }
 
 extension SceneLifecycleTests {
-    func test_displayUnlockScreen() throws {
-        sut.displayUnlockScreen()
-        XCTAssertTrue(mockWindowManager.displayUnlockWindowCalled)
-
-    }
-    
     func test_splashscreen_analytics() throws {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
-        sut.trackSplashScreen(mockAnalyticsCenter.analyticsService)
+        sut.trackSplashScreen()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.splashScreen.rawValue,
                                 screen: IntroAnalyticsScreen.splashScreen,

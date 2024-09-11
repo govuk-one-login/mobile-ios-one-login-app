@@ -8,34 +8,10 @@ protocol QualifyingService: AnyObject {
     func evaluateUser() async
 }
 
-enum AppInformationState {
-    case appOffline
-    case appInfoError
-    case appOutdated
-    case appUnconfirmed
-    case appConfirmed
-    // TODO: DCMAW-9824 - New state may be needed for appInfo.allowAppUsage which corresponds to 'available' in appInfo json
-}
-
-enum AppLocalAuthState: Equatable {
-    case userFailed(_ error: Error)
-    case userExpired
-    case userUnconfirmed
-    case userOneTime
-    case userConfirmed
-    
-    static func == (lhs: AppLocalAuthState, rhs: AppLocalAuthState) -> Bool {
-        switch (lhs, rhs) {
-        case (.userFailed, .userFailed),
-            (.userExpired, .userExpired),
-            (.userUnconfirmed, .userUnconfirmed),
-            (.userOneTime, .userOneTime),
-            (.userConfirmed, .userConfirmed):
-            return true
-        default:
-            return false
-        }
-    }
+@MainActor
+protocol AppQualifyingServiceDelegate: AnyObject {
+    func didChangeAppInfoState(state appInfoState: AppInformationState)
+    func didChangeUserState(state userState: AppLocalAuthState)
 }
 
 final class AppQualifyingService: QualifyingService {
@@ -126,5 +102,29 @@ final class AppQualifyingService: QualifyingService {
                 userState = .userFailed(error)
             }
         }
+    }
+}
+
+// MARK: - Respond to session events
+extension AppQualifyingService {
+    private func subscribe() {
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(sessionDidExpire),
+                         name: Notification.Name(.startReauth),
+                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(userDidLogout),
+                         name: Notification.Name(.logOut),
+                         object: nil)
+    }
+
+    @objc private func sessionDidExpire() {
+        userState = .userExpired
+    }
+
+    @objc private func userDidLogout() {
+        userState = .userUnconfirmed
     }
 }

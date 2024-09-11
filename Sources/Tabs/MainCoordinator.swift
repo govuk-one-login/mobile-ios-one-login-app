@@ -124,12 +124,6 @@ extension MainCoordinator: UITabBarControllerDelegate {
 }
 
 extension MainCoordinator: ParentCoordinator {
-    func didRegainFocus(fromChild child: ChildCoordinator?) {
-        if child is LoginCoordinator {
-            updateToken()
-        }
-    }
-    
     func performChildCleanup(child: ChildCoordinator) {
         if child is ProfileCoordinator {
             do {

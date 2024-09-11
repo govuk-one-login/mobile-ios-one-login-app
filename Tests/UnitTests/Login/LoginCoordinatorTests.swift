@@ -32,7 +32,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: nil)
+                               userState: .userUnconfirmed)
     }
     
     override func tearDown() {
@@ -55,7 +55,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: TokenError.expired)
+                               userState: .userExpired)
         mockSessionManager.isReturningUser = true
     }
     
@@ -66,7 +66,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: JWTVerifierError.invalidJWTFormat)
+                               userState: .userFailed(JWTVerifierError.invalidJWTFormat))
     }
     
     @MainActor

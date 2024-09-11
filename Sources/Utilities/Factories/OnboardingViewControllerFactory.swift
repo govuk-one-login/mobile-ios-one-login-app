@@ -4,14 +4,6 @@ import Logging
 
 @MainActor
 final class OnboardingViewControllerFactory {
-    static func createUnlockScreen(analyticsService: AnalyticsService,
-                                   primaryButtonAction: @escaping () -> Void) -> UnlockScreenViewController {
-        let viewModel = UnlockScreenViewModel(analyticsService: analyticsService) {
-            primaryButtonAction()
-        }
-        return UnlockScreenViewController(viewModel: viewModel)
-    }
-    
     static func createIntroViewController(analyticsService: AnalyticsService,
                                           action: @escaping () -> Void) -> IntroViewController {
         let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) {

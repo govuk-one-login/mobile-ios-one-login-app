@@ -95,7 +95,7 @@ extension AppInformationServiceTests {
         let request = try XCTUnwrap(MockURLProtocol.requests.first)
         XCTAssertEqual(request.httpMethod, "GET")
         XCTAssertEqual(request.url?.scheme, "https")
-        XCTAssertEqual(request.url?.host, "token.build.account.gov.uk")
+        XCTAssertEqual(request.url?.host, "mobile.build.account.gov.uk")
         XCTAssertEqual(request.url?.path, "/appInfo")
         
         XCTAssertEqual(version, Version(1, 0, 0))

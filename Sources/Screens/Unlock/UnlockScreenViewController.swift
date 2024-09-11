@@ -47,11 +47,13 @@ class UnlockScreenViewController: BaseViewController {
             loadingStackView.accessibilityIdentifier = "unlock-screen-loading-stack-view"
         }
     }
-    
-    func finishLoading() {
-        Task { @MainActor in
-            loadingStackView.isHidden = true
-            unlockButton.isHidden = false
+
+    var isLoading: Bool = true {
+        didSet {
+            Task { @MainActor in
+                loadingStackView.isHidden = !isLoading
+                unlockButton.isHidden = isLoading
+            }
         }
     }
 }

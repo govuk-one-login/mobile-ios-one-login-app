@@ -7,9 +7,8 @@ final class MockSessionManager: SessionManager {
     var expiryDate: Date?
     var sessionExists: Bool
     var isSessionValid: Bool
+    var isOneTimeUser: Bool
     var isReturningUser: Bool
-    
-    var hasNotRemovedLocalAuth: Bool
     
     var user: (any OneLogin.User)?
     
@@ -30,7 +29,7 @@ final class MockSessionManager: SessionManager {
          sessionExists: Bool = false,
          isSessionValid: Bool = false,
          isReturningUser: Bool = false,
-         hasNotRemovedLocalAuth: Bool = true,
+         isOneTimeUser: Bool = false,
          user: (any User)? = nil,
          isPersistentSessionIDMissing: Bool = false,
          tokenProvider: TokenHolder = TokenHolder()) {
@@ -38,10 +37,10 @@ final class MockSessionManager: SessionManager {
         self.sessionExists = sessionExists
         self.isSessionValid = isSessionValid
         self.isReturningUser = isReturningUser
-        self.hasNotRemovedLocalAuth = hasNotRemovedLocalAuth
         self.user = user
         self.isPersistentSessionIDMissing = isPersistentSessionIDMissing
         self.tokenProvider = tokenProvider
+        self.isOneTimeUser = isOneTimeUser
     }
 
     func startSession(using session: any LoginSession) async throws {

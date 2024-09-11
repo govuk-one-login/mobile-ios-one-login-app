@@ -6,7 +6,7 @@ import SecureStore
 import XCTest
 
 final class MainCoordinatorTests: XCTestCase {
-    var mockWindowManager: MockWindowManager!
+    var window: UIWindow!
     var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
@@ -20,8 +20,7 @@ final class MainCoordinatorTests: XCTestCase {
     @MainActor
     override func setUp() {
         super.setUp()
-        
-        mockWindowManager = MockWindowManager(appWindow: UIWindow())
+
         tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -30,20 +29,20 @@ final class MainCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         mockUpdateService = MockAppInformationService()
         mockWalletAvailabilityService = MockWalletAvailabilityService()
-        mockWindowManager.appWindow.rootViewController = tabBarController
-        mockWindowManager.appWindow.makeKeyAndVisible()
+
+        window = UIWindow()
+        window.makeKeyAndVisible()
         
-        sut = MainCoordinator(windowManager: mockWindowManager,
+        sut = MainCoordinator(appWindow: window,
                               root: tabBarController,
                               analyticsCenter: mockAnalyticsCenter,
                               networkClient: NetworkClient(),
                               sessionManager: mockSessionManager,
-                              updateService: mockUpdateService,
                               walletAvailabilityService: mockWalletAvailabilityService)
     }
     
     override func tearDown() {
-        mockWindowManager = nil
+        window = nil
         tabBarController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
@@ -60,21 +59,6 @@ final class MainCoordinatorTests: XCTestCase {
 }
 
 extension MainCoordinatorTests {
-    @MainActor
-    func test_checkAppVersion_succeeds() {
-        sut.checkAppVersion()
-        waitForTruth(self.mockUpdateService.didCallFetchAppInfo, timeout: 20)
-    }
-    
-    @MainActor
-    func test_checkAppVersion_throwsError() {
-        mockUpdateService.shouldReturnError = true
-        sut.checkAppVersion()
-        waitForTruth(self.mockUpdateService.didCallFetchAppInfo, timeout: 20)
-        
-        XCTAssertTrue(sut.root.presentedViewController is GDSErrorViewController)
-    }
-    
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
@@ -321,12 +305,12 @@ extension MainCoordinatorTests {
     @MainActor
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
         // GIVEN the user has an active session
-        let loginCoordinator = LoginCoordinator(appWindow: mockWindowManager.appWindow,
+        let loginCoordinator = LoginCoordinator(appWindow: window,
                                                 root: UINavigationController(),
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 sessionManager: mockSessionManager,
                                                 networkMonitor: MockNetworkMonitor(),
-                                                loginError: nil)
+                                                userState: .userExpired)
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
