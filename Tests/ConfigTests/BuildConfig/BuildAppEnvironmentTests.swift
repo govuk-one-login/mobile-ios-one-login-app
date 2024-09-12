@@ -15,7 +15,6 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginRedirect, "https://mobile.build.account.gov.uk/redirect")
         XCTAssertEqual(sut.oneLoginBaseURL, "mobile.build.account.gov.uk")
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world"))
-        XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world/error"))
         XCTAssertEqual(sut.jwksURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
         XCTAssertEqual(sut.appInfoURL, URL(string: "https://token.build.account.gov.uk/appInfo"))
         XCTAssertEqual(sut.isLocaleWelsh, false)

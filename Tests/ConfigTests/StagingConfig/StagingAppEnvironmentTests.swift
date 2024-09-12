@@ -15,7 +15,6 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.oneLoginRedirect, "https://mobile.staging.account.gov.uk/redirect")
         XCTAssertEqual(sut.oneLoginBaseURL, "mobile.staging.account.gov.uk")
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world"))
-        XCTAssertEqual(sut.stsHelloWorldError, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world/error"))
         XCTAssertEqual(sut.jwksURL, URL(string: "https://token.staging.account.gov.uk/.well-known/jwks.json"))
         XCTAssertEqual(sut.appInfoURL, URL(string: "https://token.staging.account.gov.uk/appInfo"))
         XCTAssertEqual(sut.isLocaleWelsh, false)
