@@ -67,4 +67,17 @@ final class HomeCoordinatorTests: XCTestCase {
         // THEN the email label should contain te email from the email token
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\ntest@example.com")
     }
+
+    @MainActor
+    func testAccessTokenInvalidAction() {
+        // WHEN access token invalid action is called
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.startReauth),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
+
+        sut.accessTokenInvalidAction()
+
+        // THEN a start reauth notification is sent
+        wait(for: [exp], timeout: 20)
+    }
 }

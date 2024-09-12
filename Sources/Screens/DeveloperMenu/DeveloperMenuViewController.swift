@@ -1,28 +1,34 @@
 import Authentication
 import GDSCommon
+import MobilePlatformServices
 import Networking
 import SecureStore
 import UIKit
 
+protocol DeveloperMenuDelegate: AnyObject {
+    func accessTokenInvalidAction()
+}
+
 final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
-    
-    weak var parentCoordinator: HomeCoordinator?
-    let viewModel: DeveloperMenuViewModel
-    let sessionManager: SessionManager
-    let networkClient: NetworkClient
+
+    private weak var delegate: DeveloperMenuDelegate?
+
+    private let viewModel: DeveloperMenuViewModel
+    private let sessionManager: SessionManager
+    private let helloWorldProvider: HelloWorldProvider
 
     private let defaultsStore: DefaultsStorable
 
-    init(parentCoordinator: HomeCoordinator,
+    init(delegate: DeveloperMenuDelegate,
          viewModel: DeveloperMenuViewModel,
          sessionManager: SessionManager,
-         networkClient: NetworkClient,
+         helloWorldProvider: HelloWorldProvider,
          defaultsStore: DefaultsStorable = UserDefaults.standard) {
-        self.parentCoordinator = parentCoordinator
+        self.delegate = delegate
         self.viewModel = viewModel
         self.sessionManager = sessionManager
-        self.networkClient = networkClient
+        self.helloWorldProvider = helloWorldProvider
         self.defaultsStore = defaultsStore
         super.init(viewModel: viewModel,
                    nibName: "DeveloperMenu",
@@ -54,13 +60,10 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldHappyPath() {
         Task {
             do {
-                // TODO: DCMAW-10076 - Refactor network requests into a Service object
-                let data = try await networkClient
-                    .makeAuthorizedRequest(scope: "sts-test.hello-world.read",
-                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
-                happyPathResultLabel.showSuccessMessage("Success: \(String(decoding: data, as: UTF8.self))")
+                let message = try await helloWorldProvider.requestHelloWorld()
+                happyPathResultLabel.showSuccessMessage(message)
             } catch let error as ServerError where error.errorCode == 400 {
-                parentCoordinator?.accessTokenInvalidAction()
+                delegate?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
             } catch {
@@ -99,12 +102,9 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldErrorPath() {
         Task {
             do {
-                // TODO: DCMAW-10076 | Refactor network requests into a Service object
-                _ = try await networkClient
-                    .makeAuthorizedRequest(scope: "sts-test.hello-world",
-                                           request: URLRequest(url: AppEnvironment.stsHelloWorld))
+                _ = try await helloWorldProvider.requestHelloWorldWrongScope()
             } catch let error as ServerError where error.errorCode == 400 {
-                parentCoordinator?.accessTokenInvalidAction()
+                delegate?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 errorPathResultLabel.showErrorMessage(error)
             } catch {
@@ -143,12 +143,9 @@ final class DeveloperMenuViewController: BaseViewController {
     private func helloWorldUnauthorizedPath() {
         Task {
             do {
-                // TODO: DCMAW-10076 | Refactor network requests into a Service object
-                _ = try await networkClient
-                    .makeAuthorizedRequest(scope: "sts-test.hello-world.read",
-                                           request: URLRequest(url: AppEnvironment.stsHelloWorldError))
+                _ = try await helloWorldProvider.requestHelloWorldWrongEndpoint()
             } catch let error as ServerError where error.errorCode == 400 {
-                parentCoordinator?.accessTokenInvalidAction()
+                delegate?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 unauthorizedPathResultLabel.showErrorMessage(error)
             } catch {

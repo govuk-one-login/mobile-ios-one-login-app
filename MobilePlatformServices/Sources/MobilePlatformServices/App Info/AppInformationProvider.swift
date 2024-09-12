@@ -1,24 +1,25 @@
 import Foundation
 import Networking
-import UIKit
 
-public protocol AppInformationServicing {
+public protocol AppInformationProvider {
     func fetchAppInfo() async throws -> App
     var currentVersion: Version { get }
 }
 
-public final class AppInformationService: AppInformationServicing {
+public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
-    
+    private let baseURL: URL
+
     /// Initialise a new `AppInformationService`
     ///
     /// No parameters are required.
-    public convenience init() {
-        self.init(client: .init())
+    public convenience init(baseURL: URL) {
+        self.init(client: .init(), baseURL: baseURL)
     }
     
-    init(client: NetworkClient) {
+    init(client: NetworkClient, baseURL: URL) {
         self.client = client
+        self.baseURL = baseURL
     }
     
     public var currentVersion: Version {
@@ -28,7 +29,7 @@ public final class AppInformationService: AppInformationServicing {
     }
     
     public func fetchAppInfo() async throws -> App {
-        var request = URLRequest(url: AppEnvironment.appInfoURL)
+        var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
         
         let data = try await client.makeRequest(request)

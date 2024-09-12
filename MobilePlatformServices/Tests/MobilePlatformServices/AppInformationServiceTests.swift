@@ -1,7 +1,7 @@
 import Foundation
+@testable import MobilePlatformServices
 import MockNetworking
 @testable import Networking
-@testable import OneLogin
 import XCTest
 
 final class AppInformationServiceTests: XCTestCase {
@@ -44,7 +44,9 @@ final class AppInformationServiceTests: XCTestCase {
         configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         client = NetworkClient(configuration: configuration)
-        sut = .init(client: client)
+
+        let url = URL(string: "https://token.build.account.gov.uk/appInfo")!
+        sut = .init(client: client, baseURL: url)
     }
     
     override func tearDown() {
