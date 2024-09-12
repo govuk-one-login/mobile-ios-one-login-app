@@ -9,7 +9,6 @@ enum PersistentSessionError: Error {
 }
 
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedStore: SecureStorable
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
 
@@ -17,6 +16,7 @@ final class PersistentSessionManager: SessionManager {
 
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
+    private let storeKeyService: TokenStore
 
     private(set) var user: (any User)?
 
@@ -24,10 +24,11 @@ final class PersistentSessionManager: SessionManager {
          encryptedStore: SecureStorable,
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthenticationManager) {
-        self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
+        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
+
         self.tokenProvider = TokenHolder()
     }
 
@@ -127,23 +128,21 @@ final class PersistentSessionManager: SessionManager {
                 return
             }
         }
-        
-        // persist access / id tokens
-        try accessControlEncryptedStore.saveItem(item: tokenResponse.accessToken, itemName: .accessToken)
 
-        if let idToken = tokenResponse.idToken {
-            try accessControlEncryptedStore.saveItem(item: idToken, itemName: .idToken)
-        } else {
-            accessControlEncryptedStore.deleteItem(itemName: .idToken)
-        }
+        let tokens = StoredTokens(idToken: tokenResponse.idToken,
+                                  accessToken: tokenResponse.accessToken)
+
+        try storeKeyService.save(tokens: tokens)
 
         if let persistentID = user?.persistentID {
-            try encryptedStore.saveItem(item: persistentID, itemName: .persistentSessionID)
+            try encryptedStore.saveItem(item: persistentID,
+                                        itemName: .persistentSessionID)
         } else {
             encryptedStore.deleteItem(itemName: .persistentSessionID)
         }
 
-        unprotectedStore.set(tokenResponse.expiryDate, forKey: .accessTokenExpiry)
+        unprotectedStore.set(tokenResponse.expiryDate,
+                             forKey: .accessTokenExpiry)
         unprotectedStore.set(true, forKey: .returningUser)
     }
 
@@ -160,19 +159,18 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
-        let idToken = try accessControlEncryptedStore
-            .readItem(itemName: .idToken)
-        user = try IDTokenUserRepresentation(idToken: idToken)
+        let keys = try storeKeyService.fetch()
+        if let idToken = keys.idToken {
+            user = try IDTokenUserRepresentation(idToken: idToken)
+        }
 
-        let accessToken = try accessControlEncryptedStore
-            .readItem(itemName: .accessToken)
+        let accessToken = keys.accessToken
         tokenProvider.update(subjectToken: accessToken)
     }
     
     func endCurrentSession() {
-        accessControlEncryptedStore.deleteItem(itemName: .accessToken)
-        accessControlEncryptedStore.deleteItem(itemName: .idToken)
-        
+        storeKeyService.delete()
+
         tokenProvider.clear()
         tokenResponse = nil
         user = nil

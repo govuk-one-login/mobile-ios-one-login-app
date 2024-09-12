@@ -8,15 +8,18 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var encryptedStore: MockSecureStoreService!
     private var unprotectedStore: MockDefaultsStore!
     private var localAuthentication: MockLocalAuthManager!
+    private var secureTokenStore: MockSecureTokenStore!
+    private var storedTokens: StoredTokens!
 
     override func setUp() {
         super.setUp()
-        
+
         accessControlEncryptedStore = MockSecureStoreService()
         encryptedStore = MockSecureStoreService()
         unprotectedStore = MockDefaultsStore()
         localAuthentication = MockLocalAuthManager()
-        
+        secureTokenStore = MockSecureTokenStore()
+
         sut = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedStore,
             encryptedStore: encryptedStore,
@@ -32,6 +35,8 @@ final class PersistentSessionManagerTests: XCTestCase {
         encryptedStore = nil
         unprotectedStore = nil
         localAuthentication = nil
+        secureTokenStore = nil
+        storedTokens = nil
 
         sut = nil
         
@@ -145,7 +150,6 @@ extension PersistentSessionManagerTests {
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN my session data is not saved
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
         XCTAssertEqual(encryptedStore.savedItems, [:])
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
     }
@@ -160,9 +164,6 @@ extension PersistentSessionManagerTests {
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(using: loginSession)
         // THEN my session data is updated in the store
-        XCTAssertEqual(accessControlEncryptedStore.savedItems,
-                       [.idToken: try MockTokenResponse().getJSONData().idToken,
-                        .accessToken: "accessTokenResponse"])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
     }
@@ -178,9 +179,6 @@ extension PersistentSessionManagerTests {
         // THEN the user is asked to consent to biometrics if available
         XCTAssertTrue(localAuthentication.didCallEnrolFaceIDIfAvailable)
         // THEN my session data is updated in the store
-        XCTAssertEqual(accessControlEncryptedStore.savedItems,
-                       [.idToken: try MockTokenResponse().getJSONData().idToken,
-                        .accessToken: "accessTokenResponse"])
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
    }
@@ -196,17 +194,16 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN my session data is not stored
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
         XCTAssertEqual(encryptedStore.savedItems, [:])
         XCTAssertEqual(unprotectedStore.savedData.count, 1)
    }
 
     func testResumeSession_restoresUserAndAccessToken() throws {
+        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
+                              accessToken: MockJWKSResponse.idToken)
         // GIVEN I have tokens saved in secure store
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .idToken)
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .accessToken)
+        try accessControlEncryptedStore.saveItem(item: data,
+                                                 itemName: .storedTokens)
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
@@ -221,15 +218,16 @@ extension PersistentSessionManagerTests {
     }
     
     func testEndCurrentSession_clearsDataFromSession() throws {
+        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
+                              accessToken: MockJWKSResponse.idToken)
         // GIVEN I have tokens saved in secure store
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .idToken)
-        try accessControlEncryptedStore.saveItem(item: MockJWKSResponse.idToken,
-                                                 itemName: .accessToken)
+        try accessControlEncryptedStore.saveItem(item: data,
+                                                 itemName: .storedTokens)
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         unprotectedStore.savedData = [.returningUser: true, .accessTokenExpiry: date]
         localAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+
         try sut.resumeSession()
         // WHEN I end the session
         sut.endCurrentSession()
@@ -290,5 +288,18 @@ extension PersistentSessionManagerTests {
 extension PersistentSessionManagerTests {
     var hasNotRemovedLocalAuth: Bool {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && sut.isReturningUser
+    }
+}
+
+extension PersistentSessionManagerTests {
+    private func encodeKeys(idToken: String, accessToken: String) -> String {
+        storedTokens = StoredTokens(idToken: idToken, accessToken: accessToken)
+        var keysAsData: String = ""
+        do {
+            keysAsData = try JSONEncoder().encode(storedTokens).base64EncodedString()
+        } catch {
+            print("error")
+        }
+        return keysAsData
     }
 }
