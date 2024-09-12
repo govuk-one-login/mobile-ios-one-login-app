@@ -1,4 +1,5 @@
 import Authentication
+import Dynatrace
 import GAnalytics
 import GDSCommon
 import LocalAuthentication
@@ -29,6 +30,9 @@ class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
+
+        let action = DTXAction.enter(withName: "Testing 123")
+
         windowManager = WindowManager(windowScene: windowScene)
         setUpBasicUI()
         startMainCoordinator(windowManager: windowManager!)
