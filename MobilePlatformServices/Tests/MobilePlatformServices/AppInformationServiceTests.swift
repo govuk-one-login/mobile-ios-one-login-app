@@ -45,7 +45,7 @@ final class AppInformationServiceTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         client = NetworkClient(configuration: configuration)
 
-        let url = URL(string: "https://token.build.account.gov.uk/appInfo")!
+        let url = URL(string: "https://mobile.build.account.gov.uk/appInfo")!
         sut = .init(client: client, baseURL: url)
     }
     

@@ -90,7 +90,25 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(headerLabel.textColor, .secondaryLabel)
         XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
     }
-    
+
+    @MainActor
+    func test_updateUser() throws {
+        let sections = TabbedViewSectionFactory.profileSections(urlOpener: MockURLOpener()) {
+
+        }
+        let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
+                                            sectionModels: sections)
+        sut = TabbedViewController(viewModel: viewModel,
+                                   userProvider: mockSession,
+                                   headerView: SignInView())
+        // GIVEN I am not logged in
+        XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\n")
+        // WHEN the user is updated
+        mockSession.user.send(MockUser())
+        // THEN my email is displayed
+        XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\ntest@example.com")
+    }
+
     func test_screenAnalytics() throws {
         sut.screenAnalytics()
         XCTAssertTrue(didAppearCalled)

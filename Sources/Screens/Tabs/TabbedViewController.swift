@@ -33,6 +33,7 @@ final class TabbedViewController: BaseViewController {
         configureTableView()
 
         updateEmail(userProvider.user.value?.email)
+        subscribeToUsers()
 
     }
     

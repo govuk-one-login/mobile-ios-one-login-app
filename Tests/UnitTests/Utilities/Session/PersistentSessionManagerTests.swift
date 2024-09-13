@@ -233,7 +233,7 @@ extension PersistentSessionManagerTests {
         sut.endCurrentSession()
         // THEN my data is cleared
         XCTAssertNil(sut.tokenProvider.subjectToken)
-        XCTAssertNil(sut.user)
+        XCTAssertNil(sut.user.value)
         
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }

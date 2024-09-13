@@ -53,17 +53,4 @@ final class HomeCoordinatorTests: XCTestCase {
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
-    
-    @MainActor
-    func test_updateToken() throws {
-        // WHEN the HomeCoordinator is started
-        sut.start()
-        let vc = try XCTUnwrap(sut.baseVc)
-        // THEN the email label should be nil
-        XCTAssertEqual(try vc.emailLabel.text, "")
-        // WHEN a new user logs in
-        mockSessionManager.user.send(MockUser())
-        // THEN the email label should contain te email from the email token
-        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\ntest@example.com")
-    }
 }
