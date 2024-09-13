@@ -138,8 +138,8 @@ extension PersistentSessionManagerTests {
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN my User details
-        XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
-        XCTAssertEqual(sut.user?.email, "mock@email.com")
+        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         // AND access token are populated
         XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
     }
@@ -211,8 +211,8 @@ extension PersistentSessionManagerTests {
         // WHEN I return to the app and authenticate successfully
         try sut.resumeSession()
         // THEN my session data is re-populated
-        XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
-        XCTAssertEqual(sut.user?.email, "mock@email.com")
+        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWKSResponse.idToken)
     }

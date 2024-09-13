@@ -1,11 +1,10 @@
 import Foundation
+import MobilePlatformServices
 import Networking
 import SecureStore
 
 protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
-    func initiate()
-    func evaluateUser() async
 }
 
 @MainActor
@@ -15,7 +14,7 @@ protocol AppQualifyingServiceDelegate: AnyObject {
 }
 
 final class AppQualifyingService: QualifyingService {
-    private let updateService: AppInformationServicing
+    private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
     
@@ -38,14 +37,15 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    init(updateService: AppInformationServicing = AppInformationService(),
+    init(updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
          sessionManager: SessionManager) {
         self.updateService = updateService
         self.sessionManager = sessionManager
+        subscribe()
         initiate()
     }
     
-    func initiate() {
+    private func initiate() {
         Task {
             await qualifyAppVersion()
             await evaluateUser()
@@ -72,14 +72,14 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    func evaluateUser() async {
+    private func evaluateUser() async {
         guard appInfoState == .appConfirmed else {
             // Do not continue with local auth unless app info qualifies
             return
         }
         
         if sessionManager.isOneTimeUser {
-            userState = .userOneTime
+            userState = .userConfirmed
         } else {
             guard sessionManager.expiryDate != nil else {
                 userState = .userUnconfirmed
@@ -108,16 +108,22 @@ final class AppQualifyingService: QualifyingService {
 // MARK: - Respond to session events
 extension AppQualifyingService {
     private func subscribe() {
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(sessionDidExpire),
-                         name: Notification.Name(.startReauth),
-                         object: nil)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(userDidLogout),
-                         name: Notification.Name(.logOut),
-                         object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(enrolmentComplete),
+                                               name: .enrolmentComplete)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(sessionDidExpire),
+                                               name: .sessionExpired)
+
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(userDidLogout),
+                                               name: .didLogout)
+    }
+
+    @objc private func enrolmentComplete() {
+        userState = .userConfirmed
     }
 
     @objc private func sessionDidExpire() {

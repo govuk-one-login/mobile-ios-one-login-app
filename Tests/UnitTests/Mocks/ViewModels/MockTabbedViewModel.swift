@@ -1,6 +1,7 @@
 import GDSCommon
 import Logging
 
+@MainActor
 struct MockTabbedViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString
     let sectionModels: [TabbedViewSectionModel]

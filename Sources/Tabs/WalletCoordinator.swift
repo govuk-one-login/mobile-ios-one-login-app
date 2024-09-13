@@ -43,7 +43,7 @@ final class WalletCoordinator: NSObject,
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(clearWallet),
-                         name: Notification.Name(.clearWallet),
+                         name: .clearWallet,
                          object: nil)
     }
     

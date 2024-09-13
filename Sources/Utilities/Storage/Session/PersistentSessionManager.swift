@@ -1,4 +1,5 @@
 import Authentication
+import Combine
 import LocalAuthentication
 import Networking
 import SecureStore
@@ -18,7 +19,7 @@ final class PersistentSessionManager: SessionManager {
     private var tokenResponse: TokenResponse?
     private let storeKeyService: TokenStore
 
-    private(set) var user: (any User)?
+    let user = CurrentValueSubject<(any User)?, Never>(nil)
 
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
@@ -105,9 +106,9 @@ final class PersistentSessionManager: SessionManager {
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if AppEnvironment.callingSTSEnabled,
            let idToken = response.idToken {
-            user = try IDTokenUserRepresentation(idToken: idToken)
+            try user.send(IDTokenUserRepresentation(idToken: idToken))
         } else {
-            user = nil
+            user.send(nil)
         }
 
         guard isReturningUser else {
@@ -138,7 +139,7 @@ final class PersistentSessionManager: SessionManager {
 
         try storeKeyService.save(tokens: tokens)
 
-        if let persistentID = user?.persistentID {
+        if let persistentID = user.value?.persistentID {
             try encryptedStore.saveItem(item: persistentID,
                                         itemName: .persistentSessionID)
         } else {
@@ -165,7 +166,9 @@ final class PersistentSessionManager: SessionManager {
         
         let keys = try storeKeyService.fetch()
         if let idToken = keys.idToken {
-            user = try IDTokenUserRepresentation(idToken: idToken)
+            try user.send(IDTokenUserRepresentation(idToken: idToken))
+        } else {
+            user.send(nil)
         }
 
         let accessToken = keys.accessToken
@@ -177,12 +180,14 @@ final class PersistentSessionManager: SessionManager {
 
         tokenProvider.clear()
         tokenResponse = nil
-        user = nil
+        user.send(nil)
     }
 
     func clearAllSessionData() {
         encryptedStore.deleteItem(itemName: .persistentSessionID)
         unprotectedStore.removeObject(forKey: .returningUser)
         unprotectedStore.removeObject(forKey: .accessTokenExpiry)
+
+        NotificationCenter.default.post(name: .didLogout)
     }
 }

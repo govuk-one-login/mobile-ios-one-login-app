@@ -61,23 +61,9 @@ final class HomeCoordinatorTests: XCTestCase {
         let vc = try XCTUnwrap(sut.baseVc)
         // THEN the email label should be nil
         XCTAssertEqual(try vc.emailLabel.text, "")
-        // WHEN the updateUser method is called
-        let user = MockUser()
-        sut.updateUser(user)
+        // WHEN a new user logs in
+        mockSessionManager.user.send(MockUser())
         // THEN the email label should contain te email from the email token
         XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\ntest@example.com")
-    }
-
-    @MainActor
-    func testAccessTokenInvalidAction() {
-        // WHEN access token invalid action is called
-        let exp = XCTNSNotificationExpectation(name: Notification.Name(.startReauth),
-                                               object: nil,
-                                               notificationCenter: NotificationCenter.default)
-
-        sut.accessTokenInvalidAction()
-
-        // THEN a start reauth notification is sent
-        wait(for: [exp], timeout: 20)
     }
 }

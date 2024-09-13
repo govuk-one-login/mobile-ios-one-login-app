@@ -88,16 +88,10 @@ extension MainCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
+        let pc = ProfileCoordinator(userProvider: sessionManager,
+                                    analyticsService: analyticsCenter.analyticsService,
                                     urlOpener: UIApplication.shared)
         addTab(pc)
-    }
-    
-    private func updateToken() {
-        if let user = sessionManager.user {
-            homeCoordinator?.updateUser(user)
-            profileCoordinator?.updateUser(user)
-        }
     }
 }
 
@@ -135,8 +129,6 @@ extension MainCoordinator: ParentCoordinator {
                 try walletCoordinator?.deleteWalletData()
                 sessionManager.clearAllSessionData()
                 analyticsCenter.resetAnalyticsPreferences()
-                NotificationCenter.default
-                    .post(name: Notification.Name(.logOut), object: nil)
             } catch {
                 let signOutErrorScreen = ErrorPresenter
                     .createSignOutError(errorDescription: error.localizedDescription,

@@ -8,8 +8,6 @@ final class StringTests: XCTestCase {
         XCTAssertEqual(String.storedTokens, "storedTokens")
         XCTAssertEqual(String.oneLoginTokens, "oneLoginTokens")
         XCTAssertEqual(String.persistentSessionID, "persistentSessionID")
-        XCTAssertEqual(String.clearWallet, "clearWallet")
-        XCTAssertEqual(String.startReauth, "startReauth")
         XCTAssertEqual(String.returningUser, "returningUser")
 
         // Universal Link Component

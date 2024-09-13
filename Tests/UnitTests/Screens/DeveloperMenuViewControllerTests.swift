@@ -30,8 +30,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
 
-        sut = DeveloperMenuViewController(delegate: self,
-                                          viewModel: devMenuViewModel,
+        sut = DeveloperMenuViewController(viewModel: devMenuViewModel,
                                           sessionManager: mockSessionManager,
                                           helloWorldProvider: mockHelloWorldService)
     }
@@ -202,11 +201,5 @@ extension DeveloperMenuViewController {
         get throws {
             try XCTUnwrap(view[child: "sts-expire-access-token-button"])
         }
-    }
-}
-
-extension DeveloperMenuViewControllerTests: DeveloperMenuDelegate {
-    func accessTokenInvalidAction() {
-        didCallAccessTokenInvalid = true
     }
 }

@@ -1,4 +1,5 @@
 import Authentication
+import Combine
 import Foundation
 @testable import OneLogin
 import SecureStore
@@ -9,9 +10,9 @@ final class MockSessionManager: SessionManager {
     var isSessionValid: Bool
     var isOneTimeUser: Bool
     var isReturningUser: Bool
-    
-    var user: (any OneLogin.User)?
-    
+
+    var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
+
     var isPersistentSessionIDMissing: Bool
     var tokenProvider: TokenHolder
 
@@ -30,14 +31,12 @@ final class MockSessionManager: SessionManager {
          isSessionValid: Bool = false,
          isReturningUser: Bool = false,
          isOneTimeUser: Bool = false,
-         user: (any User)? = nil,
          isPersistentSessionIDMissing: Bool = false,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
         self.sessionExists = sessionExists
         self.isSessionValid = isSessionValid
         self.isReturningUser = isReturningUser
-        self.user = user
         self.isPersistentSessionIDMissing = isPersistentSessionIDMissing
         self.tokenProvider = tokenProvider
         self.isOneTimeUser = isOneTimeUser
@@ -75,7 +74,7 @@ final class MockSessionManager: SessionManager {
         let tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
         tokenProvider.update(subjectToken: tokenResponse.accessToken)
 
-        user = MockUser()
+        user.send(MockUser())
         isReturningUser = returningUser
         expiryDate = expired ? .distantPast : .distantFuture
         isSessionValid = !expired

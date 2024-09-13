@@ -1,11 +1,11 @@
 import GDSCommon
 import Logging
 
+@MainActor
 protocol TabbedViewModel: BaseViewModel {
     var analyticsService: AnalyticsService { get }
     var navigationTitle: GDSLocalisedString { get }
     var sectionModels: [TabbedViewSectionModel] { get }
-    var isLoggedIn: Bool { get set }
 }
 
 extension TabbedViewModel {

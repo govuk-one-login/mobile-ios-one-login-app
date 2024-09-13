@@ -5,23 +5,28 @@ import XCTest
 
 @MainActor
 final class TabbedViewControllerTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var viewModel: TabbedViewModel!
-    var sut: TabbedViewController!
-    
+    private var mockAnalyticsService: MockAnalyticsService!
+    private var mockSession: MockSessionManager!
+    private var viewModel: TabbedViewModel!
+    private var sut: TabbedViewController!
+
     private var didTapRow = false
     private var didAppearCalled = false
-    
+
+
     override func setUp() {
         super.setUp()
-        
+
+        mockSession = MockSessionManager()
         mockAnalyticsService = MockAnalyticsService()
         viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
                                         navigationTitle: "Test Navigation Title",
                                         sectionModels: createSectionModels()) {
             self.didAppearCalled = true
         }
-        sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
+        sut = TabbedViewController(viewModel: viewModel,
+                                   userProvider: mockSession,
+                                   headerView: UIView())
         sut.loadViewIfNeeded()
     }
     

@@ -71,20 +71,22 @@ final class QualifyingCoordinator: NSObject,
             // End loading state and enable button
             unlockViewController.isLoading = false
         case .appOutdated:
-            let appUnavailableScreen = GDSInformationViewController(viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService))
+            let appUnavailableScreen = GDSInformationViewController(
+                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
+            )
             displayViewController(appUnavailableScreen)
         case .appInfoError:
-            // TODO: display generic error screen?
+            // TODO: DCMAW-9866 | display generic error screen?
             return
         case .appOffline:
-            // TODO: display error screen for app offline and no cached data
+            // TODO: DCMAW-9866 |display error screen for app offline and no cached data
             return
         }
     }
     
     func didChangeUserState(state userState: AppLocalAuthState) {
         switch userState {
-        case .userConfirmed, .userOneTime:
+        case .userConfirmed:
             launchMainCoordinator()
         case .userUnconfirmed, .userExpired:
             launchLoginCoordinator(userState: userState)
@@ -131,7 +133,7 @@ final class QualifyingCoordinator: NSObject,
     }
 
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
-        // todo: call `openChild` within `ParentCoordinator.swift`
+        // TODO: DCMAW-9866 | call `openChild` within `ParentCoordinator.swift`
         childCoordinators.append(coordinator)
         coordinator.parentCoordinator = self
         coordinator.start()
@@ -146,8 +148,4 @@ final class QualifyingCoordinator: NSObject,
     }
 }
 
-extension QualifyingCoordinator: ParentCoordinator {
-    func didRegainFocus(fromChild child: ChildCoordinator?) {
-        launchMainCoordinator()
-    }
-}
+extension QualifyingCoordinator: ParentCoordinator { }

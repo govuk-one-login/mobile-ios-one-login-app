@@ -18,7 +18,8 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         urlOpener = MockURLOpener()
-        sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        sut = ProfileCoordinator(userProvider: mockSessionManager,
+                                 analyticsService: mockAnalyticsService,
                                  urlOpener: urlOpener)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
@@ -44,18 +45,6 @@ final class ProfileCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.title, profileTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, profileTab.image)
         XCTAssertEqual(sut.root.tabBarItem.tag, profileTab.tag)
-    }
-    
-    func test_updateToken() throws {
-        // WHEN the ProfileCoordinator is started
-        sut.start()
-        // THEN the email label should be nil
-        let vc = try XCTUnwrap(sut.baseVc)
-        XCTAssertEqual(try vc.emailLabel.text, "")
-        // WHEN the update email method is called
-        sut.updateUser(MockUser(email: "mock@email.com"))
-        // THEN the email label should contain te email from the email token
-        XCTAssertEqual(try vc.emailLabel.text, "You’re signed in as\nmock@email.com")
     }
     
     func test_openSignOutPage() throws {

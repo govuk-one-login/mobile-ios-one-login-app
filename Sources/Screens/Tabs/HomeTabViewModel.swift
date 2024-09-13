@@ -2,6 +2,7 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
+@MainActor
 struct HomeTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     let sectionModels: [TabbedViewSectionModel]

@@ -36,7 +36,7 @@ final class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
-        // TODO: can we move this into the UI (viewDidAppear?) itself
+        // TODO: DCMAW-9866 | can we move this into the UI (viewDidAppear?) itself
         trackSplashScreen()
 
         rootCoordinator = QualifyingCoordinator(
@@ -58,12 +58,12 @@ final class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // TODO: why are we starting this when moving to the background???
+        // TODO: DCMAW-9866 | why are we starting this when moving to the background???
         rootCoordinator?.start()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        appQualifyingService.initiate()
+        // TODO: DCMAW-9866 | do we need to call app info here too?
     }
     
     private func setUpBasicUI() {

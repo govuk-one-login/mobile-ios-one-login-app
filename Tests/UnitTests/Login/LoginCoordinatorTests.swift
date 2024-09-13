@@ -76,7 +76,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: PersistentSessionError.userRemovedLocalAuth)
+                               userState: .userExpired)
     }
     
     private enum AuthenticationError: Error {
@@ -142,7 +142,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.isReturningUser = true
         mockSessionManager.isPersistentSessionIDMissing = true
 
-        let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
+        let exp = XCTNSNotificationExpectation(name: .clearWallet,
                                                object: nil,
                                                notificationCenter: NotificationCenter.default)
         // WHEN the LoginCoordinator is started and the persistent session id is missing
@@ -194,13 +194,6 @@ extension LoginCoordinatorTests {
         // THEN the LoginCoordinator should have an AuthenticationCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is AuthenticationCoordinator)
-    }
-    
-    @MainActor
-    func test_handleUniversalLink() {
-        // WHEN the handleUniversalLink method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
-        sut.handleUniversalLink(URL(string: "google.com")!)
     }
     
     @MainActor

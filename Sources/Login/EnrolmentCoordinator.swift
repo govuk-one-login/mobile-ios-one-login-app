@@ -25,42 +25,42 @@ final class EnrolmentCoordinator: NSObject,
         case .touchID:
             let touchIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    completeEnrolment()
+                    saveSession()
                 } secondaryButtonAction: { [unowned self] in
-                    finish()
+                    completeEnrolment()
                 }
             root.pushViewController(touchIDEnrollmentScreen, animated: true)
         case .faceID:
             let faceIDEnrollmentScreen = OnboardingViewControllerFactory
                 .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    completeEnrolment()
+                    saveSession()
                 } secondaryButtonAction: { [unowned self] in
-                    finish()
+                    completeEnrolment()
                 }
             root.pushViewController(faceIDEnrollmentScreen, animated: true)
         case .passcodeOnly:
             showPasscodeInfo()
         case .none:
-            finish()
+            completeEnrolment()
+        }
+    }
+
+    private func saveSession() {
+        Task {
+            try await sessionManager.saveSession()
+            completeEnrolment()
         }
     }
 
     private func completeEnrolment() {
-        Task {
-            do {
-                try await sessionManager.saveSession()
-                finish()
-            } catch {
-                // TODO: DCMAW-9700 - handle errors thrown here:
-                fatalError("Handle these errors")
-            }
-        }
+        NotificationCenter.default.post(name: .enrolmentComplete)
+        finish()
     }
 
     private func showPasscodeInfo() {
         let passcodeInformationScreen = OnboardingViewControllerFactory
             .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
-                completeEnrolment()
+                saveSession()
             }
         root.pushViewController(passcodeInformationScreen, animated: true)
     }

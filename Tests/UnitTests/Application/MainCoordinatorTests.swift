@@ -92,154 +92,6 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
-    func test_evaluateRevisit_whenLocalAuthRemoved() throws {
-        // GIVEN the app has token information stored and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true, expired: false)
-        // WHEN local auth is removed
-        mockSessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
-        // AND the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
-        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_requiresNewUserToLogin() throws {
-        // GIVEN the app has no token information stored
-        try mockSessionManager.setupSession(returningUser: false, expired: true)
-        mockSessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
-        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_requiresExpiredUserToLogin() throws {
-        // GIVEN the app has token information stored but the accessToken is expired
-        try mockSessionManager.setupSession(expired: true)
-        mockSessionManager.errorFromResumeSession = TokenError.expired
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallEndCurrentSession, timeout: 20)
-        XCTAssertTrue(sut.childCoordinators.last is LoginCoordinator)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_showsHomeScreenForExistingSession() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should resume the current session
-        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
-        XCTAssertFalse(sut.childCoordinators.last is LoginCoordinator)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_extractIdTokenPayload_JWTVerifierError() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // GIVEN the token verifier throws an invalidJWTFormat error
-        mockSessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
-        // THEN the login coordinator should contain that error
-        let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
-        let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? JWTVerifierError)
-        XCTAssertTrue(loginCoordinatorError == .invalidJWTFormat)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_readFromSecureStore_SecureStoreError_unableToRetrieveFromUserDefaults() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // GIVEN the secure store throws an unableToRetrieveFromUserDefaults error
-        mockSessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
-        // THEN the login coordinator should contain that error
-        let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
-        let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? SecureStoreError)
-        XCTAssertTrue(loginCoordinatorError == .unableToRetrieveFromUserDefaults)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_readFromSecureStore_SecureStoreError_cantInitialiseData() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // GIVEN the secure store throws an cantInitialiseData error
-        mockSessionManager.errorFromResumeSession = SecureStoreError.cantInitialiseData
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
-        // THEN the login coordinator should contain that error
-        let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
-        let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? SecureStoreError)
-        XCTAssertTrue(loginCoordinatorError == .cantInitialiseData)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_readFromSecureStore_SecureStoreError_cantRetrieveKey() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // GIVEN the secure store throws an cantRetrieveKey error
-        mockSessionManager.errorFromResumeSession = SecureStoreError.cantRetrieveKey
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should end the current session
-        waitForTruth(self.mockSessionManager.didCallResumeSession, timeout: 20)
-        // THEN the login coordinator should contain that error
-        let loginCoordinator = try XCTUnwrap(sut.childCoordinators.first as? LoginCoordinator)
-        let loginCoordinatorError = try XCTUnwrap(loginCoordinator.loginError as? SecureStoreError)
-        XCTAssertTrue(loginCoordinatorError == .cantRetrieveKey)
-    }
-    
-    @MainActor
-    func test_evaluateRevisit_readFromSecureStore_SecureStoreError_cantDecryptData() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // GIVEN the secure store throws an cantDecryptData error
-        mockSessionManager.errorFromResumeSession = SecureStoreError.cantDecryptData
-        // WHEN the MainCoordinator's evaluateRevisit method is called
-        sut.evaluateRevisit()
-        // THEN the session manager should not end the current session
-        XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
-        // THEN no coordinator should be launched
-        XCTAssertEqual(sut.childCoordinators.count, 0)
-    }
-    
-    @MainActor
-    func test_startReauth() throws {
-        // GIVEN the app has token information store and the accessToken is valid
-        try mockSessionManager.setupSession(returningUser: true)
-        // WHEN the MainCoordinator is started
-        sut.start()
-        // WHEN the MainCoordinator receives a start reauth notification
-        NotificationCenter.default
-            .post(name: Notification.Name(.startReauth), object: nil)
-        // THEN the tokens should be deleted; the app should be reset
-        XCTAssertTrue(mockSessionManager.didCallEndCurrentSession)
-    }
-    
-    @MainActor
-    func test_handleUniversalLink_login() {
-        // WHEN the handleUniversalLink method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
-        sut.handleUniversalLink(URL(string: "google.co.uk/wallet/123456789")!)
-        sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
-        sut.handleUniversalLink(URL(string: "google.co.uk/redirect/123456789")!)
-    }
-    
-    @MainActor
     func test_didSelect_tabBarItem_home() {
         // GIVEN the MainCoordinator has started and added it's tab bar items
         sut.start()
@@ -322,7 +174,8 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
+                                                    analyticsService: mockAnalyticsService,
                                                     urlOpener: MockURLOpener())
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
@@ -339,7 +192,8 @@ extension MainCoordinatorTests {
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
+                                                    analyticsService: mockAnalyticsService,
                                                     urlOpener: MockURLOpener())
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out

@@ -69,7 +69,7 @@ final class LoginCoordinator: NSObject,
     func authenticate(action: (() -> Void)? = nil) {
         if sessionManager.isPersistentSessionIDMissing {
             action?()
-            NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
+            NotificationCenter.default.post(name: .clearWallet, object: nil)
         } else {
             if networkMonitor.isConnected {
                 launchAuthenticationCoordinator()
