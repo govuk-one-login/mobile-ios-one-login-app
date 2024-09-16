@@ -31,7 +31,6 @@ final class MainCoordinatorTests: XCTestCase {
         mockWalletAvailabilityService = MockWalletAvailabilityService()
 
         window = UIWindow()
-        window.makeKeyAndVisible()
         
         sut = MainCoordinator(appWindow: window,
                               root: tabBarController,
@@ -39,6 +38,8 @@ final class MainCoordinatorTests: XCTestCase {
                               networkClient: NetworkClient(),
                               sessionManager: mockSessionManager,
                               walletAvailabilityService: mockWalletAvailabilityService)
+
+        window.makeKeyAndVisible()
     }
     
     override func tearDown() {
@@ -199,8 +200,8 @@ extension MainCoordinatorTests {
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)
         // THEN the sign out error screen should be presented
-        let errroVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        XCTAssertTrue(errroVC.viewModel is SignOutErrorViewModel)
+        let errorVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
+        XCTAssertTrue(errorVC.viewModel is SignOutErrorViewModel)
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)

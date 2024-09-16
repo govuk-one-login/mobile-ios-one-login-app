@@ -27,11 +27,11 @@ final class QualifyingCoordinator: NSObject,
     private var appIsLocked: Bool = true
 
     private var loginCoordinator: LoginCoordinator? {
-        childCoordinators.first as? LoginCoordinator
+        childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
 
     private var mainCoordinator: MainCoordinator? {
-        childCoordinators.first as? MainCoordinator
+        childCoordinators.firstInstanceOf(MainCoordinator.self)
     }
 
     private lazy var unlockViewController: UnlockScreenViewController = {

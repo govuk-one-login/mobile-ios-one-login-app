@@ -55,6 +55,7 @@
 		41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */; };
 		7C47BE162C7883B800DCE5D2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C47BE152C7883B800DCE5D2 /* User.swift */; };
 		7C47BE182C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */; };
+		7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */; };
 		7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A763D2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift */; };
 		7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A76402C945B0D00EE85CB /* Notification+Session.swift */; };
 		7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD22C78A5B000A73010 /* MockUser.swift */; };
@@ -66,6 +67,7 @@
 		7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719662C846E5100973585 /* TokenHolderTests.swift */; };
 		7CA719742C848EF600973585 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 7CA719732C848EF600973585 /* Wallet */; };
 		7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */; };
+		7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */; };
 		7CD66F7F2C9070B9008513F4 /* AppLocalAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD66F7E2C9070B9008513F4 /* AppLocalAuthState.swift */; };
 		7CD66F812C9070D8008513F4 /* AppInformationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD66F802C9070D8008513F4 /* AppInformationState.swift */; };
 		7CD66F842C90A890008513F4 /* QualifyingCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD66F832C90A890008513F4 /* QualifyingCoordinatorTests.swift */; };
@@ -297,6 +299,7 @@
 		7C0CCED12C8A12F200F61C11 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7C47BE152C7883B800DCE5D2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDTokenUserRepresentation.swift; sourceTree = "<group>"; };
+		7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+OneLogin.swift"; sourceTree = "<group>"; };
 		7C7A763D2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityServiceTests.swift; sourceTree = "<group>"; };
 		7C7A76402C945B0D00EE85CB /* Notification+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Session.swift"; sourceTree = "<group>"; };
 		7C81ADD22C78A5B000A73010 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
@@ -307,6 +310,7 @@
 		7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+AuthorizationTests.swift"; sourceTree = "<group>"; };
 		7CA719662C846E5100973585 /* TokenHolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
 		7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
+		7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQualifyingServiceTests.swift; sourceTree = "<group>"; };
 		7CD66F7E2C9070B9008513F4 /* AppLocalAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalAuthState.swift; sourceTree = "<group>"; };
 		7CD66F802C9070D8008513F4 /* AppInformationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformationState.swift; sourceTree = "<group>"; };
 		7CD66F832C90A890008513F4 /* QualifyingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -750,6 +754,7 @@
 		7CD66F822C90A880008513F4 /* Qualification */ = {
 			isa = PBXGroup;
 			children = (
+				7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */,
 				7CD66F832C90A890008513F4 /* QualifyingCoordinatorTests.swift */,
 			);
 			path = Qualification;
@@ -794,6 +799,7 @@
 				C8098B952AEFF198001517A0 /* CustomTypes */,
 				C8C343962B909A2F00E92FB9 /* String+OneLogin.swift */,
 				7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */,
+				7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1788,6 +1794,7 @@
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8BEC2942BFFA8C800C9775A /* LoginLoadingViewModel.swift in Sources */,
 				7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */,
+				7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */,
 				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
@@ -1822,6 +1829,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C85966482AEC31AE006DF61D /* OnboardingViewControllerFactoryTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,

@@ -21,15 +21,15 @@ final class MainCoordinator: NSObject,
     private let walletAvailabilityService: WalletFeatureAvailabilityService
 
     private var homeCoordinator: HomeCoordinator? {
-        childCoordinators.first as? HomeCoordinator
+        childCoordinators.firstInstanceOf(HomeCoordinator.self)
     }
 
     private var walletCoordinator: WalletCoordinator? {
-        childCoordinators.first as? WalletCoordinator
+        childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
 
     private var profileCoordinator: ProfileCoordinator? {
-        childCoordinators.first as? ProfileCoordinator
+        childCoordinators.firstInstanceOf(ProfileCoordinator.self)
     }
 
     init(appWindow: UIWindow,

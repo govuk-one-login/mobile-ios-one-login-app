@@ -1,5 +1,4 @@
 import Authentication
-import Combine
 import Coordination
 import GDSCommon
 import LocalAuthentication
@@ -17,7 +16,6 @@ final class HomeCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-    private(set) var baseVc: TabbedViewController?
 
     private let networkClient: NetworkClient
 
@@ -39,7 +37,6 @@ final class HomeCoordinator: NSObject,
         let hc = TabbedViewController(viewModel: viewModel,
                                       userProvider: sessionManager,
                                       headerView: SignInView())
-        baseVc = hc
         root.setViewControllers([hc], animated: true)
     }
 

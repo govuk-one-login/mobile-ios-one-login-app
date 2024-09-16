@@ -11,16 +11,23 @@ final class LoginCoordinator: NSObject,
                               NavigationCoordinator,
                               ChildCoordinator {
     private let appWindow: UIWindow
+
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
+
     private let analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
     private let userState: AppLocalAuthState
 
-    weak var introViewController: IntroViewController?
-    private weak var authCoordinator: AuthenticationCoordinator?
+    private var introViewController: IntroViewController? {
+        root.viewControllers.first as? IntroViewController
+    }
+
+    private var authCoordinator: AuthenticationCoordinator? {
+        childCoordinators.firstInstanceOf(AuthenticationCoordinator.self)
+    }
 
     init(appWindow: UIWindow,
          root: UINavigationController,
@@ -43,7 +50,6 @@ final class LoginCoordinator: NSObject,
                 authenticate()
             }
         root.setViewControllers([rootViewController], animated: true)
-        introViewController = rootViewController
         showSessionExpiredIfNecessary()
         launchOnboardingCoordinator()
         NotificationCenter.default
@@ -107,7 +113,6 @@ final class LoginCoordinator: NSObject,
                                            sessionManager: sessionManager,
                                            session: AppAuthSession(window: appWindow))
         openChildInline(ac)
-        authCoordinator = ac
     }
 
     func handleUniversalLink(_ url: URL) {
