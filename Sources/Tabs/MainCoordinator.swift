@@ -52,10 +52,11 @@ final class MainCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        if walletAvailabilityService.shouldShowFeatureOnUniversalLink {
-            addWalletTab()
-            walletCoordinator?.handleUniversalLink(url)
+        guard walletAvailabilityService.shouldShowFeatureOnUniversalLink else {
+            return
         }
+        addWalletTab()
+        walletCoordinator?.handleUniversalLink(url)
     }
 }
 

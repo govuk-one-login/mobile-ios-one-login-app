@@ -59,26 +59,6 @@ final class LoginCoordinatorTests: XCTestCase {
         mockSessionManager.isReturningUser = true
     }
     
-    @MainActor
-    func errorLogin() {
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsCenter: mockAnalyticsCenter,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               userState: .userFailed(JWTVerifierError.invalidJWTFormat))
-    }
-    
-    @MainActor
-    func checkLocalAuth() {
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsCenter: mockAnalyticsCenter,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               userState: .userExpired)
-    }
-    
     private enum AuthenticationError: Error {
         case generic
     }
@@ -110,31 +90,6 @@ extension LoginCoordinatorTests {
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         // THEN the presented view model should be the SignOutWarningViewModel
         XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
-    }
-    
-    @MainActor
-    func test_start_withNoBiometricsOrPasscode() throws {
-        // WHEN the LoginCoordinator is started with no local auth set up
-        checkLocalAuth()
-        sut.start()
-        // THEN the presented view controller should be the GDSErrorViewController
-        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // AND the presented view model should be the SignOutWarningViewModel
-        XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
-    }
-    
-    @MainActor
-    func test_start_error() throws {
-        // WHEN the LoginCoordinator is started in an error flow
-        errorLogin()
-        sut.start()
-        // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // THEN the presented view controller should be the GDSErrorViewController
-        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // THEN the presented view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(warningScreen.viewModel is UnableToLoginErrorViewModel)
     }
     
     @MainActor

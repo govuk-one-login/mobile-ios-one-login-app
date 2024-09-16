@@ -64,11 +64,11 @@ final class LoginCoordinator: NSObject,
             let signOutWarningScreen = ErrorPresenter
                 .createSignOutWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                     authenticate { [unowned self] in
-                        root.popViewController(animated: true)
+                        root.dismiss(animated: true)
                     }
                 }
             signOutWarningScreen.modalPresentationStyle = .overFullScreen
-            root.pushViewController(signOutWarningScreen, animated: false)
+            root.present(signOutWarningScreen, animated: false)
         }
     }
 

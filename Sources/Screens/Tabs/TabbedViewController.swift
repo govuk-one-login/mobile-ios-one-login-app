@@ -34,7 +34,6 @@ final class TabbedViewController: BaseViewController {
 
         updateEmail(userProvider.user.value?.email)
         subscribeToUsers()
-
     }
     
     override func viewIsAppearing(_ animated: Bool) {

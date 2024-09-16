@@ -38,7 +38,7 @@ final class MainCoordinatorTests: XCTestCase {
                               networkClient: NetworkClient(),
                               sessionManager: mockSessionManager,
                               walletAvailabilityService: mockWalletAvailabilityService)
-
+        window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
     
