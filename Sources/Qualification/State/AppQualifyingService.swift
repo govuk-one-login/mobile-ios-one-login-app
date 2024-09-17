@@ -96,18 +96,12 @@ final class AppQualifyingService: QualifyingService {
                     try sessionManager.resumeSession()
                     userState = .userConfirmed
                 }
+            } catch SecureStoreError.cantDecryptData {
+                return
             } catch {
-                switch error {
-                case is JWTVerifierError,
-                    SecureStoreError.unableToRetrieveFromUserDefaults,
-                    SecureStoreError.cantInitialiseData,
-                    SecureStoreError.cantRetrieveKey:
-                    sessionManager.endCurrentSession()
-                    sessionManager.clearAllSessionData()
-                    userState = .userFailed(error)
-                default:
-                    return
-                }
+                sessionManager.endCurrentSession()
+                sessionManager.clearAllSessionData()
+                userState = .userFailed(error)
             }
         }
     }

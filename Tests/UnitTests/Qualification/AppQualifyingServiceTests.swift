@@ -1,4 +1,5 @@
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 final class AppQualifyingServiceTests: XCTestCase {
@@ -100,7 +101,141 @@ extension AppQualifyingServiceTests {
 
 // MARK: - User State Evaluation
 extension AppQualifyingServiceTests {
+    func testOneTimeUser_userConfirmed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.isOneTimeUser = true
+        sut.delegate = self
 
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userConfirmed)
+    }
+    
+    func testNoExpiryDate_userUnconfirmed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userUnconfirmed)
+    }
+    
+    func testSessionInvalid_userExpired() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userExpired)
+    }
+    
+    func testResumeSession_userConfirmed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.isSessionValid = true
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userConfirmed)
+    }
+    
+    func testResumeSession_cantDecryptData() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.isSessionValid = true
+        sessionManager.errorFromResumeSession = SecureStoreError.cantDecryptData
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssertNil(self.authState)
+    }
+    
+    func testResumeSession_invalidJWTFormat_userFailed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.isSessionValid = true
+        sessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userFailed(JWTVerifierError.invalidJWTFormat))
+    }
+    
+    func testResumeSession_unableToRetrieveFromUserDefaults_userFailed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.isSessionValid = true
+        sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userFailed(SecureStoreError.unableToRetrieveFromUserDefaults))
+    }
+    
+    func testResumeSession_cantInitialiseData_userFailed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.isSessionValid = true
+        sessionManager.errorFromResumeSession = SecureStoreError.cantInitialiseData
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userFailed(SecureStoreError.cantInitialiseData))
+    }
+    
+    func testResumeSession_cantRetrieveKey_userFailed() {
+        let releaseFlags = ["TestFlag": true]
+        appInformationProvider.releaseFlags = releaseFlags
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.isSessionValid = true
+        sessionManager.errorFromResumeSession = SecureStoreError.cantRetrieveKey
+        sut.delegate = self
+        
+        waitForTruth(
+            self.appState == .appConfirmed,
+            timeout: 5
+        )
+        
+        XCTAssert(self.authState == .userFailed(SecureStoreError.cantRetrieveKey))
+    }
 }
 
 // MARK: - Subscription Tests
@@ -131,11 +266,11 @@ extension AppQualifyingServiceTests {
 }
 
 extension AppQualifyingServiceTests: AppQualifyingServiceDelegate {
-    func didChangeAppInfoState(state appInfoState: OneLogin.AppInformationState) {
+    func didChangeAppInfoState(state appInfoState: AppInformationState) {
         appState = appInfoState
     }
     
-    func didChangeUserState(state userState: OneLogin.AppLocalAuthState) {
+    func didChangeUserState(state userState: AppLocalAuthState) {
         authState = userState
     }
 }
