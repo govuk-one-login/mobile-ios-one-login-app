@@ -5,6 +5,7 @@ import SecureStore
 
 protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
+    func evaluateUser() async
 }
 
 @MainActor
@@ -45,7 +46,7 @@ final class AppQualifyingService: QualifyingService {
         initiate()
     }
     
-    private func initiate() {
+    func initiate() {
         Task {
             await qualifyAppVersion()
             await evaluateUser()
@@ -72,7 +73,7 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    private func evaluateUser() async {
+    func evaluateUser() async {
         guard appInfoState == .appConfirmed else {
             // Do not continue with local auth unless app info qualifies
             return

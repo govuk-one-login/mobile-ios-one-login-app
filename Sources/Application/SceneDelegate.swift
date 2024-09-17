@@ -13,22 +13,23 @@ final class SceneDelegate: UIResponder,
 
     private var rootCoordinator: QualifyingCoordinator?
 
-    let analyticsService: AnalyticsService = GAnalytics()
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let manager = PersistentSessionManager()
         networkClient.authorizationProvider = manager.tokenProvider
         return manager
     }()
+    private lazy var appQualifyingService = {
+        AppQualifyingService(sessionManager: sessionManager)
+    }()
 
+    let analyticsService: AnalyticsService = GAnalytics()
     private lazy var analyticsCenter = {
-        AnalyticsCenter(analyticsService: self.analyticsService,
+        AnalyticsCenter(analyticsService: analyticsService,
                         analyticsPreferenceStore: UserDefaultsPreferenceStore())
     }()
 
-    private lazy var appQualifyingService = {
-        AppQualifyingService(sessionManager: self.sessionManager)
-    }()
+    var appBooted = false
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -58,12 +59,14 @@ final class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // TODO: DCMAW-9866 | why are we starting this when moving to the background???
-        rootCoordinator?.start()
+        rootCoordinator?.lock()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        // TODO: DCMAW-9866 | do we need to call app info here too?
+        if appBooted {
+            appQualifyingService.initiate()
+        }
+        appBooted = true
     }
     
     private func setUpBasicUI() {

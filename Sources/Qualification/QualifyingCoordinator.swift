@@ -13,18 +13,15 @@ import UIKit
 ///
 @MainActor
 final class QualifyingCoordinator: NSObject,
-                                   Coordinator,
+                                   ParentCoordinator,
                                    AppQualifyingServiceDelegate {
+    private let window: UIWindow
     var childCoordinators = [ChildCoordinator]()
 
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
-
-    private let window: UIWindow
-
-    private var appIsLocked: Bool = true
 
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
@@ -35,8 +32,10 @@ final class QualifyingCoordinator: NSObject,
     }
 
     private lazy var unlockViewController: UnlockScreenViewController = {
-        let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) {
-            self.appIsLocked = false
+        let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            Task {
+                await appQualifyingService.evaluateUser()
+            }
         }
         return UnlockScreenViewController(viewModel: viewModel)
     }()
@@ -56,7 +55,7 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func start() {
-        didChangeAppInfoState(state: .appUnconfirmed)
+        lock()
     }
 
     func lock() {
@@ -101,23 +100,32 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func launchLoginCoordinator(userState: AppLocalAuthState) {
-        let loginCoordinator = loginCoordinator ??
-            LoginCoordinator(appWindow: window,
-                             root: UINavigationController(),
-                             analyticsCenter: analyticsCenter,
-                             sessionManager: sessionManager,
-                             userState: userState)
-        displayChildCoordinator(loginCoordinator)
+        if let loginCoordinator = loginCoordinator {
+            displayViewController(loginCoordinator.root)
+        } else {
+            let loginCoordinator = LoginCoordinator(
+                appWindow: window,
+                root: UINavigationController(),
+                analyticsCenter: analyticsCenter,
+                sessionManager: sessionManager,
+                userState: userState
+            )
+            displayChildCoordinator(loginCoordinator)
+        }
     }
-
+    
     func launchMainCoordinator() {
-        let mainCoordinator = mainCoordinator ?? MainCoordinator(
-            appWindow: window,
-            root: UITabBarController(),
-            analyticsCenter: analyticsCenter,
-            networkClient: networkClient,
-            sessionManager: sessionManager)
-        displayChildCoordinator(mainCoordinator)
+        if let mainCoordinator {
+            displayViewController(mainCoordinator.root)
+        } else {
+            let mainCoordinator = MainCoordinator(
+                appWindow: window,
+                root: UITabBarController(),
+                analyticsCenter: analyticsCenter,
+                networkClient: networkClient,
+                sessionManager: sessionManager)
+            displayChildCoordinator(mainCoordinator)
+        }
     }
 
     func handleUniversalLink(_ url: URL) {
@@ -147,5 +155,3 @@ final class QualifyingCoordinator: NSObject,
         window.makeKeyAndVisible()
     }
 }
-
-extension QualifyingCoordinator: ParentCoordinator { }
