@@ -14,7 +14,7 @@ public final class HelloWorldService: HelloWorldProvider {
         let data = try await client
             .makeAuthorizedRequest(scope: "sts-test.hello-world.read",
                                    request: URLRequest(url: baseURL))
-        return "Success: \(String(decoding: data, as: UTF8.self))"
+        return "Success: \(String(data: data, encoding: .utf8) ?? "Couldn't decode data")"
     }
 
     public func requestHelloWorldWrongScope() async throws {

@@ -80,8 +80,8 @@ extension TokenHolderTests {
                        "application/x-www-form-urlencoded")
 
         let data = try XCTUnwrap(request.httpBodyData())
-        let body = String(decoding: data, as: UTF8.self)
-
+        let body = String(data: data, encoding: .utf8)
+        
         var components = URLComponents()
         components.query = body
 
