@@ -43,7 +43,7 @@ struct JWKInfo: Codable {
         case y
     }
     
-    var jsonString: String {
+    var jsonString: String? {
         get throws {
             let jsonData = try JSONEncoder().encode(self)
             return String(data: jsonData, encoding: .utf8)
