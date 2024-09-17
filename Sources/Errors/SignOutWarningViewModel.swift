@@ -2,13 +2,13 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
+class SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
     let title: GDSLocalisedString = "app_signOutWarningTitle"
     let body: GDSLocalisedString = "app_signOutWarningBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
-    let analyticsService: AnalyticsService
-    
+    var analyticsService: AnalyticsService
+
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
@@ -26,6 +26,7 @@ struct SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
     }
     
     func didAppear() {
+        analyticsService.setAdditionalParameters(appTaxonomy: .reauth)
         let screen = ScreenView(id: ErrorAnalyticsScreen.signOutWarning.rawValue,
                                 screen: ErrorAnalyticsScreen.signOutWarning,
                                 titleKey: "app_signOutWarningTitle")

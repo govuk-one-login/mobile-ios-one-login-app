@@ -8,6 +8,7 @@ enum AppTaxonomy: String {
     case home
     case wallet
     case profile
+    case reauth = "re auth"
 }
 
 extension AnalyticsService {
@@ -23,9 +24,18 @@ extension AnalyticsService {
     }
     
     mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
+        var taxonomyLevel3: String {
+            if appTaxonomy == .reauth {
+                "re auth"
+            } else if appTaxonomy == .profile {
+                "my profile"
+            } else {
+                "undefined"
+            }
+        }
         additionalParameters = additionalParameters.merging([
-            "taxonomy_level2": appTaxonomy.rawValue,
-            "taxonomy_level3": appTaxonomy == .profile ? "my profile" : "undefined"
+            "taxonomy_level2": appTaxonomy == .reauth ? AppTaxonomy.login.rawValue : appTaxonomy.rawValue,
+            "taxonomy_level3": taxonomyLevel3
         ]) { $1 }
     }
 }
