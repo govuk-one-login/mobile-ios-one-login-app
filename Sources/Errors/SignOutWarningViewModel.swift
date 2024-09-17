@@ -15,13 +15,22 @@ struct SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               analyticsEvent: event) {
             action()
         }
     }
     
-    func didAppear() { /* BaseViewModel compliance */ }
+    func didAppear() {
+        let screen = ScreenView(id: ErrorAnalyticsScreen.signOutWarning.rawValue,
+                                screen: ErrorAnalyticsScreen.signOutWarning,
+                                titleKey: "app_signOutWarningTitle")
+        analyticsService.trackScreen(screen)
+    }
     
     func didDismiss() { /* BaseViewModel compliance */ }
 }
