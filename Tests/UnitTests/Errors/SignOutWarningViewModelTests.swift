@@ -52,10 +52,7 @@ extension SignOutWarningViewModelTests {
                               linkDomain: AppEnvironment.oneLoginBaseURL,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["link_domain"], event.parameters["link_domain"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["external"], event.parameters["external"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
 
     func test_didAppear() {
@@ -64,7 +61,7 @@ extension SignOutWarningViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: ErrorAnalyticsScreen.signOutWarning.rawValue,
                                 screen: ErrorAnalyticsScreen.signOutWarning,
-                                titleKey: "app_signOutWarningTitle")
+                                titleKey: sut.title.stringKey)
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
