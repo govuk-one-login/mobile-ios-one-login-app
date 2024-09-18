@@ -29,7 +29,7 @@ class SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
         analyticsService.setAdditionalParameters(appTaxonomy: .reauth)
         let screen = ScreenView(id: ErrorAnalyticsScreen.signOutWarning.rawValue,
                                 screen: ErrorAnalyticsScreen.signOutWarning,
-                                titleKey: "app_signOutWarningTitle")
+                                titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
     
