@@ -71,8 +71,8 @@ extension SignOutConfirmationWalletViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreen.rawValue,
-                                screen: ProfileAnalyticsScreen.signOutScreen,
+        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutWalletScreen.rawValue,
+                                screen: ProfileAnalyticsScreen.signOutWalletScreen,
                                 titleKey: "app_signOutConfirmationWalletTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
