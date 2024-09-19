@@ -37,7 +37,8 @@ final class MockAnalyticsService: AnalyticsService {
         parameters["AnalyticsParameterScreenClass"] = screen.type.name
         parameters["AnalyticsParameterScreenName"] = screen.name
         
-        screenParamsLogged = parameters
+        screenParamsLogged["title"] = parameters["title"]
+        screenParamsLogged["screen_id"] = parameters["screen_id"]
     }
     
     

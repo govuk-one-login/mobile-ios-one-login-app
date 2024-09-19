@@ -63,7 +63,6 @@ extension SignOutWarningViewModelTests {
                                 screen: ErrorAnalyticsScreen.signOutWarning,
                                 titleKey: sut.title.stringKey)
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }
