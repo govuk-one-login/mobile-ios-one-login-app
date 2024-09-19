@@ -39,6 +39,7 @@ final class MockAnalyticsService: AnalyticsService {
         
         screenParamsLogged["title"] = parameters["title"]
         screenParamsLogged["screen_id"] = parameters["screen_id"]
+        screenParamsLogged["reason"] = parameters["reason"]
     }
     
     
