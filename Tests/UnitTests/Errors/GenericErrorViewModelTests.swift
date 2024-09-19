@@ -1,67 +1,80 @@
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
+
+final class Listener {
+    private(set) var didCall: Bool = false
+
+    func callAsFunction() {
+        didCall = true
+    }
+}
 
 @MainActor
-final class GenericErrorViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: GenericErrorViewModel!
-    var didCallButtonAction = false
-    
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
+struct GenericErrorViewModelTests {
+    let sut: GenericErrorViewModel
+
+    let mockAnalyticsService = MockAnalyticsService()
+    let buttonActionListener: Listener
+
+    var didCallButtonAction: Bool {
+        buttonActionListener.didCall
+    }
+
+    init() {
+        let buttonActionListener = Listener()
+        self.buttonActionListener = buttonActionListener
+
         sut = GenericErrorViewModel(errorDescription: "error description",
                                     analyticsService: mockAnalyticsService) {
-            self.didCallButtonAction = true
+            buttonActionListener()
         }
-    }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
-        didCallButtonAction = false
-        
-        super.tearDown()
     }
 }
 
 extension GenericErrorViewModelTests {
-    func test_label_contents() throws {
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.stringKey, "app_somethingWentWrongErrorTitle")
-        XCTAssertEqual(sut.body.stringKey, "app_somethingWentWrongErrorBody")
-        XCTAssertEqual(sut.errorDescription, "error description")
+    @Test("""
+          Check that the label contents are assigned correctly by the initialiser
+          """)
+    func testLabelContents() throws {
+        #expect(sut.image == "exclamationmark.circle")
+        #expect(sut.title.stringKey == "app_somethingWentWrongErrorTitle")
+        #expect(sut.body.stringKey == "app_somethingWentWrongErrorBody")
+        #expect(sut.errorDescription == "error description")
     }
-    
-    func test_button_action() throws {
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+
+    @Test("""
+          Validates that the button action:
+            - calls the injected closure
+            - logs the `Link` analytics event
+          """)
+    func testButtonAction() throws {
+        #expect(!didCallButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.primaryButtonViewModel.action()
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+
+        #expect(didCallButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_closeButton",
                               linkDomain: AppEnvironment.oneLoginBaseURL,
                               external: .false)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["link_domain"],
-                       event.parameters["link_domain"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["external"],
-                       event.parameters["external"])
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
-    
-    func test_didAppear() throws {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+
+    @Test("""
+          Validates that did appear logs the expected analytics event
+          """)
+    func testDidAppear() throws {
+        #expect(mockAnalyticsService.screensVisited.count == 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        #expect(mockAnalyticsService.screensVisited.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                      screen: ErrorAnalyticsScreen.generic,
                                      titleKey: "app_somethingWentWrongErrorTitle",
                                      reason: sut.errorDescription)
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+
+        #expect(mockAnalyticsService.screensVisited == [screen.name])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

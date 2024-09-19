@@ -34,7 +34,7 @@ final class MockAnalyticsService: AnalyticsService {
             XCTFail("Non-string parameters were logged")
             return
         }
-
+        
         screenParamsLogged = parameters
     }
     

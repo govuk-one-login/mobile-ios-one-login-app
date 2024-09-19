@@ -3,8 +3,6 @@ import XCTest
 
 final class URLRequestTests: XCTestCase {
     func test_tokenExchange() throws {
-        let url = try XCTUnwrap(URL(string: "https://www.google.com"))
-
         let tokenRequest = URLRequest.tokenExchange(
             subjectToken: "tesSubjectToken",
             scope: "testScope"
