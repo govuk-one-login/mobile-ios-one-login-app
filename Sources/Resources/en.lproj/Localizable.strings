@@ -128,22 +128,36 @@
 "app_signOutButton" = "Sign out";
 
 
-// Mark: Sign Out Confirmation screen
-"app_signOutConfirmationTitle" = "Signing out will delete your app data";
+// Mark: Sign Out Confirmation Wallet screen
+"app_signOutConfirmationWalletTitle" = "Signing out will delete your app data";
 
-"app_signOutConfirmationBody1" = "When you sign out, all the information and documents saved in your app will be deleted, including:";
+"app_signOutConfirmationWalletBody1" = "When you sign out, all the information and documents saved in your app will be deleted, including:";
 
-"app_signOutConfirmationBullet1" = "any documents saved in your GOV.UK Wallet";
+"app_signOutConfirmationWalletBullet1" = "any documents saved in your GOV.UK Wallet";
 
-"app_signOutConfirmationBullet2" = "your settings for signing in";
+"app_signOutConfirmationWalletBullet2" = "your settings for signing in";
 
-"app_signOutConfirmationBullet3" = "your analytics sharing preferences";
+"app_signOutConfirmationWalletBullet3" = "your analytics sharing preferences";
 
-"app_signOutConfirmationBody2" = "This is to keep your information secure.";
+"app_signOutConfirmationWalletBody2" = "This is to keep your information secure.";
 
-"app_signOutConfirmationBody3" = "Any deleted documents will still be available online for you to add to your GOV.UK Wallet again.";
+"app_signOutConfirmationWalletBody3" = "Any deleted documents will still be available online for you to add to your GOV.UK Wallet again.";
 
 "app_signOutAndDeleteAppDataButton" = "Sign out and delete app data";
+
+
+// Mark: Sign Out Confirmation screen
+"app_signOutConfirmationTitle" = "Are you sure you want to sign out?";
+
+"app_signOutConfirmationBody1" = "Signing out will switch off your preferences for:";
+
+"app_signOutConfirmationBullet1" = "using Touch ID or Face ID to unlock the app";
+
+"app_signOutConfirmationBullet2" = "sharing analytics about how you use the app";
+
+"app_signOutConfirmationBody2" = "You’ll be asked to set these preferences again next time you sign in.";
+
+"app_signOutAndDeletePreferences" = "Sign out and delete preferences";
 
 
 // Mark: Sign Out Error screen

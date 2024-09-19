@@ -144,23 +144,38 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Allgofnodi")
     }
     
-    func test_signOutPageKeys() {
-        XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
+    func test_signOutConfirmationWalletKeys() {
+        XCTAssertEqual("app_signOutConfirmationWalletTitle".getWelshString(),
                        "Bydd allgofnodi yn dileu data eich ap")
-        XCTAssertEqual("app_signOutConfirmationBody1".getWelshString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBody1".getWelshString(),
                        "Pan fyddwch yn allgofnodi, bydd yr holl wybodaeth a dogfennau a gedwir yn eich ap yn cael eu dileu, gan gynnwys:")
-        XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBullet1".getWelshString(),
                        "unrhyw ddogfennau a arbedwyd yn eich GOV.UK Wallet")
-        XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBullet2".getWelshString(),
                        "eich gosodiadau ar gyfer mewngofnodi")
-        XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBullet3".getWelshString(),
                        "eich dewisiadau rhannu dadansoddi")
-        XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBody2".getWelshString(),
                        "Mae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
-        XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBody3".getWelshString(),
                        "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
                        "Allgofnodwch a dileu data yr ap")
+    }
+    
+    func test_signOutConfirmationKeys() {
+        XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
+                       "Ydych chi'n siŵr eich bod eisiau allgofnodi?")
+        XCTAssertEqual("app_signOutConfirmationBody1".getWelshString(),
+                       "Bydd allgofnodi yn difodd eich dewisiadau am:")
+        XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
+                       "ddefnyddio Touch ID neu Face ID i ddatgloi'r ap")
+        XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
+                       "rhannu dadansoddeg am sut rydych yn defnyddio'r ap")
+        XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
+                       "Gofynnir i chi osod y dewisiadau hyn eto y tro nesaf y byddwch yn mewngofnodi.")
+        XCTAssertEqual("app_signOutAndDeletePreferences".getWelshString(),
+                       "Allgofnodi a dileu dewisiadau")
     }
     
     func test_signOutErrorPageKeys() {

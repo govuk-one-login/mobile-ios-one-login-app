@@ -144,23 +144,38 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Sign out")
     }
     
-    func test_signOutPageKeys() {
-        XCTAssertEqual("app_signOutConfirmationTitle".getEnglishString(),
+    func test_signOutConfirmationWalletKeys() {
+        XCTAssertEqual("app_signOutConfirmationWalletTitle".getEnglishString(),
                        "Signing out will delete your app data")
-        XCTAssertEqual("app_signOutConfirmationBody1".getEnglishString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBody1".getEnglishString(),
                        "When you sign out, all the information and documents saved in your app will be deleted, including:")
-        XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBullet1".getEnglishString(),
                        "any documents saved in your GOV.UK Wallet")
-        XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBullet2".getEnglishString(),
                        "your settings for signing in")
-        XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBullet3".getEnglishString(),
                        "your analytics sharing preferences")
-        XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBody2".getEnglishString(),
                        "This is to keep your information secure.")
-        XCTAssertEqual("app_signOutConfirmationBody3".getEnglishString(),
+        XCTAssertEqual("app_signOutConfirmationWalletBody3".getEnglishString(),
                        "Any deleted documents will still be available online for you to add to your GOV.UK Wallet again.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
                        "Sign out and delete app data")
+    }
+    
+    func test_signOutConfirmationKeys() {
+        XCTAssertEqual("app_signOutConfirmationTitle".getEnglishString(),
+                       "Are you sure you want to sign out?")
+        XCTAssertEqual("app_signOutConfirmationBody1".getEnglishString(),
+                       "Signing out will switch off your preferences for:")
+        XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
+                       "using Touch ID or Face ID to unlock the app")
+        XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
+                       "sharing analytics about how you use the app")
+        XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
+                       "You’ll be asked to set these preferences again next time you sign in.")
+        XCTAssertEqual("app_signOutAndDeletePreferences".getEnglishString(),
+                       "Sign out and delete preferences")
     }
     
     func test_signOutErrorPageKeys() {

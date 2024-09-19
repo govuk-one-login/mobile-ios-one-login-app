@@ -129,21 +129,35 @@
 
 
 // Mark: Sign Out Confirmation screen
-"app_signOutConfirmationTitle" = "Bydd allgofnodi yn dileu data eich ap";
+"app_signOutConfirmationWalletTitle" = "Bydd allgofnodi yn dileu data eich ap";
 
-"app_signOutConfirmationBody1" = "Pan fyddwch yn allgofnodi, bydd yr holl wybodaeth a dogfennau a gedwir yn eich ap yn cael eu dileu, gan gynnwys:";
+"app_signOutConfirmationWalletBody1" = "Pan fyddwch yn allgofnodi, bydd yr holl wybodaeth a dogfennau a gedwir yn eich ap yn cael eu dileu, gan gynnwys:";
 
-"app_signOutConfirmationBullet1" = "unrhyw ddogfennau a arbedwyd yn eich GOV.UK Wallet";
+"app_signOutConfirmationWalletBullet1" = "unrhyw ddogfennau a arbedwyd yn eich GOV.UK Wallet";
 
-"app_signOutConfirmationBullet2" = "eich gosodiadau ar gyfer mewngofnodi";
+"app_signOutConfirmationWalletBullet2" = "eich gosodiadau ar gyfer mewngofnodi";
 
-"app_signOutConfirmationBullet3" = "eich dewisiadau rhannu dadansoddi";
+"app_signOutConfirmationWalletBullet3" = "eich dewisiadau rhannu dadansoddi";
 
-"app_signOutConfirmationBody2" = "Mae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
+"app_signOutConfirmationWalletBody2" = "Mae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
 
-"app_signOutConfirmationBody3" = "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.";
+"app_signOutConfirmationWalletBody3" = "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.";
 
 "app_signOutAndDeleteAppDataButton" = "Allgofnodwch a dileu data yr ap";
+
+
+// Mark: Sign Out Confirmation screen
+"app_signOutConfirmationTitle" = "Ydych chi'n siŵr eich bod eisiau allgofnodi?";
+
+"app_signOutConfirmationBody1" = "Bydd allgofnodi yn difodd eich dewisiadau am:";
+
+"app_signOutConfirmationBullet1" = "ddefnyddio Touch ID neu Face ID i ddatgloi'r ap";
+
+"app_signOutConfirmationBullet2" = "rhannu dadansoddeg am sut rydych yn defnyddio'r ap";
+
+"app_signOutConfirmationBody2" = "Gofynnir i chi osod y dewisiadau hyn eto y tro nesaf y byddwch yn mewngofnodi.";
+
+"app_signOutAndDeletePreferences" = "Allgofnodi a dileu dewisiadau";
 
 
 // Mark: Sign Out Error screen

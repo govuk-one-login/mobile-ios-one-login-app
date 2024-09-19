@@ -4,9 +4,9 @@ import GDSCommon
 import XCTest
 
 @MainActor
-final class SignOutPageViewModelTests: XCTestCase {
+final class SignOutConfirmationViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutPageViewModel!
+    var sut: SignOutConfirmationViewModel!
     
     var didCallButtonAction = false
     
@@ -14,7 +14,7 @@ final class SignOutPageViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutPageViewModel(analyticsService: mockAnalyticsService) {
+        sut = SignOutConfirmationViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -26,7 +26,7 @@ final class SignOutPageViewModelTests: XCTestCase {
     }
 }
 
-extension SignOutPageViewModelTests {
+extension SignOutConfirmationViewModelTests {
     func test_pageConfiguration() throws {
         XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
         XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value)
@@ -44,27 +44,20 @@ extension SignOutPageViewModelTests {
         let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
         let secondBulletText = try XCTUnwrap(secondBullet.text)
         XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value))
-        let thirdBullet = try XCTUnwrap(bulletStack.subviews[2] as? UILabel)
-        let thirdBulletText = try XCTUnwrap(thirdBullet.text)
-        XCTAssertTrue(thirdBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value))
     }
     
     func test_viewConfiguration() throws {
         XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
-        XCTAssertEqual(try body2Label.font, .bodyBold)
-        XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
-        XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
-        XCTAssertEqual(try body3Label.numberOfLines, 0)
-        XCTAssertEqual(try body3Label.font, .body)
+        XCTAssertEqual(try body2Label.font, .body)
     }
     
     func test_buttonConfiuration() throws {
         XCTAssertTrue(sut.buttonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeleteAppDataButton"))
+        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeletePreferences"))
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, .gdsRed)
+        XCTAssertEqual(button.backgroundColor, .gdsGreen)
     }
     
     func test_didAppear() throws {
@@ -75,7 +68,8 @@ extension SignOutPageViewModelTests {
                                 screen: ProfileAnalyticsScreen.signOutScreen,
                                 titleKey: "app_signOutConfirmationTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
     }
     
     func test_didDismiss() throws {
@@ -84,7 +78,8 @@ extension SignOutPageViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "back")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
     
     func test_buttonAction() throws {
@@ -93,13 +88,14 @@ extension SignOutPageViewModelTests {
         sut.buttonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
+        let event = ButtonEvent(textKey: "app_signOutAndDeletePreferences")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
 }
 
-extension SignOutPageViewModelTests {
+extension SignOutConfirmationViewModelTests {
     var bulletList: BulletView {
         get throws {
             try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
@@ -109,12 +105,6 @@ extension SignOutPageViewModelTests {
     var body2Label: UILabel {
         get throws {
             try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
-        }
-    }
-    
-    var body3Label: UILabel {
-        get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body3-text"])
         }
     }
 }

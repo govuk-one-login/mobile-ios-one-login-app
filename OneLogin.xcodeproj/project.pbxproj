@@ -26,8 +26,8 @@
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */; };
 		411D1FD32B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */; };
-		41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */; };
-		41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */; };
+		41279DD52BFDD9CA00E16537 /* SignOutConfirmationWalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* SignOutConfirmationWalletViewModel.swift */; };
+		41279DD72BFF46DB00E16537 /* SignOutConfirmationWalletViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* SignOutConfirmationWalletViewModelTests.swift */; };
 		413C58762BF261D300171C06 /* HomeTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58752BF261D300171C06 /* HomeTabViewModelTests.swift */; };
 		413C58782BF266A200171C06 /* ProfileTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58772BF266A200171C06 /* ProfileTabViewModelTests.swift */; };
 		414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
@@ -77,6 +77,8 @@
 		C80B87262B029F1A0087C6D5 /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87252B029F1A0087C6D5 /* XCUIElement.swift */; };
 		C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87272B029F440087C6D5 /* ScreenObject.swift */; };
 		C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81273A12C07412100059825 /* MockAuthenticationProvider.swift */; };
+		C816F1D82C9C33A800BD4D30 /* SignOutConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C816F1D72C9C33A800BD4D30 /* SignOutConfirmationViewModel.swift */; };
+		C816F1DA2C9C36B900BD4D30 /* SignOutConfirmationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C816F1D92C9C36AC00BD4D30 /* SignOutConfirmationViewModelTests.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
 		C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */; };
@@ -260,8 +262,8 @@
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 		410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
 		411D1FD22B73CA74002393D1 /* TouchIDEnrollmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrollmentViewModelTests.swift; sourceTree = "<group>"; };
-		41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModel.swift; sourceTree = "<group>"; };
-		41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModelTests.swift; sourceTree = "<group>"; };
+		41279DD42BFDD9CA00E16537 /* SignOutConfirmationWalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutConfirmationWalletViewModel.swift; sourceTree = "<group>"; };
+		41279DD62BFF46DB00E16537 /* SignOutConfirmationWalletViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutConfirmationWalletViewModelTests.swift; sourceTree = "<group>"; };
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
 		413C58752BF261D300171C06 /* HomeTabViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModelTests.swift; sourceTree = "<group>"; };
 		413C58772BF266A200171C06 /* ProfileTabViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabViewModelTests.swift; sourceTree = "<group>"; };
@@ -316,6 +318,8 @@
 		C80B87252B029F1A0087C6D5 /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
 		C80B87272B029F440087C6D5 /* ScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenObject.swift; sourceTree = "<group>"; };
 		C81273A12C07412100059825 /* MockAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthenticationProvider.swift; sourceTree = "<group>"; };
+		C816F1D72C9C33A800BD4D30 /* SignOutConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutConfirmationViewModel.swift; sourceTree = "<group>"; };
+		C816F1D92C9C36AC00BD4D30 /* SignOutConfirmationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutConfirmationViewModelTests.swift; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
 		C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -581,7 +585,8 @@
 		41279DD32BFDD9A700E16537 /* SignOutConfirmation */ = {
 			isa = PBXGroup;
 			children = (
-				41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */,
+				C816F1D72C9C33A800BD4D30 /* SignOutConfirmationViewModel.swift */,
+				41279DD42BFDD9CA00E16537 /* SignOutConfirmationWalletViewModel.swift */,
 			);
 			path = SignOutConfirmation;
 			sourceTree = "<group>";
@@ -827,8 +832,9 @@
 		C8514F692C09E4A5008E1433 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				C816F1D92C9C36AC00BD4D30 /* SignOutConfirmationViewModelTests.swift */,
 				413C58772BF266A200171C06 /* ProfileTabViewModelTests.swift */,
-				41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */,
+				41279DD62BFF46DB00E16537 /* SignOutConfirmationWalletViewModelTests.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1742,6 +1748,7 @@
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				C8E109092BEE6C0C00B21038 /* HomeTabViewModel.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
+				C816F1D82C9C33A800BD4D30 /* SignOutConfirmationViewModel.swift in Sources */,
 				C8514F682C09E133008E1433 /* ProfileTabAnalytics.swift in Sources */,
 				7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrollmentAnalytics.swift in Sources */,
@@ -1757,7 +1764,7 @@
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
-				41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */,
+				41279DD52BFDD9CA00E16537 /* SignOutConfirmationWalletViewModel.swift in Sources */,
 				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1797,6 +1804,7 @@
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */,
+				C816F1DA2C9C36B900BD4D30 /* SignOutConfirmationViewModelTests.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */,
 				D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */,
@@ -1825,7 +1833,7 @@
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
-				41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */,
+				41279DD72BFF46DB00E16537 /* SignOutConfirmationWalletViewModelTests.swift in Sources */,
 				219602022A976305008F3427 /* MainCoordinatorTests.swift in Sources */,
 				C87913C12B275F4900545B33 /* ErrorPresenterTests.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,

@@ -42,7 +42,7 @@ final class ProfileCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let viewModel = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+        let viewModel = SignOutConfirmationWalletViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 parentCoordinator?.childDidFinish(self)
             }
