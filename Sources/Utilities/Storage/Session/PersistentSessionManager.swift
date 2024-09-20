@@ -204,13 +204,13 @@ final class PersistentSessionManager: SessionManager {
     }
 
     func clearAllSessionData() throws {
-        encryptedStore.deleteItem(itemName: .persistentSessionID)
-        unprotectedStore.removeObject(forKey: .returningUser)
-        unprotectedStore.removeObject(forKey: .accessTokenExpiry)
-
         try sessionBoundData.forEach {
             try $0.delete()
         }
+
+        encryptedStore.deleteItem(itemName: .persistentSessionID)
+        unprotectedStore.removeObject(forKey: .returningUser)
+        unprotectedStore.removeObject(forKey: .accessTokenExpiry)
 
         NotificationCenter.default.post(name: .didLogout)
     }

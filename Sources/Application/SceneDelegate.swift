@@ -19,8 +19,8 @@ final class SceneDelegate: UIResponder,
         let manager = PersistentSessionManager()
         networkClient.authorizationProvider = manager.tokenProvider
 
-        manager.registerSessionBoundData(analyticsCenter)
         manager.registerSessionBoundData(WalletSessionData())
+        manager.registerSessionBoundData(analyticsCenter)
 
         return manager
     }()
