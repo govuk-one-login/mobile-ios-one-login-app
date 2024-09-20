@@ -5,5 +5,5 @@ class MockWalletAvailabilityService: WalletFeatureAvailabilityService {
     var shouldShowFeature = false
     var shouldShowFeatureOnUniversalLink = false
     
-    func hasAccessedPreviously() { }
+    func featureAccessed() { }
 }

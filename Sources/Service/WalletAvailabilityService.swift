@@ -3,8 +3,9 @@ import Networking
 import UIKit
 
 protocol FeatureAvailabilityService {
+    var hassAccessedPreviously: Bool { get }
     var shouldShowFeature: Bool { get }
-    func hasAccessedPreviously()
+    func featureAccessed()
 }
 
 protocol UniversalLinkFeatureAvailabilityService {
@@ -13,11 +14,15 @@ protocol UniversalLinkFeatureAvailabilityService {
 
 typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService
 
-class WalletAvailabilityService: WalletFeatureAvailabilityService {
+struct WalletAvailabilityService: WalletFeatureAvailabilityService {
+    var hassAccessedPreviously: Bool {
+        UserDefaults.standard.bool(forKey: .hasAccessedWalletPreviously)
+    }
+    
     var shouldShowFeature: Bool {
         guard AppEnvironment.walletVisibleToAll else {
             guard AppEnvironment.walletVisibleIfExists,
-                  UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore") else {
+                  UserDefaults.standard.bool(forKey: .hasAccessedWalletPreviously) else {
                 return false
             }
             return true
@@ -35,7 +40,7 @@ class WalletAvailabilityService: WalletFeatureAvailabilityService {
         return true
     }
     
-    func hasAccessedPreviously() {
-        UserDefaults.standard.set(true, forKey: "hasAccessedWalletBefore")
+    func featureAccessed() {
+        UserDefaults.standard.set(true, forKey: .hasAccessedWalletPreviously)
     }
 }

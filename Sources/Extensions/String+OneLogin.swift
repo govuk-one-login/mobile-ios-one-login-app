@@ -9,8 +9,10 @@ extension String {
     static let returningUser = "returningUser"
     static let returnToIntroScreen = "returnToIntroScreen"
     
+    // Wallet
+    static let hasAccessedWalletPreviously = "hasAccessedWalletPreviously"
+
     // Universal Link Component
     static let redirect = "redirect"
     static let wallet = "wallet"
-    static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
 }

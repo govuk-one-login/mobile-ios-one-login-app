@@ -13,13 +13,16 @@ final class ProfileCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
+    private let walletAvailabilityService: WalletFeatureAvailabilityService
     private(set) var baseVc: TabbedViewController?
     
     init(analyticsService: AnalyticsService,
          urlOpener: URLOpener,
+         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService(),
          baseVc: TabbedViewController? = nil) {
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
+        self.walletAvailabilityService = walletAvailabilityService
         self.baseVc = baseVc
     }
     
@@ -43,7 +46,7 @@ final class ProfileCoordinator: NSObject,
     func openSignOutPage() {
         let navController = UINavigationController()
         var viewModel: GDSInstructionsViewModel {
-            UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore") ? SignOutConfirmationWalletViewModel(analyticsService: analyticsService) { [unowned self] in
+            walletAvailabilityService.hassAccessedPreviously ? SignOutConfirmationWalletViewModel(analyticsService: analyticsService) { [unowned self] in
                navController.dismiss(animated: true) { [unowned self] in
                    parentCoordinator?.childDidFinish(self)
                }
