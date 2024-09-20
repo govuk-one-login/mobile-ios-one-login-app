@@ -32,7 +32,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               userState: .userUnconfirmed)
+                               isExpiredUser: false)
     }
     
     override func tearDown() {
@@ -55,7 +55,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               userState: .userExpired)
+                               isExpiredUser: true)
         mockSessionManager.isReturningUser = true
     }
     
@@ -90,20 +90,6 @@ extension LoginCoordinatorTests {
         let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         // THEN the presented view model should be the SignOutWarningViewModel
         XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
-    }
-    
-    @MainActor
-    func test_authenticate_missingPersistenId() throws {
-        mockSessionManager.isReturningUser = true
-        mockSessionManager.isReauthSupported = true
-
-        let exp = XCTNSNotificationExpectation(name: .clearWallet,
-                                               object: nil,
-                                               notificationCenter: NotificationCenter.default)
-        // WHEN the LoginCoordinator is started and the persistent session id is missing
-        sut.authenticate()
-        // THEN the clear wallet notification should be posted
-        wait(for: [exp], timeout: 20)
     }
     
     @MainActor

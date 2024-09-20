@@ -64,12 +64,6 @@ final class LoginCoordinator: NSObject,
     }
 
     func authenticate() {
-//        guard sessionManager.isReauthSupported else {
-//            // DELETE DATA
-//            NotificationCenter.default.post(name: .clearWallet, object: nil)
-//            return
-//        }
-
         guard networkMonitor.isConnected else {
             let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 introViewController?.enableIntroButton()

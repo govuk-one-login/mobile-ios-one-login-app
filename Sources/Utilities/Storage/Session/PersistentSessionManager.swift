@@ -100,7 +100,7 @@ final class PersistentSessionManager: SessionManager {
     
     func startSession(using session: any LoginSession) async throws {
         guard isReturningUser, persistentID == nil else {
-            // I am a returning user, but cannot reauthenticate
+            // If I am a returning user
             // I need to delete my session & Wallet data before I can login
             do {
                 try clearAllSessionData()

@@ -44,36 +44,9 @@ extension ErrorPresenterTests {
         XCTAssertTrue(didCallAction)
     }
     
-    func test_networkConnectionError_callsAction() throws {
-        let introView = sut.createNetworkConnectionError(analyticsService: mockAnalyticsService) {
-            self.didCallAction = true
-        }
-        let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])
-        introButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(didCallAction)
-    }
-    
     func test_signOutError_callsAction() throws {
         let errorView = sut.createSignOutError(errorDescription: "error description",
                                                analyticsService: mockAnalyticsService) {
-            self.didCallAction = true
-        }
-        let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])
-        exitButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(didCallAction)
-    }
-    
-    func test_signOutWarning_callsAction() throws {
-        let errorView = sut.createSignOutWarning(analyticsService: mockAnalyticsService) {
-            self.didCallAction = true
-        }
-        let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])
-        exitButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(didCallAction)
-    }
-    
-    func test_dataDeletedWarning_callsAction() throws {
-        let errorView = sut.createDataDeletionWarning(analyticsService: mockAnalyticsService) {
             self.didCallAction = true
         }
         let exitButton: UIButton = try XCTUnwrap(errorView.view[child: "error-primary-button"])

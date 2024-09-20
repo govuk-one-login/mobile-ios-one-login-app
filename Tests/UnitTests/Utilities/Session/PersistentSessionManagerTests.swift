@@ -50,7 +50,6 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.sessionExists)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
-        XCTAssertFalse(sut.isReauthSupported)
     }
     
     func testSessionExpiryDate() {
@@ -238,7 +237,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }
     
-    func testEndCurrentSession_clearsAllPersistedData() {
+    func testEndCurrentSession_clearsAllPersistedData() throws {
         // GIVEN I have an expired session
         unprotectedStore.savedData = [
             .returningUser: true,
@@ -248,7 +247,7 @@ extension PersistentSessionManagerTests {
             .persistentSessionID: UUID().uuidString
         ]
         // WHEN I clear all session data
-        sut.clearAllSessionData()
+        try sut.clearAllSessionData()
         // THEN my session data is deleted
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
         XCTAssertEqual(encryptedStore.savedItems, [:])
@@ -280,7 +279,10 @@ extension PersistentSessionManagerTests {
         // AND I try to resume a session
         XCTAssertThrowsError(try sut.resumeSession()) { error in
         // THEN an error is thrown
-            XCTAssertEqual(error as? PersistentSessionError, .userRemovedLocalAuth)
+            guard case PersistentSessionError.userRemovedLocalAuth = error else {
+                XCTFail("Expected local auth removed error")
+                return
+            }
         }
     }
 }

@@ -163,7 +163,7 @@ extension MainCoordinatorTests {
                                                 analyticsCenter: mockAnalyticsCenter,
                                                 sessionManager: mockSessionManager,
                                                 networkMonitor: MockNetworkMonitor(),
-                                                userState: .userExpired)
+                                                isExpiredUser: true)
         // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched

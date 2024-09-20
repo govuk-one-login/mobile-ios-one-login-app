@@ -56,36 +56,4 @@ extension WalletCoordinatorTests {
         // THEN no error should be thrown
         XCTAssertNoThrow(try sut.deleteWalletData())
     }
-    
-    func test_clearWallet() throws {
-        sut.start()
-        // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
-        mockSessionManager.user.send(MockUser(persistentID: "123456789"))
-        mockSessionManager.isReturningUser = true
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the clearWallet notification is posted
-        NotificationCenter.default.post(name: .clearWallet)
-        // THEN the persistent session id, returning user and analytics preferences have been removed
-        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
-        XCTAssertNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
-    }
-    
-    func test_clearWallet_error() throws {
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableClearWalletError.rawValue: true
-        ])
-
-        sut.start()
-        // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
-        mockSessionManager.user.send(MockUser(persistentID: "123456789"))
-        mockSessionManager.isReturningUser = true
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the clearWallet notification is posted
-        NotificationCenter.default.post(name: .clearWallet)
-        // THEN the persistent session id, returning user and analytics preferences should not have been removed
-        XCTAssertFalse(mockSessionManager.didCallClearAllSessionData)
-        XCTAssertNotNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
-
-        AppEnvironment.updateReleaseFlags([:])
-    }
 }

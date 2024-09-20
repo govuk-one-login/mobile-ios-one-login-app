@@ -28,15 +28,6 @@ final class OnboardingViewControllerFactoryTests: XCTestCase {
 }
 
 extension OnboardingViewControllerFactoryTests {
-    func test_intro_callsAction() throws {
-        let introView = sut.createIntroViewController(analyticsService: mockAnalyticsService) {
-            self.didCallPrimaryAction = true
-        }
-        let introButton: UIButton = try XCTUnwrap(introView.view[child: "intro-button"])
-        introButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(didCallPrimaryAction)
-    }
-    
     func test_analytics_callsAction() throws {
         let analyticsView = sut.createAnalyticsPeferenceScreen {
             self.didCallPrimaryAction = true
