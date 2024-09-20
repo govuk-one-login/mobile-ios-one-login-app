@@ -20,7 +20,7 @@ final class SceneDelegate: UIResponder,
         networkClient.authorizationProvider = manager.tokenProvider
 
         manager.registerSessionBoundData(analyticsCenter)
-        manager.registerSessionBoundData(walletSDK)
+        manager.registerSessionBoundData(WalletSessionData())
 
         return manager
     }()
@@ -34,8 +34,6 @@ final class SceneDelegate: UIResponder,
         AnalyticsCenter(analyticsService: analyticsService,
                         analyticsPreferenceStore: UserDefaultsPreferenceStore())
     }()
-
-    private lazy var walletSDK = { WalletSDK() }()
 
     var appBooted = false
 

@@ -53,7 +53,6 @@
 		41FF35AA2B21F06C00419DB3 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35A92B21F06C00419DB3 /* ErrorPresenter.swift */; };
 		41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */; };
 		41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B3207A2B063CA100FECDF0 /* AuthenticationCoordinatorTests.swift */; };
-		7C29B1E62C9CCD2500638AE9 /* Wallet+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C29B1E52C9CCD2100638AE9 /* Wallet+OneLogin.swift */; };
 		7C47BE162C7883B800DCE5D2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C47BE152C7883B800DCE5D2 /* User.swift */; };
 		7C47BE182C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */; };
 		7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */; };
@@ -75,6 +74,7 @@
 		7CD66F872C90A96A008513F4 /* MockQualifyingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD66F862C90A96A008513F4 /* MockQualifyingService.swift */; };
 		7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */ = {isa = PBXBuildFile; productRef = 7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */; };
 		7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */; };
+		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
@@ -298,7 +298,6 @@
 		7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
 		7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7C0CCED12C8A12F200F61C11 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		7C29B1E52C9CCD2100638AE9 /* Wallet+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wallet+OneLogin.swift"; sourceTree = "<group>"; };
 		7C47BE152C7883B800DCE5D2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDTokenUserRepresentation.swift; sourceTree = "<group>"; };
 		7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+OneLogin.swift"; sourceTree = "<group>"; };
@@ -318,6 +317,7 @@
 		7CD66F832C90A890008513F4 /* QualifyingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinatorTests.swift; sourceTree = "<group>"; };
 		7CD66F862C90A96A008513F4 /* MockQualifyingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQualifyingService.swift; sourceTree = "<group>"; };
 		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
+		7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletSessionData+OneLogin.swift"; sourceTree = "<group>"; };
 		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -773,7 +773,7 @@
 		ABB941FD2C6CAD840007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				7C29B1E52C9CCD2100638AE9 /* Wallet+OneLogin.swift */,
+				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 				ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */,
 			);
 			path = Service;
@@ -1738,6 +1738,7 @@
 				C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */,
 				1E717D772B72976D00CCAF3E /* LocalAuthenticationContext.swift in Sources */,
 				41C8E4332B73AA600063B8A3 /* TouchIDEnrollmentViewModel.swift in Sources */,
+				7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
@@ -1793,7 +1794,6 @@
 				C8E1090B2BEE6C4500B21038 /* ProfileTabViewModel.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* MainCoordinator.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,
-				7C29B1E62C9CCD2500638AE9 /* Wallet+OneLogin.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C8BEC2942BFFA8C800C9775A /* LoginLoadingViewModel.swift in Sources */,
@@ -2866,8 +2866,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				branch = "refactor/make-walletsdk-static";
+				kind = branch;
 			};
 		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {

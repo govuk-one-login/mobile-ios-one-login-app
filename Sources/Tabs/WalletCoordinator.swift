@@ -16,7 +16,6 @@ final class WalletCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
-    private let walletSDK = WalletSDK()
 
     private let networkClient: NetworkClient
 
@@ -34,8 +33,7 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        walletSDK.start(in: window,
-                        with: root,
+        WalletSDK.start(in: root,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
@@ -43,7 +41,7 @@ final class WalletCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        walletSDK.deeplink(with: url.absoluteString)
+        WalletSDK.deeplink(with: url.absoluteString)
     }
     
     func deleteWalletData() throws {
@@ -52,6 +50,6 @@ final class WalletCoordinator: NSObject,
             throw TokenError.expired
         }
         #endif
-        try walletSDK.deleteWalletData()
+        try WalletSDK.deleteData()
     }
 }

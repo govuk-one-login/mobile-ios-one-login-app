@@ -78,7 +78,7 @@ final class QualifyingCoordinator: NSObject,
             // TODO: DCMAW-9866 | display generic error screen?
             return
         case .appOffline:
-            // TODO: DCMAW-9866 |display error sc(oreen for app offline and no cached data
+            // TODO: DCMAW-9866 | display error sc(oreen for app offline and no cached data
             return
         }
     }
