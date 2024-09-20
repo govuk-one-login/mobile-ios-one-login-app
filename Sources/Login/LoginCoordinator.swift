@@ -119,11 +119,11 @@ extension LoginCoordinator: ParentCoordinator {
         case let child as AuthenticationCoordinator where child.authError != nil:
             root.popToRootViewController(animated: true)
             introViewController?.enableIntroButton()
-        case let child as AuthenticationCoordinator where sessionManager.isReturningUser:
+        case is AuthenticationCoordinator where sessionManager.isReturningUser:
             finish()
-        case let child as AuthenticationCoordinator:
+        case is AuthenticationCoordinator:
             launchEnrolmentCoordinator()
-        case _ as EnrolmentCoordinator:
+        case is EnrolmentCoordinator:
             finish()
         default:
             break
