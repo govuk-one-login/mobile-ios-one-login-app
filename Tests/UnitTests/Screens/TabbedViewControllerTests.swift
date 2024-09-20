@@ -106,7 +106,8 @@ extension TabbedViewControllerTests {
         // WHEN the user is updated
         mockSession.user.send(MockUser())
         // THEN my email is displayed
-        XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\ntest@example.com")
+        let emailLabel = try sut.emailLabel
+        waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 2)
     }
 
     func test_screenAnalytics() throws {

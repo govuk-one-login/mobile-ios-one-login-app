@@ -11,6 +11,8 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var secureTokenStore: MockSecureTokenStore!
     private var storedTokens: StoredTokens!
 
+    private var didCall_deleteSessionBoundData = false
+
     override func setUp() {
         super.setUp()
 
@@ -111,7 +113,7 @@ extension PersistentSessionManagerTests {
         XCTAssertNil(configuration.persistentSessionId)
     }
     
-    func testStartSession_reauthenticatesTheUser() async throws {
+    func test_startSession_reauthenticatesTheUser() async throws {
         // GIVEN my session has expired
         let persistentSessionID = UUID().uuidString
         try encryptedStore.saveItem(item: persistentSessionID,
@@ -126,7 +128,37 @@ extension PersistentSessionManagerTests {
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertEqual(configuration.persistentSessionId, persistentSessionID)
     }
-    
+
+    func test_startSession_cannotReauthenticateWithoutPersistentSessionID() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .didLogout,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
+
+        // GIVEN I am a returning user
+        unprotectedStore.set(true, forKey: .returningUser)
+        sut.registerSessionBoundData(self)
+        // AND I am unable to re-authenticate because I have no persistent session ID
+        encryptedStore.deleteItem(itemName: .persistentSessionID)
+        // WHEN I start a session
+        do {
+            let loginSession = await MockLoginSession(window: UIWindow())
+            try await sut.startSession(using: loginSession)
+
+            XCTFail("Expected a sessionMismatch error to be thrown")
+        } catch PersistentSessionError.sessionMismatch {
+            // THEN a session mismatch error is thrown
+            // AND my session data is cleared
+            XCTAssertTrue(unprotectedStore.savedData.isEmpty)
+            XCTAssertTrue(didCall_deleteSessionBoundData)
+            // AND a logout notification is sent
+            await fulfillment(of: [exp], timeout: 5)
+        } catch {
+            XCTFail("Unexpected error was thrown")
+        }
+    }
+
     func testStartSession_exposesUserAndAccessToken() async throws {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
@@ -303,5 +335,11 @@ extension PersistentSessionManagerTests {
             print("error")
         }
         return keysAsData
+    }
+}
+
+extension PersistentSessionManagerTests: SessionBoundData {
+    func delete() throws {
+        didCall_deleteSessionBoundData = true
     }
 }
