@@ -83,13 +83,11 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator is started in a reauth flow
         reauthLogin()
         sut.start()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the user sees the session expired screen
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // THEN the presented view controller should be the GDSErrorViewController
-        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // THEN the presented view model should be the SignOutWarningViewModel
-        XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
+
+        let screen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(screen.viewModelV2 is SignOutWarningViewModel)
     }
     
     @MainActor

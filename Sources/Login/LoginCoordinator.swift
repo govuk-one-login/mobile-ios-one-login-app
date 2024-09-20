@@ -47,15 +47,15 @@ final class LoginCoordinator: NSObject,
         let rootViewController: UIViewController
 
         if isExpiredUser {
-            let viewModel = OneLoginIntroViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                authenticate()
-            }
-            rootViewController = IntroViewController(viewModel: viewModel)
-        } else {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 authenticate()
             }
             rootViewController = GDSErrorViewController(viewModel: viewModel)
+        } else {
+            let viewModel = OneLoginIntroViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+                authenticate()
+            }
+            rootViewController = IntroViewController(viewModel: viewModel)
         }
 
         root.setViewControllers([rootViewController], animated: true)

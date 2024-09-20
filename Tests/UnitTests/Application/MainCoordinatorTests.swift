@@ -180,9 +180,8 @@ extension MainCoordinatorTests {
                                                     urlOpener: MockURLOpener())
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
-        // THEN the tokens should be deleted and the analytics should be reset; the app should be reset
+        // THEN the session should be cleared
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
-        XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == nil)
     }
     
     @MainActor

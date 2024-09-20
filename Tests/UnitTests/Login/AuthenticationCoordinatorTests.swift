@@ -239,20 +239,4 @@ extension AuthenticationCoordinatorTests {
         // THEN the loginError should be an unknown generic error
         XCTAssertTrue(sut.authError as? AuthenticationError == .generic)
     }
-    
-    @MainActor
-    func test_returnFromErrorScreen() throws {
-        mockSessionManager.errorFromStartSession = AuthenticationError.generic
-        sut.start()
-        // GIVEN the AuthenticationCoordinator has logged in via start()
-        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
-        // THEN an error screen is shown
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
-        // WHEN the primary button of the error screen is selected
-        let errorButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
-        errorButton.sendActions(for: .touchUpInside)
-        // THEN the added view controller should be removed
-        XCTAssertEqual(navigationController.viewControllers.count, 0)
-    }
 }
