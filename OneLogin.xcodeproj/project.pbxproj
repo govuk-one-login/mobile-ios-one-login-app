@@ -1067,9 +1067,9 @@
 				C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */,
 				C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */,
 				D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */,
+				41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */,
 				C8514F6A2C09E4B0008E1433 /* Home */,
 				C8514F692C09E4A5008E1433 /* Profile */,
-				41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
