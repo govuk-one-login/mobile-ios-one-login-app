@@ -23,23 +23,19 @@ final class MockAnalyticsService: AnalyticsService {
             XCTFail("Non-string parameters were logged")
             return
         }
+        
         screenParamsLogged = parameters
     }
     
     func trackScreen(_ screen: LoggableScreenV2, parameters: [String: Any]) {
         screensVisited.append(screen.name)
         
-        guard var parameters = parameters as? [String: String] else {
+        guard let parameters = parameters as? [String: String] else {
             XCTFail("Non-string parameters were logged")
             return
         }
 
-        parameters["AnalyticsParameterScreenClass"] = screen.type.name
-        parameters["AnalyticsParameterScreenName"] = screen.name
-        
-        screenParamsLogged["title"] = parameters["title"]
-        screenParamsLogged["screen_id"] = parameters["screen_id"]
-        screenParamsLogged["reason"] = parameters["reason"]
+        screenParamsLogged = parameters
     }
     
     
@@ -50,6 +46,7 @@ final class MockAnalyticsService: AnalyticsService {
             XCTFail("Non-string parameters were logged")
             return
         }
+        
         eventsParamsLogged = parameters
     }
     

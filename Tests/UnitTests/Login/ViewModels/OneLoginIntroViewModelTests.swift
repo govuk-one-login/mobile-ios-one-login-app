@@ -58,7 +58,6 @@ extension OneLoginIntroViewModelTests {
                                 screen: IntroAnalyticsScreen.welcomeScreen,
                                 titleKey: "app_signInTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }
