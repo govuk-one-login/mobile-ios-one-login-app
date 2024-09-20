@@ -186,6 +186,12 @@ extension PersistentSessionManagerTests {
     }
 
     func testStartSession_savesTokensForReturningUsers() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .enrolmentComplete,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
+
         // GIVEN I am a returning user
         unprotectedStore.savedData = [.returningUser: true]
         let persistentSessionID = UUID().uuidString
@@ -197,6 +203,8 @@ extension PersistentSessionManagerTests {
         // THEN my session data is updated in the store
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
+        // AND the user can be returned to where they left off
+        await fulfillment(of: [exp], timeout: 5)
     }
 
     func test_saveSession_enrolsLocalAuthenticationForNewUsers() async throws {

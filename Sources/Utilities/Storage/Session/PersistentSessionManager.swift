@@ -136,6 +136,8 @@ final class PersistentSessionManager: SessionManager {
         }
 
         try await saveSession()
+
+        NotificationCenter.default.post(name: .enrolmentComplete)
     }
 
     func saveSession() async throws {
