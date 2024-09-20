@@ -37,9 +37,8 @@ extension ProfileTabViewModelTests {
                                 screen: ProfileAnalyticsScreen.profileScreen,
                                 titleKey: "app_profileTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "profile")
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.profile.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "my profile")
     }
 }

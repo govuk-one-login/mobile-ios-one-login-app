@@ -8,20 +8,31 @@ struct SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
-    
+
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        var tempAnalyticsService = analyticsService
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .reauth)
+        self.analyticsService = tempAnalyticsService
+        let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               analyticsEvent: event) {
             action()
         }
     }
     
-    func didAppear() { /* BaseViewModel compliance */ }
+    func didAppear() {
+        let screen = ScreenView(id: ErrorAnalyticsScreen.signOutWarning.rawValue,
+                                screen: ErrorAnalyticsScreen.signOutWarning,
+                                titleKey: title.stringKey)
+        analyticsService.trackScreen(screen)
+    }
     
     func didDismiss() { /* BaseViewModel compliance */ }
 }

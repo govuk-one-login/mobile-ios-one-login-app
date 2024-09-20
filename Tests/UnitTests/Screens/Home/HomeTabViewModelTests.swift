@@ -37,9 +37,8 @@ extension HomeTabViewModelTests {
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: "app_homeTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"], screen.parameters["screen_id"])
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "home")
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.home.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
 }

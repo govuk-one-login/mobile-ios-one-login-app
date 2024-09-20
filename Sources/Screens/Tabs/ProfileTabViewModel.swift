@@ -2,10 +2,10 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-class ProfileTabViewModel: TabbedViewModel {
+struct ProfileTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_profileTitle"
     let sectionModels: [TabbedViewSectionModel]
-    var analyticsService: AnalyticsService
+    let analyticsService: AnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
@@ -14,16 +14,17 @@ class ProfileTabViewModel: TabbedViewModel {
     
     init(analyticsService: AnalyticsService,
          sectionModels: [TabbedViewSectionModel] = [TabbedViewSectionModel]()) {
-        self.analyticsService = analyticsService
+        var tempAnalyticsService = analyticsService
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .profile)
+        self.analyticsService = tempAnalyticsService
         self.sectionModels = sectionModels
     }
     
     func didAppear() {
         if isLoggedIn {
-            analyticsService.setAdditionalParameters(appTaxonomy: .profile)
             let screen = ScreenView(id: ProfileAnalyticsScreenID.profileScreen.rawValue,
                                     screen: ProfileAnalyticsScreen.profileScreen,
-                                    titleKey: "app_profileTitle")
+                                    titleKey: navigationTitle.stringKey)
             analyticsService.trackScreen(screen)
         }
     }

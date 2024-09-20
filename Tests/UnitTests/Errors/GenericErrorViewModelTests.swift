@@ -62,10 +62,6 @@ extension GenericErrorViewModelTests {
                                      titleKey: "app_somethingWentWrongErrorTitle",
                                      reason: sut.errorDescription)
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["title"], screen.parameters["title"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["screen_id"],
-                       screen.parameters["screen_id"])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged["reason"],
-                       screen.parameters["reason"])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }

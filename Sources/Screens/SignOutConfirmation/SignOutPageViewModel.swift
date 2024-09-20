@@ -28,7 +28,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     func didAppear() {
         let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreen.rawValue,
                                 screen: ProfileAnalyticsScreen.signOutScreen,
-                                titleKey: "app_signOutConfirmationTitle")
+                                titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
     
