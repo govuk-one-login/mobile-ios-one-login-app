@@ -13,7 +13,7 @@ final class MockSessionManager: SessionManager {
 
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
 
-    var isPersistentSessionIDMissing: Bool
+    var isReauthSupported: Bool
     var tokenProvider: TokenHolder
 
     var didCallStartSession = false
@@ -37,7 +37,7 @@ final class MockSessionManager: SessionManager {
         self.sessionExists = sessionExists
         self.isSessionValid = isSessionValid
         self.isReturningUser = isReturningUser
-        self.isPersistentSessionIDMissing = isPersistentSessionIDMissing
+        self.isReauthSupported = isPersistentSessionIDMissing
         self.tokenProvider = tokenProvider
         self.isOneTimeUser = isOneTimeUser
     }

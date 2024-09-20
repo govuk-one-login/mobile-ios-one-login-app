@@ -40,11 +40,6 @@ final class WalletCoordinator: NSObject,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
                         credentialIssuer: AppEnvironment.walletCredentialIssuer)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(clearWallet),
-                         name: .clearWallet,
-                         object: nil)
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -58,29 +53,5 @@ final class WalletCoordinator: NSObject,
         }
         #endif
         try walletSDK.deleteWalletData()
-    }
-    
-    @objc private func clearWallet() {
-        do {
-            try deleteWalletData()
-            sessionManager.clearAllSessionData()
-            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-            let dataDeletionWarningScreen = ErrorPresenter
-                .createDataDeletionWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    window.rootViewController?.presentedViewController?.dismiss(animated: true) {
-                        NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
-                    }
-                }
-            dataDeletionWarningScreen.modalPresentationStyle = .overFullScreen
-            window.rootViewController?.presentedViewController?.present(dataDeletionWarningScreen, animated: true)
-        } catch {
-            let unableToLoginErrorScreen = ErrorPresenter
-                .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                          analyticsService: analyticsCenter.analyticsService) {
-                    exit(0)
-                }
-            unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
-            window.rootViewController?.presentedViewController?.present(unableToLoginErrorScreen, animated: true)
-        }
     }
 }

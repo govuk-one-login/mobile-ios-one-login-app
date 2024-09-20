@@ -78,7 +78,7 @@ final class QualifyingCoordinator: NSObject,
             // TODO: DCMAW-9866 | display generic error screen?
             return
         case .appOffline:
-            // TODO: DCMAW-9866 |display error screen for app offline and no cached data
+            // TODO: DCMAW-9866 |display error sc(oreen for app offline and no cached data
             return
         }
     }
@@ -93,7 +93,7 @@ final class QualifyingCoordinator: NSObject,
             let unableToLoginErrorScreen = ErrorPresenter
                 .createUnableToLoginError(errorDescription: error.localizedDescription,
                                           analyticsService: analyticsCenter.analyticsService) {
-                    exit(0)
+                    fatalError("We were unable to resume the session, there's not much we can do to help the user")
                 }
             displayViewController(unableToLoginErrorScreen)
         }
@@ -108,7 +108,7 @@ final class QualifyingCoordinator: NSObject,
                 root: UINavigationController(),
                 analyticsCenter: analyticsCenter,
                 sessionManager: sessionManager,
-                userState: userState
+                isExpiredUser: userState == .userExpired
             )
             displayChildCoordinator(loginCoordinator)
         }
@@ -141,13 +141,13 @@ final class QualifyingCoordinator: NSObject,
     }
 
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
+        // display in window:
+        displayViewController(coordinator.root)
+
         // TODO: DCMAW-9866 | call `openChild` within `ParentCoordinator.swift`
         childCoordinators.append(coordinator)
         coordinator.parentCoordinator = self
         coordinator.start()
-
-        // display in window:
-        displayViewController(coordinator.root)
     }
 
     private func displayViewController(_ viewController: UIViewController) {

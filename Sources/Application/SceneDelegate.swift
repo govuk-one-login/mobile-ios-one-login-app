@@ -6,6 +6,7 @@ import Logging
 import Networking
 import SecureStore
 import UIKit
+import Wallet
 
 final class SceneDelegate: UIResponder,
                            UIWindowSceneDelegate,
@@ -17,8 +18,13 @@ final class SceneDelegate: UIResponder,
     private lazy var sessionManager = {
         let manager = PersistentSessionManager()
         networkClient.authorizationProvider = manager.tokenProvider
+
+        manager.registerSessionBoundData(analyticsCenter)
+        manager.registerSessionBoundData(walletSDK)
+
         return manager
     }()
+
     private lazy var appQualifyingService = {
         AppQualifyingService(sessionManager: sessionManager)
     }()
@@ -28,6 +34,8 @@ final class SceneDelegate: UIResponder,
         AnalyticsCenter(analyticsService: analyticsService,
                         analyticsPreferenceStore: UserDefaultsPreferenceStore())
     }()
+
+    private lazy var walletSDK = { WalletSDK() }()
 
     var appBooted = false
 

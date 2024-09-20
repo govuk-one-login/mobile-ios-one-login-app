@@ -95,7 +95,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_authenticate_missingPersistenId() throws {
         mockSessionManager.isReturningUser = true
-        mockSessionManager.isPersistentSessionIDMissing = true
+        mockSessionManager.isReauthSupported = true
 
         let exp = XCTNSNotificationExpectation(name: .clearWallet,
                                                object: nil,

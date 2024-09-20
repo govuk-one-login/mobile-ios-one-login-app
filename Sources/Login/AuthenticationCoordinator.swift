@@ -33,11 +33,26 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 try await sessionManager.startSession(using: session)
                 finish()
+            } catch PersistentSessionError.sessionMismatch {
+                let viewModel = DataDeletedWarningViewModel(analyticsService: analyticsService) { [unowned self] in
+                    start()
+                }
+                let vc = GDSErrorViewController(viewModel: viewModel)
+                root.pushViewController(vc, animated: true)
+            } catch PersistentSessionError.cannotDeleteData(let error) {
+                let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
+                                                            analyticsService: analyticsService) {
+                    fatalError(
+                        "There's nothing we can do to help the user if we cannot delete their data"
+                    )
+                }
+                let vc = GDSErrorViewController(viewModel: viewModel)
+                root.pushViewController(vc, animated: true)
             } catch let error as LoginError where error == .network {
-                let networkErrorScreen = ErrorPresenter
-                    .createNetworkConnectionError(analyticsService: analyticsService) { [unowned self] in
-                        returnFromErrorScreen()
-                    }
+                let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
+                    returnFromErrorScreen()
+                }
+                let networkErrorScreen = GDSErrorViewController(viewModel: viewModel)
                 root.pushViewController(networkErrorScreen, animated: true)
                 authError = error
             } catch let error as LoginError where error == .userCancelled {
@@ -63,7 +78,6 @@ final class AuthenticationCoordinator: NSObject,
             let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
             root.pushViewController(loginLoadingScreen, animated: false)
             try session.finalise(redirectURL: url)
-            NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
         } catch {
             showGenericErrorScreen(error)
         }
@@ -92,8 +106,6 @@ extension AuthenticationCoordinator {
     }
     
     private func returnFromErrorScreen() {
-        root.viewControllers.removeLast()
-        root.popViewController(animated: true)
         finish()
     }
     

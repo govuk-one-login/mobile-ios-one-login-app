@@ -127,9 +127,7 @@ extension MainCoordinator: ParentCoordinator {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-                try walletCoordinator?.deleteWalletData()
-                sessionManager.clearAllSessionData()
-                analyticsCenter.resetAnalyticsPreferences()
+                try sessionManager.clearAllSessionData()
             } catch {
                 let signOutErrorScreen = ErrorPresenter
                     .createSignOutError(errorDescription: error.localizedDescription,

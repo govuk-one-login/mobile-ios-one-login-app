@@ -4,14 +4,6 @@ import Logging
 
 @MainActor
 final class OnboardingViewControllerFactory {
-    static func createIntroViewController(analyticsService: AnalyticsService,
-                                          action: @escaping () -> Void) -> IntroViewController {
-        let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) {
-            action()
-        }
-        return IntroViewController(viewModel: viewModel)
-    }
-    
     static func createAnalyticsPeferenceScreen(primaryButtonAction: @escaping () -> Void,
                                                secondaryButtonAction: @escaping () -> Void,
                                                textButtonAction: @escaping () -> Void) -> ModalInfoViewController {

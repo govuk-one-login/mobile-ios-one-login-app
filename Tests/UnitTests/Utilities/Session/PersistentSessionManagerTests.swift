@@ -50,7 +50,7 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.sessionExists)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
-        XCTAssertFalse(sut.isPersistentSessionIDMissing)
+        XCTAssertFalse(sut.isReauthSupported)
     }
     
     func testSessionExpiryDate() {

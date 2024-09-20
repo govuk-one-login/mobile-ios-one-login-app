@@ -7,6 +7,12 @@ import SecureStore
 enum PersistentSessionError: Error {
     case noSessionExists
     case userRemovedLocalAuth
+    case sessionMismatch
+    case cannotDeleteData(Error)
+}
+
+protocol SessionBoundData {
+    func delete() throws
 }
 
 final class PersistentSessionManager: SessionManager {
@@ -20,6 +26,8 @@ final class PersistentSessionManager: SessionManager {
     private let storeKeyService: TokenStore
 
     let user = CurrentValueSubject<(any User)?, Never>(nil)
+
+    private var sessionBoundData: [SessionBoundData] = []
 
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
@@ -85,16 +93,24 @@ final class PersistentSessionManager: SessionManager {
     var isOneTimeUser: Bool {
         sessionExists && !isReturningUser
     }
-
-    var isPersistentSessionIDMissing: Bool {
-        persistentID == nil && isReturningUser
-    }
     
     private var hasNotRemovedLocalAuth: Bool {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
     }
     
     func startSession(using session: any LoginSession) async throws {
+        guard isReturningUser, persistentID == nil else {
+            // I am a returning user, but cannot reauthenticate
+            // I need to delete my session & Wallet data before I can login
+            do {
+                try clearAllSessionData()
+            } catch {
+                throw PersistentSessionError.cannotDeleteData(error)
+            }
+
+            throw PersistentSessionError.sessionMismatch
+        }
+
         let configuration = LoginSessionConfiguration
             .oneLogin(persistentSessionId: persistentID)
         let response = try await session
@@ -183,11 +199,19 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
 
-    func clearAllSessionData() {
+    func clearAllSessionData() throws {
         encryptedStore.deleteItem(itemName: .persistentSessionID)
         unprotectedStore.removeObject(forKey: .returningUser)
         unprotectedStore.removeObject(forKey: .accessTokenExpiry)
 
+        try sessionBoundData.forEach {
+            try $0.delete()
+        }
+
         NotificationCenter.default.post(name: .didLogout)
+    }
+
+    func registerSessionBoundData(_ data: SessionBoundData) {
+        sessionBoundData.append(data)
     }
 }

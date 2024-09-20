@@ -53,9 +53,11 @@ final class TabbedViewController: BaseViewController {
     }
 
     private func subscribeToUsers() {
-        userProvider.user.sink { user in
-            self.updateEmail(user?.email)
-        }.store(in: &cancellables)
+        userProvider.user
+            .receive(on: DispatchQueue.main)
+            .sink { user in
+                self.updateEmail(user?.email)
+            }.store(in: &cancellables)
     }
 
     func updateEmail(_ email: String?) {

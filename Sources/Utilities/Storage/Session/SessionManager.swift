@@ -16,8 +16,6 @@ protocol SessionManager: UserProvider {
     var isReturningUser: Bool { get }
     var isOneTimeUser: Bool { get }
 
-    var isPersistentSessionIDMissing: Bool { get }
-
     var tokenProvider: TokenHolder { get }
 
     var localAuthentication: LocalAuthenticationManager { get }
@@ -35,5 +33,5 @@ protocol SessionManager: UserProvider {
     func endCurrentSession()
 
     /// Completely removes all user session data (including the persistent session and Wallet data) from the device
-    func clearAllSessionData()
+    func clearAllSessionData() throws
 }

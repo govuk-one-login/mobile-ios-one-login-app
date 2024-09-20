@@ -101,7 +101,9 @@ final class AppQualifyingService: QualifyingService {
                 return
             } catch {
                 sessionManager.endCurrentSession()
-                sessionManager.clearAllSessionData()
+                // TODO: re-evaluate this before merge
+                // swiftlint:disable:next force_try
+                try! sessionManager.clearAllSessionData()
                 userState = .userFailed(error)
             }
         }
