@@ -26,9 +26,9 @@ extension AnalyticsService {
     mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
         var taxonomyLevel3: String {
             if appTaxonomy == .reauth {
-                "re auth"
+                appTaxonomy.rawValue
             } else if appTaxonomy == .profile {
-                "my profile"
+                "my \(appTaxonomy.rawValue)"
             } else {
                 "undefined"
             }

@@ -270,7 +270,7 @@ extension MainCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -290,9 +290,8 @@ extension MainCoordinatorTests {
         // THEN the wallet view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "wallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -314,9 +313,8 @@ extension MainCoordinatorTests {
         // THEN the profile view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "profile")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
