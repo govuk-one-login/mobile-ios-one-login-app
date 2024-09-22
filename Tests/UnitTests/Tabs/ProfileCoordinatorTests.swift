@@ -9,6 +9,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
     var urlOpener: URLOpener!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: ProfileCoordinator!
     
     override func setUp() {
@@ -18,8 +19,10 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         urlOpener = MockURLOpener()
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
         sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                 urlOpener: urlOpener)
+                                 urlOpener: urlOpener,
+                                 walletAvailabilityService: mockWalletAvailabilityService)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
@@ -29,6 +32,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockSessionManager = nil
         urlOpener = nil
+        mockWalletAvailabilityService = nil
         sut = nil
         
         super.tearDown()
@@ -63,9 +67,23 @@ final class ProfileCoordinatorTests: XCTestCase {
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
-        // THEN the presented view controller is the GDSInstructionsViewController
+        // THEN the presented view controller's view model is the SignOutConfirmationViewModel
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+        let topViewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
+        XCTAssertTrue(topViewController.viewModel is SignOutConfirmationViewModel)
+    }
+    
+    func test_openSignOutPageWithWallet() throws {
+        // WHEN wallet has been accessed previously
+        mockWalletAvailabilityService.hasAccessedPreviously = true
+        // WHEN the ProfileCoordinator is started
+        sut.start()
+        // WHEN the openSignOutPage method is called
+        sut.openSignOutPage()
+        // THEN the presented view controller's view model is the SignOutConfirmationWalletViewModel
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        let topViewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
+        XCTAssertTrue(topViewController.viewModel is SignOutConfirmationWalletViewModel)
     }
     
     func test_tapSignoutClearsData() throws {

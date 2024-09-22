@@ -3,7 +3,7 @@ import Networking
 import UIKit
 
 protocol FeatureAvailabilityService {
-    var hassAccessedPreviously: Bool { get }
+    var hasAccessedPreviously: Bool { get }
     var shouldShowFeature: Bool { get }
     func featureAccessed()
 }
@@ -15,7 +15,7 @@ protocol UniversalLinkFeatureAvailabilityService {
 typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService
 
 struct WalletAvailabilityService: WalletFeatureAvailabilityService {
-    var hassAccessedPreviously: Bool {
+    var hasAccessedPreviously: Bool {
         UserDefaults.standard.bool(forKey: .hasAccessedWalletPreviously)
     }
     

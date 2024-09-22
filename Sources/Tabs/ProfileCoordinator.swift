@@ -46,7 +46,7 @@ final class ProfileCoordinator: NSObject,
     func openSignOutPage() {
         let navController = UINavigationController()
         var viewModel: GDSInstructionsViewModel {
-            walletAvailabilityService.hassAccessedPreviously ? SignOutConfirmationWalletViewModel(analyticsService: analyticsService) { [unowned self] in
+            walletAvailabilityService.hasAccessedPreviously ? SignOutConfirmationWalletViewModel(analyticsService: analyticsService) { [unowned self] in
                navController.dismiss(animated: true) { [unowned self] in
                    parentCoordinator?.childDidFinish(self)
                }
