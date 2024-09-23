@@ -12,7 +12,7 @@ final class AppQualifyingServiceTests: XCTestCase {
     private var appInformationProvider: MockAppInformationService!
 
     private var appState: AppInformationState?
-    private var authState: AppLocalAuthState?
+    private var userState: AppLocalAuthState?
 
     override func setUp() {
         super.setUp()
@@ -26,7 +26,7 @@ final class AppQualifyingServiceTests: XCTestCase {
         appInformationProvider = nil
 
         appState = nil
-        authState = nil
+        userState = nil
 
         sut = nil
 
@@ -112,7 +112,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.authState == .userConfirmed)
+        XCTAssert(self.userState == .userConfirmed)
     }
     
     func testNoExpiryDate_userUnconfirmed() {
@@ -125,7 +125,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.authState == .userUnconfirmed)
+        XCTAssert(self.userState == .userUnconfirmed)
     }
     
     func testSessionInvalid_userExpired() {
@@ -139,7 +139,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.authState == .userExpired)
+        XCTAssert(self.userState == .userExpired)
     }
     
     func testResumeSession_userConfirmed() {
@@ -154,10 +154,10 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.authState == .userConfirmed)
+        XCTAssert(self.userState == .userConfirmed)
     }
     
-    func testResumeSession_cantDecryptData() {
+    func testResumeSession_cantDecryptData_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -170,10 +170,10 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssertNil(self.authState)
+        XCTAssertNil(self.userState)
     }
     
-    func testResumeSession_invalidJWTFormat_userFailed() {
+    func testResumeSession_nonCantDecryptData_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -186,15 +186,17 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.authState == .userFailed(JWTVerifierError.invalidJWTFormat))
+        XCTAssert(sessionManager.didCallEndCurrentSession)
+        XCTAssert(self.userState == .userUnconfirmed)
     }
     
-    func testResumeSession_unableToRetrieveFromUserDefaults_userFailed() {
+    func testResumeSession_nonCantDecryptData_error_clearSessionData_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
-        sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
+        sessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
+        sessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         sut.delegate = self
         
         waitForTruth(
@@ -202,39 +204,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.authState == .userFailed(SecureStoreError.unableToRetrieveFromUserDefaults))
-    }
-    
-    func testResumeSession_cantInitialiseData_userFailed() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
-        sessionManager.expiryDate = .distantFuture
-        sessionManager.isSessionValid = true
-        sessionManager.errorFromResumeSession = SecureStoreError.cantInitialiseData
-        sut.delegate = self
-        
-        waitForTruth(
-            self.appState == .appConfirmed,
-            timeout: 5
-        )
-        
-        XCTAssert(self.authState == .userFailed(SecureStoreError.cantInitialiseData))
-    }
-    
-    func testResumeSession_cantRetrieveKey_userFailed() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
-        sessionManager.expiryDate = .distantFuture
-        sessionManager.isSessionValid = true
-        sessionManager.errorFromResumeSession = SecureStoreError.cantRetrieveKey
-        sut.delegate = self
-        
-        waitForTruth(
-            self.appState == .appConfirmed,
-            timeout: 5
-        )
-        
-        XCTAssert(self.authState == .userFailed(SecureStoreError.cantRetrieveKey))
+        XCTAssert(self.userState == .userFailed(JWTVerifierError.invalidJWTFormat))
     }
 }
 
@@ -245,7 +215,7 @@ extension AppQualifyingServiceTests {
         sut.delegate = self
 
         NotificationCenter.default.post(name: .enrolmentComplete)
-        waitForTruth(self.authState == .userConfirmed, timeout: 5)
+        waitForTruth(self.userState == .userConfirmed, timeout: 5)
     }
 
     func testSessionExpiry_changesUserState() {
@@ -253,7 +223,7 @@ extension AppQualifyingServiceTests {
         sut.delegate = self
 
         NotificationCenter.default.post(name: .sessionExpired)
-        waitForTruth(self.authState == .userExpired, timeout: 5)
+        waitForTruth(self.userState == .userExpired, timeout: 5)
     }
 
     func testLogout_changesUserState() {
@@ -261,16 +231,16 @@ extension AppQualifyingServiceTests {
         sut.delegate = self
         
         NotificationCenter.default.post(name: .didLogout)
-        waitForTruth(self.authState == .userUnconfirmed, timeout: 5)
+        waitForTruth(self.userState == .userUnconfirmed, timeout: 5)
     }
 }
 
 extension AppQualifyingServiceTests: AppQualifyingServiceDelegate {
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
-        appState = appInfoState
+        self.appState = appInfoState
     }
     
     func didChangeUserState(state userState: AppLocalAuthState) {
-        authState = userState
+        self.userState = userState
     }
 }

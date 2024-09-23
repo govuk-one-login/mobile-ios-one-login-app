@@ -22,6 +22,7 @@ final class MockSessionManager: SessionManager {
 
     var errorFromStartSession: Error?
     var errorFromResumeSession: Error?
+    var errorFromClearAllSessionData: Error?
 
     var localAuthentication: LocalAuthenticationManager = MockLocalAuthManager()
 
@@ -63,8 +64,11 @@ final class MockSessionManager: SessionManager {
         didCallEndCurrentSession = true
     }
     
-    func clearAllSessionData() {
+    func clearAllSessionData() throws {
         didCallClearAllSessionData = true
+        if let errorFromClearAllSessionData {
+            throw errorFromClearAllSessionData
+        }
         NotificationCenter.default.post(name: .didLogout)
     }
 

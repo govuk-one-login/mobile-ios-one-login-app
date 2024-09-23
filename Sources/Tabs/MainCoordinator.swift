@@ -1,5 +1,6 @@
 import Coordination
 import GDSAnalytics
+import GDSCommon
 import LocalAuthentication
 import Logging
 import MobilePlatformServices
@@ -130,11 +131,11 @@ extension MainCoordinator: ParentCoordinator {
                 #endif
                 try sessionManager.clearAllSessionData()
             } catch {
-                let signOutErrorScreen = ErrorPresenter
-                    .createSignOutError(errorDescription: error.localizedDescription,
-                                        analyticsService: analyticsCenter.analyticsService) {
-                        exit(0)
-                    }
+                let viewModel = SignOutErrorViewModel(errorDescription: error.localizedDescription,
+                                                      analyticsService: analyticsCenter.analyticsService) {
+                    fatalError("We were unable to resume the session, there's not much we can do to help the user")
+                }
+                let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
                 root.present(signOutErrorScreen, animated: true)
             }
         }

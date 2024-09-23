@@ -80,10 +80,6 @@ extension AuthenticationCoordinatorTests {
     
     @MainActor
     func test_start_loginError_cannotDeleteData() throws {
-        enum MockWalletError: Error {
-            case cantDelete
-        }
-        
         mockSessionManager.errorFromStartSession = PersistentSessionError.cannotDeleteData(MockWalletError.cantDelete)
         sut.start()
         // WHEN the AuthenticationCoordinator is started

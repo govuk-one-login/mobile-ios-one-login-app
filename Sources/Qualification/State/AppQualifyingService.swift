@@ -104,12 +104,14 @@ final class AppQualifyingService: QualifyingService {
                 // In this instance, the user would have the option to retry the local auth prompt
                 // As such, no additional action is required.
                 return
-            } catch {
-                sessionManager.endCurrentSession()
-                // TODO: DCMAW-9866: re-evaluate this before merge
-                // swiftlint:disable:next force_try
-                try! sessionManager.clearAllSessionData()
-                userState = .userFailed(error)
+            } catch let secureStoreError {
+                do {
+                    try sessionManager.clearAllSessionData()
+                    sessionManager.endCurrentSession()
+                    // TODO: Should an alert be shown for the user that their local auth failed, passing secureStoreError to be tracked?
+                } catch let dataDeletionError {
+                    userState = .userFailed(dataDeletionError)
+                }
             }
         }
     }
