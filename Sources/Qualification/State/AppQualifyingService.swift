@@ -108,7 +108,7 @@ final class AppQualifyingService: QualifyingService {
                 do {
                     try sessionManager.clearAllSessionData()
                     sessionManager.endCurrentSession()
-                    // TODO: Should an alert be shown for the user that their local auth failed, passing secureStoreError to be tracked?
+                    // TODO: DCMAW-9866 Should an alert be shown for the user that their local auth failed, passing secureStoreError to be tracked?
                 } catch let dataDeletionError {
                     userState = .userFailed(dataDeletionError)
                 }
