@@ -39,6 +39,7 @@ final class AuthenticationCoordinator: NSObject,
                 }
                 let vc = GDSErrorViewController(viewModel: viewModel)
                 root.pushViewController(vc, animated: true)
+                authError = PersistentSessionError.sessionMismatch
             } catch PersistentSessionError.cannotDeleteData(let error) {
                 let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
                                                             analyticsService: analyticsService) {
@@ -48,6 +49,7 @@ final class AuthenticationCoordinator: NSObject,
                 }
                 let vc = GDSErrorViewController(viewModel: viewModel)
                 root.pushViewController(vc, animated: true)
+                authError = PersistentSessionError.cannotDeleteData(error)
             } catch let error as LoginError where error == .network {
                 let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
                     returnFromErrorScreen()
@@ -86,21 +88,21 @@ final class AuthenticationCoordinator: NSObject,
 
 extension AuthenticationCoordinator {
     private func showUnableToLoginErrorScreen(_ error: Error) {
-        let unableToLoginErrorScreen = ErrorPresenter
-            .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                      analyticsService: analyticsService) { [unowned self] in
-                returnFromErrorScreen()
-            }
+        let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
+                                                    analyticsService: analyticsService) { [unowned self] in
+            returnFromErrorScreen()
+        }
+        let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
         authError = error
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        let genericErrorScreen = ErrorPresenter
-            .createGenericError(errorDescription: error.localizedDescription,
-                                analyticsService: analyticsService) { [unowned self] in
-                returnFromErrorScreen()
-            }
+        let viewModel = GenericErrorViewModel(errorDescription: error.localizedDescription,
+                                              analyticsService: analyticsService) { [unowned self] in
+            returnFromErrorScreen()
+        }
+        let genericErrorScreen = GDSErrorViewController(viewModel: viewModel)
         root.pushViewController(genericErrorScreen, animated: true)
         authError = error
     }

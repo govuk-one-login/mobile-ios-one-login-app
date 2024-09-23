@@ -90,11 +90,11 @@ final class QualifyingCoordinator: NSObject,
         case .userUnconfirmed, .userExpired:
             launchLoginCoordinator(userState: userState)
         case .userFailed(let error):
-            let unableToLoginErrorScreen = ErrorPresenter
-                .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                          analyticsService: analyticsCenter.analyticsService) {
-                    fatalError("We were unable to resume the session, there's not much we can do to help the user")
-                }
+            let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
+                                                        analyticsService: analyticsCenter.analyticsService) {
+                fatalError("We were unable to resume the session, there's not much we can do to help the user")
+            }
+            let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
         }
     }

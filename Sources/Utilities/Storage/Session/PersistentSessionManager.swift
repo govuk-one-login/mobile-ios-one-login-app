@@ -4,11 +4,23 @@ import LocalAuthentication
 import Networking
 import SecureStore
 
-enum PersistentSessionError: Error {
+enum PersistentSessionError: Error, Equatable {
     case noSessionExists
     case userRemovedLocalAuth
     case sessionMismatch
     case cannotDeleteData(Error)
+    
+    static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
+        switch (lhs, rhs) {
+        case (.noSessionExists, .noSessionExists),
+            (.userRemovedLocalAuth, .userRemovedLocalAuth),
+            (.sessionMismatch, .sessionMismatch),
+            (.cannotDeleteData, .cannotDeleteData):
+            true
+        default:
+            false
+        }
+    }
 }
 
 protocol SessionBoundData {

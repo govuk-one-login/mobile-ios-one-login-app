@@ -24,26 +24,6 @@ final class ErrorPresenterTests: XCTestCase {
 }
 
 extension ErrorPresenterTests {
-    func test_genericError_callsAction() throws {
-        let introView = sut.createGenericError(errorDescription: "error description",
-                                               analyticsService: mockAnalyticsService) {
-            self.didCallAction = true
-        }
-        let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])
-        introButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(didCallAction)
-    }
-    
-    func test_unableToLoginError_callsAction() throws {
-        let introView = sut.createUnableToLoginError(errorDescription: "error description",
-                                                     analyticsService: mockAnalyticsService) {
-            self.didCallAction = true
-        }
-        let introButton: UIButton = try XCTUnwrap(introView.view[child: "error-primary-button"])
-        introButton.sendActions(for: .touchUpInside)
-        XCTAssertTrue(didCallAction)
-    }
-    
     func test_signOutError_callsAction() throws {
         let errorView = sut.createSignOutError(errorDescription: "error description",
                                                analyticsService: mockAnalyticsService) {
