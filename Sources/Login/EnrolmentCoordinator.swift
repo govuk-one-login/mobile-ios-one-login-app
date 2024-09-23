@@ -23,20 +23,20 @@ final class EnrolmentCoordinator: NSObject,
     func start() {
         switch sessionManager.localAuthentication.type {
         case .touchID:
-            let touchIDEnrollmentScreen = OnboardingViewControllerFactory
-                .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    saveSession()
-                } secondaryButtonAction: { [unowned self] in
-                    completeEnrolment()
-                }
+            let viewModel = TouchIDEnrollmentViewModel(analyticsService: analyticsService) { [unowned self] in
+                saveSession()
+            } secondaryButtonAction: { [unowned self] in
+                completeEnrolment()
+            }
+            let touchIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
             root.pushViewController(touchIDEnrollmentScreen, animated: true)
         case .faceID:
-            let faceIDEnrollmentScreen = OnboardingViewControllerFactory
-                .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    saveSession()
-                } secondaryButtonAction: { [unowned self] in
-                    completeEnrolment()
-                }
+            let viewModel = FaceIDEnrollmentViewModel(analyticsService: analyticsService) { [unowned self] in
+                saveSession()
+            } secondaryButtonAction: { [unowned self] in
+                completeEnrolment()
+            }
+            let faceIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
             root.pushViewController(faceIDEnrollmentScreen, animated: true)
         case .passcodeOnly:
             showPasscodeInfo()
@@ -58,10 +58,10 @@ final class EnrolmentCoordinator: NSObject,
     }
 
     private func showPasscodeInfo() {
-        let passcodeInformationScreen = OnboardingViewControllerFactory
-            .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
+        let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) { [unowned self] in
                 saveSession()
             }
+        let passcodeInformationScreen = GDSInformationViewController(viewModel: viewModel)
         root.pushViewController(passcodeInformationScreen, animated: true)
     }
 }

@@ -18,18 +18,18 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
-        let analyticsPreferenceScreen = OnboardingViewControllerFactory
-            .createAnalyticsPeferenceScreen { [unowned self] in
-                analyticsPreferenceStore.hasAcceptedAnalytics = true
-                root.dismiss(animated: true)
-                finish()
-            } secondaryButtonAction: { [unowned self] in
-                analyticsPreferenceStore.hasAcceptedAnalytics = false
-                root.dismiss(animated: true)
-                finish()
-            } textButtonAction: { [unowned self] in
-                urlOpener.open(url: AppEnvironment.privacyPolicyURL)
-            }
+        let viewModel = AnalyticsPreferenceViewModel { [unowned self] in
+            analyticsPreferenceStore.hasAcceptedAnalytics = true
+            root.dismiss(animated: true)
+            finish()
+        } secondaryButtonAction: { [unowned self] in
+            analyticsPreferenceStore.hasAcceptedAnalytics = false
+            root.dismiss(animated: true)
+            finish()
+        } textButtonAction: { [unowned self] in
+            urlOpener.open(url: AppEnvironment.privacyPolicyURL)
+        }
+        let analyticsPreferenceScreen = ModalInfoViewController(viewModel: viewModel)
         root.setViewControllers([analyticsPreferenceScreen], animated: false)
     }
 }

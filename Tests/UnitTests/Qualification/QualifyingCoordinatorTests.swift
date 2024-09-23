@@ -136,7 +136,7 @@ extension QualifyingCoordinatorTests {
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSErrorViewController
         )
-        let viewModel = try XCTUnwrap(vc.viewModel as? SignOutErrorViewModel)
+        let viewModel = try XCTUnwrap(vc.viewModel as? UnableToLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")
     }
 }
