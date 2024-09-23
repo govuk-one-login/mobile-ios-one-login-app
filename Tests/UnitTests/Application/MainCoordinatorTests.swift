@@ -171,7 +171,12 @@ extension MainCoordinatorTests {
     }
     
     @MainActor
-    func test_performChildCleanup_fromProfileCoordinator_succeeds() throws {
+    func test_performChildCleanup_fromProfileCoordinator_succeeds() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .didLogout,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
@@ -180,7 +185,9 @@ extension MainCoordinatorTests {
                                                     urlOpener: MockURLOpener())
         // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
-        // THEN the session should be cleared
+        // THEN a logout notification is sent
+        await fulfillment(of: [exp], timeout: 5)
+        // And the session should be cleared
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     

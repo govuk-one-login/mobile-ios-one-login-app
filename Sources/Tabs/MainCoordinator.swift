@@ -49,6 +49,7 @@ final class MainCoordinator: NSObject,
     func start() {
         root.delegate = self
         addTabs()
+        subscribe()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -137,5 +138,15 @@ extension MainCoordinator: ParentCoordinator {
                 root.present(signOutErrorScreen, animated: true)
             }
         }
+    }
+    
+    private func subscribe() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(userDidLogout),
+                                               name: .didLogout)
+    }
+    
+    @objc private func userDidLogout() {
+        finish()
     }
 }

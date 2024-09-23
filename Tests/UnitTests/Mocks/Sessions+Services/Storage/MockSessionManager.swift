@@ -65,6 +65,7 @@ final class MockSessionManager: SessionManager {
     
     func clearAllSessionData() {
         didCallClearAllSessionData = true
+        NotificationCenter.default.post(name: .didLogout)
     }
 
     func setupSession(returningUser: Bool = true, expired: Bool = false) throws {

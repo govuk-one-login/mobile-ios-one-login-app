@@ -126,7 +126,6 @@ extension AppQualifyingService {
                                                selector: #selector(sessionDidExpire),
                                                name: .sessionExpired)
 
-
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userDidLogout),
                                                name: .didLogout)
