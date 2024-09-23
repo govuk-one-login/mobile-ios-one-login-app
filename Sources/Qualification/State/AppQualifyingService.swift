@@ -1,4 +1,5 @@
 import Foundation
+import Logging
 import MobilePlatformServices
 import Networking
 import SecureStore
@@ -15,6 +16,7 @@ protocol AppQualifyingServiceDelegate: AnyObject {
 }
 
 final class AppQualifyingService: QualifyingService {
+    private let analyticsService: AnalyticsService
     private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
@@ -38,8 +40,10 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    init(updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
+    init(analyticsService: AnalyticsService,
+         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
          sessionManager: SessionManager) {
+        self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
         subscribe()
@@ -104,13 +108,13 @@ final class AppQualifyingService: QualifyingService {
                 // In this instance, the user would have the option to retry the local auth prompt
                 // As such, no additional action is required.
                 return
-            } catch let secureStoreError {
+            } catch {
                 do {
+                    analyticsService.logCrash(error)
                     try sessionManager.clearAllSessionData()
                     sessionManager.endCurrentSession()
-                    // TODO: DCMAW-9866 Should an alert be shown for the user that their local auth failed, passing secureStoreError to be tracked?
-                } catch let dataDeletionError {
-                    userState = .userFailed(dataDeletionError)
+                } catch {
+                    userState = .userFailed(error)
                 }
             }
         }

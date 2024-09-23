@@ -26,7 +26,8 @@ final class SceneDelegate: UIResponder,
     }()
 
     private lazy var appQualifyingService = {
-        AppQualifyingService(sessionManager: sessionManager)
+        AppQualifyingService(analyticsService: analyticsService,
+                             sessionManager: sessionManager)
     }()
 
     let analyticsService: AnalyticsService = GAnalytics()

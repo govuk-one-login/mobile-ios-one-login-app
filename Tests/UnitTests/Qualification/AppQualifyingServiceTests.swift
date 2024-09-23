@@ -4,10 +4,12 @@ import XCTest
 
 final class AppQualifyingServiceTests: XCTestCase {
     private lazy var sut: AppQualifyingService! = {
-        AppQualifyingService(updateService: appInformationProvider,
+        AppQualifyingService(analyticsService: analyticsService,
+                             updateService: appInformationProvider,
                              sessionManager: sessionManager)
     }()
 
+    private var analyticsService: MockAnalyticsService!
     private var sessionManager: MockSessionManager!
     private var appInformationProvider: MockAppInformationService!
 
@@ -17,11 +19,13 @@ final class AppQualifyingServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+        analyticsService = MockAnalyticsService()
         sessionManager = MockSessionManager()
         appInformationProvider = MockAppInformationService()
     }
 
     override func tearDown() {
+        analyticsService = nil
         sessionManager = nil
         appInformationProvider = nil
 
@@ -178,14 +182,15 @@ extension AppQualifyingServiceTests {
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
-        sessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
+        sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         sut.delegate = self
         
         waitForTruth(
             self.appState == .appConfirmed,
             timeout: 5
         )
-        
+
+        XCTAssert(analyticsService.crashesLogged.first as? SecureStoreError == .unableToRetrieveFromUserDefaults)
         XCTAssert(sessionManager.didCallEndCurrentSession)
         XCTAssert(self.userState == .userUnconfirmed)
     }
@@ -195,7 +200,7 @@ extension AppQualifyingServiceTests {
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
-        sessionManager.errorFromResumeSession = JWTVerifierError.invalidJWTFormat
+        sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         sessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         sut.delegate = self
         
@@ -204,7 +209,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.userState == .userFailed(JWTVerifierError.invalidJWTFormat))
+        XCTAssert(self.userState == .userFailed(MockWalletError.cantDelete))
     }
 }
 
