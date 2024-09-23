@@ -69,10 +69,11 @@ final class SceneDelegate: UIResponder,
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        if appBooted {
-            appQualifyingService.initiate()
+        guard appBooted else {
+            appBooted = true
+            return
         }
-        appBooted = true
+        appQualifyingService.initiate()
     }
     
     private func setUpBasicUI() {
