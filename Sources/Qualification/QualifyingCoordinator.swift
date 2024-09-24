@@ -64,20 +64,20 @@ final class QualifyingCoordinator: NSObject,
 
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
         switch appInfoState {
-        case .appUnconfirmed:
+        case .notChecked:
             lock()
-        case .appConfirmed:
+        case .qualified:
             // End loading state and enable button
             unlockViewController.isLoading = false
-        case .appOutdated:
+        case .outdated:
             let appUnavailableScreen = GDSInformationViewController(
                 viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
             )
             displayViewController(appUnavailableScreen)
-        case .appInfoError:
+        case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return
-        case .appOffline:
+        case .offline:
             // TODO: DCMAW-9866 | display error sc(oreen for app offline and no cached data
             return
         }
@@ -85,11 +85,11 @@ final class QualifyingCoordinator: NSObject,
     
     func didChangeUserState(state userState: AppLocalAuthState) {
         switch userState {
-        case .userConfirmed:
+        case .loggedIn:
             launchTabManagerCoordinator()
-        case .userUnconfirmed, .userExpired:
+        case .notLoggedIn, .expired:
             launchLoginCoordinator(userState: userState)
-        case .userFailed(let error):
+        case .failed(let error):
             let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
                                                         analyticsService: analyticsCenter.analyticsService) {
                 fatalError("We were unable to resume the session, there's not much we can do to help the user")
@@ -108,7 +108,7 @@ final class QualifyingCoordinator: NSObject,
                 root: UINavigationController(),
                 analyticsCenter: analyticsCenter,
                 sessionManager: sessionManager,
-                isExpiredUser: userState == .userExpired
+                isExpiredUser: userState == .expired
             )
             displayChildCoordinator(loginCoordinator)
         }

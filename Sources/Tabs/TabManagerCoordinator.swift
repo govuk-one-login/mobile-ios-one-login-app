@@ -8,6 +8,13 @@ import Networking
 import SecureStore
 import UIKit
 
+/// A type that is responsible for coordinating the main functionality of the app, a tab bar navigation.
+///
+/// Performs management of the three tabs in the tab bar navigation:
+/// - HomeCoordinator: the landing tab of the app where service cards are available.
+/// - WalletCoordinator: hosting the wallet functionality.
+/// - ProfileCoordinator: linking out to related services and meta app functionality like sign out.
+///
 final class TabManagerCoordinator: NSObject,
                                    AnyCoordinator,
                                    TabCoordinator,

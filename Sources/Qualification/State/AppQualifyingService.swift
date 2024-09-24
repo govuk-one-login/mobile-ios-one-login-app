@@ -21,9 +21,9 @@ final class AppQualifyingService: QualifyingService {
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
     
-    private var appInfoState: AppInformationState = .appUnconfirmed {
+    private var appInfoState: AppInformationState = .notChecked {
         didSet {
-            if appInfoState == .appOffline {
+            if appInfoState == .offline {
                 // Query cache?
             }
             Task {
@@ -32,7 +32,7 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    private var userState: AppLocalAuthState = .userUnconfirmed {
+    private var userState: AppLocalAuthState = .notLoggedIn {
         didSet {
             Task {
                 await delegate?.didChangeUserState(state: userState)
@@ -62,43 +62,43 @@ final class AppQualifyingService: QualifyingService {
             AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
             
             guard updateService.currentVersion >= appInfo.minimumVersion else {
-                appInfoState = .appOutdated
+                appInfoState = .outdated
                 return
             }
             
-            appInfoState = .appConfirmed
+            appInfoState = .qualified
         } catch URLError.notConnectedToInternet {
-            appInfoState = .appOffline
+            appInfoState = .offline
         } catch {
             // This would account for all non-successful server responses & any other error
             // To be discussed whether this should route users through the access to the app when offline path
-            appInfoState = .appInfoError
+            appInfoState = .error
         }
     }
     
     func evaluateUser() async {
-        guard appInfoState == .appConfirmed else {
+        guard appInfoState == .qualified else {
             // Do not continue with local auth unless app info qualifies
             return
         }
         
         if sessionManager.isOneTimeUser {
-            userState = .userConfirmed
+            userState = .loggedIn
         } else {
             guard sessionManager.expiryDate != nil else {
-                userState = .userUnconfirmed
+                userState = .notLoggedIn
                 return
             }
             
             guard sessionManager.isSessionValid else {
-                userState = .userExpired
+                userState = .expired
                 return
             }
             
             do {
                 try await MainActor.run {
                     try sessionManager.resumeSession()
-                    userState = .userConfirmed
+                    userState = .loggedIn
                 }
             } catch SecureStoreError.cantDecryptData {
                 // A SecureStoreError.cantDecryptData is thrown when the local auth prompt is cancelled/dismissed.
@@ -113,7 +113,7 @@ final class AppQualifyingService: QualifyingService {
                     try sessionManager.clearAllSessionData()
                     sessionManager.endCurrentSession()
                 } catch {
-                    userState = .userFailed(error)
+                    userState = .failed(error)
                 }
             }
         }
@@ -137,14 +137,14 @@ extension AppQualifyingService {
     }
 
     @objc private func enrolmentComplete() {
-        userState = .userConfirmed
+        userState = .loggedIn
     }
 
     @objc private func sessionDidExpire() {
-        userState = .userExpired
+        userState = .expired
     }
 
     @objc private func userDidLogout() {
-        userState = .userUnconfirmed
+        userState = .notLoggedIn
     }
 }

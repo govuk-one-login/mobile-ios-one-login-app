@@ -57,7 +57,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
 
@@ -72,7 +72,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         waitForTruth(
-            self.appState == .appOutdated,
+            self.appState == .outdated,
             timeout: 5
         )
     }
@@ -85,7 +85,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         waitForTruth(
-            self.appState == .appOffline,
+            self.appState == .offline,
             timeout: 5
         )
     }
@@ -100,7 +100,7 @@ extension AppQualifyingServiceTests {
 
         // THEN the error state is set
         waitForTruth(
-            self.appState == .appInfoError,
+            self.appState == .error,
             timeout: 5
         )
     }
@@ -116,11 +116,11 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
         
-        XCTAssert(self.userState == .userConfirmed)
+        XCTAssert(self.userState == .loggedIn)
     }
     
     func testNoExpiryDate_userUnconfirmed() {
@@ -130,11 +130,11 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
         
-        XCTAssert(self.userState == .userUnconfirmed)
+        XCTAssert(self.userState == .notLoggedIn)
     }
     
     func testSessionInvalid_userExpired() {
@@ -145,11 +145,11 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
         
-        XCTAssert(self.userState == .userExpired)
+        XCTAssert(self.userState == .expired)
     }
     
     func testResumeSession_userConfirmed() {
@@ -161,11 +161,11 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
         
-        XCTAssert(self.userState == .userConfirmed)
+        XCTAssert(self.userState == .loggedIn)
     }
     
     func testResumeSession_cantDecryptData_error() {
@@ -178,7 +178,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
         
@@ -195,13 +195,13 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
 
         XCTAssert(analyticsService.crashesLogged.first as? SecureStoreError == .unableToRetrieveFromUserDefaults)
         XCTAssert(sessionManager.didCallEndCurrentSession)
-        XCTAssert(self.userState == .userUnconfirmed)
+        XCTAssert(self.userState == .notLoggedIn)
     }
     
     func testResumeSession_nonCantDecryptData_error_clearSessionData_error() {
@@ -215,11 +215,11 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         waitForTruth(
-            self.appState == .appConfirmed,
+            self.appState == .qualified,
             timeout: 5
         )
         
-        XCTAssert(self.userState == .userFailed(MockWalletError.cantDelete))
+        XCTAssert(self.userState == .failed(MockWalletError.cantDelete))
     }
 }
 
@@ -231,7 +231,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         NotificationCenter.default.post(name: .enrolmentComplete)
-        waitForTruth(self.userState == .userConfirmed, timeout: 5)
+        waitForTruth(self.userState == .loggedIn, timeout: 5)
     }
 
     func testSessionExpiry_changesUserState() {
@@ -240,7 +240,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         NotificationCenter.default.post(name: .sessionExpired)
-        waitForTruth(self.userState == .userExpired, timeout: 5)
+        waitForTruth(self.userState == .expired, timeout: 5)
     }
 
     func testLogout_changesUserState() {
@@ -249,7 +249,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         NotificationCenter.default.post(name: .didLogout)
-        waitForTruth(self.userState == .userUnconfirmed, timeout: 5)
+        waitForTruth(self.userState == .notLoggedIn, timeout: 5)
     }
 }
 

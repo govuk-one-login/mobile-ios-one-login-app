@@ -62,7 +62,7 @@ extension QualifyingCoordinatorTests {
     func test_unconfirmedApp_remainsOnLoadingScreen() throws {
         // GIVEN I reopen the app
         // WHEN I have not yet received a result from `appInfo`
-        sut.didChangeAppInfoState(state: .appUnconfirmed)
+        sut.didChangeAppInfoState(state: .notChecked)
         // THEN I remain on the loading screen
         _ = try XCTUnwrap(
             window.rootViewController as? UnlockScreenViewController
@@ -73,7 +73,7 @@ extension QualifyingCoordinatorTests {
     func test_outdatedApp_displaysUpdateAppScreen() throws {
         // GIVEN I reopen the app
         // WHEN I receive an App outdated result from `appInfo`
-        sut.didChangeAppInfoState(state: .appOutdated)
+        sut.didChangeAppInfoState(state: .outdated)
         // THEN I am shown the Update Required screen
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSInformationViewController
@@ -87,7 +87,7 @@ extension QualifyingCoordinatorTests {
     func test_confirmedUser_displaysMainView() throws {
         // GIVEN I reopen the app
         // WHEN I authenticate as a valid user
-        sut.didChangeUserState(state: .userConfirmed)
+        sut.didChangeUserState(state: .loggedIn)
         // THEN I am shown the Main View
         let tabManagerCoordinator = try XCTUnwrap(sut.childCoordinators
             .compactMap { $0 as? TabManagerCoordinator }
@@ -99,7 +99,7 @@ extension QualifyingCoordinatorTests {
     func test_unconfirmedUser_seesTheLoginScreen() throws {
         // GIVEN I reopen the app
         // WHEN I have no session
-        sut.didChangeUserState(state: .userUnconfirmed)
+        sut.didChangeUserState(state: .notLoggedIn)
         // THEN I am shown the Login Coordinator
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators
             .compactMap { $0 as? LoginCoordinator }
@@ -111,7 +111,7 @@ extension QualifyingCoordinatorTests {
     func test_expiredUser_seesTheLoginScreen() throws {
         // GIVEN I reopen the app
         // WHEN my session has expired
-        sut.didChangeUserState(state: .userExpired)
+        sut.didChangeUserState(state: .expired)
         // THEN I am shown the Login Coordinator
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators
             .compactMap { $0 as? LoginCoordinator }
@@ -131,7 +131,7 @@ extension QualifyingCoordinatorTests {
             }
         }
 
-        sut.didChangeUserState(state: .userFailed(MockLoginError.failed))
+        sut.didChangeUserState(state: .failed(MockLoginError.failed))
         // THEN I am shown the Login Error screen
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSErrorViewController

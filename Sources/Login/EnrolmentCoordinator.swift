@@ -47,7 +47,9 @@ final class EnrolmentCoordinator: NSObject,
 
     private func saveSession() {
         Task {
+            #if !targetEnvironment(simulator)
             try await sessionManager.saveSession()
+            #endif
             completeEnrolment()
         }
     }
