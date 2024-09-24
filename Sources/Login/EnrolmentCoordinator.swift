@@ -39,9 +39,9 @@ final class EnrolmentCoordinator: NSObject,
             let faceIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
             root.pushViewController(faceIDEnrollmentScreen, animated: true)
         case .passcodeOnly:
-            showPasscodeInfo()
+            saveSession()
         case .none:
-            completeEnrolment()
+            showPasscodeInfo()
         }
     }
 
@@ -59,7 +59,7 @@ final class EnrolmentCoordinator: NSObject,
 
     private func showPasscodeInfo() {
         let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) { [unowned self] in
-                saveSession()
+                completeEnrolment()
             }
         let passcodeInformationScreen = GDSInformationViewController(viewModel: viewModel)
         root.pushViewController(passcodeInformationScreen, animated: true)

@@ -16,6 +16,7 @@ final class MockSessionManager: SessionManager {
     var tokenProvider: TokenHolder
 
     var didCallStartSession = false
+    var didCallSaveSession = false
     var didCallResumeSession = false
     var didCallEndCurrentSession = false
     var didCallClearAllSessionData = false
@@ -50,7 +51,7 @@ final class MockSessionManager: SessionManager {
     }
 
     func saveSession() async throws {
-
+        didCallSaveSession = true
     }
 
     func resumeSession() throws {

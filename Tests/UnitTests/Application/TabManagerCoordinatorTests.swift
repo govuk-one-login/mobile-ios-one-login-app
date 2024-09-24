@@ -67,13 +67,13 @@ extension TabManagerCoordinatorTests {
         AppEnvironment.updateReleaseFlags([
             "hasAccessedWalletBefore": false
         ])
-        // AND the MainCoordinator is started
+        // AND the TabManagerCoordinator is started
         sut.start()
-        // THEN the MainCoordinator should have child coordinators
+        // THEN the TabManagerCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
-        // AND the root's delegate is the MainCoordinator
+        // AND the root's delegate is the TabManagerCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
     
@@ -81,20 +81,20 @@ extension TabManagerCoordinatorTests {
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
         mockWalletAvailabilityService.shouldShowFeature = true
-        // AND the MainCoordinator is started
+        // AND the TabManagerCoordinator is started
         sut.start()
-        // THEN the MainCoordinator should have child coordinators
+        // THEN the TabManagerCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
-        // THEN the root's delegate is the MainCoordinator
+        // THEN the root's delegate is the TabManagerCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
     
     @MainActor
     func test_didSelect_tabBarItem_home() {
-        // GIVEN the MainCoordinator has started and added it's tab bar items
+        // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
         guard let homeVC = tabBarController.viewControllers?[0] else {
             XCTFail("HomeVC not added as child viewcontroller to tabBarController")
@@ -116,7 +116,7 @@ extension TabManagerCoordinatorTests {
         // GIVEN the wallet feature flag is on
         mockWalletAvailabilityService.shouldShowFeature = true
         
-        // WHEN the MainCoordinator has started and added it's tab bar items
+        // WHEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
             XCTFail("WalletVC not added as child viewcontroller to tabBarController")
@@ -139,7 +139,7 @@ extension TabManagerCoordinatorTests {
             "hasAccessedWalletBefore": false
         ])
         
-        // GIVEN the MainCoordinator has started and added it's tab bar items
+        // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
         guard let profileVC = tabBarController.viewControllers?[1] else {
             XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
@@ -164,7 +164,7 @@ extension TabManagerCoordinatorTests {
                                                 sessionManager: mockSessionManager,
                                                 networkMonitor: MockNetworkMonitor(),
                                                 isExpiredUser: true)
-        // WHEN the MainCoordinator didRegainFocus from the LoginCoordinator
+        // WHEN the TabManagerCoordinator didRegainFocus from the LoginCoordinator
         sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
@@ -183,7 +183,7 @@ extension TabManagerCoordinatorTests {
         let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
                                                     analyticsService: mockAnalyticsService,
                                                     urlOpener: MockURLOpener())
-        // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
+        // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
@@ -202,7 +202,7 @@ extension TabManagerCoordinatorTests {
         let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
                                                     analyticsService: mockAnalyticsService,
                                                     urlOpener: MockURLOpener())
-        // WHEN the MainCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
+        // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)
         // THEN the sign out error screen should be presented

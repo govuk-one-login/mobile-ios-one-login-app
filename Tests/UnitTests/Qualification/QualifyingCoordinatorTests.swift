@@ -89,10 +89,10 @@ extension QualifyingCoordinatorTests {
         // WHEN I authenticate as a valid user
         sut.didChangeUserState(state: .userConfirmed)
         // THEN I am shown the Main View
-        let mainCoordinator = try XCTUnwrap(sut.childCoordinators
+        let tabManagerCoordinator = try XCTUnwrap(sut.childCoordinators
             .compactMap { $0 as? TabManagerCoordinator }
             .first)
-        XCTAssertIdentical(window.rootViewController, mainCoordinator.root)
+        XCTAssertIdentical(window.rootViewController, tabManagerCoordinator.root)
     }
 
     @MainActor

@@ -27,7 +27,7 @@ final class QualifyingCoordinator: NSObject,
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
 
-    private var mainCoordinator: TabManagerCoordinator? {
+    private var tabManagerCoordinator: TabManagerCoordinator? {
         childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
 
@@ -86,7 +86,7 @@ final class QualifyingCoordinator: NSObject,
     func didChangeUserState(state userState: AppLocalAuthState) {
         switch userState {
         case .userConfirmed:
-            launchMainCoordinator()
+            launchTabManagerCoordinator()
         case .userUnconfirmed, .userExpired:
             launchLoginCoordinator(userState: userState)
         case .userFailed(let error):
@@ -100,7 +100,7 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func launchLoginCoordinator(userState: AppLocalAuthState) {
-        if let loginCoordinator = loginCoordinator {
+        if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
             let loginCoordinator = LoginCoordinator(
@@ -114,17 +114,17 @@ final class QualifyingCoordinator: NSObject,
         }
     }
     
-    func launchMainCoordinator() {
-        if let mainCoordinator {
-            displayViewController(mainCoordinator.root)
+    func launchTabManagerCoordinator() {
+        if let tabManagerCoordinator {
+            displayViewController(tabManagerCoordinator.root)
         } else {
-            let mainCoordinator = TabManagerCoordinator(
+            let tabManagerCoordinator = TabManagerCoordinator(
                 appWindow: window,
                 root: UITabBarController(),
                 analyticsCenter: analyticsCenter,
                 networkClient: networkClient,
                 sessionManager: sessionManager)
-            displayChildCoordinator(mainCoordinator)
+            displayChildCoordinator(tabManagerCoordinator)
         }
     }
 
@@ -134,7 +134,7 @@ final class QualifyingCoordinator: NSObject,
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            mainCoordinator?.handleUniversalLink(url)
+            tabManagerCoordinator?.handleUniversalLink(url)
         case .unknown:
             return
         }
