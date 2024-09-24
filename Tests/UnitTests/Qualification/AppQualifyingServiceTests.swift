@@ -3,15 +3,10 @@ import SecureStore
 import XCTest
 
 final class AppQualifyingServiceTests: XCTestCase {
-    private lazy var sut: AppQualifyingService! = {
-        AppQualifyingService(analyticsService: analyticsService,
-                             updateService: appInformationProvider,
-                             sessionManager: sessionManager)
-    }()
-
     private var analyticsService: MockAnalyticsService!
     private var sessionManager: MockSessionManager!
     private var appInformationProvider: MockAppInformationService!
+    private var sut: AppQualifyingService!
 
     private var appState: AppInformationState?
     private var userState: AppLocalAuthState?
@@ -19,9 +14,13 @@ final class AppQualifyingServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+
         analyticsService = MockAnalyticsService()
         sessionManager = MockSessionManager()
         appInformationProvider = MockAppInformationService()
+        sut = AppQualifyingService(analyticsService: analyticsService,
+                                   updateService: appInformationProvider,
+                                   sessionManager: sessionManager)
     }
 
     override func tearDown() {
@@ -43,7 +42,7 @@ final class AppQualifyingServiceTests: XCTestCase {
 // MARK: - App Info Requests
 extension AppQualifyingServiceTests {
     func testAppInfoIsRequested() {
-        _ = sut
+        sut.initiate()
 
         waitForTruth(
             self.appInformationProvider.didCallFetchAppInfo,
@@ -55,6 +54,7 @@ extension AppQualifyingServiceTests {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sut.delegate = self
+        sut.initiate()
 
         waitForTruth(
             self.appState == .appConfirmed,
@@ -69,6 +69,7 @@ extension AppQualifyingServiceTests {
         appInformationProvider.currentVersion = .init(.min, .min, .min)
 
         sut.delegate = self
+        sut.initiate()
 
         waitForTruth(
             self.appState == .appOutdated,
@@ -81,6 +82,7 @@ extension AppQualifyingServiceTests {
         appInformationProvider.shouldReturnError = true
 
         sut.delegate = self
+        sut.initiate()
 
         waitForTruth(
             self.appState == .appOffline,
@@ -94,6 +96,7 @@ extension AppQualifyingServiceTests {
         appInformationProvider.errorToThrow = URLError(.timedOut)
 
         sut.delegate = self
+        sut.initiate()
 
         // THEN the error state is set
         waitForTruth(
@@ -110,6 +113,7 @@ extension AppQualifyingServiceTests {
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.isOneTimeUser = true
         sut.delegate = self
+        sut.initiate()
 
         waitForTruth(
             self.appState == .appConfirmed,
@@ -123,6 +127,7 @@ extension AppQualifyingServiceTests {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sut.delegate = self
+        sut.initiate()
         
         waitForTruth(
             self.appState == .appConfirmed,
@@ -137,6 +142,7 @@ extension AppQualifyingServiceTests {
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sut.delegate = self
+        sut.initiate()
         
         waitForTruth(
             self.appState == .appConfirmed,
@@ -152,6 +158,7 @@ extension AppQualifyingServiceTests {
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
         sut.delegate = self
+        sut.initiate()
         
         waitForTruth(
             self.appState == .appConfirmed,
@@ -168,6 +175,7 @@ extension AppQualifyingServiceTests {
         sessionManager.isSessionValid = true
         sessionManager.errorFromResumeSession = SecureStoreError.cantDecryptData
         sut.delegate = self
+        sut.initiate()
         
         waitForTruth(
             self.appState == .appConfirmed,
@@ -184,6 +192,7 @@ extension AppQualifyingServiceTests {
         sessionManager.isSessionValid = true
         sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         sut.delegate = self
+        sut.initiate()
         
         waitForTruth(
             self.appState == .appConfirmed,
@@ -203,6 +212,7 @@ extension AppQualifyingServiceTests {
         sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         sessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         sut.delegate = self
+        sut.initiate()
         
         waitForTruth(
             self.appState == .appConfirmed,
@@ -218,6 +228,7 @@ extension AppQualifyingServiceTests {
     func testEnrolmentComplete_changesUserState() {
         appInformationProvider.shouldReturnError = true
         sut.delegate = self
+        sut.initiate()
 
         NotificationCenter.default.post(name: .enrolmentComplete)
         waitForTruth(self.userState == .userConfirmed, timeout: 5)
@@ -226,6 +237,7 @@ extension AppQualifyingServiceTests {
     func testSessionExpiry_changesUserState() {
         appInformationProvider.shouldReturnError = true
         sut.delegate = self
+        sut.initiate()
 
         NotificationCenter.default.post(name: .sessionExpired)
         waitForTruth(self.userState == .userExpired, timeout: 5)
@@ -234,6 +246,7 @@ extension AppQualifyingServiceTests {
     func testLogout_changesUserState() {
         appInformationProvider.shouldReturnError = true
         sut.delegate = self
+        sut.initiate()
         
         NotificationCenter.default.post(name: .didLogout)
         waitForTruth(self.userState == .userUnconfirmed, timeout: 5)

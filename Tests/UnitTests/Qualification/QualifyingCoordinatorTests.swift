@@ -90,7 +90,7 @@ extension QualifyingCoordinatorTests {
         sut.didChangeUserState(state: .userConfirmed)
         // THEN I am shown the Main View
         let mainCoordinator = try XCTUnwrap(sut.childCoordinators
-            .compactMap { $0 as? MainCoordinator }
+            .compactMap { $0 as? TabManagerCoordinator }
             .first)
         XCTAssertIdentical(window.rootViewController, mainCoordinator.root)
     }

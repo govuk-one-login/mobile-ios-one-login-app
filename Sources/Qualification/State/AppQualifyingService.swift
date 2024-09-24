@@ -47,7 +47,6 @@ final class AppQualifyingService: QualifyingService {
         self.updateService = updateService
         self.sessionManager = sessionManager
         subscribe()
-        initiate()
     }
     
     func initiate() {

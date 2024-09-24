@@ -27,8 +27,8 @@ final class QualifyingCoordinator: NSObject,
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
 
-    private var mainCoordinator: MainCoordinator? {
-        childCoordinators.firstInstanceOf(MainCoordinator.self)
+    private var mainCoordinator: TabManagerCoordinator? {
+        childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
 
     private lazy var unlockViewController: UnlockScreenViewController = {
@@ -118,7 +118,7 @@ final class QualifyingCoordinator: NSObject,
         if let mainCoordinator {
             displayViewController(mainCoordinator.root)
         } else {
-            let mainCoordinator = MainCoordinator(
+            let mainCoordinator = TabManagerCoordinator(
                 appWindow: window,
                 root: UITabBarController(),
                 analyticsCenter: analyticsCenter,

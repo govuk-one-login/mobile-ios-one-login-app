@@ -5,7 +5,7 @@ import Networking
 import SecureStore
 import XCTest
 
-final class MainCoordinatorTests: XCTestCase {
+final class TabManagerCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
@@ -15,12 +15,12 @@ final class MainCoordinatorTests: XCTestCase {
     var mockUpdateService: MockAppInformationService!
     var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var mockLocalAuthManager: MockLocalAuthManager!
-    var sut: MainCoordinator!
+    var sut: TabManagerCoordinator!
     
     @MainActor
     override func setUp() {
         super.setUp()
-
+        
         tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -29,15 +29,15 @@ final class MainCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         mockUpdateService = MockAppInformationService()
         mockWalletAvailabilityService = MockWalletAvailabilityService()
-
+        
         window = UIWindow()
         
-        sut = MainCoordinator(appWindow: window,
-                              root: tabBarController,
-                              analyticsCenter: mockAnalyticsCenter,
-                              networkClient: NetworkClient(),
-                              sessionManager: mockSessionManager,
-                              walletAvailabilityService: mockWalletAvailabilityService)
+        sut = TabManagerCoordinator(appWindow: window,
+                                    root: tabBarController,
+                                    analyticsCenter: mockAnalyticsCenter,
+                                    networkClient: NetworkClient(),
+                                    sessionManager: mockSessionManager,
+                                    walletAvailabilityService: mockWalletAvailabilityService)
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
@@ -52,14 +52,14 @@ final class MainCoordinatorTests: XCTestCase {
         mockUpdateService = nil
         mockWalletAvailabilityService = nil
         sut = nil
-
+        
         AppEnvironment.updateReleaseFlags([:])
-
+        
         super.tearDown()
     }
 }
 
-extension MainCoordinatorTests {
+extension TabManagerCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
@@ -76,7 +76,7 @@ extension MainCoordinatorTests {
         // AND the root's delegate is the MainCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
-
+    
     @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
@@ -115,7 +115,7 @@ extension MainCoordinatorTests {
     func test_didSelect_tabBarItem_wallet() {
         // GIVEN the wallet feature flag is on
         mockWalletAvailabilityService.shouldShowFeature = true
-
+        
         // WHEN the MainCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {

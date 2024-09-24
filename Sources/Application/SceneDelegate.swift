@@ -36,8 +36,6 @@ final class SceneDelegate: UIResponder,
                         analyticsPreferenceStore: UserDefaultsPreferenceStore())
     }()
 
-    var appBooted = false
-
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -70,10 +68,6 @@ final class SceneDelegate: UIResponder,
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        guard appBooted else {
-            appBooted = true
-            return
-        }
         appQualifyingService.initiate()
     }
     

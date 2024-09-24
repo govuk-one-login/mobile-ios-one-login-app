@@ -8,10 +8,10 @@ import Networking
 import SecureStore
 import UIKit
 
-final class MainCoordinator: NSObject,
-                             AnyCoordinator,
-                             TabCoordinator,
-                             ChildCoordinator {
+final class TabManagerCoordinator: NSObject,
+                                   AnyCoordinator,
+                                   TabCoordinator,
+                                   ChildCoordinator {
     private let appWindow: UIWindow
     let root: UITabBarController
     weak var parentCoordinator: ParentCoordinator?
@@ -20,19 +20,19 @@ final class MainCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     private let walletAvailabilityService: WalletFeatureAvailabilityService
-
+    
     private var homeCoordinator: HomeCoordinator? {
         childCoordinators.firstInstanceOf(HomeCoordinator.self)
     }
-
+    
     private var walletCoordinator: WalletCoordinator? {
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
-
+    
     private var profileCoordinator: ProfileCoordinator? {
         childCoordinators.firstInstanceOf(ProfileCoordinator.self)
     }
-
+    
     init(appWindow: UIWindow,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
@@ -62,7 +62,7 @@ final class MainCoordinator: NSObject,
     }
 }
 
-extension MainCoordinator {
+extension TabManagerCoordinator {
     private func addTabs() {
         addHomeTab()
         if walletAvailabilityService.shouldShowFeature {
@@ -98,7 +98,7 @@ extension MainCoordinator {
     }
 }
 
-extension MainCoordinator: UITabBarControllerDelegate {
+extension TabManagerCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
         var event: IconEvent? {
@@ -120,7 +120,7 @@ extension MainCoordinator: UITabBarControllerDelegate {
     }
 }
 
-extension MainCoordinator: ParentCoordinator {
+extension TabManagerCoordinator: ParentCoordinator {
     func performChildCleanup(child: ChildCoordinator) {
         if child is ProfileCoordinator {
             do {
