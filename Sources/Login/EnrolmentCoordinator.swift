@@ -47,7 +47,9 @@ final class EnrolmentCoordinator: NSObject,
 
     private func saveSession() {
         Task {
-            try await sessionManager.saveSession()
+            if !ProcessInfo.processInfo.arguments.contains("uiTests") {
+                try await sessionManager.saveSession()
+            }
             completeEnrolment()
         }
     }
