@@ -1,18 +1,10 @@
-//
-//  SignOutPageViewModelTests.swift
-//  OneLogin
-//
-//  Created by Mihaila, Bianca on 25/09/2024.
-//
-
-
 import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
 import XCTest
 
 @MainActor
-final class SignOutPageViewModelTests: XCTestCase {
+final class WalletSignOutPageViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutPageViewModel!
     
@@ -34,7 +26,7 @@ final class SignOutPageViewModelTests: XCTestCase {
     }
 }
 
-extension SignOutPageViewModelTests {
+extension WalletSignOutPageViewModelTests {
     func test_pageConfiguration() throws {
         XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
         XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value)
@@ -107,7 +99,7 @@ extension SignOutPageViewModelTests {
     }
 }
 
-extension SignOutPageViewModelTests {
+extension WalletSignOutPageViewModelTests {
     var bulletList: BulletView {
         get throws {
             try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
