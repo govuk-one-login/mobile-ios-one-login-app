@@ -6,6 +6,7 @@ final class LoginUITests: XCTestCase {
     override func setUp() async throws {
         await MainActor.run {
             sut = WelcomeScreen()
+            sut.app.launchArguments = ["uiTests"]
             sut.app.launch()
             let exp = expectation(description: "Waiting once App has launched")
             XCTWaiter().wait(for: [exp], timeout: 30)

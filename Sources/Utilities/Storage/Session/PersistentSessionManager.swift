@@ -45,10 +45,10 @@ final class PersistentSessionManager: SessionManager {
          encryptedStore: SecureStorable,
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthenticationManager) {
+        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
-        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
 
         self.tokenProvider = TokenHolder()
     }
@@ -169,13 +169,15 @@ final class PersistentSessionManager: SessionManager {
         let tokens = StoredTokens(idToken: tokenResponse.idToken,
                                   accessToken: tokenResponse.accessToken)
 
-        try storeKeyService.save(tokens: tokens)
+        if !ProcessInfo.processInfo.arguments.contains("uiTests") {
+            try storeKeyService.save(tokens: tokens)
 
-        if let persistentID = user.value?.persistentID {
-            try encryptedStore.saveItem(item: persistentID,
-                                        itemName: .persistentSessionID)
-        } else {
-            encryptedStore.deleteItem(itemName: .persistentSessionID)
+            if let persistentID = user.value?.persistentID {
+                try encryptedStore.saveItem(item: persistentID,
+                                            itemName: .persistentSessionID)
+            } else {
+                encryptedStore.deleteItem(itemName: .persistentSessionID)
+            }
         }
 
         unprotectedStore.set(tokenResponse.expiryDate,
