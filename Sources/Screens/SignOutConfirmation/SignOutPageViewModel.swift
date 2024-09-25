@@ -4,7 +4,7 @@ import Logging
 import UIKit
 
 struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
-    let title: GDSLocalisedString = "app_signOutConfirmationTitle"
+    let title: GDSLocalisedString = "app_signOutConfirmationTitleNoWallet"
     let body: String = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
     var childView = UIView()
     let buttonViewModel: any ButtonViewModel
@@ -17,7 +17,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     init(analyticsService: AnalyticsService,
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",
+        self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeletePreferences",
                                                         backgroundColor: .gdsRed,
                                                         analyticsService: analyticsService) {
             buttonAction()
@@ -26,8 +26,8 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreen.rawValue,
-                                screen: ProfileAnalyticsScreen.signOutScreen,
+        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreenNoWallet.rawValue,
+                                screen: ProfileAnalyticsScreen.signOutScreenNoWallet,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
@@ -40,15 +40,14 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     private func configureStackView() -> UIView {
         let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
+                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1iOSNoWallet").value,
+                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2NoWallet").value
                                                 ])
-        bulletView.accessibilityIdentifier = "sign-out-bullet-list"
+        bulletView.accessibilityIdentifier = "sign-out-bullet-list-wallet"
         
         let body2Label = {
             let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
+            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .bodyBold
@@ -56,17 +55,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             return label
         }()
         
-        let body3Label = {
-            let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
-            label.adjustsFontForContentSizeCategory = true
-            label.numberOfLines = 0
-            label.font = .body
-            label.accessibilityIdentifier = "sign-out-body3-text"
-            return label
-        }()
-        
-        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label, body3Label])
+        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label])
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12

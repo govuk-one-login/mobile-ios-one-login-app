@@ -64,7 +64,6 @@ final class TabManagerCoordinator: NSObject,
         guard walletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
-        addWalletTab()
         walletCoordinator?.handleUniversalLink(url)
     }
 }
@@ -100,7 +99,8 @@ extension TabManagerCoordinator {
     private func addProfileTab() {
         let pc = ProfileCoordinator(userProvider: sessionManager,
                                     analyticsService: analyticsCenter.analyticsService,
-                                    urlOpener: UIApplication.shared)
+                                    urlOpener: UIApplication.shared,
+                                    walletAvailabilityService: walletAvailabilityService)
         addTab(pc)
     }
 }
