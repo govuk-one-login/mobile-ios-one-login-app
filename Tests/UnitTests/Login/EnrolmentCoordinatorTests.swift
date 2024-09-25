@@ -40,6 +40,20 @@ final class EnrolmentCoordinatorTests: XCTestCase {
 
 extension EnrolmentCoordinatorTests {
     @MainActor
+    func test_start_deviceLocalAuthSet_none() throws {
+        // GIVEN the user has a valid session
+        try mockSessionManager.setupSession()
+        // GIVEN the local authentication's biometry type is optic id
+        mockLocalAuthManager.type = .none
+        // WHEN the EnrolmentCoordinator is started
+        sut.start()
+        // THEN the no passcode screen is shown
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
+        XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
+    }
+    
+    @MainActor
     func test_start_deviceLocalAuthSet_passcodeOnly() throws {
         // GIVEN the biometric authentication is enabled on the device
         mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
@@ -50,9 +64,8 @@ extension EnrolmentCoordinatorTests {
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the no screen is shown
-        XCTAssertEqual(navigationController.viewControllers.count, 1)
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
-        XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
+        XCTAssertEqual(navigationController.viewControllers.count, 0)
+        waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
     }
 
     @MainActor

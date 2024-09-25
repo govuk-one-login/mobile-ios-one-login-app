@@ -16,9 +16,9 @@ final class HomeCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-    private(set) var baseVc: TabbedViewController?
 
     private let networkClient: NetworkClient
+
 
     init(analyticsService: AnalyticsService,
          networkClient: NetworkClient,
@@ -35,33 +35,18 @@ final class HomeCoordinator: NSObject,
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
                                          sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
         let hc = TabbedViewController(viewModel: viewModel,
+                                      userProvider: sessionManager,
                                       headerView: SignInView())
-        baseVc = hc
         root.setViewControllers([hc], animated: true)
     }
-    
-    func updateUser(_ user: User) {
-        baseVc?.updateEmail(user.email)
-        baseVc?.isLoggedIn(true)
-        baseVc?.screenAnalytics()
-    }
-    
+
     func showDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
         let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
-        let devMenuViewController = DeveloperMenuViewController(delegate: self,
-                                                                viewModel: viewModel,
+        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
                                                                 sessionManager: sessionManager,
                                                                 helloWorldProvider: service)
         let navController = UINavigationController(rootViewController: devMenuViewController)
         root.present(navController, animated: true)
-    }
-}
-
-extension HomeCoordinator: DeveloperMenuDelegate {
-    func accessTokenInvalidAction() {
-        root.dismiss(animated: true) {
-            NotificationCenter.default.post(name: Notification.Name(.startReauth), object: nil)
-        }
     }
 }

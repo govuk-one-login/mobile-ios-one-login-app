@@ -16,7 +16,7 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.stsToken, URL(string: "https://token.build.account.gov.uk/token"))
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.build.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.jwksURL, URL(string: "https://token.build.account.gov.uk/.well-known/jwks.json"))
-        XCTAssertEqual(sut.appInfoURL, URL(string: "https://token.build.account.gov.uk/appInfo"))
+        XCTAssertEqual(sut.appInfoURL, URL(string: "https://mobile.build.account.gov.uk/appInfo"))
         XCTAssertEqual(sut.stsClientID, "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         XCTAssertEqual(sut.isLocaleWelsh, false)
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))

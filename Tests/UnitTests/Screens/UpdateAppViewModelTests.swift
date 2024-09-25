@@ -13,8 +13,8 @@ final class UpdateAppViewModelTests: XCTestCase {
 
         mockAnalyticsService = MockAnalyticsService()
         urlOpener = .init()
-        sut = UpdateAppViewModel(urlOpener: urlOpener,
-                                 analyticsService: mockAnalyticsService) { }
+        sut = UpdateAppViewModel(analyticsService: mockAnalyticsService,
+                                 urlOpener: urlOpener)
     }
 
     override func tearDown() {

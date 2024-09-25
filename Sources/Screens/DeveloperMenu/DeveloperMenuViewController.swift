@@ -5,14 +5,8 @@ import Networking
 import SecureStore
 import UIKit
 
-protocol DeveloperMenuDelegate: AnyObject {
-    func accessTokenInvalidAction()
-}
-
 final class DeveloperMenuViewController: BaseViewController {
     override var nibName: String? { "DeveloperMenu" }
-
-    private weak var delegate: DeveloperMenuDelegate?
 
     private let viewModel: DeveloperMenuViewModel
     private let sessionManager: SessionManager
@@ -20,12 +14,10 @@ final class DeveloperMenuViewController: BaseViewController {
 
     private let defaultsStore: DefaultsStorable
 
-    init(delegate: DeveloperMenuDelegate,
-         viewModel: DeveloperMenuViewModel,
+    init(viewModel: DeveloperMenuViewModel,
          sessionManager: SessionManager,
          helloWorldProvider: HelloWorldProvider,
          defaultsStore: DefaultsStorable = UserDefaults.standard) {
-        self.delegate = delegate
         self.viewModel = viewModel
         self.sessionManager = sessionManager
         self.helloWorldProvider = helloWorldProvider
@@ -62,8 +54,6 @@ final class DeveloperMenuViewController: BaseViewController {
             do {
                 let message = try await helloWorldProvider.requestHelloWorld()
                 happyPathResultLabel.showSuccessMessage(message)
-            } catch let error as ServerError where error.errorCode == 400 {
-                delegate?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 happyPathResultLabel.showErrorMessage(error)
             } catch {
@@ -103,8 +93,6 @@ final class DeveloperMenuViewController: BaseViewController {
         Task {
             do {
                 _ = try await helloWorldProvider.requestHelloWorldWrongScope()
-            } catch let error as ServerError where error.errorCode == 400 {
-                delegate?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 errorPathResultLabel.showErrorMessage(error)
             } catch {
@@ -144,8 +132,6 @@ final class DeveloperMenuViewController: BaseViewController {
         Task {
             do {
                 _ = try await helloWorldProvider.requestHelloWorldWrongEndpoint()
-            } catch let error as ServerError where error.errorCode == 400 {
-                delegate?.accessTokenInvalidAction()
             } catch let error as ServerError {
                 unauthorizedPathResultLabel.showErrorMessage(error)
             } catch {
@@ -204,6 +190,7 @@ final class DeveloperMenuViewController: BaseViewController {
         """
         // swiftlint:enable line_length
         sessionManager.tokenProvider.update(subjectToken: expiredToken)
+        UserDefaults.standard.set(Date.distantPast, forKey: .accessTokenExpiry)
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

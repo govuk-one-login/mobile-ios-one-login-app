@@ -24,3 +24,9 @@ final class AnalyticsCenter: AnalyticsCentral {
         ]
     }
 }
+
+extension AnalyticsCenter: SessionBoundData {
+    func delete() throws {
+        analyticsPreferenceStore.hasAcceptedAnalytics = nil
+    }
+}

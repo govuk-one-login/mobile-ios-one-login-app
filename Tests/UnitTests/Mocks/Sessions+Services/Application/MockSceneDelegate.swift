@@ -3,15 +3,12 @@ import Logging
 import UIKit
 
 class MockSceneDelegate: SceneLifecycle {
-    var coordinator: MainCoordinator?
+    var coordinator: TabManagerCoordinator?
     var analyticsService: AnalyticsService
-    var windowManager: WindowManagement?
     
-    init(coordinator: MainCoordinator?,
-         analyticsService: AnalyticsService,
-         windowManager: WindowManagement) {
+    init(coordinator: TabManagerCoordinator?,
+         analyticsService: AnalyticsService) {
         self.coordinator = coordinator
         self.analyticsService = analyticsService
-        self.windowManager = windowManager
     }
 }

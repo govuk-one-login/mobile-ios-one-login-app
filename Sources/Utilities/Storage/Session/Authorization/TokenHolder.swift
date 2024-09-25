@@ -38,8 +38,14 @@ extension TokenHolder: AuthorizationProvider {
             subjectToken: subjectToken,
             scope: scope
         )
-        let serviceTokenResponse = try await client.makeRequest(serviceTokenRequest)
-        return try decodeServiceToken(data: serviceTokenResponse)
+
+        do {
+            let serviceTokenResponse = try await client.makeRequest(serviceTokenRequest)
+            return try decodeServiceToken(data: serviceTokenResponse)
+        } catch let error as ServerError where error.errorCode == 400 {
+            NotificationCenter.default.post(name: .sessionExpired)
+            throw error
+        }
     }
 
     private func decodeServiceToken(data: Data) throws -> ServiceTokenResponse {

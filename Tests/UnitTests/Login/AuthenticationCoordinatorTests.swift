@@ -63,6 +63,38 @@ extension AuthenticationCoordinatorTests {
     }
     
     @MainActor
+    func test_start_loginError_sessionMismatch() throws {
+        mockSessionManager.errorFromStartSession = PersistentSessionError.sessionMismatch
+        sut.start()
+        // WHEN the AuthenticationCoordinator is started
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and there is a network error
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
+        // THEN the 'network' error screen is shown
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
+        // THEN the loginError should be a netwok error
+        XCTAssertTrue(sut.authError as? PersistentSessionError == .sessionMismatch)
+    }
+    
+    @MainActor
+    func test_start_loginError_cannotDeleteData() throws {
+        mockSessionManager.errorFromStartSession = PersistentSessionError.cannotDeleteData(MockWalletError.cantDelete)
+        sut.start()
+        // WHEN the AuthenticationCoordinator is started
+        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
+        // and there is a network error
+        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
+        // THEN the 'network' error screen is shown
+        XCTAssertTrue(sut.root.topViewController is GDSErrorViewController)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        // THEN the loginError should be a netwok error
+        XCTAssertTrue(sut.authError as? PersistentSessionError == .cannotDeleteData(MockWalletError.cantDelete))
+    }
+    
+    @MainActor
     func test_start_loginError_network() throws {
         mockSessionManager.errorFromStartSession = LoginError.network
         sut.start()
@@ -238,21 +270,5 @@ extension AuthenticationCoordinatorTests {
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
         // THEN the loginError should be an unknown generic error
         XCTAssertTrue(sut.authError as? AuthenticationError == .generic)
-    }
-    
-    @MainActor
-    func test_returnFromErrorScreen() throws {
-        mockSessionManager.errorFromStartSession = AuthenticationError.generic
-        sut.start()
-        // GIVEN the AuthenticationCoordinator has logged in via start()
-        // WHEN the AuthenticationCoordinator calls performLoginFlow on the session
-        waitForTruth(self.navigationController.viewControllers.count == 1, timeout: 20)
-        // THEN an error screen is shown
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
-        // WHEN the primary button of the error screen is selected
-        let errorButton: UIButton = try XCTUnwrap(vc.view[child: "error-primary-button"])
-        errorButton.sendActions(for: .touchUpInside)
-        // THEN the added view controller should be removed
-        XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
 }

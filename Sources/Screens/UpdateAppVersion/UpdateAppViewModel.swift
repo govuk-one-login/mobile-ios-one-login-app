@@ -18,7 +18,8 @@ struct UpdateAppViewModel: GDSInformationViewModel, BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
 
-    init(urlOpener: URLOpener = UIApplication.shared, analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    init(analyticsService: AnalyticsService,
+         urlOpener: URLOpener = UIApplication.shared) {
         self.analyticsService = analyticsService
         // TODO DCMAW-9612: add event for clicking the link (LinkEvent most likely).
         // update titleKey and action in `primaryButtonViewModel`

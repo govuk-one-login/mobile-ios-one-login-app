@@ -30,8 +30,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
 
-        sut = DeveloperMenuViewController(delegate: self,
-                                          viewModel: devMenuViewModel,
+        sut = DeveloperMenuViewController(viewModel: devMenuViewModel,
                                           sessionManager: mockSessionManager,
                                           helloWorldProvider: mockHelloWorldService)
     }
@@ -87,16 +86,6 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
     }
     
-    func test_happyPathButton_invalidAccessTokenActionCalled() throws {
-        // GIVEN I have no active session
-        mockHelloWorldService.helloWorldError = ServerError(endpoint: "/hello-world", errorCode: 400)
-        // AND the happy path button is tapped
-        try sut.happyPathButton.sendActions(for: .touchUpInside)
-        // THEN a notification is sent requesting reauthentication
-        waitForTruth(self.didCallAccessTokenInvalid, timeout: 10)
-
-    }
-    
     func test_errorPathButton() throws {
         // GIVEN I have an active user session
         // WHEN I request a Service Token using an invalid scope
@@ -108,15 +97,6 @@ extension DeveloperMenuViewControllerTests {
         // AND an error message is displayed:
         XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: hello-world")
     }
-    
-    func test_errorPathButton_invalidAccessTokenActionCalled() throws {
-        // GIVEN I have no active session
-        mockHelloWorldService.helloWorldError = ServerError(endpoint: "/hello-world", errorCode: 400)
-        // AND the error path button is tapped
-        try sut.errorPathButton.sendActions(for: .touchUpInside)
-        // THEN a notification is sent requesting reauthentication
-        waitForTruth(self.didCallAccessTokenInvalid, timeout: 10)
-    }
 
     func test_unauthorizedPathButton() throws {
         // GIVEN I have an active user session
@@ -125,15 +105,6 @@ extension DeveloperMenuViewControllerTests {
         // THEN an error message is displayed
         waitForTruth(self.mockHelloWorldService.didRequestHelloWorldAtWrongEndpoint, timeout: 10)
         XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
-    }
-    
-    func test_unauthorized_invalidAccessTokenActionCalled() throws {
-        // GIVEN I have no active session
-        mockHelloWorldService.helloWorldError = ServerError(endpoint: "/hello-world", errorCode: 400)
-        // AND the happy path button is tapped
-        try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
-        // THEN a notification is sent requesting reauthentication
-        waitForTruth(self.didCallAccessTokenInvalid, timeout: 10)
     }
     
     func test_deletePersistentSessionIDButton() throws {
@@ -202,11 +173,5 @@ extension DeveloperMenuViewController {
         get throws {
             try XCTUnwrap(view[child: "sts-expire-access-token-button"])
         }
-    }
-}
-
-extension DeveloperMenuViewControllerTests: DeveloperMenuDelegate {
-    func accessTokenInvalidAction() {
-        didCallAccessTokenInvalid = true
     }
 }

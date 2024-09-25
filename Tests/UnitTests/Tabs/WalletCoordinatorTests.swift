@@ -51,47 +51,9 @@ extension WalletCoordinatorTests {
         XCTAssertEqual(sut.root.tabBarItem.tag, walletTab.tag)
     }
     
-    func test_handleUniversalLink() {
-        // WHEN the handleUniversalLink method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
-        sut.handleUniversalLink(URL(string: "google.com")!)
-    }
-    
     func test_deleteWalletData() throws {
         // WHEN the deleteWalletData method is called
         // THEN no error should be thrown
         XCTAssertNoThrow(try sut.deleteWalletData())
-    }
-    
-    func test_clearWallet() throws {
-        sut.start()
-        // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
-        mockSessionManager.user = MockUser(persistentID: "123456789")
-        mockSessionManager.isReturningUser = true
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the clearWallet notification is posted
-        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-        // THEN the persistent session id, returning user and analytics preferences have been removed
-        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
-        XCTAssertNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
-    }
-    
-    func test_clearWallet_error() throws {
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableClearWalletError.rawValue: true
-        ])
-
-        sut.start()
-        // WHEN there is a persistent session id saved, returning user is true and analytics preferences have been accepted
-        mockSessionManager.user = MockUser(persistentID: "123456789")
-        mockSessionManager.isReturningUser = true
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the clearWallet notification is posted
-        NotificationCenter.default.post(name: Notification.Name(.clearWallet), object: nil)
-        // THEN the persistent session id, returning user and analytics preferences should not have been removed
-        XCTAssertFalse(mockSessionManager.didCallClearAllSessionData)
-        XCTAssertNotNil(mockAnalyticsPreferenceStore.hasAcceptedAnalytics)
-
-        AppEnvironment.updateReleaseFlags([:])
     }
 }

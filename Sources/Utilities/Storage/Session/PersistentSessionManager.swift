@@ -1,37 +1,58 @@
 import Authentication
+import Combine
 import LocalAuthentication
 import Networking
 import SecureStore
 
-enum PersistentSessionError: Error {
+enum PersistentSessionError: Error, Equatable {
     case noSessionExists
     case userRemovedLocalAuth
+    case sessionMismatch
+    case cannotDeleteData(Error)
+    
+    static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
+        switch (lhs, rhs) {
+        case (.noSessionExists, .noSessionExists),
+            (.userRemovedLocalAuth, .userRemovedLocalAuth),
+            (.sessionMismatch, .sessionMismatch),
+            (.cannotDeleteData, .cannotDeleteData):
+            true
+        default:
+            false
+        }
+    }
+}
+
+protocol SessionBoundData {
+    func delete() throws
 }
 
 final class PersistentSessionManager: SessionManager {
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
-
+    
     let localAuthentication: LocalAuthenticationManager
-
+    
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
     private let storeKeyService: TokenStore
-
-    private(set) var user: (any User)?
-
+    
+    let user = CurrentValueSubject<(any User)?, Never>(nil)
+    
+    private var sessionBoundData: [SessionBoundData] = []
+    
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthenticationManager) {
+        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
-        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
-
+        
         self.tokenProvider = TokenHolder()
     }
-
+    
     convenience init(context: LocalAuthenticationContext = LAContext()) {
         let localAuthentication = LALocalAuthenticationManager(context: context)
         // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
@@ -43,12 +64,12 @@ final class PersistentSessionManager: SessionManager {
                 .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
             localAuthStrings: context.contextStrings
         )
-
+        
         let encryptedConfiguration = SecureStorageConfiguration(
             id: .persistentSessionID,
             accessControlLevel: .open
         )
-
+        
         self.init(
             accessControlEncryptedStore: SecureStoreService(configuration: accessControlConfiguration),
             encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
@@ -56,33 +77,33 @@ final class PersistentSessionManager: SessionManager {
             localAuthentication: localAuthentication
         )
     }
-
+    
     private var persistentID: String? {
         try? encryptedStore.readItem(itemName: .persistentSessionID)
     }
-
+    
     var expiryDate: Date? {
         unprotectedStore.value(forKey: .accessTokenExpiry) as? Date
     }
-
+    
     var sessionExists: Bool {
         tokenProvider.subjectToken != nil
     }
-
+    
     var isSessionValid: Bool {
         guard let expiryDate else {
             return false
         }
         return expiryDate > .now
     }
-
+    
     var isReturningUser: Bool {
         unprotectedStore.value(forKey: .returningUser) as? Bool
-            ?? false
+        ?? false
     }
-
-    var isPersistentSessionIDMissing: Bool {
-        persistentID == nil && isReturningUser
+    
+    var isOneTimeUser: Bool {
+        sessionExists && !isReturningUser
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -90,37 +111,53 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func startSession(using session: any LoginSession) async throws {
+        guard !isReturningUser || persistentID != nil else {
+            // I am a returning user
+            // but cannot reauthenticate because I don't have a persistent session ID
+            //
+            // I need to delete my session & Wallet data before I can login
+            do {
+                try clearAllSessionData()
+            } catch {
+                throw PersistentSessionError.cannotDeleteData(error)
+            }
+            
+            throw PersistentSessionError.sessionMismatch
+        }
+        
         let configuration = LoginSessionConfiguration
             .oneLogin(persistentSessionId: persistentID)
         let response = try await session
             .performLoginFlow(configuration: configuration)
         tokenResponse = response
-
+        
         // update curent state
         tokenProvider.update(subjectToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if AppEnvironment.callingSTSEnabled,
            let idToken = response.idToken {
-            user = try IDTokenUserRepresentation(idToken: idToken)
+            try user.send(IDTokenUserRepresentation(idToken: idToken))
         } else {
-            user = nil
+            user.send(nil)
         }
-
+        
         guard isReturningUser else {
             // user has not yet enrolled in local authentication
             // so tokens should not be saved !
             return
         }
-
+        
         try await saveSession()
+        
+        NotificationCenter.default.post(name: .enrolmentComplete)
     }
-
+    
     func saveSession() async throws {
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
             return
         }
-
+        
         if !isReturningUser {
             guard try await localAuthentication.enrolFaceIDIfAvailable() else {
                 // first time user fails FaceID scan
@@ -128,24 +165,24 @@ final class PersistentSessionManager: SessionManager {
                 return
             }
         }
-
+        
         let tokens = StoredTokens(idToken: tokenResponse.idToken,
                                   accessToken: tokenResponse.accessToken)
-
+        
         try storeKeyService.save(tokens: tokens)
-
-        if let persistentID = user?.persistentID {
+        
+        if let persistentID = user.value?.persistentID {
             try encryptedStore.saveItem(item: persistentID,
                                         itemName: .persistentSessionID)
         } else {
             encryptedStore.deleteItem(itemName: .persistentSessionID)
         }
-
+        
         unprotectedStore.set(tokenResponse.expiryDate,
                              forKey: .accessTokenExpiry)
         unprotectedStore.set(true, forKey: .returningUser)
     }
-
+    
     func resumeSession() throws {
         guard expiryDate != nil else {
             throw PersistentSessionError.noSessionExists
@@ -161,24 +198,36 @@ final class PersistentSessionManager: SessionManager {
         
         let keys = try storeKeyService.fetch()
         if let idToken = keys.idToken {
-            user = try IDTokenUserRepresentation(idToken: idToken)
+            try user.send(IDTokenUserRepresentation(idToken: idToken))
+        } else {
+            user.send(nil)
         }
-
+        
         let accessToken = keys.accessToken
         tokenProvider.update(subjectToken: accessToken)
     }
     
     func endCurrentSession() {
         storeKeyService.delete()
-
+        
         tokenProvider.clear()
         tokenResponse = nil
-        user = nil
+        user.send(nil)
     }
-
-    func clearAllSessionData() {
+    
+    func clearAllSessionData() throws {
+        try sessionBoundData.forEach {
+            try $0.delete()
+        }
+        
         encryptedStore.deleteItem(itemName: .persistentSessionID)
         unprotectedStore.removeObject(forKey: .returningUser)
         unprotectedStore.removeObject(forKey: .accessTokenExpiry)
+        
+        NotificationCenter.default.post(name: .didLogout)
+    }
+    
+    func registerSessionBoundData(_ data: SessionBoundData) {
+        sessionBoundData.append(data)
     }
 }

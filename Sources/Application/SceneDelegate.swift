@@ -6,21 +6,34 @@ import Logging
 import Networking
 import SecureStore
 import UIKit
+import Wallet
 
-class SceneDelegate: UIResponder,
-                     UIWindowSceneDelegate,
-                     SceneLifecycle {
-    var coordinator: MainCoordinator?
-    let analyticsService: AnalyticsService = GAnalytics()
-    var windowManager: WindowManagement?
-    private var shouldCallSceneWillEnterForeground = false
+final class SceneDelegate: UIResponder,
+                           UIWindowSceneDelegate,
+                           SceneLifecycle {
 
-    private lazy var client = NetworkClient()
+    private var rootCoordinator: QualifyingCoordinator?
 
+    private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let manager = PersistentSessionManager()
-        self.client.authorizationProvider = manager.tokenProvider
+        networkClient.authorizationProvider = manager.tokenProvider
+
+        manager.registerSessionBoundData(WalletSessionData())
+        manager.registerSessionBoundData(analyticsCenter)
+
         return manager
+    }()
+
+    private lazy var appQualifyingService = {
+        AppQualifyingService(analyticsService: analyticsService,
+                             sessionManager: sessionManager)
+    }()
+
+    let analyticsService: AnalyticsService = GAnalytics()
+    private lazy var analyticsCenter = {
+        AnalyticsCenter(analyticsService: analyticsService,
+                        analyticsPreferenceStore: UserDefaultsPreferenceStore())
     }()
 
     func scene(_ scene: UIScene,
@@ -29,45 +42,33 @@ class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene) else {
             fatalError("Window failed to initialise in SceneDelegate")
         }
-        windowManager = WindowManager(windowScene: windowScene)
+        // TODO: DCMAW-9866 | can we move this into the UI (viewDidAppear?) itself
+        trackSplashScreen()
+
+        rootCoordinator = QualifyingCoordinator(
+            window: UIWindow(windowScene: windowScene),
+            analyticsCenter: analyticsCenter,
+            appQualifyingService: appQualifyingService,
+            sessionManager: sessionManager,
+            networkClient: networkClient
+        )
+        rootCoordinator?.start()
+
         setUpBasicUI()
-        startMainCoordinator(windowManager: windowManager!)
     }
     
     func scene(_ scene: UIScene,
                continue userActivity: NSUserActivity) {
         guard let incomingURL = userActivity.webpageURL else { return }
-        coordinator?.handleUniversalLink(incomingURL)
-    }
-    
-    func startMainCoordinator(windowManager: WindowManagement) {
-        let tabController = UITabBarController()
-        let analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
-                                              analyticsPreferenceStore: UserDefaultsPreferenceStore())
-        coordinator = MainCoordinator(windowManager: windowManager,
-                                      root: tabController,
-                                      analyticsCenter: analyticsCenter,
-                                      networkClient: client,
-                                      sessionManager: sessionManager)
-        windowManager.appWindow.rootViewController = tabController
-        windowManager.appWindow.makeKeyAndVisible()
-        trackSplashScreen(analyticsCenter.analyticsService)
-        coordinator?.start()
+        rootCoordinator?.handleUniversalLink(incomingURL)
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        if sessionManager.isSessionValid {
-            displayUnlockScreen()
-            shouldCallSceneWillEnterForeground = true
-        } else {
-            shouldCallSceneWillEnterForeground = false
-        }
+        rootCoordinator?.lock()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        if shouldCallSceneWillEnterForeground {
-            coordinator?.evaluateRevisit()
-        }
+        appQualifyingService.initiate()
     }
     
     private func setUpBasicUI() {

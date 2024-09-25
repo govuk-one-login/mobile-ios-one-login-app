@@ -12,7 +12,7 @@ public final class AppInformationService: AppInformationProvider {
 
     /// Initialise a new `AppInformationService`
     ///
-    /// No parameters are required.
+    /// - Parameter baseURL: the host of the AppInformationService API
     public convenience init(baseURL: URL) {
         self.init(client: .init(), baseURL: baseURL)
     }

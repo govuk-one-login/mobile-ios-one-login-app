@@ -16,7 +16,6 @@ final class WalletCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private var analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
-    private let walletSDK = WalletSDK()
 
     private let networkClient: NetworkClient
 
@@ -34,21 +33,15 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        walletSDK.start(in: window,
-                        with: root,
+        WalletSDK.start(in: root,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
                         credentialIssuer: AppEnvironment.walletCredentialIssuer)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(clearWallet),
-                         name: Notification.Name(.clearWallet),
-                         object: nil)
     }
     
     func handleUniversalLink(_ url: URL) {
-        walletSDK.deeplink(with: url.absoluteString)
+        WalletSDK.deeplink(with: url.absoluteString)
     }
     
     func deleteWalletData() throws {
@@ -57,30 +50,6 @@ final class WalletCoordinator: NSObject,
             throw TokenError.expired
         }
         #endif
-        try walletSDK.deleteWalletData()
-    }
-    
-    @objc private func clearWallet() {
-        do {
-            try deleteWalletData()
-            sessionManager.clearAllSessionData()
-            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = nil
-            let dataDeletionWarningScreen = ErrorPresenter
-                .createDataDeletionWarning(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                    window.rootViewController?.presentedViewController?.dismiss(animated: true) {
-                        NotificationCenter.default.post(name: Notification.Name(.returnToIntroScreen), object: nil)
-                    }
-                }
-            dataDeletionWarningScreen.modalPresentationStyle = .overFullScreen
-            window.rootViewController?.presentedViewController?.present(dataDeletionWarningScreen, animated: true)
-        } catch {
-            let unableToLoginErrorScreen = ErrorPresenter
-                .createUnableToLoginError(errorDescription: error.localizedDescription,
-                                          analyticsService: analyticsCenter.analyticsService) {
-                    exit(0)
-                }
-            unableToLoginErrorScreen.modalPresentationStyle = .overFullScreen
-            window.rootViewController?.presentedViewController?.present(unableToLoginErrorScreen, animated: true)
-        }
+        try WalletSDK.deleteData()
     }
 }

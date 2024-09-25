@@ -11,6 +11,8 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var secureTokenStore: MockSecureTokenStore!
     private var storedTokens: StoredTokens!
 
+    private var didCall_deleteSessionBoundData = false
+
     override func setUp() {
         super.setUp()
 
@@ -50,7 +52,6 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.sessionExists)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
-        XCTAssertFalse(sut.isPersistentSessionIDMissing)
     }
     
     func testSessionExpiryDate() {
@@ -112,7 +113,7 @@ extension PersistentSessionManagerTests {
         XCTAssertNil(configuration.persistentSessionId)
     }
     
-    func testStartSession_reauthenticatesTheUser() async throws {
+    func test_startSession_reauthenticatesTheUser() async throws {
         // GIVEN my session has expired
         let persistentSessionID = UUID().uuidString
         try encryptedStore.saveItem(item: persistentSessionID,
@@ -127,7 +128,37 @@ extension PersistentSessionManagerTests {
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertEqual(configuration.persistentSessionId, persistentSessionID)
     }
-    
+
+    func test_startSession_cannotReauthenticateWithoutPersistentSessionID() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .didLogout,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
+
+        // GIVEN I am a returning user
+        unprotectedStore.set(true, forKey: .returningUser)
+        sut.registerSessionBoundData(self)
+        // AND I am unable to re-authenticate because I have no persistent session ID
+        encryptedStore.deleteItem(itemName: .persistentSessionID)
+        // WHEN I start a session
+        do {
+            let loginSession = await MockLoginSession(window: UIWindow())
+            try await sut.startSession(using: loginSession)
+
+            XCTFail("Expected a sessionMismatch error to be thrown")
+        } catch PersistentSessionError.sessionMismatch {
+            // THEN a session mismatch error is thrown
+            // AND my session data is cleared
+            XCTAssertTrue(unprotectedStore.savedData.isEmpty)
+            XCTAssertTrue(didCall_deleteSessionBoundData)
+            // AND a logout notification is sent
+            await fulfillment(of: [exp], timeout: 5)
+        } catch {
+            XCTFail("Unexpected error was thrown")
+        }
+    }
+
     func testStartSession_exposesUserAndAccessToken() async throws {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
@@ -138,8 +169,8 @@ extension PersistentSessionManagerTests {
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN my User details
-        XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
-        XCTAssertEqual(sut.user?.email, "mock@email.com")
+        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         // AND access token are populated
         XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
     }
@@ -155,6 +186,12 @@ extension PersistentSessionManagerTests {
     }
 
     func testStartSession_savesTokensForReturningUsers() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .enrolmentComplete,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
+
         // GIVEN I am a returning user
         unprotectedStore.savedData = [.returningUser: true]
         let persistentSessionID = UUID().uuidString
@@ -166,6 +203,8 @@ extension PersistentSessionManagerTests {
         // THEN my session data is updated in the store
         XCTAssertEqual(encryptedStore.savedItems, [.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(unprotectedStore.savedData.count, 2)
+        // AND the user can be returned to where they left off
+        await fulfillment(of: [exp], timeout: 5)
     }
 
     func test_saveSession_enrolsLocalAuthenticationForNewUsers() async throws {
@@ -211,8 +250,8 @@ extension PersistentSessionManagerTests {
         // WHEN I return to the app and authenticate successfully
         try sut.resumeSession()
         // THEN my session data is re-populated
-        XCTAssertEqual(sut.user?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
-        XCTAssertEqual(sut.user?.email, "mock@email.com")
+        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWKSResponse.idToken)
     }
@@ -233,12 +272,12 @@ extension PersistentSessionManagerTests {
         sut.endCurrentSession()
         // THEN my data is cleared
         XCTAssertNil(sut.tokenProvider.subjectToken)
-        XCTAssertNil(sut.user)
+        XCTAssertNil(sut.user.value)
         
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }
     
-    func testEndCurrentSession_clearsAllPersistedData() {
+    func testEndCurrentSession_clearsAllPersistedData() throws {
         // GIVEN I have an expired session
         unprotectedStore.savedData = [
             .returningUser: true,
@@ -248,7 +287,7 @@ extension PersistentSessionManagerTests {
             .persistentSessionID: UUID().uuidString
         ]
         // WHEN I clear all session data
-        sut.clearAllSessionData()
+        try sut.clearAllSessionData()
         // THEN my session data is deleted
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
         XCTAssertEqual(encryptedStore.savedItems, [:])
@@ -280,7 +319,10 @@ extension PersistentSessionManagerTests {
         // AND I try to resume a session
         XCTAssertThrowsError(try sut.resumeSession()) { error in
         // THEN an error is thrown
-            XCTAssertEqual(error as? PersistentSessionError, .userRemovedLocalAuth)
+            guard case PersistentSessionError.userRemovedLocalAuth = error else {
+                XCTFail("Expected local auth removed error")
+                return
+            }
         }
     }
 }
@@ -301,5 +343,11 @@ extension PersistentSessionManagerTests {
             print("error")
         }
         return keysAsData
+    }
+}
+
+extension PersistentSessionManagerTests: SessionBoundData {
+    func delete() throws {
+        didCall_deleteSessionBoundData = true
     }
 }

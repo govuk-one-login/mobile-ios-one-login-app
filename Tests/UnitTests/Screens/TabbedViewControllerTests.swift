@@ -5,23 +5,28 @@ import XCTest
 
 @MainActor
 final class TabbedViewControllerTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var viewModel: TabbedViewModel!
-    var sut: TabbedViewController!
-    
+    private var mockAnalyticsService: MockAnalyticsService!
+    private var mockSession: MockSessionManager!
+    private var viewModel: TabbedViewModel!
+    private var sut: TabbedViewController!
+
     private var didTapRow = false
     private var didAppearCalled = false
-    
+
+
     override func setUp() {
         super.setUp()
-        
+
+        mockSession = MockSessionManager()
         mockAnalyticsService = MockAnalyticsService()
         viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
                                         navigationTitle: "Test Navigation Title",
                                         sectionModels: createSectionModels()) {
             self.didAppearCalled = true
         }
-        sut = TabbedViewController(viewModel: viewModel, headerView: UIView())
+        sut = TabbedViewController(viewModel: viewModel,
+                                   userProvider: mockSession,
+                                   headerView: UIView())
         sut.loadViewIfNeeded()
     }
     
@@ -85,7 +90,26 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(headerLabel.textColor, .secondaryLabel)
         XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
     }
-    
+
+    @MainActor
+    func test_updateUser() throws {
+        let sections = TabbedViewSectionFactory.profileSections(urlOpener: MockURLOpener()) {
+
+        }
+        let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
+                                            sectionModels: sections)
+        sut = TabbedViewController(viewModel: viewModel,
+                                   userProvider: mockSession,
+                                   headerView: SignInView())
+        // GIVEN I am not logged in
+        XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\n")
+        // WHEN the user is updated
+        mockSession.user.send(MockUser())
+        // THEN my email is displayed
+        let emailLabel = try sut.emailLabel
+        waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 2)
+    }
+
     func test_screenAnalytics() throws {
         sut.screenAnalytics()
         XCTAssertTrue(didAppearCalled)

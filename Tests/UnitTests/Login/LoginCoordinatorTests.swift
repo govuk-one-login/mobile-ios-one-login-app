@@ -32,7 +32,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: nil)
+                               isExpiredUser: false)
     }
     
     override func tearDown() {
@@ -55,28 +55,8 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
-                               loginError: TokenError.expired)
+                               isExpiredUser: true)
         mockSessionManager.isReturningUser = true
-    }
-    
-    @MainActor
-    func errorLogin() {
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsCenter: mockAnalyticsCenter,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               loginError: JWTVerifierError.invalidJWTFormat)
-    }
-    
-    @MainActor
-    func checkLocalAuth() {
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsCenter: mockAnalyticsCenter,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               loginError: PersistentSessionError.userRemovedLocalAuth)
     }
     
     private enum AuthenticationError: Error {
@@ -103,52 +83,11 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator is started in a reauth flow
         reauthLogin()
         sut.start()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the user sees the session expired screen
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // THEN the presented view controller should be the GDSErrorViewController
-        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // THEN the presented view model should be the SignOutWarningViewModel
-        XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
-    }
-    
-    @MainActor
-    func test_start_withNoBiometricsOrPasscode() throws {
-        // WHEN the LoginCoordinator is started with no local auth set up
-        checkLocalAuth()
-        sut.start()
-        // THEN the presented view controller should be the GDSErrorViewController
-        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // AND the presented view model should be the SignOutWarningViewModel
-        XCTAssertTrue(warningScreen.viewModelV2 is SignOutWarningViewModel)
-    }
-    
-    @MainActor
-    func test_start_error() throws {
-        // WHEN the LoginCoordinator is started in an error flow
-        errorLogin()
-        sut.start()
-        // THEN the visible view controller should be the IntroViewController
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // THEN the presented view controller should be the GDSErrorViewController
-        let warningScreen = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        // THEN the presented view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(warningScreen.viewModel is UnableToLoginErrorViewModel)
-    }
-    
-    @MainActor
-    func test_authenticate_missingPersistenId() throws {
-        mockSessionManager.isReturningUser = true
-        mockSessionManager.isPersistentSessionIDMissing = true
 
-        let exp = XCTNSNotificationExpectation(name: Notification.Name(.clearWallet),
-                                               object: nil,
-                                               notificationCenter: NotificationCenter.default)
-        // WHEN the LoginCoordinator is started and the persistent session id is missing
-        sut.authenticate()
-        // THEN the clear wallet notification should be posted
-        wait(for: [exp], timeout: 20)
+        let screen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        XCTAssertTrue(screen.viewModelV2 is SignOutWarningViewModel)
     }
     
     @MainActor
@@ -194,13 +133,6 @@ extension LoginCoordinatorTests {
         // THEN the LoginCoordinator should have an AuthenticationCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is AuthenticationCoordinator)
-    }
-    
-    @MainActor
-    func test_handleUniversalLink() {
-        // WHEN the handleUniversalLink method is called
-        // This test is purely to get test coverage atm as we will not be able to test for effects on unmocked subcoordinators
-        sut.handleUniversalLink(URL(string: "google.com")!)
     }
     
     @MainActor

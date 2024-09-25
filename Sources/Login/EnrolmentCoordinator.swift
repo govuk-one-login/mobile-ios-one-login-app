@@ -23,45 +23,47 @@ final class EnrolmentCoordinator: NSObject,
     func start() {
         switch sessionManager.localAuthentication.type {
         case .touchID:
-            let touchIDEnrollmentScreen = OnboardingViewControllerFactory
-                .createTouchIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    completeEnrolment()
-                } secondaryButtonAction: { [unowned self] in
-                    finish()
-                }
+            let viewModel = TouchIDEnrollmentViewModel(analyticsService: analyticsService) { [unowned self] in
+                saveSession()
+            } secondaryButtonAction: { [unowned self] in
+                completeEnrolment()
+            }
+            let touchIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
             root.pushViewController(touchIDEnrollmentScreen, animated: true)
         case .faceID:
-            let faceIDEnrollmentScreen = OnboardingViewControllerFactory
-                .createFaceIDEnrollmentScreen(analyticsService: analyticsService) { [unowned self] in
-                    completeEnrolment()
-                } secondaryButtonAction: { [unowned self] in
-                    finish()
-                }
+            let viewModel = FaceIDEnrollmentViewModel(analyticsService: analyticsService) { [unowned self] in
+                saveSession()
+            } secondaryButtonAction: { [unowned self] in
+                completeEnrolment()
+            }
+            let faceIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
             root.pushViewController(faceIDEnrollmentScreen, animated: true)
         case .passcodeOnly:
-            showPasscodeInfo()
+            saveSession()
         case .none:
-            finish()
+            showPasscodeInfo()
+        }
+    }
+
+    private func saveSession() {
+        Task {
+            if !ProcessInfo.processInfo.arguments.contains("uiTests") {
+                try await sessionManager.saveSession()
+            }
+            completeEnrolment()
         }
     }
 
     private func completeEnrolment() {
-        Task {
-            do {
-                try await sessionManager.saveSession()
-                finish()
-            } catch {
-                // TODO: DCMAW-9700 - handle errors thrown here:
-                fatalError("Handle these errors")
-            }
-        }
+        NotificationCenter.default.post(name: .enrolmentComplete)
+        finish()
     }
 
     private func showPasscodeInfo() {
-        let passcodeInformationScreen = OnboardingViewControllerFactory
-            .createPasscodeInformationScreen(analyticsService: analyticsService) { [unowned self] in
+        let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) { [unowned self] in
                 completeEnrolment()
             }
+        let passcodeInformationScreen = GDSInformationViewController(viewModel: viewModel)
         root.pushViewController(passcodeInformationScreen, animated: true)
     }
 }

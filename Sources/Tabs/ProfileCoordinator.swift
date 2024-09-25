@@ -11,16 +11,17 @@ final class ProfileCoordinator: NSObject,
                                 NavigationCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
+
+    private let userProvider: UserProvider
     private let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
-    private(set) var baseVc: TabbedViewController?
     
-    init(analyticsService: AnalyticsService,
-         urlOpener: URLOpener,
-         baseVc: TabbedViewController? = nil) {
+    init(userProvider: UserProvider,
+         analyticsService: AnalyticsService,
+         urlOpener: URLOpener) {
+        self.userProvider = userProvider
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
-        self.baseVc = baseVc
     }
     
     func start() {
@@ -31,20 +32,16 @@ final class ProfileCoordinator: NSObject,
                                             sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
+                                                         userProvider: userProvider,
                                                          headerView: SignInView())
-        baseVc = profileViewController
         root.setViewControllers([profileViewController], animated: true)
-    }
-    
-    func updateUser(_ user: User) {
-        baseVc?.updateEmail(user.email)
     }
     
     func openSignOutPage() {
         let navController = UINavigationController()
         let viewModel = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
-                parentCoordinator?.childDidFinish(self)
+                finish()
             }
         }
         let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)

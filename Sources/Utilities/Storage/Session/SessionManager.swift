@@ -3,16 +3,18 @@ import Foundation
 import Networking
 import SecureStore
 
-protocol SessionManager {
+enum UserState {
+    case authenticated
+    case notAuthenticated
+}
+
+protocol SessionManager: UserProvider {
     var expiryDate: Date? { get }
     
     var sessionExists: Bool { get }
     var isSessionValid: Bool { get }
     var isReturningUser: Bool { get }
-
-    var user: User? { get }
-
-    var isPersistentSessionIDMissing: Bool { get }
+    var isOneTimeUser: Bool { get }
 
     var tokenProvider: TokenHolder { get }
 
@@ -31,5 +33,5 @@ protocol SessionManager {
     func endCurrentSession()
 
     /// Completely removes all user session data (including the persistent session and Wallet data) from the device
-    func clearAllSessionData()
+    func clearAllSessionData() throws
 }

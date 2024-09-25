@@ -1,5 +1,4 @@
 {
-  "originHash" : "c6855c540ff387bc0652d95e5b3f2b8616b9ead80ecd8a04829face4d894c9bf",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -175,10 +174,10 @@
     {
       "identity" : "mobile-wallet-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
+      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios",
       "state" : {
-        "revision" : "c0d632c22fbc51788916cfb18619b1acb00a4b16",
-        "version" : "4.0.0"
+        "revision" : "86e952046f226bccc198572ec598e40f13117d11",
+        "version" : "5.0.0"
       }
     },
     {
@@ -236,5 +235,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

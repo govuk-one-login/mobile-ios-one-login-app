@@ -1,3 +1,4 @@
+import Combine
 import Coordination
 import GDSCommon
 import UIKit
@@ -5,13 +6,18 @@ import UIKit
 final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
-    private var viewModel: TabbedViewModel
+    private let viewModel: TabbedViewModel
     private let headerView: UIView?
-    
+    private let userProvider: UserProvider
+
+    private var cancellables = Set<AnyCancellable>()
+
     init(viewModel: TabbedViewModel,
+         userProvider: UserProvider,
          headerView: UIView? = nil) {
         self.viewModel = viewModel
         self.headerView = headerView
+        self.userProvider = userProvider
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
@@ -25,6 +31,9 @@ final class TabbedViewController: BaseViewController {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
         configureTableView()
+
+        updateEmail(userProvider.user.value?.email)
+        subscribeToUsers()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -42,15 +51,19 @@ final class TabbedViewController: BaseViewController {
             tableView.accessibilityIdentifier = "tabbed-view-table-view"
         }
     }
-    
-    func updateEmail(_ email: String) {
-        guard let headerView = headerView as? SignInView else { return }
-        headerView.userEmail = email
-        resizeHeaderView()
+
+    private func subscribeToUsers() {
+        userProvider.user
+            .receive(on: DispatchQueue.main)
+            .sink { user in
+                self.updateEmail(user?.email)
+            }.store(in: &cancellables)
     }
-    
-    func isLoggedIn(_ value: Bool) {
-        viewModel.isLoggedIn = value
+
+    func updateEmail(_ email: String?) {
+        guard let headerView = headerView as? SignInView else { return }
+        headerView.userEmail = email ?? ""
+        resizeHeaderView()
     }
     
     func screenAnalytics() {

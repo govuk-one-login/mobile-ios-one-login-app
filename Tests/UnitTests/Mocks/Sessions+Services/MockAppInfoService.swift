@@ -11,7 +11,9 @@ final class MockAppInformationService: AppInformationProvider {
     var shouldReturnError = false
     
     var errorToThrow: Error?
-        
+
+    var releaseFlags: [String: Bool] = [:]
+
     func fetchAppInfo() async throws -> App {
         defer {
             didCallFetchAppInfo = true
@@ -24,6 +26,8 @@ final class MockAppInformationService: AppInformationProvider {
             throw errorToThrow
         }
         
-        return App(minimumVersion: .init(1, 2, 0), allowAppUsage: true, releaseFlags: [:])
+        return App(minimumVersion: .init(1, 2, 0),
+                   allowAppUsage: true,
+                   releaseFlags: releaseFlags)
     }
 }
