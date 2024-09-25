@@ -94,7 +94,7 @@ extension SignOutPageViewModelTests {
         sut.buttonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
+        let event = ButtonEvent(textKey: "app_signOutAndDeletePreferences")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
@@ -103,13 +103,13 @@ extension SignOutPageViewModelTests {
 extension SignOutPageViewModelTests {
     var bulletList: BulletView {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
+            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list-no-wallet"])
         }
     }
     
     var body2Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body2-text-no-wallet"])
         }
     }
 }

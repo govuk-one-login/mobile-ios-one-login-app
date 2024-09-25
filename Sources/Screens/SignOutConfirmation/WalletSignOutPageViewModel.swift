@@ -44,7 +44,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
                                                 ])
-        bulletView.accessibilityIdentifier = "sign-out-bullet-list"
+        bulletView.accessibilityIdentifier = "sign-out-bullet-list-with-wallet"
         
         let body2Label = {
             let label = UILabel()
@@ -52,7 +52,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .bodyBold
-            label.accessibilityIdentifier = "sign-out-body2-text"
+            label.accessibilityIdentifier = "sign-out-body2-text-with-wallet"
             return label
         }()
         
@@ -62,7 +62,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
-            label.accessibilityIdentifier = "sign-out-body3-text"
+            label.accessibilityIdentifier = "sign-out-body3-text-with-wallet"
             return label
         }()
         
@@ -70,7 +70,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12
-        stackView.accessibilityIdentifier = "sign-out-stack-view"
+        stackView.accessibilityIdentifier = "sign-out-stack-view-with-wallet"
         return stackView
     }
 }

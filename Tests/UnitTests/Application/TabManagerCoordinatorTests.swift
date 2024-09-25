@@ -182,7 +182,8 @@ extension TabManagerCoordinatorTests {
         try mockSessionManager.setupSession(returningUser: true)
         let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
                                                     analyticsService: mockAnalyticsService,
-                                                    urlOpener: MockURLOpener())
+                                                    urlOpener: MockURLOpener(),
+                                                    walletAvailabilityService: mockWalletAvailabilityService)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
         // THEN a logout notification is sent
@@ -201,7 +202,8 @@ extension TabManagerCoordinatorTests {
         try mockSessionManager.setupSession(returningUser: true)
         let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
                                                     analyticsService: mockAnalyticsService,
-                                                    urlOpener: MockURLOpener())
+                                                    urlOpener: MockURLOpener(),
+                                                    walletAvailabilityService: mockWalletAvailabilityService)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)
