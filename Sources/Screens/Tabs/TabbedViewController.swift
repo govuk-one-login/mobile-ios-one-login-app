@@ -31,7 +31,7 @@ final class TabbedViewController: BaseViewController {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
         configureTableView()
-
+        
         updateEmail(userProvider.user.value?.email)
         subscribeToUsers()
     }
@@ -93,6 +93,13 @@ final class TabbedViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
+    private lazy var contentTile = {
+        let viewModel = ContentTileViewModel(secondaryButtonViewModel: StandardButtonViewModel(titleKey: "test string", shouldLoadOnTap: false, action: { }))
+        let view = GDSContentTileView(frame: .zero, viewModel: viewModel)
+        
+        return view
+    }()
 }
 
 extension TabbedViewController: UITableViewDataSource {

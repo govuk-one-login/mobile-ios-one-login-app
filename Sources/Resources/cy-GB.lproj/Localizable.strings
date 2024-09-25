@@ -179,3 +179,10 @@
 "app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
 
 "app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
+
+// MARK: Your Services content tile
+"app_yourServicesCardTitle" = "Eich gwasanaethau";
+
+"app_yourServicesCardBody" = "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login";
+
+"app_yourServicesCardLink" = "Ewch i'ch gwasanaethau";
