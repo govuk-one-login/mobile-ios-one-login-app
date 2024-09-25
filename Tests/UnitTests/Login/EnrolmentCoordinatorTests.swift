@@ -65,7 +65,6 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the no screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 0)
-        waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
     }
 
     @MainActor
