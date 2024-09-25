@@ -6,7 +6,7 @@ import XCTest
 @MainActor
 final class WalletSignOutPageViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutPageViewModel!
+    var sut: WalletSignOutPageViewModel!
     
     var didCallButtonAction = false
     
@@ -14,7 +14,7 @@ final class WalletSignOutPageViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutPageViewModel(analyticsService: mockAnalyticsService) {
+        sut = WalletSignOutPageViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -102,19 +102,19 @@ extension WalletSignOutPageViewModelTests {
 extension WalletSignOutPageViewModelTests {
     var bulletList: BulletView {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
+            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list-with-wallet"])
         }
     }
     
     var body2Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body2-text-with-wallet"])
         }
     }
     
     var body3Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body3-text"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body3-text-with-wallet"])
         }
     }
 }

@@ -5,7 +5,7 @@ import UIKit
 
 struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     let title: GDSLocalisedString = "app_signOutConfirmationTitleNoWallet"
-    let body: String = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
+    let body: String = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1NoWallet").value
     var childView = UIView()
     let buttonViewModel: any ButtonViewModel
     let secondaryButtonViewModel: (any ButtonViewModel)? = nil
@@ -43,7 +43,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1iOSNoWallet").value,
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2NoWallet").value
                                                 ])
-        bulletView.accessibilityIdentifier = "sign-out-bullet-list-wallet"
+        bulletView.accessibilityIdentifier = "sign-out-bullet-list-no-wallet"
         
         let body2Label = {
             let label = UILabel()
@@ -51,7 +51,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .bodyBold
-            label.accessibilityIdentifier = "sign-out-body2-text"
+            label.accessibilityIdentifier = "sign-out-body2-text-no-wallet"
             return label
         }()
         
@@ -59,7 +59,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12
-        stackView.accessibilityIdentifier = "sign-out-stack-view"
+        stackView.accessibilityIdentifier = "sign-out-stack-view-no-wallet"
         return stackView
     }
 }

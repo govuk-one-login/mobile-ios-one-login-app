@@ -8,6 +8,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var urlOpener: URLOpener!
     var sut: ProfileCoordinator!
     
@@ -20,7 +21,8 @@ final class ProfileCoordinatorTests: XCTestCase {
         urlOpener = MockURLOpener()
         sut = ProfileCoordinator(userProvider: mockSessionManager,
                                  analyticsService: mockAnalyticsService,
-                                 urlOpener: urlOpener)
+                                 urlOpener: urlOpener,
+                                 walletAvailabilityService: mockWalletAvailabilityService)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
