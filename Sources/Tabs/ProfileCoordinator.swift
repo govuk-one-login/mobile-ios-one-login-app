@@ -53,7 +53,7 @@ final class ProfileCoordinator: NSObject,
         walletAvailable: Bool,
         navController: UINavigationController
     ) -> GDSInstructionsViewModel {
-        return if (walletAvailable) {
+        return if walletAvailable {
             WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
                 navController.dismiss(animated: true) { [unowned self] in
                     finish()
