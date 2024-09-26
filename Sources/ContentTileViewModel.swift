@@ -7,20 +7,20 @@ struct ContentTileViewModel: GDSContentTileViewModel, GDSContentTileViewModelWit
     var title: GDSLocalisedString = "app_yourServicesCardTitle"
     var body: GDSLocalisedString = "app_yourServicesCardBody"
     var showSeparatorLine: Bool = true
-    var secondaryButtonViewModel: ButtonViewModel
+    var secondaryButtonViewModel: ButtonViewModel = StandardButtonViewModel(titleKey: "app_yourServicesCardLink", action: { })
     var backgroundColour: UIColor? = .systemBackground
-    let analyticsService: AnalyticsService
+//    let analyticsService: AnalyticsService
     
-    init(analyticsService: AnalyticsService,
+    init(// analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+//        self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_yourServicesCardLink",
                               linkDomain: AppEnvironment.yourServicesLink,
                               external: .false)
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
-                                                               analyticsService: analyticsService,
-                                                                 analyticsEvent: event) {
-            action()
-        }
+//        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
+//                                                               analyticsService: analyticsService,
+//                                                                 analyticsEvent: event) {
+//            action()
+//        }
     }
 }

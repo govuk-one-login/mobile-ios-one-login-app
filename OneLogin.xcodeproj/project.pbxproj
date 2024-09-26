@@ -75,6 +75,8 @@
 		7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */; };
 		7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */ = {isa = PBXBuildFile; productRef = 7CF44B272CAB45A70027839B /* AppIntegrity */; };
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
+		AB2D02DD2CA567B500CB2500 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D02DC2CA567B500CB2500 /* ContentTableViewCell.swift */; };
+		AB2D02DF2CA56A6300CB2500 /* ContentViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D02DE2CA56A6300CB2500 /* ContentViewCellModel.swift */; };
 		AB96DA102CA30C3F00DD8EA6 /* ContentTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB96DA0F2CA30C3F00DD8EA6 /* ContentTileViewModel.swift */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
@@ -318,6 +320,8 @@
 		7CD66F862C90A96A008513F4 /* MockQualifyingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQualifyingService.swift; sourceTree = "<group>"; };
 		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
 		7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletSessionData+OneLogin.swift"; sourceTree = "<group>"; };
+		AB2D02DC2CA567B500CB2500 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		AB2D02DE2CA56A6300CB2500 /* ContentViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewCellModel.swift; sourceTree = "<group>"; };
 		AB96DA0F2CA30C3F00DD8EA6 /* ContentTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTileViewModel.swift; sourceTree = "<group>"; };
 		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
@@ -576,6 +580,8 @@
 				C8ECA1282BB5955200722218 /* Tabs */,
 				C85E21152ACEECB000AF8B4E /* Views */,
 				AB96DA0F2CA30C3F00DD8EA6 /* ContentTileViewModel.swift */,
+				AB2D02DE2CA56A6300CB2500 /* ContentViewCellModel.swift */,
+				AB2D02DC2CA567B500CB2500 /* ContentTableViewCell.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1763,6 +1769,8 @@
 				C8C343A62B9233FC00E92FB9 /* AnalyticsCenter.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */,
+				C8520C2B2AE2C223006790C1 /* OnboardingViewControllerFactory.swift in Sources */,
+				AB2D02DF2CA56A6300CB2500 /* ContentViewCellModel.swift in Sources */,
 				1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				C86A0D012BF270B50023EC42 /* MockTabbedViewModel.swift in Sources */,
@@ -1808,6 +1816,7 @@
 				C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */,
 				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
 				C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */,
+				AB2D02DD2CA567B500CB2500 /* ContentTableViewCell.swift in Sources */,
 				D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,

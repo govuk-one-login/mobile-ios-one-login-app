@@ -89,6 +89,7 @@ final class TabbedViewController: BaseViewController {
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
         tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
         tableView.register(TabbedViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier)
+        tableView.register(ContentTableViewCell.self, forCellReuseIdentifier: "new cell")
         tableView.tableHeaderView = headerView
         tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self
@@ -147,5 +148,12 @@ extension TabbedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TabbedTableViewCell else { return }
         cell.viewModel?.action?()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForContentInSection section: Int) -> UIView? {
+        let content = tableView.dequeueReusableCell(withIdentifier: "new cell") as? ContentTableViewCell
+        let view = ContentTileViewModel(action: { })
+        content?.viewModel?.view = GDSContentTileView(frame: .zero, viewModel: view)
+        return content
     }
 }
