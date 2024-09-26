@@ -1,6 +1,7 @@
 import Combine
 import Coordination
 import GDSCommon
+import Logging
 import UIKit
 
 final class TabbedViewController: BaseViewController {
@@ -94,12 +95,19 @@ final class TabbedViewController: BaseViewController {
         tableView.dataSource = self
     }
     
-    private lazy var contentTile = {
-        let viewModel = ContentTileViewModel(secondaryButtonViewModel: StandardButtonViewModel(titleKey: "test string", shouldLoadOnTap: false, action: { }))
-        let view = GDSContentTileView(frame: .zero, viewModel: viewModel)
-        
-        return view
-    }()
+//    func createContentTile() -> GDSContentTileView {
+//        let viewModel = ContentTileViewModel(analyticsService: AnalyticsService.self as! AnalyticsService) {
+//            print("button tapped")
+//        }
+//        return GDSContentTileView(frame: .zero, viewModel: viewModel)
+//    }
+    
+//    private lazy var contentTile = {
+//        let viewModel = ContentTileViewModel(secondaryButtonViewModel: StandardButtonViewModel(titleKey: "test string", shouldLoadOnTap: false, action: { }))
+//        let view = GDSContentTileView(frame: .zero, viewModel: viewModel)
+//
+//        return view
+//    }()
 }
 
 extension TabbedViewController: UITableViewDataSource {

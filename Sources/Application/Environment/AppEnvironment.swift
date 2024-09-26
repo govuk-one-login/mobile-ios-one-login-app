@@ -11,6 +11,7 @@ public final class AppEnvironment {
         case externalBaseURL = "External Base URL"
         case appStoreURL = "App Store URL"
         case credentialIssuerURL = "Wallet Credential Issuer URL"
+        case yourServicesURL = "Your Services URL"
     }
     
     static var releaseFlags = ReleaseFlags()
@@ -181,6 +182,21 @@ extension AppEnvironment {
             .appendingPathExtension("app")
             .appendingPathExtension("uk.gov.digital-identity")
         // TODO: DCMAW-9819: Update to App ID
+    }
+}
+
+// MARK: - Content tile URLs
+extension AppEnvironment {
+    static var yourServicesURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = AppEnvironment.string(for: .yourServicesURL)
+        components.path = "/your-services"
+        return components.url!
+    }
+    
+    static var yourServicesLink: String {
+        string(for: .yourServicesURL)
     }
 }
 
