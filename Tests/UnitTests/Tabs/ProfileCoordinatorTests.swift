@@ -18,7 +18,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
-        mockWalletAvailabilityService = mockWalletAvailabilityService
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
         urlOpener = MockURLOpener()
         sut = ProfileCoordinator(userProvider: mockSessionManager,
                                  analyticsService: mockAnalyticsService,
