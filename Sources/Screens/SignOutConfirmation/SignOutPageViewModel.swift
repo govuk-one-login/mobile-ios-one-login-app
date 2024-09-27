@@ -18,7 +18,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeletePreferences",
-                                                        backgroundColor: .gdsRed,
+                                                        backgroundColor: .gdsGreen,
                                                         analyticsService: analyticsService) {
             buttonAction()
         }
