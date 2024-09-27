@@ -2,8 +2,11 @@
 import XCTest
 
 class MockWalletAvailabilityService: WalletFeatureAvailabilityService {
+    var hasAccessedBefore = false
     var shouldShowFeature = false
     var shouldShowFeatureOnUniversalLink = false
     
-    func hasAccessedPreviously() { }
+    func accessedWalletFeature() {
+        hasAccessedBefore = true
+    }
 }
