@@ -93,7 +93,7 @@ extension TabManagerCoordinator {
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        walletAvailabilityService.hasAccessedPreviously()
+        walletAvailabilityService.accessedWalletFeature()
     }
     
     private func addProfileTab() {
