@@ -65,7 +65,7 @@ extension SignOutPageViewModelTests {
         XCTAssertTrue(sut.buttonViewModel is AnalyticsButtonViewModel)
         XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeletePreferences"))
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, .gdsRed)
+        XCTAssertEqual(button.backgroundColor, .gdsGreen)
     }
     
     func test_didAppear() throws {
