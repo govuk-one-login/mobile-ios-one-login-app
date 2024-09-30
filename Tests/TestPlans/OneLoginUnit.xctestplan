@@ -20,6 +20,13 @@
   "testTargets" : [
     {
       "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AppIntegrityTests",
+        "name" : "AppIntegrityTests"
+      }
+    },
+    {
+      "target" : {
         "containerPath" : "container:MobilePlatformServices",
         "identifier" : "MobilePlatformServicesTests",
         "name" : "MobilePlatformServicesTests"

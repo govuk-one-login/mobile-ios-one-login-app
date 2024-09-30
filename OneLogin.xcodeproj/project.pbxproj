@@ -73,6 +73,7 @@
 		7CD66F872C90A96A008513F4 /* MockQualifyingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD66F862C90A96A008513F4 /* MockQualifyingService.swift */; };
 		7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */ = {isa = PBXBuildFile; productRef = 7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */; };
 		7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */; };
+		7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */ = {isa = PBXBuildFile; productRef = 7CF44B272CAB45A70027839B /* AppIntegrity */; };
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
@@ -457,6 +458,7 @@
 				7CA719742C848EF600973585 /* Wallet in Frameworks */,
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
+				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
@@ -1439,6 +1441,7 @@
 				D0BE243D2BEB7E5E00759529 /* JWTKit */,
 				7CA719732C848EF600973585 /* Wallet */,
 				7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */,
+				7CF44B272CAB45A70027839B /* AppIntegrity */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1570,6 +1573,7 @@
 				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
 				7C1918422C861DF500D268C4 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 				7CDC2EBC2C8B1CF200EAA592 /* XCLocalSwiftPackageReference "MobilePlatformServices" */,
+				7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -2851,6 +2855,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = MobilePlatformServices;
 		};
+		7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = AppIntegrity;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -2928,6 +2936,10 @@
 		7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MobilePlatformServices;
+		};
+		7CF44B272CAB45A70027839B /* AppIntegrity */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppIntegrity;
 		};
 		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
