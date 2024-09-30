@@ -26,31 +26,36 @@ struct FirebaseAppIntegrityServiceTests {
           Check that 401 throws invalid token error
           """)
     func testAssertIntegrity401() async throws {
-        // TODO: return 401 from mock token endpoint
-
-        Task {
-            do {
-                try await sut.assertIntegrity()
-            } catch AppIntegrityError.invalidToken {
-                return
-            }
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 401))
         }
 
-        // TODO: await response
-        #expect(Bool(false))
+        await #expect(throws: AppIntegrityError.invalidToken) {
+            try await sut.assertIntegrity()
+        }
     }
 
     @Test("""
           Check that 400 throws invalid public key error
           """)
     func testAssertIntegrity400() async throws {
-        #expect(Bool(false))
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
+
+        await #expect(throws: AppIntegrityError.invalidPublicKey) {
+            try await sut.assertIntegrity()
+        }
     }
 
     @Test("""
           Check that 200 returns the client attestation
           """)
     func testAssertIntegritySuccess() async throws {
-        #expect(Bool(false))
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 200))
+        }
+
+        try await sut.assertIntegrity()
     }
 }

@@ -1,5 +1,5 @@
-import FirebaseAppCheck
 @testable import AppIntegrity
+import FirebaseAppCheck
 
 final class MockAppCheckVendor: AppCheckVendor {
     static func setAppCheckProviderFactory(_ factory: (any AppCheckProviderFactory)?) {

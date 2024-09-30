@@ -49,21 +49,28 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         print("APP CHECK TOKEN:", token.token)
 
         // Include the App Check token with requests to your server.
-        let data = try await client.makeRequest(.assert(token: token.token))
-        print("APP CHECK SUCCESS:", String(decoding: data, as: UTF8.self))
+        do {
+            let data = try await client
+                .makeRequest(.assert(token: token.token))
+            print("APP CHECK SUCCESS:", String(decoding: data, as: UTF8.self))
 
-        // TODO: decode this from the following structure:
-        /*
-         {
-          "client_attestation": "eyJ...", /* Client Attestation JWT signed by Mobile Backend signing key */
-          "expires_in": 86400 /* One day in seconds */
+            // TODO: decode this from the following structure:
+            /*
+             {
+              "client_attestation": "eyJ...", /* Client Attestation JWT signed by Mobile Backend signing key */
+              "expires_in": 86400 /* One day in seconds */
+            }
+             */
+
+            // TODO: store this locally
+        } catch let error as ServerError where
+                    error.errorCode == 400 {
+            throw AppIntegrityError.invalidPublicKey
+        } catch let error as ServerError where
+                    error.errorCode == 401 {
+            throw AppIntegrityError.invalidToken
         }
-         */
-
-        // TODO: store this locally
     }
-
-
 
     public func addIntegrityAssertions(to request: URLRequest) -> URLRequest {
         var signedRequest = request
