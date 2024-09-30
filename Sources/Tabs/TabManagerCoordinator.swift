@@ -64,6 +64,9 @@ final class TabManagerCoordinator: NSObject,
         guard walletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
+        if (walletCoordinator == nil) {
+            addWalletTab()
+        }
         walletCoordinator?.handleUniversalLink(url)
     }
 }
@@ -93,7 +96,7 @@ extension TabManagerCoordinator {
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        walletAvailabilityService.accessedWalletFeature()
+        walletAvailabilityService.accessedFeature()
     }
     
     private func addProfileTab() {

@@ -6,7 +6,7 @@ class MockWalletAvailabilityService: WalletFeatureAvailabilityService {
     var shouldShowFeature = false
     var shouldShowFeatureOnUniversalLink = false
     
-    func accessedWalletFeature() {
+    func accessedFeature() {
         hasAccessedBefore = true
     }
 }

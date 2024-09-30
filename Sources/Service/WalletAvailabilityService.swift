@@ -5,7 +5,7 @@ import UIKit
 protocol FeatureAvailabilityService {
     var hasAccessedBefore: Bool { get }
     var shouldShowFeature: Bool { get }
-    func accessedWalletFeature()
+    func accessedFeature()
 }
 
 protocol UniversalLinkFeatureAvailabilityService {
@@ -40,7 +40,7 @@ class WalletAvailabilityService: WalletFeatureAvailabilityService {
         return true
     }
     
-    func accessedWalletFeature() {
+    func accessedFeature() {
         UserDefaults.standard.set(true, forKey: "hasAccessedWalletBefore")
     }
 }

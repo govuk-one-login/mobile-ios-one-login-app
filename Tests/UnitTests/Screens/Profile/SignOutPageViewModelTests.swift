@@ -1,11 +1,3 @@
-//
-//  SignOutPageViewModelTests.swift
-//  OneLogin
-//
-//  Created by Mihaila, Bianca on 25/09/2024.
-//
-
-
 import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
