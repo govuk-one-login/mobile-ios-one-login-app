@@ -17,3 +17,9 @@ extension TabbedViewModel {
         sectionModels[section].tabModels.count
     }
 }
+
+
+protocol ContentViewModel: BaseViewModel {
+    var analyticsService: AnalyticsService { get }
+    var sectionModels: [ContentViewSectionModel] { get }
+}

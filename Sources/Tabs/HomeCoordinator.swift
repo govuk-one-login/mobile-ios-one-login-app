@@ -16,6 +16,8 @@ final class HomeCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager
+    private(set) var baseVc: TabbedViewController?
+    private(set) var baseVc2: ContentViewController?
 
     private let networkClient: NetworkClient
 
@@ -34,9 +36,9 @@ final class HomeCoordinator: NSObject,
                                        tag: 0)
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
                                          sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
-        let hc = TabbedViewController(viewModel: viewModel,
-                                      userProvider: sessionManager,
-                                      headerView: SignInView())
+        let hc = ContentViewController(viewModel: viewModel,
+                                       contentView: GDSContentTileView(frame: .zero, viewModel: ContentTileViewModel(action: { })))
+        baseVc2 = hc
         root.setViewControllers([hc], animated: true)
     }
 

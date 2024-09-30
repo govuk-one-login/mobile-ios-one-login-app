@@ -15,10 +15,10 @@ struct TabbedViewSectionModel {
     }
 }
 
-// class ContentViewSectionModel {
-//    let tabModels: [ContentViewCellModel]
-//
-//    init(tabModels: [ContentViewCellModel] = [ContentViewCellModel]()) {
-//        self.tabModels = tabModels
-//    }
-// }
+ class ContentViewSectionModel {
+    let tabModels: [ContentViewCellModel]
+
+    init(tabModels: [ContentViewCellModel] = [ContentViewCellModel]()) {
+        self.tabModels = tabModels
+    }
+ }

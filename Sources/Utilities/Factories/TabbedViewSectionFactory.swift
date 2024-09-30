@@ -6,17 +6,20 @@ struct TabbedViewSectionFactory {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
     @MainActor
-    static func homeSections(coordinator: HomeCoordinator) -> [TabbedViewSectionModel] {
-        #if DEBUG
-        let homeSection = createSection(header: "Developer Menu",
-                                        footer: nil,
-                                        cellModels: [.init(cellTitle: "Developer Menu") {
-            coordinator.showDeveloperMenu()
-        }])
-        #else
-        let homeSection = TabbedViewSectionModel()
-        #endif
-        return [homeSection]
+    static func homeSections(coordinator: HomeCoordinator) -> [ContentViewSectionModel] {
+//        #if DEBUG
+//        let homeSection = createSection(header: "Developer Menu",
+//                                        footer: nil,
+//                                        cellModels: [.init(cellTitle: "Developer Menu") {
+//            coordinator.showDeveloperMenu()
+//        }])
+//        #else
+//        let homeSection = TabbedViewSectionModel()
+//        #endif
+//        return [homeSection]
+        let content = createContentView(cellModels: [ContentViewCellModel()])
+        
+        return [content]
     }
     
     static func profileSections(urlOpener: URLOpener, action: @escaping () -> Void) -> [TabbedViewSectionModel] {
@@ -61,5 +64,9 @@ struct TabbedViewSectionFactory {
                                       sectionFooter: footer,
                                       tabModels: cellModels)
         
+    }
+    
+    static func createContentView(cellModels: [ContentViewCellModel]) -> ContentViewSectionModel {
+        return ContentViewSectionModel(tabModels: cellModels)
     }
 }
