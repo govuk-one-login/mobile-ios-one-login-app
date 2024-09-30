@@ -74,8 +74,10 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
 
     public func addIntegrityAssertions(to request: URLRequest) -> URLRequest {
         var signedRequest = request
-        signedRequest.addValue("abc", forHTTPHeaderField: "OAuth-Client-Attestation")
-        signedRequest.addValue("def", forHTTPHeaderField: "OAuth-Client-Attestation-PoP")
+        signedRequest.addValue("abc",
+                               forHTTPHeaderField: "OAuth-Client-Attestation")
+        signedRequest.addValue("def",
+                               forHTTPHeaderField: "OAuth-Client-Attestation-PoP")
         return request
     }
 }

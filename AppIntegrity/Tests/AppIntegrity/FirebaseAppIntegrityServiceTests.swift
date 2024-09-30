@@ -5,6 +5,7 @@ import MockNetworking
 @testable import Networking
 import Testing
 
+@Suite(.serialized)
 struct FirebaseAppIntegrityServiceTests {
     let sut: FirebaseAppIntegrityService
 
