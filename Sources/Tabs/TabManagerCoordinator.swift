@@ -64,7 +64,7 @@ final class TabManagerCoordinator: NSObject,
         guard walletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
-        if (walletCoordinator == nil) {
+        if walletCoordinator == nil {
             addWalletTab()
         }
         walletCoordinator?.handleUniversalLink(url)
