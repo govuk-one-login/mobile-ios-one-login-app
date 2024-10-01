@@ -168,7 +168,7 @@ platform :ios do
           submit_beta_review: true
         )
       rescue Spaceship::UnexpectedResponse => ex
-        if ex.error_info['code'] != 'You can’t submit a build for testing if another build is already in review. Wait until your other build has been reviewed, and resubmit this build.'
+        if ex.error_info['code'] != "You can’t submit a build for testing if another build is already in review. Wait until your other build has been reviewed, and resubmit this build."
           raise ex
         end
       end
