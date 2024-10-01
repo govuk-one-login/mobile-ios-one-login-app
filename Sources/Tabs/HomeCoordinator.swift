@@ -28,7 +28,7 @@ final class HomeCoordinator: NSObject,
                                        tag: 0)
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
                                          sectionModels: TabbedViewSectionFactory.homeSections())
-        let hc = ContentViewController(analyticsService: analyticsService)
+        let hc = ContentViewController(viewModel: viewModel)
         baseVc2 = hc
         root.setViewControllers([hc], animated: true)
     }
@@ -38,15 +38,4 @@ final class HomeCoordinator: NSObject,
         baseVc?.isLoggedIn(true)
         baseVc?.screenAnalytics()
     }
-    
-//    func showDeveloperMenu() {
-//        let viewModel = DeveloperMenuViewModel()
-//        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
-//        let devMenuViewController = DeveloperMenuViewController(delegate: self,
-//                                                                viewModel: viewModel,
-//                                                                sessionManager: sessionManager,
-//                                                                helloWorldProvider: service)
-//        let navController = UINavigationController(rootViewController: devMenuViewController)
-//        root.present(navController, animated: true)
-//    }
 }

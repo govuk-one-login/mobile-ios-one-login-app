@@ -89,7 +89,6 @@ final class TabbedViewController: BaseViewController {
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
         tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
         tableView.register(TabbedViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier)
-        tableView.register(ContentTableViewCell.self, forCellReuseIdentifier: "new cell")
         tableView.tableHeaderView = headerView
         tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self

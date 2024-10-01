@@ -3,10 +3,10 @@ import Logging
 import UIKit
 
 final class ContentViewController: UITableViewController {
-    var analyticsService: AnalyticsService
+    var viewModel: ContentViewModel
     
-    init(analyticsService: AnalyticsService) {
-        self.analyticsService = analyticsService
+    init(viewModel: ContentViewModel) {
+        self.viewModel = viewModel
         super.init(style: .insetGrouped)
     }
     
@@ -14,16 +14,22 @@ final class ContentViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = viewModel.navigationTitle.value
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.sizeToFit()
+    }
+    
     override var tableView: UITableView! {
         didSet {
             tableView.accessibilityIdentifier = "content-view-table-view"
         }
-    }
-    
-    override func viewDidLoad() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
-    
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

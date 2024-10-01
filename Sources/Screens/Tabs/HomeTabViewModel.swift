@@ -3,6 +3,7 @@ import GDSCommon
 import Logging
 
 struct HomeTabViewModel: ContentViewModel {
+    var navigationTitle: GDSLocalisedString = "app_homeTitle"
     let analyticsService: AnalyticsService
     let sectionModels: [ContentViewSectionModel]
 
