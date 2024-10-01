@@ -62,4 +62,18 @@ struct FirebaseAppIntegrityServiceTests {
 
         try await sut.assertIntegrity()
     }
+
+    @Test("""
+          Check that headers are added to URL
+          """)
+    func testAddIntegrityAssertions() async throws {
+        let baseURL = try #require(URL(string: "https://token.build.account.gov.uk"))
+        let request = URLRequest(url: baseURL)
+
+        let assertedRequest = sut.addIntegrityAssertions(to: request)
+        #expect(assertedRequest.allHTTPHeaderFields == [
+            "OAuth-Client-Attestation": "abc",
+            "OAuth-Client-Attestation-PoP": "def"
+        ])
+    }
 }

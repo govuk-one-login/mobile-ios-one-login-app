@@ -83,6 +83,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                                forHTTPHeaderField: "OAuth-Client-Attestation")
         signedRequest.addValue("def",
                                forHTTPHeaderField: "OAuth-Client-Attestation-PoP")
-        return request
+        return signedRequest
     }
 }
