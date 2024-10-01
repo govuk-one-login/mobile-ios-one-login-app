@@ -9,18 +9,21 @@ import Testing
 struct FirebaseAppIntegrityServiceTests {
     let sut: FirebaseAppIntegrityService
 
-    init() {
+    init() throws {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [
             MockURLProtocol.self
         ]
 
         let client = NetworkClient(configuration: configuration)
+        let baseURL = try #require(URL(string: "https://token.build.account.gov.uk"))
 
         sut = FirebaseAppIntegrityService(
             vendorType: MockAppCheckVendor.self,
             providerFactory: AppCheckDebugProviderFactory(),
-            client: client)
+            client: client,
+            baseURL: baseURL
+        )
     }
 
     @Test("""

@@ -3,14 +3,20 @@ import Foundation
 import Testing
 
 struct AppIntegrityServiceTests {
+    let baseURL: URL
+
+    init() throws {
+        baseURL = try #require(URL(string: "https://token.build.account.gov.uk"))
+    }
+
     @Test("""
           Check that the Attestation URL is well formed.
           """)
     func testAttestationRequestURL() throws {
-        let request = try URLRequest.clientAttestation(token: "test-token")
+        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: "test-token")
 
         #expect(request.url?.absoluteString ==
-                "https://app-integrity-spike.mobile.dev.account.gov.uk/client-attestation?device=ios")
+                "https://token.build.account.gov.uk/client-attestation")
     }
 
     @Test("""
@@ -19,7 +25,7 @@ struct AppIntegrityServiceTests {
     func testAttestationRequestHeaders() throws {
         let token = UUID().uuidString
 
-        let request = try URLRequest.clientAttestation(token: token)
+        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: token)
         #expect(
             request.value(forHTTPHeaderField: "X-Firebase-AppCheck") ==
             token
@@ -32,7 +38,7 @@ struct AppIntegrityServiceTests {
     func testAttestationRequestBody() throws {
         let token = UUID().uuidString
 
-        let request = try URLRequest.clientAttestation(token: token)
+        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: token)
         let responseData = try #require(request.httpBody)
         let response = try #require(String(data: responseData, encoding: .utf8))
 

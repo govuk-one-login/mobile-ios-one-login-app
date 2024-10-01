@@ -8,22 +8,26 @@ enum AppIntegrityError: Int, Error {
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
-    let client: NetworkClient
-    let vendor: AppCheckVendor
+    private let client: NetworkClient
+    private let baseURL: URL
+    private let vendor: AppCheckVendor
 
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
 
     init(vendorType: AppCheckVendor.Type,
          providerFactory: AppCheckProviderFactory,
-         client: NetworkClient) {
+         client: NetworkClient,
+         baseURL: URL) {
         vendorType.setAppCheckProviderFactory(providerFactory)
         self.client = client
         self.vendor = vendorType.appCheck()
+        self.baseURL = baseURL
     }
 
     public convenience init(
-        client: NetworkClient
+        client: NetworkClient,
+        baseURL: URL
     ) {
         #if DEBUG
         let providerFactory = AppCheckDebugProviderFactory()
@@ -33,7 +37,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         self.init(
             vendorType: AppCheck.self,
             providerFactory: providerFactory,
-            client: client
+            client: client,
+            baseURL: baseURL
         )
     }
 
@@ -51,7 +56,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         // Include the App Check token with requests to your server.
         do {
             let data = try await client
-                .makeRequest(.clientAttestation(token: token.token))
+                .makeRequest(.clientAttestation(baseURL: baseURL, token: token.token))
             print("APP CHECK SUCCESS: \(String(describing: String(data: data, encoding: .utf8)))")
 
             // TODO: DCMAW-10320 | decode this from the following structure:
