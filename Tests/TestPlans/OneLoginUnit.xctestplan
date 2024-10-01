@@ -20,9 +20,9 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:MobilePlatformServices",
-        "identifier" : "MobilePlatformServicesTests",
-        "name" : "MobilePlatformServicesTests"
+        "containerPath" : "container:AppIntegrity",
+        "identifier" : "AppIntegrityTests",
+        "name" : "AppIntegrityTests"
       }
     },
     {
@@ -30,6 +30,13 @@
         "containerPath" : "container:OneLogin.xcodeproj",
         "identifier" : "219601FC2A976305008F3427",
         "name" : "OneLoginUnitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:MobilePlatformServices",
+        "identifier" : "MobilePlatformServicesTests",
+        "name" : "MobilePlatformServicesTests"
       }
     }
   ],
