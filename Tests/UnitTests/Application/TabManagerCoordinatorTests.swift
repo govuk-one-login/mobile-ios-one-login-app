@@ -189,6 +189,7 @@ extension TabManagerCoordinatorTests {
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
         // And the session should be cleared
+        XCTAssertFalse(mockWalletAvailabilityService.hasAccessedBefore)
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     

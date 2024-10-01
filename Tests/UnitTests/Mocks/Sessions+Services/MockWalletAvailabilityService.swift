@@ -9,4 +9,8 @@ class MockWalletAvailabilityService: WalletFeatureAvailabilityService {
     func accessedFeature() {
         hasAccessedBefore = true
     }
+    
+    func resetFeatureState() {
+        hasAccessedBefore = false
+    }
 }
