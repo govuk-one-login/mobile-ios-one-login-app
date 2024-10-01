@@ -139,6 +139,8 @@ extension TabManagerCoordinator: ParentCoordinator {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
+                // Reset the wallet service accessed before state to false
+                walletAvailabilityService.resetFeatureState()
                 try sessionManager.clearAllSessionData()
             } catch {
                 let viewModel = SignOutErrorViewModel(errorDescription: error.localizedDescription,
