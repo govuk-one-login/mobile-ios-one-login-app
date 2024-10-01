@@ -7,7 +7,10 @@ final class MockAppCheckVendor: AppCheckVendor {
     }
     
     static func appCheck() -> Self {
-        MockAppCheckVendor() as! Self
+        guard let vendor = MockAppCheckVendor() as? Self else {
+            preconditionFailure("Expected MockAppCheckVendor to conform to AppCheckVendor")
+        }
+        return vendor
     }
     
     func token(forcingRefresh: Bool) async throws -> AppCheckToken {

@@ -7,10 +7,23 @@ struct AppIntegrityServiceTests {
           Check that the Attestation URL is well formed.
           """)
     func testAttestationRequestURL() throws {
-        let request = URLRequest.assert(token: "test-token")
+        let request = try URLRequest.clientAttestation(token: "test-token")
 
         #expect(request.url?.absoluteString ==
                 "https://app-integrity-spike.mobile.dev.account.gov.uk/client-attestation?device=ios")
+    }
+
+    @Test("""
+          Check that the Firebase Token is sent
+          """)
+    func testAttestationRequestHeaders() throws {
+        let token = UUID().uuidString
+
+        let request = try URLRequest.clientAttestation(token: token)
+        #expect(
+            request.value(forHTTPHeaderField: "X-Firebase-AppCheck") ==
+            token
+        )
     }
 
     @Test("""
@@ -19,13 +32,12 @@ struct AppIntegrityServiceTests {
     func testAttestationRequestBody() throws {
         let token = UUID().uuidString
 
-        let request = URLRequest.assert(token: token)
-        let data = """
-        {
-            "jwk": "\(token)"
-        }
-        """
+        let request = try URLRequest.clientAttestation(token: token)
+        let responseData = try #require(request.httpBody)
+        let response = try #require(String(data: responseData, encoding: .utf8))
 
-        #expect(request.httpBody == data.data(using: .utf8))
+        #expect(response == """
+        {"jwk":"\(token)"}
+        """)
     }
 }
