@@ -15,9 +15,7 @@ final class HomeCoordinatorTests: XCTestCase {
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
-        sut = HomeCoordinator(analyticsService: mockAnalyticsService,
-                              networkClient: NetworkClient(),
-                              sessionManager: mockSessionManager)
+        sut = HomeCoordinator(analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
@@ -52,5 +50,17 @@ final class HomeCoordinatorTests: XCTestCase {
         // THEN the presented view controller is the DeveloperMenuViewController
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
+
+    @MainActor
+    func testAccessTokenInvalidAction() {
+        // WHEN access token invalid action is called
+        let exp = XCTNSNotificationExpectation(name: Notification.Name(.startReauth),
+                                               object: nil,
+                                               notificationCenter: NotificationCenter.default)
+
+        sut.accessTokenInvalidAction()
+
+        // THEN a start reauth notification is sent
+        wait(for: [exp], timeout: 20)
     }
 }

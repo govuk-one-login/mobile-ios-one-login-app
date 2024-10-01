@@ -24,7 +24,7 @@ struct HomeTabViewModel: ContentViewModel {
         if isLoggedIn {
             let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                     screen: HomeAnalyticsScreen.homeScreen,
-                                    titleKey: "")
+                                    titleKey: navigationTitle.stringKey)
             analyticsService.trackScreen(screen)
         }
     }

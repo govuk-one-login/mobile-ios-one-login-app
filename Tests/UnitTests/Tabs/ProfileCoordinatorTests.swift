@@ -1,4 +1,5 @@
 import GDSCommon
+import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -84,5 +85,17 @@ final class ProfileCoordinatorTests: XCTestCase {
         signOutButton.sendActions(for: .touchUpInside)
         // THEN the presented view controller should be dismissed
         waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
+    }
+    
+    @MainActor
+    func test_showDeveloperMenu() throws {
+        window.rootViewController = sut.root
+        window.makeKeyAndVisible()
+        sut.start()
+        // WHEN the showDeveloperMenu method is called
+        sut.showDeveloperMenu()
+        // THEN the presented view controller is the DeveloperMenuViewController
+        let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
 }
