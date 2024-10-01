@@ -16,7 +16,7 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode.app")
+xcode_select("/Applications/Xcode_16.app")
 
 platform :ios do
   desc "Run Tests without Sonar Coverage"
@@ -168,7 +168,7 @@ platform :ios do
           submit_beta_review: true
         )
       rescue Spaceship::UnexpectedResponse => ex
-        if ex.error_info['code'] != "You can’t submit a build for testing if another build is already in review. Wait until your other build has been reviewed, and resubmit this build."
+        if ex.error_info['code'] != "You can't submit a build for testing if another build is already in review. Wait until your other build has been reviewed, and resubmit this build."
           raise ex
         end
       end
