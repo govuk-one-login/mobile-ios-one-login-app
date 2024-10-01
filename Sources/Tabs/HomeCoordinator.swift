@@ -15,19 +15,11 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: AnalyticsService
-    private let sessionManager: SessionManager
     private(set) var baseVc: TabbedViewController?
     private(set) var baseVc2: ContentViewController?
 
-    private let networkClient: NetworkClient
-
-
-    init(analyticsService: AnalyticsService,
-         networkClient: NetworkClient,
-         sessionManager: SessionManager) {
+    init(analyticsService: AnalyticsService) {
         self.analyticsService = analyticsService
-        self.networkClient = networkClient
-        self.sessionManager = sessionManager
     }
     
     func start() {
@@ -35,19 +27,26 @@ final class HomeCoordinator: NSObject,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
-                                         sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
+                                         sectionModels: TabbedViewSectionFactory.homeSections())
         let hc = ContentViewController(analyticsService: analyticsService)
         baseVc2 = hc
         root.setViewControllers([hc], animated: true)
     }
-
-    func showDeveloperMenu() {
-        let viewModel = DeveloperMenuViewModel()
-        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
-        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                                sessionManager: sessionManager,
-                                                                helloWorldProvider: service)
-        let navController = UINavigationController(rootViewController: devMenuViewController)
-        root.present(navController, animated: true)
+    
+    func updateUser(_ user: User) {
+        baseVc?.updateEmail(user.email)
+        baseVc?.isLoggedIn(true)
+        baseVc?.screenAnalytics()
     }
+    
+//    func showDeveloperMenu() {
+//        let viewModel = DeveloperMenuViewModel()
+//        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
+//        let devMenuViewController = DeveloperMenuViewController(delegate: self,
+//                                                                viewModel: viewModel,
+//                                                                sessionManager: sessionManager,
+//                                                                helloWorldProvider: service)
+//        let navController = UINavigationController(rootViewController: devMenuViewController)
+//        root.present(navController, animated: true)
+//    }
 }

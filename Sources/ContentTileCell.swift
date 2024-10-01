@@ -4,12 +4,23 @@ import Logging
 import UIKit
 
 class ContentTileCell: UITableViewCell {
+//    var analyticsService: AnalyticsService
+    
+//    init(analyticsService: AnalyticsService) {
+//        super.init(style: .default, reuseIdentifier: "", self.analyticsService = analyticsService)
+//        self.analyticsService = analyticsService
+//    }
+    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     let cellView: UIView = {
         let analyticsService = GAnalytics()
         let viewModel = ContentTileViewModel(analyticsService: analyticsService, action: { })
         let frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         let view = GDSContentTileView(frame: frame, viewModel: viewModel)
-        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     

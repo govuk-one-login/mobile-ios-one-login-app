@@ -35,7 +35,7 @@ final class ContentViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ContentTileCell()
+        let cell = ContentTileCell(/*analyticsService: analyticsService*/)
         cell.backgroundColor = .red
         return cell
     }

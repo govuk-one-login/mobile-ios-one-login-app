@@ -2,6 +2,8 @@ import Coordination
 import GDSCommon
 import LocalAuthentication
 import Logging
+import MobilePlatformServices
+import Networking
 import SecureStore
 import UIKit
 
@@ -9,6 +11,7 @@ final class ProfileCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
                                 NavigationCoordinator {
+    
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
 
@@ -32,7 +35,7 @@ final class ProfileCoordinator: NSObject,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
         let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener,
+                                            sectionModels: TabbedViewSectionFactory.profileSections(coordinator: self, urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          userProvider: userProvider,
