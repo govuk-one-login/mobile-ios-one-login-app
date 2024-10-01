@@ -2,26 +2,50 @@ import GDSCommon
 import Logging
 import UIKit
 
-final class ContentViewController {
-    var nibName: String? { "ContentView" }
+final class ContentViewController: UITableViewController {
+    var analyticsService: AnalyticsService
     
-    private var viewModel: ContentViewModel
-    private let contentView: UIView?
-    
-    init(viewModel: ContentViewModel,
-         contentView: UIView? = nil) {
-        self.viewModel = viewModel
-        self.contentView = contentView
+    init(analyticsService: AnalyticsService) {
+        self.analyticsService = analyticsService
+        super.init(style: .insetGrouped)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBOutlet var tableView: UITableView! {
+    override var tableView: UITableView! {
         didSet {
             tableView.accessibilityIdentifier = "content-view-table-view"
         }
+    }
+    
+    override func viewDidLoad() {
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 200
+    
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = ContentTileCell()
+        cell.backgroundColor = .red
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
     
     

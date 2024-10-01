@@ -78,7 +78,7 @@
 		AB2D02DD2CA567B500CB2500 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D02DC2CA567B500CB2500 /* ContentTableViewCell.swift */; };
 		AB2D02DF2CA56A6300CB2500 /* ContentViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D02DE2CA56A6300CB2500 /* ContentViewCellModel.swift */; };
 		AB2D02E12CAA978700CB2500 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D02E02CAA978700CB2500 /* ContentViewController.swift */; };
-		AB2D02E32CAAA70E00CB2500 /* ContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB2D02E22CAAA70E00CB2500 /* ContentView.xib */; };
+		AB2D02E52CAAE77600CB2500 /* ContentTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D02E42CAAE77600CB2500 /* ContentTileCell.swift */; };
 		AB96DA102CA30C3F00DD8EA6 /* ContentTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB96DA0F2CA30C3F00DD8EA6 /* ContentTileViewModel.swift */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
@@ -325,7 +325,7 @@
 		AB2D02DC2CA567B500CB2500 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		AB2D02DE2CA56A6300CB2500 /* ContentViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewCellModel.swift; sourceTree = "<group>"; };
 		AB2D02E02CAA978700CB2500 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
-		AB2D02E22CAAA70E00CB2500 /* ContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContentView.xib; sourceTree = "<group>"; };
+		AB2D02E42CAAE77600CB2500 /* ContentTileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTileCell.swift; sourceTree = "<group>"; };
 		AB96DA0F2CA30C3F00DD8EA6 /* ContentTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTileViewModel.swift; sourceTree = "<group>"; };
 		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
@@ -587,7 +587,7 @@
 				AB2D02DE2CA56A6300CB2500 /* ContentViewCellModel.swift */,
 				AB2D02DC2CA567B500CB2500 /* ContentTableViewCell.swift */,
 				AB2D02E02CAA978700CB2500 /* ContentViewController.swift */,
-				AB2D02E22CAAA70E00CB2500 /* ContentView.xib */,
+				AB2D02E42CAAE77600CB2500 /* ContentTileCell.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1627,7 +1627,6 @@
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
 				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
-				AB2D02E32CAAA70E00CB2500 /* ContentView.xib in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1812,6 +1811,7 @@
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				AB2D02E12CAA978700CB2500 /* ContentViewController.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
+				AB2D02E52CAAE77600CB2500 /* ContentTileCell.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* ProfileTabViewModel.swift in Sources */,
 				C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrollmentViewModel.swift in Sources */,

@@ -4,23 +4,23 @@ import Logging
 import UIKit
 
 struct ContentTileViewModel: GDSContentTileViewModel, GDSContentTileViewModelWithBody, GDSContentTileViewModelWithSecondaryButton {
-    var title: GDSLocalisedString = "app_yourServicesCardTitle"
-    var body: GDSLocalisedString = "app_yourServicesCardBody"
-    var showSeparatorLine: Bool = true
-    var secondaryButtonViewModel: ButtonViewModel = StandardButtonViewModel(titleKey: "app_yourServicesCardLink", action: { })
-    var backgroundColour: UIColor? = .systemBackground
-//    let analyticsService: AnalyticsService
+    let title: GDSLocalisedString = "app_yourServicesCardTitle"
+    let body: GDSLocalisedString = "app_yourServicesCardBody"
+    let showSeparatorLine: Bool = true
+    let secondaryButtonViewModel: ButtonViewModel
+    let backgroundColour: UIColor? = .systemBackground
+    let analyticsService: AnalyticsService
     
-    init(// analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
-//        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_yourServicesCardLink",
                               linkDomain: AppEnvironment.yourServicesLink,
                               external: .false)
-//        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
-//                                                               analyticsService: analyticsService,
-//                                                                 analyticsEvent: event) {
-//            action()
-//        }
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
+                                                               analyticsService: analyticsService,
+                                                                 analyticsEvent: event) {
+            action()
+        }
     }
 }

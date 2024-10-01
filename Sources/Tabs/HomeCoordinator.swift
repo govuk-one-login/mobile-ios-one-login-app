@@ -36,8 +36,7 @@ final class HomeCoordinator: NSObject,
                                        tag: 0)
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
                                          sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
-        let hc = ContentViewController(viewModel: viewModel,
-                                       contentView: GDSContentTileView(frame: .zero, viewModel: ContentTileViewModel(action: { })))
+        let hc = ContentViewController(analyticsService: analyticsService)
         baseVc2 = hc
         root.setViewControllers([hc], animated: true)
     }
