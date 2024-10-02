@@ -18,7 +18,8 @@ struct ContentTileViewModel: GDSContentTileViewModel, GDSContentTileViewModelWit
                               linkDomain: AppEnvironment.yourServicesLink,
                               external: .false)
         self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
-                                                               analyticsService: analyticsService,
+                                                                 icon: ButtonIcon.arrowUpRight as? ButtonIconViewModel,
+                                                                 analyticsService: analyticsService,
                                                                  analyticsEvent: event) {
             action()
         }

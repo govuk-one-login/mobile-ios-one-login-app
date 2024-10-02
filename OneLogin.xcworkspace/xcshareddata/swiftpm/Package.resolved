@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "1fc52ab0e172e7c5a961f975a76c2611f4f22852",
-        "version" : "11.2.0"
+        "revision" : "f909f901bfba9e27e4e9da83242a4915d6dd64bb",
+        "version" : "11.3.0"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "07a2f57d147d2bf368a0d2dcb5579ff082d9e44f",
-        "version" : "11.1.0"
+        "revision" : "93406fd21b85e66e2d6dbf50b472161fd75c3f1f",
+        "version" : "11.3.0"
       }
     },
     {
@@ -132,7 +132,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "main",
-        "revision" : "a73f6963f37dbaa260b229c68e90aeda01df8aac"
+        "revision" : "2243500f467eee1735703bb51ac06946d9d74ff1"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "f8aab4d8eaccb5e90c2ff2e811ead84ac5da5d04",
-        "version" : "2.0.1"
+        "revision" : "1d43f849a2070b966929cec26a138e4a6aa45e7a",
+        "version" : "2.0.2"
       }
     },
     {
@@ -221,8 +221,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto.git",
       "state" : {
-        "revision" : "81bee98e706aee68d39ed5996db069ef2b313d62",
-        "version" : "3.7.1"
+        "revision" : "ffca28be3c9c6a86a579949d23f68818a4b9b5d8",
+        "version" : "3.8.0"
       }
     },
     {

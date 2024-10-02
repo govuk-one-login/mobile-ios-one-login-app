@@ -33,7 +33,7 @@ final class ContentViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        viewModel.sectionModels.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,7 +42,6 @@ final class ContentViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ContentTileCell(/*analyticsService: analyticsService*/)
-        cell.backgroundColor = .red
         return cell
     }
     
@@ -53,6 +52,4 @@ final class ContentViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
-    
 }
