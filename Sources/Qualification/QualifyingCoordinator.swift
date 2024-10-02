@@ -22,7 +22,7 @@ final class QualifyingCoordinator: NSObject,
     private let appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
-    private let walletAvailibilityService: WalletFeatureAvailabilityService
+    private let walletAvailabilityService: WalletFeatureAvailabilityService
 
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
@@ -46,13 +46,13 @@ final class QualifyingCoordinator: NSObject,
          appQualifyingService: QualifyingService,
          sessionManager: SessionManager,
          networkClient: NetworkClient,
-         walletAvailibilityService: WalletFeatureAvailabilityService) {
+         walletAvailabilityService: WalletFeatureAvailabilityService) {
         self.window = window
         self.appQualifyingService = appQualifyingService
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
         self.networkClient = networkClient
-        self.walletAvailibilityService = walletAvailibilityService
+        self.walletAvailabilityService = walletAvailabilityService
         super.init()
         self.appQualifyingService.delegate = self
     }
@@ -127,7 +127,7 @@ final class QualifyingCoordinator: NSObject,
                 analyticsCenter: analyticsCenter,
                 networkClient: networkClient,
                 sessionManager: sessionManager,
-                walletAvailabilityService: walletAvailibilityService)
+                walletAvailabilityService: walletAvailabilityService)
             displayChildCoordinator(tabManagerCoordinator)
         }
     }

@@ -37,7 +37,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
                                     appQualifyingService: qualifyingService,
                                     sessionManager: sessionManager,
                                     networkClient: networkClient,
-                                    walletAvailibilityService: walletAvailabilityService)
+                                    walletAvailabilityService: walletAvailabilityService)
     }
 
     override func tearDown() {

@@ -13,7 +13,7 @@ protocol UniversalLinkFeatureAvailabilityService {
 
 typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService & SessionBoundData
 
-class WalletAvailabilityService: WalletFeatureAvailabilityService {
+final class WalletAvailabilityService: WalletFeatureAvailabilityService {
 
     var hasAccessedBefore: Bool {
         get {
