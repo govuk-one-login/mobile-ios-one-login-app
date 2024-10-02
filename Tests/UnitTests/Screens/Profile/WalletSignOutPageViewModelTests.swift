@@ -4,9 +4,9 @@ import GDSCommon
 import XCTest
 
 @MainActor
-final class SignOutPageViewModelTests: XCTestCase {
+final class WalletSignOutPageViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutPageViewModel!
+    var sut: WalletSignOutPageViewModel!
     
     var didCallButtonAction = false
     
@@ -14,7 +14,7 @@ final class SignOutPageViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutPageViewModel(analyticsService: mockAnalyticsService) {
+        sut = WalletSignOutPageViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -26,10 +26,10 @@ final class SignOutPageViewModelTests: XCTestCase {
     }
 }
 
-extension SignOutPageViewModelTests {
+extension WalletSignOutPageViewModelTests {
     func test_pageConfiguration() throws {
-        XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitleNoWallet")
-        XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1NoWallet").value)
+        XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
+        XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value)
         XCTAssertNil(sut.secondaryButtonViewModel)
         XCTAssertEqual(sut.rightBarButtonTitle, GDSLocalisedString(stringLiteral: "app_cancelButton"))
         XCTAssertTrue(sut.backButtonIsHidden)
@@ -40,33 +40,40 @@ extension SignOutPageViewModelTests {
         let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
         let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
         let firstBulletText = try XCTUnwrap(firstBullet.text)
-        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1iOSNoWallet").value))
+        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value))
         let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
         let secondBulletText = try XCTUnwrap(secondBullet.text)
-        XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2NoWallet").value))
+        XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value))
+        let thirdBullet = try XCTUnwrap(bulletStack.subviews[2] as? UILabel)
+        let thirdBulletText = try XCTUnwrap(thirdBullet.text)
+        XCTAssertTrue(thirdBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value))
     }
     
     func test_viewConfiguration() throws {
-        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value)
+        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
         XCTAssertEqual(try body2Label.font, .bodyBold)
+        XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
+        XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
+        XCTAssertEqual(try body3Label.numberOfLines, 0)
+        XCTAssertEqual(try body3Label.font, .body)
     }
     
     func test_buttonConfiuration() throws {
         XCTAssertTrue(sut.buttonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeletePreferences"))
+        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeleteAppDataButton"))
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, .gdsGreen)
+        XCTAssertEqual(button.backgroundColor, .gdsRed)
     }
     
     func test_didAppear() throws {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreenNoWallet.rawValue,
-                                screen: ProfileAnalyticsScreen.signOutScreenNoWallet,
-                                titleKey: "app_signOutConfirmationTitleNoWallet")
+        let screen = ScreenView(id: ProfileAnalyticsScreenID.signOutScreenWithWallet.rawValue,
+                                screen: ProfileAnalyticsScreen.signOutScreenWithWallet,
+                                titleKey: "app_signOutConfirmationTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
@@ -86,22 +93,28 @@ extension SignOutPageViewModelTests {
         sut.buttonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_signOutAndDeletePreferences")
+        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
 }
 
-extension SignOutPageViewModelTests {
+extension WalletSignOutPageViewModelTests {
     var bulletList: BulletView {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list-no-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list-with-wallet"])
         }
     }
     
     var body2Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body2-text-no-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body2-text-with-wallet"])
+        }
+    }
+    
+    var body3Label: UILabel {
+        get throws {
+            try XCTUnwrap(sut.childView[child: "sign-out-body3-text-with-wallet"])
         }
     }
 }

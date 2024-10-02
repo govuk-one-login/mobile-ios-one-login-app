@@ -10,6 +10,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var localAuthentication: MockLocalAuthManager!
     private var secureTokenStore: MockSecureTokenStore!
     private var storedTokens: StoredTokens!
+    private var walletAvilabilityService: MockWalletAvailabilityService!
 
     private var didCall_deleteSessionBoundData = false
 
@@ -21,6 +22,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         unprotectedStore = MockDefaultsStore()
         localAuthentication = MockLocalAuthManager()
         secureTokenStore = MockSecureTokenStore()
+        walletAvilabilityService = MockWalletAvailabilityService()
 
         sut = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -38,6 +40,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         unprotectedStore = nil
         localAuthentication = nil
         secureTokenStore = nil
+        walletAvilabilityService = nil
         storedTokens = nil
 
         sut = nil

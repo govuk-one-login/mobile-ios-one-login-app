@@ -2,22 +2,33 @@ import Foundation
 import Networking
 import UIKit
 
-protocol FeatureAvailabilityService {
+protocol FeatureAvailabilityService: AnyObject {
+    var hasAccessedBefore: Bool { get set }
     var shouldShowFeature: Bool { get }
-    func hasAccessedPreviously()
 }
 
 protocol UniversalLinkFeatureAvailabilityService {
     var shouldShowFeatureOnUniversalLink: Bool { get }
 }
 
-typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService
+typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService & SessionBoundData
 
-class WalletAvailabilityService: WalletFeatureAvailabilityService {
+final class WalletAvailabilityService: WalletFeatureAvailabilityService {
+
+    var hasAccessedBefore: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
+        }
+        
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hasAccessedWalletBefore")
+        }
+    }
+    
     var shouldShowFeature: Bool {
         guard AppEnvironment.walletVisibleToAll else {
             guard AppEnvironment.walletVisibleIfExists,
-                  UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore") else {
+                  hasAccessedBefore else {
                 return false
             }
             return true
@@ -35,7 +46,7 @@ class WalletAvailabilityService: WalletFeatureAvailabilityService {
         return true
     }
     
-    func hasAccessedPreviously() {
-        UserDefaults.standard.set(true, forKey: "hasAccessedWalletBefore")
+    func delete() throws {
+        hasAccessedBefore = false
     }
 }

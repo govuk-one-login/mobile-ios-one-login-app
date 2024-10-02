@@ -14,12 +14,14 @@ final class SceneDelegate: UIResponder,
 
     private var rootCoordinator: QualifyingCoordinator?
 
+    private let walletAvailabilityService = WalletAvailabilityService()
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let manager = PersistentSessionManager()
         networkClient.authorizationProvider = manager.tokenProvider
 
         manager.registerSessionBoundData(WalletSessionData())
+        manager.registerSessionBoundData(walletAvailabilityService)
         manager.registerSessionBoundData(analyticsCenter)
 
         return manager
@@ -50,10 +52,11 @@ final class SceneDelegate: UIResponder,
             analyticsCenter: analyticsCenter,
             appQualifyingService: appQualifyingService,
             sessionManager: sessionManager,
-            networkClient: networkClient
+            networkClient: networkClient,
+            walletAvailabilityService: walletAvailabilityService
         )
         rootCoordinator?.start()
-
+        
         setUpBasicUI()
     }
     

@@ -8,6 +8,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var urlOpener: URLOpener!
     var sut: ProfileCoordinator!
     
@@ -17,10 +18,12 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
         urlOpener = MockURLOpener()
         sut = ProfileCoordinator(userProvider: mockSessionManager,
                                  analyticsService: mockAnalyticsService,
-                                 urlOpener: urlOpener)
+                                 urlOpener: urlOpener,
+                                 walletAvailabilityService: mockWalletAvailabilityService)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
@@ -29,6 +32,7 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = nil
         mockAnalyticsService = nil
         mockSessionManager = nil
+        mockWalletAvailabilityService = nil
         urlOpener = nil
         sut = nil
         
@@ -47,7 +51,19 @@ final class ProfileCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.tag, profileTab.tag)
     }
     
-    func test_openSignOutPage() throws {
+    func test_openSignOutPageWithWallet() throws {
+        // WHEN Wallet has been accessed before
+        mockWalletAvailabilityService.hasAccessedBefore = true
+        // WHEN the ProfileCoordinator is started
+        sut.start()
+        // WHEN the openSignOutPage method is called
+        sut.openSignOutPage()
+        // THEN the presented view controller is the GDSInstructionsViewController
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+    }
+    
+    func test_openSignOutPageNoWallet() throws {
         // WHEN the ProfileCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called

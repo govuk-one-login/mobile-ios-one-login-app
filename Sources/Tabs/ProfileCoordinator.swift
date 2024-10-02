@@ -15,13 +15,16 @@ final class ProfileCoordinator: NSObject,
     private let userProvider: UserProvider
     private let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
+    private let walletAvailablityService: WalletFeatureAvailabilityService
     
     init(userProvider: UserProvider,
          analyticsService: AnalyticsService,
-         urlOpener: URLOpener) {
+         urlOpener: URLOpener,
+         walletAvailabilityService: WalletFeatureAvailabilityService) {
         self.userProvider = userProvider
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
+        self.walletAvailablityService = walletAvailabilityService
     }
     
     func start() {
@@ -39,13 +42,29 @@ final class ProfileCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let viewModel = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-            navController.dismiss(animated: true) { [unowned self] in
-                finish()
-            }
-        }
+        let walletAvailable = walletAvailablityService.hasAccessedBefore
+        let viewModel = showSignOutConfirmationScreen(walletAvailable: walletAvailable, navController: navController)
         let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
         navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)
+    }
+    
+    private func showSignOutConfirmationScreen(
+        walletAvailable: Bool,
+        navController: UINavigationController
+    ) -> GDSInstructionsViewModel {
+        return if walletAvailable {
+            WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+                navController.dismiss(animated: true) { [unowned self] in
+                    finish()
+                }
+            }
+        } else {
+            SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+                navController.dismiss(animated: true) { [unowned self] in
+                    finish()
+                }
+            }
+        }
     }
 }

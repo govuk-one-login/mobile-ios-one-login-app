@@ -45,7 +45,7 @@ final class TabManagerCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager,
-         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
+         walletAvailabilityService: WalletFeatureAvailabilityService) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
@@ -64,7 +64,9 @@ final class TabManagerCoordinator: NSObject,
         guard walletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
-        addWalletTab()
+        if walletCoordinator == nil {
+            addWalletTab()
+        }
         walletCoordinator?.handleUniversalLink(url)
     }
 }
@@ -94,13 +96,14 @@ extension TabManagerCoordinator {
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        walletAvailabilityService.hasAccessedPreviously()
+        walletAvailabilityService.hasAccessedBefore = true
     }
     
     private func addProfileTab() {
         let pc = ProfileCoordinator(userProvider: sessionManager,
                                     analyticsService: analyticsCenter.analyticsService,
-                                    urlOpener: UIApplication.shared)
+                                    urlOpener: UIApplication.shared,
+                                    walletAvailabilityService: walletAvailabilityService)
         addTab(pc)
     }
 }

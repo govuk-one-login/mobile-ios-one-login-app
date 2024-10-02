@@ -145,6 +145,19 @@
 
 "app_signOutAndDeleteAppDataButton" = "Sign out and delete app data";
 
+// Mark: Sign Out Confirmation screen no Wallet displayed
+"app_signOutConfirmationTitleNoWallet" = "Are you sure you want to sign out?";
+
+"app_signOutConfirmationBody1NoWallet" = "Signing out will switch off your preferences for:";
+
+"app_signOutConfirmationBullet1iOSNoWallet" = "using Touch ID or Face ID to unlock the app";
+
+"app_signOutConfirmationBullet2NoWallet" = "sharing analytics about how you use the app";
+
+"app_signOutConfirmationBody2NoWallet" = "You’ll be asked to set these preferences again next time you sign in.";
+
+"app_signOutAndDeletePreferences" = "Sign out and delete preferences";
+
 
 // Mark: Sign Out Error screen
 "app_signOutErrorTitle" = "There was a problem signing you out";
