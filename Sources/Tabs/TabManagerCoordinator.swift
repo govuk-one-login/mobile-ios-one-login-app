@@ -45,7 +45,7 @@ final class TabManagerCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager,
-         walletAvailabilityService: WalletFeatureAvailabilityService = WalletAvailabilityService()) {
+         walletAvailabilityService: WalletFeatureAvailabilityService) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
@@ -96,7 +96,7 @@ extension TabManagerCoordinator {
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        walletAvailabilityService.accessedFeature()
+        walletAvailabilityService.hasAccessedBefore = true
     }
     
     private func addProfileTab() {
@@ -139,8 +139,6 @@ extension TabManagerCoordinator: ParentCoordinator {
                     throw SecureStoreError.cantDeleteKey
                 }
                 #endif
-                // Reset the wallet service accessed before state to false
-                walletAvailabilityService.resetFeatureState()
                 try sessionManager.clearAllSessionData()
             } catch {
                 let viewModel = SignOutErrorViewModel(errorDescription: error.localizedDescription,

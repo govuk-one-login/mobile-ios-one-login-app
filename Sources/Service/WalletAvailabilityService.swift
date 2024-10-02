@@ -2,20 +2,19 @@ import Foundation
 import Networking
 import UIKit
 
-protocol FeatureAvailabilityService {
+protocol FeatureAvailabilityService: AnyObject {
     var hasAccessedBefore: Bool { get set }
     var shouldShowFeature: Bool { get }
-    func accessedFeature()
-    func resetFeatureState()
 }
 
 protocol UniversalLinkFeatureAvailabilityService {
     var shouldShowFeatureOnUniversalLink: Bool { get }
 }
 
-typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService
+typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService & SessionBoundData
 
 class WalletAvailabilityService: WalletFeatureAvailabilityService {
+
     var hasAccessedBefore: Bool {
         get {
             UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
@@ -47,11 +46,7 @@ class WalletAvailabilityService: WalletFeatureAvailabilityService {
         return true
     }
     
-    func accessedFeature() {
-        hasAccessedBefore = true
-    }
-    
-    func resetFeatureState() {
+    func delete() throws {
         hasAccessedBefore = false
     }
 }

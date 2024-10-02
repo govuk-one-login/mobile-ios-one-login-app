@@ -53,7 +53,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     
     func test_openSignOutPageWithWallet() throws {
         // WHEN Wallet has been accessed before
-        mockWalletAvailabilityService.accessedFeature()
+        mockWalletAvailabilityService.hasAccessedBefore = true
         // WHEN the ProfileCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called

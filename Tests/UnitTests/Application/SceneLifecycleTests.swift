@@ -10,6 +10,7 @@ final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var mockTabManagerCoordinator: TabManagerCoordinator!
     var sut: MockSceneDelegate!
     
@@ -21,11 +22,13 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
         mockTabManagerCoordinator = TabManagerCoordinator(appWindow: window,
                                               root: UITabBarController(),
                                               analyticsCenter: mockAnalyticsCenter,
                                               networkClient: NetworkClient(),
-                                              sessionManager: mockSessionManager)
+                                              sessionManager: mockSessionManager,
+                                              walletAvailabilityService: mockWalletAvailabilityService)
         sut = MockSceneDelegate(coordinator: mockTabManagerCoordinator,
                                 analyticsService: mockAnalyticsService)
     }
@@ -37,6 +40,7 @@ final class SceneLifecycleTests: XCTestCase {
         mockAnalyticsCenter = nil
         mockSessionManager = nil
         mockTabManagerCoordinator = nil
+        mockWalletAvailabilityService = nil
         sut = nil
         
         super.tearDown()

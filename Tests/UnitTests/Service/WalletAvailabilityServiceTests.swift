@@ -43,7 +43,7 @@ extension WalletAvailabilityServiceTests {
             FeatureFlags.enableWalletVisibleToAll.rawValue: false,
             FeatureFlags.enableWalletVisibleIfExists.rawValue: true
         ])
-        sut.accessedFeature()
+        sut.hasAccessedBefore = true
         
         XCTAssertTrue(sut.shouldShowFeature)
     }
@@ -61,7 +61,7 @@ extension WalletAvailabilityServiceTests {
         AppEnvironment.updateReleaseFlags([
             FeatureFlags.enableWalletVisibleToAll.rawValue: false
         ])
-        sut.accessedFeature()
+        sut.hasAccessedBefore = true
         
         XCTAssertFalse(sut.shouldShowFeature)
     }

@@ -10,6 +10,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var localAuthentication: MockLocalAuthManager!
     private var secureTokenStore: MockSecureTokenStore!
     private var storedTokens: StoredTokens!
+    private var mockWalletAvilibilityService: MockWalletAvailabilityService!
 
     private var didCall_deleteSessionBoundData = false
 
@@ -21,6 +22,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         unprotectedStore = MockDefaultsStore()
         localAuthentication = MockLocalAuthManager()
         secureTokenStore = MockSecureTokenStore()
+        mockWalletAvilibilityService = MockWalletAvailabilityService()
 
         sut = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -289,6 +291,7 @@ extension PersistentSessionManagerTests {
         // WHEN I clear all session data
         try sut.clearAllSessionData()
         // THEN my session data is deleted
+        XCTAssertFalse(mockWalletAvilibilityService.hasAccessedBefore)
         XCTAssertEqual(unprotectedStore.savedData.count, 0)
         XCTAssertEqual(encryptedStore.savedItems, [:])
     }
