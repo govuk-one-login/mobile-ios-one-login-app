@@ -44,7 +44,7 @@ struct TabbedViewSectionFactory {
         let developerSection = createSection(header: "Developer Menu",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "Developer Menu") {
-            coordinator.showDeveloperMenu()
+//            coordinator.showDeveloperMenu()
         }])
 #else
         let developerSection = TabbedViewSectionModel()

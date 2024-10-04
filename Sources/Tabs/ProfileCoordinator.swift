@@ -14,7 +14,7 @@ final class ProfileCoordinator: NSObject,
     
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-
+    
     private let userProvider: UserProvider
     private let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
@@ -23,11 +23,11 @@ final class ProfileCoordinator: NSObject,
     init(userProvider: UserProvider,
          analyticsService: AnalyticsService,
          urlOpener: URLOpener,
-         walletAvailabilityService: WalletFeatureAvailabilityService) {
+         walletAvailablityService: WalletFeatureAvailabilityService) {
         self.userProvider = userProvider
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
-        self.walletAvailablityService = walletAvailabilityService
+        self.walletAvailablityService = walletAvailablityService
     }
     
     func start() {
@@ -35,14 +35,15 @@ final class ProfileCoordinator: NSObject,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
         let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(coordinator: self, urlOpener: urlOpener,
+                                            sectionModels: TabbedViewSectionFactory.profileSections(coordinator: self,
+                                                                                                    urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          userProvider: userProvider,
                                                          headerView: SignInView())
         root.setViewControllers([profileViewController], animated: true)
     }
-    
+
     func openSignOutPage() {
         let navController = UINavigationController()
         let walletAvailable = walletAvailablityService.hasAccessedBefore

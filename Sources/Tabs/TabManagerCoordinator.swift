@@ -81,9 +81,7 @@ extension TabManagerCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 networkClient: networkClient,
-                                 sessionManager: sessionManager)
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService)
         addTab(hc)
     }
     
@@ -103,7 +101,7 @@ extension TabManagerCoordinator {
         let pc = ProfileCoordinator(userProvider: sessionManager,
                                     analyticsService: analyticsCenter.analyticsService,
                                     urlOpener: UIApplication.shared,
-                                    walletAvailabilityService: walletAvailabilityService)
+                                    walletAvailablityService: walletAvailabilityService)
         addTab(pc)
     }
 }

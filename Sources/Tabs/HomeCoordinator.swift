@@ -29,13 +29,6 @@ final class HomeCoordinator: NSObject,
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
                                          sectionModels: TabbedViewSectionFactory.homeSections())
         let hc = ContentViewController(viewModel: viewModel)
-        baseVc2 = hc
         root.setViewControllers([hc], animated: true)
-    }
-    
-    func updateUser(_ user: User) {
-        baseVc?.updateEmail(user.email)
-        baseVc?.isLoggedIn(true)
-        baseVc?.screenAnalytics()
     }
 }
