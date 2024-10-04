@@ -33,20 +33,8 @@ final class HomeCoordinator: NSObject,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
         let viewModel = HomeTabViewModel(analyticsService: analyticsService,
-                                         sectionModels: TabbedViewSectionFactory.homeSections(coordinator: self))
-        let hc = TabbedViewController(viewModel: viewModel,
-                                      userProvider: sessionManager,
-                                      headerView: SignInView())
+                                         sectionModels: TabbedViewSectionFactory.homeSections())
+        let hc = ContentViewController(viewModel: viewModel)
         root.setViewControllers([hc], animated: true)
-    }
-
-    func showDeveloperMenu() {
-        let viewModel = DeveloperMenuViewModel()
-        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
-        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                                sessionManager: sessionManager,
-                                                                helloWorldProvider: service)
-        let navController = UINavigationController(rootViewController: devMenuViewController)
-        root.present(navController, animated: true)
     }
 }

@@ -3,9 +3,9 @@ import GDSCommon
 import Logging
 
 @MainActor
-struct HomeTabViewModel: TabbedViewModel {
+struct HomeTabViewModel: ContentViewModel {
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
-    let sectionModels: [TabbedViewSectionModel]
+    let sectionModels: [ContentViewSectionModel]
     let analyticsService: AnalyticsService
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
@@ -14,7 +14,7 @@ struct HomeTabViewModel: TabbedViewModel {
     var isLoggedIn = false
     
     init(analyticsService: AnalyticsService,
-         sectionModels: [TabbedViewSectionModel] = [TabbedViewSectionModel]()) {
+         sectionModels: [ContentViewSectionModel] = [ContentViewSectionModel]()) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService

@@ -14,3 +14,11 @@ struct TabbedViewSectionModel {
         self.tabModels = tabModels
     }
 }
+
+struct ContentViewSectionModel {
+    let tabModels: [ContentViewCellModel]
+
+    init(tabModels: [ContentViewCellModel] = [ContentViewCellModel]()) {
+        self.tabModels = tabModels
+    }
+}

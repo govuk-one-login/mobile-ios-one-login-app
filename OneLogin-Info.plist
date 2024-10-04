@@ -52,5 +52,7 @@
 	</dict>
 	<key>Wallet Credential Issuer URL</key>
 	<string>$(WALLET_CREDENTIAL_ISSUER_URL)</string>
+	<key>Your Services URL</key>
+	<string>home.account.gov.uk</string>
 </dict>
 </plist>

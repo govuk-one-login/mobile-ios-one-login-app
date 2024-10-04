@@ -100,7 +100,8 @@ extension TabManagerCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(userProvider: sessionManager,
+        let pc = ProfileCoordinator(sessionManager: sessionManager,
+                                    networkClient: networkClient,
                                     analyticsService: analyticsCenter.analyticsService,
                                     urlOpener: UIApplication.shared,
                                     walletAvailabilityService: walletAvailabilityService)

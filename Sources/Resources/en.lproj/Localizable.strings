@@ -180,3 +180,11 @@
 "app_updateAppBody" = "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.";
 
 "app_updateAppButton" = "Update GOV.UK One Login app";
+
+
+// MARK: Your Services content tile
+"app_yourServicesCardTitle" = "Your services";
+
+"app_yourServicesCardBody" = "See and access the services you’ve used with GOV.UK One Login.";
+
+"app_yourServicesCardLink" = "Go to your services";
