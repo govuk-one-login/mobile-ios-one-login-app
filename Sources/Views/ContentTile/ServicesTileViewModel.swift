@@ -17,7 +17,7 @@ struct ServicesTileViewModel: GDSContentTileViewModel,
         let event = LinkEvent(textKey: "app_yourServicesCardLink",
                               linkDomain: AppEnvironment.yourServicesLink,
                               external: .false)
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: title.stringKey,
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
                                                                  icon: .external,
                                                                  analyticsService: analyticsService,
                                                                  analyticsEvent: event) {

@@ -1,4 +1,5 @@
 import GDSAnalytics
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -33,6 +34,9 @@ extension ServicesTileViewModelTests {
         XCTAssertEqual(sut.title.stringKey, "app_yourServicesCardTitle")
         XCTAssertEqual(sut.body.stringKey, "app_yourServicesCardBody")
         XCTAssertTrue(sut.secondaryButtonViewModel is AnalyticsButtonViewModel)
+        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_yourServicesCardLink")
+        XCTAssertEqual(sut.secondaryButtonViewModel.icon?.iconName, ButtonIcon.arrowUpRight)
+        XCTAssertEqual(sut.secondaryButtonViewModel.icon?.symbolPosition, .afterTitle)
         XCTAssertTrue(sut.showSeparatorLine)
         XCTAssertEqual(sut.backgroundColour, .secondarySystemGroupedBackground)
     }
