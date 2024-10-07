@@ -49,8 +49,8 @@ final class ProfileCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let walletAvailable = walletAvailablityService.hasAccessedBefore
-        let viewModel = showSignOutConfirmationScreen(walletAvailable: walletAvailable, navController: navController)
+        let viewModel = showSignOutConfirmationScreen(walletAvailable: walletAvailablityService.hasAccessedBefore,
+                                                      navController: navController)
         let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
         navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)

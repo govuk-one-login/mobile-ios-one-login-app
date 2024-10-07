@@ -1,4 +1,5 @@
 import GDSCommon
+import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -8,8 +9,9 @@ final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
-    var mockWalletAvailabilityService: MockWalletAvailabilityService!
+    var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: ProfileCoordinator!
     
     override func setUp() {
@@ -18,10 +20,12 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
-        mockWalletAvailabilityService = MockWalletAvailabilityService()
+        mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        sut = ProfileCoordinator(userProvider: mockSessionManager,
-                                 analyticsService: mockAnalyticsService,
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
+        sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
+                                 sessionManager: mockSessionManager,
+                                 networkClient: mockNetworkClient,
                                  urlOpener: urlOpener,
                                  walletAvailabilityService: mockWalletAvailabilityService)
         window.rootViewController = sut.root
@@ -32,8 +36,9 @@ final class ProfileCoordinatorTests: XCTestCase {
         window = nil
         mockAnalyticsService = nil
         mockSessionManager = nil
-        mockWalletAvailabilityService = nil
+        mockNetworkClient = nil
         urlOpener = nil
+        mockWalletAvailabilityService = nil
         sut = nil
         
         super.tearDown()
@@ -84,5 +89,16 @@ final class ProfileCoordinatorTests: XCTestCase {
         signOutButton.sendActions(for: .touchUpInside)
         // THEN the presented view controller should be dismissed
         waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
+    }
+    
+    func test_showDeveloperMenu() throws {
+        window.rootViewController = sut.root
+        window.makeKeyAndVisible()
+        sut.start()
+        // WHEN the showDeveloperMenu method is called
+        sut.showDeveloperMenu()
+        // THEN the presented view controller is the DeveloperMenuViewController
+        let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
     }
 }
