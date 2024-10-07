@@ -29,6 +29,13 @@ extension HomeViewControllerTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
     }
     
+    func test_contentTileCell_viewModel() throws {
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        ) as? ContentTileCell
+        XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
+    }
     
     func test_viewDidAppear() throws {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)

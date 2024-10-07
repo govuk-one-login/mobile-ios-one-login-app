@@ -191,6 +191,7 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = string(for: .yourServicesURL)
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/your-services"
         return components.url!
     }

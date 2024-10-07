@@ -14,7 +14,6 @@ final class TabbedViewControllerTests: XCTestCase {
     private var didTapRow = false
     private var didAppearCalled = false
 
-
     override func setUp() {
         super.setUp()
 
@@ -28,7 +27,6 @@ final class TabbedViewControllerTests: XCTestCase {
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
                                    headerView: UIView())
-        sut.loadViewIfNeeded()
     }
     
     override func tearDown() {
@@ -62,7 +60,6 @@ extension TabbedViewControllerTests {
     }
     
     func test_headerConfiguration() throws {
-        try sut.tabbedTableView.reloadData()
         let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 0) as? UITableViewHeaderFooterView
         let headerLabel = try XCTUnwrap(header?.textLabel)
         XCTAssertEqual(headerLabel.text, "Test Header")
@@ -72,7 +69,6 @@ extension TabbedViewControllerTests {
     }
     
     func test_cellConfiguration() throws {
-        try sut.tabbedTableView.reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
         let cellLabel = try XCTUnwrap(cell.textLabel)
@@ -84,7 +80,6 @@ extension TabbedViewControllerTests {
     }
     
     func test_footerConfiguration() throws {
-        try sut.tabbedTableView.reloadData()
         let header = sut.tableView(try sut.tabbedTableView, viewForFooterInSection: 0) as? UITableViewHeaderFooterView
         let headerLabel = try XCTUnwrap(header?.textLabel)
         XCTAssertEqual(headerLabel.text, "Test Footer")

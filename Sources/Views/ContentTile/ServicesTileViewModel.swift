@@ -3,17 +3,17 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct ServicesTileViewModel: GDSContentTileViewModel, GDSContentTileViewModelWithBody, GDSContentTileViewModelWithSecondaryButton {
+struct ServicesTileViewModel: GDSContentTileViewModel,
+                              GDSContentTileViewModelWithBody,
+                              GDSContentTileViewModelWithSecondaryButton {
     let title: GDSLocalisedString = "app_yourServicesCardTitle"
     let body: GDSLocalisedString = "app_yourServicesCardBody"
     let showSeparatorLine: Bool = true
     let secondaryButtonViewModel: ButtonViewModel
     let backgroundColour: UIColor? = .secondarySystemGroupedBackground
-    let analyticsService: AnalyticsService
     
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_yourServicesCardLink",
                               linkDomain: AppEnvironment.yourServicesLink,
                               external: .false)
@@ -27,7 +27,7 @@ struct ServicesTileViewModel: GDSContentTileViewModel, GDSContentTileViewModelWi
 }
 
 extension GDSContentTileViewModel where Self == ServicesTileViewModel {
-    static func yourServices(analyticsService: AnalyticsService, urlOpener: URLOpener) -> GDSContentTileViewModel {
+    static func yourServices(analyticsService: AnalyticsService, urlOpener: URLOpener) -> ServicesTileViewModel {
         ServicesTileViewModel(analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.yourServicesURL)
         }

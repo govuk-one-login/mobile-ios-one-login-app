@@ -12,11 +12,13 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
     
     init(titleKey: String,
          _ titleStringVariableKeys: String...,
+         icon: ButtonIconViewModel? = nil,
          backgroundColor: UIColor = .gdsGreen,
          shouldLoadOnTap: Bool = false,
          analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
-        let event = ButtonEvent(textKey: titleKey, variableKeys: titleStringVariableKeys)
+        let event = ButtonEvent(textKey: titleKey,
+                                variableKeys: titleStringVariableKeys)
         self.init(titleKey: titleKey,
                   titleStringVariableKeys: titleStringVariableKeys,
                   backgroundColor: backgroundColor,
@@ -26,7 +28,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
     }
     
     init(titleKey: String,
-         titleStringVariableKeys: String...,
+         _ titleStringVariableKeys: String...,
          icon: ButtonIconViewModel? = nil,
          backgroundColor: UIColor = .gdsGreen,
          shouldLoadOnTap: Bool = false,
