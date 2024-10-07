@@ -53,4 +53,12 @@ extension ServicesTileViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
+    
+    func test_yourServices_viewModel() {
+        let mockURLOpener = MockURLOpener()
+        let yourServicesTileViewModel: ServicesTileViewModel = .yourServices(analyticsService: mockAnalyticsService,
+                                                                             urlOpener: mockURLOpener)
+        yourServicesTileViewModel.secondaryButtonViewModel.action()
+        XCTAssertTrue(mockURLOpener.didOpenURL)
+    }
 }

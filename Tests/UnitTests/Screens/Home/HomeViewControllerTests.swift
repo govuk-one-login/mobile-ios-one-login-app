@@ -29,10 +29,18 @@ extension HomeViewControllerTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
     }
     
-    func test_contentTileCell_viewModel() throws {
+    func test_numberOfSections() {
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+    }
+    
+    func test_numbeOfRowsInSection() {
+        XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 0), 1)
+    }
+    
+    func test_contentTileCell_viewModel() {
         let servicesTile = sut.tableView(
             sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 1)
+            cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
     }
