@@ -27,7 +27,6 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
             primaryButtonAction()
         }
         self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_maybeLaterButton",
-                                                                 icon: nil,
                                                                  analyticsService: analyticsService) {
             secondaryButtonAction()
         }

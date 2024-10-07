@@ -1,17 +1,12 @@
 import Foundation
 import GDSCommon
+import Logging
 import UIKit
 
 struct TabbedViewSectionFactory {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
     @MainActor
-    static func homeSections() -> [ContentViewSectionModel] {
-        let content = createContentView(cellModels: [ContentViewCellModel()])
-
-        return [content]
-    }
-    
     static func profileSections(coordinator: ProfileCoordinator,
                                 urlOpener: URLOpener,
                                 action: @escaping () -> Void) -> [TabbedViewSectionModel] {
@@ -42,15 +37,15 @@ struct TabbedViewSectionFactory {
             action()
         }])
         
-#if DEBUG
+        #if DEBUG
         let developerSection = createSection(header: "Developer Menu",
-                                        footer: nil,
-                                        cellModels: [.init(cellTitle: "Developer Menu") {
-//            coordinator.showDeveloperMenu()
+                                             footer: nil,
+                                             cellModels: [.init(cellTitle: "Developer Menu") {
+              coordinator.showDeveloperMenu()
         }])
-#else
+        #else
         let developerSection = TabbedViewSectionModel()
-#endif
+        #endif
         
         return [manageDetailsSection,
                 legalSection,
@@ -62,14 +57,9 @@ struct TabbedViewSectionFactory {
     static func createSection(header: GDSLocalisedString?,
                               footer: GDSLocalisedString?,
                               cellModels: [TabbedViewCellModel]) -> TabbedViewSectionModel {
-        
         return TabbedViewSectionModel(sectionTitle: header,
                                       sectionFooter: footer,
                                       tabModels: cellModels)
         
-    }
-    
-    static func createContentView(cellModels: [ContentViewCellModel]) -> ContentViewSectionModel {
-        return ContentViewSectionModel(tabModels: cellModels)
     }
 }

@@ -15,6 +15,7 @@ import UIKit
 /// - WalletCoordinator: hosting the wallet functionality.
 /// - ProfileCoordinator: linking out to related services and meta app functionality like sign out.
 ///
+@MainActor
 final class TabManagerCoordinator: NSObject,
                                    AnyCoordinator,
                                    TabCoordinator,
@@ -81,9 +82,7 @@ extension TabManagerCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                 networkClient: networkClient,
-                                 sessionManager: sessionManager)
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService)
         addTab(hc)
     }
     
@@ -100,9 +99,9 @@ extension TabManagerCoordinator {
     }
     
     private func addProfileTab() {
-        let pc = ProfileCoordinator(sessionManager: sessionManager,
+        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                    sessionManager: sessionManager,
                                     networkClient: networkClient,
-                                    analyticsService: analyticsCenter.analyticsService,
                                     urlOpener: UIApplication.shared,
                                     walletAvailabilityService: walletAvailabilityService)
         addTab(pc)

@@ -12,7 +12,6 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
     
     init(titleKey: String,
          _ titleStringVariableKeys: String...,
-         icon: String? = nil,
          backgroundColor: UIColor = .gdsGreen,
          shouldLoadOnTap: Bool = false,
          analyticsService: AnalyticsService,
@@ -36,6 +35,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
          action: @escaping () -> Void) {
         self.init(titleKey: titleKey,
                   titleStringVariableKeys: titleStringVariableKeys,
+                  icon: icon,
                   backgroundColor: backgroundColor,
                   analyticsService: analyticsService,
                   analyticsEvent: analyticsEvent,

@@ -7,6 +7,7 @@ import Networking
 import SecureStore
 import UIKit
 
+@MainActor
 final class ProfileCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
@@ -14,20 +15,20 @@ final class ProfileCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
 
+    private let analyticsService: AnalyticsService
     private let sessionManager: SessionManager & UserProvider
     private let networkClient: NetworkClient
-    private let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
     private let walletAvailablityService: WalletFeatureAvailabilityService
     
-    init(sessionManager: SessionManager & UserProvider,
+    init(analyticsService: AnalyticsService,
+         sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
-         analyticsService: AnalyticsService,
          urlOpener: URLOpener,
          walletAvailabilityService: WalletFeatureAvailabilityService) {
+        self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkClient = networkClient
-        self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.walletAvailablityService = walletAvailabilityService
     }
