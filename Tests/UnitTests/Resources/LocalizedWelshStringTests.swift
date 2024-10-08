@@ -187,6 +187,12 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_updateAppBody".getWelshString(), "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.")
         XCTAssertEqual("app_updateAppButton".getWelshString(), "Diweddaru Ap GOV.UK One Login")
     }
+    
+    func test_yourServiceTile() {
+        XCTAssertEqual("app_yourServicesCardTitle".getWelshString(), "Eich gwasanaethau")
+        XCTAssertEqual("app_yourServicesCardBody".getWelshString(), "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login")
+        XCTAssertEqual("app_yourServicesCardLink".getWelshString(), "Ewch i'ch gwasanaethau")
+    }
 }
 
 // swiftlint:enable line_length

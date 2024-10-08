@@ -3,15 +3,15 @@ import GDSAnalytics
 import XCTest
 
 @MainActor
-final class HomeTabViewModelTests: XCTestCase {
+final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: HomeTabViewModel!
+    var sut: HomeViewController!
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = HomeTabViewModel(analyticsService: mockAnalyticsService)
+        sut = HomeViewController(analyticsService: mockAnalyticsService)
     }
     
     override func tearDown() {
@@ -22,16 +22,33 @@ final class HomeTabViewModelTests: XCTestCase {
     }
 }
 
-extension HomeTabViewModelTests {
+extension HomeViewControllerTests {
     func test_title_contents() throws {
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
-        XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_didAppear() throws {
-        sut.isLoggedIn = true
+    func test_numberOfSections() {
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+    }
+    
+    func test_numbeOfRowsInSection() {
+        XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 0), 1)
+    }
+    
+    func test_contentTileCell_viewModel() {
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 0)
+        ) as? ContentTileCell
+        XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
+    }
+    
+    func test_viewDidAppear() throws {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
-        sut.didAppear()
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,

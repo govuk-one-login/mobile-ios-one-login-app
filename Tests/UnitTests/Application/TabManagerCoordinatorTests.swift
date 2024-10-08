@@ -180,8 +180,9 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
-                                                    analyticsService: mockAnalyticsService,
+        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+                                                    sessionManager: mockSessionManager,
+                                                    networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     walletAvailabilityService: mockWalletAvailabilityService)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
@@ -200,8 +201,9 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(userProvider: mockSessionManager,
-                                                    analyticsService: mockAnalyticsService,
+        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+                                                    sessionManager: mockSessionManager,
+                                                    networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     walletAvailabilityService: mockWalletAvailabilityService)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)

@@ -1,40 +1,42 @@
 import GDSAnalytics
 import GDSCommon
+import Networking
 @testable import OneLogin
 import XCTest
 
 @MainActor
 final class TabbedViewControllerTests: XCTestCase {
     private var mockAnalyticsService: MockAnalyticsService!
-    private var mockSession: MockSessionManager!
+    private var mockSessionManager: MockSessionManager!
     private var viewModel: TabbedViewModel!
     private var sut: TabbedViewController!
 
     private var didTapRow = false
     private var didAppearCalled = false
 
-
     override func setUp() {
         super.setUp()
 
-        mockSession = MockSessionManager()
         mockAnalyticsService = MockAnalyticsService()
+        mockSessionManager = MockSessionManager()
         viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
                                         navigationTitle: "Test Navigation Title",
                                         sectionModels: createSectionModels()) {
             self.didAppearCalled = true
         }
         sut = TabbedViewController(viewModel: viewModel,
-                                   userProvider: mockSession,
+                                   userProvider: mockSessionManager,
                                    headerView: UIView())
-        sut.loadViewIfNeeded()
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockSessionManager = nil
         viewModel = nil
         sut = nil
+        
         didTapRow = false
+        didAppearCalled = false
         
         super.tearDown()
     }
@@ -58,7 +60,6 @@ extension TabbedViewControllerTests {
     }
     
     func test_headerConfiguration() throws {
-        try sut.tabbedTableView.reloadData()
         let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 0) as? UITableViewHeaderFooterView
         let headerLabel = try XCTUnwrap(header?.textLabel)
         XCTAssertEqual(headerLabel.text, "Test Header")
@@ -68,7 +69,6 @@ extension TabbedViewControllerTests {
     }
     
     func test_cellConfiguration() throws {
-        try sut.tabbedTableView.reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
         let cellLabel = try XCTUnwrap(cell.textLabel)
@@ -80,7 +80,6 @@ extension TabbedViewControllerTests {
     }
     
     func test_footerConfiguration() throws {
-        try sut.tabbedTableView.reloadData()
         let header = sut.tableView(try sut.tabbedTableView, viewForFooterInSection: 0) as? UITableViewHeaderFooterView
         let headerLabel = try XCTUnwrap(header?.textLabel)
         XCTAssertEqual(headerLabel.text, "Test Footer")
@@ -93,18 +92,23 @@ extension TabbedViewControllerTests {
 
     @MainActor
     func test_updateUser() throws {
-        let sections = TabbedViewSectionFactory.profileSections(urlOpener: MockURLOpener()) {
+        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+                                                    sessionManager: mockSessionManager,
+                                                    networkClient: NetworkClient(),
+                                                    urlOpener: MockURLOpener(),
+                                                    walletAvailabilityService: MockWalletAvailabilityService())
+        let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) {
 
         }
         let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
                                             sectionModels: sections)
         sut = TabbedViewController(viewModel: viewModel,
-                                   userProvider: mockSession,
+                                   userProvider: mockSessionManager,
                                    headerView: SignInView())
         // GIVEN I am not logged in
         XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\n")
         // WHEN the user is updated
-        mockSession.user.send(MockUser())
+        mockSessionManager.user.send(MockUser())
         // THEN my email is displayed
         let emailLabel = try sut.emailLabel
         waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 2)

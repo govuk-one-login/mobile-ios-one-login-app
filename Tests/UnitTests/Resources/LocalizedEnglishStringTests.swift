@@ -187,6 +187,12 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_updateAppBody".getEnglishString(), "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
         XCTAssertEqual("app_updateAppButton".getEnglishString(), "Update GOV.UK One Login app")
     }
+    
+    func test_yourServiceTile() {
+        XCTAssertEqual("app_yourServicesCardTitle".getEnglishString(), "Your services")
+        XCTAssertEqual("app_yourServicesCardBody".getEnglishString(), "See and access the services you’ve used with GOV.UK One Login.")
+        XCTAssertEqual("app_yourServicesCardLink".getEnglishString(), "Go to your services")
+    }
 }
 
 // swiftlint:enable line_length

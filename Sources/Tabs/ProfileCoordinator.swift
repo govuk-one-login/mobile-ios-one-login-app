@@ -2,9 +2,12 @@ import Coordination
 import GDSCommon
 import LocalAuthentication
 import Logging
+import MobilePlatformServices
+import Networking
 import SecureStore
 import UIKit
 
+@MainActor
 final class ProfileCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
@@ -12,17 +15,20 @@ final class ProfileCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
 
-    private let userProvider: UserProvider
     private let analyticsService: AnalyticsService
+    private let sessionManager: SessionManager & UserProvider
+    private let networkClient: NetworkClient
     private let urlOpener: URLOpener
     private let walletAvailablityService: WalletFeatureAvailabilityService
     
-    init(userProvider: UserProvider,
-         analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
+         sessionManager: SessionManager & UserProvider,
+         networkClient: NetworkClient,
          urlOpener: URLOpener,
          walletAvailabilityService: WalletFeatureAvailabilityService) {
-        self.userProvider = userProvider
         self.analyticsService = analyticsService
+        self.sessionManager = sessionManager
+        self.networkClient = networkClient
         self.urlOpener = urlOpener
         self.walletAvailablityService = walletAvailabilityService
     }
@@ -32,18 +38,19 @@ final class ProfileCoordinator: NSObject,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
         let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(urlOpener: urlOpener,
+                                            sectionModels: TabbedViewSectionFactory.profileSections(coordinator: self,
+                                                                                                    urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
         let profileViewController = TabbedViewController(viewModel: viewModel,
-                                                         userProvider: userProvider,
+                                                         userProvider: sessionManager,
                                                          headerView: SignInView())
         root.setViewControllers([profileViewController], animated: true)
     }
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let walletAvailable = walletAvailablityService.hasAccessedBefore
-        let viewModel = showSignOutConfirmationScreen(walletAvailable: walletAvailable, navController: navController)
+        let viewModel = showSignOutConfirmationScreen(walletAvailable: walletAvailablityService.hasAccessedBefore,
+                                                      navController: navController)
         let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
         navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)
@@ -66,5 +73,15 @@ final class ProfileCoordinator: NSObject,
                 }
             }
         }
+    }
+    
+    func showDeveloperMenu() {
+        let viewModel = DeveloperMenuViewModel()
+        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
+        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
+                                                                sessionManager: sessionManager,
+                                                                helloWorldProvider: service)
+        let navController = UINavigationController(rootViewController: devMenuViewController)
+        root.present(navController, animated: true)
     }
 }

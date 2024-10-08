@@ -7,6 +7,7 @@ import SecureStore
 import UIKit
 import Wallet
 
+@MainActor
 final class WalletCoordinator: NSObject,
                                AnyCoordinator,
                                ChildCoordinator,
