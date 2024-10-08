@@ -3,9 +3,9 @@ import GDSAnalytics
 import XCTest
 
 @MainActor
-final class TouchIDEnrollmentViewModelTests: XCTestCase {
+final class FaceIDEnrolmentViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: TouchIDEnrollmentViewModel!
+    var sut: FaceIDEnrolmentViewModel!
     var didCallPrimaryButtonAction = false
     var didCallSecondaryButtonAction = false
 
@@ -13,7 +13,7 @@ final class TouchIDEnrollmentViewModelTests: XCTestCase {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
-        sut = TouchIDEnrollmentViewModel(analyticsService: mockAnalyticsService) {
+        sut = FaceIDEnrolmentViewModel(analyticsService: mockAnalyticsService) {
             self.didCallPrimaryButtonAction = true
         } secondaryButtonAction: {
             self.didCallSecondaryButtonAction = true
@@ -30,12 +30,12 @@ final class TouchIDEnrollmentViewModelTests: XCTestCase {
     }
 }
 
-extension TouchIDEnrollmentViewModelTests {
+extension FaceIDEnrolmentViewModelTests {
     func test_label_contents() throws {
-        XCTAssertEqual(sut.image, "touchid")
-        XCTAssertEqual(sut.title.stringKey, "app_enableTouchIDTitle")
-        XCTAssertEqual(sut.body?.stringKey, "app_enableTouchIDBody")
-        XCTAssertEqual(sut.footnote?.stringKey, "app_enableTouchIDFootnote")
+        XCTAssertEqual(sut.image, "faceid")
+        XCTAssertEqual(sut.title.stringKey, "app_enableFaceIDTitle")
+        XCTAssertEqual(sut.body?.stringKey, "app_enableFaceIDBody")
+        XCTAssertEqual(sut.footnote?.stringKey, "app_enableFaceIDFootnote")
     }
 
     func test_primaryButton_action() throws {
@@ -44,7 +44,7 @@ extension TouchIDEnrollmentViewModelTests {
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(didCallPrimaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_enableTouchIDEnableButton")
+        let event = ButtonEvent(textKey: "app_enableFaceIDButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
@@ -66,9 +66,9 @@ extension TouchIDEnrollmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: BiometricEnrollmentAnalyticsScreenID.touchIDEnrollment.rawValue,
-                                screen: BiometricEnrollmentAnalyticsScreen.touchIDEnrollment,
-                                titleKey: "app_enableTouchIDTitle")
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrollment.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrollment,
+                                titleKey: "app_enableFaceIDTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }

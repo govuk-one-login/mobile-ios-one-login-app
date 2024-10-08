@@ -60,29 +60,36 @@ final class QualifyingCoordinator: NSObject,
     func start() {
         lock()
     }
-
+    
     func lock() {
         displayViewController(unlockViewController)
     }
-
+    
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
         switch appInfoState {
         case .notChecked:
             lock()
-        case .qualified:
-            // End loading state and enable button
-            unlockViewController.isLoading = false
-        case .outdated:
-            let appUnavailableScreen = GDSInformationViewController(
-                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
-            )
-            displayViewController(appUnavailableScreen)
-        case .error:
-            // TODO: DCMAW-9866 | display generic error screen?
-            return
         case .offline:
             // TODO: DCMAW-9866 | display error sc(oreen for app offline and no cached data
             return
+        case .error:
+            // TODO: DCMAW-9866 | display generic error screen?
+            return
+        case .unavailable:
+            let updateAppScreen = GDSInformationViewController(
+                // TODO: DCMAW-9824 - Replace with AppUnavailableViewModel
+                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
+            )
+            displayViewController(updateAppScreen)
+            return
+        case .outdated:
+            let updateAppScreen = GDSInformationViewController(
+                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
+            )
+            displayViewController(updateAppScreen)
+        case .qualified:
+            // End loading state and enable button
+            unlockViewController.isLoading = false
         }
     }
     

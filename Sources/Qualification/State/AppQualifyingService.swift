@@ -61,6 +61,11 @@ final class AppQualifyingService: QualifyingService {
             let appInfo = try await updateService.fetchAppInfo()
             AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
             
+            guard appInfo.allowAppUsage else {
+                appInfoState = .unavailable
+                return
+            }
+            
             guard updateService.currentVersion >= appInfo.minimumVersion else {
                 appInfoState = .outdated
                 return

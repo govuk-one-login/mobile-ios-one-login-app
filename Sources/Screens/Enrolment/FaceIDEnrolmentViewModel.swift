@@ -3,7 +3,7 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
+struct FaceIDEnrolmentViewModel: GDSInformationViewModel, BaseViewModel {
     let image: String = "faceid"
     let imageWeight: UIFont.Weight? = .thin
     let imageColour: UIColor? = nil
@@ -33,8 +33,8 @@ struct FaceIDEnrollmentViewModel: GDSInformationViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(id: BiometricEnrollmentAnalyticsScreenID.faceIDEnrollment.rawValue,
-                                screen: BiometricEnrollmentAnalyticsScreen.faceIDEnrollment,
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrollment.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrollment,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
