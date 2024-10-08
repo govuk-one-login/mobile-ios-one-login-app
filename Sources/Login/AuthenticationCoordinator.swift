@@ -34,18 +34,17 @@ final class AuthenticationCoordinator: NSObject,
                 try await sessionManager.startSession(using: session)
                 finish()
             } catch PersistentSessionError.sessionMismatch {
-                let viewModel = DataDeletedWarningViewModel(analyticsService: analyticsService) { [unowned self] in
+                let viewModel = DataDeletedWarningViewModel { [unowned self] in
                     start()
                 }
                 let vc = GDSErrorViewController(viewModel: viewModel)
                 root.pushViewController(vc, animated: true)
                 authError = PersistentSessionError.sessionMismatch
             } catch PersistentSessionError.cannotDeleteData(let error) {
-                let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
-                                                            analyticsService: analyticsService) {
-                    fatalError(
-                        "There's nothing we can do to help the user if we cannot delete their data"
-                    )
+                let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService,
+                                                            errorDescription: error.localizedDescription) { [unowned self] in
+                    analyticsService.logCrash(error)
+                    fatalError("There's nothing we can do to help the user if we cannot delete their data")
                 }
                 let vc = GDSErrorViewController(viewModel: viewModel)
                 root.pushViewController(vc, animated: true)
@@ -88,8 +87,8 @@ final class AuthenticationCoordinator: NSObject,
 
 extension AuthenticationCoordinator {
     private func showUnableToLoginErrorScreen(_ error: Error) {
-        let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
-                                                    analyticsService: analyticsService) { [unowned self] in
+        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService,
+                                                    errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
         let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
@@ -98,8 +97,8 @@ extension AuthenticationCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        let viewModel = GenericErrorViewModel(errorDescription: error.localizedDescription,
-                                              analyticsService: analyticsService) { [unowned self] in
+        let viewModel = GenericErrorViewModel(analyticsService: analyticsService,
+                                              errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
         let genericErrorScreen = GDSErrorViewController(viewModel: viewModel)

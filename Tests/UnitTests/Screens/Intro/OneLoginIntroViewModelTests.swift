@@ -6,6 +6,7 @@ import XCTest
 final class OneLoginIntroViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: OneLoginIntroViewModel!
+    
     var didCallButtonAction = false
     
     override func setUp() {
@@ -20,6 +21,7 @@ final class OneLoginIntroViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
         
         super.tearDown()
@@ -27,14 +29,15 @@ final class OneLoginIntroViewModelTests: XCTestCase {
 }
 
 extension OneLoginIntroViewModelTests {
-    func test_label_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.image, UIImage(named: "badge"))
         XCTAssertEqual(sut.title.stringKey, "app_signInTitle")
         XCTAssertEqual(sut.body.stringKey, "app_signInBody")
-        XCTAssertTrue(sut.introButtonViewModel is AnalyticsButtonViewModel)
+        
     }
     
-    func test_button_action() throws {
+    func test_button() {
+        XCTAssertEqual(sut.introButtonViewModel.title.stringKey, "app_signInButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.introButtonViewModel.action()
@@ -44,13 +47,10 @@ extension OneLoginIntroViewModelTests {
                               linkDomain: AppEnvironment.oneLoginBaseURL,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["link_domain"], event.parameters["link_domain"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["external"], event.parameters["external"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

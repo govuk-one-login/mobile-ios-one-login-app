@@ -14,9 +14,11 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithIm
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(errorDescription: String, analyticsService: AnalyticsService, action: @escaping () -> Void) {
-        self.errorDescription = errorDescription
+    init(analyticsService: AnalyticsService,
+         errorDescription: String,
+         action: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        self.errorDescription = errorDescription
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
                                                                analyticsService: analyticsService) {
             action()

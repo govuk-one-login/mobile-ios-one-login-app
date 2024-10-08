@@ -6,14 +6,15 @@ import XCTest
 final class UnableToLoginErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: UnableToLoginErrorViewModel!
+    
     var didCallButtonAction = false
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = UnableToLoginErrorViewModel(errorDescription: "error description",
-                                          analyticsService: mockAnalyticsService) {
+        sut = UnableToLoginErrorViewModel(analyticsService: mockAnalyticsService,
+                                          errorDescription: "error description") {
             self.didCallButtonAction = true
         }
     }
@@ -21,6 +22,7 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
         
         super.tearDown()
@@ -28,13 +30,14 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
 }
 
 extension UnableToLoginErrorViewModelTests {
-    func test_label_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_signInErrorTitle")
         XCTAssertEqual(sut.body.stringKey, "app_signInErrorBody")
     }
     
-    func test_button_action() throws {
+    func test_button() {
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_closeButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -42,11 +45,10 @@ extension UnableToLoginErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "app_closeButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

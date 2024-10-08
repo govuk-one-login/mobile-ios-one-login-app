@@ -8,16 +8,12 @@ struct DataDeletedWarningViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithIm
     let body: GDSLocalisedString = "app_dataDeletionWarningBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
-    let analyticsService: AnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
-         action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
-                                                               analyticsService: analyticsService) {
+    init(action: @escaping () -> Void) {
+        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_extendedSignInButton") {
             action()
         }
     }

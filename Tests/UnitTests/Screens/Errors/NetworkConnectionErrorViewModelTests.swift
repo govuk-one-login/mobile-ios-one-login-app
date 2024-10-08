@@ -6,6 +6,7 @@ import XCTest
 final class NetworkConnectionErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: NetworkConnectionErrorViewModel!
+    
     var didCallButtonAction = false
     
     override func setUp() {
@@ -20,6 +21,7 @@ final class NetworkConnectionErrorViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
         
         super.tearDown()
@@ -27,13 +29,16 @@ final class NetworkConnectionErrorViewModelTests: XCTestCase {
 }
 
 extension NetworkConnectionErrorViewModelTests {
-    func test_label_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_networkErrorTitle")
         XCTAssertEqual(sut.body.stringKey, "app_networkErrorBody")
+        XCTAssertNil(sut.rightBarButtonTitle)
+        XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_button_action() throws {
+    func test_button() {
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_tryAgainButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -41,11 +46,10 @@ extension NetworkConnectionErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "app_tryAgainButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

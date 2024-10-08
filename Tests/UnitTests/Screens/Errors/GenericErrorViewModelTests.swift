@@ -25,8 +25,8 @@ struct GenericErrorViewModelTests {
         let buttonActionListener = Listener()
         self.buttonActionListener = buttonActionListener
 
-        sut = GenericErrorViewModel(errorDescription: "error description",
-                                    analyticsService: mockAnalyticsService) {
+        sut = GenericErrorViewModel(analyticsService: mockAnalyticsService,
+                                    errorDescription: "error description") {
             buttonActionListener()
         }
     }
@@ -36,11 +36,13 @@ extension GenericErrorViewModelTests {
     @Test("""
           Check that the label contents are assigned correctly by the initialiser
           """)
-    func testLabelContents() throws {
+    func test_page() {
         #expect(sut.image == "exclamationmark.circle")
         #expect(sut.title.stringKey == "app_somethingWentWrongErrorTitle")
         #expect(sut.body.stringKey == "app_somethingWentWrongErrorBody")
         #expect(sut.errorDescription == "error description")
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonIsHidden)
     }
 
     @Test("""
@@ -48,11 +50,11 @@ extension GenericErrorViewModelTests {
             - calls the injected closure
             - logs the `Link` analytics event
           """)
-    func testButtonAction() throws {
+    func test_button() {
+        #expect(sut.primaryButtonViewModel.title.stringKey == "app_closeButton")
         #expect(!didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.primaryButtonViewModel.action()
-
         #expect(didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_closeButton",
@@ -65,7 +67,7 @@ extension GenericErrorViewModelTests {
     @Test("""
           Validates that did appear logs the expected analytics event
           """)
-    func testDidAppear() throws {
+    func test_didAppear() {
         #expect(mockAnalyticsService.screensVisited.count == 0)
         sut.didAppear()
         #expect(mockAnalyticsService.screensVisited.count == 1)
@@ -73,7 +75,6 @@ extension GenericErrorViewModelTests {
                                      screen: ErrorAnalyticsScreen.generic,
                                      titleKey: "app_somethingWentWrongErrorTitle",
                                      reason: sut.errorDescription)
-
         #expect(mockAnalyticsService.screensVisited == [screen.name])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }

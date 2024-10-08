@@ -27,16 +27,17 @@ final class UpdateAppViewModelTests: XCTestCase {
 }
 
 extension UpdateAppViewModelTests {
-    func test_label_contents() throws {
-        XCTAssertEqual(sut.title.stringKey, "app_updateAppTitle")
-        XCTAssertEqual(sut.body?.stringKey, "app_updateAppBody")
-        XCTAssertEqual(sut.primaryButtonViewModel.title, "app_updateAppButton")
+    func test_page() {
         XCTAssertEqual(sut.imageWeight, .regular)
         XCTAssertEqual(sut.image, "exclamationmark.arrow.circlepath")
+        XCTAssertEqual(sut.title.stringKey, "app_updateAppTitle")
+        XCTAssertEqual(sut.body?.stringKey, "app_updateAppBody")
+        XCTAssertNil(sut.rightBarButtonTitle)
+        XCTAssertTrue(sut.backButtonIsHidden)
     }
 
-    func test_didCallButtonAction() throws {
-        XCTAssertNil(sut.primaryButtonViewModel.icon)
+    func test_button() {
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_updateAppButton")
         XCTAssertFalse(urlOpener.didOpenURL)
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(urlOpener.didOpenURL)

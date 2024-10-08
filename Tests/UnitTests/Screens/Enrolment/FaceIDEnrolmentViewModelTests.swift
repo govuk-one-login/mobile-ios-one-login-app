@@ -6,6 +6,7 @@ import XCTest
 final class FaceIDEnrolmentViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: FaceIDEnrolmentViewModel!
+    
     var didCallPrimaryButtonAction = false
     var didCallSecondaryButtonAction = false
 
@@ -23,6 +24,7 @@ final class FaceIDEnrolmentViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallPrimaryButtonAction = false
         didCallSecondaryButtonAction = false
 
@@ -31,14 +33,17 @@ final class FaceIDEnrolmentViewModelTests: XCTestCase {
 }
 
 extension FaceIDEnrolmentViewModelTests {
-    func test_label_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.image, "faceid")
         XCTAssertEqual(sut.title.stringKey, "app_enableFaceIDTitle")
         XCTAssertEqual(sut.body?.stringKey, "app_enableFaceIDBody")
         XCTAssertEqual(sut.footnote?.stringKey, "app_enableFaceIDFootnote")
+        XCTAssertNil(sut.rightBarButtonTitle)
+        XCTAssertTrue(sut.backButtonIsHidden)
     }
 
-    func test_primaryButton_action() throws {
+    func test_primaryButton() {
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_enableFaceIDButton")
         XCTAssertFalse(didCallPrimaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -50,7 +55,8 @@ extension FaceIDEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
 
-    func test_secondaryButton_action() throws {
+    func test_secondaryButton() {
+        XCTAssertEqual(sut.secondaryButtonViewModel?.title.stringKey, "app_maybeLaterButton")
         XCTAssertFalse(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.secondaryButtonViewModel?.action()
@@ -62,7 +68,7 @@ extension FaceIDEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
     }
 
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

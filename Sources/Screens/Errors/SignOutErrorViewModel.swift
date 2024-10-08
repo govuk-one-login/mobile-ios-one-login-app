@@ -14,18 +14,24 @@ struct SignOutErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, B
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
-    init(errorDescription: String,
-         analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
+         errorDescription: String,
          action: @escaping () -> Void) {
-        self.errorDescription = errorDescription
         self.analyticsService = analyticsService
+        self.errorDescription = errorDescription
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_exitButton",
                                                                analyticsService: analyticsService) {
             action()
         }
     }
     
-    func didAppear() { /* BaseViewModel compliance */ }
+    func didAppear() {
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
+                                     screen: ErrorAnalyticsScreen.signOut,
+                                     titleKey: title.stringKey,
+                                     reason: errorDescription)
+        analyticsService.trackScreen(screen)
+    }
     
     func didDismiss() { /* BaseViewModel compliance */ }
 }

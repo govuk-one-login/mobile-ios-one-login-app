@@ -6,6 +6,7 @@ import XCTest
 final class PasscodeInformationViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: PasscodeInformationViewModel!
+    
     var didCallButtonAction = false
     
     override func setUp() {
@@ -20,6 +21,7 @@ final class PasscodeInformationViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
         
         super.tearDown()
@@ -27,13 +29,16 @@ final class PasscodeInformationViewModelTests: XCTestCase {
 }
 
 extension PasscodeInformationViewModelTests {
-    func test_label_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.image, "lock")
         XCTAssertEqual(sut.title.stringKey, "app_noPasscodeSetupTitle")
         XCTAssertEqual(sut.body?.stringKey, "app_noPasscodeSetupBody")
+        XCTAssertNil(sut.rightBarButtonTitle)
+        XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_button_action() throws {
+    func test_button() {
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_continueButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -49,7 +54,7 @@ extension PasscodeInformationViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["external"], event.parameters["external"])
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

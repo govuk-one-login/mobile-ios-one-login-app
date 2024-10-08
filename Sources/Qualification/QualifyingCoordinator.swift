@@ -70,14 +70,14 @@ final class QualifyingCoordinator: NSObject,
         case .notChecked:
             lock()
         case .offline:
-            // TODO: DCMAW-9866 | display error sc(oreen for app offline and no cached data
+            // TODO: DCMAW-9866 | display error screen for app offline and no cached data
             return
         case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return
         case .unavailable:
             let updateAppScreen = GDSInformationViewController(
-                // TODO: DCMAW-9824 - Replace with AppUnavailableViewModel
+                // TODO: DCMAW-9824 - replace with AppUnavailableViewModel
                 viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
             )
             displayViewController(updateAppScreen)
@@ -100,8 +100,9 @@ final class QualifyingCoordinator: NSObject,
         case .notLoggedIn, .expired:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
-            let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
-                                                        analyticsService: analyticsCenter.analyticsService) {
+            let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+                                                        errorDescription: error.localizedDescription) { [unowned self] in
+                analyticsCenter.analyticsService.logCrash(error)
                 fatalError("We were unable to resume the session, there's not much we can do to help the user")
             }
             let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)

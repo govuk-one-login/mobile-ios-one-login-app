@@ -22,12 +22,15 @@ final class WalletSignOutPageViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
+        
+        super.tearDown()
     }
 }
 
 extension WalletSignOutPageViewModelTests {
-    func test_pageConfiguration() throws {
+    func test_page() {
         XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
         XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value)
         XCTAssertNil(sut.secondaryButtonViewModel)
@@ -35,7 +38,7 @@ extension WalletSignOutPageViewModelTests {
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_bulletConfiguration() throws {
+    func test_bullets() throws {
         XCTAssertNotNil(try bulletList)
         let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
         let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
@@ -49,7 +52,7 @@ extension WalletSignOutPageViewModelTests {
         XCTAssertTrue(thirdBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value))
     }
     
-    func test_viewConfiguration() throws {
+    func test_views() throws {
         XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
@@ -60,14 +63,21 @@ extension WalletSignOutPageViewModelTests {
         XCTAssertEqual(try body3Label.font, .body)
     }
     
-    func test_buttonConfiuration() throws {
-        XCTAssertTrue(sut.buttonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeleteAppDataButton"))
+    func test_button() throws {
+        XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeleteAppDataButton")
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
         XCTAssertEqual(button.backgroundColor, .gdsRed)
+        XCTAssertFalse(didCallButtonAction)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        sut.buttonViewModel.action()
+        XCTAssertTrue(didCallButtonAction)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
@@ -78,22 +88,11 @@ extension WalletSignOutPageViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     
-    func test_didDismiss() throws {
+    func test_didDismiss() {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.didDismiss()
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "back")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-    }
-    
-    func test_buttonAction() throws {
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.buttonViewModel.action()
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }

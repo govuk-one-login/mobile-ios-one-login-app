@@ -22,20 +22,23 @@ final class SignOutPageViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
+        
+        super.tearDown()
     }
 }
 
 extension SignOutPageViewModelTests {
-    func test_pageConfiguration() throws {
+    func test_page() {
         XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitleNoWallet")
         XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1NoWallet").value)
         XCTAssertNil(sut.secondaryButtonViewModel)
-        XCTAssertEqual(sut.rightBarButtonTitle, GDSLocalisedString(stringLiteral: "app_cancelButton"))
+        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_bulletConfiguration() throws {
+    func test_bullets() throws {
         XCTAssertNotNil(try bulletList)
         let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
         let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
@@ -46,21 +49,28 @@ extension SignOutPageViewModelTests {
         XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2NoWallet").value))
     }
     
-    func test_viewConfiguration() throws {
+    func test_view() throws {
         XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
         XCTAssertEqual(try body2Label.font, .bodyBold)
     }
     
-    func test_buttonConfiuration() throws {
-        XCTAssertTrue(sut.buttonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.buttonViewModel.title, GDSLocalisedString(stringLiteral: "app_signOutAndDeletePreferences"))
+    func test_button() throws {
+        XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeletePreferences")
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
         XCTAssertEqual(button.backgroundColor, .gdsGreen)
+        XCTAssertFalse(didCallButtonAction)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        sut.buttonViewModel.action()
+        XCTAssertTrue(didCallButtonAction)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        let event = ButtonEvent(textKey: "app_signOutAndDeletePreferences")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
@@ -71,22 +81,11 @@ extension SignOutPageViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     
-    func test_didDismiss() throws {
+    func test_didDismiss() {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.didDismiss()
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "back")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-    }
-    
-    func test_buttonAction() throws {
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.buttonViewModel.action()
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_signOutAndDeletePreferences")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }

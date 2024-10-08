@@ -17,15 +17,17 @@ final class LoginLoadingViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut =  nil
+        
+        super.tearDown()
     }
 }
 
 extension LoginLoadingViewModelTests {
-    func test_label_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.loadingLabelKey.stringKey, "app_loadingBody")
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

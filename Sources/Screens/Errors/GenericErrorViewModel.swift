@@ -9,13 +9,13 @@ struct GenericErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, B
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
+    let errorDescription: String
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-    let errorDescription: String
 
-    init(errorDescription: String,
-         analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService,
+         errorDescription: String,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.errorDescription = errorDescription
@@ -32,7 +32,8 @@ struct GenericErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, B
     func didAppear() {
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                      screen: ErrorAnalyticsScreen.generic,
-                                     titleKey: title.stringKey, reason: errorDescription)
+                                     titleKey: title.stringKey,
+                                     reason: errorDescription)
         analyticsService.trackScreen(screen)
     }
     

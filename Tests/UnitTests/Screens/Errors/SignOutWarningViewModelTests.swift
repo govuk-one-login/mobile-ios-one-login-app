@@ -1,5 +1,4 @@
 import GDSAnalytics
-import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -22,12 +21,15 @@ final class SignOutWarningViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
+        
         didCallButtonAction = false
+        
+        super.tearDown()
     }
 }
 
 extension SignOutWarningViewModelTests {
-    func test_pageConfiguration() throws {
+    func test_page() {
         XCTAssertEqual(sut.title.stringKey, "app_signOutWarningTitle")
         XCTAssertEqual(sut.body, "app_signOutWarningBody")
         XCTAssertNil(sut.secondaryButtonViewModel)
@@ -35,14 +37,8 @@ extension SignOutWarningViewModelTests {
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_buttonConfiuration() throws {
-        XCTAssertTrue(sut.primaryButtonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.primaryButtonViewModel.title, GDSLocalisedString(stringLiteral: "app_extendedSignInButton"))
-        let button = try XCTUnwrap(sut.primaryButtonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, .gdsGreen)
-    }
-    
-    func test_buttonAction() throws {
+    func test_button() {
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_extendedSignInButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
