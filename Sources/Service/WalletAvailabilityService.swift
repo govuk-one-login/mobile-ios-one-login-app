@@ -19,7 +19,6 @@ final class WalletAvailabilityService: WalletFeatureAvailabilityService {
         get {
             UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
         }
-        
         set {
             UserDefaults.standard.set(newValue, forKey: "hasAccessedWalletBefore")
         }
