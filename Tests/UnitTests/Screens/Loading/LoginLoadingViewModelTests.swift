@@ -31,8 +31,8 @@ extension LoginLoadingViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoadingScreen.rawValue,
-                                screen: IntroAnalyticsScreen.loginLoadingScreen,
+        let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoading.rawValue,
+                                screen: IntroAnalyticsScreen.loginLoading,
                                 titleKey: "app_loadingBody")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)

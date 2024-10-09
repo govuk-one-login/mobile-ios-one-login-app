@@ -27,8 +27,8 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(id: IntroAnalyticsScreenID.welcomeScreen.rawValue,
-                                screen: IntroAnalyticsScreen.welcomeScreen,
+        let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
+                                screen: IntroAnalyticsScreen.welcome,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }

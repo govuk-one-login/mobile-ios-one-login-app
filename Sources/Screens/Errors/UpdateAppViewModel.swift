@@ -21,16 +21,21 @@ struct UpdateAppViewModel: GDSInformationViewModel,
 
     init(analyticsService: AnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
-        self.analyticsService = analyticsService
-        // TODO DCMAW-9612: add event for clicking the link (LinkEvent most likely).
-        // update titleKey and action in `primaryButtonViewModel`
+        var tempAnalyticsService = analyticsService
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
+        self.analyticsService = tempAnalyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
                                                                analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.appStoreURL)
         }
     }
-
-    func didAppear() { /* TODO DCMAW-9612: create screen, send event */ }
-
+    
+    func didAppear() {
+        let screen = ScreenView(id: IntroAnalyticsScreenID.updateApp.rawValue,
+                                screen: IntroAnalyticsScreen.updateApp,
+                                titleKey: title.stringKey)
+        analyticsService.trackScreen(screen)
+    }
+    
     func didDismiss() { /* Conforming to BaseViewModel */ }
 }

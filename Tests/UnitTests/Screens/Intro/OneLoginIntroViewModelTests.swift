@@ -54,8 +54,8 @@ extension OneLoginIntroViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: IntroAnalyticsScreenID.welcomeScreen.rawValue,
-                                screen: IntroAnalyticsScreen.welcomeScreen,
+        let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
+                                screen: IntroAnalyticsScreen.welcome,
                                 titleKey: "app_signInTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)

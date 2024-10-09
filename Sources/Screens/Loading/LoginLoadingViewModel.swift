@@ -14,8 +14,8 @@ struct LoginLoadingViewModel: GDSLoadingViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoadingScreen.rawValue,
-                                screen: IntroAnalyticsScreen.loginLoadingScreen,
+        let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoading.rawValue,
+                                screen: IntroAnalyticsScreen.loginLoading,
                                 titleKey: loadingLabelKey.stringKey)
         analyticsService.trackScreen(screen)
     }

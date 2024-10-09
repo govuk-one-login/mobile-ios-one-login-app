@@ -12,15 +12,22 @@ struct AppUnavailableViewModel: GDSInformationViewModel, BaseViewModel {
     let body: GDSLocalisedString? = "app_appUnavailableBody"
     let footnote: GDSLocalisedString? = nil
     let analyticsService: AnalyticsService
-
+    
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-
+    
     init(analyticsService: AnalyticsService) {
-        self.analyticsService = analyticsService
+        var tempAnalyticsService = analyticsService
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
+        self.analyticsService = tempAnalyticsService
     }
-
-    func didAppear() { /* TODO DCMAW-9612: create screen, send event */ }
-
+    
+    func didAppear() {
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appUnavailable.rawValue,
+                                     screen: ErrorAnalyticsScreen.appUnavailable,
+                                     titleKey: title.stringKey)
+        analyticsService.trackScreen(screen)
+    }
+    
     func didDismiss() { /* Conforming to BaseViewModel */ }
 }

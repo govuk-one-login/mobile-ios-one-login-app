@@ -10,8 +10,8 @@ protocol SceneLifecycle: AnyObject {
 
 extension SceneLifecycle {
     func trackSplashScreen() {
-        let screen = ScreenView(id: IntroAnalyticsScreenID.splashScreen.rawValue,
-                                screen: IntroAnalyticsScreen.splashScreen,
+        let screen = ScreenView(id: IntroAnalyticsScreenID.splash.rawValue,
+                                screen: IntroAnalyticsScreen.splash,
                                 titleKey: "one login splash screen")
         analyticsService.trackScreen(screen)
     }

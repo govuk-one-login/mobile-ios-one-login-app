@@ -1,7 +1,6 @@
 import Foundation
 import Logging
 import MobilePlatformServices
-import Networking
 import SecureStore
 
 protocol QualifyingService: AnyObject {

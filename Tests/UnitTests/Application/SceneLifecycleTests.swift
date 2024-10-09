@@ -52,8 +52,8 @@ extension SceneLifecycleTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.trackSplashScreen()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: IntroAnalyticsScreenID.splashScreen.rawValue,
-                                screen: IntroAnalyticsScreen.splashScreen,
+        let screen = ScreenView(id: IntroAnalyticsScreenID.splash.rawValue,
+                                screen: IntroAnalyticsScreen.splash,
                                 titleKey: "one login splash screen")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
