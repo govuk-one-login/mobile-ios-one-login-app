@@ -23,12 +23,13 @@ final class ProfileTabViewModelTests: XCTestCase {
 }
 
 extension ProfileTabViewModelTests {
-    func test_title_contents() throws {
+    func test_page() {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_profileTitle")
+        XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_didAppear() throws {
+    func test_didAppear() {
         sut.isLoggedIn = true
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()

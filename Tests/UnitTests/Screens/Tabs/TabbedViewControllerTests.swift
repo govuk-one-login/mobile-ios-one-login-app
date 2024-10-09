@@ -97,9 +97,7 @@ extension TabbedViewControllerTests {
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     walletAvailabilityService: MockWalletAvailabilityService())
-        let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) {
-
-        }
+        let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
         let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
                                             sectionModels: sections)
         sut = TabbedViewController(viewModel: viewModel,
@@ -114,7 +112,7 @@ extension TabbedViewControllerTests {
         waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 2)
     }
 
-    func test_screenAnalytics() throws {
+    func test_screenAnalytics() {
         sut.screenAnalytics()
         XCTAssertTrue(didAppearCalled)
     }

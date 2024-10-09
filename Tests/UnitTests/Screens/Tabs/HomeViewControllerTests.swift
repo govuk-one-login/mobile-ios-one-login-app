@@ -23,7 +23,7 @@ final class HomeViewControllerTests: XCTestCase {
 }
 
 extension HomeViewControllerTests {
-    func test_title_contents() throws {
+    func test_page() {
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
@@ -45,7 +45,7 @@ extension HomeViewControllerTests {
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
     }
     
-    func test_viewDidAppear() throws {
+    func test_viewDidAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()

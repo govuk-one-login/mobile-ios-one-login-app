@@ -6,6 +6,7 @@ import XCTest
 final class UnlockScreenViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: UnlockScreenViewModel!
+    
     var didCallPrimaryButtonAction = false
 
     override func setUp() {
@@ -20,16 +21,16 @@ final class UnlockScreenViewModelTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         sut =  nil
+        
         didCallPrimaryButtonAction = false
+        
+        super.tearDown()
     }
 }
 
 extension UnlockScreenViewModelTests {
-    func test_buttonContents() throws {
+    func test_button() {
         XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_unlockButton")
-    }
-
-    func test_primaryButton_action() throws {
         XCTAssertFalse(didCallPrimaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -40,7 +41,7 @@ extension UnlockScreenViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
 
-    func test_didAppear() throws {
+    func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

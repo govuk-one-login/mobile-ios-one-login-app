@@ -3,14 +3,17 @@ import XCTest
 
 @MainActor
 final class UnlockScreenViewControllerTests: XCTestCase {
+    var mockAnalyticsService: MockAnalyticsService!
     var viewModel: UnlockScreenViewModel!
     var sut: UnlockScreenViewController!
+    
     var didPressButton = false
     
     override func setUp() {
         super.setUp()
         
-        viewModel = UnlockScreenViewModel(analyticsService: MockAnalyticsService(),
+        mockAnalyticsService = MockAnalyticsService()
+        viewModel = UnlockScreenViewModel(analyticsService: mockAnalyticsService,
                                           primaryButtonAction: {
             self.didPressButton = true
         })
@@ -18,14 +21,22 @@ final class UnlockScreenViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        sut = nil
+        mockAnalyticsService = nil
         viewModel = nil
+        sut = nil
+        
+        didPressButton = false
         
         super.tearDown()
     }
 }
 
 extension UnlockScreenViewControllerTests {
+    func test_page() throws {
+        XCTAssertEqual(try sut.loadingLabel.text, "Loading")
+        XCTAssertEqual(try sut.loadingSpinner.style, .medium)
+    }
+    
     func test_ButtonLabelContents() throws {
         XCTAssertEqual(try sut.unlockButton.titleLabel?.adjustsFontForContentSizeCategory, true)
         XCTAssertEqual(try sut.unlockButton.titleLabel?.font, UIFont(style: .title3, weight: .bold))
@@ -36,14 +47,6 @@ extension UnlockScreenViewControllerTests {
         XCTAssertFalse(didPressButton)
         try sut.unlockButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didPressButton)
-    }
-
-    func test_loadingLabelContents() throws {
-        XCTAssertEqual(try sut.loadingLabel.text, "Loading")
-    }
-
-    func test_loadingSpinner() throws {
-        XCTAssertEqual(try sut.loadingSpinner.style, .medium)
     }
 }
 

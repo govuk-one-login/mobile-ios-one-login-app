@@ -789,8 +789,8 @@
 		ABB941FD2C6CAD840007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 				ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */,
+				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
