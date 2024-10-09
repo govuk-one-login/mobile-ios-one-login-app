@@ -25,10 +25,10 @@ extension AnalyticsService {
     }
     
     mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
-        let (taxonomyLevel2, taxonomyLevel3): (String, String) = {
+        let (taxonomyLevel2, taxonomyLevel3) = {
             switch appTaxonomy {
             case .reauth:
-                (AppTaxonomy.profile.rawValue, appTaxonomy.rawValue)
+                (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
             case .profile:
                 (appTaxonomy.rawValue, "my \(appTaxonomy.rawValue)")
             default:

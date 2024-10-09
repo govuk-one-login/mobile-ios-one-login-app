@@ -48,10 +48,7 @@ extension PasscodeInformationViewModelTests {
                               linkDomain: AppEnvironment.oneLoginBaseURL,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], event.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], event.parameters["type"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["link_domain"], event.parameters["link_domain"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["external"], event.parameters["external"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
     func test_didAppear() {

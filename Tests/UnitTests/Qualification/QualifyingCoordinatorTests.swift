@@ -73,6 +73,18 @@ extension QualifyingCoordinatorTests {
             window.rootViewController as? UnlockScreenViewController
         )
     }
+    
+    @MainActor
+    func test_appUnavailable_displaysAppUnavailableScreen() throws {
+        // GIVEN I reopen the app
+        // WHEN I receive an App Unavailable result from `appInfo`
+        sut.didChangeAppInfoState(state: .unavailable)
+        // THEN I am shown the App Unavailable screen
+        let vc = try XCTUnwrap(
+            window.rootViewController as? GDSInformationViewController
+        )
+        XCTAssertTrue(vc.viewModel is AppUnavailableViewModel)
+    }
 
     @MainActor
     func test_outdatedApp_displaysUpdateAppScreen() throws {

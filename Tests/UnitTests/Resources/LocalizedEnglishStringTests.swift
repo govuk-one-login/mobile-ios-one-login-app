@@ -183,15 +183,28 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
 
     func test_updateAppPageKeys() {
-        XCTAssertEqual("app_updateAppTitle".getEnglishString(), "You need to update your app")
-        XCTAssertEqual("app_updateAppBody".getEnglishString(), "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
-        XCTAssertEqual("app_updateAppButton".getEnglishString(), "Update GOV.UK One Login app")
+        XCTAssertEqual("app_updateAppTitle".getEnglishString(),
+                       "You need to update your app")
+        XCTAssertEqual("app_updateAppBody".getEnglishString(),
+                       "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
+        XCTAssertEqual("app_updateAppButton".getEnglishString(),
+                       "Update GOV.UK One Login app")
     }
     
     func test_yourServiceTile() {
-        XCTAssertEqual("app_yourServicesCardTitle".getEnglishString(), "Your services")
-        XCTAssertEqual("app_yourServicesCardBody".getEnglishString(), "See and access the services you’ve used with GOV.UK One Login.")
-        XCTAssertEqual("app_yourServicesCardLink".getEnglishString(), "Go to your services")
+        XCTAssertEqual("app_yourServicesCardTitle".getEnglishString(),
+                       "Your services")
+        XCTAssertEqual("app_yourServicesCardBody".getEnglishString(),
+                       "See and access the services you’ve used with GOV.UK One Login.")
+        XCTAssertEqual("app_yourServicesCardLink".getEnglishString(),
+                       "Go to your services")
+    }
+    
+    func test_appUnavailablePageKeys() {
+        XCTAssertEqual("app_appUnavailableTitle".getEnglishString(),
+                       "Sorry, the app is unavailable")
+        XCTAssertEqual("app_appUnavailableBody".getEnglishString(),
+                       "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
     }
 }
 
