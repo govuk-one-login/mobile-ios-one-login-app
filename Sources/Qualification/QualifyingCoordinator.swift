@@ -80,7 +80,6 @@ final class QualifyingCoordinator: NSObject,
                 viewModel: AppUnavailableViewModel(analyticsService: analyticsCenter.analyticsService)
             )
             displayViewController(updateAppScreen)
-            return
         case .outdated:
             let updateAppScreen = GDSInformationViewController(
                 viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
