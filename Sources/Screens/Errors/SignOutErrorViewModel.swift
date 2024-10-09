@@ -9,27 +9,27 @@ struct SignOutErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, B
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
-    let errorDescription: String
+    let error: Error
     
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: AnalyticsService,
-         errorDescription: String,
-         action: @escaping () -> Void) {
+         error: Error) {
         self.analyticsService = analyticsService
-        self.errorDescription = errorDescription
+        self.error = error
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_exitButton",
                                                                analyticsService: analyticsService) {
-            action()
+            fatalError("We were unable to sign the user out, they've been given guidance to delete the app")
         }
     }
     
     func didAppear() {
+        analyticsService.logCrash(error)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
                                      screen: ErrorAnalyticsScreen.signOut,
                                      titleKey: title.stringKey,
-                                     reason: errorDescription)
+                                     reason: error.localizedDescription)
         analyticsService.trackScreen(screen)
     }
     

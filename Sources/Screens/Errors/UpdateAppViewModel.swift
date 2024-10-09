@@ -3,16 +3,17 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct UpdateAppViewModel: GDSInformationViewModel, BaseViewModel {
-    let title: GDSLocalisedString = "app_updateAppTitle"
-    let body: GDSLocalisedString? = "app_updateAppBody"
-    let footnote: GDSLocalisedString? = nil
+struct UpdateAppViewModel: GDSInformationViewModel,
+                           GDSInformationViewModelPrimaryButton,
+                           BaseViewModel {
     let image: String = "exclamationmark.arrow.circlepath"
     let imageWeight: UIFont.Weight? = .regular
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 100
+    let title: GDSLocalisedString = "app_updateAppTitle"
+    let body: GDSLocalisedString? = "app_updateAppBody"
+    let footnote: GDSLocalisedString? = nil
     let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
@@ -29,9 +30,7 @@ struct UpdateAppViewModel: GDSInformationViewModel, BaseViewModel {
         }
     }
 
-    func didAppear() {
-        // TODO DCMAW-9612: create screen, send event
-    }
+    func didAppear() { /* TODO DCMAW-9612: create screen, send event */ }
 
     func didDismiss() { /* Conforming to BaseViewModel */ }
 }

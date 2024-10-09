@@ -187,3 +187,10 @@
 "app_yourServicesCardBody" = "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login";
 
 "app_yourServicesCardLink" = "Ewch i'ch gwasanaethau";
+
+
+// MARK: App Unavailable Screen
+"app_appUnavailableTitle" = "Mae'n ddrwg gennym, nid yw'r ap ar gael";
+
+"app_appUnavailableBody" = "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.";
+

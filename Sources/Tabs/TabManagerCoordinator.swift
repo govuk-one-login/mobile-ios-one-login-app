@@ -142,10 +142,7 @@ extension TabManagerCoordinator: ParentCoordinator {
                 try sessionManager.clearAllSessionData()
             } catch {
                 let viewModel = SignOutErrorViewModel(analyticsService: analyticsCenter.analyticsService,
-                                                      errorDescription: error.localizedDescription) { [unowned self] in
-                    analyticsCenter.analyticsService.logCrash(error)
-                    fatalError("We were unable to sign the user out, they've been given guidance to delete the app")
-                }
+                                                      error: error)
                 let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
                 root.present(signOutErrorScreen, animated: true)
             }

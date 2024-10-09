@@ -188,3 +188,9 @@
 "app_yourServicesCardBody" = "See and access the services you’ve used with GOV.UK One Login.";
 
 "app_yourServicesCardLink" = "Go to your services";
+
+
+// MARK: App Unavailable Screen
+"app_appUnavailableTitle" = "Sorry, the app is unavailable";
+
+"app_appUnavailableBody" = "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.";

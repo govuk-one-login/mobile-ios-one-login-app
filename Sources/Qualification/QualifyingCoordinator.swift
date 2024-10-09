@@ -77,8 +77,7 @@ final class QualifyingCoordinator: NSObject,
             return
         case .unavailable:
             let updateAppScreen = GDSInformationViewController(
-                // TODO: DCMAW-9824 - replace with AppUnavailableViewModel
-                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
+                viewModel: AppUnavailableViewModel(analyticsService: analyticsCenter.analyticsService)
             )
             displayViewController(updateAppScreen)
             return

@@ -3,16 +3,20 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct TouchIDEnrolmentViewModel: GDSInformationViewModel, BaseViewModel {
+struct TouchIDEnrolmentViewModel: GDSInformationViewModel,
+                                  GDSInformationViewModelFootnote,
+                                  GDSInformationViewModelPrimaryButton,
+                                  GDSInformationViewModelSecondaryButton,
+                                  BaseViewModel {
     let image: String = "touchid"
     let imageWeight: UIFont.Weight? = .thin
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 64
     let title: GDSLocalisedString = "app_enableTouchIDTitle"
     let body: GDSLocalisedString? = "app_enableTouchIDBody"
-    let footnote: GDSLocalisedString? = "app_enableTouchIDFootnote"
+    let footnote: GDSLocalisedString = "app_enableTouchIDFootnote"
     let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel?
+    let secondaryButtonViewModel: ButtonViewModel
     let analyticsService: AnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
