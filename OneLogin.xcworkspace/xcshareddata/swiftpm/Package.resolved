@@ -132,7 +132,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
         "branch" : "feature/dcmaw-9824-app-unavailable-screen",
-        "revision" : "2fd7164a1825224809f24c2a556523d8bb0a31e4"
+        "revision" : "b1b86548cd1d0fd763f00da580fc75e9042be170"
       }
     },
     {

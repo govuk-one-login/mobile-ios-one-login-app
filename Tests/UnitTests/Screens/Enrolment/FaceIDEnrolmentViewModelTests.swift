@@ -37,7 +37,7 @@ extension FaceIDEnrolmentViewModelTests {
         XCTAssertEqual(sut.image, "faceid")
         XCTAssertEqual(sut.title.stringKey, "app_enableFaceIDTitle")
         XCTAssertEqual(sut.body?.stringKey, "app_enableFaceIDBody")
-        XCTAssertEqual(sut.footnote.stringKey, "app_enableFaceIDFootnote")
+        XCTAssertEqual(sut.footnote?.stringKey, "app_enableFaceIDFootnote")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
@@ -55,10 +55,10 @@ extension FaceIDEnrolmentViewModelTests {
     }
 
     func test_secondaryButton() {
-        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_maybeLaterButton")
+        XCTAssertEqual(sut.secondaryButtonViewModel?.title.stringKey, "app_maybeLaterButton")
         XCTAssertFalse(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.secondaryButtonViewModel.action()
+        sut.secondaryButtonViewModel?.action()
         XCTAssertTrue(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "app_maybeLaterButton")

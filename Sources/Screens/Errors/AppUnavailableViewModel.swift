@@ -3,7 +3,7 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct AppUnavailableViewModel: GDSInformationViewModel, BaseViewModel {
+struct AppUnavailableViewModel: GDSInformationViewModel, GDSInformationViewModelOptionalPrimaryButton, BaseViewModel {
     let image: String = "exclamationmark.circle"
     let imageWeight: UIFont.Weight? = .regular
     let imageColour: UIColor? = nil
@@ -11,6 +11,8 @@ struct AppUnavailableViewModel: GDSInformationViewModel, BaseViewModel {
     let title: GDSLocalisedString = "app_appUnavailableTitle"
     let body: GDSLocalisedString? = "app_appUnavailableBody"
     let footnote: GDSLocalisedString? = nil
+    let secondaryButtonViewModel: ButtonViewModel? = nil
+    let primaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil

@@ -3,22 +3,23 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct PasscodeInformationViewModel: GDSInformationViewModel,
-                                     GDSInformationViewModelPrimaryButton,
-                                     BaseViewModel {
+struct PasscodeInformationViewModel: GDSInformationViewModel, BaseViewModel {
     let image: String = "lock"
     let imageWeight: UIFont.Weight? = nil
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 44
     let title: GDSLocalisedString = "app_noPasscodeSetupTitle"
     let body: GDSLocalisedString? = "app_noPasscodeSetupBody"
+    let footnote: GDSLocalisedString? = nil
     let primaryButtonViewModel: ButtonViewModel
+    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    init(analyticsService: AnalyticsService,
+         action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_continueButton",
                               linkDomain: AppEnvironment.oneLoginBaseURL,

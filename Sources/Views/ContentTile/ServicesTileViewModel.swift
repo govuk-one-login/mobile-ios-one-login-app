@@ -27,7 +27,8 @@ struct ServicesTileViewModel: GDSContentTileViewModel,
 }
 
 extension GDSContentTileViewModel where Self == ServicesTileViewModel {
-    static func yourServices(analyticsService: AnalyticsService, urlOpener: URLOpener) -> ServicesTileViewModel {
+    static func yourServices(analyticsService: AnalyticsService,
+                             urlOpener: URLOpener) -> ServicesTileViewModel {
         ServicesTileViewModel(analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.yourServicesURL)
         }
