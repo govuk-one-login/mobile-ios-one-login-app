@@ -2,7 +2,9 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct DataDeletedWarningViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, BaseViewModel {
+struct DataDeletedWarningViewModel: GDSErrorViewModelV2,
+                                    GDSErrorViewModelWithImage,
+                                    BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
     let body: GDSLocalisedString = "app_dataDeletionWarningBody"

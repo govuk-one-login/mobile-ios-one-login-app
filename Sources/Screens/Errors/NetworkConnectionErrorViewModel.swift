@@ -2,7 +2,9 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct NetworkConnectionErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, BaseViewModel {
+struct NetworkConnectionErrorViewModel: GDSErrorViewModelV2,
+                                        GDSErrorViewModelWithImage,
+                                        BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_networkErrorTitle"
     let body: GDSLocalisedString = "app_networkErrorBody"

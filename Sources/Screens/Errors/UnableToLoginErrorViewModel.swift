@@ -2,7 +2,9 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct UnableToLoginErrorViewModel: GDSErrorViewModelV2, GDSErrorViewModelWithImage, BaseViewModel {
+struct UnableToLoginErrorViewModel: GDSErrorViewModelV2,
+                                    GDSErrorViewModelWithImage,
+                                    BaseViewModel {
     let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_signInErrorTitle"
     let body: GDSLocalisedString = "app_signInErrorBody"

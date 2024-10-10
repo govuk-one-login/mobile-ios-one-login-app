@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "feature/dcmaw-9824-app-unavailable-screen",
-        "revision" : "b1b86548cd1d0fd763f00da580fc75e9042be170"
+        "revision" : "96de6186e2c1f18c7d9d801fbe17316fa8ff2738",
+        "version" : "2.4.3"
       }
     },
     {

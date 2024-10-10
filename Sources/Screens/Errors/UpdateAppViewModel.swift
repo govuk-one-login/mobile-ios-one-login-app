@@ -3,7 +3,8 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct UpdateAppViewModel: GDSInformationViewModel,
+struct UpdateAppViewModel: GDSInformationViewModelV2,
+                           GDSInformationViewModelPrimaryButton,
                            BaseViewModel {
     let image: String = "exclamationmark.arrow.circlepath"
     let imageWeight: UIFont.Weight? = .regular
@@ -11,9 +12,7 @@ struct UpdateAppViewModel: GDSInformationViewModel,
     let imageHeightConstraint: CGFloat? = 100
     let title: GDSLocalisedString = "app_updateAppTitle"
     let body: GDSLocalisedString? = "app_updateAppBody"
-    let footnote: GDSLocalisedString? = nil
     let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: AnalyticsService
 
     let rightBarButtonTitle: GDSLocalisedString? = nil

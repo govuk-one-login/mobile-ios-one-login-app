@@ -2,7 +2,8 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct SignOutWarningViewModel: GDSErrorViewModelV2, BaseViewModel {
+struct SignOutWarningViewModel: GDSErrorViewModelV2,
+                                BaseViewModel {
     let title: GDSLocalisedString = "app_signOutWarningTitle"
     let body: GDSLocalisedString = "app_signOutWarningBody"
     let primaryButtonViewModel: ButtonViewModel
