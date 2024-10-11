@@ -80,7 +80,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.")
     }
     
-    func test_faceIDEnrollmentScreen_keys() throws {
+    func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getEnglishString(),
                        "Use Face ID to sign in")
         XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
@@ -91,7 +91,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Use Face ID")
     }
     
-    func test_touchIDEnrollmentScreen_keys() throws {
+    func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getEnglishString(),
                        "Use Touch ID to sign in")
         XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),

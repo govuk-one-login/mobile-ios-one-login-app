@@ -70,7 +70,7 @@
 "app_noPasscodeSetupBody" = "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.";
 
 
-// MARK: Face ID enrollment screen
+// MARK: Face ID enrolment screen
 "app_enableFaceIDTitle" = "Use Face ID to sign in";
 
 "app_enableFaceIDBody" = "Sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.";
@@ -80,7 +80,7 @@
 "app_enableFaceIDButton" = "Use Face ID";
 
 
-// MARK: Touch ID enrollment screen
+// MARK: Touch ID enrolment screen
 "app_enableTouchIDTitle" = "Use Touch ID to sign in";
 
 "app_enableTouchIDBody" = "Sign in with your fingerprint instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.";

@@ -70,8 +70,8 @@ extension FaceIDEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrollment.rawValue,
-                                screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrollment,
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrolment,
                                 titleKey: "app_enableFaceIDTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)

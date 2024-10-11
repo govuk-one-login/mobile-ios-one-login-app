@@ -70,8 +70,8 @@ extension TouchIDEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDEnrollment.rawValue,
-                                screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrollment,
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrolment,
                                 titleKey: "app_enableTouchIDTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
