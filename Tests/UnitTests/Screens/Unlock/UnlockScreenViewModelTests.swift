@@ -45,8 +45,9 @@ extension UnlockScreenViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ScreenView(screen: BiometricEnrolmentAnalyticsScreen.unlockScreen,
-                                titleKey: "unlock screen")
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.unlock.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.unlock,
+                                titleKey: "one login unlock screen")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
