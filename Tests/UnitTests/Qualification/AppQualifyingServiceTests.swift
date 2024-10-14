@@ -49,13 +49,43 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
     }
+    
+    func test_appUnavailable_setsStateCorrectly() {
+        // GIVEN app usage is not allowed
+        appInformationProvider.allowAppUsage = false
 
-    func testUpToDateApp_setsStateCorrectly() {
+        sut.delegate = self
+        sut.initiate()
+
+        // THEN the unavailable state is set
+        waitForTruth(
+            self.appState == .unavailable,
+            timeout: 5
+        )
+    }
+
+    
+    func test_outdatedApp_setsStateCorrectly() {
+        // GIVEN the app is outdated
+        appInformationProvider.currentVersion = .init(.min, .min, .min)
+
+        sut.delegate = self
+        sut.initiate()
+
+        // THEN the outdated state is set
+        waitForTruth(
+            self.appState == .outdated,
+            timeout: 5
+        )
+    }
+
+    func test_upToDateApp_setsStateCorrectly() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sut.delegate = self
         sut.initiate()
 
+        // THEN the qualified state is set
         waitForTruth(
             self.appState == .qualified,
             timeout: 5
@@ -64,33 +94,21 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(AppEnvironment.releaseFlags.flags, releaseFlags)
     }
 
-    func testOutdatedApp_setsStateCorrectly() {
-        // GIVEN the app is outdated
-        appInformationProvider.currentVersion = .init(.min, .min, .min)
-
-        sut.delegate = self
-        sut.initiate()
-
-        waitForTruth(
-            self.appState == .outdated,
-            timeout: 5
-        )
-    }
-
-    func testOfflineApp_setsStateCorrectly() {
+    func test_offlineApp_setsStateCorrectly() {
         // GIVEN the app is offline
         appInformationProvider.shouldReturnError = true
 
         sut.delegate = self
         sut.initiate()
 
+        // THEN the offline state is set
         waitForTruth(
             self.appState == .offline,
             timeout: 5
         )
     }
 
-    func testErrorThrown_setsStateCorrectly() {
+    func test_errorThrown_setsStateCorrectly() {
         // GIVEN `appInfo` cannot be accessed
         appInformationProvider.shouldReturnError = true
         appInformationProvider.errorToThrow = URLError(.timedOut)
@@ -108,7 +126,7 @@ extension AppQualifyingServiceTests {
 
 // MARK: - User State Evaluation
 extension AppQualifyingServiceTests {
-    func testOneTimeUser_userConfirmed() {
+    func test_oneTimeUser_userConfirmed() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.isOneTimeUser = true
@@ -123,7 +141,7 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .loggedIn)
     }
     
-    func testNoExpiryDate_userUnconfirmed() {
+    func test_noExpiryDate_userUnconfirmed() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sut.delegate = self
@@ -137,7 +155,7 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .notLoggedIn)
     }
     
-    func testSessionInvalid_userExpired() {
+    func test_sessionInvalid_userExpired() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -152,7 +170,7 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .expired)
     }
     
-    func testResumeSession_userConfirmed() {
+    func test_resumeSession_userConfirmed() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -168,7 +186,7 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .loggedIn)
     }
     
-    func testResumeSession_cantDecryptData_error() {
+    func test_resumeSession_cantDecryptData_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -185,7 +203,7 @@ extension AppQualifyingServiceTests {
         XCTAssertNil(self.userState)
     }
     
-    func testResumeSession_nonCantDecryptData_error() {
+    func test_resumeSession_nonCantDecryptData_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -204,7 +222,7 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .notLoggedIn)
     }
     
-    func testResumeSession_nonCantDecryptData_error_clearSessionData_error() {
+    func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
@@ -225,7 +243,7 @@ extension AppQualifyingServiceTests {
 
 // MARK: - Subscription Tests
 extension AppQualifyingServiceTests {
-    func testEnrolmentComplete_changesUserState() {
+    func test_enrolmentComplete_changesUserState() {
         appInformationProvider.shouldReturnError = true
         sut.delegate = self
         sut.initiate()
@@ -234,7 +252,7 @@ extension AppQualifyingServiceTests {
         waitForTruth(self.userState == .loggedIn, timeout: 5)
     }
 
-    func testSessionExpiry_changesUserState() {
+    func test_sessionExpiry_changesUserState() {
         appInformationProvider.shouldReturnError = true
         sut.delegate = self
         sut.initiate()
@@ -243,7 +261,7 @@ extension AppQualifyingServiceTests {
         waitForTruth(self.userState == .expired, timeout: 5)
     }
 
-    func testLogout_changesUserState() {
+    func test_logOut_changesUserState() {
         appInformationProvider.shouldReturnError = true
         sut.delegate = self
         sut.initiate()

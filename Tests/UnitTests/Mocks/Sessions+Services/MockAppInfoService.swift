@@ -6,7 +6,7 @@ import Networking
 
 final class MockAppInformationService: AppInformationProvider {
     var currentVersion: Networking.Version = .init(.max, .max, .max)
-
+    var allowAppUsage = true
     var didCallFetchAppInfo = false
     var shouldReturnError = false
     
@@ -27,7 +27,7 @@ final class MockAppInformationService: AppInformationProvider {
         }
         
         return App(minimumVersion: .init(1, 2, 0),
-                   allowAppUsage: true,
+                   allowAppUsage: allowAppUsage,
                    releaseFlags: releaseFlags)
     }
 }
