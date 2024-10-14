@@ -23,21 +23,21 @@ final class EnrolmentCoordinator: NSObject,
     func start() {
         switch sessionManager.localAuthentication.type {
         case .touchID:
-            let viewModel = TouchIDEnrollmentViewModel(analyticsService: analyticsService) { [unowned self] in
+            let viewModel = TouchIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
                 saveSession()
             } secondaryButtonAction: { [unowned self] in
                 completeEnrolment()
             }
-            let touchIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
-            root.pushViewController(touchIDEnrollmentScreen, animated: true)
+            let touchIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+            root.pushViewController(touchIDEnrolmentScreen, animated: true)
         case .faceID:
-            let viewModel = FaceIDEnrollmentViewModel(analyticsService: analyticsService) { [unowned self] in
+            let viewModel = FaceIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
                 saveSession()
             } secondaryButtonAction: { [unowned self] in
                 completeEnrolment()
             }
-            let faceIDEnrollmentScreen = GDSInformationViewController(viewModel: viewModel)
-            root.pushViewController(faceIDEnrollmentScreen, animated: true)
+            let faceIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+            root.pushViewController(faceIDEnrolmentScreen, animated: true)
         case .passcodeOnly:
             saveSession()
         case .none:

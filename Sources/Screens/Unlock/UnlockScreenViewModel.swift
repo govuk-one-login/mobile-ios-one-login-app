@@ -20,12 +20,11 @@ struct UnlockScreenViewModel: BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(screen: BiometricEnrollmentAnalyticsScreen.unlockScreen,
-                                titleKey: "unlock screen")
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.unlock.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.unlock,
+                                titleKey: "one login unlock screen")
         analyticsService.trackScreen(screen)
     }
     
-    func didDismiss() {
-        // conforming to BaseViewModel
-    }
+    func didDismiss() { /* conforming to BaseViewModel */ }
 }

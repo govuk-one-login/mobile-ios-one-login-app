@@ -143,11 +143,11 @@ extension LALocalAuthenticationManagerTests {
         mockLAContext.biometryType = .faceID
         // WHEN I try to enrol FaceID
         mockLAContext.userConsentedToBiometrics = true
-        let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        let isEnroled = try await sut.enrolFaceIDIfAvailable()
         // THEN the user has been asked for consent
         XCTAssertTrue(mockLAContext.didCallEvaluatePolicy)
         // THEN enrolment is successful
-        XCTAssertTrue(isEnrolled)
+        XCTAssertTrue(isEnroled)
     }
 
     func test_enrolFaceIDIfRequired_returnsFalseIfUserDeclinesConsent() async throws {
@@ -156,11 +156,11 @@ extension LALocalAuthenticationManagerTests {
         mockLAContext.biometryType = .faceID
         // WHEN I try to enrol FaceID
         mockLAContext.userConsentedToBiometrics = false
-        let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        let isEnroled = try await sut.enrolFaceIDIfAvailable()
         // THEN the user has been asked for consent
         XCTAssertTrue(mockLAContext.didCallEvaluatePolicy)
         // THEN enrolment is not successful
-        XCTAssertFalse(isEnrolled)
+        XCTAssertFalse(isEnroled)
     }
     
     func test_enrolFaceIDIfRequired_returnsTrueIfFaceIDUnavailable() async throws {
@@ -169,10 +169,10 @@ extension LALocalAuthenticationManagerTests {
         mockLAContext.biometryType = .none
         // WHEN I try to enrol FaceID
         mockLAContext.userConsentedToBiometrics = false
-        let isEnrolled = try await sut.enrolFaceIDIfAvailable()
+        let isEnroled = try await sut.enrolFaceIDIfAvailable()
         // THEN the user has not been asked for consent
         XCTAssertFalse(mockLAContext.didCallEvaluatePolicy)
         // THEN enrolment is successful
-        XCTAssertTrue(isEnrolled)
+        XCTAssertTrue(isEnroled)
     }
 }

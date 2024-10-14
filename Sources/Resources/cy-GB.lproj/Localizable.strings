@@ -70,7 +70,7 @@
 "app_noPasscodeSetupBody" = "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.";
 
 
-// MARK: Face ID enrollment screen
+// MARK: Face ID enrolment screen
 "app_enableFaceIDTitle" = "Defnyddio Face ID i fewngofnodi";
 
 "app_enableFaceIDBody" = "Mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a'ch cyfrinair. Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.";
@@ -80,7 +80,7 @@
 "app_enableFaceIDButton" = "Defnyddio Face ID";
 
 
-// MARK: Touch ID enrollment screen
+// MARK: Touch ID enrolment screen
 "app_enableTouchIDTitle" = "Defnyddio Touch ID i fewngofnodi";
 
 "app_enableTouchIDBody" = "Mewngofnodi gyda'ch olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich Touch ID yn cael ei rannu â GOV.UK One Login.";
@@ -187,3 +187,10 @@
 "app_yourServicesCardBody" = "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login";
 
 "app_yourServicesCardLink" = "Ewch i'ch gwasanaethau";
+
+
+// MARK: App Unavailable Screen
+"app_appUnavailableTitle" = "Mae'n ddrwg gennym, nid yw'r ap ar gael";
+
+"app_appUnavailableBody" = "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.";
+

@@ -80,7 +80,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.")
     }
     
-    func test_faceIDEnrollmentScreen_keys() throws {
+    func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getWelshString(),
                        "Defnyddio Face ID i fewngofnodi")
         XCTAssertEqual("app_enableFaceIDBody".getWelshString(),
@@ -91,7 +91,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Defnyddio Face ID")
     }
     
-    func test_touchIDEnrollmentScreen_keys() throws {
+    func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getWelshString(),
                        "Defnyddio Touch ID i fewngofnodi")
         XCTAssertEqual("app_enableTouchIDBody".getWelshString(),
@@ -183,15 +183,28 @@ final class LocalizedWelshStringTests: XCTestCase {
     }
 
     func test_updateAppPageKeys() {
-        XCTAssertEqual("app_updateAppTitle".getWelshString(), "Mae angen i chi ddiweddaru eich ap")
-        XCTAssertEqual("app_updateAppBody".getWelshString(), "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.")
-        XCTAssertEqual("app_updateAppButton".getWelshString(), "Diweddaru Ap GOV.UK One Login")
+        XCTAssertEqual("app_updateAppTitle".getWelshString(),
+                       "Mae angen i chi ddiweddaru eich ap")
+        XCTAssertEqual("app_updateAppBody".getWelshString(),
+                       "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.")
+        XCTAssertEqual("app_updateAppButton".getWelshString(),
+                       "Diweddaru Ap GOV.UK One Login")
     }
     
     func test_yourServiceTile() {
-        XCTAssertEqual("app_yourServicesCardTitle".getWelshString(), "Eich gwasanaethau")
-        XCTAssertEqual("app_yourServicesCardBody".getWelshString(), "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login")
-        XCTAssertEqual("app_yourServicesCardLink".getWelshString(), "Ewch i'ch gwasanaethau")
+        XCTAssertEqual("app_yourServicesCardTitle".getWelshString(),
+                       "Eich gwasanaethau")
+        XCTAssertEqual("app_yourServicesCardBody".getWelshString(),
+                       "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login")
+        XCTAssertEqual("app_yourServicesCardLink".getWelshString(),
+                       "Ewch i'ch gwasanaethau")
+    }
+    
+    func test_appUnavailablePageKeys() {
+        XCTAssertEqual("app_appUnavailableTitle".getWelshString(),
+                       "Mae'n ddrwg gennym, nid yw'r ap ar gael")
+        XCTAssertEqual("app_appUnavailableBody".getWelshString(),
+                       "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
 }
 

@@ -222,4 +222,4 @@ DEPENDENCIES
   fastlane-plugin-xcresult_to_junit
 
 BUNDLED WITH
-   2.4.7
+   2.5.19

@@ -141,10 +141,8 @@ extension TabManagerCoordinator: ParentCoordinator {
                 #endif
                 try sessionManager.clearAllSessionData()
             } catch {
-                let viewModel = SignOutErrorViewModel(errorDescription: error.localizedDescription,
-                                                      analyticsService: analyticsCenter.analyticsService) {
-                    fatalError("We were unable to resume the session, there's not much we can do to help the user")
-                }
+                let viewModel = SignOutErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+                                                      error: error)
                 let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
                 root.present(signOutErrorScreen, animated: true)
             }

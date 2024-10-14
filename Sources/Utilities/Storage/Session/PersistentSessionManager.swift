@@ -142,7 +142,7 @@ final class PersistentSessionManager: SessionManager {
         }
         
         guard isReturningUser else {
-            // user has not yet enrolled in local authentication
+            // user has not yet enroled in local authentication
             // so tokens should not be saved !
             return
         }

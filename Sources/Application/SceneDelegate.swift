@@ -11,7 +11,6 @@ import Wallet
 final class SceneDelegate: UIResponder,
                            UIWindowSceneDelegate,
                            SceneLifecycle {
-
     private var rootCoordinator: QualifyingCoordinator?
 
     private let walletAvailabilityService = WalletAvailabilityService()

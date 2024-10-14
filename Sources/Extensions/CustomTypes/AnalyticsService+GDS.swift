@@ -4,6 +4,7 @@ import Logging
 typealias ScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
 
 enum AppTaxonomy: String {
+    case system = "app system"
     case login
     case home
     case wallet
@@ -24,17 +25,18 @@ extension AnalyticsService {
     }
     
     mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
-        var taxonomyLevel3: String {
-            if appTaxonomy == .reauth {
-                appTaxonomy.rawValue
-            } else if appTaxonomy == .profile {
-                "my \(appTaxonomy.rawValue)"
-            } else {
-                "undefined"
+        let (taxonomyLevel2, taxonomyLevel3) = {
+            switch appTaxonomy {
+            case .reauth:
+                (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
+            case .profile:
+                (appTaxonomy.rawValue, "my \(appTaxonomy.rawValue)")
+            default:
+                (appTaxonomy.rawValue, "undefined")
             }
-        }
+        }()
         additionalParameters = additionalParameters.merging([
-            "taxonomy_level2": appTaxonomy == .reauth ? AppTaxonomy.login.rawValue : appTaxonomy.rawValue,
+            "taxonomy_level2": taxonomyLevel2,
             "taxonomy_level3": taxonomyLevel3
         ]) { $1 }
     }

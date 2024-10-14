@@ -51,12 +51,20 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         }
         localizeAuthPromptStrings()
         return try await context
-            .evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-                            localizedReason: GDSLocalisedString(stringLiteral: "app_faceId_subtitle").value)
+            .evaluatePolicy(
+                .deviceOwnerAuthenticationWithBiometrics,
+                localizedReason: GDSLocalisedString(
+                    stringLiteral: "app_faceId_subtitle"
+                ).value
+            )
     }
 
     private func localizeAuthPromptStrings() {
-        context.localizedFallbackTitle = GDSLocalisedString(stringLiteral: "app_enterPasscodeButton").value
-        context.localizedCancelTitle = GDSLocalisedString(stringLiteral: "app_cancelButton").value
+        context.localizedFallbackTitle = GDSLocalisedString(
+            stringLiteral: "app_enterPasscodeButton"
+        ).value
+        context.localizedCancelTitle = GDSLocalisedString(
+            stringLiteral: "app_cancelButton"
+        ).value
     }
 }

@@ -22,8 +22,4 @@ extension Notification.Name {
     static var didLogout: Self {
         Notification.Name("onelogin:logout")
     }
-
-    static var clearWallet: Self {
-        Notification.Name("clearWallet")
-    }
 }

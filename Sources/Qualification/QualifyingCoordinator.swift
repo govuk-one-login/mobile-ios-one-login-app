@@ -60,29 +60,34 @@ final class QualifyingCoordinator: NSObject,
     func start() {
         lock()
     }
-
+    
     func lock() {
         displayViewController(unlockViewController)
     }
-
+    
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
         switch appInfoState {
         case .notChecked:
             lock()
-        case .qualified:
-            // End loading state and enable button
-            unlockViewController.isLoading = false
-        case .outdated:
-            let appUnavailableScreen = GDSInformationViewController(
-                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
-            )
-            displayViewController(appUnavailableScreen)
+        case .offline:
+            // TODO: DCMAW-9866 | display error screen for app offline and no cached data
+            return
         case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return
-        case .offline:
-            // TODO: DCMAW-9866 | display error sc(oreen for app offline and no cached data
-            return
+        case .unavailable:
+            let updateAppScreen = GDSInformationViewController(
+                viewModel: AppUnavailableViewModel(analyticsService: analyticsCenter.analyticsService)
+            )
+            displayViewController(updateAppScreen)
+        case .outdated:
+            let updateAppScreen = GDSInformationViewController(
+                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
+            )
+            displayViewController(updateAppScreen)
+        case .qualified:
+            // End loading state and enable button
+            unlockViewController.isLoading = false
         }
     }
     
@@ -93,8 +98,9 @@ final class QualifyingCoordinator: NSObject,
         case .notLoggedIn, .expired:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
-            let viewModel = UnableToLoginErrorViewModel(errorDescription: error.localizedDescription,
-                                                        analyticsService: analyticsCenter.analyticsService) {
+            let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+                                                        errorDescription: error.localizedDescription) { [unowned self] in
+                analyticsCenter.analyticsService.logCrash(error)
                 fatalError("We were unable to resume the session, there's not much we can do to help the user")
             }
             let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)

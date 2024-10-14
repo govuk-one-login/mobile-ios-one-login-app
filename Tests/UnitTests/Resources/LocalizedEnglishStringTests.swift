@@ -80,7 +80,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.")
     }
     
-    func test_faceIDEnrollmentScreen_keys() throws {
+    func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getEnglishString(),
                        "Use Face ID to sign in")
         XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
@@ -91,7 +91,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Use Face ID")
     }
     
-    func test_touchIDEnrollmentScreen_keys() throws {
+    func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getEnglishString(),
                        "Use Touch ID to sign in")
         XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),
@@ -183,15 +183,28 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
 
     func test_updateAppPageKeys() {
-        XCTAssertEqual("app_updateAppTitle".getEnglishString(), "You need to update your app")
-        XCTAssertEqual("app_updateAppBody".getEnglishString(), "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
-        XCTAssertEqual("app_updateAppButton".getEnglishString(), "Update GOV.UK One Login app")
+        XCTAssertEqual("app_updateAppTitle".getEnglishString(),
+                       "You need to update your app")
+        XCTAssertEqual("app_updateAppBody".getEnglishString(),
+                       "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
+        XCTAssertEqual("app_updateAppButton".getEnglishString(),
+                       "Update GOV.UK One Login app")
     }
     
     func test_yourServiceTile() {
-        XCTAssertEqual("app_yourServicesCardTitle".getEnglishString(), "Your services")
-        XCTAssertEqual("app_yourServicesCardBody".getEnglishString(), "See and access the services you’ve used with GOV.UK One Login.")
-        XCTAssertEqual("app_yourServicesCardLink".getEnglishString(), "Go to your services")
+        XCTAssertEqual("app_yourServicesCardTitle".getEnglishString(),
+                       "Your services")
+        XCTAssertEqual("app_yourServicesCardBody".getEnglishString(),
+                       "See and access the services you’ve used with GOV.UK One Login.")
+        XCTAssertEqual("app_yourServicesCardLink".getEnglishString(),
+                       "Go to your services")
+    }
+    
+    func test_appUnavailablePageKeys() {
+        XCTAssertEqual("app_appUnavailableTitle".getEnglishString(),
+                       "Sorry, the app is unavailable")
+        XCTAssertEqual("app_appUnavailableBody".getEnglishString(),
+                       "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
     }
 }
 

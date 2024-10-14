@@ -1,2 +1,2 @@
-// MARK: Face ID enrollment prompt
+// MARK: Face ID enrolment prompt
 "NSFaceIDUsageDescription" = "Your Face ID is not shared with GOV.UK One Login.";

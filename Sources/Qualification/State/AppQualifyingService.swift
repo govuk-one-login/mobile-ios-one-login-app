@@ -1,7 +1,6 @@
 import Foundation
 import Logging
 import MobilePlatformServices
-import Networking
 import SecureStore
 
 protocol QualifyingService: AnyObject {
@@ -60,6 +59,11 @@ final class AppQualifyingService: QualifyingService {
         do {
             let appInfo = try await updateService.fetchAppInfo()
             AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
+            
+            guard appInfo.allowAppUsage else {
+                appInfoState = .unavailable
+                return
+            }
             
             guard updateService.currentVersion >= appInfo.minimumVersion else {
                 appInfoState = .outdated

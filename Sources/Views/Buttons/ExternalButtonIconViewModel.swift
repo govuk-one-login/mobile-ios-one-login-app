@@ -1,7 +1,7 @@
 import GDSCommon
 
 extension ButtonIconViewModel where Self == ExternalButtonIconViewModel {
-    static var external: Self {
+    static var external: ExternalButtonIconViewModel {
         .init()
     }
 }
