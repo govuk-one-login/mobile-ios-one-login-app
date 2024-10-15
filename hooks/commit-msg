@@ -7,3 +7,5 @@ if [ "" = "$check" ]; then
         open https://www.conventionalcommits.org/en/v1.0.0/
         exit 1
 fi
+
+perl scripts-configs/sort-Xcode-project-file.pl OneLogin.xcodeproj
