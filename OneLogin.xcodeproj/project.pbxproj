@@ -102,6 +102,7 @@
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
 		C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */; };
 		C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */; };
+		C850C21A2CBEAA220047AFF1 /* ProofOfPossession in Frameworks */ = {isa = PBXBuildFile; productRef = C850C2192CBEAA220047AFF1 /* ProofOfPossession */; };
 		C8514F682C09E133008E1433 /* ProfileTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* ProfileTabAnalytics.swift */; };
 		C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
 		C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
@@ -481,6 +482,7 @@
 				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
+				C850C21A2CBEAA220047AFF1 /* ProofOfPossession in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1544,6 +1546,7 @@
 				7CA719732C848EF600973585 /* Wallet */,
 				7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */,
 				7CF44B272CAB45A70027839B /* AppIntegrity */,
+				C850C2192CBEAA220047AFF1 /* ProofOfPossession */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1676,6 +1679,7 @@
 				7C1918422C861DF500D268C4 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 				7CDC2EBC2C8B1CF200EAA592 /* XCLocalSwiftPackageReference "MobilePlatformServices" */,
 				7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */,
+				C850C2182CBEAA220047AFF1 /* XCLocalSwiftPackageReference "ProofOfPossession" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -2971,6 +2975,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = AppIntegrity;
 		};
+		C850C2182CBEAA220047AFF1 /* XCLocalSwiftPackageReference "ProofOfPossession" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ProofOfPossession;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -3052,6 +3060,10 @@
 		7CF44B272CAB45A70027839B /* AppIntegrity */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppIntegrity;
+		};
+		C850C2192CBEAA220047AFF1 /* ProofOfPossession */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProofOfPossession;
 		};
 		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
