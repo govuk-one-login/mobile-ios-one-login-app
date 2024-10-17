@@ -107,7 +107,7 @@ platform :ios do
 
       project_name = "OneLogin.xcodeproj"
       profile_name = "One Login"
-      app_identifier = "uk.gov.one-login"
+      app_identifier = "uk.gov.onelogin"
 
       if options[:configuration] == "Staging" then
         profile_name += " Staging"
@@ -124,14 +124,6 @@ platform :ios do
       )
 
       version = get_version_number(xcodeproj: project_name)
-
-      #
-      # App Store Connect considers 1.0.0 and 1.0 the same
-      # but will only return results for 1.0 as this was uploaded first
-      #
-      if version == "1.0.0" then
-        version = "1.0"
-      end
 
       build_number = latest_testflight_build_number(
         app_identifier: app_identifier,

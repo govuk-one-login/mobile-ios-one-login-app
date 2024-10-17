@@ -1,3 +1,5 @@
+PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.staging
+
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Staging
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 

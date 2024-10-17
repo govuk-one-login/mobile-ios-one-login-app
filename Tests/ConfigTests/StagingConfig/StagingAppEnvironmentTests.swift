@@ -4,6 +4,8 @@ import XCTest
 final class StagingAppEnvironmentTests: XCTestCase {
     func test_defaultEnvironment_retrieveFromPlist() throws {
         let sut = AppEnvironment.self
+        XCTAssertEqual(Bundle.main.bundleIdentifier, "uk.gov.onelogin.staging")
+        XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Staging")
         XCTAssertEqual(sut.oneLoginAuthorize, URL(string: "https://oidc.integration.account.gov.uk/authorize"))
         XCTAssertEqual(sut.stsAuthorize, URL(string: "https://token.staging.account.gov.uk/authorize"))
         XCTAssertEqual(sut.oneLoginToken, URL(string: "https://mobile.staging.account.gov.uk/token"))
@@ -17,7 +19,6 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.stsHelloWorld, URL(string: "https://hello-world.token.staging.account.gov.uk/hello-world"))
         XCTAssertEqual(sut.jwksURL, URL(string: "https://token.staging.account.gov.uk/.well-known/jwks.json"))
         XCTAssertEqual(sut.appInfoURL, URL(string: "https://mobile.staging.account.gov.uk/appInfo"))
-        XCTAssertEqual(sut.isLocaleWelsh, false)
         XCTAssertEqual(sut.appStoreURL, URL(string: "https://apps.apple.com"))
         XCTAssertEqual(sut.appStore, URL(string: "https://apps.apple.com/gb.app.uk.gov.digital-identity"))
         XCTAssertEqual(sut.yourServicesURL, URL(string: "https://home.account.gov.uk/your-services?lng=en"))
