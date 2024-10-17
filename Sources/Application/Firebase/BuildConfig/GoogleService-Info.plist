@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAyDI5-ciJEYk08jjysBWWhQSoulERtWFo</string>
+	<string>AIzaSyAZwOaM95E4AoQlUX5dBgJQxTnzDs00QUM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1099188154796</string>
+	<string>231299341389</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>uk.gov.one-login.build</string>
+	<string>uk.gov.onelogin.build</string>
 	<key>PROJECT_ID</key>
-	<string>one-login-build</string>
+	<string>mobile-one-login-build</string>
 	<key>STORAGE_BUCKET</key>
-	<string>one-login-build.appspot.com</string>
+	<string>mobile-one-login-build.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<false/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1099188154796:ios:ee4d870949fe453ec7ca09</string>
+	<string>1:231299341389:ios:b34e2542bf47b0cd6dd004</string>
 </dict>
 </plist>

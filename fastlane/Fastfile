@@ -107,7 +107,7 @@ platform :ios do
 
       project_name = "OneLogin.xcodeproj"
       profile_name = "One Login"
-      app_identifier = "uk.gov.one-login"
+      app_identifier = "uk.gov.onelogin"
 
       if options[:configuration] == "Staging" then
         profile_name += " Staging"
