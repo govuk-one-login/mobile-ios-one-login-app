@@ -380,8 +380,6 @@
 		C873B1E12AF826D3002C39E8 /* StagingAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StagingAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
-		C882F0742CC1245600E33376 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C882F0762CC1249D00E33376 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C885C8952CB45EAD001BE99C /* ServicesTileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTileViewModelTests.swift; sourceTree = "<group>"; };
 		C889587E2C7E4CBD00663299 /* LALocalAuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LALocalAuthenticationManager.swift; sourceTree = "<group>"; };
 		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
@@ -423,6 +421,8 @@
 		C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonViewModel.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OutdatedTokenResponse.json; sourceTree = "<group>"; };
+		C8C7A3FB2CC25DED0037586F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C8C7A3FD2CC25E0C0037586F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeletedWarningViewModel.swift; sourceTree = "<group>"; };
 		C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeletedWarningViewModelTests.swift; sourceTree = "<group>"; };
 		C8E1090A2BEE6C4500B21038 /* ProfileTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabViewModel.swift; sourceTree = "<group>"; };
@@ -806,7 +806,7 @@
 		C803C2152B8F8865008DE774 /* BuildConfig */ = {
 			isa = PBXGroup;
 			children = (
-				C882F0742CC1245600E33376 /* GoogleService-Info.plist */,
+				C8C7A3FB2CC25DED0037586F /* GoogleService-Info.plist */,
 			);
 			path = BuildConfig;
 			sourceTree = "<group>";
@@ -1072,7 +1072,7 @@
 		C86B706F2B8F5F2D00F4C9BF /* StagingConfig */ = {
 			isa = PBXGroup;
 			children = (
-				C882F0762CC1249D00E33376 /* GoogleService-Info.plist */,
+				C8C7A3FD2CC25E0C0037586F /* GoogleService-Info.plist */,
 			);
 			path = StagingConfig;
 			sourceTree = "<group>";
