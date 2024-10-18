@@ -11,23 +11,27 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let client: NetworkClient
     private let baseURL: URL
     private let vendor: AppCheckVendor
+    private let proofOfPossessionProvider: ProofOfPossessionProvider
 
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
 
     init(vendorType: AppCheckVendor.Type,
          providerFactory: AppCheckProviderFactory,
+         proofOfPossessionProvider: ProofOfPossessionProvider,
          client: NetworkClient,
          baseURL: URL) {
         vendorType.setAppCheckProviderFactory(providerFactory)
         self.client = client
         self.vendor = vendorType.appCheck()
         self.baseURL = baseURL
+        self.proofOfPossessionProvider = proofOfPossessionProvider
     }
 
     public convenience init(
         client: NetworkClient,
-        baseURL: URL
+        baseURL: URL,
+        proofOfPossessionProvider: ProofOfPossessionProvider
     ) {
         #if DEBUG
         let providerFactory = AppCheckDebugProviderFactory()
@@ -37,6 +41,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         self.init(
             vendorType: AppCheck.self,
             providerFactory: providerFactory,
+            proofOfPossessionProvider: proofOfPossessionProvider,
             client: client,
             baseURL: baseURL
         )
@@ -50,23 +55,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
 
         let token = try await vendor.token(forcingRefresh: false)
 
-        // Get the raw App Check token string.
-        print("APP CHECK TOKEN:", token.token)
-
-        // Include the App Check token with requests to your server.
         do {
-            let data = try await client
-                .makeRequest(.clientAttestation(baseURL: baseURL, token: token.token))
-            print("APP CHECK SUCCESS: \(String(describing: String(data: data, encoding: .utf8)))")
-
-            // TODO: DCMAW-10320 | decode this from the following structure:
-            /*
-             {
-              "client_attestation": "eyJ...", /* Client Attestation JWT signed by Mobile Backend signing key */
-              "expires_in": 86400 /* One day in seconds */
-             }
-             */
-
+            let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
         } catch let error as ServerError where
                     error.errorCode == 400 {
@@ -75,6 +65,16 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                     error.errorCode == 401 {
             throw AppIntegrityError.invalidToken
         }
+    }
+    
+    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
+        let data = try await client.makeRequest(.clientAttestation(
+            baseURL: baseURL,
+            token: appCheckToken,
+            body: proofOfPossessionProvider.publicKey
+        ))
+        return try JSONDecoder()
+            .decode(ClientAssertionResponse.self, from: data)
     }
 
     public func addIntegrityAssertions(to request: URLRequest) -> URLRequest {

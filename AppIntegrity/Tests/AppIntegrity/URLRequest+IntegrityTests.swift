@@ -13,7 +13,7 @@ struct AppIntegrityServiceTests {
           Check that the Attestation URL is well formed.
           """)
     func testAttestationRequestURL() throws {
-        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: "test-token")
+        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: "test-token", body: Data())
 
         #expect(request.url?.absoluteString ==
                 "https://token.build.account.gov.uk/client-attestation")
@@ -25,25 +25,38 @@ struct AppIntegrityServiceTests {
     func testAttestationRequestHeaders() throws {
         let token = UUID().uuidString
 
-        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: token)
-        #expect(
-            request.value(forHTTPHeaderField: "X-Firebase-AppCheck") ==
-            token
-        )
+        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: token, body: Data())
+        #expect(request.allHTTPHeaderFields == [
+            "Content-Type": "application/json",
+            "X-Firebase-AppCheck": token
+        ])
     }
 
     @Test("""
           Check that the JWKs data is sent
           """)
     func testAttestationRequestBody() throws {
-        let token = UUID().uuidString
+        let data = Data("""
+        {
+          "jwk": {
+            "kty": EC",
+            "use": "sig",
+            "crv": "P-256",
+            "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
+            "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
+          }
+        }
+        """.utf8)
 
-        let request = try URLRequest.clientAttestation(baseURL: baseURL, token: token)
-        let responseData = try #require(request.httpBody)
-        let response = try #require(String(data: responseData, encoding: .utf8))
 
-        #expect(response == """
-        {"jwk":"\(token)"}
-        """)
+        let request = try URLRequest.clientAttestation(
+            baseURL: baseURL,
+            token: UUID().uuidString,
+            body: data
+        )
+        let requestData = try #require(request.httpBody)
+        let response = try #require(String(data: requestData, encoding: .utf8))
+
+        #expect(requestData == data)
     }
 }
