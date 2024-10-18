@@ -328,8 +328,6 @@
 		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
-		C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C803C21F2B8F8D9C008DE774 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -423,6 +421,8 @@
 		C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonViewModel.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OutdatedTokenResponse.json; sourceTree = "<group>"; };
+		C8C7A3FB2CC25DED0037586F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C8C7A3FD2CC25E0C0037586F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeletedWarningViewModel.swift; sourceTree = "<group>"; };
 		C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeletedWarningViewModelTests.swift; sourceTree = "<group>"; };
 		C8E1090A2BEE6C4500B21038 /* ProfileTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabViewModel.swift; sourceTree = "<group>"; };
@@ -806,7 +806,7 @@
 		C803C2152B8F8865008DE774 /* BuildConfig */ = {
 			isa = PBXGroup;
 			children = (
-				C803C21D2B8F8D73008DE774 /* GoogleService-Info.plist */,
+				C8C7A3FB2CC25DED0037586F /* GoogleService-Info.plist */,
 			);
 			path = BuildConfig;
 			sourceTree = "<group>";
@@ -1072,7 +1072,7 @@
 		C86B706F2B8F5F2D00F4C9BF /* StagingConfig */ = {
 			isa = PBXGroup;
 			children = (
-				C803C21F2B8F8D9C008DE774 /* GoogleService-Info.plist */,
+				C8C7A3FD2CC25E0C0037586F /* GoogleService-Info.plist */,
 			);
 			path = StagingConfig;
 			sourceTree = "<group>";
@@ -2221,7 +2221,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
@@ -2236,7 +2236,6 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2255,7 +2254,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
@@ -2270,7 +2269,6 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2559,7 +2557,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
@@ -2574,7 +2572,6 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.staging";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2760,7 +2757,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "OneLogin-Info.plist";
@@ -2775,7 +2772,6 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "uk.gov.one-login.build";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
