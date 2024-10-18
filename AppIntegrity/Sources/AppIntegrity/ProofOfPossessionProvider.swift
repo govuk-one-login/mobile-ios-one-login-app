@@ -1,6 +1,6 @@
 import Foundation
 
-protocol ProofOfPossessionProvider {
+public protocol ProofOfPossessionProvider {
     var publicKey: Data { get }
     func sign(data: Data) -> Data
 }
