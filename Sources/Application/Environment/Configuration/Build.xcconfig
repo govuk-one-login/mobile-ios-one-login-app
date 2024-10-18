@@ -1,3 +1,5 @@
+#include "../secrets.xcconfig"
+
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Build
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 
