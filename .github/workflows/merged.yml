@@ -152,6 +152,8 @@ jobs:
           ./scripts-configs/store-access-token.sh
           
       - name: Export AppCheck Secret
+        env:
+          APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
         run: |
           echo APP_CHECK_DEBUG_TOKEN=${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }} >> ../secrets.xcconfig
 
