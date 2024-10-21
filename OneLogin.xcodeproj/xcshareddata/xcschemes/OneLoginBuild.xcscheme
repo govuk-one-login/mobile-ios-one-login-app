@@ -73,7 +73,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "FIRAAppCheckDebugToken"
-            value = "$(FEATURE_FLAG_FILE)"
+            value = "$(APP_CHECK_DEBUG_TOKEN)"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

@@ -150,6 +150,10 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        run: |
+          echo APP_CHECK_DEBUG_TOKEN=${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }} >> ../secrets.xcconfig
 
       - name: Build App, Run UI Tests
         env:
