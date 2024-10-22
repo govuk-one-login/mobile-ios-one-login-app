@@ -34,6 +34,12 @@ jobs:
         run: |
           brew install swiftlint
           swiftlint --strict
+          
+      - name: Export AppCheck Secret
+        env:
+          APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
+        run: |
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
