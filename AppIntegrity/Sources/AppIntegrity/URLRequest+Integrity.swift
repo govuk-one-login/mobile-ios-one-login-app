@@ -1,14 +1,17 @@
 import Foundation
 
 extension URLRequest {
-    static func clientAttestation(baseURL: URL, token: String) throws -> URLRequest {
+    static func clientAttestation(baseURL: URL,
+                                  token: String,
+                                  body: Data) throws -> URLRequest {
         var request = URLRequest(url: baseURL.appendingPathComponent("client-attestation"))
         request.httpMethod = "POST"
 
-        let encoder = JSONEncoder()
-        request.httpBody = try encoder.encode(ClientAssertionRequest(jwk: token))
-        
         request.addValue(token, forHTTPHeaderField: "X-Firebase-AppCheck")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpBody = body
+
         return request
     }
 }
