@@ -55,6 +55,12 @@ jobs:
             target_branch:${{github.base_ref}} \
             pr_number:$pull_number \
             testplan:OneLoginUnit
+            
+      - name: Export AppCheck Secret
+        env:
+          APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
+        run: |
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
