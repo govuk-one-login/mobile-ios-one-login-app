@@ -1,4 +1,3 @@
-import AppIntegrity
 import GAnalytics
 import UIKit
 
