@@ -7,6 +7,10 @@ enum AppIntegrityError: Int, Error {
     case invalidToken = 401
 }
 
+enum NotImplementedError: Error {
+    case notImplemented
+}
+
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let client: NetworkClient
     private let baseURL: URL
@@ -16,14 +20,33 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
 
-    init(vendorType: AppCheckVendor.Type,
+    private static var providerFactory: AppCheckProviderFactory {
+        #if DEBUG
+        AppCheckDebugProviderFactory()
+        #else
+        if #available(iOS 14.0, *) {
+            AppAttestProviderFactory()
+        } else {
+            DeviceCheckProviderFactory()
+        }
+        #endif
+    }
+
+    static func configure(vendorType: AppCheckVendor.Type) {
+        vendorType.setAppCheckProviderFactory(providerFactory)
+    }
+
+    public static func configure() {
+        configure(vendorType: AppCheck.self)
+    }
+
+    init(vendor: AppCheckVendor,
          providerFactory: AppCheckProviderFactory,
          proofOfPossessionProvider: ProofOfPossessionProvider,
          client: NetworkClient,
          baseURL: URL) {
-        vendorType.setAppCheckProviderFactory(providerFactory)
         self.client = client
-        self.vendor = vendorType.appCheck()
+        self.vendor = vendor
         self.baseURL = baseURL
         self.proofOfPossessionProvider = proofOfPossessionProvider
     }
@@ -33,31 +56,28 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         baseURL: URL,
         proofOfPossessionProvider: ProofOfPossessionProvider
     ) {
-        #if DEBUG
-        let providerFactory = AppCheckDebugProviderFactory()
-        #else
-        let providerFactory = AppAttestProviderFactory()
-        #endif
         self.init(
-            vendorType: AppCheck.self,
-            providerFactory: providerFactory,
+            vendor: AppCheck.appCheck(),
+            providerFactory: Self.providerFactory,
             proofOfPossessionProvider: proofOfPossessionProvider,
             client: client,
             baseURL: baseURL
         )
     }
 
-    func assertIntegrity() async throws {
+    public func assertIntegrity() async throws -> String {
         guard !isValidAttestationAvailable else {
             // nothing to do:
-            return
+            throw NotImplementedError.notImplemented
         }
 
         let token = try await vendor.token(forcingRefresh: false)
+        print("vendor token: \(token.token)")
 
         do {
             let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
+            return attestation.attestationJWT
         } catch let error as ServerError where
                     error.errorCode == 400 {
             throw AppIntegrityError.invalidPublicKey
@@ -77,7 +97,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             .decode(ClientAssertionResponse.self, from: data)
     }
 
-    public func addIntegrityAssertions(to request: URLRequest) -> URLRequest {
+    public func addIntegrityAssertions(to request: URLRequest) async throws -> URLRequest {
         var signedRequest = request
         signedRequest.addValue("abc",
                                forHTTPHeaderField: "OAuth-Client-Attestation")

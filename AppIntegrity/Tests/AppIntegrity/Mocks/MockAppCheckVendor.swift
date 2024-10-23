@@ -2,8 +2,10 @@
 import FirebaseAppCheck
 
 final class MockAppCheckVendor: AppCheckVendor {
-    static func setAppCheckProviderFactory(_ factory: (any AppCheckProviderFactory)?) {
+    private(set) static var wasConfigured: (any AppCheckProviderFactory)?
 
+    static func setAppCheckProviderFactory(_ factory: (any AppCheckProviderFactory)?) {
+        self.wasConfigured = factory
     }
     
     static func appCheck() -> Self {
