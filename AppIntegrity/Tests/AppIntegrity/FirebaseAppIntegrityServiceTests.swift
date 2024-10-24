@@ -24,12 +24,20 @@ struct FirebaseAppIntegrityServiceTests {
         let baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
 
         sut = FirebaseAppIntegrityService(
-            vendorType: MockAppCheckVendor.self,
+            vendor: MockAppCheckVendor(),
             providerFactory: AppCheckDebugProviderFactory(),
             proofOfPossessionProvider: proofProvider,
             client: client,
             baseURL: baseURL
         )
+    }
+
+    @Test("""
+          AppCheck provider is correctly configured in debug mode
+          """)
+    func testConfigureAppCheckProvider() {
+        FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
+        #expect(MockAppCheckVendor.wasConfigured is AppCheckDebugProviderFactory)
     }
 
     @Test("""
@@ -71,7 +79,7 @@ struct FirebaseAppIntegrityServiceTests {
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
 
-        try await sut.assertIntegrity()
+        _ = try await sut.assertIntegrity()
 
         #expect(MockURLProtocol.requests.count == 1)
         #expect(
@@ -113,7 +121,7 @@ struct FirebaseAppIntegrityServiceTests {
         let baseURL = try #require(URL(string: "https://token.build.account.gov.uk"))
         let request = URLRequest(url: baseURL)
 
-        let assertedRequest = sut.addIntegrityAssertions(to: request)
+        let assertedRequest = try await sut.addIntegrityAssertions(to: request)
         #expect(assertedRequest.allHTTPHeaderFields == [
             "OAuth-Client-Attestation": "abc",
             "OAuth-Client-Attestation-PoP": "def"
