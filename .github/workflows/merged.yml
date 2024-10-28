@@ -50,7 +50,7 @@ jobs:
           
       - name: Export AppCheck Secret
         env:
-            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
+            APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
         run: |
           echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
@@ -126,7 +126,7 @@ jobs:
           
       - name: Export AppCheck Secret
         env:
-            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
+            APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
         run: |
           echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
