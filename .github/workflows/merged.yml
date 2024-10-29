@@ -2,7 +2,7 @@ name: iOS Deploy
 
 on:
   push:
-    branches: [ develop, release/*, main ]
+    branches: [ develop, release/*, main, feature/dcmaw-10289-app-check-pt2 ]
 
 permissions:
   id-token: write

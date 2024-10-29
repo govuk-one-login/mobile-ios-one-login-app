@@ -47,9 +47,15 @@ final class EnrolmentCoordinator: NSObject,
 
     private func saveSession() {
         Task {
-            if !ProcessInfo.processInfo.arguments.contains("uiTests") {
-                try await sessionManager.saveSession()
+#if targetEnvironment(simulator)
+            if sessionManager is PersistentSessionManager {
+                // UI tests or running on simulator
+                completeEnrolment()
+                return
             }
+#endif
+            // Unit tests or running on device
+            try await sessionManager.saveSession()
             completeEnrolment()
         }
     }
