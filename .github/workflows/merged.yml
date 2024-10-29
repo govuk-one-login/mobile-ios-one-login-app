@@ -49,10 +49,8 @@ jobs:
           ./scripts-configs/store-access-token.sh
           
       - name: Export AppCheck Secret
-        env:
-            APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
         run: |
-          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
+          touch ../secrets.xcconfig
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Default Branch
         env:
@@ -66,7 +64,7 @@ jobs:
 
           bundle install
 
-          bundle exec fastlane test scheme:"OneLogin" \
+          bundle exec fastlane test scheme:"OneLoginBuild" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
             testplan:OneLoginUnit
@@ -125,10 +123,8 @@ jobs:
           ./scripts-configs/store-access-token.sh
           
       - name: Export AppCheck Secret
-        env:
-            APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
         run: |
-          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
+          touch ../secrets.xcconfig
 
       - name: Build App, Run Build Configuration Tests
         env:
@@ -141,6 +137,7 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            configuration:"Build" \
             testplan:OneLoginBuild
 
   test_ui:
@@ -258,7 +255,7 @@ jobs:
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
 
-          bundle exec fastlane prerelease configuration:"Debug_Build" \
+          bundle exec fastlane prerelease configuration:"Build" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
