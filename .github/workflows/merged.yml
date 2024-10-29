@@ -47,6 +47,12 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        env:
+            APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
+        run: |
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Default Branch
         env:
@@ -117,6 +123,12 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        env:
+            APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
+        run: |
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
       - name: Build App, Run Build Configuration Tests
         env:
