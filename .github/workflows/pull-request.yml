@@ -36,10 +36,8 @@ jobs:
           swiftlint --strict
           
       - name: Export AppCheck Secret
-        env:
-          APP_CHECK_DEBUG_TOKEN: "dummy_appCheck_token_value"
         run: |
-          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
+          touch ../secrets.xcconfig
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
@@ -54,7 +52,7 @@ jobs:
 
           bundle install
 
-          bundle exec fastlane test scheme:"OneLogin" \
+          bundle exec fastlane test scheme:"OneLoginBuild" \
             sonar_token:${{secrets.SONAR_TOKEN}} \
             workspace:${{github.workspace}} \
             source_branch:${{github.head_ref}} \

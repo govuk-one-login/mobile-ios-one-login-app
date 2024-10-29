@@ -319,6 +319,8 @@
 		7CA719662C846E5100973585 /* TokenHolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
 		7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQualifyingServiceTests.swift; sourceTree = "<group>"; };
+		7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginRelease.entitlements; sourceTree = "<group>"; };
+		7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginDebug.entitlements; sourceTree = "<group>"; };
 		7CD66F7E2C9070B9008513F4 /* AppLocalAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalAuthState.swift; sourceTree = "<group>"; };
 		7CD66F802C9070D8008513F4 /* AppInformationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInformationState.swift; sourceTree = "<group>"; };
 		7CD66F832C90A890008513F4 /* QualifyingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -521,8 +523,10 @@
 			isa = PBXGroup;
 			children = (
 				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
-				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
+				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
 				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
+				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
+				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
 				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
