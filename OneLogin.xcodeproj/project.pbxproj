@@ -688,10 +688,10 @@
 		7C0CCECD2C8A12A500F61C11 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */,
 				7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */,
-				7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */,
+				7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */,
 				7C0CCED12C8A12F200F61C11 /* Release.xcconfig */,
+				7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
