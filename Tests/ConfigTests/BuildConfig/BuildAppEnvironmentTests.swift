@@ -1,4 +1,3 @@
-@testable import OneLogin
 import XCTest
 
 final class BuildAppEnvironmentTests: XCTestCase {
