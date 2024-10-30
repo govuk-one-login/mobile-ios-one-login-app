@@ -2,7 +2,7 @@ name: iOS Deploy
 
 on:
   push:
-    branches: [ develop, release/*, main ]
+    branches: [ develop, release/*, main, chore/fix-configurations ]
 
 permissions:
   id-token: write
