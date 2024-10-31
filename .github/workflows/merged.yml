@@ -65,9 +65,10 @@ jobs:
           bundle install
 
           bundle exec fastlane test scheme:"OneLoginBuild" \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
+            configuration:"Debug" \
+            testplan:OneLoginUnit \
             workspace:${{github.workspace}} \
-            testplan:OneLoginUnit
+            sonar_token:${{secrets.SONAR_TOKEN}}
 
   test_staging_config:
     needs: run_swiftlint
@@ -100,6 +101,7 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            configuration:"Staging" \
             testplan:OneLoginStaging
 
   test_build_config:
@@ -177,6 +179,7 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            configuration:"Build" \
             testplan:OneLoginUI
 
       - name: Make Artifact
