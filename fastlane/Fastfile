@@ -115,7 +115,7 @@ platform :ios do
       if options[:configuration] == "Staging" then
         profile_name += " Staging"
         app_identifier += ".staging"
-      elsif options[:configuration] == "Debug_Build" then
+      elsif options[:configuration] == "Build" then
         profile_name += " Build"
         app_identifier += ".build"
       end
