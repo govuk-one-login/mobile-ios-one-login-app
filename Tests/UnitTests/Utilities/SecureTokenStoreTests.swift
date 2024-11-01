@@ -14,8 +14,8 @@ final class SecureTokenStoreTests: XCTestCase {
     }
 
     override func tearDown() {
-        sut = nil
         accessControlEncryptedStore = nil
+        sut = nil
 
         super.tearDown()
     }

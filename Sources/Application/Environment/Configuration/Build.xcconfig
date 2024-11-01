@@ -18,3 +18,4 @@ STS_BASE_URL = token.build.account.gov.uk
 STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ
 
 WALLET_CREDENTIAL_ISSUER_URL = https:/$()/example-credential-issuer.mobile.build.account.gov.uk
+CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements

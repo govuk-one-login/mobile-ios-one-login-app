@@ -55,7 +55,6 @@ struct AppIntegrityServiceTests {
             body: data
         )
         let requestData = try #require(request.httpBody)
-        let response = try #require(String(data: requestData, encoding: .utf8))
 
         #expect(requestData == data)
     }

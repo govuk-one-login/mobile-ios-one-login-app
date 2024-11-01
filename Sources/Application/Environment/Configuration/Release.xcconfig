@@ -16,3 +16,4 @@ STS_BASE_URL = token.account.gov.uk
 STS_CLIENT_ID =
 
 WALLET_CREDENTIAL_ISSUER_URL = https:/$()/example-credential-issuer.mobile.account.gov.uk
+CODE_SIGN_ENTITLEMENTS = OneLoginRelease.entitlements

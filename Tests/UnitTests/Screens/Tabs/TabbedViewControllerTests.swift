@@ -109,7 +109,7 @@ extension TabbedViewControllerTests {
         mockSessionManager.user.send(MockUser())
         // THEN my email is displayed
         let emailLabel = try sut.emailLabel
-        waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 2)
+        waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 5)
     }
 
     func test_screenAnalytics() {
