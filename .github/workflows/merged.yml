@@ -253,7 +253,7 @@ jobs:
           echo -n "${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_AUTH_KEY_P8_ENCODED}}" \
             | base64 --decode -o $APIKEY_PATH
 
-          bundle exec fastlane prerelease configuration:"Build" \
+          bundle exec fastlane prerelease configuration:"Staging" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose
