@@ -10,7 +10,7 @@ on:
     
 jobs:
   deploy_app:
-    name: Deploy ${{ inputs.configuration }} App
+    name: ${{ inputs.configuration }}
     runs-on: macos-14
     steps:
       - name: Add Path Globally
