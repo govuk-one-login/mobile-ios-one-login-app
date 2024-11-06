@@ -1,0 +1,76 @@
+on:
+  workflow_call:
+    inputs:
+      configuration:
+        required: true
+        type: string
+      app_check:
+        required: false
+        type: boolean
+    
+jobs:
+  deploy_app:
+    name: Deploy ${{ inputs.configuration }} App
+    runs-on: macos-14
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
+        with:
+          lfs: 'true'
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
+        run: |
+          ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        if: ${{ inputs.app_check == true }}
+        run: |
+          touch ../secrets.xcconfig
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # pin@v4.0.2
+        with:
+          aws-region: eu-west-2
+          role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
+          role-duration-seconds: 1200
+          role-skip-session-tagging: true
+
+      - name: Store Secrets from AWS SecretManager
+        uses: aws-actions/aws-secretsmanager-get-secrets@1d6311ab61b4856de027ff508aac818ddc1e141b # pin@v2.0.7
+        with:
+          secret-ids: |
+            di-ipv-dca-mob-ios/github-actions-v2
+          parse-json-secrets: true
+
+      - name: Build App, Deploy to App Store Connect
+        env:
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+        run: |
+          gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
+          echo Pushed to branch: $gitbranch
+
+          bundle install
+
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
+          CERTIFICATE_PASSWORD="${{ env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_SIGNING_KEY_PASSWORD }}"
+          APIKEY_PATH=$RUNNER_TEMP/apikey.p8
+
+          # import certificates from secrets
+          echo -n "${{ env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_DISTRIBUTION_P12_ENCODED }}" \
+            | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "${{ env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_AUTH_KEY_P8_ENCODED }}" \
+            | base64 --decode -o $APIKEY_PATH
+
+          bundle exec fastlane prerelease configuration: ${{ inputs.configuration }} \
+            certificate_path: $CERTIFICATE_PATH \
+            certificate_password: $CERTIFICATE_PASSWORD \
+            apikey_path: $APIKEY_PATH --verbose
