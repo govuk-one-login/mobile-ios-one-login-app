@@ -200,15 +200,15 @@ jobs:
     needs: [ test_staging_config, test_ui ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
-      with:
-        configuration: "Staging"
-      secrets: inherit
+    with:
+      configuration: "Staging"
+    secrets: inherit
 
   deploy_build_app:
     needs: [ test_build_config, test_ui ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
-      with:
-        configuration: "Build"
-        app_check: true
-      secrets: inherit
+    with:
+      configuration: "Build"
+      app_check: true
+    secrets: inherit
