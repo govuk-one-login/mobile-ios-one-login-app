@@ -24,7 +24,10 @@ final class HomeCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
-        let hc = HomeViewController(analyticsService: analyticsService)
+        let viewModel = ServicesTileViewModel.yourServices(analyticsService: analyticsService,
+                                                           urlOpener: UIApplication.shared)
+        let hc = HomeViewController(analyticsService: analyticsService,
+                                    viewModel: viewModel)
         root.setViewControllers([hc], animated: true)
     }
 }

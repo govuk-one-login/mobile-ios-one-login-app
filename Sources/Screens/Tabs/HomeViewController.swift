@@ -6,11 +6,14 @@ import UIKit
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
+    let viewModel: ServicesTileViewModel
 
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: AnalyticsService,
+         viewModel: ServicesTileViewModel) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService
+        self.viewModel = viewModel
         super.init(style: .insetGrouped)
     }
     
@@ -60,8 +63,6 @@ extension HomeViewController {
     }
     
     func didTapCard() {
-        let viewModel = ServicesTileViewModel.yourServices(analyticsService: analyticsService,
-                                                           urlOpener: UIApplication.shared)
         viewModel.cardTapped()
     }
 }

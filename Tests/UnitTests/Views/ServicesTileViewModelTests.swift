@@ -9,6 +9,7 @@ final class ServicesTileViewModelTests: XCTestCase {
     var sut: ServicesTileViewModel!
     
     var didCallButtonAction = false
+    var didTapCard = false
     
     override func setUp() {
         super.setUp()
@@ -16,6 +17,7 @@ final class ServicesTileViewModelTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         sut = ServicesTileViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
+            self.didTapCard = true
         }
     }
     
@@ -24,6 +26,7 @@ final class ServicesTileViewModelTests: XCTestCase {
         sut = nil
         
         didCallButtonAction = false
+        didTapCard = false
         
         super.tearDown()
     }
@@ -60,5 +63,12 @@ extension ServicesTileViewModelTests {
                                                                              urlOpener: mockURLOpener)
         yourServicesTileViewModel.secondaryButtonViewModel.action()
         XCTAssertTrue(mockURLOpener.didOpenURL)
+    }
+    
+    func test_cardTap() {
+        XCTAssertFalse(didTapCard)
+        sut.cardTapped()
+        XCTAssertTrue(didTapCard)
+        
     }
 }

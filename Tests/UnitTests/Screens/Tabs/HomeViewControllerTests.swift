@@ -6,16 +6,23 @@ import XCTest
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: HomeViewController!
+    var mockURLOpener: MockURLOpener!
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = HomeViewController(analyticsService: mockAnalyticsService)
+        mockURLOpener = MockURLOpener()
+        
+        let viewModel = ServicesTileViewModel.yourServices(analyticsService: mockAnalyticsService,
+                                                           urlOpener: mockURLOpener)
+        sut = HomeViewController(analyticsService: mockAnalyticsService,
+                                 viewModel: viewModel)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockURLOpener = nil
         sut = nil
         
         super.tearDown()
@@ -43,6 +50,11 @@ extension HomeViewControllerTests {
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
+    }
+    
+    func test_contentTileCell_opensURL() {
+        sut.didTapCard()
+        XCTAssertTrue(mockURLOpener.didOpenURL)
     }
     
     func test_viewDidAppear() {
