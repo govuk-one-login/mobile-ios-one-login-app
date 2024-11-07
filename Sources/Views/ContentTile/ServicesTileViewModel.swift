@@ -11,9 +11,11 @@ struct ServicesTileViewModel: GDSContentTileViewModel,
     let showSeparatorLine: Bool = true
     let secondaryButtonViewModel: ButtonViewModel
     let backgroundColour: UIColor? = .secondarySystemGroupedBackground
+    let cardTapped: (() -> Void)
     
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
+        self.cardTapped = action
         let event = LinkEvent(textKey: "app_yourServicesCardLink",
                               linkDomain: AppEnvironment.yourServicesLink,
                               external: .false)

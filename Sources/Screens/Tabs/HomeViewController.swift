@@ -54,6 +54,16 @@ extension HomeViewController {
         }
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didTapCard()
+    }
+    
+    func didTapCard() {
+        let viewModel = ServicesTileViewModel.yourServices(analyticsService: analyticsService,
+                                                           urlOpener: UIApplication.shared)
+        viewModel.cardTapped()
+    }
 }
 
 enum HomeScreenTile: Int, CaseIterable {
