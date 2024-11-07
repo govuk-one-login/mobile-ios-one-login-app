@@ -69,6 +69,5 @@ extension ServicesTileViewModelTests {
         XCTAssertFalse(didTapCard)
         sut.cardTapped()
         XCTAssertTrue(didTapCard)
-        
     }
 }
