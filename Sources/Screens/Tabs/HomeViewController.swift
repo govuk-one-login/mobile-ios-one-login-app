@@ -59,10 +59,6 @@ extension HomeViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didTapCard()
-    }
-    
-    func didTapCard() {
         viewModel.cardTapped()
     }
 }

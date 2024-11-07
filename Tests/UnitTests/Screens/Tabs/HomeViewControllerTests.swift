@@ -53,7 +53,7 @@ extension HomeViewControllerTests {
     }
     
     func test_contentTileCell_opensURL() {
-        sut.didTapCard()
+        sut.tableView(sut.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
         XCTAssertTrue(mockURLOpener.didOpenURL)
     }
     
