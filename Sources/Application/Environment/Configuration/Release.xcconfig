@@ -1,6 +1,6 @@
+INFOPLIST_KEY_CFBundleDisplayName = One Login
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin
 
-INFOPLIST_KEY_CFBundleDisplayName = One Login
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 
 CODE_SIGN_ENTITLEMENTS = OneLoginRelease.entitlements

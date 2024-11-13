@@ -1,9 +1,12 @@
+INFOPLIST_KEY_CFBundleDisplayName = One Login - Staging
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.staging
 
-INFOPLIST_KEY_CFBundleDisplayName = One Login - Staging
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 
 CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS=DEBUG
+GCC_PREPROCESSOR_DEFINITIONS=DEBUG=1
 
 // MARK: Custom Settings
 

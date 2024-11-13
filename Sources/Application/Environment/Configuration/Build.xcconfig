@@ -1,11 +1,14 @@
 #include "../secrets.xcconfig"
 
+INFOPLIST_KEY_CFBundleDisplayName = One Login - Build
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.build
 
-INFOPLIST_KEY_CFBundleDisplayName = One Login - Build
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 
 CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS=DEBUG
+GCC_PREPROCESSOR_DEFINITIONS=DEBUG=1
 
 // MARK: Custom Settings
 
