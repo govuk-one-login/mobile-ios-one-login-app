@@ -12,14 +12,12 @@ enum NotImplementedError: Error {
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
-    private let client: NetworkClient
+    private let networkClient: NetworkClient
     private let baseURL: URL
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
     private let jwtGenerator: JWTGenerator
-    
-    let header: JWTHeader = JWTHeader(alg: "")
-    let payload: JWTPayload = JWTPayload(issuer: "", audience: "", expiryDate: Date(), jwtID: "")
+    private let jwtRepresentation: JWTRepresentation
 
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
@@ -46,34 +44,38 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
 
     init(vendor: AppCheckVendor,
          providerFactory: AppCheckProviderFactory,
+         networkClient: NetworkClient,
          proofOfPossessionProvider: ProofOfPossessionProvider,
-         client: NetworkClient,
          baseURL: URL,
-         jwtGenerator: JWTGenerator) {
-        self.client = client
+         jwtGenerator: JWTGenerator,
+         jwtRepresentation: JWTRepresentation) {
+        self.networkClient = networkClient
         self.vendor = vendor
-        self.baseURL = baseURL
         self.proofOfPossessionProvider = proofOfPossessionProvider
+        self.baseURL = baseURL
         self.jwtGenerator = jwtGenerator
+        self.jwtRepresentation = jwtRepresentation
     }
 
     public convenience init(
-        client: NetworkClient,
-        baseURL: URL,
+        networkClient: NetworkClient,
         proofOfPossessionProvider: ProofOfPossessionProvider,
-        jwtGenerator: JWTGenerator
+        baseURL: URL,
+        jwtGenerator: JWTGenerator,
+        jwtRepresentation: JWTRepresentation
     ) {
         self.init(
             vendor: AppCheck.appCheck(),
             providerFactory: Self.providerFactory,
+            networkClient: networkClient,
             proofOfPossessionProvider: proofOfPossessionProvider,
-            client: client,
             baseURL: baseURL,
-            jwtGenerator: jwtGenerator
+            jwtGenerator: jwtGenerator,
+            jwtRepresentation: jwtRepresentation
         )
     }
 
-    public func assertIntegrity() async throws -> String {
+    public func assertIntegrity() async throws -> [String : Any] {
         guard !isValidAttestationAvailable else {
             // nothing to do:
             throw NotImplementedError.notImplemented
@@ -86,8 +88,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
 
-            let attestationPOP = jwtGenerator.generateJWT(header: header.value, payload: payload.value)
-            return attestation.attestationJWT + attestationPOP
+            let attestationPOP = jwtGenerator.generateJWT(header: jwtRepresentation.header, payload: jwtRepresentation.payload)
+            return ["OAuth-Client-Attestation" : attestation.attestationJWT, "OAuth-Client-Attestation-PoP" : attestationPOP]
         } catch let error as ServerError where
                     error.errorCode == 400 {
             throw AppIntegrityError.invalidPublicKey
@@ -98,21 +100,12 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     }
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
-        let data = try await client.makeRequest(.clientAttestation(
+        let data = try await networkClient.makeRequest(.clientAttestation(
             baseURL: baseURL,
             token: appCheckToken,
             body: proofOfPossessionProvider.publicKey
         ))
         return try JSONDecoder()
             .decode(ClientAssertionResponse.self, from: data)
-    }
-
-    public func addIntegrityAssertions(to request: URLRequest) async throws -> URLRequest {
-        var signedRequest = request
-        signedRequest.addValue("abc",
-                               forHTTPHeaderField: "OAuth-Client-Attestation")
-        signedRequest.addValue("def",
-                               forHTTPHeaderField: "OAuth-Client-Attestation-PoP")
-        return signedRequest
     }
 }

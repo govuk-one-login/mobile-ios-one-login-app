@@ -1,5 +1,5 @@
 import Foundation
 
 public protocol AppIntegrityProvider {
-    func addIntegrityAssertions(to request: URLRequest) async throws -> URLRequest
+    func assertIntegrity() async throws -> [String : Any]
 }
