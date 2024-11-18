@@ -16,6 +16,10 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let baseURL: URL
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
+    private let jwtGenerator: JWTGenerator
+    
+    let header: JWTHeader = JWTHeader(alg: "")
+    let payload: JWTPayload = JWTPayload(issuer: "", audience: "", expiryDate: Date(), jwtID: "")
 
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
@@ -44,24 +48,28 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
          providerFactory: AppCheckProviderFactory,
          proofOfPossessionProvider: ProofOfPossessionProvider,
          client: NetworkClient,
-         baseURL: URL) {
+         baseURL: URL,
+         jwtGenerator: JWTGenerator) {
         self.client = client
         self.vendor = vendor
         self.baseURL = baseURL
         self.proofOfPossessionProvider = proofOfPossessionProvider
+        self.jwtGenerator = jwtGenerator
     }
 
     public convenience init(
         client: NetworkClient,
         baseURL: URL,
-        proofOfPossessionProvider: ProofOfPossessionProvider
+        proofOfPossessionProvider: ProofOfPossessionProvider,
+        jwtGenerator: JWTGenerator
     ) {
         self.init(
             vendor: AppCheck.appCheck(),
             providerFactory: Self.providerFactory,
             proofOfPossessionProvider: proofOfPossessionProvider,
             client: client,
-            baseURL: baseURL
+            baseURL: baseURL,
+            jwtGenerator: jwtGenerator
         )
     }
 
@@ -77,7 +85,9 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         do {
             let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
-            return attestation.attestationJWT
+
+            let attestationPOP = jwtGenerator.generateJWT(header: header.value, payload: payload.value)
+            return attestation.attestationJWT + attestationPOP
         } catch let error as ServerError where
                     error.errorCode == 400 {
             throw AppIntegrityError.invalidPublicKey
