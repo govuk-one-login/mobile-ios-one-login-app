@@ -16,8 +16,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let baseURL: URL
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
-    private let jwtGenerator: JWTGenerator
-    private let jwtRepresentation: JWTRepresentation
+    private let proofTokenGenerator: ProofTokenGenerator
 
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
@@ -43,35 +42,29 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     }
 
     init(vendor: AppCheckVendor,
-         providerFactory: AppCheckProviderFactory,
          networkClient: NetworkClient,
          proofOfPossessionProvider: ProofOfPossessionProvider,
          baseURL: URL,
-         jwtGenerator: JWTGenerator,
-         jwtRepresentation: JWTRepresentation) {
+         proofTokenGenerator: ProofTokenGenerator) {
         self.networkClient = networkClient
         self.vendor = vendor
         self.proofOfPossessionProvider = proofOfPossessionProvider
         self.baseURL = baseURL
-        self.jwtGenerator = jwtGenerator
-        self.jwtRepresentation = jwtRepresentation
+        self.proofTokenGenerator = proofTokenGenerator
     }
 
     public convenience init(
         networkClient: NetworkClient,
         proofOfPossessionProvider: ProofOfPossessionProvider,
         baseURL: URL,
-        jwtGenerator: JWTGenerator,
-        jwtRepresentation: JWTRepresentation
+        proofTokenGenerator: ProofTokenGenerator
     ) {
         self.init(
             vendor: AppCheck.appCheck(),
-            providerFactory: Self.providerFactory,
             networkClient: networkClient,
             proofOfPossessionProvider: proofOfPossessionProvider,
             baseURL: baseURL,
-            jwtGenerator: jwtGenerator,
-            jwtRepresentation: jwtRepresentation
+            proofTokenGenerator: proofTokenGenerator
         )
     }
 
@@ -87,8 +80,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         do {
             let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
-
-            let attestationPOP = jwtGenerator.generateJWT(header: jwtRepresentation.header, payload: jwtRepresentation.payload)
+            let attestationPOP = try proofTokenGenerator.token
             return ["OAuth-Client-Attestation": attestation.attestationJWT, "OAuth-Client-Attestation-PoP": attestationPOP]
         } catch let error as ServerError where
                     error.errorCode == 400 {

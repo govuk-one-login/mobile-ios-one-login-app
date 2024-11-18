@@ -9,7 +9,6 @@ import Testing
 struct FirebaseAppIntegrityServiceTests {
     let sut: FirebaseAppIntegrityService
     let proofProvider: ProofOfPossessionProvider
-    let jwtGenerator: JWTGenerator = MockJWTGenerator()
 
     init() throws {
         let configuration = URLSessionConfiguration.default
@@ -23,16 +22,15 @@ struct FirebaseAppIntegrityServiceTests {
 
         let networkClient = NetworkClient(configuration: configuration)
         let baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
-        let mockJWTRepresentation = MockJWTRepresentation(header: ["": ""], payload: ["": ""])
+        let mockProofTokenGenerator = MockProofTokenGenerator(header: ["mockHeaderKey1": "mockHeaderValue1"],
+                                                          payload: ["mockPayloadKey1": "mockPayloadValue1"])
 
         sut = FirebaseAppIntegrityService(
             vendor: MockAppCheckVendor(),
-            providerFactory: AppCheckDebugProviderFactory(),
             networkClient: networkClient,
             proofOfPossessionProvider: proofProvider,
             baseURL: baseURL,
-            jwtGenerator: jwtGenerator,
-            jwtRepresentation: mockJWTRepresentation
+            proofTokenGenerator: mockProofTokenGenerator
         )
     }
 
@@ -91,6 +89,34 @@ struct FirebaseAppIntegrityServiceTests {
             "https://mobile.build.account.gov.uk/client-attestation"
         )
     }
+    
+    @Test("""
+          Check that 200 returns the client attestation
+          """)
+    func testAssertIntegrityResponse() async throws {
+        MockURLProtocol.handler = {
+            (Data("""
+             {
+              "client_attestation": "eyJ...",
+              "expires_in": 86400
+             }
+            """.utf8), HTTPURLResponse(statusCode: 200))
+        }
+
+        let integrityResponse = try await sut.assertIntegrity()
+        #expect(integrityResponse["OAuth-Client-Attestation"] as? String == "eyJ...")
+        let header = try #require((integrityResponse["OAuth-Client-Attestation-PoP"] as? String)?.contains("\"mockHeaderKey1\": \"mockHeaderValue1\""))
+        #expect(header)
+        let payload = try #require((integrityResponse["OAuth-Client-Attestation-PoP"] as? String)?.contains("\"mockPayloadKey1\": \"mockPayloadValue1\""))
+        #expect(payload)
+
+        #expect(MockURLProtocol.requests.count == 1)
+        #expect(
+            MockURLProtocol.requests[0].url?.absoluteString ==
+            "https://mobile.build.account.gov.uk/client-attestation"
+        )
+    }
+
 
     @Test("""
           Check that client attestation is decoded successfully
