@@ -1,6 +1,6 @@
 import Foundation
 
-struct JWTPayload {
+struct AppAttestJWTPayload {
     let issuer: String
     let audience: String
     let expiryDate: Int

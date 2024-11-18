@@ -1,4 +1,4 @@
-struct JWTHeader {
+struct AppAttestJWTHeader {
     let alg: String
     
     init(alg: String) {

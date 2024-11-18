@@ -75,7 +75,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         )
     }
 
-    public func assertIntegrity() async throws -> [String : Any] {
+    public func assertIntegrity() async throws -> [String: Any] {
         guard !isValidAttestationAvailable else {
             // nothing to do:
             throw NotImplementedError.notImplemented
@@ -89,7 +89,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             // TODO: DCMAW-10322 | store this locally
 
             let attestationPOP = jwtGenerator.generateJWT(header: jwtRepresentation.header, payload: jwtRepresentation.payload)
-            return ["OAuth-Client-Attestation" : attestation.attestationJWT, "OAuth-Client-Attestation-PoP" : attestationPOP]
+            return ["OAuth-Client-Attestation": attestation.attestationJWT, "OAuth-Client-Attestation-PoP": attestationPOP]
         } catch let error as ServerError where
                     error.errorCode == 400 {
             throw AppIntegrityError.invalidPublicKey

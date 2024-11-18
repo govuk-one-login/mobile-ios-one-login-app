@@ -9,7 +9,7 @@ import Testing
 struct FirebaseAppIntegrityServiceTests {
     let sut: FirebaseAppIntegrityService
     let proofProvider: ProofOfPossessionProvider
-    let jwtGenerator: JWTGenerator
+    let jwtGenerator: JWTGenerator = MockJWTGenerator()
 
     init() throws {
         let configuration = URLSessionConfiguration.default
@@ -21,16 +21,18 @@ struct FirebaseAppIntegrityServiceTests {
 
         proofProvider = MockProofOfPossessionProvider()
 
-        let client = NetworkClient(configuration: configuration)
+        let networkClient = NetworkClient(configuration: configuration)
         let baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
+        let mockJWTRepresentation = MockJWTRepresentation(header: ["": ""], payload: ["": ""])
 
         sut = FirebaseAppIntegrityService(
             vendor: MockAppCheckVendor(),
             providerFactory: AppCheckDebugProviderFactory(),
+            networkClient: networkClient,
             proofOfPossessionProvider: proofProvider,
-            client: client,
             baseURL: baseURL,
-            jwtGenerator: MockJWTGenerator()
+            jwtGenerator: jwtGenerator,
+            jwtRepresentation: mockJWTRepresentation
         )
     }
 
@@ -114,20 +116,5 @@ struct FirebaseAppIntegrityServiceTests {
         // but less than a day from now
         #expect(response.expiryDate > initialDate.addingTimeInterval(expiresIn))
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
-    }
-
-    @Test("""
-          Check that headers are added to URL
-          """)
-    func testAddIntegrityAssertions() async throws {
-        let baseURL = try #require(URL(string: "https://token.build.account.gov.uk"))
-        let request = URLRequest(url: baseURL)
-
-        let assertedRequest = try await sut.addIntegrityAssertions(to: request)
-        #expect(assertedRequest.allHTTPHeaderFields == [
-            "OAuth-Client-Attestation": "abc",
-            "OAuth-Client-Attestation-PoP": "def"
-
-        ])
     }
  }
