@@ -9,6 +9,7 @@ import Testing
 struct FirebaseAppIntegrityServiceTests {
     let sut: FirebaseAppIntegrityService
     let proofProvider: ProofOfPossessionProvider
+    let jwtGenerator: JWTGenerator
 
     init() throws {
         let configuration = URLSessionConfiguration.default
@@ -28,7 +29,8 @@ struct FirebaseAppIntegrityServiceTests {
             providerFactory: AppCheckDebugProviderFactory(),
             proofOfPossessionProvider: proofProvider,
             client: client,
-            baseURL: baseURL
+            baseURL: baseURL,
+            jwtGenerator: MockJWTGenerator()
         )
     }
 
@@ -128,4 +130,4 @@ struct FirebaseAppIntegrityServiceTests {
 
         ])
     }
-}
+ }

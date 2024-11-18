@@ -44,12 +44,16 @@ final class EnrolmentCoordinator: NSObject,
             showPasscodeInfo()
         }
     }
-
+    
     private func saveSession() {
         Task {
-            if !ProcessInfo.processInfo.arguments.contains("uiTests") {
-                try await sessionManager.saveSession()
+#if targetEnvironment(simulator)
+            if sessionManager is PersistentSessionManager {
+                completeEnrolment()
+                return
             }
+#endif
+            try await sessionManager.saveSession()
             completeEnrolment()
         }
     }
