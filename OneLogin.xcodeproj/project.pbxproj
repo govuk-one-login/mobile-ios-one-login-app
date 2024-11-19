@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -473,11 +473,6 @@
 		F1B680812CA452CD00A64971 /* SignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		ABC6534D2CEB565600428B6F /* AppAttestation */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AppAttestation; sourceTree = "<group>"; };
-		ABC653532CEB56C900428B6F /* AppAttestationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AppAttestationTests; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		219601E42A976302008F3427 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -766,7 +761,6 @@
 		7CD66F7C2C90708F008513F4 /* Qualification */ = {
 			isa = PBXGroup;
 			children = (
-				ABC6534D2CEB565600428B6F /* AppAttestation */,
 				7CD66F7D2C9070A6008513F4 /* State */,
 				C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */,
 				C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */,
@@ -788,7 +782,6 @@
 		7CD66F822C90A880008513F4 /* Qualification */ = {
 			isa = PBXGroup;
 			children = (
-				ABC653532CEB56C900428B6F /* AppAttestationTests */,
 				7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */,
 				7CD66F832C90A890008513F4 /* QualifyingCoordinatorTests.swift */,
 			);
@@ -1547,9 +1540,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				ABC6534D2CEB565600428B6F /* AppAttestation */,
-			);
 			name = OneLogin;
 			packageProductDependencies = (
 				C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */,
@@ -1581,9 +1571,6 @@
 			);
 			dependencies = (
 				219601FF2A976305008F3427 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				ABC653532CEB56C900428B6F /* AppAttestationTests */,
 			);
 			name = OneLoginUnitTests;
 			packageProductDependencies = (
