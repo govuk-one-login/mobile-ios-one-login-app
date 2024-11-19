@@ -73,14 +73,17 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
 
         let token = try await vendor.token(forcingRefresh: false)
-        print("vendor token: \(token.token)")
 
         do {
-            let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
+            let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             let attestationPOP = try proofTokenGenerator.token
-            return ["OAuth-Client-Attestation": attestation.attestationJWT,
-                    "OAuth-Client-Attestation-PoP": attestationPOP]
+            
+            return [
+                "OAuth-Client-Attestation": attestation.attestationJWT,
+                "OAuth-Client-Attestation-PoP": attestationPOP
+            ]
+            
         } catch let error as ServerError where
                     error.errorCode == 400 {
             throw AppIntegrityError.invalidPublicKey
@@ -96,6 +99,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             token: appCheckToken,
             body: proofOfPossessionProvider.publicKey
         ))
+        
         return try JSONDecoder()
             .decode(ClientAssertionResponse.self, from: data)
     }

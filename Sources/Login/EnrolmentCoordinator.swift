@@ -44,7 +44,7 @@ final class EnrolmentCoordinator: NSObject,
             showPasscodeInfo()
         }
     }
-    
+
     private func saveSession() {
         Task {
             if !ProcessInfo.processInfo.arguments.contains("uiTests") {
