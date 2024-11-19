@@ -14,7 +14,7 @@ enum NotImplementedError: Error {
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let networkClient: NetworkClient
     private let baseURL: URL
-    private let vendor: AppCheckVendor
+    let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
     private let proofTokenGenerator: ProofTokenGenerator
 
@@ -52,13 +52,11 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         self.baseURL = baseURL
         self.proofTokenGenerator = proofTokenGenerator
     }
-
-    public convenience init(
-        networkClient: NetworkClient,
-        proofOfPossessionProvider: ProofOfPossessionProvider,
-        baseURL: URL,
-        proofTokenGenerator: ProofTokenGenerator
-    ) {
+    
+    public convenience init(networkClient: NetworkClient,
+                            proofOfPossessionProvider: ProofOfPossessionProvider,
+                            baseURL: URL,
+                            proofTokenGenerator: ProofTokenGenerator) {
         self.init(
             vendor: AppCheck.appCheck(),
             networkClient: networkClient,
@@ -67,8 +65,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             proofTokenGenerator: proofTokenGenerator
         )
     }
-
-    public func assertIntegrity() async throws -> [String: Any] {
+    
+    public func assertIntegrity() async throws -> [String: String] {
         guard !isValidAttestationAvailable else {
             // nothing to do:
             throw NotImplementedError.notImplemented
@@ -81,7 +79,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             let attestation = try await fetchClientAttestation(appCheckToken: token.token)
             // TODO: DCMAW-10322 | store this locally
             let attestationPOP = try proofTokenGenerator.token
-            return ["OAuth-Client-Attestation": attestation.attestationJWT, "OAuth-Client-Attestation-PoP": attestationPOP]
+            return ["OAuth-Client-Attestation": attestation.attestationJWT,
+                    "OAuth-Client-Attestation-PoP": attestationPOP]
         } catch let error as ServerError where
                     error.errorCode == 400 {
             throw AppIntegrityError.invalidPublicKey
