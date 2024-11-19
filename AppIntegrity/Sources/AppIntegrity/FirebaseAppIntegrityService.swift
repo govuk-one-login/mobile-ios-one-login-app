@@ -14,7 +14,7 @@ enum NotImplementedError: Error {
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let networkClient: NetworkClient
     private let baseURL: URL
-    let vendor: AppCheckVendor
+    private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
     private let proofTokenGenerator: ProofTokenGenerator
 
