@@ -2038,10 +2038,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C873B1E42AF82700002C39E8 /* StagingAppEnvironmentTests.swift in Sources */,
 				7CE1BA022CD2946D00689F99 /* AppEnvironment.swift in Sources */,
-				7CE1BA032CD2946D00689F99 /* FlagManager.swift in Sources */,
 				7CE1BA042CD2946D00689F99 /* Flag.swift in Sources */,
+				7CE1BA032CD2946D00689F99 /* FlagManager.swift in Sources */,
+				C873B1E42AF82700002C39E8 /* StagingAppEnvironmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2049,9 +2049,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CE1BA062CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				C873B1E52AF82706002C39E8 /* BuildAppEnvironmentTests.swift in Sources */,
 				7CE1BA052CD2946D00689F99 /* Flag.swift in Sources */,
-				7CE1BA062CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				7CE1BA072CD2946D00689F99 /* FlagManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
