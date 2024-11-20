@@ -72,11 +72,11 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             throw NotImplementedError.notImplemented
         }
 
-        let token = try await vendor.token(forcingRefresh: false)
+        let appCheck = try await vendor.token(forcingRefresh: false)
 
         do {
             // TODO: DCMAW-10322 | store this locally
-            let attestation = try await fetchClientAttestation(appCheckToken: token.token)
+            let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
             let attestationPOP = try proofTokenGenerator.token
             
             return [
