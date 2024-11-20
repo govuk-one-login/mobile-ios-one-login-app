@@ -11,7 +11,7 @@ permissions:
 jobs:
   run_swiftlint:
     name: Run Swiftlint
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -30,7 +30,7 @@ jobs:
   quality_report:
     needs: run_swiftlint
     name: Run Unit Tests and Send Coverage Report
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Add Path Globally
@@ -73,7 +73,7 @@ jobs:
   test_staging_config:
     needs: run_swiftlint
     name: Run Staging Configuration Tests
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -107,7 +107,7 @@ jobs:
   test_build_config:
     needs: run_swiftlint
     name: Run Build Configuration Tests
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -145,7 +145,7 @@ jobs:
   test_ui:
     needs: run_swiftlint
     name: Run UI Tests
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
