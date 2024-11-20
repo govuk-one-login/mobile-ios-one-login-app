@@ -17,13 +17,9 @@ public protocol TokenStore {
 }
 
 final class SecureTokenStore: TokenStore {
-    private let jsonEncoder: JSONEncoder
     private let accessControlEncryptedStore: SecureStorable
 
     init(accessControlEncryptedStore: SecureStorable) {
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .sortedKeys
-        self.jsonEncoder = jsonEncoder
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
@@ -37,6 +33,8 @@ final class SecureTokenStore: TokenStore {
     }
     
     func save(tokens: StoredTokens) throws {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
         try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: .storedTokens)

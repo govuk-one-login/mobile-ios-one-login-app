@@ -12,7 +12,7 @@ concurrency:
 jobs:
   build:
     name: Run Unit Tests and Send Coverage Report
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Add Path Globally

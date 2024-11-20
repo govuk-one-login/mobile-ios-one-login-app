@@ -3,21 +3,17 @@ import Foundation
 import XCTest
 
 final class SecureTokenStoreTests: XCTestCase {
-    private var jsonEncoder: JSONEncoder!
     private var accessControlEncryptedStore: MockSecureStoreService!
     private var sut: SecureTokenStore!
 
     override func setUp() {
         super.setUp()
         
-        jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .sortedKeys
         accessControlEncryptedStore = MockSecureStoreService()
         sut = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
     }
 
     override func tearDown() {
-        jsonEncoder = nil
         accessControlEncryptedStore = nil
         sut = nil
 
@@ -46,6 +42,8 @@ extension SecureTokenStoreTests {
 
     func test_canSaveKeys() throws {
         let tokens = StoredTokens(idToken: "idToken", accessToken: "accessToken")
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens).base64EncodedString()
         print(tokensAsData)
         try sut.save(tokens: tokens)
