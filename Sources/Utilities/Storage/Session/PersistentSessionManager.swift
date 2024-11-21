@@ -144,9 +144,9 @@ final class PersistentSessionManager: SessionManager {
             
             throw PersistentSessionError.sessionMismatch
         }
-        
+        let attestationHeaders = try await appIntegrityService.assertIntegrity()
         let configuration = LoginSessionConfiguration
-            .oneLogin(persistentSessionId: persistentID)
+            .oneLogin(persistentSessionId: persistentID, tokenHeaders: attestationHeaders)
         let response = try await session
             .performLoginFlow(configuration: configuration)
         tokenResponse = response
