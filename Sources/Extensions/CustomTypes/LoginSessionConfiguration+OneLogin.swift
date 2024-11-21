@@ -10,6 +10,7 @@ extension LoginSessionConfiguration {
                      clientID: env.callingSTSEnabled ? env.stsClientID : env.oneLoginClientID,
                      redirectURI: env.oneLoginRedirect,
                      locale: env.isLocaleWelsh ? .cy : .en,
-                     persistentSessionId: persistentSessionId)
+                     persistentSessionId: persistentSessionId,
+                     tokenHeaders: <#T##TokenHeaders?#>)
     }
 }
