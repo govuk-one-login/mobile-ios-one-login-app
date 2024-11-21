@@ -492,17 +492,17 @@
 				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
+				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
-				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
+				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
 				7CA719742C848EF600973585 /* Wallet in Frameworks */,
-				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,9 +852,9 @@
 			isa = PBXGroup;
 			children = (
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
-				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
 				ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift */,
 				ABD7A0C12CEF8A99006D6C7A /* JWTGenerator + Extensions.swift */,
+				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
 			);
 			path = CustomTypes;
 			sourceTree = "<group>";
@@ -1880,6 +1880,7 @@
 				C8B320792B062F9100FECDF0 /* AuthenticationCoordinator.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */,
 				C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */,
+				ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift in Sources */,
 				C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */,
 				7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
@@ -1901,6 +1902,7 @@
 				1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */,
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
+				ABD7A0C22CEF8A99006D6C7A /* JWTGenerator + Extensions.swift in Sources */,
 				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
@@ -1914,7 +1916,6 @@
 				C86A0D012BF270B50023EC42 /* MockTabbedViewModel.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
-				ABD7A0C22CEF8A99006D6C7A /* JWTGenerator + Extensions.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
@@ -1939,7 +1940,6 @@
 				C8C343972B909A2F00E92FB9 /* String+OneLogin.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
-				ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
