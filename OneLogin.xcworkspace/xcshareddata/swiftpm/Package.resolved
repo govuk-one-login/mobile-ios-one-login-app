@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "7ea8b9091042545403eb1db2ad2cc60e9ce17191",
-        "version" : "3.0.0"
+        "revision" : "0e8f8d45823d080171a9171c9eb2c4259b9b6420",
+        "version" : "3.1.2"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "7ae407442d56c46f17b23e6d0c873a33aadfcb86",
-        "version" : "1.0.1"
+        "revision" : "8f2c93b86b4b56e91de734da627324c312f2df10",
+        "version" : "1.1.1"
       }
     },
     {
