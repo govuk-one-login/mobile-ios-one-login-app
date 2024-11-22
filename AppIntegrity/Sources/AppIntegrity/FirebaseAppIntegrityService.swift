@@ -97,7 +97,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         let data = try await networkClient.makeRequest(.clientAttestation(
             baseURL: baseURL,
             token: appCheckToken,
-            body: proofOfPossessionProvider.publicKey
+            body: try proofOfPossessionProvider.publicKey
         ))
         
         return try JSONDecoder()

@@ -1,11 +1,11 @@
+import AppIntegrity
 import Authentication
-import TokenGeneration
 import Combine
+import CryptoService
 import LocalAuthentication
 import Networking
 import SecureStore
-import AppIntegrity
-import CryptoService
+import TokenGeneration
 
 enum PersistentSessionError: Error, Equatable {
     case noSessionExists
@@ -33,9 +33,8 @@ protocol SessionBoundData {
 final class PersistentSessionManager: SessionManager {
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
-    private let appIntegrityService: AppIntegrityProvider
-    
     let localAuthentication: LocalAuthenticationManager
+    private let integrityServiceSetUp: () throws -> AppIntegrityProvider
     
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
@@ -49,12 +48,12 @@ final class PersistentSessionManager: SessionManager {
          encryptedStore: SecureStorable,
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthenticationManager,
-         appIntegrityService: AppIntegrityProvider) {
+         integrityServiceSetUp: @escaping () throws -> AppIntegrityProvider) {
         self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
-        self.appIntegrityService = appIntegrityService
+        self.integrityServiceSetUp = integrityServiceSetUp
         
         self.tokenProvider = TokenHolder()
     }
@@ -75,26 +74,28 @@ final class PersistentSessionManager: SessionManager {
             id: .persistentSessionID,
             accessControlLevel: .open
         )
-        let configuration = CryptoServiceConfiguration(id: "attestation", accessControlLevel: .open)
         
-        guard let signingService = try? CryptoSigningService(configuration: configuration) else { }
-        let jwtRepresentation = JWTRepresentation(header: AppAttestJWTHeader.value,
-                                                  payload: AppAttestJWTPayload.value)
-        let proofTokenGenerator = JWTGenerator(jwtRepresentation: jwtRepresentation,
-                                               signingService: signingService)
-        let integrityService = FirebaseAppIntegrityService(
-            networkClient: NetworkClient(),
-            proofOfPossessionProvider: signingService,
-            baseURL: URL(string: AppEnvironment.oneLoginBaseURL)!,
-            proofTokenGenerator: proofTokenGenerator)
-
+        let integrityServiceSetUp = {
+            let configuration = CryptoServiceConfiguration(id: "attestation", accessControlLevel: .open)
+            let signingService = try CryptoSigningService(configuration: configuration)
+            let jwtRepresentation = JWTRepresentation(header: AppIntegrityJWT.headers(),
+                                                      payload: AppIntegrityJWT.payload())
+            let proofTokenGenerator = JWTGenerator(jwtRepresentation: jwtRepresentation,
+                                                   signingService: signingService)
+            return FirebaseAppIntegrityService(
+                networkClient: NetworkClient(),
+                proofOfPossessionProvider: signingService,
+                baseURL: AppEnvironment.stsBaseURL,
+                proofTokenGenerator: proofTokenGenerator
+            )
+        }
         
         self.init(
             accessControlEncryptedStore: SecureStoreService(configuration: accessControlConfiguration),
             encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
             unprotectedStore: UserDefaults.standard,
             localAuthentication: localAuthentication,
-            appIntegrityService: integrityService
+            integrityServiceSetUp: integrityServiceSetUp
         )
     }
     
@@ -144,9 +145,16 @@ final class PersistentSessionManager: SessionManager {
             
             throw PersistentSessionError.sessionMismatch
         }
-        let attestationHeaders = try await appIntegrityService.assertIntegrity()
+
+        var attestationHeaders: [String: String]?
+        if AppEnvironment.appIntegrityEnabled {
+            let appIntegrityService = try integrityServiceSetUp()
+            attestationHeaders = try await appIntegrityService.assertIntegrity()
+        }
+            
         let configuration = LoginSessionConfiguration
-            .oneLogin(persistentSessionId: persistentID, tokenHeaders: attestationHeaders)
+                .oneLogin(persistentSessionId: persistentID, tokenHeaders: attestationHeaders)
+
         let response = try await session
             .performLoginFlow(configuration: configuration)
         tokenResponse = response

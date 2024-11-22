@@ -86,7 +86,7 @@
 		ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift */; };
 		ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */; };
 		ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BF2CEF887E006D6C7A /* CryptoService */; };
-		ABD7A0C22CEF8A99006D6C7A /* JWTGenerator + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0C12CEF8A99006D6C7A /* JWTGenerator + Extensions.swift */; };
+		ABD7A0C22CEF8A99006D6C7A /* JWTGenerator+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+Extensions.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
 		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
@@ -185,6 +185,7 @@
 		C8C6665E2BD007BD00CF249B /* OutdatedTokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */; };
 		C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */; };
 		C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */; };
+		C8DC472B2CF01B660022A24A /* AppIntegrityJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DC47282CF01B660022A24A /* AppIntegrityJWT.swift */; };
 		C8E1090B2BEE6C4500B21038 /* ProfileTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1090A2BEE6C4500B21038 /* ProfileTabViewModel.swift */; };
 		C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EA2BBC05FA005015AF /* MockSceneDelegate.swift */; };
 		C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1232BB4805900722218 /* HomeCoordinator.swift */; };
@@ -341,7 +342,7 @@
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CryptoSigningService+Extensions.swift"; sourceTree = "<group>"; };
-		ABD7A0C12CEF8A99006D6C7A /* JWTGenerator + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JWTGenerator + Extensions.swift"; sourceTree = "<group>"; };
+		ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JWTGenerator+Extensions.swift"; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -439,6 +440,7 @@
 		C8C7A3FD2CC25E0C0037586F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeletedWarningViewModel.swift; sourceTree = "<group>"; };
 		C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeletedWarningViewModelTests.swift; sourceTree = "<group>"; };
+		C8DC47282CF01B660022A24A /* AppIntegrityJWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityJWT.swift; sourceTree = "<group>"; };
 		C8E1090A2BEE6C4500B21038 /* ProfileTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabViewModel.swift; sourceTree = "<group>"; };
 		C8E6A3EA2BBC05FA005015AF /* MockSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSceneDelegate.swift; sourceTree = "<group>"; };
 		C8ECA1232BB4805900722218 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
@@ -480,7 +482,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AB9D29B42CEF3FB300FEE9ED /* AppAttestation */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AppAttestation; sourceTree = "<group>"; };
 		AB9D29BB2CEF407D00FEE9ED /* AppAttestationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AppAttestationTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -774,7 +775,7 @@
 		7CD66F7C2C90708F008513F4 /* Qualification */ = {
 			isa = PBXGroup;
 			children = (
-				AB9D29B42CEF3FB300FEE9ED /* AppAttestation */,
+				C8DC472A2CF01B660022A24A /* AppAttestation */,
 				7CD66F7D2C9070A6008513F4 /* State */,
 				C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */,
 				C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */,
@@ -853,7 +854,7 @@
 			children = (
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 				ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+Extensions.swift */,
-				ABD7A0C12CEF8A99006D6C7A /* JWTGenerator + Extensions.swift */,
+				ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+Extensions.swift */,
 				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
 			);
 			path = CustomTypes;
@@ -1432,6 +1433,14 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		C8DC472A2CF01B660022A24A /* AppAttestation */ = {
+			isa = PBXGroup;
+			children = (
+				C8DC47282CF01B660022A24A /* AppIntegrityJWT.swift */,
+			);
+			path = AppAttestation;
+			sourceTree = "<group>";
+		};
 		C8E6A3E92BBC05DB005015AF /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -1556,9 +1565,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				AB9D29B42CEF3FB300FEE9ED /* AppAttestation */,
 			);
 			name = OneLogin;
 			packageProductDependencies = (
@@ -1891,6 +1897,7 @@
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift in Sources */,
+				C8DC472B2CF01B660022A24A /* AppIntegrityJWT.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
@@ -1902,7 +1909,7 @@
 				1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */,
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
-				ABD7A0C22CEF8A99006D6C7A /* JWTGenerator + Extensions.swift in Sources */,
+				ABD7A0C22CEF8A99006D6C7A /* JWTGenerator+Extensions.swift in Sources */,
 				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,

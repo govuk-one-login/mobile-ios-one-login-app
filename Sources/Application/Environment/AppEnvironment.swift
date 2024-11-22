@@ -1,9 +1,10 @@
 import Foundation
+import MobilePlatformServices
 
 public final class AppEnvironment {
     enum Key: String {
         case oneLoginAuthorizeURL = "One Login Authorize URL"
-        case stsBaseURL = "STS Base URL"
+        case stsBaseString = "STS Base URL"
         case baseURL = "Base URL"
         case redirectURL = "Redirect URL"
         case oneLoginClientID = "One Login Client ID"
@@ -15,6 +16,7 @@ public final class AppEnvironment {
     }
     
     static var releaseFlags = ReleaseFlags()
+    static var remoteFeatureFlags = FeatureFlags()
     
     private static var appDictionary: [String: Any] {
         guard let plist = Bundle.main.infoDictionary else {
@@ -23,7 +25,7 @@ public final class AppEnvironment {
         return plist
     }
     
-    private static var featureFlags: FlagManager {
+    private static var localFeatureFlags: FlagManager {
         guard let appConfiguration = appDictionary["Configuration"] as? [String: Any] else {
             fatalError("Info.plist doesn't contain 'Configuration' as [String: Any]")
         }
@@ -48,12 +50,21 @@ public final class AppEnvironment {
         return string
     }
     
-    static func updateReleaseFlags(_ flags: [String: Bool]) {
-        releaseFlags.flags = flags
+    static func updateRemoteFlags(_ appInfo: App) {
+        releaseFlags.flags = appInfo.releaseFlags
+        remoteFeatureFlags.flags = appInfo.featureFlags
     }
 }
 
 class ReleaseFlags: FeatureFlagProvider {
+    var flags: [String: Bool] = [:]
+
+    subscript(key: String) -> Any? {
+        flags[key]
+    }
+}
+
+class FeatureFlags: FeatureFlagProvider {
     var flags: [String: Bool] = [:]
 
     subscript(key: String) -> Any? {
@@ -110,6 +121,10 @@ extension AppEnvironment {
         string(for: .baseURL)
     }
     
+    static var stsBaseString: String {
+        string(for: .stsBaseString)
+    }
+    
     static var walletCredentialIssuer: String {
         string(for: .credentialIssuerURL)
     }
@@ -118,10 +133,17 @@ extension AppEnvironment {
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
+    static var stsBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .stsBaseString)
+        return components.url!
+    }
+    
     static var stsAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseURL)
+        components.host = string(for: .stsBaseString)
         components.path = "/authorize"
         return components.url!
     }
@@ -129,7 +151,7 @@ extension AppEnvironment {
     static var stsToken: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseURL)
+        components.host = string(for: .stsBaseString)
         components.path = "/token"
         return components.url!
     }
@@ -137,7 +159,7 @@ extension AppEnvironment {
     static var stsHelloWorld: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "hello-world.\(string(for: .stsBaseURL))"
+        components.host = "hello-world.\(string(for: .stsBaseString))"
         components.path = "/hello-world"
         return components.url!
     }
@@ -145,7 +167,7 @@ extension AppEnvironment {
     static var jwksURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseURL)
+        components.host = string(for: .stsBaseString)
         components.path = "/.well-known/jwks.json"
         return components.url!
     }
@@ -204,8 +226,8 @@ extension AppEnvironment {
 // MARK: - Feature Flags
 
 extension AppEnvironment {
-    static private func isFeatureEnabled(for key: FeatureFlags) -> Bool {
-        let providers: [FeatureFlagProvider] = [UserDefaults.standard, releaseFlags, featureFlags]
+    static private func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
+        let providers: [FeatureFlagProvider] = [UserDefaults.standard, releaseFlags, remoteFeatureFlags, localFeatureFlags]
         return providers
             .lazy
             .compactMap { value(for: key.rawValue, provider: $0) }
@@ -234,5 +256,9 @@ extension AppEnvironment {
     
     static var walletVisibleToAll: Bool {
         isFeatureEnabled(for: .enableWalletVisibleToAll)
+    }
+    
+    static var appIntegrityEnabled: Bool {
+        isFeatureEnabled(for: .appCheckEnabled)
     }
 }

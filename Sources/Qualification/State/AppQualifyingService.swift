@@ -58,7 +58,7 @@ final class AppQualifyingService: QualifyingService {
     private func qualifyAppVersion() async {
         do {
             let appInfo = try await updateService.fetchAppInfo()
-            AppEnvironment.updateReleaseFlags(appInfo.releaseFlags)
+            AppEnvironment.updateRemoteFlags(appInfo)
             
             guard appInfo.allowAppUsage else {
                 appInfoState = .unavailable
