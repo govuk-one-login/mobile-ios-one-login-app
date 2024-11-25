@@ -71,6 +71,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             // nothing to do:
             throw NotImplementedError.notImplemented
         }
+        
+        print("PROVIDER FACTORY USED", Self.providerFactory)
 
         let appCheck = try await vendor.token(forcingRefresh: false)
 

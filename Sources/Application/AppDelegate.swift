@@ -7,6 +7,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        print("APP CHECK DEBUG TOKEN", ProcessInfo.processInfo.environment["FIRAAppCheckDebugToken"])
+        print("APP CHECK LAUNCH ARGUMENTS", ProcessInfo.processInfo.arguments)
         FirebaseAppIntegrityService.configure()
         GAnalytics().configure()
         return true
