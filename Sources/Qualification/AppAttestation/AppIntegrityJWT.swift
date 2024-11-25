@@ -12,7 +12,7 @@ enum AppIntegrityJWT {
             [
                 "iss": AppEnvironment.stsClientID,
                 "aud": AppEnvironment.stsBaseURL.absoluteString,
-                "exp": Int((Date.now + 180).timeIntervalSince1970),
+                "exp": Int(Date.now.timeIntervalSince1970) + 180,
                 "jti": UUID().uuidString
             ]
         }

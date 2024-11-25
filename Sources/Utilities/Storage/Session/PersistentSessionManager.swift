@@ -1,4 +1,3 @@
-import AppIntegrity
 import Authentication
 import Combine
 import CryptoService
@@ -34,7 +33,6 @@ final class PersistentSessionManager: SessionManager {
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
     let localAuthentication: LocalAuthenticationManager
-    private let integrityServiceSetUp: () throws -> AppIntegrityProvider
     
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
@@ -47,13 +45,11 @@ final class PersistentSessionManager: SessionManager {
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
          unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthenticationManager,
-         integrityServiceSetUp: @escaping () throws -> AppIntegrityProvider) {
+         localAuthentication: LocalAuthenticationManager) {
         self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
         self.encryptedStore = encryptedStore
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
-        self.integrityServiceSetUp = integrityServiceSetUp
         
         self.tokenProvider = TokenHolder()
     }
@@ -75,27 +71,11 @@ final class PersistentSessionManager: SessionManager {
             accessControlLevel: .open
         )
         
-        let integrityServiceSetUp = {
-            let configuration = CryptoServiceConfiguration(id: "attestation", accessControlLevel: .open)
-            let signingService = try CryptoSigningService(configuration: configuration)
-            let jwtRepresentation = JWTRepresentation(header: AppIntegrityJWT.headers(),
-                                                      payload: AppIntegrityJWT.payload())
-            let proofTokenGenerator = JWTGenerator(jwtRepresentation: jwtRepresentation,
-                                                   signingService: signingService)
-            return FirebaseAppIntegrityService(
-                networkClient: NetworkClient(),
-                proofOfPossessionProvider: signingService,
-                baseURL: AppEnvironment.stsBaseURL,
-                proofTokenGenerator: proofTokenGenerator
-            )
-        }
-        
         self.init(
             accessControlEncryptedStore: SecureStoreService(configuration: accessControlConfiguration),
             encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
             unprotectedStore: UserDefaults.standard,
-            localAuthentication: localAuthentication,
-            integrityServiceSetUp: integrityServiceSetUp
+            localAuthentication: localAuthentication
         )
     }
     
@@ -146,17 +126,17 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.sessionMismatch
         }
 
-        var attestationHeaders: [String: String]?
-        if AppEnvironment.appIntegrityEnabled {
-            let appIntegrityService = try integrityServiceSetUp()
-            attestationHeaders = try await appIntegrityService.assertIntegrity()
+        let sessionConfiguration: LoginSessionConfiguration = if AppEnvironment.appIntegrityEnabled {
+            try await .oneLoginWithAppIntegrity(
+                persistentSessionId: persistentID,
+                appIntegrityService: .firebaseAppCheck()
+            )
+        } else {
+            .oneLogin(persistentSessionId: persistentID)
         }
-            
-        let configuration = LoginSessionConfiguration
-                .oneLogin(persistentSessionId: persistentID, tokenHeaders: attestationHeaders)
-
+        
         let response = try await session
-            .performLoginFlow(configuration: configuration)
+            .performLoginFlow(configuration: sessionConfiguration)
         tokenResponse = response
         
         // update curent state

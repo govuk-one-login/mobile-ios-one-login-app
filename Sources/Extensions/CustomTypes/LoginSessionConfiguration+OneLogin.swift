@@ -1,8 +1,20 @@
+import AppIntegrity
 import Authentication
 import Foundation
 
 extension LoginSessionConfiguration {
-    static func oneLogin(persistentSessionId: String? = nil, tokenHeaders: [String: String]?) -> Self {
+    static func oneLoginWithAppIntegrity(
+        persistentSessionId: String? = nil,
+        appIntegrityService: AppIntegrityProvider
+    ) async throws -> Self {
+        let attestationHeaders = try await appIntegrityService.assertIntegrity()
+        return oneLogin(persistentSessionId: persistentSessionId, tokenHeaders: attestationHeaders)
+    }
+    
+    static func oneLogin(
+        persistentSessionId: String? = nil,
+        tokenHeaders: [String: String]? = nil
+    ) -> Self {
         let env = AppEnvironment.self
         return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsAuthorize : env.oneLoginAuthorize,
                      tokenEndpoint: env.callingSTSEnabled ? env.stsToken : env.oneLoginToken,
