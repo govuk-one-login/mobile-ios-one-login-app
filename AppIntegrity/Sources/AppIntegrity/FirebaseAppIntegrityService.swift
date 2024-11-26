@@ -72,10 +72,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             throw NotImplementedError.notImplemented
         }
         
-        print("PROVIDER FACTORY USED", Self.providerFactory)
-
-        let appCheck = try await vendor.token(forcingRefresh: false)
-
+        let appCheck = try await vendor.limitedUseToken()
+        
         do {
             // TODO: DCMAW-10322 | store this locally
             let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)

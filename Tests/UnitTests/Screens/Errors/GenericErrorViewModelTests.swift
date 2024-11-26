@@ -58,7 +58,7 @@ extension GenericErrorViewModelTests {
         #expect(didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_closeButton",
-                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              linkDomain: AppEnvironment.oneLoginBaseURLString,
                               external: .false)
         #expect(mockAnalyticsService.eventsLogged == [event.name.name])
         #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)

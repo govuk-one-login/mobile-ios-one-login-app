@@ -22,7 +22,7 @@ struct PasscodeInformationViewModel: GDSInformationViewModelV2,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_continueButton",
-                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              linkDomain: AppEnvironment.oneLoginBaseURLString,
                               external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_continueButton",
                                                                analyticsService: analyticsService,

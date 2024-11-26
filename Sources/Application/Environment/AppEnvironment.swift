@@ -86,7 +86,7 @@ extension AppEnvironment {
     static var oneLoginToken: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .baseURL)
+        components.host = oneLoginBaseURLString
         components.path = "/token"
         return components.url!
     }
@@ -117,11 +117,11 @@ extension AppEnvironment {
         string(for: .redirectURL)
     }
     
-    static var oneLoginBaseURL: String {
+    static var oneLoginBaseURLString: String {
         string(for: .baseURL)
     }
     
-    static var stsBaseString: String {
+    static var stsBaseURLString: String {
         string(for: .stsBaseString)
     }
     
@@ -133,17 +133,24 @@ extension AppEnvironment {
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
+    static var oneLoginBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = oneLoginBaseURLString
+        return components.url!
+    }
+    
     static var stsBaseURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseString)
+        components.host = stsBaseURLString
         return components.url!
     }
     
     static var stsAuthorize: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseString)
+        components.host = stsBaseURLString
         components.path = "/authorize"
         return components.url!
     }
@@ -151,7 +158,7 @@ extension AppEnvironment {
     static var stsToken: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseString)
+        components.host = stsBaseURLString
         components.path = "/token"
         return components.url!
     }
@@ -159,7 +166,7 @@ extension AppEnvironment {
     static var stsHelloWorld: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "hello-world.\(string(for: .stsBaseString))"
+        components.host = "hello-world.\(stsBaseURLString)"
         components.path = "/hello-world"
         return components.url!
     }
@@ -167,7 +174,7 @@ extension AppEnvironment {
     static var jwksURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .stsBaseString)
+        components.host = stsBaseURLString
         components.path = "/.well-known/jwks.json"
         return components.url!
     }
@@ -175,7 +182,7 @@ extension AppEnvironment {
     static var appInfoURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .baseURL)
+        components.host = oneLoginBaseURLString
         components.path = "/appInfo"
         return components.url!
     }
