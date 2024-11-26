@@ -18,11 +18,11 @@ import Testing
            """)
      func initialiseJWTPayload() {
          let payload = AppIntegrityJWT.payload()
-//         let expiryDate: Int
+         var expiryDate = Int(Date().timeIntervalSince1970) + 180
 
-         #expect(payload["iss"] as? String == "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
-         #expect(payload["aud"] as? String == "https://token.build.account.gov.uk")
-//         #expect(payload["exp"] as? Int =
+         #expect(payload["iss"] as? String == AppEnvironment.stsClientID)
+         #expect(payload["aud"] as? String == AppEnvironment.stsBaseURLString)
+         #expect(payload["exp"] as? Int == expiryDate)
          #expect((payload["jti"] as? String)?.count == 36)
      }
  }
