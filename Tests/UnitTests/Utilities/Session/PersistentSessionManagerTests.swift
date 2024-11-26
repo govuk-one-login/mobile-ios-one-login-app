@@ -1,3 +1,4 @@
+import MobilePlatformServices
 import Networking
 @testable import OneLogin
 import XCTest
@@ -33,7 +34,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     }
     
     override func tearDown() {
-        AppEnvironment.updateReleaseFlags([:])
+        AppEnvironment.updateRemoteFlags(.mock)
         
         accessControlEncryptedStore = nil
         encryptedStore = nil
@@ -104,9 +105,10 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(hasNotRemovedLocalAuth)
     }
     
+    @MainActor
     func testStartSession_logsTheUserIn() async throws {
         // GIVEN I am not logged in
-        let loginSession = await MockLoginSession(window: UIWindow())
+        let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN a login screen is shown
@@ -116,13 +118,14 @@ extension PersistentSessionManagerTests {
         XCTAssertNil(configuration.persistentSessionId)
     }
     
+    @MainActor
     func test_startSession_reauthenticatesTheUser() async throws {
         // GIVEN my session has expired
         let persistentSessionID = UUID().uuidString
         try encryptedStore.saveItem(item: persistentSessionID,
                                     itemName: .persistentSessionID)
         
-        let loginSession = await MockLoginSession(window: UIWindow())
+        let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN a login screen is shown
@@ -166,9 +169,14 @@ extension PersistentSessionManagerTests {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // AND I am calling STS
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
+        let mock = App(
+            minimumVersion: Version(string: "1.0.0")!,
+            allowAppUsage: true,
+            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
+            featureFlags: [:]
+        )
+        
+        AppEnvironment.updateRemoteFlags(mock)
         // WHEN I start a session
         try await sut.startSession(using: loginSession)
         // THEN my User details

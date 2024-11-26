@@ -1,3 +1,4 @@
+import MobilePlatformServices
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
@@ -23,9 +24,14 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
 
         mockHelloWorldService = MockHelloWorldService()
 
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
+        let mock = App(
+            minimumVersion: Version(string: "1.0.0")!,
+            allowAppUsage: true,
+            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
+            featureFlags: [:]
+        )
+        
+        AppEnvironment.updateRemoteFlags(mock)
 
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
@@ -36,7 +42,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        AppEnvironment.updateReleaseFlags([:])
+        AppEnvironment.updateRemoteFlags(.mock)
 
         devMenuViewModel = nil
         mockSessionManager = nil
@@ -62,17 +68,27 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_labelContents_STSDisabled() throws {
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: false
-        ])
+        let mock = App(
+            minimumVersion: Version(string: "1.0.0")!,
+            allowAppUsage: true,
+            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: false],
+            featureFlags: [:]
+        )
+        
+        AppEnvironment.updateRemoteFlags(mock)
 
         XCTAssertTrue(try sut.happyPathButton.isHidden)
         XCTAssertTrue(try sut.errorPathButton.isHidden)
         XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
 
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
+         let resetMock = App(
+            minimumVersion: Version(string: "1.0.0")!,
+            allowAppUsage: true,
+            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
+            featureFlags: [:]
+        )
+        
+        AppEnvironment.updateRemoteFlags(resetMock)
     }
     
     func test_happyPathButton() throws {

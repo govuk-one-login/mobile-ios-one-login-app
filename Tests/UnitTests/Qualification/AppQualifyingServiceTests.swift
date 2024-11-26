@@ -33,7 +33,7 @@ final class AppQualifyingServiceTests: XCTestCase {
 
         sut = nil
 
-        AppEnvironment.updateReleaseFlags([:])
+        AppEnvironment.updateRemoteFlags(.mock)
 
         super.tearDown()
     }

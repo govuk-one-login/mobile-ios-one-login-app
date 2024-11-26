@@ -1,4 +1,6 @@
 import Foundation
+import MobilePlatformServices
+import Networking
 @testable import OneLogin
 import XCTest
 
@@ -33,7 +35,15 @@ final class AppEnvironmentTests: XCTestCase {
     func test_releaseFlags() {
         // GIVEN no release flags from AppInfo end point
         // pass in release flags to enviroment
-        AppEnvironment.updateReleaseFlags(["test1": true, "test2": false])
+        
+        let mock = App(
+            minimumVersion: Version(string: "1.0.0")!,
+            allowAppUsage: true,
+            releaseFlags: ["test1": true, "test2": false],
+            featureFlags: [:]
+        )
+        
+        AppEnvironment.updateRemoteFlags(mock)
         
         // THEN the flags are set in environment
         XCTAssertEqual(AppEnvironment.releaseFlags["test1"] as? Bool, true)
@@ -42,7 +52,7 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertNil(AppEnvironment.releaseFlags["shouldBeNil"] as? Bool)
         
         // WHEN updated to remove release flags from enviroment
-        AppEnvironment.updateReleaseFlags([:])
+        AppEnvironment.updateRemoteFlags(.mock)
         
         // THEN the release flags are unset in the environment
         XCTAssertNil(AppEnvironment.releaseFlags["test1"] as? Bool)
