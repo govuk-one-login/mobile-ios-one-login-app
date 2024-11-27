@@ -29,14 +29,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
                                         analyticsService: mockAnalyticsService,
                                         sessionManager: mockSessionManager,
                                         session: mockLoginSession)
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
-            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
             featureFlags: [:]
         )
-        
-        AppEnvironment.updateRemoteFlags(mock)
     }
     
     override func tearDown() {
@@ -47,8 +43,11 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockLoginSession = nil
         sut = nil
 
-        AppEnvironment.updateRemoteFlags(.mock)
-
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
+        
         super.tearDown()
     }
     

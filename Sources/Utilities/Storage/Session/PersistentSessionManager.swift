@@ -111,7 +111,8 @@ final class PersistentSessionManager: SessionManager {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
     }
     
-    func startSession(using session: any LoginSession) async throws {
+    func startSession(using session: any LoginSession,
+                      configurationInitialiser: LoginSessionConfigurationProtocol.Type) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
             // but cannot reauthenticate because I don't have a persistent session ID
@@ -125,14 +126,15 @@ final class PersistentSessionManager: SessionManager {
             
             throw PersistentSessionError.sessionMismatch
         }
-
+        
         let sessionConfiguration: LoginSessionConfiguration = if AppEnvironment.appIntegrityEnabled {
-            try await .oneLoginWithAppIntegrity(
+            try await configurationInitialiser.oneLoginWithAppIntegrity(
                 persistentSessionId: persistentID,
                 appIntegrityService: .firebaseAppCheck()
             )
         } else {
-            .oneLogin(persistentSessionId: persistentID)
+            configurationInitialiser.oneLogin(persistentSessionId: persistentID,
+                                              tokenHeaders: nil)
         }
         
         let response = try await session

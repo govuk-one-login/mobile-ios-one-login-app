@@ -54,7 +54,10 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockWalletAvailabilityService = nil
         sut = nil
         
-        AppEnvironment.updateRemoteFlags(.mock)
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         super.tearDown()
     }
@@ -66,14 +69,10 @@ extension TabManagerCoordinatorTests {
         // WHEN the Wallet the Feature Flag is off
         mockWalletAvailabilityService.shouldShowFeature = false
         
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
-            releaseFlags: ["hasAccessedWalletBefore": false],
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
             featureFlags: [:]
         )
-        
-        AppEnvironment.updateRemoteFlags(mock)
 
         // AND the TabManagerCoordinator is started
         sut.start()
@@ -144,14 +143,10 @@ extension TabManagerCoordinatorTests {
     func test_didSelect_tabBarItem_profile() {
         mockWalletAvailabilityService.shouldShowFeature = false
         
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
-            releaseFlags: ["hasAccessedWalletBefore": false],
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
             featureFlags: [:]
         )
-        
-        AppEnvironment.updateRemoteFlags(mock)
         
         // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
@@ -209,15 +204,10 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromProfileCoordinator_errors() throws {
-        
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
+        AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableSignoutError.rawValue: true],
             featureFlags: [:]
         )
-        
-        AppEnvironment.updateRemoteFlags(mock)
 
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true

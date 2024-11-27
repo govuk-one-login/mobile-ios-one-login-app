@@ -23,15 +23,11 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
 
         mockHelloWorldService = MockHelloWorldService()
-
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
+        
+        AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
             featureFlags: [:]
         )
-        
-        AppEnvironment.updateRemoteFlags(mock)
 
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
@@ -42,8 +38,10 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        AppEnvironment.updateRemoteFlags(.mock)
-
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         devMenuViewModel = nil
         mockSessionManager = nil
         sut = nil
@@ -68,27 +66,19 @@ extension DeveloperMenuViewControllerTests {
     }
     
     func test_labelContents_STSDisabled() throws {
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
+        AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: false],
             featureFlags: [:]
         )
         
-        AppEnvironment.updateRemoteFlags(mock)
-
         XCTAssertTrue(try sut.happyPathButton.isHidden)
         XCTAssertTrue(try sut.errorPathButton.isHidden)
         XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
-
-         let resetMock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
+        
+        AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
             featureFlags: [:]
         )
-        
-        AppEnvironment.updateRemoteFlags(resetMock)
     }
     
     func test_happyPathButton() throws {

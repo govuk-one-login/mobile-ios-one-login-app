@@ -36,26 +36,25 @@ final class AppEnvironmentTests: XCTestCase {
         // GIVEN no release flags from AppInfo end point
         // pass in release flags to enviroment
         
-        let mock = App(
-            minimumVersion: Version(string: "1.0.0")!,
-            allowAppUsage: true,
+        AppEnvironment.updateFlags(
             releaseFlags: ["test1": true, "test2": false],
             featureFlags: [:]
         )
         
-        AppEnvironment.updateRemoteFlags(mock)
-        
         // THEN the flags are set in environment
-        XCTAssertEqual(AppEnvironment.releaseFlags["test1"] as? Bool, true)
-        XCTAssertEqual(AppEnvironment.releaseFlags["test2"] as? Bool, false)
+        XCTAssertEqual(AppEnvironment.remoteReleaseFlags["test1"] as? Bool, true)
+        XCTAssertEqual(AppEnvironment.remoteReleaseFlags["test2"] as? Bool, false)
         
-        XCTAssertNil(AppEnvironment.releaseFlags["shouldBeNil"] as? Bool)
+        XCTAssertNil(AppEnvironment.remoteReleaseFlags["shouldBeNil"] as? Bool)
         
         // WHEN updated to remove release flags from enviroment
-        AppEnvironment.updateRemoteFlags(.mock)
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         // THEN the release flags are unset in the environment
-        XCTAssertNil(AppEnvironment.releaseFlags["test1"] as? Bool)
-        XCTAssertNil(AppEnvironment.releaseFlags["test2"] as? Bool)
+        XCTAssertNil(AppEnvironment.remoteReleaseFlags["test1"] as? Bool)
+        XCTAssertNil(AppEnvironment.remoteReleaseFlags["test2"] as? Bool)
     }
 }

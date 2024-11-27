@@ -15,7 +15,7 @@ public final class AppEnvironment {
         case yourServicesURL = "Your Services URL"
     }
     
-    static var releaseFlags = ReleaseFlags()
+    static var remoteReleaseFlags = ReleaseFlags()
     static var remoteFeatureFlags = FeatureFlags()
     
     private static var appDictionary: [String: Any] {
@@ -50,9 +50,10 @@ public final class AppEnvironment {
         return string
     }
     
-    static func updateRemoteFlags(_ appInfo: App) {
-        releaseFlags.flags = appInfo.releaseFlags
-        remoteFeatureFlags.flags = appInfo.featureFlags
+    static func updateFlags(releaseFlags: [String: Bool],
+                            featureFlags: [String: Bool]) {
+        remoteReleaseFlags.flags = releaseFlags
+        remoteFeatureFlags.flags = featureFlags
     }
 }
 
@@ -234,7 +235,7 @@ extension AppEnvironment {
 
 extension AppEnvironment {
     static private func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
-        let providers: [FeatureFlagProvider] = [UserDefaults.standard, releaseFlags, remoteFeatureFlags, localFeatureFlags]
+        let providers: [FeatureFlagProvider] = [UserDefaults.standard, remoteReleaseFlags, remoteFeatureFlags, localFeatureFlags]
         return providers
             .lazy
             .compactMap { value(for: key.rawValue, provider: $0) }

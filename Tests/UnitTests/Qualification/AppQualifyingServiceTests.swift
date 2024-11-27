@@ -33,8 +33,10 @@ final class AppQualifyingServiceTests: XCTestCase {
 
         sut = nil
 
-        AppEnvironment.updateRemoteFlags(.mock)
-
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         super.tearDown()
     }
 }
@@ -91,7 +93,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
 
-        XCTAssertEqual(AppEnvironment.releaseFlags.flags, releaseFlags)
+        XCTAssertEqual(AppEnvironment.remoteReleaseFlags.flags, releaseFlags)
     }
 
     func test_offlineApp_setsStateCorrectly() {
