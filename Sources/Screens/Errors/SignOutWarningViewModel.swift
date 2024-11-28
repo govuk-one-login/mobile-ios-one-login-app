@@ -19,7 +19,7 @@ struct SignOutWarningViewModel: GDSErrorViewModelV2,
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .reauth)
         self.analyticsService = tempAnalyticsService
         let event = LinkEvent(textKey: "app_extendedSignInButton",
-                              linkDomain: AppEnvironment.oneLoginBaseURLString,
+                              linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
                                                                analyticsService: analyticsService,

@@ -3,15 +3,12 @@ import MobilePlatformServices
 
 public final class AppEnvironment {
     enum Key: String {
-        case oneLoginAuthorizeURL = "One Login Authorize URL"
-        case stsBaseString = "STS Base URL"
-        case baseURL = "Base URL"
-        case redirectURL = "Redirect URL"
-        case oneLoginClientID = "One Login Client ID"
-        case stsClientID = "STS Client ID"
+        case mobileBaseURL = "Mobile Base URL"
+        case stsBaseURL = "STS Base URL"
         case externalBaseURL = "External Base URL"
+        case mobileClientID = "Mobile Client ID"
+        case stsClientID = "STS Client ID"
         case appStoreURL = "App Store URL"
-        case credentialIssuerURL = "Wallet Credential Issuer URL"
         case yourServicesURL = "Your Services URL"
     }
     
@@ -73,72 +70,65 @@ class FeatureFlags: FeatureFlagProvider {
     }
 }
 
-// MARK: - One Login Info Plist values as Type properties
+// MARK: - Mobile Back End Info Plist values as Type properties
 
 extension AppEnvironment {
-    static var oneLoginAuthorize: URL {
+    static var mobileBaseURLString: String {
+        string(for: .mobileBaseURL)
+    }
+    
+    static var mobileBaseURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .oneLoginAuthorizeURL)
+        components.host = mobileBaseURLString
+        return components.url!
+    }
+    
+    static var mobileAuthorize: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "auth-stub.\(mobileBaseURLString)"
         components.path = "/authorize"
         return components.url!
     }
     
-    static var oneLoginToken: URL {
+    static var mobileToken: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = oneLoginBaseURLString
+        components.host = mobileBaseURLString
         components.path = "/token"
         return components.url!
     }
-
-    static var privacyPolicyURL: URL {
+    
+    static var mobileRedirect: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .externalBaseURL)
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/privacy-notice"
+        components.host = mobileBaseURLString
+        components.path = "/redirect"
         return components.url!
     }
     
-    static var manageAccountURL: URL {
+    static var walletCredentialIssuer: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .externalBaseURL)
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/sign-in-or-create"
+        components.host = "example-credential-issuer.\(mobileBaseURLString)"
         return components.url!
     }
-
-    static var oneLoginClientID: String {
-        string(for: .oneLoginClientID)
-    }
     
-    static var oneLoginRedirect: String {
-        string(for: .redirectURL)
-    }
-    
-    static var oneLoginBaseURLString: String {
-        string(for: .baseURL)
-    }
-    
-    static var stsBaseURLString: String {
-        string(for: .stsBaseString)
-    }
-    
-    static var walletCredentialIssuer: String {
-        string(for: .credentialIssuerURL)
+    static var appInfoURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = mobileBaseURLString
+        components.path = "/appInfo"
+        return components.url!
     }
 }
 
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
-    static var oneLoginBaseURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = oneLoginBaseURLString
-        return components.url!
+    static var stsBaseURLString: String {
+        string(for: .stsBaseURL)
     }
     
     static var stsBaseURL: URL {
@@ -155,7 +145,7 @@ extension AppEnvironment {
         components.path = "/authorize"
         return components.url!
     }
-
+    
     static var stsToken: URL {
         var components = URLComponents()
         components.scheme = "https"
@@ -163,7 +153,7 @@ extension AppEnvironment {
         components.path = "/token"
         return components.url!
     }
-
+    
     static var stsHelloWorld: URL {
         var components = URLComponents()
         components.scheme = "https"
@@ -179,13 +169,38 @@ extension AppEnvironment {
         components.path = "/.well-known/jwks.json"
         return components.url!
     }
+}
+
+// MARK: - External Info Plist values as Type properties
+extension AppEnvironment {
+    static var externalBaseURLString: String {
+        string(for: .externalBaseURL)
+    }
     
-    static var appInfoURL: URL {
+    static var privacyPolicyURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = oneLoginBaseURLString
-        components.path = "/appInfo"
+        components.host = externalBaseURLString
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
+        components.path = "/privacy-notice"
         return components.url!
+    }
+    
+    static var manageAccountURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = externalBaseURLString
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
+        components.path = "/sign-in-or-create"
+        return components.url!
+    }
+}
+
+// MARK: - Client ID as Strings
+
+extension AppEnvironment {
+    static var mobileClientID: String {
+        string(for: .mobileClientID)
     }
     
     static var stsClientID: String {
@@ -198,6 +213,7 @@ extension AppEnvironment {
 }
 
 // MARK: - App Store URL
+
 extension AppEnvironment {
     static var appStoreURL: URL {
         var components = URLComponents()
@@ -216,6 +232,7 @@ extension AppEnvironment {
 }
 
 // MARK: - Content tile URLs
+
 extension AppEnvironment {
     static var yourServicesURL: URL {
         var components = URLComponents()

@@ -22,7 +22,7 @@ struct GenericErrorViewModel: GDSErrorViewModelV2,
         self.analyticsService = analyticsService
         self.errorDescription = errorDescription
         let event = LinkEvent(textKey: "app_closeButton",
-                              linkDomain: AppEnvironment.oneLoginBaseURLString,
+                              linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
                                                                analyticsService: analyticsService,

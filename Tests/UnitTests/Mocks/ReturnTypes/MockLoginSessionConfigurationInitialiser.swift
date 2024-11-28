@@ -11,7 +11,7 @@ struct MockLoginSessionConfigurationInitialiser: LoginSessionConfigurationProvid
             authorizationEndpoint: AppEnvironment.stsAuthorize,
             tokenEndpoint: AppEnvironment.stsToken,
             clientID: AppEnvironment.stsClientID,
-            redirectURI: AppEnvironment.oneLoginRedirect,
+            redirectURI: AppEnvironment.mobileRedirect.absoluteString,
             persistentSessionId: "123456789",
             tokenHeaders: ["mock_token_header_key": "mock_token_header_value"]
         )
@@ -25,7 +25,7 @@ struct MockLoginSessionConfigurationInitialiser: LoginSessionConfigurationProvid
             authorizationEndpoint: AppEnvironment.stsAuthorize,
             tokenEndpoint: AppEnvironment.stsToken,
             clientID: AppEnvironment.stsClientID,
-            redirectURI: AppEnvironment.oneLoginRedirect,
+            redirectURI: AppEnvironment.mobileRedirect.absoluteString,
             persistentSessionId: "123456789"
         )
     }

@@ -30,11 +30,11 @@ extension LoginSessionConfiguration {
         tokenHeaders: [String: String]? = nil
     ) -> Self {
         let env = AppEnvironment.self
-        return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsAuthorize : env.oneLoginAuthorize,
-                     tokenEndpoint: env.callingSTSEnabled ? env.stsToken : env.oneLoginToken,
+        return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsAuthorize : env.mobileAuthorize,
+                     tokenEndpoint: env.callingSTSEnabled ? env.stsToken : env.mobileToken,
                      scopes: [.openid],
-                     clientID: env.callingSTSEnabled ? env.stsClientID : env.oneLoginClientID,
-                     redirectURI: env.oneLoginRedirect,
+                     clientID: env.callingSTSEnabled ? env.stsClientID : env.mobileClientID,
+                     redirectURI: env.mobileRedirect.absoluteString,
                      locale: env.isLocaleWelsh ? .cy : .en,
                      persistentSessionId: persistentSessionId,
                      tokenHeaders: tokenHeaders)

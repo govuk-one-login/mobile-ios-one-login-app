@@ -14,7 +14,7 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
         return FirebaseAppIntegrityService(
             networkClient: NetworkClient(),
             proofOfPossessionProvider: signingService,
-            baseURL: AppEnvironment.oneLoginBaseURL,
+            baseURL: AppEnvironment.mobileBaseURL,
             proofTokenGenerator: proofTokenGenerator
         )
     }
