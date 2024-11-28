@@ -14,7 +14,7 @@ This can be done by editing the scheme on xcode and passing an environment varia
 
 The value should be saved in an encrypted secrets file outside of the repository and passed in by including the file in your build config as shown below:
 
-```
+```swift
 #include "../secrets.xcconfig"
 ```
 
@@ -24,7 +24,7 @@ In order for your app to build/ run/ test successfully on the command line, the 
 
 Run a command within your workflow to create a secrets file and input the debug token value.
 
-```
+```swift
 - name: Export AppCheck Secret
 env:
 APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
