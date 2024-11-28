@@ -2,7 +2,7 @@ import AppIntegrity
 import Authentication
 @testable import OneLogin
 
-struct MockLoginSessionConfigurationInitialiser: LoginSessionConfigurationProtocol {
+struct MockLoginSessionConfigurationInitialiser: LoginSessionConfigurationProvider {
     static func oneLoginWithAppIntegrity(
         persistentSessionId: String?,
         appIntegrityService: any AppIntegrityProvider

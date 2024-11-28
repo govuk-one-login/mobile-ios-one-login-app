@@ -21,7 +21,7 @@ protocol SessionManager: UserProvider {
     var localAuthentication: LocalAuthenticationManager { get }
 
     /// Starts a new session from a remote login
-    func startSession(using session: LoginSession, configurationInitialiser: LoginSessionConfigurationProtocol.Type) async throws
+    func startSession(using session: LoginSession, configurationInitialiser: LoginSessionConfigurationProvider.Type) async throws
 
     /// Resumes an existing session by restoring tokens from on-device storage
     func resumeSession() throws

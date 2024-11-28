@@ -111,8 +111,10 @@ final class PersistentSessionManager: SessionManager {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
     }
     
-    func startSession(using session: any LoginSession,
-                      configurationInitialiser: LoginSessionConfigurationProtocol.Type) async throws {
+    func startSession(
+        using session: any LoginSession,
+        configurationInitialiser: LoginSessionConfigurationProvider.Type
+    ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
             // but cannot reauthenticate because I don't have a persistent session ID

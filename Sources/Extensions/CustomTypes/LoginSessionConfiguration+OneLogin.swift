@@ -2,7 +2,7 @@ import AppIntegrity
 import Authentication
 import Foundation
 
-protocol LoginSessionConfigurationProtocol {
+protocol LoginSessionConfigurationProvider {
     static func oneLoginWithAppIntegrity(
         persistentSessionId: String?,
         appIntegrityService: AppIntegrityProvider
@@ -14,7 +14,7 @@ protocol LoginSessionConfigurationProtocol {
     ) -> LoginSessionConfiguration
 }
 
-extension LoginSessionConfiguration: LoginSessionConfigurationProtocol { }
+extension LoginSessionConfiguration: LoginSessionConfigurationProvider { }
 
 extension LoginSessionConfiguration {
     static func oneLoginWithAppIntegrity(
