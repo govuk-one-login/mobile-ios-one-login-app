@@ -2,31 +2,65 @@ import Foundation
 import MobilePlatformServices
 
 public final class AppEnvironment {
-    enum Key: String {
-        case mobileBaseURL = "Mobile Base URL"
-        case stsBaseURL = "STS Base URL"
-        case externalBaseURL = "External Base URL"
-        case mobileClientID = "Mobile Client ID"
-        case stsClientID = "STS Client ID"
-        case appStoreURL = "App Store URL"
-        case yourServicesURL = "Your Services URL"
+    // MARK: - Feature Flags
+    
+    static var callingSTSEnabled: Bool {
+        isFeatureEnabled(for: .enableCallingSTS)
+    }
+    
+    static var signoutErrorEnabled: Bool {
+        isFeatureEnabled(for: .enableSignoutError)
+    }
+    
+    static var clearWalletErrorEnabled: Bool {
+        isFeatureEnabled(for: .enableClearWalletError)
+    }
+    
+    static var walletVisibleViaDeepLink: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
+    }
+    
+    static var walletVisibleIfExists: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleIfExists)
+    }
+    
+    static var walletVisibleToAll: Bool {
+        isFeatureEnabled(for: .enableWalletVisibleToAll)
+    }
+    
+    static var appIntegrityEnabled: Bool {
+        isFeatureEnabled(for: .appCheckEnabled)
+    }
+    
+    static private func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
+        let providers: [FeatureFlagProvider] = [UserDefaults.standard, remoteReleaseFlags, remoteFeatureFlags, localFeatureFlags]
+        return providers
+            .lazy
+            .compactMap { value(for: key.rawValue, provider: $0) }
+            .first ?? false
     }
     
     static var remoteReleaseFlags = ReleaseFlags()
     static var remoteFeatureFlags = FeatureFlags()
-    
-    private static var appDictionary: [String: Any] {
-        guard let plist = Bundle.main.infoDictionary else {
-            fatalError("Cannot load Info.plist from App")
-        }
-        return plist
-    }
     
     private static var localFeatureFlags: FlagManager {
         guard let appConfiguration = appDictionary["Configuration"] as? [String: Any] else {
             fatalError("Info.plist doesn't contain 'Configuration' as [String: Any]")
         }
         return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
+    }
+    
+    static func updateFlags(releaseFlags: [String: Bool],
+                            featureFlags: [String: Bool]) {
+        remoteReleaseFlags.flags = releaseFlags
+        remoteFeatureFlags.flags = featureFlags
+    }
+    
+    private static var appDictionary: [String: Any] {
+        guard let plist = Bundle.main.infoDictionary else {
+            fatalError("Cannot load Info.plist from App")
+        }
+        return plist
     }
     
     static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
@@ -47,26 +81,30 @@ public final class AppEnvironment {
         return string
     }
     
-    static func updateFlags(releaseFlags: [String: Bool],
-                            featureFlags: [String: Bool]) {
-        remoteReleaseFlags.flags = releaseFlags
-        remoteFeatureFlags.flags = featureFlags
+    class ReleaseFlags: FeatureFlagProvider {
+        var flags: [String: Bool] = [:]
+        
+        subscript(key: String) -> Any? {
+            flags[key]
+        }
     }
-}
-
-class ReleaseFlags: FeatureFlagProvider {
-    var flags: [String: Bool] = [:]
-
-    subscript(key: String) -> Any? {
-        flags[key]
+    
+    class FeatureFlags: FeatureFlagProvider {
+        var flags: [String: Bool] = [:]
+        
+        subscript(key: String) -> Any? {
+            flags[key]
+        }
     }
-}
-
-class FeatureFlags: FeatureFlagProvider {
-    var flags: [String: Bool] = [:]
-
-    subscript(key: String) -> Any? {
-        flags[key]
+    
+    enum Key: String {
+        case mobileBaseURL = "Mobile Base URL"
+        case stsBaseURL = "STS Base URL"
+        case externalBaseURL = "External Base URL"
+        case mobileClientID = "Mobile Client ID"
+        case stsClientID = "STS Client ID"
+        case appStoreURL = "App Store URL"
+        case yourServicesURL = "Your Services URL"
     }
 }
 
@@ -172,6 +210,7 @@ extension AppEnvironment {
 }
 
 // MARK: - External Info Plist values as Type properties
+
 extension AppEnvironment {
     static var externalBaseURLString: String {
         string(for: .externalBaseURL)
@@ -221,7 +260,7 @@ extension AppEnvironment {
         components.host = string(for: .appStoreURL)
         return components.url!
     }
-
+    
     static var appStore: URL {
         appStoreURL
             .appendingPathComponent("gb")
@@ -242,48 +281,8 @@ extension AppEnvironment {
         components.path = "/your-services"
         return components.url!
     }
-
+    
     static var yourServicesLink: String {
         string(for: .yourServicesURL)
-    }
-}
-
-// MARK: - Feature Flags
-
-extension AppEnvironment {
-    static private func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
-        let providers: [FeatureFlagProvider] = [UserDefaults.standard, remoteReleaseFlags, remoteFeatureFlags, localFeatureFlags]
-        return providers
-            .lazy
-            .compactMap { value(for: key.rawValue, provider: $0) }
-            .first ?? false
-    }
-    
-    static var callingSTSEnabled: Bool {
-        isFeatureEnabled(for: .enableCallingSTS)
-    }
-    
-    static var signoutErrorEnabled: Bool {
-        isFeatureEnabled(for: .enableSignoutError)
-    }
-    
-    static var clearWalletErrorEnabled: Bool {
-        isFeatureEnabled(for: .enableClearWalletError)
-    }
-    
-    static var walletVisibleViaDeepLink: Bool {
-        isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
-    }
-    
-    static var walletVisibleIfExists: Bool {
-        isFeatureEnabled(for: .enableWalletVisibleIfExists)
-    }
-    
-    static var walletVisibleToAll: Bool {
-        isFeatureEnabled(for: .enableWalletVisibleToAll)
-    }
-    
-    static var appIntegrityEnabled: Bool {
-        isFeatureEnabled(for: .appCheckEnabled)
     }
 }
