@@ -38,6 +38,7 @@ jobs:
       - name: Export AppCheck Secret
         run: |
           touch ../secrets.xcconfig
+          
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
