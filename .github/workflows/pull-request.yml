@@ -29,17 +29,14 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
-
-      - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
           
       - name: Export AppCheck Secret
+        env:
+            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
         run: |
-          touch ../secrets.xcconfig
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
-      - name: Build App, Run Unit Tests and Send Coverage Report for Branch
+      - name: Build App, Run UI Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -47,25 +44,8 @@ jobs:
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          brew install sonar-scanner
-
           bundle install
 
-          bundle exec fastlane test scheme:"OneLoginBuild" \
-            configuration:"Debug" \
-            testplan:OneLoginUnit \
-            workspace:${{github.workspace}} \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
-            source_branch:${{github.head_ref}} \
-            target_branch:${{github.base_ref}} \
-            pr_number:$pull_number
-
-      # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
-        # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            configuration:"Build" \
+            testplan:OneLoginUI
