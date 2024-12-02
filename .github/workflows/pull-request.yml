@@ -47,5 +47,18 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            configuration:"Build" \
             testplan:OneLoginUI
+            
+      - name: Make Artifact
+        if: failure()
+        run: |
+          cd ./fastlane
+          zip -rq UITestArtifact test_output -x "test_output/report.junit"
+
+      - name: Upload Artifact
+        if: failure()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pin@v4
+        with:
+          name: UITestArtifact
+          path: ./fastlane/UITestArtifact.zip
+          retention-days: 1
