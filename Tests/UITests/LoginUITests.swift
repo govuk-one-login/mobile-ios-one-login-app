@@ -6,6 +6,10 @@ final class LoginUITests: XCTestCase {
     override func setUp() async throws {
         await MainActor.run {
             sut = WelcomeScreen()
+            guard let debugToken = ProcessInfo.processInfo.environment["FIRAAppCheckDebugToken"] else {
+                preconditionFailure("No Firebase App Check Debug Token passed in environment")
+            }
+            sut.app.launchEnvironment["FIRAAppCheckDebugToken"] = debugToken
             sut.app.launch()
             let exp = expectation(description: "Waiting once App has launched")
             XCTWaiter().wait(for: [exp], timeout: 30)
