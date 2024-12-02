@@ -7,11 +7,8 @@ import XCTest
 final class AppEnvironmentTests: XCTestCase {
     func test_appEnvironmentValues() throws {
         let sut = AppEnvironment.self
-        XCTAssertEqual(sut.mobileAuthorize.absoluteString, "https://auth-stub.mobile.build.account.gov.uk/authorize")
-        XCTAssertEqual(sut.mobileToken.absoluteString, "https://mobile.build.account.gov.uk/token")
         XCTAssertEqual(sut.privacyPolicyURL.absoluteString, "https://signin.account.gov.uk/privacy-notice?lng=en")
         XCTAssertEqual(sut.manageAccountURL.absoluteString, "https://signin.account.gov.uk/sign-in-or-create?lng=en")
-        XCTAssertEqual(sut.mobileClientID, "TEST_CLIENT_ID")
         XCTAssertEqual(sut.mobileRedirect.absoluteString, "https://mobile.build.account.gov.uk/redirect")
         XCTAssertEqual(sut.mobileBaseURLString, "mobile.build.account.gov.uk")
         XCTAssertEqual(sut.mobileBaseURL.absoluteString, "https://mobile.build.account.gov.uk")

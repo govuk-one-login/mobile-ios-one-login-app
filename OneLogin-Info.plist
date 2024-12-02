@@ -4,15 +4,13 @@
 <dict>
 	<key>App Store URL</key>
 	<string>apps.apple.com</string>
-	<key>Mobile Base URL</key>
-	<string>$(MOBILE_BASE_URL)</string>
 	<key>Configuration</key>
 	<dict>
 		<key>Feature Flag File</key>
 		<string>$(FEATURE_FLAG_FILE)</string>
 	</dict>
 	<key>External Base URL</key>
-	<string>$(EXTERNAL_BASE_URL)</string>
+	<string>signin.$(BASE_URL)</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
@@ -23,12 +21,10 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<key>Mobile Client ID</key>
-	<string>$(MOBILE_CLIENT_ID)</string>
-	<key>Redirect URL</key>
-	<string>$(REDIRECT_URL)</string>
 	<key>STS Base URL</key>
 	<string>$(STS_BASE_URL)</string>
+	<key>Mobile BE Base URL</key>
+	<string>$(MOBILE_BE_BASE_URL)</string>
 	<key>STS Client ID</key>
 	<string>$(STS_CLIENT_ID)</string>
 	<key>UIApplicationSceneManifest</key>

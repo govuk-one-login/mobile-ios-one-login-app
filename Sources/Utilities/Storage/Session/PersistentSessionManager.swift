@@ -146,8 +146,7 @@ final class PersistentSessionManager: SessionManager {
         // update curent state
         tokenProvider.update(subjectToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
-        if AppEnvironment.callingSTSEnabled,
-           let idToken = response.idToken {
+        if let idToken = response.idToken {
             try user.send(IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)

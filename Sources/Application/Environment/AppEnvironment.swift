@@ -4,10 +4,6 @@ import MobilePlatformServices
 public final class AppEnvironment {
     // MARK: - Feature Flags
     
-    static var callingSTSEnabled: Bool {
-        isFeatureEnabled(for: .enableCallingSTS)
-    }
-    
     static var signoutErrorEnabled: Bool {
         isFeatureEnabled(for: .enableSignoutError)
     }
@@ -98,10 +94,9 @@ public final class AppEnvironment {
     }
     
     enum Key: String {
-        case mobileBaseURL = "Mobile Base URL"
         case stsBaseURL = "STS Base URL"
+        case mobileBaseURL = "Mobile BE Base URL"
         case externalBaseURL = "External Base URL"
-        case mobileClientID = "Mobile Client ID"
         case stsClientID = "STS Client ID"
         case appStoreURL = "App Store URL"
         case yourServicesURL = "Your Services URL"
@@ -119,22 +114,6 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = mobileBaseURLString
-        return components.url!
-    }
-    
-    static var mobileAuthorize: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "auth-stub.\(mobileBaseURLString)"
-        components.path = "/authorize"
-        return components.url!
-    }
-    
-    static var mobileToken: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        components.path = "/token"
         return components.url!
     }
     
@@ -238,10 +217,6 @@ extension AppEnvironment {
 // MARK: - Client ID as Strings
 
 extension AppEnvironment {
-    static var mobileClientID: String {
-        string(for: .mobileClientID)
-    }
-    
     static var stsClientID: String {
         return string(for: .stsClientID)
     }

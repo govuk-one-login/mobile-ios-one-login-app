@@ -3,11 +3,9 @@ PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.staging
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Staging
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 
-MOBILE_BASE_URL = mobile.staging.account.gov.uk
-STS_BASE_URL = token.staging.account.gov.uk
-EXTERNAL_BASE_URL = signin.account.gov.uk
-
-MOBILE_CLIENT_ID = sdJChz1oGajIz0O0tdPdh0CA2zW
+BASE_URL = account.gov.uk
+STS_BASE_URL = token.staging.$BASE_URL
+MOBILE_BE_BASE_URL = mobile.staging.$BASE_URL
 
 STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
 

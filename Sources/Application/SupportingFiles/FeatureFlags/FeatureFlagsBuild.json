@@ -1,9 +1,5 @@
 [
     {
-        "name": "EnableCallingSTS",
-        "isEnabled": true
-    },
-    {
         "name": "EnableSignoutError",
         "isEnabled": false
     },

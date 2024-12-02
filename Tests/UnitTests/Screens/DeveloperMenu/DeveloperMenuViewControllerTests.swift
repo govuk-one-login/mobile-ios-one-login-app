@@ -23,11 +23,6 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
 
         mockHelloWorldService = MockHelloWorldService()
-        
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
-            featureFlags: [:]
-        )
 
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
@@ -63,22 +58,6 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
         XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Error")
         XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unauthorized")
-    }
-    
-    func test_labelContents_STSDisabled() throws {
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: false],
-            featureFlags: [:]
-        )
-        
-        XCTAssertTrue(try sut.happyPathButton.isHidden)
-        XCTAssertTrue(try sut.errorPathButton.isHidden)
-        XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
-        
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
-            featureFlags: [:]
-        )
     }
     
     func test_happyPathButton() throws {

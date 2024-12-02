@@ -30,10 +30,10 @@ extension LoginSessionConfiguration {
         tokenHeaders: [String: String]? = nil
     ) -> Self {
         let env = AppEnvironment.self
-        return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsAuthorize : env.mobileAuthorize,
-                     tokenEndpoint: env.callingSTSEnabled ? env.stsToken : env.mobileToken,
+        return .init(authorizationEndpoint: env.stsAuthorize,
+                     tokenEndpoint: env.stsToken,
                      scopes: [.openid],
-                     clientID: env.callingSTSEnabled ? env.stsClientID : env.mobileClientID,
+                     clientID: env.stsClientID,
                      redirectURI: env.mobileRedirect.absoluteString,
                      locale: env.isLocaleWelsh ? .cy : .en,
                      persistentSessionId: persistentSessionId,

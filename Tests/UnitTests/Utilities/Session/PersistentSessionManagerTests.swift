@@ -192,11 +192,6 @@ extension PersistentSessionManagerTests {
     func testStartSession_exposesUserAndAccessToken() async throws {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
-        // AND I am calling STS
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableCallingSTS.rawValue: true],
-            featureFlags: [:]
-        )
         // WHEN I start a session
         try await sut.startSession(using: loginSession, configurationInitialiser: LoginSessionConfiguration.self)
         // THEN my User details
