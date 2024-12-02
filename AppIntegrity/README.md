@@ -4,6 +4,21 @@
 
 This package contains the logic to implement app integrity checks using [Firebase App Check](https://firebase.google.com/docs/app-check). It therefore encorporates the Firebase SDK as a dependency, along with the Networking module to enable backend requests.
 
+## Overview
+
+### What is app integrity?
+
+App Integrity describes checks made (in this case, by Firebase AppCheck) to verify that a genuine instance of your app is accessing your backend resources and that the device accessing it has not been tampered with.
+
+### Why do we need it for mobile?
+
+As a public client of STS, our mobile app is susceptible to malicious attacks from unauthorized clients. We have therefore implemented app integrity checks when the `/token` endpoint is called to ensure that:
+1. the access token is being issued to the genuine instance of the client requesting it, i.e. the client is not being impersonated
+
+2. that the authorization code has not been intercepted ([PKCE](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow-with-pkce)).
+
+This therefore adds a layer of security to our authorization flow.
+
 ## Testing
 
 ### Testing locally
