@@ -12,8 +12,8 @@ App Integrity describes checks made (in this case, by Firebase AppCheck) to veri
 
 ### Why do we need it for mobile?
 
-As a public client of STS, our mobile app is susceptible to malicious attacks from unauthorized clients. We have therefore implemented app integrity checks when the `/token` endpoint is called to ensure that:
-1. the access token is being issued to the genuine instance of the client requesting it, i.e. the client is not being impersonated
+As a public client of STS, our service is susceptible to malicious attacks from unauthorized clients. We have therefore implemented app integrity checks when the `/token` endpoint is called to ensure that:
+1. the token is being issued to the genuine instance of the client requesting it, i.e. the client is not being impersonated
 
 2. that the authorization code has not been intercepted ([PKCE](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow-with-pkce)).
 
@@ -27,7 +27,7 @@ Using the AppCheckDebugProviderFactory type when the build configuration is in D
 
 This can be done by editing the scheme on xcode and passing an environment variable with the name FIRAAppCheckDebugToken.
 
-The value should be saved in an encrypted secrets file outside of the repository and passed in by including the file in your build config as shown below:
+The value should be saved in an encrypted secrets file outside of the repository or included in your .gitignore file to ensure it isn't checked into source code. It can then be passed in by including the file in your build config as shown below:
 
 ```swift
 #include "../secrets.xcconfig"
