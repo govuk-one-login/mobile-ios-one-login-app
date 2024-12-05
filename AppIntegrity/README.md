@@ -12,8 +12,11 @@ App Integrity describes checks made (in this case, by Firebase AppCheck) to veri
 
 ### Why do we need it for mobile?
 
-As a public client of STS, our service is susceptible to malicious attacks from unauthorized clients. We have therefore implemented app integrity checks when the `/token` endpoint is called to ensure that:
-1. the token is being issued to the genuine instance of the client requesting it, i.e. the client is not being impersonated
+As a public client of STS, our service is susceptible to malicious attacks from unauthorized clients.
+
+We have therefore implemented app integrity checks when the `/token` endpoint is called to ensure that the client is:
+1. genuine: the client is not being impersonated
+2. unmodified: the code we have deployed has not been changed by the device
 
 2. that the authorization code has not been intercepted ([PKCE](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow-with-pkce)).
 
@@ -23,7 +26,8 @@ This therefore adds a layer of security to our authorization flow.
 
 ### Testing locally
 
-Using the AppCheckDebugProviderFactory type when the build configuration is in Debug  allows us to pass a known debug token as an environment variable to Firebase App Check.
+Using the `AppCheckDebugProviderFactory` type when the build configuration is in Debug allows us to pass a known debug token as an environment variable to Firebase App Check.
+This bypasses the app integrity checks, so that the app can be run on the simulator for development and automation testing.
 
 This can be done by editing the scheme on xcode and passing an environment variable with the name FIRAAppCheckDebugToken.
 
