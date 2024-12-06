@@ -12,13 +12,11 @@ App Integrity describes checks made (in this case, by Firebase AppCheck) to veri
 
 ### Why do we need it for mobile?
 
-As a public client of STS, our service is susceptible to malicious attacks from unauthorized clients.
+As STS supports public clients, it is susceptible to malicious attacks.
 
 We have therefore implemented app integrity checks when the `/token` endpoint is called to ensure that the client is:
 1. genuine: the client is not being impersonated
 2. unmodified: the code we have deployed has not been changed by the device
-
-2. that the authorization code has not been intercepted ([PKCE](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow-with-pkce)).
 
 This therefore adds a layer of security to our authorization flow.
 
