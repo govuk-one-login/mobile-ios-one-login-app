@@ -32,7 +32,7 @@ final class AuthenticationCoordinator: NSObject,
         Task(priority: .userInitiated) {
             do {
                 try await sessionManager.startSession(using: session,
-                                                      configurationInitialiser: LoginSessionConfiguration.self)
+                                                      configurationProvider: LoginSessionConfiguration.self)
                 finish()
             } catch PersistentSessionError.sessionMismatch {
                 let viewModel = DataDeletedWarningViewModel { [unowned self] in

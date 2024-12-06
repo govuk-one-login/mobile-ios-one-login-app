@@ -113,7 +113,7 @@ final class PersistentSessionManager: SessionManager {
     
     func startSession(
         using session: any LoginSession,
-        configurationInitialiser: LoginSessionConfigurationProvider.Type
+        configurationProvider: LoginSessionConfigurationProvider.Type
     ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
@@ -130,12 +130,12 @@ final class PersistentSessionManager: SessionManager {
         }
         
         let sessionConfiguration: LoginSessionConfiguration = if AppEnvironment.appIntegrityEnabled {
-            try await configurationInitialiser.oneLoginWithAppIntegrity(
+            try await configurationProvider.oneLoginWithAppIntegrity(
                 persistentSessionId: persistentID,
                 appIntegrityService: .firebaseAppCheck()
             )
         } else {
-            configurationInitialiser.oneLogin(persistentSessionId: persistentID,
+            configurationProvider.oneLogin(persistentSessionId: persistentID,
                                               tokenHeaders: nil)
         }
         
