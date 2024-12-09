@@ -31,8 +31,10 @@ final class AuthenticationCoordinator: NSObject,
     func start() {
         Task(priority: .userInitiated) {
             do {
-                try await sessionManager.startSession(using: session,
-                                                      configurationProvider: LoginSessionConfiguration.self)
+                try await sessionManager.startSession(
+                    session,
+                    using: LoginSessionConfiguration.oneLoginWithAppIntegrity
+                )
                 finish()
             } catch PersistentSessionError.sessionMismatch {
                 let viewModel = DataDeletedWarningViewModel { [unowned self] in

@@ -2,31 +2,32 @@ import AppIntegrity
 import Authentication
 import Foundation
 
-protocol LoginSessionConfigurationProvider {
-    static func oneLoginWithAppIntegrity(
-        persistentSessionId: String?,
-        appIntegrityService: AppIntegrityProvider
-    ) async throws -> LoginSessionConfiguration
-    
-    static func oneLogin(
-        persistentSessionId: String?,
-        tokenHeaders: [String: String]?
-    ) -> LoginSessionConfiguration
-}
-
-extension LoginSessionConfiguration: LoginSessionConfigurationProvider { }
-
 extension LoginSessionConfiguration {
     static func oneLoginWithAppIntegrity(
-        persistentSessionId: String? = nil,
+        persistentSessionID: String? = nil
+    ) async throws -> Self {
+        try await oneLoginWithAppIntegrity(
+            persistentSessionID: persistentSessionID,
+            appIntegrityService: .firebaseAppCheck()
+        )
+    }
+    
+    static func oneLoginWithAppIntegrity(
+        persistentSessionID: String? = nil,
         appIntegrityService: AppIntegrityProvider
     ) async throws -> Self {
+        guard AppEnvironment.appIntegrityEnabled else {
+            return .oneLogin(persistentSessionID: persistentSessionID)
+        }
         let attestationHeaders = try await appIntegrityService.assertIntegrity()
-        return oneLogin(persistentSessionId: persistentSessionId, tokenHeaders: attestationHeaders)
+        return oneLogin(
+            persistentSessionID: persistentSessionID,
+            tokenHeaders: attestationHeaders
+        )
     }
     
     static func oneLogin(
-        persistentSessionId: String? = nil,
+        persistentSessionID: String? = nil,
         tokenHeaders: [String: String]? = nil
     ) -> Self {
         let env = AppEnvironment.self
@@ -36,7 +37,7 @@ extension LoginSessionConfiguration {
                      clientID: env.stsClientID,
                      redirectURI: env.mobileRedirect.absoluteString,
                      locale: env.isLocaleWelsh ? .cy : .en,
-                     persistentSessionId: persistentSessionId,
+                     persistentSessionId: persistentSessionID,
                      tokenHeaders: tokenHeaders)
     }
 }
