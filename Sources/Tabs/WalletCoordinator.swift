@@ -38,7 +38,7 @@ final class WalletCoordinator: NSObject,
                         networkClient: networkClient,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
-                        credentialIssuer: AppEnvironment.walletCredentialIssuer)
+                        credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString)
     }
     
     func handleUniversalLink(_ url: URL) {

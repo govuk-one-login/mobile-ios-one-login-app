@@ -1,6 +1,8 @@
 import Authentication
 import GDSAnalytics
 import GDSCommon
+import MobilePlatformServices
+import Networking
 @testable import OneLogin
 import XCTest
 
@@ -27,10 +29,10 @@ final class AuthenticationCoordinatorTests: XCTestCase {
                                         analyticsService: mockAnalyticsService,
                                         sessionManager: mockSessionManager,
                                         session: mockLoginSession)
-
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
     }
     
     override func tearDown() {
@@ -41,8 +43,11 @@ final class AuthenticationCoordinatorTests: XCTestCase {
         mockLoginSession = nil
         sut = nil
 
-        AppEnvironment.updateReleaseFlags([:])
-
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
+        
         super.tearDown()
     }
     

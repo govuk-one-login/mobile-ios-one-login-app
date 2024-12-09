@@ -1,5 +1,6 @@
 import GDSAnalytics
 import GDSCommon
+import MobilePlatformServices
 import Networking
 @testable import OneLogin
 import SecureStore
@@ -53,7 +54,10 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockWalletAvailabilityService = nil
         sut = nil
         
-        AppEnvironment.updateReleaseFlags([:])
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         super.tearDown()
     }
@@ -64,9 +68,12 @@ extension TabManagerCoordinatorTests {
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
         mockWalletAvailabilityService.shouldShowFeature = false
-        AppEnvironment.updateReleaseFlags([
-            "hasAccessedWalletBefore": false
-        ])
+        
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
+
         // AND the TabManagerCoordinator is started
         sut.start()
         // THEN the TabManagerCoordinator should have child coordinators
@@ -135,9 +142,11 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_didSelect_tabBarItem_profile() {
         mockWalletAvailabilityService.shouldShowFeature = false
-        AppEnvironment.updateReleaseFlags([
-            "hasAccessedWalletBefore": false
-        ])
+        
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
@@ -195,9 +204,11 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromProfileCoordinator_errors() throws {
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableSignoutError.rawValue: true
-        ])
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableSignoutError.rawValue: true],
+            featureFlags: [:]
+        )
+
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)

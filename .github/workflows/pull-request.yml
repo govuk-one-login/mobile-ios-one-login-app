@@ -34,11 +34,11 @@ jobs:
         run: |
           brew install swiftlint
           swiftlint --strict
-          
+
       - name: Export AppCheck Secret
         run: |
           touch ../secrets.xcconfig
-
+          
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,9 +49,7 @@ jobs:
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           brew install sonar-scanner
-
           bundle install
-
           bundle exec fastlane test scheme:"OneLoginBuild" \
             configuration:"Debug" \
             testplan:OneLoginUnit \

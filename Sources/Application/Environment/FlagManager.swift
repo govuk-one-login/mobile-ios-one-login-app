@@ -1,17 +1,17 @@
 import Foundation
 
-public enum FeatureFlags: String {
+public enum FeatureFlagsName: String {
     /// Example format :
     /// ```
     /// case enableFeatureFlag = "EnableFeatureFlag"
     /// ```
     
-    case enableCallingSTS = "EnableCallingSTS"
     case enableSignoutError = "EnableSignoutError"
     case enableClearWalletError = "EnableClearWalletError"
     case enableWalletVisibleViaDeepLink = "EnableWalletVisibleViaDeepLink"
     case enableWalletVisibleIfExists = "EnableWalletVisibleIfExists"
     case enableWalletVisibleToAll = "EnableWalletVisibleToAll"
+    case appCheckEnabled = "appCheckEnabled"
 }
 
 struct FlagManager {
@@ -33,7 +33,7 @@ struct FlagManager {
         }
     }
     
-    func isEnabled(flagName: FeatureFlags) -> Bool? {
+    func isEnabled(flagName: FeatureFlagsName) -> Bool? {
         flagsFromFile[flagName.rawValue]?.isEnabled
     }
 }
@@ -44,7 +44,7 @@ protocol FeatureFlagProvider {
 
 extension FlagManager: FeatureFlagProvider {
     subscript(key: String) -> Any? {
-        guard let key = FeatureFlags(rawValue: key) else {
+        guard let key = FeatureFlagsName(rawValue: key) else {
             return nil
         }
         return isEnabled(flagName: key)

@@ -3,17 +3,12 @@ PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin
 INFOPLIST_KEY_CFBundleDisplayName = One Login
 INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
 
-BASE_URL = mobile.account.gov.uk
-EXTERNAL_BASE_URL = signin.account.gov.uk
+BASE_URL = account.gov.uk
+STS_BASE_URL = token.$BASE_URL
+MOBILE_BE_BASE_URL = mobile.$BASE_URL
+
+STS_CLIENT_ID =
 
 FEATURE_FLAG_FILE = FeatureFlags
 
-ONE_LOGIN_AUTHORIZE_URL = oidc.account.gov.uk
-ONE_LOGIN_CLIENT_ID = 
-
-REDIRECT_URL = https:/$()/mobile.account.gov.uk/redirect
-STS_BASE_URL = token.account.gov.uk
-STS_CLIENT_ID =
-
-WALLET_CREDENTIAL_ISSUER_URL = https:/$()/example-credential-issuer.mobile.account.gov.uk
 CODE_SIGN_ENTITLEMENTS = OneLoginRelease.entitlements

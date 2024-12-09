@@ -4,7 +4,17 @@
       "id" : "32F01556-F86B-48A4-82C1-AED12518768E",
       "name" : "UI Test Plan Configuration",
       "options" : {
-
+        "environmentVariableEntries" : [
+          {
+            "key" : "FIRAAppCheckDebugToken",
+            "value" : "$(APP_CHECK_DEBUG_TOKEN)"
+          }
+        ],
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:OneLogin.xcodeproj",
+          "identifier" : "219601E62A976302008F3427",
+          "name" : "OneLogin"
+        }
       }
     }
   ],

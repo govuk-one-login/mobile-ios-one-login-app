@@ -179,7 +179,6 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            configuration:"Build" \
             testplan:OneLoginUI
 
       - name: Make Artifact

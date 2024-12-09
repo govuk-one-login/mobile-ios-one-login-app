@@ -4,15 +4,13 @@
 <dict>
 	<key>App Store URL</key>
 	<string>apps.apple.com</string>
-	<key>Base URL</key>
-	<string>$(BASE_URL)</string>
 	<key>Configuration</key>
 	<dict>
 		<key>Feature Flag File</key>
 		<string>$(FEATURE_FLAG_FILE)</string>
 	</dict>
 	<key>External Base URL</key>
-	<string>$(EXTERNAL_BASE_URL)</string>
+	<string>signin.$(BASE_URL)</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
@@ -23,14 +21,10 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<key>One Login Authorize URL</key>
-	<string>$(ONE_LOGIN_AUTHORIZE_URL)</string>
-	<key>One Login Client ID</key>
-	<string>$(ONE_LOGIN_CLIENT_ID)</string>
-	<key>Redirect URL</key>
-	<string>$(REDIRECT_URL)</string>
 	<key>STS Base URL</key>
 	<string>$(STS_BASE_URL)</string>
+	<key>Mobile BE Base URL</key>
+	<string>$(MOBILE_BE_BASE_URL)</string>
 	<key>STS Client ID</key>
 	<string>$(STS_CLIENT_ID)</string>
 	<key>UIApplicationSceneManifest</key>
@@ -50,8 +44,6 @@
 			</array>
 		</dict>
 	</dict>
-	<key>Wallet Credential Issuer URL</key>
-	<string>$(WALLET_CREDENTIAL_ISSUER_URL)</string>
 	<key>Your Services URL</key>
 	<string>home.account.gov.uk</string>
 </dict>
