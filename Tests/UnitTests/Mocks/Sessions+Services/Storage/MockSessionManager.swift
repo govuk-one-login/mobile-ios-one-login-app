@@ -41,7 +41,10 @@ final class MockSessionManager: SessionManager {
         self.isOneTimeUser = isOneTimeUser
     }
 
-    func startSession(using session: any Authentication.LoginSession, configurationProvider: any OneLogin.LoginSessionConfigurationProvider.Type) async throws {
+    func startSession(
+        _ session: any LoginSession,
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
+    ) throws {
         defer {
             didCallStartSession = true
         }

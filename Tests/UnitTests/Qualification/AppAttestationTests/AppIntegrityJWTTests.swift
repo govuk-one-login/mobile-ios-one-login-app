@@ -18,7 +18,7 @@ import Testing
            """)
      func initialiseJWTPayload() {
          let payload = AppIntegrityJWT.payload()
-         var expiryDate = Int(Date().timeIntervalSince1970) + 180
+         let expiryDate = Int(Date().timeIntervalSince1970) + 180
 
          #expect(payload["iss"] as? String == AppEnvironment.stsClientID)
          #expect(payload["aud"] as? String == AppEnvironment.stsBaseURLString)

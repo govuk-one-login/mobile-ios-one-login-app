@@ -95,7 +95,6 @@
 		C80B87232B029EE90087C6D5 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87222B029EE90087C6D5 /* TimeInterval.swift */; };
 		C80B87262B029F1A0087C6D5 /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87252B029F1A0087C6D5 /* XCUIElement.swift */; };
 		C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87272B029F440087C6D5 /* ScreenObject.swift */; };
-		C80BB36A2CF740B0005B90A3 /* MockLoginSessionConfigurationInitialiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80BB3692CF740A5005B90A3 /* MockLoginSessionConfigurationInitialiser.swift */; };
 		C80C58012CB0011F00021D4F /* ServicesTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58002CB0011C00021D4F /* ServicesTileViewModel.swift */; };
 		C80C58032CB0017300021D4F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58022CB0016E00021D4F /* HomeViewController.swift */; };
 		C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58042CB001AB00021D4F /* ContentTileCell.swift */; };
@@ -157,6 +156,7 @@
 		C8A94C492D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
 		C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
 		C8A94C4B2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
+		C8A94C4D2D07558700303578 /* MockLoginSessionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C4C2D07558100303578 /* MockLoginSessionConfiguration.swift */; };
 		C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */; };
 		C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA3B342BF4CF500093A220 /* WalletCoordinatorTests.swift */; };
 		C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B05F442B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift */; };
@@ -358,7 +358,6 @@
 		C80B87222B029EE90087C6D5 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		C80B87252B029F1A0087C6D5 /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
 		C80B87272B029F440087C6D5 /* ScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenObject.swift; sourceTree = "<group>"; };
-		C80BB3692CF740A5005B90A3 /* MockLoginSessionConfigurationInitialiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSessionConfigurationInitialiser.swift; sourceTree = "<group>"; };
 		C80C58002CB0011C00021D4F /* ServicesTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTileViewModel.swift; sourceTree = "<group>"; };
 		C80C58022CB0016E00021D4F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C80C58042CB001AB00021D4F /* ContentTileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTileCell.swift; sourceTree = "<group>"; };
@@ -411,6 +410,7 @@
 		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
 		C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEnvironment+InternalTypes.swift"; sourceTree = "<group>"; };
+		C8A94C4C2D07558100303578 /* MockLoginSessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSessionConfiguration.swift; sourceTree = "<group>"; };
 		C8AA11D72B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModel.swift; sourceTree = "<group>"; };
 		C8AA3B342BF4CF500093A220 /* WalletCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8B05F442B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedEnglishStringTests.swift; sourceTree = "<group>"; };
@@ -1044,7 +1044,7 @@
 		C85DF8442AEBFDF00064F68E /* ReturnTypes */ = {
 			isa = PBXGroup;
 			children = (
-				C80BB3692CF740A5005B90A3 /* MockLoginSessionConfigurationInitialiser.swift */,
+				C8A94C4C2D07558100303578 /* MockLoginSessionConfiguration.swift */,
 				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
 				C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */,
 				C8520C212AE2B642006790C1 /* TokenResponse.json */,
@@ -2005,11 +2005,11 @@
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
-				C80BB36A2CF740B0005B90A3 /* MockLoginSessionConfigurationInitialiser.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrolmentViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
+				C8A94C4D2D07558700303578 /* MockLoginSessionConfiguration.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,

@@ -112,8 +112,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func startSession(
-        using session: any LoginSession,
-        configurationProvider: LoginSessionConfigurationProvider.Type
+        _ session: any LoginSession,
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
@@ -129,18 +129,8 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.sessionMismatch
         }
         
-        let sessionConfiguration: LoginSessionConfiguration = if AppEnvironment.appIntegrityEnabled {
-            try await configurationProvider.oneLoginWithAppIntegrity(
-                persistentSessionId: persistentID,
-                appIntegrityService: .firebaseAppCheck()
-            )
-        } else {
-            configurationProvider.oneLogin(persistentSessionId: persistentID,
-                                              tokenHeaders: nil)
-        }
-        
         let response = try await session
-            .performLoginFlow(configuration: sessionConfiguration)
+            .performLoginFlow(configuration: configuration(persistentID))
         tokenResponse = response
         
         // update curent state
