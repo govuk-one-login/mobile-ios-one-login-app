@@ -23,7 +23,7 @@ protocol SessionManager: UserProvider {
     /// Starts a new session from a remote login
     func startSession(
         _ session: LoginSession,
-        using configuration: (String?) async throws -> LoginSessionConfiguration
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws
 
     /// Resumes an existing session by restoring tokens from on-device storage

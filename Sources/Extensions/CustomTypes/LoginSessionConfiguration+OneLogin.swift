@@ -3,30 +3,31 @@ import Authentication
 import Foundation
 
 extension LoginSessionConfiguration {
-    static func oneLoginWithAppIntegrity(
+    @Sendable
+    static func oneLoginSessionConfiguration(
         persistentSessionID: String? = nil
     ) async throws -> Self {
-        try await oneLoginWithAppIntegrity(
+        try await oneLoginSessionConfiguration(
             persistentSessionID: persistentSessionID,
-            appIntegrityService: .firebaseAppCheck()
+            appIntegrityService: FirebaseAppIntegrityService.firebaseAppCheck
         )
     }
-    
-    static func oneLoginWithAppIntegrity(
+
+    static func oneLoginSessionConfiguration(
         persistentSessionID: String? = nil,
-        appIntegrityService: AppIntegrityProvider
+        appIntegrityService: () throws -> AppIntegrityProvider
     ) async throws -> Self {
         guard AppEnvironment.appIntegrityEnabled else {
-            return .oneLogin(persistentSessionID: persistentSessionID)
+            return .createSessionConfiguration(persistentSessionID: persistentSessionID)
         }
-        let attestationHeaders = try await appIntegrityService.assertIntegrity()
-        return oneLogin(
+        let attestationHeaders = try await appIntegrityService().assertIntegrity()
+        return createSessionConfiguration(
             persistentSessionID: persistentSessionID,
             tokenHeaders: attestationHeaders
         )
     }
     
-    static func oneLogin(
+    private static func createSessionConfiguration(
         persistentSessionID: String? = nil,
         tokenHeaders: [String: String]? = nil
     ) -> Self {

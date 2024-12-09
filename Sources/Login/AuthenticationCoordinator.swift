@@ -33,7 +33,7 @@ final class AuthenticationCoordinator: NSObject,
             do {
                 try await sessionManager.startSession(
                     session,
-                    using: LoginSessionConfiguration.oneLoginWithAppIntegrity
+                    using: LoginSessionConfiguration.oneLoginSessionConfiguration
                 )
                 finish()
             } catch PersistentSessionError.sessionMismatch {

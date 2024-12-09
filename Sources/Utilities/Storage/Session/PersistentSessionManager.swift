@@ -113,7 +113,7 @@ final class PersistentSessionManager: SessionManager {
     
     func startSession(
         _ session: any LoginSession,
-        using configuration: (String?) async throws -> LoginSessionConfiguration
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
