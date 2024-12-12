@@ -5,6 +5,7 @@ import GDSCommon
 import Logging
 import UIKit
 
+@MainActor
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
@@ -29,7 +30,7 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        Task(priority: .userInitiated) {
+        Task {
             do {
                 try await sessionManager.startSession(
                     session,
