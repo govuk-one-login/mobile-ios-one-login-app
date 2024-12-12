@@ -121,7 +121,6 @@ extension PersistentSessionManagerTests {
         // AND no persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertNil(configuration.persistentSessionId)
-        XCTAssertNil(configuration.tokenHeaders)
     }
     
     @MainActor
@@ -139,7 +138,6 @@ extension PersistentSessionManagerTests {
         // AND no persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertEqual(configuration.persistentSessionId, "123456789")
-        XCTAssertEqual(configuration.tokenHeaders, ["mock_token_header_key": "mock_token_header_value"])
     }
     
     @MainActor

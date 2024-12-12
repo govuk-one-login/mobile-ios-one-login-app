@@ -12,8 +12,7 @@ struct MockLoginSessionConfiguration {
             tokenEndpoint: AppEnvironment.stsToken,
             clientID: AppEnvironment.stsClientID,
             redirectURI: AppEnvironment.mobileRedirect.absoluteString,
-            persistentSessionId: "123456789",
-            tokenHeaders: ["mock_token_header_key": "mock_token_header_value"]
+            persistentSessionId: "123456789"
         )
     }
 }

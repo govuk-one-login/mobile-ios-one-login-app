@@ -22,7 +22,7 @@ final class MockLoginSession: LoginSession {
         }
     }
 
-    func finalise(redirectURL: URL) throws {
+    func finalise(redirectURL: URL, tokenParameters: TokenParameters?, tokenHeaders: TokenHeaders?) throws {
         if let errorFromFinalise {
             throw errorFromFinalise
         }

@@ -13,6 +13,7 @@ struct FirebaseAppIntegrityServiceTests {
     let networkClient: NetworkClient
     let baseURL: URL
     let mockProofTokenGenerator: MockProofTokenGenerator
+    let mockAttestationStore: MockAttestationStore
     
     init() throws {
         let configuration = URLSessionConfiguration.default
@@ -28,13 +29,15 @@ struct FirebaseAppIntegrityServiceTests {
         baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
         mockProofTokenGenerator = MockProofTokenGenerator(header: ["mockHeaderKey1": "mockHeaderValue1"],
                                                           payload: ["mockPayloadKey1": "mockPayloadValue1"])
+        mockAttestationStore = MockAttestationStore(attestationJWT: "test")
 
         sut = FirebaseAppIntegrityService(
             vendor: MockAppCheckVendor(),
             networkClient: networkClient,
             proofOfPossessionProvider: proofProvider,
             baseURL: baseURL,
-            proofTokenGenerator: mockProofTokenGenerator
+            proofTokenGenerator: mockProofTokenGenerator,
+            attestationStore: mockAttestationStore
         )
     }
 
@@ -121,6 +124,16 @@ struct FirebaseAppIntegrityServiceTests {
                 .contains("\"mockPayloadKey1\": \"mockPayloadValue1\"") as Bool?
         )
         #expect(payload)
+        
+        #expect(
+            mockAttestationStore.mockStorage[AttestationStorageKey.attestationJWT.rawValue] as? String == "eyJ..."
+        )
+        if #available(iOS 15.0, *) {
+            #expect(
+                (mockAttestationStore.mockStorage[AttestationStorageKey.attestationExpiry.rawValue] as? Date)?
+                    .formatted(.dateTime) == Date(timeIntervalSinceNow: 86400).formatted(.dateTime)
+            )
+        }
     }
 
     @Test("""
