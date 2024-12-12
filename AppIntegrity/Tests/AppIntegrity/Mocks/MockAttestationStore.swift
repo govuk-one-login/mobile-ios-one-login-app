@@ -12,7 +12,7 @@ class MockAttestationStore: AttestationStorage {
     }
     
     func store(assertionJWT: String, assertionExpiry: Date) {
-        mockStorage[AttestationStorageKey.attestationJWT.rawValue] = assertionJWT
-        mockStorage[AttestationStorageKey.attestationExpiry.rawValue] = assertionExpiry
+        mockStorage["attestationJWT"] = assertionJWT
+        mockStorage["attestationExpiry"] = assertionExpiry
     }
 }

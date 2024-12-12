@@ -64,14 +64,15 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     public convenience init(networkClient: NetworkClient,
                             proofOfPossessionProvider: ProofOfPossessionProvider,
                             baseURL: URL,
-                            proofTokenGenerator: ProofTokenGenerator) {
+                            proofTokenGenerator: ProofTokenGenerator,
+                            attestationStore: AttestationStorage) {
         self.init(
             vendor: AppCheck.appCheck(),
             networkClient: networkClient,
             proofOfPossessionProvider: proofOfPossessionProvider,
             baseURL: baseURL,
             proofTokenGenerator: proofTokenGenerator,
-            attestationStore: UserDefaults.standard
+            attestationStore: attestationStore
         )
     }
     

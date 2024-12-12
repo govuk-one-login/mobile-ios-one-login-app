@@ -1,3 +1,4 @@
+import AppIntegrity
 import Foundation
 
 enum AttestationStorageKey: String {
@@ -10,7 +11,7 @@ enum AttestationStorageError: Error {
     case cantRetrieveExpiryDate
 }
 
-extension UserDefaults: AttestationStorage {
+extension UserDefaults: @retroactive AttestationStorage {
     public var validAttestation: Bool? {
         guard let expiry = value(
             forKey: AttestationStorageKey.attestationExpiry.rawValue

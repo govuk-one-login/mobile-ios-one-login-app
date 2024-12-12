@@ -126,11 +126,11 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(payload)
         
         #expect(
-            mockAttestationStore.mockStorage[AttestationStorageKey.attestationJWT.rawValue] as? String == "eyJ..."
+            mockAttestationStore.mockStorage["attestationJWT"] as? String == "eyJ..."
         )
         if #available(iOS 15.0, *) {
             #expect(
-                (mockAttestationStore.mockStorage[AttestationStorageKey.attestationExpiry.rawValue] as? Date)?
+                (mockAttestationStore.mockStorage["attestationExpiry"] as? Date)?
                     .formatted(.dateTime) == Date(timeIntervalSinceNow: 86400).formatted(.dateTime)
             )
         }
