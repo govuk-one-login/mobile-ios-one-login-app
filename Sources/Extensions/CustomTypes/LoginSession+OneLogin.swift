@@ -3,8 +3,7 @@ import Authentication
 import Foundation
 
 extension LoginSession {
-    @MainActor
-    func finaliseWithAppIntegrity(
+    func finalise(
         redirectURL url: URL,
         attestationStore: AttestationStorage = UserDefaults.standard,
         appIntegrityService: @escaping () throws -> AppIntegrityProvider = FirebaseAppIntegrityService.firebaseAppCheck

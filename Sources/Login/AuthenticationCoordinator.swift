@@ -82,9 +82,7 @@ final class AuthenticationCoordinator: NSObject,
                 window.rootViewController?.presentedViewController?.dismiss(animated: true)
                 let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
                 root.pushViewController(loginLoadingScreen, animated: false)
-                try await session.finaliseWithAppIntegrity(
-                    redirectURL: url
-                )
+                try await session.finalise(redirectURL: url)
             } catch {
                 showGenericErrorScreen(error)
             }
