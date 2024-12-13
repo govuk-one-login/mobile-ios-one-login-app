@@ -12,9 +12,10 @@ App Integrity describes checks made (in this case, by Firebase AppCheck) to veri
 
 ### Why do we need it for mobile?
 
-We have implemented app integrity checks when the `/token` endpoint is called to ensure that the client is:
-1. genuine: the client is not being impersonated
-2. unmodified: the code we have deployed has not been changed by the device
+We have implemented app integrity checks to ensure that the mobile app is:
+
+1. Genuine: the client is not being impersonated
+2. Unmodified: The code we have deployed has not been changed by the device
 
 This therefore adds a layer of security to our authorization flow.
 
