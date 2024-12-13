@@ -99,15 +99,14 @@
 		C80C58032CB0017300021D4F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58022CB0016E00021D4F /* HomeViewController.swift */; };
 		C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58042CB001AB00021D4F /* ContentTileCell.swift */; };
 		C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81273A12C07412100059825 /* MockAuthenticationProvider.swift */; };
+		C81509A12D0C7B0F00B0CEA1 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = C81509A02D0C7B0F00B0CEA1 /* Wallet */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
 		C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */; };
-		C81F47422D09AED100731B4E /* LoginSession+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81F47412D09AEC800731B4E /* LoginSession+OneLogin.swift */; };
 		C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */; };
 		C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */; };
 		C823CA142C871647000BDD5D /* MockWalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */; };
-		C828F2CE2D0B19EB0021063E /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = C828F2CD2D0B19EB0021063E /* Wallet */; };
 		C82B64522BA47D59000C9524 /* String+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* String+OneLoginTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83014B32CA19B2200799A32 /* MockWalletError.swift */; };
@@ -368,7 +367,6 @@
 		C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AppIntegrity.swift"; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
 		C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
-		C81F47412D09AEC800731B4E /* LoginSession+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSession+OneLogin.swift"; sourceTree = "<group>"; };
 		C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinator.swift; sourceTree = "<group>"; };
 		C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQualifyingService.swift; sourceTree = "<group>"; };
 		C823CA132C871647000BDD5D /* MockWalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletAvailabilityService.swift; sourceTree = "<group>"; };
@@ -506,7 +504,7 @@
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
-				C828F2CE2D0B19EB0021063E /* Wallet in Frameworks */,
+				C81509A12D0C7B0F00B0CEA1 /* Wallet in Frameworks */,
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
@@ -866,7 +864,6 @@
 		C8098B952AEFF198001517A0 /* CustomTypes */ = {
 			isa = PBXGroup;
 			children = (
-				C81F47412D09AEC800731B4E /* LoginSession+OneLogin.swift */,
 				C8DC472D2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift */,
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 				C8DC472D2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift */,
@@ -1609,7 +1606,7 @@
 				7CF44B272CAB45A70027839B /* AppIntegrity */,
 				ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */,
 				ABD7A0BF2CEF887E006D6C7A /* CryptoService */,
-				C828F2CD2D0B19EB0021063E /* Wallet */,
+				C81509A02D0C7B0F00B0CEA1 /* Wallet */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1741,7 +1738,7 @@
 				D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */,
 				7CDC2EBC2C8B1CF200EAA592 /* XCLocalSwiftPackageReference "MobilePlatformServices" */,
 				7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */,
-				C828F2CC2D0B19EB0021063E /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
+				C815099F2D0C7B0F00B0CEA1 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -1961,7 +1958,6 @@
 				C8514F682C09E133008E1433 /* ProfileTabAnalytics.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* ProfileTabViewModel.swift in Sources */,
 				C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */,
-				C81F47422D09AED100731B4E /* LoginSession+OneLogin.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
@@ -3039,7 +3035,7 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C828F2CC2D0B19EB0021063E /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
+		C815099F2D0C7B0F00B0CEA1 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios";
 			requirement = {
@@ -3067,7 +3063,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-10818-rearrange-headers-passed-order";
+				branch = "feature/dcmaw-10818-revisit-passed-headers";
 				kind = branch;
 			};
 		};
@@ -3128,9 +3124,9 @@
 			package = C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
 			productName = CryptoService;
 		};
-		C828F2CD2D0B19EB0021063E /* Wallet */ = {
+		C81509A02D0C7B0F00B0CEA1 /* Wallet */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C828F2CC2D0B19EB0021063E /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */;
+			package = C815099F2D0C7B0F00B0CEA1 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */;
 			productName = Wallet;
 		};
 		C8A13C9E2AFBD05700FCBD36 /* GDSAnalytics */ = {

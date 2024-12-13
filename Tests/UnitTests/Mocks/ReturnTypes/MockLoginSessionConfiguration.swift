@@ -7,7 +7,7 @@ struct MockLoginSessionConfiguration {
     static func oneLoginSessionConfiguration(
         persistentSessionID: String? = nil
     ) async throws -> LoginSessionConfiguration {
-        LoginSessionConfiguration(
+        await LoginSessionConfiguration(
             authorizationEndpoint: AppEnvironment.stsAuthorize,
             tokenEndpoint: AppEnvironment.stsToken,
             clientID: AppEnvironment.stsClientID,

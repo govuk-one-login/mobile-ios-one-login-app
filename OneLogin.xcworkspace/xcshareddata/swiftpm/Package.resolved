@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "feature/dcmaw-10818-rearrange-headers-passed-order",
-        "revision" : "4686c390b035f77a4d965e009cd8f8145939badd"
+        "branch" : "feature/dcmaw-10818-revisit-passed-headers",
+        "revision" : "c70a55404730bfa147f352c06f1944182e773bf7"
       }
     },
     {

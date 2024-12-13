@@ -8,15 +8,14 @@ enum AttestationStorageKey: String {
 
 enum AttestationStorageError: Error {
     case cantRetrieveAttestationJWT
-    case cantRetrieveExpiryDate
 }
 
 extension UserDefaults: @retroactive AttestationStorage {
-    public var validAttestation: Bool? {
+    public var validAttestation: Bool {
         guard let expiry = value(
             forKey: AttestationStorageKey.attestationExpiry.rawValue
         ) as? Date else {
-            return nil
+            return false
         }
         return Date() < expiry
     }
