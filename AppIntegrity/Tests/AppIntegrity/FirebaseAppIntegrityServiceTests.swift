@@ -78,7 +78,7 @@ struct FirebaseAppIntegrityServiceTests {
     }
     
     @Test("""
-          Check that 400 throws invalid public key error
+          Check the saved attestation and proof token are returned if valid
           """)
     func testSavedIntegrityAssertion() async throws {
         mockAttestationStore.validAttestation = true
