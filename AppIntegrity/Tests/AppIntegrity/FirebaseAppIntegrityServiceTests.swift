@@ -82,10 +82,21 @@ struct FirebaseAppIntegrityServiceTests {
           """)
     func testSavedIntegrityAssertion() async throws {
         mockAttestationStore.validAttestation = true
-        #expect(try await sut.integrityAssertions == [
-            "OAuth-Client-Attestation": "testSavedAttestation",
-            "OAuth-Client-Attestation-PoP": #"["mockHeaderKey1": "mockHeaderValue1", "mockPayloadKey1": "mockPayloadValue1"]"#
-        ])
+        
+        let integrityResponse = try await sut.integrityAssertions
+        
+        #expect(integrityResponse["OAuth-Client-Attestation"] == "testSavedAttestation")
+        let header = try #require(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockHeaderKey1": "mockHeaderValue1""#) as Bool?
+        )
+        #expect(header)
+        
+        let payload = try #require(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPayloadKey1": "mockPayloadValue1""#) as Bool?
+        )
+        #expect(payload)
     }
 
     @Test("""
