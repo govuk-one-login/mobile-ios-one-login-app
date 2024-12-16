@@ -27,8 +27,10 @@ struct FirebaseAppIntegrityServiceTests {
 
         networkClient = NetworkClient(configuration: configuration)
         baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
-        mockProofTokenGenerator = MockProofTokenGenerator(header: ["mockHeaderKey1": "mockHeaderValue1"],
-                                                          payload: ["mockPayloadKey1": "mockPayloadValue1"])
+        mockProofTokenGenerator = MockProofTokenGenerator(
+            header: ["mockHeaderKey1": "mockHeaderValue1"],
+            payload: ["mockPayloadKey1": "mockPayloadValue1"]
+        )
         mockAttestationStore = MockAttestationStore()
 
         sut = FirebaseAppIntegrityService(
@@ -73,6 +75,17 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(throws: AppIntegrityError.invalidPublicKey) {
             try await sut.integrityAssertions
         }
+    }
+    
+    @Test("""
+          Check that 400 throws invalid public key error
+          """)
+    func testSavedIntegrityAssertion() async throws {
+        mockAttestationStore.validAttestation = true
+        #expect(try await sut.integrityAssertions == [
+            "OAuth-Client-Attestation": "testSavedAttestation",
+            "OAuth-Client-Attestation-PoP": #"["mockHeaderKey1": "mockHeaderValue1", "mockPayloadKey1": "mockPayloadValue1"]"#
+        ])
     }
 
     @Test("""
@@ -140,7 +153,6 @@ struct FirebaseAppIntegrityServiceTests {
           Check that client attestation is decoded successfully
           """)
     func testFetchClientAttestation() async throws {
-        mockAttestationStore.validAttestation = true
         let expiresIn: TimeInterval = 86400
 
         MockURLProtocol.handler = {
