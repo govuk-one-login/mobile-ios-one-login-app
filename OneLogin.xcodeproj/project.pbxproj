@@ -100,6 +100,7 @@
 		C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58042CB001AB00021D4F /* ContentTileCell.swift */; };
 		C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81273A12C07412100059825 /* MockAuthenticationProvider.swift */; };
 		C81509A12D0C7B0F00B0CEA1 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = C81509A02D0C7B0F00B0CEA1 /* Wallet */; };
+		C81509A32D1037C100B0CEA1 /* UserDefaults+AppIntegrityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81509A22D1037B800B0CEA1 /* UserDefaults+AppIntegrityTests.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
@@ -363,6 +364,7 @@
 		C80C58022CB0016E00021D4F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C80C58042CB001AB00021D4F /* ContentTileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTileCell.swift; sourceTree = "<group>"; };
 		C81273A12C07412100059825 /* MockAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthenticationProvider.swift; sourceTree = "<group>"; };
+		C81509A22D1037B800B0CEA1 /* UserDefaults+AppIntegrityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AppIntegrityTests.swift"; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AppIntegrity.swift"; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
@@ -1060,6 +1062,7 @@
 		C85DF8502AEC1C6E0064F68E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C81509A22D1037B800B0CEA1 /* UserDefaults+AppIntegrityTests.swift */,
 				C82B64512BA47D59000C9524 /* String+OneLoginTests.swift */,
 			);
 			path = Extensions;
@@ -2062,6 +2065,7 @@
 				C82B64522BA47D59000C9524 /* String+OneLoginTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
+				C81509A32D1037C100B0CEA1 /* UserDefaults+AppIntegrityTests.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */,
 				411D1FD32B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift in Sources */,

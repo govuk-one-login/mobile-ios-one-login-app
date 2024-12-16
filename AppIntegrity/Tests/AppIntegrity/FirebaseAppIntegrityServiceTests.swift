@@ -115,13 +115,13 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(integrityResponse["OAuth-Client-Attestation"] == "testAttestation")
         let header = try #require(
             integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains("\"mockHeaderKey1\": \"mockHeaderValue1\"") as Bool?
+                .contains(#""mockHeaderKey1": "mockHeaderValue1""#) as Bool?
         )
         #expect(header)
         
         let payload = try #require(
             integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains("\"mockPayloadKey1\": \"mockPayloadValue1\"") as Bool?
+                .contains(#""mockPayloadKey1": "mockPayloadValue1""#) as Bool?
         )
         #expect(payload)
         
