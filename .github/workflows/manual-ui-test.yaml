@@ -1,0 +1,60 @@
+name: Manual UI Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Which branch to run the UI Tests from'
+        required: true
+        default: 'develop'
+jobs:
+  test_ui:
+    name: Run UI Tests
+    runs-on: macos-15
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
+        with:
+          ref: github.event.inputs.branch
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+        run: |
+          ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        env:
+            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
+        run: |
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
+
+      - name: Build App, Run UI Tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+        run: |
+          bundle install
+
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            testplan:OneLoginUI
+
+      - name: Make Artifact
+        if: failure()
+        run: |
+          cd ./fastlane
+          zip -rq UITestArtifact test_output -x "test_output/report.junit"
+
+      - name: Upload Artifact
+        if: failure()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pin@v4
+        with:
+          name: UITestArtifact
+          path: ./fastlane/UITestArtifact.zip
+          retention-days: 1
