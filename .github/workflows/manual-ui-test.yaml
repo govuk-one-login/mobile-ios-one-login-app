@@ -7,6 +7,7 @@ on:
         description: 'Which branch to run the UI Tests from'
         required: true
         default: 'develop'
+
 jobs:
   test_ui:
     name: Run UI Tests
