@@ -123,7 +123,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
         "branch" : "feature/dcmaw-10818-revisit-passed-headers",
-        "revision" : "c70a55404730bfa147f352c06f1944182e773bf7"
+        "revision" : "c5d62dd493d7e42332187107a76bf597e6bea9ae"
       }
     },
     {
