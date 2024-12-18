@@ -23,7 +23,7 @@ final class LoginUITests: XCTestCase {
     
     func agreeIfAnalytics() {
         if sut.app.staticTexts["Help improve the app by sharing analytics"].exists {
-            let analyticsButton = sut.app.buttons["Agree"]
+            let analyticsButton = sut.app.buttons["Share analytics"]
             XCTAssertTrue(analyticsButton.exists)
             // Tap Analytics Permission Button
             analyticsButton.tap()
