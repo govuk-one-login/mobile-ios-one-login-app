@@ -41,9 +41,13 @@
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
 
-"acceptAnalyticsPreferences_body" = "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.";
+"acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
 
-"app_privacyNoticeLink" = "Edrych ar hysbysiad preifatrwydd GOV.UK One Login";
+"app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd GOV.UK One Login";
+
+"app_shareAnalyticsButton" = "Rhannu dadansoddeg";
+
+"app_doNotShareAnalytics" = "Osgoi am y tro";
 
 
 // MARK: Unable to login error screen
