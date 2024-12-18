@@ -20,10 +20,10 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     init(primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void,
          textButtonAction: @escaping () -> Void) {
-        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_agreeButton") {
+        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_shareAnalyticsButton") {
             primaryButtonAction()
         }
-        self.secondaryButtonViewModel = StandardButtonViewModel(titleKey: "app_disagreeButton") {
+        self.secondaryButtonViewModel = StandardButtonViewModel(titleKey: "app_doNotShareAnalytics") {
             secondaryButtonAction()
         }
         self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink") {

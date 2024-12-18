@@ -41,9 +41,13 @@
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Help improve the app by sharing analytics";
 
-"acceptAnalyticsPreferences_body" = "You can help us improve this app by choosing to automatically share app activity and analytics data.\n\nThis is optional and lets us understand how people use this service so we can make it better.\n\nYou can change your preferences at any time in your Settings.";
+"acceptAnalyticsPreferences_body" = "You can help the One Login team make improvements by sharing analytics about how you use the app.\n\nThese analytics are anonymous. They show us what is and is not working, and help make the app better.\n\nYou can stop sharing these analytics any time by changing your app settings.";
 
-"app_privacyNoticeLink" = "View GOV.UK One Login privacy notice";
+"app_privacyNoticeLink" = "Read more about this in the GOV.UK One Login privacy notice";
+
+"app_shareAnalyticsButton" = "Share analytics";
+
+"app_doNotShareAnalytics" = "Skip for now";
 
 
 // MARK: Unable to login error screen
