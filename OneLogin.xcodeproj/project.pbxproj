@@ -502,7 +502,6 @@
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
-				C8A94C472D033AB900303578 /* Wallet in Frameworks */,
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
@@ -511,6 +510,7 @@
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
+				C8A94C472D033AB900303578 /* Wallet in Frameworks */,
 				7CA719742C848EF600973585 /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -860,8 +860,8 @@
 		C8098B952AEFF198001517A0 /* CustomTypes */ = {
 			isa = PBXGroup;
 			children = (
-				C8DC472D2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift */,
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
+				C8DC472D2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift */,
 				ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */,
 				ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */,
 				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
@@ -1360,8 +1360,8 @@
 			isa = PBXGroup;
 			children = (
 				7C0CCECD2C8A12A500F61C11 /* Configuration */,
-				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 				C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */,
+				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 				C8BACAFE2B4DE1C300530419 /* Flag.swift */,
 				C8BACAFC2B4DD93C00530419 /* FlagManager.swift */,
 			);
@@ -1894,8 +1894,11 @@
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
+				C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				7CD66F812C9070D8008513F4 /* AppInformationState.swift in Sources */,
+				C8DC472B2CF01B660022A24A /* AppIntegrityJWT.swift in Sources */,
+				C8DC472E2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift in Sources */,
 				7CD66F7F2C9070B9008513F4 /* AppLocalAuthState.swift in Sources */,
 				C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */,
 				C8BFE5E92CB57FD800FA9A35 /* AppUnavailableViewModel.swift in Sources */,
@@ -1913,9 +1916,7 @@
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
-				C8DC472E2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift in Sources */,
-				C8DC472B2CF01B660022A24A /* AppIntegrityJWT.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
@@ -1955,7 +1956,6 @@
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
 				C80C58012CB0011F00021D4F /* ServicesTileViewModel.swift in Sources */,
-				C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */,
 				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
@@ -1998,6 +1998,7 @@
 			files = (
 				C8BFE5E52CB579EB00FA9A35 /* AnalyticsPreferenceViewModelTests.swift in Sources */,
 				C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */,
+				C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */,
 				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
 				C8BFE5EB2CB5818B00FA9A35 /* AppUnavailableViewModelTests.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* AuthenticationCoordinatorTests.swift in Sources */,
@@ -2009,9 +2010,7 @@
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrolmentViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
-				C8A94C4D2D07558700303578 /* MockLoginSessionConfiguration.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
-				C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
@@ -2027,6 +2026,7 @@
 				7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
+				C8A94C4D2D07558700303578 /* MockLoginSessionConfiguration.swift in Sources */,
 				41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */,
 				7CD66F872C90A96A008513F4 /* MockQualifyingService.swift in Sources */,
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
@@ -2093,8 +2093,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CE1BA022CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				C8A94C492D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
+				7CE1BA022CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				7CE1BA042CD2946D00689F99 /* Flag.swift in Sources */,
 				7CE1BA032CD2946D00689F99 /* FlagManager.swift in Sources */,
 				C873B1E42AF82700002C39E8 /* StagingAppEnvironmentTests.swift in Sources */,
@@ -2105,8 +2105,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CE1BA062CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				C8A94C4B2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
+				7CE1BA062CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				C873B1E52AF82706002C39E8 /* BuildAppEnvironmentTests.swift in Sources */,
 				7CE1BA052CD2946D00689F99 /* Flag.swift in Sources */,
 				7CE1BA072CD2946D00689F99 /* FlagManager.swift in Sources */,
