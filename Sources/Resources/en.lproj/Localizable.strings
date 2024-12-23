@@ -70,12 +70,6 @@
 "app_somethingWentWrongErrorBody" = "Try again later.";
 
 
-// MARK: Passcode information screen
-"app_noPasscodeSetupTitle" = "It looks like this phone does not have a passcode";
-
-"app_noPasscodeSetupBody" = "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.";
-
-
 // MARK: Face ID enrolment screen
 "app_enableFaceIDTitle" = "Unlock the app with Face ID";
 

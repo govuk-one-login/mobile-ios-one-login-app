@@ -41,7 +41,7 @@ final class EnrolmentCoordinator: NSObject,
         case .passcodeOnly:
             saveSession()
         case .none:
-            showPasscodeInfo()
+            completeEnrolment()
         }
     }
 
@@ -63,13 +63,5 @@ final class EnrolmentCoordinator: NSObject,
     private func completeEnrolment() {
         NotificationCenter.default.post(name: .enrolmentComplete)
         finish()
-    }
-
-    private func showPasscodeInfo() {
-        let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) { [unowned self] in
-                completeEnrolment()
-            }
-        let passcodeInformationScreen = GDSInformationViewController(viewModel: viewModel)
-        root.pushViewController(passcodeInformationScreen, animated: true)
     }
 }

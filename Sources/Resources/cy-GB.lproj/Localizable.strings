@@ -70,12 +70,6 @@
 "app_somethingWentWrongErrorBody" = "Rhowch gynnig arall yn nes ymlaen.";
 
 
-// MARK: Passcode information screen
-"app_noPasscodeSetupTitle" = "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad";
-
-"app_noPasscodeSetupBody" = "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.";
-
-
 // MARK: Face ID enrolment screen
 "app_enableFaceIDTitle" = "Datgloi'r ap gyda Face ID";
 

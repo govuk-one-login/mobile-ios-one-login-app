@@ -10,7 +10,6 @@
 		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
 		1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D722B72937500CCAF3E /* MockLAContext.swift */; };
 		1E717D772B72976D00CCAF3E /* LocalAuthenticationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E717D752B72959A00CCAF3E /* LocalAuthenticationContext.swift */; };
-		1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
 		1E891B7C2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */; };
 		1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */; };
@@ -270,7 +269,6 @@
 		1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
 		1E717D722B72937500CCAF3E /* MockLAContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLAContext.swift; sourceTree = "<group>"; };
 		1E717D752B72959A00CCAF3E /* LocalAuthenticationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthenticationContext.swift; sourceTree = "<group>"; };
-		1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModel.swift; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
 		1E891B7B2B63E1D500744E3D /* PasscodeInformationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInformationViewModelTests.swift; sourceTree = "<group>"; };
 		1EB56D6E2B7CDE6D00BD548E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1143,7 +1141,6 @@
 			isa = PBXGroup;
 			children = (
 				41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */,
-				1E7405652B61394F008998C1 /* PasscodeInformationViewModel.swift */,
 				41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */,
 			);
 			path = Enrolment;
@@ -1946,7 +1943,6 @@
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
-				1E7405662B61394F008998C1 /* PasscodeInformationViewModel.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
 				C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */,
 				C8514F682C09E133008E1433 /* ProfileTabAnalytics.swift in Sources */,
