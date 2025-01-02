@@ -73,13 +73,6 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
-    func test_passcodeInformationScreen_keys() throws {
-        XCTAssertEqual("app_noPasscodeSetupTitle".getWelshString(),
-                       "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad")
-        XCTAssertEqual("app_noPasscodeSetupBody".getWelshString(),
-                       "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.")
-    }
-    
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getWelshString(),
                        "Datgloi'r ap gyda Face ID")

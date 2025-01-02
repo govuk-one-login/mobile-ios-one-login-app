@@ -73,13 +73,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Try again later.")
     }
     
-    func test_passcodeInformationScreen_keys() throws {
-        XCTAssertEqual("app_noPasscodeSetupTitle".getEnglishString(),
-                       "It looks like this phone does not have a passcode")
-        XCTAssertEqual("app_noPasscodeSetupBody".getEnglishString(),
-                       "Setting a passcode on your phone adds further security. You can then sign into the app this way instead of with your email address and password.\n\nYou can set a passcode later by going to your phone settings.")
-    }
-    
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getEnglishString(),
                        "Unlock the app with Face ID")

@@ -47,10 +47,8 @@ extension EnrolmentCoordinatorTests {
         mockLocalAuthManager.type = .none
         // WHEN the EnrolmentCoordinator is started
         sut.start()
-        // THEN the no passcode screen is shown
-        XCTAssertEqual(navigationController.viewControllers.count, 1)
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
-        XCTAssertTrue(vc.viewModel is PasscodeInformationViewModel)
+        // THEN the no additional screen is shown
+        XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
     
     @MainActor
