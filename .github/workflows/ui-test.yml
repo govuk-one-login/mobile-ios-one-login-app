@@ -1,15 +1,12 @@
-name: Manual UI Test
-
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      branch:
-        description: 'Which branch to run the UI Tests from'
+      test_branch:
         required: true
-        default: 'develop'
+        type: string
 
 jobs:
-  test_ui:
+  run_ui_tests:
     name: Run UI Tests
     runs-on: macos-15
     steps:
@@ -19,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
         with:
-          ref: github.event.inputs.branch
+          ref: ${{ inputs.test_branch }}
 
       - name: Configure Private Repo Access
         env:
@@ -59,3 +56,4 @@ jobs:
           name: UITestArtifact
           path: ./fastlane/UITestArtifact.zip
           retention-days: 1
+
