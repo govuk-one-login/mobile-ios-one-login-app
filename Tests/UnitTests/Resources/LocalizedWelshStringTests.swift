@@ -18,8 +18,6 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Anghytuno")
         XCTAssertEqual("app_loadingBody".getWelshString(),
                        "Llwytho")
-        XCTAssertEqual("app_maybeLaterButton".getWelshString(),
-                       "Efallai nes ymlaen")
         XCTAssertEqual("app_skipButton".getWelshString(),
                        "Osgoi")
         XCTAssertEqual("app_enterPasscodeButton".getWelshString(),
