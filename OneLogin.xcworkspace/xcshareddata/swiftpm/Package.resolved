@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "branch" : "feature/dcmaw-10818-revisit-passed-headers",
-        "revision" : "c5d62dd493d7e42332187107a76bf597e6bea9ae"
+        "revision" : "1a1aa6b2e4598f1a90bd7106d383154d3e5e354c",
+        "version" : "2.1.2"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "revision" : "5553cfd1c789efdb3d6daf7f0cc0733cfe601846",
-        "version" : "10.54.1"
+        "revision" : "a3abcdf95a3176f5ad990239920aad4ef86e00de",
+        "version" : "10.54.2"
       }
     },
     {
