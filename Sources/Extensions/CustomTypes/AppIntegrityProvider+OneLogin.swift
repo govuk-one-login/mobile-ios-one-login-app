@@ -1,5 +1,6 @@
 import AppIntegrity
 import CryptoService
+import Foundation
 import Networking
 import TokenGeneration
 
@@ -15,7 +16,8 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
             networkClient: NetworkClient(),
             proofOfPossessionProvider: signingService,
             baseURL: AppEnvironment.mobileBaseURL,
-            proofTokenGenerator: proofTokenGenerator
+            proofTokenGenerator: proofTokenGenerator,
+            attestationStore: UserDefaults.standard
         )
     }
 }

@@ -5,6 +5,7 @@ import GDSCommon
 import Logging
 import UIKit
 
+@MainActor
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
@@ -29,7 +30,7 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        Task(priority: .userInitiated) {
+        Task {
             do {
                 try await sessionManager.startSession(
                     session,
@@ -77,13 +78,15 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        do {
-            window.rootViewController?.presentedViewController?.dismiss(animated: true)
-            let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
-            root.pushViewController(loginLoadingScreen, animated: false)
-            try session.finalise(redirectURL: url)
-        } catch {
-            showGenericErrorScreen(error)
+        Task {
+            do {
+                window.rootViewController?.presentedViewController?.dismiss(animated: true)
+                let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
+                root.pushViewController(loginLoadingScreen, animated: false)
+                try await session.finalise(redirectURL: url)
+            } catch {
+                showGenericErrorScreen(error)
+            }
         }
     }
 }
