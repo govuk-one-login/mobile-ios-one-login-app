@@ -13,7 +13,7 @@
 
 "app_loadingBody" = "Llwytho";
 
-"app_maybeLaterButton" = "Efallai nes ymlaen";
+"app_skipButton" = "Osgoi";
 
 "app_enterPasscodeButton" = "Rhowch god mynediad";
 
@@ -75,23 +75,19 @@
 
 
 // MARK: Face ID enrolment screen
-"app_enableFaceIDTitle" = "Defnyddio Face ID i fewngofnodi";
+"app_enableFaceIDTitle" = "Datgloi'r ap gyda Face ID";
 
-"app_enableFaceIDBody" = "Mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a'ch cyfrinair. Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.";
+"app_enableFaceIDBody" = "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableFaceIDFootnote" = "Os ydych yn defnyddio Face ID, gall unrhyw un gyda Face ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.";
-
-"app_enableFaceIDButton" = "Defnyddio Face ID";
+"app_enableFaceIDButton" = "Caniatáu Face ID";
 
 
 // MARK: Touch ID enrolment screen
-"app_enableTouchIDTitle" = "Defnyddio Touch ID i fewngofnodi";
+"app_enableTouchIDTitle" = "Datgloi'r ap gyda Touch ID";
 
-"app_enableTouchIDBody" = "Mewngofnodi gyda'ch olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich Touch ID yn cael ei rannu â GOV.UK One Login.";
+"app_enableTouchIDBody" = "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableTouchIDFootnote" = "Os ydych yn defnyddio Touch ID, gall unrhyw un gyda Touch ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.";
-
-"app_enableTouchIDEnableButton" = "Defnyddio Touch ID";
+"app_enableTouchIDEnableButton" = "Caniatáu Touch ID";
 
 
 // MARK: Unlock screen

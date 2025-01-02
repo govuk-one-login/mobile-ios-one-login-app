@@ -37,7 +37,6 @@ extension TouchIDEnrolmentViewModelTests {
         XCTAssertEqual(sut.image, "touchid")
         XCTAssertEqual(sut.title.stringKey, "app_enableTouchIDTitle")
         XCTAssertEqual(sut.body?.stringKey, "app_enableTouchIDBody")
-        XCTAssertEqual(sut.footnote.stringKey, "app_enableTouchIDFootnote")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
@@ -55,13 +54,13 @@ extension TouchIDEnrolmentViewModelTests {
     }
 
     func test_secondaryButton() {
-        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_maybeLaterButton")
+        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_skipButton")
         XCTAssertFalse(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.secondaryButtonViewModel.action()
         XCTAssertTrue(didCallSecondaryButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_maybeLaterButton")
+        let event = ButtonEvent(textKey: "app_skipButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }

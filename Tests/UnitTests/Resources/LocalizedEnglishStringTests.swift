@@ -18,8 +18,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Disagree")
         XCTAssertEqual("app_loadingBody".getEnglishString(),
                        "Loading")
-        XCTAssertEqual("app_maybeLaterButton".getEnglishString(),
-                       "Maybe later")
+        XCTAssertEqual("app_skipButton".getEnglishString(),
+                       "Skip")
         XCTAssertEqual("app_enterPasscodeButton".getEnglishString(),
                        "Enter passcode")
         XCTAssertEqual("app_exitButton".getEnglishString(),
@@ -82,24 +82,20 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getEnglishString(),
-                       "Use Face ID to sign in")
+                       "Unlock the app with Face ID")
         XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
-                       "Sign in with your face instead of your email address and password. Your Face ID is not shared with GOV.UK One Login.")
-        XCTAssertEqual("app_enableFaceIDFootnote".getEnglishString(),
-                       "If you use Face ID, anyone with a Face ID saved to your phone will be able to sign in to this app.")
+                       "You can use Face ID to unlock the app within 30 minutes of signing in with GOV.UK One Login.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.")
         XCTAssertEqual("app_enableFaceIDButton".getEnglishString(),
-                       "Use Face ID")
+                       "Allow Face ID")
     }
     
     func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getEnglishString(),
-                       "Use Touch ID to sign in")
+                       "Unlock the app with Touch ID")
         XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),
-                       "Sign in with your fingerprint instead of your email address and password. Your Touch ID is not shared with GOV.UK One Login.")
-        XCTAssertEqual("app_enableTouchIDFootnote".getEnglishString(),
-                       "If you use Touch ID, anyone with a Touch ID saved to your phone will be able to sign in to this app.")
+                       "You can use your fingerprint to unlock the app within 30 minutes of signing in with GOV.UK One Login.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
         XCTAssertEqual("app_enableTouchIDEnableButton".getEnglishString(),
-                       "Use Touch ID")
+                       "Allow Touch ID")
     }
     
     func test_unlockScreenKeys() {

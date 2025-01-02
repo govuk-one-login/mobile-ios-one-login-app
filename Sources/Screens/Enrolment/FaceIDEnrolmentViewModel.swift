@@ -4,7 +4,6 @@ import Logging
 import UIKit
 
 struct FaceIDEnrolmentViewModel: GDSInformationViewModelV2,
-                                 GDSInformationViewModelWithFootnote,
                                  GDSInformationViewModelPrimaryButton,
                                  GDSInformationViewModelWithSecondaryButton,
                                  BaseViewModel {
@@ -14,7 +13,6 @@ struct FaceIDEnrolmentViewModel: GDSInformationViewModelV2,
     let imageHeightConstraint: CGFloat? = 64
     let title: GDSLocalisedString = "app_enableFaceIDTitle"
     let body: GDSLocalisedString? = "app_enableFaceIDBody"
-    let footnote: GDSLocalisedString = "app_enableFaceIDFootnote"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel
     let analyticsService: AnalyticsService
@@ -30,7 +28,7 @@ struct FaceIDEnrolmentViewModel: GDSInformationViewModelV2,
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_maybeLaterButton",
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_skipButton",
                                                                  analyticsService: analyticsService) {
             secondaryButtonAction()
         }
