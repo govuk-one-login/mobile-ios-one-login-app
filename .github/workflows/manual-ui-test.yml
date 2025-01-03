@@ -2,16 +2,11 @@ name: Manual UI Test
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Which branch to run the UI Tests from'
-        required: true
-        default: 'develop'
 
 jobs:
   test_ui:
-    name: Run UI Tests
+    name: Manual Action
     uses: ./.github/workflows/ui-test.yml
     with:
-      test_branch: github.event.inputs.branch
+      test_branch: '${{ github.ref_name }}'
     secrets: inherit

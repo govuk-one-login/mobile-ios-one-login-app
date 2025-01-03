@@ -2,8 +2,8 @@ on:
   workflow_call:
     inputs:
       test_branch:
-        required: true
         type: string
+        default: 'develop'
 
 jobs:
   run_ui_tests:

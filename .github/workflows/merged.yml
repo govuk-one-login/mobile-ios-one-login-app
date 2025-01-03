@@ -165,7 +165,7 @@ jobs:
 
   test_ui:
     needs: run_swiftlint
-    name: Run UI Tests
+    name: Deploy App
     uses: ./.github/workflows/ui-test.yml
     secrets: inherit
 
