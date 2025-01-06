@@ -11,7 +11,7 @@ enum AppIntegrityJWT {
         case .payload:
             [
                 "iss": AppEnvironment.stsClientID,
-                "aud": AppEnvironment.stsBaseURLString,
+                "aud": AppEnvironment.stsBaseURL.absoluteString,
                 "exp": Int(Date.now.timeIntervalSince1970) + 180,
                 "jti": UUID().uuidString
             ]
