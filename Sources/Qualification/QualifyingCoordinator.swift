@@ -17,14 +17,13 @@ final class QualifyingCoordinator: NSObject,
                                    AppQualifyingServiceDelegate {
     private let window: UIWindow
     var childCoordinators = [ChildCoordinator]()
+    var deeplink: URL?
 
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     private let walletAvailabilityService: WalletFeatureAvailabilityService
-    
-    private var deeplink: URL?
 
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)

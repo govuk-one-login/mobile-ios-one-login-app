@@ -156,4 +156,11 @@ extension QualifyingCoordinatorTests {
         let viewModel = try XCTUnwrap(vc.viewModel as? UnableToLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")
     }
+    
+    @MainActor
+    func test_handleUniversalLink() throws {
+        let deeplink = URL(string: "google.co.uk/wallet")!
+        sut.handleUniversalLink(deeplink)
+        XCTAssertEqual(sut.deeplink, deeplink)
+    }
 }
