@@ -60,8 +60,8 @@ final class SceneDelegate: UIResponder,
     
     func scene(_ scene: UIScene,
                continue userActivity: NSUserActivity) {
-        guard let deepLink = userActivity.webpageURL else { return }
-        rootCoordinator?.handleUniversalLink(deepLink)
+        guard let incomingURL = userActivity.webpageURL else { return }
+        rootCoordinator?.handleUniversalLink(incomingURL)
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {

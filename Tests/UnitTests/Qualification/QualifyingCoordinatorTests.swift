@@ -102,6 +102,7 @@ extension QualifyingCoordinatorTests {
 extension QualifyingCoordinatorTests {
     @MainActor
     func test_confirmedUser_displaysMainView() throws {
+        sut.deeplink = try XCTUnwrap(URL(string: "google.co.uk"))
         // GIVEN I reopen the app
         // WHEN I authenticate as a valid user
         sut.didChangeUserState(state: .loggedIn)
@@ -159,7 +160,7 @@ extension QualifyingCoordinatorTests {
     
     @MainActor
     func test_handleUniversalLink() throws {
-        let deeplink = URL(string: "google.co.uk/wallet")!
+        let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
         sut.handleUniversalLink(deeplink)
         XCTAssertEqual(sut.deeplink, deeplink)
     }
