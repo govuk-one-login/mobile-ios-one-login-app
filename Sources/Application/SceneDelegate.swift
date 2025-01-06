@@ -51,14 +51,17 @@ final class SceneDelegate: UIResponder,
             walletAvailabilityService: walletAvailabilityService
         )
         rootCoordinator?.start()
-        
         setUpBasicUI()
+
+        if let deepLink = connectionOptions.userActivities.first?.webpageURL {
+            rootCoordinator?.handleUniversalLink(deepLink)
+        }
     }
     
     func scene(_ scene: UIScene,
                continue userActivity: NSUserActivity) {
-        guard let incomingURL = userActivity.webpageURL else { return }
-        rootCoordinator?.handleUniversalLink(incomingURL)
+        guard let deepLink = userActivity.webpageURL else { return }
+        rootCoordinator?.handleUniversalLink(deepLink)
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
