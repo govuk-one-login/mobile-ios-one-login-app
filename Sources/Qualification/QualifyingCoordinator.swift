@@ -17,6 +17,7 @@ final class QualifyingCoordinator: NSObject,
                                    AppQualifyingServiceDelegate {
     private let window: UIWindow
     var childCoordinators = [ChildCoordinator]()
+    var deeplink: URL?
 
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
@@ -136,14 +137,20 @@ final class QualifyingCoordinator: NSObject,
                 walletAvailabilityService: walletAvailabilityService)
             displayChildCoordinator(tabManagerCoordinator)
         }
+        if let deeplink {
+            tabManagerCoordinator?.handleUniversalLink(deeplink)
+        }
     }
 
     func handleUniversalLink(_ url: URL) {
-        // Ensure qualifying checks have completed
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
+            guard window.rootViewController is UITabBarController else {
+                deeplink = url
+                return
+            }
             tabManagerCoordinator?.handleUniversalLink(url)
         case .unknown:
             return
