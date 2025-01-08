@@ -55,31 +55,16 @@ extension HomeViewController {
             return cell
         case 2:
             let tableViewCell = UITableViewCell()
-            let x = CRIOrchestrator(analyticsService: analyticsService, networkClient: networkClient).getIDCheckCard(viewController: navigationController!)
-            tableViewCell.addSubview(x.view)
+            guard let navigationController else {
+                return tableViewCell
+            }
+            let idCheckCard = CRIOrchestrator(analyticsService: analyticsService,
+                                              networkClient: networkClient)
+                .getIDCheckCard(viewController: navigationController)
+            tableViewCell.addSubview(idCheckCard.view)
             return tableViewCell
         default:
             return UITableViewCell()
         }
-//        switch HomeScreenTile(rawValue: indexPath.row) {
-//        case .yourServices:
-//            let cell = ContentTileCell()
-//            cell.viewModel = .yourServices(analyticsService: analyticsService,
-//                                           urlOpener: UIApplication.shared)
-//            return cell
-//        case .idCheck:
-//            let tableViewCell = UITableViewCell()
-//            let x = CRIOrchestrator(analyticsService: analyticsService, networkClient: networkClient).getIDCheckCard(viewController: navigationController!)
-//            tableViewCell.addSubview(x.view)
-//            return tableViewCell
-//        default:
-//            return UITableViewCell()
-//        }
-        
     }
-}
-
-enum HomeScreenTile: Int, CaseIterable {
-    case yourServices
-    case idCheck
 }
