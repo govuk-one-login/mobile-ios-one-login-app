@@ -1,10 +1,13 @@
+import CRIOrchestrator
 import GDSAnalytics
 import GDSCommon
 import Logging
+import Networking
 import UIKit
 
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
+    let networkClient = NetworkClient()
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
     init(analyticsService: AnalyticsService) {
@@ -36,26 +39,47 @@ final class HomeViewController: UITableViewController {
 
 extension HomeViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        HomeScreenTile.allCases.count
+        1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ContentTileCell()
-        switch HomeScreenTile(rawValue: indexPath.row) {
-        case .yourServices:
+        switch indexPath.section {
+        case 1:
+            let cell = ContentTileCell()
             cell.viewModel = .yourServices(analyticsService: analyticsService,
                                            urlOpener: UIApplication.shared)
+            return cell
+        case 2:
+            let tableViewCell = UITableViewCell()
+            let x = CRIOrchestrator(analyticsService: analyticsService, networkClient: networkClient).getIDCheckCard(viewController: navigationController!)
+            tableViewCell.addSubview(x.view)
+            return tableViewCell
         default:
-            break
+            return UITableViewCell()
         }
-        return cell
+//        switch HomeScreenTile(rawValue: indexPath.row) {
+//        case .yourServices:
+//            let cell = ContentTileCell()
+//            cell.viewModel = .yourServices(analyticsService: analyticsService,
+//                                           urlOpener: UIApplication.shared)
+//            return cell
+//        case .idCheck:
+//            let tableViewCell = UITableViewCell()
+//            let x = CRIOrchestrator(analyticsService: analyticsService, networkClient: networkClient).getIDCheckCard(viewController: navigationController!)
+//            tableViewCell.addSubview(x.view)
+//            return tableViewCell
+//        default:
+//            return UITableViewCell()
+//        }
+        
     }
 }
 
 enum HomeScreenTile: Int, CaseIterable {
     case yourServices
+    case idCheck
 }
