@@ -48,12 +48,12 @@ extension HomeViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
-        case 1:
+        case 0:
             let cell = ContentTileCell()
             cell.viewModel = .yourServices(analyticsService: analyticsService,
                                            urlOpener: UIApplication.shared)
             return cell
-        case 2:
+        case 1:
             let tableViewCell = UITableViewCell()
             guard let navigationController else {
                 return tableViewCell
