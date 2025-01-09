@@ -29,6 +29,13 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
+          
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh ./Applications/Xcode_16.1.app
 
       - name: Lint
         run: |
@@ -38,7 +45,7 @@ jobs:
       - name: Export AppCheck Secret
         run: |
           touch ../secrets.xcconfig
-          
+
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,8 +55,10 @@ jobs:
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+
           brew install sonar-scanner
           bundle install
+
           bundle exec fastlane test scheme:"OneLoginBuild" \
             configuration:"Debug" \
             testplan:OneLoginUnit \
