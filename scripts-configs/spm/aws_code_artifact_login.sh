@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ./setup_keychain.sh $1
 ./update_registries_json.sh
