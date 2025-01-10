@@ -46,7 +46,7 @@ security delete-internet-password -a token -s $SERVER -r htps "$KEYCHAIN_NAME"
 PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-package -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
 
 # Update keychain item with applications
-security add-internet-password -a token -s $SERVER -w $CODEARTIFACT_AUTH_TOKEN -r htps -U "$PREAPPROVED_APPLICATION_LIST[@]" $HOME/Library/Keychains/"$KEYCHAIN_NAME"
+security add-internet-password -a token -s $SERVER -w $CODEARTIFACT_AUTH_TOKEN -r htps -U "${PREAPPROVED_APPLICATION_LIST[@]}" $HOME/Library/Keychains/"$KEYCHAIN_NAME"
 
 security set-internet-password-partition-list -a token -s $SERVER -S "com.apple.swift-package,com.apple.security,com.apple.dt.Xcode,apple-tool:,apple:,codesign" -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_NAME"
 security find-internet-password -s $SERVER
