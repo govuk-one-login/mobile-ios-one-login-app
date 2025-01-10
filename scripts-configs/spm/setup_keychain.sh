@@ -54,6 +54,14 @@ echo "grandparent"
 cd ..
 pwd
 ls
+echo "greatgrandparent"
+cd ..
+pwd
+ls
+echo "greatgreatgrandparent"
+cd ..
+pwd
+ls
 
 export PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
 
