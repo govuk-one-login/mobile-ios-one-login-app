@@ -43,7 +43,8 @@ SERVER=$(echo $CODEARTIFACT_REPO | sed  's/https:\/\///g' | sed 's/.com.*$/.com/
 security delete-internet-password -a token -s $SERVER -r htps "${KEYCHAIN_NAME}"
 
 # Applications that will have access to use the item
-export PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
+pwd
+export PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
 
 # Update keychain item with applications
 security add-internet-password -a token -s $SERVER -w $CODEARTIFACT_AUTH_TOKEN -r htps -U "${PREAPPROVED_APPLICATION_LIST[@]}" $HOME/Library/Keychains/"${KEYCHAIN_NAME}"
