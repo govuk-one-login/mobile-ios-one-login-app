@@ -27,10 +27,10 @@ EXISTING_KEYCHAINS=( $( security list-keychains | sed -e 's/ *//' | tr '\n' ' ' 
 sudo security list-keychains -s "${KEYCHAIN_NAME}" "${EXISTING_KEYCHAINS[@]}"
 
 # Fetch an authorisation token
-export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain readid --domain-owner 101014119721 --query authorizationToken --region eu-west-1 --output text`
+CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain readid --domain-owner 101014119721 --query authorizationToken --region eu-west-1 --output text`
 
 # Fetch the URL of the ReadID AWS repository we want to acess
-export CODEARTIFACT_REPO=`aws codeartifact get-repository-endpoint --region eu-west-1 --domain readid --domain-owner 101014119721 --repository ios-ui-saas --format swift --query repositoryEndpoint --output text`
+CODEARTIFACT_REPO=`aws codeartifact get-repository-endpoint --region eu-west-1 --domain readid --domain-owner 101014119721 --repository ios-ui-saas --format swift --query repositoryEndpoint --output text`
 
 # Login to swift package registry with the token and URL
 swift package-registry login ${CODEARTIFACT_REPO}login --token ${CODEARTIFACT_AUTH_TOKEN}
@@ -43,7 +43,7 @@ SERVER=$(echo $CODEARTIFACT_REPO | sed  's/https:\/\///g' | sed 's/.com.*$/.com/
 security delete-internet-password -a token -s $SERVER -r htps "${KEYCHAIN_NAME}"
 
 # Applications that will have access to use the item
-export PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-package -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
+PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-package -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
 
 # Update keychain item with applications
 security add-internet-password -a token -s $SERVER -w $CODEARTIFACT_AUTH_TOKEN -r htps -U "${PREAPPROVED_APPLICATION_LIST[@]}" $HOME/Library/Keychains/"${KEYCHAIN_NAME}"
