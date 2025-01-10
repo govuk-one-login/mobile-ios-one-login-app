@@ -139,6 +139,7 @@ final class QualifyingCoordinator: NSObject,
         }
         if let deeplink {
             tabManagerCoordinator?.handleUniversalLink(deeplink)
+            self.deeplink = nil
         }
     }
 

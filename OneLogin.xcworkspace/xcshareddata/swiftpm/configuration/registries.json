@@ -1,0 +1,12 @@
+{
+  "authentication" : {
+
+  },
+  "registries" : {
+    "[default]" : {
+      "supportsAvailability" : false,
+      "url" : "https://readid-101014119721.d.codeartifact.eu-west-1.amazonaws.com/swift/ios-ui-saas/"
+    }
+  },
+  "version" : 1
+}
