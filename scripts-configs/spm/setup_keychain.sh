@@ -63,7 +63,7 @@ cd ..
 pwd
 ls
 
-export PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
+export PREAPPROVED_APPLICATION_LIST=(-T /usr/bin/security -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/productsign -T $Xcode_path/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-package -T $Xcode_path/Contents/Developer/usr/bin/xcodebuild)
 
 # Update keychain item with applications
 security add-internet-password -a token -s $SERVER -w $CODEARTIFACT_AUTH_TOKEN -r htps -U "${PREAPPROVED_APPLICATION_LIST[@]}" $HOME/Library/Keychains/"${KEYCHAIN_NAME}"
