@@ -24,7 +24,7 @@ security set-keychain-settings "${KEYCHAIN_NAME}"
 
 # Add the keychain to existing keychain list
 EXISTING_KEYCHAINS=( $( security list-keychains | sed -e 's/ *//' | tr '\n' ' ' | tr -d '"') )
-sudo security list-keychains -s "${MATCH_KEYCHAIN_NAME}" "${EXISTING_KEYCHAINS[@]}"
+sudo security list-keychains -s "${KEYCHAIN_NAME}" "${EXISTING_KEYCHAINS[@]}"
 
 # Fetch an authorisation token
 export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain readid --domain-owner 101014119721 --query authorizationToken --region eu-west-1 --output text`
