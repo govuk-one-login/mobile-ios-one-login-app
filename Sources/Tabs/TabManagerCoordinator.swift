@@ -82,7 +82,8 @@ extension TabManagerCoordinator {
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService)
+        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
+                                 networkClient: networkClient)
         addTab(hc)
     }
     

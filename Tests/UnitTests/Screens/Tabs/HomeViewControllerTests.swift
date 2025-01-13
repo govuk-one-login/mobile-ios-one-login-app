@@ -1,17 +1,21 @@
 import GDSAnalytics
+import Networking
 @testable import OneLogin
 import XCTest
 
 @MainActor
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
+    var mockNetworkClient: NetworkClient!
     var sut: HomeViewController!
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = HomeViewController(analyticsService: mockAnalyticsService)
+        mockNetworkClient = NetworkClient()
+        sut = HomeViewController(analyticsService: mockAnalyticsService,
+                                 networkClient: mockNetworkClient)
     }
     
     override func tearDown() {

@@ -7,12 +7,15 @@ import UIKit
 
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
+    let networkClient: NetworkClient
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: AnalyticsService,
+         networkClient: NetworkClient) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService
+        self.networkClient = networkClient
         super.init(style: .insetGrouped)
     }
     
@@ -58,7 +61,7 @@ extension HomeViewController {
                 return tableViewCell
             }
             let idCheckCard = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: NetworkClient())
+                                              networkClient: networkClient)
                 .getIDCheckCard(viewController: navigationController)
             tableViewCell.addSubview(idCheckCard.view)
             return tableViewCell
