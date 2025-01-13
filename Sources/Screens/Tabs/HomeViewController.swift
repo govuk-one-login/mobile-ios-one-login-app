@@ -7,7 +7,6 @@ import UIKit
 
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
-    let networkClient = NetworkClient()
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
     init(analyticsService: AnalyticsService) {
@@ -59,7 +58,7 @@ extension HomeViewController {
                 return tableViewCell
             }
             let idCheckCard = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: networkClient)
+                                              networkClient: NetworkClient())
                 .getIDCheckCard(viewController: navigationController)
             tableViewCell.addSubview(idCheckCard.view)
             return tableViewCell
@@ -67,8 +66,4 @@ extension HomeViewController {
             return UITableViewCell()
         }
     }
-}
-
-enum HomeScreenTile: Int, CaseIterable {
-    case yourServices
 }
