@@ -1,17 +1,21 @@
 import GDSAnalytics
+import Networking
 @testable import OneLogin
 import XCTest
 
 @MainActor
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
+    var mockNetworkClient: NetworkClient!
     var sut: HomeViewController!
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = HomeViewController(analyticsService: mockAnalyticsService)
+        mockNetworkClient = NetworkClient()
+        sut = HomeViewController(analyticsService: mockAnalyticsService,
+                                 networkClient: mockNetworkClient)
     }
     
     override func tearDown() {
@@ -30,19 +34,29 @@ extension HomeViewControllerTests {
     }
     
     func test_numberOfSections() {
-        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 2)
     }
-    
+
     func test_numbeOfRowsInSection() {
         XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 0), 1)
+        XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 1), 1)
     }
-    
+
     func test_contentTileCell_viewModel() {
         let servicesTile = sut.tableView(
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
+    }
+
+    func test_idCheckTileCell() {
+        UINavigationController().setViewControllers([sut], animated: false)
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        ).contentView
+        XCTAssertFalse(servicesTile.isHidden)
     }
     
     func test_viewDidAppear() {

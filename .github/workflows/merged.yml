@@ -52,6 +52,13 @@ jobs:
         run: |
           touch ../secrets.xcconfig
 
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
+
       - name: Build App, Run Unit Tests and Send Coverage Report for Default Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,9 +93,16 @@ jobs:
 
       - name: Configure Private Repo Access
         env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
         run: |
           ./scripts-configs/store-access-token.sh
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
 
       - name: Build App, Run Staging Configuration Tests
         env:
@@ -127,6 +141,13 @@ jobs:
       - name: Export AppCheck Secret
         run: |
           touch ../secrets.xcconfig
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
 
       - name: Build App, Run Build Configuration Tests
         env:
@@ -167,6 +188,13 @@ jobs:
             APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
         run: |
           echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
 
       - name: Build App, Run UI Tests
         env:
