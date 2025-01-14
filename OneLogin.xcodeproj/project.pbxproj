@@ -501,6 +501,7 @@
 				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
+				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
@@ -512,7 +513,6 @@
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
 				7CA719742C848EF600973585 /* Wallet in Frameworks */,
-				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
 				AB327B142D36BF0D00AC169E /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1058,8 +1058,8 @@
 		C85DF8502AEC1C6E0064F68E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C81509A22D1037B800B0CEA1 /* UserDefaults+AppIntegrityTests.swift */,
 				C82B64512BA47D59000C9524 /* String+OneLoginTests.swift */,
+				C81509A22D1037B800B0CEA1 /* UserDefaults+AppIntegrityTests.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1900,7 +1900,6 @@
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
-				C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */,
 				7CD66F812C9070D8008513F4 /* AppInformationState.swift in Sources */,
 				C8DC472B2CF01B660022A24A /* AppIntegrityJWT.swift in Sources */,
 				C8DC472E2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift in Sources */,
@@ -1987,6 +1986,7 @@
 				41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */,
 				7CA719602C846AED00973585 /* URLRequest+Authorization.swift in Sources */,
 				7C47BE162C7883B800DCE5D2 /* User.swift in Sources */,
+				C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */,
 				7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
 				ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */,
@@ -2059,7 +2059,6 @@
 				C82B64522BA47D59000C9524 /* String+OneLoginTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
-				C81509A32D1037C100B0CEA1 /* UserDefaults+AppIntegrityTests.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */,
 				411D1FD32B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift in Sources */,
@@ -2070,6 +2069,7 @@
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
 				7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */,
+				C81509A32D1037C100B0CEA1 /* UserDefaults+AppIntegrityTests.swift in Sources */,
 				7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
 				41279DD72BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift in Sources */,
