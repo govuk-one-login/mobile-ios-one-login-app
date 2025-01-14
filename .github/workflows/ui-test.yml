@@ -30,6 +30,13 @@ jobs:
         run: |
           echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
+
       - name: Build App, Run UI Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
