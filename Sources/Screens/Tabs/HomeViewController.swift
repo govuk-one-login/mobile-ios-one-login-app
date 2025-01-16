@@ -8,14 +8,17 @@ import UIKit
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
     let networkClient: NetworkClient
+    let cri: CRIOrchestrator
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
     init(analyticsService: AnalyticsService,
-         networkClient: NetworkClient) {
+         networkClient: NetworkClient,
+         cri: CRIOrchestrator) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService
         self.networkClient = networkClient
+        self.cri = cri
         super.init(style: .insetGrouped)
     }
     
@@ -28,6 +31,7 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        cri.continueIdentityCheckIfRequired(over: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,9 +64,7 @@ extension HomeViewController {
             guard let navigationController else {
                 return tableViewCell
             }
-            let idCheckCard = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: networkClient)
-                .getIDCheckCard(viewController: navigationController)
+            let idCheckCard = cri.getIDCheckCard(viewController: navigationController)
             tableViewCell.addSubview(idCheckCard.view)
             return tableViewCell
         default:
