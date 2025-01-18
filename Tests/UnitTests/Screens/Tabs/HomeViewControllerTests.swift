@@ -1,3 +1,4 @@
+import CRIOrchestrator
 import GDSAnalytics
 import Networking
 @testable import OneLogin
@@ -8,18 +9,26 @@ final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
     var sut: HomeViewController!
+    var cri: CRIOrchestrator!
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
         mockNetworkClient = NetworkClient()
+        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
+        
+        cri = CRIOrchestrator(analyticsService: mockAnalyticsService,
+                              networkClient: mockNetworkClient)
         sut = HomeViewController(analyticsService: mockAnalyticsService,
-                                 networkClient: mockNetworkClient)
+                                 networkClient: mockNetworkClient,
+                                 cri: cri)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockNetworkClient = nil
+        cri = nil
         sut = nil
         
         super.tearDown()
