@@ -43,8 +43,8 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
         XCTAssertEqual(loginModal.loginButton.label, "Login")
         // Select 'Login' Button
-//        let homeScreen = loginModal.tapBrowserLoginButton()
-//        XCTAssertEqual(homeScreen.title.label, "Home")
+        let homeScreen = loginModal.tapBrowserLoginButton()
+        XCTAssertEqual(homeScreen.title.label, "Home")
     }
     
     func test_loginCancelPath() throws {
