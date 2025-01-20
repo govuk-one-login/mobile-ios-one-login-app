@@ -91,7 +91,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var hasNotRemovedLocalAuth: Bool {
-        localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
+        localAuthentication.canUseAnyLocalAuth && isReturningUser
     }
     
     func startSession(
