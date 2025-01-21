@@ -24,5 +24,6 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertFalse(sut.walletVisibleToAll)
         XCTAssertFalse(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleViaDeepLink)
+        XCTAssertFalse(sut.criOrchestratorEnabled)
     }
 }

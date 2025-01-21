@@ -24,5 +24,6 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertFalse(sut.walletVisibleToAll)
         XCTAssertFalse(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleViaDeepLink)
+        XCTAssertTrue(sut.criOrchestratorEnabled)
     }
 }
