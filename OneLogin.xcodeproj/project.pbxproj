@@ -62,7 +62,6 @@
 		7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719612C846CA400973585 /* ServiceTokenResponse.swift */; };
 		7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */; };
 		7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719662C846E5100973585 /* TokenHolderTests.swift */; };
-		7CA719742C848EF600973585 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 7CA719732C848EF600973585 /* Wallet */; };
 		7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */; };
 		7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */; };
 		7CD66F7F2C9070B9008513F4 /* AppLocalAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD66F7E2C9070B9008513F4 /* AppLocalAuthState.swift */; };
@@ -512,7 +511,6 @@
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
-				7CA719742C848EF600973585 /* Wallet in Frameworks */,
 				AB327B142D36BF0D00AC169E /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
