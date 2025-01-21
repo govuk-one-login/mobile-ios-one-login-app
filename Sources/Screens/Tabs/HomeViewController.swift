@@ -31,7 +31,9 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
-        criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        if AppEnvironment.criOrchestratorEnabled {
+            criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,17 +63,20 @@ extension HomeViewController {
             return cell
         case 1:
             let tableViewCell = UITableViewCell()
-            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
-            tableViewCell.addSubview(idCheckCard.view)
-            
-            tableViewCell.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
-                tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
-                tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
-                tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
-            ])
-            
+            if AppEnvironment.criOrchestratorEnabled {
+                let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
+                tableViewCell.addSubview(idCheckCard.view)
+                
+                tableViewCell.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
+                    tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
+                    tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
+                    tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
+                ])
+            } else {
+                tableViewCell.isHidden = true
+            }
             return tableViewCell
         default:
             return UITableViewCell()

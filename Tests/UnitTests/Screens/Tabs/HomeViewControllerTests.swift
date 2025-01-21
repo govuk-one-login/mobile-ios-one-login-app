@@ -31,6 +31,11 @@ final class HomeViewControllerTests: XCTestCase {
         criOrchestrator = nil
         sut = nil
         
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
+        
         super.tearDown()
     }
 }
@@ -58,14 +63,27 @@ extension HomeViewControllerTests {
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
     }
-
-    func test_idCheckTileCell() {
+    
+    func test_idCheckTileCell_isVisible() {
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
+        )
         UINavigationController().setViewControllers([sut], animated: false)
         let servicesTile = sut.tableView(
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
-        ).contentView
+        )
         XCTAssertFalse(servicesTile.isHidden)
+    }
+
+    func test_idCheckTileCell_isHidden() {
+        UINavigationController().setViewControllers([sut], animated: false)
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        )
+        XCTAssertTrue(servicesTile.isHidden)
     }
     
     func test_viewDidAppear() {

@@ -60,7 +60,8 @@ extension WalletAvailabilityServiceTests {
     
     func test_hideWallet_flagEnabled_ifExists_notAccessBefore() {
         AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false, FeatureFlagsName.enableWalletVisibleIfExists.rawValue: false],
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false,
+                           FeatureFlagsName.enableWalletVisibleIfExists.rawValue: false],
             featureFlags: [:]
         )
         
@@ -97,7 +98,8 @@ extension WalletAvailabilityServiceTests {
     
     func test_hideViaDeepLink_flagEnabled_visibleViaDeepLink() {
         AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false, FeatureFlagsName.enableWalletVisibleViaDeepLink.rawValue: true],
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false,
+                           FeatureFlagsName.enableWalletVisibleViaDeepLink.rawValue: true],
             featureFlags: [:]
         )
         
