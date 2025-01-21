@@ -8,8 +8,8 @@ import XCTest
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
+    var criOrchestrator: CRIOrchestrator!
     var sut: HomeViewController!
-    var cri: CRIOrchestrator!
     
     override func setUp() {
         super.setUp()
@@ -18,17 +18,17 @@ final class HomeViewControllerTests: XCTestCase {
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         
-        cri = CRIOrchestrator(analyticsService: mockAnalyticsService,
-                              networkClient: mockNetworkClient)
+        criOrchestrator = CRIOrchestrator(analyticsService: mockAnalyticsService,
+                                          networkClient: mockNetworkClient)
         sut = HomeViewController(analyticsService: mockAnalyticsService,
                                  networkClient: mockNetworkClient,
-                                 cri: cri)
+                                 criOrchestrator: criOrchestrator)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
         mockNetworkClient = nil
-        cri = nil
+        criOrchestrator = nil
         sut = nil
         
         super.tearDown()

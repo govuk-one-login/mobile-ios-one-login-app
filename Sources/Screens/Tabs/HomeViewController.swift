@@ -8,17 +8,17 @@ import UIKit
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
     let networkClient: NetworkClient
-    let idCheck: CRIOrchestrator
+    let criOrchestrator: CRIOrchestrator
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
     init(analyticsService: AnalyticsService,
          networkClient: NetworkClient,
-         idCheck: CRIOrchestrator) {
+         criOrchestrator: CRIOrchestrator) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService
         self.networkClient = networkClient
-        self.idCheck = idCheck
+        self.criOrchestrator = criOrchestrator
         super.init(style: .insetGrouped)
     }
     
@@ -31,7 +31,7 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
-        idCheck.continueIdentityCheckIfRequired(over: self)
+        criOrchestrator.continueIdentityCheckIfRequired(over: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,11 +61,17 @@ extension HomeViewController {
             return cell
         case 1:
             let tableViewCell = UITableViewCell()
-            guard let navigationController else {
-                return tableViewCell
-            }
-            let idCheckCard = idCheck.getIDCheckCard(viewController: navigationController)
+            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
             tableViewCell.addSubview(idCheckCard.view)
+            
+            tableViewCell.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
+                tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
+                tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
+                tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
+            ])
+            
             return tableViewCell
         default:
             return UITableViewCell()
