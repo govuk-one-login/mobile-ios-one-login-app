@@ -6,7 +6,7 @@ import SecureStore
 
 final class MockSessionManager: SessionManager {
     var expiryDate: Date?
-    var sessionExists: Bool
+    var isSessionLive: Bool
     var isSessionValid: Bool
     var isOneTimeUser: Bool
     var isReturningUser: Bool
@@ -34,7 +34,7 @@ final class MockSessionManager: SessionManager {
          isOneTimeUser: Bool = false,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
-        self.sessionExists = sessionExists
+        self.isSessionLive = sessionExists
         self.isSessionValid = isSessionValid
         self.isReturningUser = isReturningUser
         self.tokenProvider = tokenProvider

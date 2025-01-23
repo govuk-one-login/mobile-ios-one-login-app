@@ -88,6 +88,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var sessionExists: Bool {
+        encryptedStore.checkItemExists(itemName: .storedTokens)
+    }
+    
+    var isSessionLive: Bool {
         tokenProvider.subjectToken != nil
     }
     
@@ -104,7 +108,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var isOneTimeUser: Bool {
-        sessionExists && !isReturningUser
+        isSessionLive && !isReturningUser
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -224,6 +228,7 @@ final class PersistentSessionManager: SessionManager {
         encryptedStore.deleteItem(itemName: .persistentSessionID)
         unprotectedStore.removeObject(forKey: .returningUser)
         unprotectedStore.removeObject(forKey: .accessTokenExpiry)
+        endCurrentSession()
         
         NotificationCenter.default.post(name: .didLogout)
     }

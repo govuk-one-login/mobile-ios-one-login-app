@@ -58,7 +58,7 @@ final class PersistentSessionManagerTests: XCTestCase {
 extension PersistentSessionManagerTests {
     func testInitialState() {
         XCTAssertNil(sut.expiryDate)
-        XCTAssertFalse(sut.sessionExists)
+        XCTAssertFalse(sut.isSessionLive)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
     }

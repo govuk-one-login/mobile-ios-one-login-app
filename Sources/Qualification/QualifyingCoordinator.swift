@@ -15,7 +15,8 @@ import UIKit
 final class QualifyingCoordinator: NSObject,
                                    ParentCoordinator,
                                    AppQualifyingServiceDelegate {
-    private let window: UIWindow
+    private var unlockWindow: UIWindow?
+    private let appWindow: UIWindow
     var childCoordinators = [ChildCoordinator]()
     var deeplink: URL?
 
@@ -42,13 +43,13 @@ final class QualifyingCoordinator: NSObject,
         return UnlockScreenViewController(viewModel: viewModel)
     }()
 
-    init(window: UIWindow,
+    init(appWindow: UIWindow,
          analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
          sessionManager: SessionManager,
          networkClient: NetworkClient,
          walletAvailabilityService: WalletFeatureAvailabilityService) {
-        self.window = window
+        self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
@@ -59,17 +60,13 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func start() {
-        lock()
-    }
-    
-    func lock() {
-        displayViewController(unlockViewController)
+        presentUnlockWindow()
     }
     
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
         switch appInfoState {
         case .notChecked:
-            lock()
+            presentUnlockWindow()
         case .offline:
             // TODO: DCMAW-9866 | display error screen for app offline and no cached data
             return
@@ -114,7 +111,7 @@ final class QualifyingCoordinator: NSObject,
             displayViewController(loginCoordinator.root)
         } else {
             let loginCoordinator = LoginCoordinator(
-                appWindow: window,
+                appWindow: appWindow,
                 root: UINavigationController(),
                 analyticsCenter: analyticsCenter,
                 sessionManager: sessionManager,
@@ -129,7 +126,7 @@ final class QualifyingCoordinator: NSObject,
             displayViewController(tabManagerCoordinator.root)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
-                appWindow: window,
+                appWindow: appWindow,
                 root: UITabBarController(),
                 analyticsCenter: analyticsCenter,
                 networkClient: networkClient,
@@ -148,7 +145,7 @@ final class QualifyingCoordinator: NSObject,
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            guard window.rootViewController is UITabBarController else {
+            guard appWindow.rootViewController is UITabBarController else {
                 deeplink = url
                 return
             }
@@ -169,7 +166,17 @@ final class QualifyingCoordinator: NSObject,
     }
 
     private func displayViewController(_ viewController: UIViewController) {
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+        appWindow.rootViewController = viewController
+        appWindow.makeKeyAndVisible()
+        unlockWindow?.isHidden = true
+        unlockWindow = nil
+    }
+    
+    func presentUnlockWindow() {
+        guard let appWindowScene = appWindow.windowScene else { return }
+        unlockWindow = UIWindow(windowScene: appWindowScene)
+        unlockWindow?.rootViewController = unlockViewController
+        unlockWindow?.windowLevel = .alert
+        unlockWindow?.makeKeyAndVisible()
     }
 }

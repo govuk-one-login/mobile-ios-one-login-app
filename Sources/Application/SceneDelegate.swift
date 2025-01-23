@@ -43,7 +43,7 @@ final class SceneDelegate: UIResponder,
         trackSplashScreen()
 
         rootCoordinator = QualifyingCoordinator(
-            window: UIWindow(windowScene: windowScene),
+            appWindow: UIWindow(windowScene: windowScene),
             analyticsCenter: analyticsCenter,
             appQualifyingService: appQualifyingService,
             sessionManager: sessionManager,
@@ -65,7 +65,7 @@ final class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        rootCoordinator?.lock()
+        rootCoordinator?.presentUnlockWindow()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
