@@ -64,7 +64,10 @@ extension HomeViewController {
             return cell
         case 1:
             let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
-            let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "OneLoginHomeScreenCell", for: indexPath)
+            let tableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: "OneLoginHomeScreenCell",
+                for: indexPath
+            )
             
             tableViewCell.addSubview(idCheckCard.view)
             tableViewCell.translatesAutoresizingMaskIntoConstraints = false
