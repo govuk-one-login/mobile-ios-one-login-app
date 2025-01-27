@@ -31,6 +31,7 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         if AppEnvironment.criOrchestratorEnabled {
             criOrchestrator.continueIdentityCheckIfRequired(over: self)
         }
@@ -62,21 +63,19 @@ extension HomeViewController {
                                            urlOpener: UIApplication.shared)
             return cell
         case 1:
-            let tableViewCell = UITableViewCell()
-            if AppEnvironment.criOrchestratorEnabled {
-                let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
-                tableViewCell.addSubview(idCheckCard.view)
-                
-                tableViewCell.translatesAutoresizingMaskIntoConstraints = false
-                NSLayoutConstraint.activate([
-                    tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
-                    tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
-                    tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
-                    tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
-                ])
-            } else {
-                tableViewCell.isHidden = true
-            }
+            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
+            let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "OneLoginHomeScreenCell", for: indexPath)
+            
+            tableViewCell.addSubview(idCheckCard.view)
+            tableViewCell.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
+                tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
+                tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
+                tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
+            ])
+            tableViewCell.isHidden = AppEnvironment.criOrchestratorEnabled
+            
             return tableViewCell
         default:
             return UITableViewCell()
