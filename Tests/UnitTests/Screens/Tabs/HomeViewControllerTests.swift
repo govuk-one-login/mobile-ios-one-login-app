@@ -1,3 +1,4 @@
+import CRIOrchestrator
 import GDSAnalytics
 import Networking
 @testable import OneLogin
@@ -7,6 +8,7 @@ import XCTest
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
+    var criOrchestrator: CRIOrchestrator!
     var sut: HomeViewController!
     
     override func setUp() {
@@ -14,13 +16,25 @@ final class HomeViewControllerTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         mockNetworkClient = NetworkClient()
+        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
+        
+        criOrchestrator = CRIOrchestrator(analyticsService: mockAnalyticsService,
+                                          networkClient: mockNetworkClient)
         sut = HomeViewController(analyticsService: mockAnalyticsService,
-                                 networkClient: mockNetworkClient)
+                                 networkClient: mockNetworkClient,
+                                 criOrchestrator: criOrchestrator)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockNetworkClient = nil
+        criOrchestrator = nil
         sut = nil
+        
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         super.tearDown()
     }
@@ -49,13 +63,26 @@ extension HomeViewControllerTests {
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
     }
-
-    func test_idCheckTileCell() {
+    
+    func test_idCheckTileCell_isVisible() {
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
+        )
         UINavigationController().setViewControllers([sut], animated: false)
         let servicesTile = sut.tableView(
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
-        ).contentView
+        )
+        XCTAssertTrue(servicesTile.isHidden)
+    }
+
+    func test_idCheckTileCell_isHidden() {
+        UINavigationController().setViewControllers([sut], animated: false)
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        )
         XCTAssertFalse(servicesTile.isHidden)
     }
     

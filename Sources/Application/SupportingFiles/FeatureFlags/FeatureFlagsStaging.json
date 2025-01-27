@@ -18,5 +18,9 @@
     {
         "name": "EnableWalletVisibleIfExists",
         "isEnabled": false
+    },
+    {
+        "name": "EnableCRIOrchestrator",
+        "isEnabled": true
     }
 ]

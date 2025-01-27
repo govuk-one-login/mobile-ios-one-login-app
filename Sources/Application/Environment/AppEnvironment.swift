@@ -24,6 +24,10 @@ public final class AppEnvironment {
         isFeatureEnabled(for: .enableWalletVisibleToAll)
     }
     
+    static var criOrchestratorEnabled: Bool {
+        isFeatureEnabled(for: .enableCRIOrchestrator)
+    }
+    
     static var appIntegrityEnabled: Bool {
         isFeatureEnabled(for: .appCheckEnabled)
     }

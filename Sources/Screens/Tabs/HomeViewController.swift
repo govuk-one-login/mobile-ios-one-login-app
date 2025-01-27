@@ -8,14 +8,17 @@ import UIKit
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
     let networkClient: NetworkClient
+    let criOrchestrator: CRIOrchestrator
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
     init(analyticsService: AnalyticsService,
-         networkClient: NetworkClient) {
+         networkClient: NetworkClient,
+         criOrchestrator: CRIOrchestrator) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService
         self.networkClient = networkClient
+        self.criOrchestrator = criOrchestrator
         super.init(style: .insetGrouped)
     }
     
@@ -28,6 +31,10 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
+        if AppEnvironment.criOrchestratorEnabled {
+            criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,14 +63,22 @@ extension HomeViewController {
                                            urlOpener: UIApplication.shared)
             return cell
         case 1:
-            let tableViewCell = UITableViewCell()
-            guard let navigationController else {
-                return tableViewCell
-            }
-            let idCheckCard = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: networkClient)
-                .getIDCheckCard(viewController: navigationController)
+            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
+            let tableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: "OneLoginHomeScreenCell",
+                for: indexPath
+            )
+            
             tableViewCell.addSubview(idCheckCard.view)
+            tableViewCell.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
+                tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
+                tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
+                tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
+            ])
+            tableViewCell.isHidden = AppEnvironment.criOrchestratorEnabled
+            
             return tableViewCell
         default:
             return UITableViewCell()
