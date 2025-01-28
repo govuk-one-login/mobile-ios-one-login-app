@@ -5,24 +5,21 @@ final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationM
     private let context: LocalAuthenticationContext
     private let localAuthStrings: LocalAuthPromptStrings
     
+    public convenience init(
+        localAuthStrings: LocalAuthPromptStrings
+    ) {
+        self.init(
+            context: LAContext(),
+            localAuthStrings: localAuthStrings
+        )
+    }
+    
     init(
-        context: LocalAuthenticationContext = LAContext(),
+        context: LocalAuthenticationContext,
         localAuthStrings: LocalAuthPromptStrings
     ) {
         self.context = context
         self.localAuthStrings = localAuthStrings
-    }
-    
-    private var canOnlyUseBiometrics: Bool {
-        canUseLocalAuth(
-            type: .deviceOwnerAuthenticationWithBiometrics
-        )
-    }
-    
-    private var canUseAnyLocalAuth: Bool {
-        canUseLocalAuth(
-            type: .deviceOwnerAuthentication
-        )
     }
     
     public var type: T {
@@ -42,14 +39,16 @@ final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationM
         }
     }
     
-    private func canUseLocalAuth(
-        type policy: LAPolicy
-    ) -> Bool {
-        return context
-            .canEvaluatePolicy(
-                policy,
-                error: nil
-            )
+    private var canOnlyUseBiometrics: Bool {
+        canUseLocalAuth(
+            type: .deviceOwnerAuthenticationWithBiometrics
+        )
+    }
+    
+    private var canUseAnyLocalAuth: Bool {
+        canUseLocalAuth(
+            type: .deviceOwnerAuthentication
+        )
     }
     
     public func checkLevelSupported(
@@ -75,6 +74,16 @@ final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationM
             .evaluatePolicy(
                 .deviceOwnerAuthenticationWithBiometrics,
                 localizedReason: localAuthStrings.subtitle
+            )
+    }
+    
+    private func canUseLocalAuth(
+        type policy: LAPolicy
+    ) -> Bool {
+        return context
+            .canEvaluatePolicy(
+                policy,
+                error: nil
             )
     }
     
