@@ -1,25 +1,44 @@
 import GDSCommon
 import LocalAuthentication
 
+public protocol LocalAuthPromptRecorder {
+    var previouslyPrompted: Bool { get }
+    func recordPrompt()
+}
+
+public protocol AppSessionManager {
+    func saveLoginSesion()
+}
+
 final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationManager {
     private let context: LocalAuthenticationContext
+    private let localAuthPromptStore: LocalAuthPromptRecorder
     private let localAuthStrings: LocalAuthPromptStrings
+    private let appSessionManager: AppSessionManager
     
     public convenience init(
-        localAuthStrings: LocalAuthPromptStrings
+        localAuthStrings: LocalAuthPromptStrings,
+        localAuthPromptStore: LocalAuthPromptRecorder,
+        appSessionManager: AppSessionManager
     ) {
         self.init(
             context: LAContext(),
-            localAuthStrings: localAuthStrings
+            localAuthPromptStore: localAuthPromptStore,
+            localAuthStrings: localAuthStrings,
+            appSessionManager: appSessionManager
         )
     }
     
     init(
         context: LocalAuthenticationContext,
-        localAuthStrings: LocalAuthPromptStrings
+        localAuthPromptStore: LocalAuthPromptRecorder,
+        localAuthStrings: LocalAuthPromptStrings,
+        appSessionManager: AppSessionManager
     ) {
         self.context = context
+        self.localAuthPromptStore = localAuthPromptStore
         self.localAuthStrings = localAuthStrings
+        self.appSessionManager = appSessionManager
     }
     
     public var type: T {
@@ -64,17 +83,28 @@ final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationM
         return supportedLevel >= requiredLevel.rawValue
     }
     
+    public func saveLoginSesion() {
+        appSessionManager.saveLoginSesion()
+    }
+    
     public func enrolFaceIDIfAvailable() async throws -> Bool {
         guard type == .faceID else {
             // enrolment is not required unless biometric type is FaceID
             return true
         }
-        localizeAuthPromptStrings()
-        return try await context
-            .evaluatePolicy(
-                .deviceOwnerAuthenticationWithBiometrics,
-                localizedReason: localAuthStrings.subtitle
-            )
+        do {
+            localizeAuthPromptStrings()
+            let localAuthResult = try await context
+                .evaluatePolicy(
+                    .deviceOwnerAuthenticationWithBiometrics,
+                    localizedReason: localAuthStrings.subtitle
+                )
+            localAuthPromptStore.recordPrompt()
+            localAuthResult ? saveLoginSesion() : nil
+            return localAuthResult
+        } catch {
+            throw error
+        }
     }
     
     private func canUseLocalAuth(
