@@ -2,31 +2,29 @@ import GDSCommon
 import LocalAuthentication
 import SecureStore
 
-protocol LocalAuthProtocol: RawRepresentable where RawValue == Int {
+protocol OneLoginLocalAuthType: RawRepresentable where RawValue == Int {
     static var none: Self { get }
     static var passcodeOnly: Self { get }
     static var touchID: Self { get }
     static var faceID: Self { get }
 }
 
-enum LocalAuthenticationType: Int, LocalAuthProtocol {
+protocol OneLoginLocalAuthenticationManager {
+    associatedtype LocalAuthType: OneLoginLocalAuthType
+    var type: LocalAuthType { get }
+    
+    func checkLevelSupported(_ requiredLevel: LocalAuthType) -> Bool
+    func enrolFaceIDIfAvailable() async throws -> Bool
+}
+
+enum LocalAuthenticationType: Int, OneLoginLocalAuthType {
     case none
     case passcodeOnly
     case touchID
     case faceID
 }
 
-protocol LocalAuthenticationManager {
-    associatedtype T: LocalAuthProtocol
-    var canOnlyUseBiometrics: Bool { get }
-    var canUseAnyLocalAuth: Bool { get }
-    var type: T { get }
-    
-    func checkLevelSupported(_ requiredLevel: T) -> Bool
-    func enrolFaceIDIfAvailable() async throws -> Bool
-}
-
-final class LALocalAuthenticationManager: LocalAuthenticationManager {
+final class LALocalAuthenticationManager: OneLoginLocalAuthenticationManager {
     private let context: LocalAuthenticationContext
     
     init(context: LocalAuthenticationContext = LAContext()) {
@@ -41,7 +39,7 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         canUseLocalAuth(type: .deviceOwnerAuthentication)
     }
     
-    var type: some LocalAuthProtocol {
+    var type: some OneLoginLocalAuthType {
         guard canOnlyUseBiometrics else {
             return canUseAnyLocalAuth ?
             LocalAuthenticationType.passcodeOnly : LocalAuthenticationType.none
@@ -63,7 +61,7 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         return context.canEvaluatePolicy(policy, error: nil)
     }
     
-    func checkLevelSupported(_ requiredLevel: some LocalAuthProtocol) -> Bool {
+    func checkLevelSupported(_ requiredLevel: some OneLoginLocalAuthType) -> Bool {
         let supportedLevel = if canOnlyUseBiometrics {
             2
         } else if canUseAnyLocalAuth {

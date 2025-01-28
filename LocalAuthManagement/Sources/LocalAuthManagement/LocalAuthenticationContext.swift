@@ -1,7 +1,6 @@
-import GDSCommon
 import LocalAuthentication
 
-protocol LocalAuthenticationContext: AnyObject {
+public protocol LocalAuthenticationContext: AnyObject {
     var biometryType: LABiometryType { get }
 
     var localizedFallbackTitle: String? { get set }
