@@ -30,6 +30,13 @@ struct TabbedViewSectionFactory {
                                                            accessoryView: linkDisclosureArrow),
                                                      .init(cellTitle: "app_appGuidanceLink",
                                                            accessoryView: linkDisclosureArrow)])
+        
+        let analyticsSection = createSection(header: "app_aboutSubtitle",
+                                             footer: "app_analyticsFooter",
+                                             cellModels: [.init(cellTitle: "app_analyticsToggle",
+                                                                accessoryView: nil)])
+        
+        
         let signoutSection = createSection(header: nil,
                                            footer: nil,
                                            cellModels: [.init(cellTitle: "app_signOutButton",
@@ -50,6 +57,7 @@ struct TabbedViewSectionFactory {
         return [manageDetailsSection,
                 legalSection,
                 helpSection,
+                analyticsSection,
                 signoutSection,
                 developerSection]
     }
