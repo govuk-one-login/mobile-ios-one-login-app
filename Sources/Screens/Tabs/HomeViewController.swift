@@ -64,7 +64,7 @@ extension HomeViewController {
             return cell
         case 1:
             let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) {
-                tableView.redraw()
+                tableView.reloadData()
             }
             let tableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: "OneLoginHomeScreenCell",
