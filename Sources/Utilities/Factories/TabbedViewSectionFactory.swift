@@ -36,7 +36,6 @@ struct TabbedViewSectionFactory {
                                              cellModels: [.init(cellTitle: "app_analyticsToggle",
                                                                 accessoryView: nil)])
         
-        
         let signoutSection = createSection(header: nil,
                                            footer: nil,
                                            cellModels: [.init(cellTitle: "app_signOutButton",

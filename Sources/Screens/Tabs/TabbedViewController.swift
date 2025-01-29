@@ -1,6 +1,7 @@
 import Combine
 import Coordination
 import GDSCommon
+import Logging
 import UIKit
 
 final class TabbedViewController: BaseViewController {
@@ -9,7 +10,8 @@ final class TabbedViewController: BaseViewController {
     private let viewModel: TabbedViewModel
     private let headerView: UIView?
     private let userProvider: UserProvider
-
+    
+    private let analyticsPreferences = UserDefaultsPreferenceStore()
     private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
@@ -52,6 +54,12 @@ final class TabbedViewController: BaseViewController {
         }
     }
 
+    @IBOutlet private var analyticsSwitch: UISwitch! {
+        didSet {
+            tableView.accessibilityIdentifier = "tabbed-view-analytics-switch"
+        }
+    }
+    
     private func subscribeToUsers() {
         userProvider.user
             .receive(on: DispatchQueue.main)
@@ -64,6 +72,14 @@ final class TabbedViewController: BaseViewController {
         guard let headerView = headerView as? SignInView else { return }
         headerView.userEmail = email ?? ""
         resizeHeaderView()
+    }
+    
+    @IBAction private func updateAnalytics(_ sender: UISwitch) {
+        if sender.isOn {
+            analyticsPreferences.hasAcceptedAnalytics = true
+        } else {
+            analyticsPreferences.hasAcceptedAnalytics = false
+        }
     }
     
     func screenAnalytics() {
@@ -108,6 +124,11 @@ extension TabbedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
                 as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
+        
+        if viewModel.sectionModels[indexPath.section].sectionTitle == "app_aboutSubtitle" {
+            analyticsSwitch.setOn(analyticsPreferences.hasAcceptedAnalytics!, animated: true)
+            cell.accessoryView = analyticsSwitch
+        }
         return cell
     }
 }
