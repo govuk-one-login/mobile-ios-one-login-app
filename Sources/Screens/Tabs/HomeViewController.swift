@@ -63,7 +63,9 @@ extension HomeViewController {
                                            urlOpener: UIApplication.shared)
             return cell
         case 1:
-            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
+            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) {
+                tableView.redraw()
+            }
             let tableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: "OneLoginHomeScreenCell",
                 for: indexPath
@@ -77,7 +79,7 @@ extension HomeViewController {
                 tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
                 tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
             ])
-            tableViewCell.isHidden = AppEnvironment.criOrchestratorEnabled
+            tableViewCell.isHidden = !AppEnvironment.criOrchestratorEnabled
             
             return tableViewCell
         default:
