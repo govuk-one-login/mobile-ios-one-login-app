@@ -11,7 +11,7 @@ final class TabbedViewController: BaseViewController {
     private let headerView: UIView?
     private let userProvider: UserProvider
     
-    private let analyticsPreferences = UserDefaultsPreferenceStore()
+    let analyticsPreferences = UserDefaultsPreferenceStore()
     private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
@@ -54,7 +54,11 @@ final class TabbedViewController: BaseViewController {
         }
     }
 
-    @IBOutlet private var analyticsSwitch: UISwitch!
+    @IBOutlet private var analyticsSwitch: UISwitch! {
+        didSet {
+            analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
+        }
+    }
     
     private func subscribeToUsers() {
         userProvider.user

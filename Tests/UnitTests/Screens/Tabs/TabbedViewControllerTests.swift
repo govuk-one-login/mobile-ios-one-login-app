@@ -111,6 +111,16 @@ extension TabbedViewControllerTests {
         let emailLabel = try sut.emailLabel
         waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 5)
     }
+    
+    func test_updateAnalytics() throws {
+        try sut.analyticsSwitch.setOn(false, animated: true)
+        try sut.analyticsSwitch.sendActions(for: .valueChanged)
+        XCTAssertEqual(sut.analyticsPreferences.hasAcceptedAnalytics, false)
+        
+        try sut.analyticsSwitch.setOn(true, animated: true)
+        try sut.analyticsSwitch.sendActions(for: .valueChanged)
+        XCTAssertEqual(sut.analyticsPreferences.hasAcceptedAnalytics, true)
+    }
 
     func test_screenAnalytics() {
         sut.screenAnalytics()
@@ -140,6 +150,12 @@ extension TabbedViewController {
     var tabbedTableView: UITableView {
         get throws {
             try XCTUnwrap(view[child: "tabbed-view-table-view"])
+        }
+    }
+    
+    var analyticsSwitch: UISwitch {
+        get throws {
+            try XCTUnwrap(view[child: "tabbed-view-analytics-switch"])
         }
     }
 }
