@@ -10,7 +10,7 @@ public protocol AppSessionManager {
     func saveLoginSesion()
 }
 
-final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationManager {
+final class LALocalAuthenticationManager: LocalAuthenticationManager {
     private let context: LocalAuthenticationContext
     private let localAuthPromptStore: LocalAuthPromptRecorder
     private let localAuthStrings: LocalAuthPromptStrings
@@ -41,20 +41,20 @@ final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationM
         self.appSessionManager = appSessionManager
     }
     
-    public var type: T {
+    public var type: some LocalAuthType {
         guard canOnlyUseBiometrics else {
-            return canUseAnyLocalAuth ? .passcodeOnly : .none
+            return canUseAnyLocalAuth ? MyLocalAuthType.passcodeOnly : MyLocalAuthType.none
         }
         
         switch context.biometryType {
         case .faceID:
-            return .faceID
+            return MyLocalAuthType.faceID
         case .touchID:
-            return .touchID
+            return MyLocalAuthType.touchID
         case _ where canUseAnyLocalAuth:
-            return .passcodeOnly
+            return MyLocalAuthType.passcodeOnly
         default:
-            return .none
+            return MyLocalAuthType.none
         }
     }
     
@@ -71,7 +71,7 @@ final class LALocalAuthenticationManager<T: LocalAuthType>: LocalAuthenticationM
     }
     
     public func checkLevelSupported(
-        _ requiredLevel: T
+        _ requiredLevel: any LocalAuthType
     ) -> Bool {
         let supportedLevel = if canOnlyUseBiometrics {
             type == .touchID ? 3 : 4
