@@ -6,7 +6,11 @@ final class TabbedViewSectionFooter: UITableViewHeaderFooterView, ViewIdentifiab
         didSet {
             textLabel?.numberOfLines = 0
             textLabel?.lineBreakMode = .byWordWrapping
-            textLabel?.text = title?.value
+            if let attributedValue = title?.attributedValue {
+                textLabel?.attributedText = attributedValue
+            } else {
+                textLabel?.text = title?.value
+            }
             textLabel?.font = .footnote
             textLabel?.textColor = .secondaryLabel
             textLabel?.adjustsFontForContentSizeCategory = true

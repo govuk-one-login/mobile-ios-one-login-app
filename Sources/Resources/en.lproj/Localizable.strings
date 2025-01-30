@@ -125,6 +125,8 @@
 
 "app_analyticsFooter" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice";
 
+"app_analyticsLink" = "Read more in the privacy notice";
+
 "app_signOutButton" = "Sign out";
 
 

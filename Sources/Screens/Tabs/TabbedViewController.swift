@@ -54,11 +54,7 @@ final class TabbedViewController: BaseViewController {
         }
     }
 
-    @IBOutlet private var analyticsSwitch: UISwitch! {
-        didSet {
-            tableView.accessibilityIdentifier = "tabbed-view-analytics-switch"
-        }
-    }
+    @IBOutlet private var analyticsSwitch: UISwitch!
     
     private func subscribeToUsers() {
         userProvider.user

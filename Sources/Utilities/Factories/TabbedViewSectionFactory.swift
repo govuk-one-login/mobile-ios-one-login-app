@@ -32,9 +32,11 @@ struct TabbedViewSectionFactory {
                                                            accessoryView: linkDisclosureArrow)])
         
         let analyticsSection = createSection(header: "app_aboutSubtitle",
-                                             footer: "app_analyticsFooter",
-                                             cellModels: [.init(cellTitle: "app_analyticsToggle",
-                                                                accessoryView: nil)])
+                                             footer: GDSLocalisedString(stringLiteral: "app_analyticsFooter",
+                                                                        attributes: [(GDSLocalisedString(stringLiteral: "app_analyticsLink").value, [
+                                                                            .foregroundColor: UIColor.gdsGreen,
+                                                                            .link: AppEnvironment.privacyPolicyURL])]),
+                                             cellModels: [.init(cellTitle: "app_analyticsToggle")])
         
         let signoutSection = createSection(header: nil,
                                            footer: nil,
