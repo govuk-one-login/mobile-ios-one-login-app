@@ -11,7 +11,7 @@ enum UserState {
 protocol SessionManager: UserProvider {
     var expiryDate: Date? { get }
     
-    var sessionExists: Bool { get }
+    var isSessionLive: Bool { get }
     var isSessionValid: Bool { get }
     var isReturningUser: Bool { get }
     var isOneTimeUser: Bool { get }
