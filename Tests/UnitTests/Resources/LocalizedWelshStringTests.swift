@@ -131,6 +131,12 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Canllawiau ar ddefnyddio'r ap")
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
+        XCTAssertEqual("app_aboutSubtitle".getWelshString(),
+                       "Am yr ap")
+        XCTAssertEqual("app_analyticsToggle".getWelshString(),
+                       "Rhannu dadansoddeg yr ap")
+        XCTAssertEqual("app_analyticsFooter".getWelshString(),
+                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd")
     }
     
     func test_signOutPageKeys() {

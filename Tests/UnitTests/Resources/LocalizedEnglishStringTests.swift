@@ -131,6 +131,12 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Guidance about using the app")
         XCTAssertEqual("app_signOutButton".getEnglishString(),
                        "Sign out")
+        XCTAssertEqual("app_aboutSubtitle".getEnglishString(),
+                       "About the app")
+        XCTAssertEqual("app_analyticsToggle".getEnglishString(),
+                       "Share app analytics")
+        XCTAssertEqual("app_analyticsFooter".getEnglishString(),
+                       "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice")
     }
     
     func test_signOutPageKeys() {
