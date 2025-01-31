@@ -165,63 +165,9 @@ jobs:
 
   test_ui:
     needs: run_swiftlint
-    name: Run UI Tests
-    runs-on: macos-15
-    steps:
-      - name: Add Path Globally
-        run: echo "/usr/local/bin" >> $GITHUB_PATH
-
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
-        with:
-          lfs: 'true'
-          fetch-depth: 0
-
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
-        run: |
-          ./scripts-configs/store-access-token.sh
-          
-      - name: Export AppCheck Secret
-        env:
-            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
-        run: |
-          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
-
-      - name: Login to AWS CodeArtifact
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
-        run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
-
-      - name: Build App, Run UI Tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
-        run: |
-          bundle install
-
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            testplan:OneLoginUI
-
-      - name: Make Artifact
-        if: failure()
-        run: |
-          cd ./fastlane
-          zip -rq UITestArtifact test_output -x "test_output/report.junit"
-
-      - name: Upload Artifact
-        if: failure()
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # pin@v4
-        with:
-          name: UITestArtifact
-          path: ./fastlane/UITestArtifact.zip
-          retention-days: 1
+    name: Deploy App
+    uses: ./.github/workflows/ui-test.yml
+    secrets: inherit
 
   deploy_staging_app:
     needs: [ test_staging_config, test_ui ]
