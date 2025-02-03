@@ -16,14 +16,14 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode_16.1.app")
+xcode_select("/Applications/Xcode_16.2.app")
 
 platform :ios do
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverage do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.1)",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       testplan: options[:testplan]
@@ -34,7 +34,7 @@ platform :ios do
   lane :testWithoutCoverageForUITests do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.1)",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       testplan: options[:testplan],
@@ -48,7 +48,7 @@ platform :ios do
   lane :test do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.1)",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       testplan: options[:testplan],
