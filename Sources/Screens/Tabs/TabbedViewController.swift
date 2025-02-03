@@ -43,7 +43,9 @@ final class TabbedViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
-        
+        guard analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics != nil else {
+            return
+        }
         analyticsSwitch.setOn(analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics!, animated: true)
     }
     

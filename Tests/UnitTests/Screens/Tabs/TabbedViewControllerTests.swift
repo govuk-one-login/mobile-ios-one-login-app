@@ -7,6 +7,7 @@ import XCTest
 @MainActor
 final class TabbedViewControllerTests: XCTestCase {
     private var mockAnalyticsService: MockAnalyticsService!
+    private var mockAnalyticsCenter: MockAnalyticsCenter!
     private var mockSessionManager: MockSessionManager!
     private var viewModel: TabbedViewModel!
     private var sut: TabbedViewController!
@@ -18,6 +19,8 @@ final class TabbedViewControllerTests: XCTestCase {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                  analyticsPreferenceStore: MockAnalyticsPreferenceStore())
         mockSessionManager = MockSessionManager()
         viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
                                         navigationTitle: "Test Navigation Title",
@@ -26,7 +29,8 @@ final class TabbedViewControllerTests: XCTestCase {
         }
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
-                                   headerView: UIView())
+                                   headerView: UIView(),
+                                   analyticsCenter: mockAnalyticsCenter)
     }
     
     override func tearDown() {
@@ -96,13 +100,15 @@ extension TabbedViewControllerTests {
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
-                                                    walletAvailabilityService: MockWalletAvailabilityService())
+                                                    walletAvailabilityService: MockWalletAvailabilityService(),
+                                                    analyticsCenter: mockAnalyticsCenter)
         let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
         let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
                                             sectionModels: sections)
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
-                                   headerView: SignInView())
+                                   headerView: SignInView(),
+                                   analyticsCenter: mockAnalyticsCenter)
         // GIVEN I am not logged in
         XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\n")
         // WHEN the user is updated
@@ -115,11 +121,11 @@ extension TabbedViewControllerTests {
     func test_updateAnalytics() throws {
         try sut.analyticsSwitch.setOn(false, animated: true)
         try sut.analyticsSwitch.sendActions(for: .valueChanged)
-        XCTAssertEqual(sut.analyticsPreferences.hasAcceptedAnalytics, false)
+        XCTAssertEqual(mockAnalyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics, false)
         
         try sut.analyticsSwitch.setOn(true, animated: true)
         try sut.analyticsSwitch.sendActions(for: .valueChanged)
-        XCTAssertEqual(sut.analyticsPreferences.hasAcceptedAnalytics, true)
+        XCTAssertEqual(mockAnalyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics, true)
     }
 
     func test_screenAnalytics() {
