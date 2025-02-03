@@ -105,7 +105,7 @@ extension TabManagerCoordinator {
                                     networkClient: networkClient,
                                     urlOpener: UIApplication.shared,
                                     walletAvailabilityService: walletAvailabilityService,
-                                    analyticsCenter: analyticsCenter)
+                                    analyticsPreference: analyticsCenter.analyticsPreferenceStore)
         addTab(pc)
     }
 }

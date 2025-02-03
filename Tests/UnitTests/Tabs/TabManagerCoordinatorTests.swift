@@ -194,7 +194,7 @@ extension TabManagerCoordinatorTests {
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     walletAvailabilityService: mockWalletAvailabilityService,
-                                                    analyticsCenter: mockAnalyticsCenter)
+                                                    analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
         // THEN a logout notification is sent
@@ -218,7 +218,7 @@ extension TabManagerCoordinatorTests {
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     walletAvailabilityService: mockWalletAvailabilityService,
-                                                    analyticsCenter: mockAnalyticsCenter)
+                                                    analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)

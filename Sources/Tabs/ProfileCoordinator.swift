@@ -20,20 +20,20 @@ final class ProfileCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
     private let walletAvailablityService: WalletFeatureAvailabilityService
-    private let analyticsCenter: AnalyticsCentral
+    private let analyticsPreference: AnalyticsPreferenceStore
     
     init(analyticsService: AnalyticsService,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
          urlOpener: URLOpener,
          walletAvailabilityService: WalletFeatureAvailabilityService,
-         analyticsCenter: AnalyticsCentral) {
+         analyticsPreference: AnalyticsPreferenceStore) {
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkClient = networkClient
         self.urlOpener = urlOpener
         self.walletAvailablityService = walletAvailabilityService
-        self.analyticsCenter = analyticsCenter
+        self.analyticsPreference = analyticsPreference
     }
     
     func start() {
@@ -47,7 +47,7 @@ final class ProfileCoordinator: NSObject,
         let profileViewController = TabbedViewController(viewModel: viewModel,
                                                          userProvider: sessionManager,
                                                          headerView: SignInView(),
-                                                         analyticsCenter: analyticsCenter)
+                                                         analyticsPreference: analyticsPreference)
         root.setViewControllers([profileViewController], animated: true)
     }
     

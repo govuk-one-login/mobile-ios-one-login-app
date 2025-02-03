@@ -11,17 +11,17 @@ final class TabbedViewController: BaseViewController {
     private let headerView: UIView?
     private let userProvider: UserProvider
     
-    private var analyticsCenter: AnalyticsCentral
+    private var analyticsPreference: AnalyticsPreferenceStore
     private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
          headerView: UIView? = nil,
-         analyticsCenter: AnalyticsCentral) {
+         analyticsPreference: AnalyticsPreferenceStore) {
         self.viewModel = viewModel
         self.headerView = headerView
         self.userProvider = userProvider
-        self.analyticsCenter = analyticsCenter
+        self.analyticsPreference = analyticsPreference
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
@@ -43,10 +43,8 @@ final class TabbedViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
-        guard analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics != nil else {
-            return
-        }
-        analyticsSwitch.setOn(analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics!, animated: true)
+        guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
+        analyticsSwitch.setOn(analyticsAccepted, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -81,11 +79,7 @@ final class TabbedViewController: BaseViewController {
     }
     
     @IBAction private func updateAnalytics(_ sender: UISwitch) {
-        if sender.isOn {
-            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = true
-        } else {
-            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
-        }
+        analyticsPreference.hasAcceptedAnalytics?.toggle()
     }
     
     func screenAnalytics() {
