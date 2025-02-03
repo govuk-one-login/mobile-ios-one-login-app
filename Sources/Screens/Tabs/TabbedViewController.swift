@@ -11,15 +11,17 @@ final class TabbedViewController: BaseViewController {
     private let headerView: UIView?
     private let userProvider: UserProvider
     
-    let analyticsPreferences = UserDefaultsPreferenceStore()
+    private var analyticsCenter: AnalyticsCentral
     private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
-         headerView: UIView? = nil) {
+         headerView: UIView? = nil,
+         analyticsCenter: AnalyticsCentral) {
         self.viewModel = viewModel
         self.headerView = headerView
         self.userProvider = userProvider
+        self.analyticsCenter = analyticsCenter
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
@@ -41,6 +43,8 @@ final class TabbedViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        
+        analyticsSwitch.setOn(analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics!, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,9 +80,9 @@ final class TabbedViewController: BaseViewController {
     
     @IBAction private func updateAnalytics(_ sender: UISwitch) {
         if sender.isOn {
-            analyticsPreferences.hasAcceptedAnalytics = true
+            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = true
         } else {
-            analyticsPreferences.hasAcceptedAnalytics = false
+            analyticsCenter.analyticsPreferenceStore.hasAcceptedAnalytics = false
         }
     }
     
@@ -126,7 +130,6 @@ extension TabbedViewController: UITableViewDataSource {
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
         
         if viewModel.sectionModels[indexPath.section].sectionTitle == "app_aboutSubtitle" {
-            analyticsSwitch.setOn(analyticsPreferences.hasAcceptedAnalytics!, animated: true)
             cell.accessoryView = analyticsSwitch
         }
         return cell
