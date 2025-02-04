@@ -173,8 +173,12 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func displayUnlockWindow() {
-        if let unlockWindow { return }
-        guard let appWindowScene = appWindow.windowScene else { return }
+        guard unlockWindow == nil else {
+            return
+        }
+        guard let appWindowScene = appWindow.windowScene else {
+            fatalError("App window scene not present")
+        }
         unlockWindow = UIWindow(windowScene: appWindowScene)
         unlockWindow?.rootViewController = unlockViewController
         unlockWindow?.windowLevel = .alert
