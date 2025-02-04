@@ -34,7 +34,7 @@ final class QualifyingCoordinator: NSObject,
         childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
 
-    private lazy var unlockViewController: UnlockScreenViewController = {
+    private lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             Task {
                 await appQualifyingService.evaluateUser()
@@ -173,6 +173,7 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func displayUnlockWindow() {
+        if let unlockWindow { return }
         guard let appWindowScene = appWindow.windowScene else { return }
         unlockWindow = UIWindow(windowScene: appWindowScene)
         unlockWindow?.rootViewController = unlockViewController
