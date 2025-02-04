@@ -60,13 +60,13 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func start() {
-        presentUnlockWindow()
+        displayUnlockWindow()
     }
     
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
         switch appInfoState {
         case .notChecked:
-            presentUnlockWindow()
+            displayUnlockWindow()
         case .offline:
             // TODO: DCMAW-9866 | display error screen for app offline and no cached data
             return
@@ -172,7 +172,7 @@ final class QualifyingCoordinator: NSObject,
         unlockWindow = nil
     }
     
-    func presentUnlockWindow() {
+    func displayUnlockWindow() {
         guard let appWindowScene = appWindow.windowScene else { return }
         unlockWindow = UIWindow(windowScene: appWindowScene)
         unlockWindow?.rootViewController = unlockViewController
