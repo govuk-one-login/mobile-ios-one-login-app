@@ -6,39 +6,34 @@ public protocol LocalAuthPromptRecorder {
     func recordPrompt()
 }
 
-public protocol AppSessionManager {
-    func saveLoginSesion()
+enum LocalAuthManagerError: Error {
+    case noLocalAuthToEnrol
 }
 
 final class LALocalAuthenticationManager: LocalAuthenticationManager {
     private let context: LocalAuthenticationContext
-    private let localAuthPromptStore: LocalAuthPromptRecorder
     private let localAuthStrings: LocalAuthPromptStrings
-    private let appSessionManager: AppSessionManager
+    private let localAuthPromptStore: LocalAuthPromptRecorder
     
     public convenience init(
         localAuthStrings: LocalAuthPromptStrings,
-        localAuthPromptStore: LocalAuthPromptRecorder,
-        appSessionManager: AppSessionManager
+        localAuthPromptStore: LocalAuthPromptRecorder
     ) {
         self.init(
             context: LAContext(),
-            localAuthPromptStore: localAuthPromptStore,
             localAuthStrings: localAuthStrings,
-            appSessionManager: appSessionManager
+            localAuthPromptStore: localAuthPromptStore
         )
     }
     
     init(
         context: LocalAuthenticationContext,
-        localAuthPromptStore: LocalAuthPromptRecorder,
         localAuthStrings: LocalAuthPromptStrings,
-        appSessionManager: AppSessionManager
+        localAuthPromptStore: LocalAuthPromptRecorder
     ) {
         self.context = context
-        self.localAuthPromptStore = localAuthPromptStore
         self.localAuthStrings = localAuthStrings
-        self.appSessionManager = appSessionManager
+        self.localAuthPromptStore = localAuthPromptStore
     }
     
     public var type: some LocalAuthType {
@@ -70,7 +65,7 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         )
     }
     
-    public func checkLevelSupported(
+    public func checkMinimumLevel(
         _ requiredLevel: any LocalAuthType
     ) -> Bool {
         let supportedLevel = if canOnlyUseBiometrics {
@@ -83,13 +78,13 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         return supportedLevel >= requiredLevel.rawValue
     }
     
-    public func saveLoginSesion() {
-        appSessionManager.saveLoginSesion()
-    }
-    
-    public func enrolFaceIDIfAvailable() async throws -> Bool {
+    public func enrolLocalAuth() async throws -> Bool {
+        guard type != .none else {
+            throw LocalAuthManagerError.noLocalAuthToEnrol
+        }
         guard type == .faceID else {
             // enrolment is not required unless biometric type is FaceID
+            // localAuthResult ? post notification : nil
             return true
         }
         do {
@@ -100,7 +95,7 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
                     localizedReason: localAuthStrings.subtitle
                 )
             localAuthPromptStore.recordPrompt()
-            localAuthResult ? saveLoginSesion() : nil
+//            localAuthResult ? post notification : nil
             return localAuthResult
         } catch {
             throw error
