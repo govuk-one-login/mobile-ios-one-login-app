@@ -119,6 +119,12 @@
 
 "app_appGuidanceLink" = "Canllawiau ar ddefnyddio'r ap";
 
+"app_aboutSubtitle" = "Am yr ap";
+
+"app_analyticsToggle" = "Rhannu dadansoddeg yr ap";
+
+"app_analyticsFooter" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd";
+
 "app_signOutButton" = "Allgofnodi";
 
 

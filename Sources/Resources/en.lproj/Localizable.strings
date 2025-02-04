@@ -119,6 +119,12 @@
 
 "app_appGuidanceLink" = "Guidance about using the app";
 
+"app_aboutSubtitle" = "About the app";
+
+"app_analyticsToggle" = "Share app analytics";
+
+"app_analyticsFooter" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice";
+
 "app_signOutButton" = "Sign out";
 
 
