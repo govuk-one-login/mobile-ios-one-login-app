@@ -13,6 +13,7 @@ final class MockAppInformationService: AppInformationProvider {
     var errorToThrow: Error?
 
     var releaseFlags: [String: Bool] = [:]
+    var featureFlags: [String: Bool] = [:]
 
     func fetchAppInfo() async throws -> App {
         defer {
@@ -28,6 +29,7 @@ final class MockAppInformationService: AppInformationProvider {
         
         return App(minimumVersion: .init(1, 2, 0),
                    allowAppUsage: allowAppUsage,
-                   releaseFlags: releaseFlags)
+                   releaseFlags: releaseFlags,
+                   featureFlags: featureFlags)
     }
 }

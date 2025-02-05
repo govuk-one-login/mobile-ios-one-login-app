@@ -1,6 +1,5 @@
 import AppIntegrity
 import Foundation
-import Testing
 
 final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
     var publicKey: Data {

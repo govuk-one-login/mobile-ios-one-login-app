@@ -1,22 +1,40 @@
+import CRIOrchestrator
 import GDSAnalytics
+import Networking
 @testable import OneLogin
 import XCTest
 
 @MainActor
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
+    var mockNetworkClient: NetworkClient!
+    var criOrchestrator: CRIOrchestrator!
     var sut: HomeViewController!
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = HomeViewController(analyticsService: mockAnalyticsService)
+        mockNetworkClient = NetworkClient()
+        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
+        
+        criOrchestrator = CRIOrchestrator(analyticsService: mockAnalyticsService,
+                                          networkClient: mockNetworkClient)
+        sut = HomeViewController(analyticsService: mockAnalyticsService,
+                                 networkClient: mockNetworkClient,
+                                 criOrchestrator: criOrchestrator)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockNetworkClient = nil
+        criOrchestrator = nil
         sut = nil
+        
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         super.tearDown()
     }
@@ -30,19 +48,42 @@ extension HomeViewControllerTests {
     }
     
     func test_numberOfSections() {
-        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 2)
     }
-    
+
     func test_numbeOfRowsInSection() {
         XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 0), 1)
+        XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 1), 1)
     }
-    
+
     func test_contentTileCell_viewModel() {
         let servicesTile = sut.tableView(
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
+    }
+    
+    func test_idCheckTileCell_isVisible() {
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
+        )
+        UINavigationController().setViewControllers([sut], animated: false)
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        )
+        XCTAssertFalse(servicesTile.isHidden)
+    }
+
+    func test_idCheckTileCell_isHidden() {
+        UINavigationController().setViewControllers([sut], animated: false)
+        let servicesTile = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        )
+        XCTAssertTrue(servicesTile.isHidden)
     }
     
     func test_viewDidAppear() {

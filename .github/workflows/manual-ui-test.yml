@@ -1,0 +1,12 @@
+name: Manual UI Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test_ui:
+    name: Manual Action
+    uses: ./.github/workflows/ui-test.yml
+    with:
+      test_branch: '${{ github.ref_name }}'
+    secrets: inherit

@@ -13,7 +13,7 @@
 
 "app_loadingBody" = "Llwytho";
 
-"app_maybeLaterButton" = "Efallai nes ymlaen";
+"app_skipButton" = "Osgoi";
 
 "app_enterPasscodeButton" = "Rhowch god mynediad";
 
@@ -41,9 +41,13 @@
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
 
-"acceptAnalyticsPreferences_body" = "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.";
+"acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
 
-"app_privacyNoticeLink" = "Edrych ar hysbysiad preifatrwydd GOV.UK One Login";
+"app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd GOV.UK One Login";
+
+"app_shareAnalyticsButton" = "Rhannu dadansoddeg";
+
+"app_doNotShareAnalytics" = "Osgoi am y tro";
 
 
 // MARK: Unable to login error screen
@@ -64,30 +68,20 @@
 "app_somethingWentWrongErrorBody" = "Rhowch gynnig arall yn nes ymlaen.";
 
 
-// MARK: Passcode information screen
-"app_noPasscodeSetupTitle" = "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad";
-
-"app_noPasscodeSetupBody" = "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.";
-
-
 // MARK: Face ID enrolment screen
-"app_enableFaceIDTitle" = "Defnyddio Face ID i fewngofnodi";
+"app_enableFaceIDTitle" = "Datgloi'r ap gyda Face ID";
 
-"app_enableFaceIDBody" = "Mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a'ch cyfrinair. Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.";
+"app_enableFaceIDBody" = "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableFaceIDFootnote" = "Os ydych yn defnyddio Face ID, gall unrhyw un gyda Face ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.";
-
-"app_enableFaceIDButton" = "Defnyddio Face ID";
+"app_enableFaceIDButton" = "Caniatáu Face ID";
 
 
 // MARK: Touch ID enrolment screen
-"app_enableTouchIDTitle" = "Defnyddio Touch ID i fewngofnodi";
+"app_enableTouchIDTitle" = "Datgloi'r ap gyda Touch ID";
 
-"app_enableTouchIDBody" = "Mewngofnodi gyda'ch olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich Touch ID yn cael ei rannu â GOV.UK One Login.";
+"app_enableTouchIDBody" = "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableTouchIDFootnote" = "Os ydych yn defnyddio Touch ID, gall unrhyw un gyda Touch ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.";
-
-"app_enableTouchIDEnableButton" = "Defnyddio Touch ID";
+"app_enableTouchIDEnableButton" = "Caniatáu Touch ID";
 
 
 // MARK: Unlock screen
@@ -124,6 +118,12 @@
 "app_reportAProblemGiveFeedbackLink" = "Rhoi gwybod am broblem neu roi adborth";
 
 "app_appGuidanceLink" = "Canllawiau ar ddefnyddio'r ap";
+
+"app_aboutSubtitle" = "Am yr ap";
+
+"app_analyticsToggle" = "Rhannu dadansoddeg yr ap";
+
+"app_analyticsFooter" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd";
 
 "app_signOutButton" = "Allgofnodi";
 

@@ -11,13 +11,13 @@ permissions:
 jobs:
   run_swiftlint:
     name: Run Swiftlint
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -30,14 +30,14 @@ jobs:
   quality_report:
     needs: run_swiftlint
     name: Run Unit Tests and Send Coverage Report
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -47,6 +47,17 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        run: |
+          touch ../secrets.xcconfig
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.1.app
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Default Branch
         env:
@@ -60,30 +71,38 @@ jobs:
 
           bundle install
 
-          bundle exec fastlane test scheme:"OneLogin" \
-            sonar_token:${{secrets.SONAR_TOKEN}} \
+          bundle exec fastlane test scheme:"OneLoginBuild" \
+            configuration:"Debug" \
+            testplan:OneLoginUnit \
             workspace:${{github.workspace}} \
-            testplan:OneLoginUnit
+            sonar_token:${{secrets.SONAR_TOKEN}}
 
   test_staging_config:
     needs: run_swiftlint
     name: Run Staging Configuration Tests
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
 
       - name: Configure Private Repo Access
         env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
         run: |
           ./scripts-configs/store-access-token.sh
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.2.app
 
       - name: Build App, Run Staging Configuration Tests
         env:
@@ -96,18 +115,19 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginStaging" \
+            configuration:"Staging" \
             testplan:OneLoginStaging
 
   test_build_config:
     needs: run_swiftlint
     name: Run Build Configuration Tests
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
         with:
           lfs: 'true'
           fetch-depth: 0
@@ -117,6 +137,17 @@ jobs:
           GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
         run: |
           ./scripts-configs/store-access-token.sh
+          
+      - name: Export AppCheck Secret
+        run: |
+          touch ../secrets.xcconfig
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.2.app
 
       - name: Build App, Run Build Configuration Tests
         env:
@@ -129,124 +160,28 @@ jobs:
           bundle install
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
+            configuration:"Build" \
             testplan:OneLoginBuild
 
   test_ui:
     needs: run_swiftlint
-    name: Run UI Tests
-    runs-on: macos-14
-    steps:
-      - name: Add Path Globally
-        run: echo "/usr/local/bin" >> $GITHUB_PATH
+    name: Deploy App
+    uses: ./.github/workflows/ui-test.yml
+    secrets: inherit
 
-      - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4
-        with:
-          lfs: 'true'
-          fetch-depth: 0
+  deploy_staging_app:
+    needs: [ test_staging_config, test_ui ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Staging"
+    secrets: inherit
 
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
-        run: |
-          ./scripts-configs/store-access-token.sh
-          
-      - name: Export AppCheck Secret
-        env:
-            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
-        run: |
-          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
-
-      - name: Build App, Run UI Tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
-        run: |
-          bundle install
-
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            testplan:OneLoginUI
-
-      - name: Make Artifact
-        if: failure()
-        run: |
-          cd ./fastlane
-          zip -rq UITestArtifact test_output -x "test_output/report.junit"
-
-      - name: Upload Artifact
-        if: failure()
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pin@v4
-        with:
-          name: UITestArtifact
-          path: ./fastlane/UITestArtifact.zip
-          retention-days: 1
-
-  deploy_apps:
-    needs: [ test_staging_config, test_build_config, test_ui, run_swiftlint ]
-    name: Deploy Staging and Build Apps
-    runs-on: macos-14
-    steps:
-      - name: Add Path Globally
-        run: echo "/usr/local/bin" >> $GITHUB_PATH
-
-      - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4
-        with:
-          lfs: 'true'
-
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
-        run: |
-          ./scripts-configs/store-access-token.sh
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # pin@v4.0.2
-        with:
-          aws-region: eu-west-2
-          role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
-          role-duration-seconds: 1200
-          role-skip-session-tagging: true
-
-      - name: Store Secrets from AWS SecretManager
-        uses: aws-actions/aws-secretsmanager-get-secrets@1d6311ab61b4856de027ff508aac818ddc1e141b # pin@v2.0.7
-        with:
-          secret-ids: |
-            di-ipv-dca-mob-ios/github-actions-v2
-          parse-json-secrets: true
-
-      - name: Build App, Deploy to App Store Connect
-        env:
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
-        run: |
-          gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
-          echo Pushed to branch: $gitbranch
-
-          bundle install
-
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/distribution.p12
-          CERTIFICATE_PASSWORD="${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_SIGNING_KEY_PASSWORD}}"
-          APIKEY_PATH=$RUNNER_TEMP/apikey.p8
-
-          # import certificates from secrets
-          echo -n "${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_DISTRIBUTION_P12_ENCODED}}" \
-            | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "${{env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_AUTH_KEY_P8_ENCODED}}" \
-            | base64 --decode -o $APIKEY_PATH
-
-          bundle exec fastlane prerelease configuration:"Staging" \
-            certificate_path:$CERTIFICATE_PATH \
-            certificate_password:$CERTIFICATE_PASSWORD \
-            apikey_path:$APIKEY_PATH --verbose
-
-          bundle exec fastlane prerelease configuration:"Debug_Build" \
-            certificate_path:$CERTIFICATE_PATH \
-            certificate_password:$CERTIFICATE_PASSWORD \
-            apikey_path:$APIKEY_PATH --verbose
+  deploy_build_app:
+    needs: [ test_build_config, test_ui ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Build"
+      app_check: true
+    secrets: inherit

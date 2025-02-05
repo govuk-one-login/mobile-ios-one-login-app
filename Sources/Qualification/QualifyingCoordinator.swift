@@ -15,8 +15,10 @@ import UIKit
 final class QualifyingCoordinator: NSObject,
                                    ParentCoordinator,
                                    AppQualifyingServiceDelegate {
-    private let window: UIWindow
+    private var unlockWindow: UIWindow?
+    private let appWindow: UIWindow
     var childCoordinators = [ChildCoordinator]()
+    var deeplink: URL?
 
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
@@ -32,7 +34,7 @@ final class QualifyingCoordinator: NSObject,
         childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
 
-    private lazy var unlockViewController: UnlockScreenViewController = {
+    private lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             Task {
                 await appQualifyingService.evaluateUser()
@@ -41,13 +43,13 @@ final class QualifyingCoordinator: NSObject,
         return UnlockScreenViewController(viewModel: viewModel)
     }()
 
-    init(window: UIWindow,
+    init(appWindow: UIWindow,
          analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
          sessionManager: SessionManager,
          networkClient: NetworkClient,
          walletAvailabilityService: WalletFeatureAvailabilityService) {
-        self.window = window
+        self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
@@ -58,17 +60,13 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func start() {
-        lock()
-    }
-    
-    func lock() {
-        displayViewController(unlockViewController)
+        displayUnlockWindow()
     }
     
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
         switch appInfoState {
         case .notChecked:
-            lock()
+            displayUnlockWindow()
         case .offline:
             // TODO: DCMAW-9866 | display error screen for app offline and no cached data
             return
@@ -113,7 +111,7 @@ final class QualifyingCoordinator: NSObject,
             displayViewController(loginCoordinator.root)
         } else {
             let loginCoordinator = LoginCoordinator(
-                appWindow: window,
+                appWindow: appWindow,
                 root: UINavigationController(),
                 analyticsCenter: analyticsCenter,
                 sessionManager: sessionManager,
@@ -128,7 +126,7 @@ final class QualifyingCoordinator: NSObject,
             displayViewController(tabManagerCoordinator.root)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
-                appWindow: window,
+                appWindow: appWindow,
                 root: UITabBarController(),
                 analyticsCenter: analyticsCenter,
                 networkClient: networkClient,
@@ -136,14 +134,21 @@ final class QualifyingCoordinator: NSObject,
                 walletAvailabilityService: walletAvailabilityService)
             displayChildCoordinator(tabManagerCoordinator)
         }
+        if let deeplink {
+            tabManagerCoordinator?.handleUniversalLink(deeplink)
+            self.deeplink = nil
+        }
     }
 
     func handleUniversalLink(_ url: URL) {
-        // Ensure qualifying checks have completed
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
+            guard appWindow.rootViewController is UITabBarController else {
+                deeplink = url
+                return
+            }
             tabManagerCoordinator?.handleUniversalLink(url)
         case .unknown:
             return
@@ -161,7 +166,20 @@ final class QualifyingCoordinator: NSObject,
     }
 
     private func displayViewController(_ viewController: UIViewController) {
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+        appWindow.rootViewController = viewController
+        appWindow.makeKeyAndVisible()
+        unlockWindow?.isHidden = true
+        unlockWindow = nil
+    }
+    
+    func displayUnlockWindow() {
+        guard unlockWindow == nil,
+              let appWindowScene = appWindow.windowScene else {
+            return
+        }
+        unlockWindow = UIWindow(windowScene: appWindowScene)
+        unlockWindow?.rootViewController = unlockViewController
+        unlockWindow?.windowLevel = .alert
+        unlockWindow?.makeKeyAndVisible()
     }
 }

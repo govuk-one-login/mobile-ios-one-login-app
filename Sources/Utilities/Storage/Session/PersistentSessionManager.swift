@@ -1,8 +1,10 @@
 import Authentication
 import Combine
+import CryptoService
 import LocalAuthentication
 import Networking
 import SecureStore
+import TokenGeneration
 
 enum PersistentSessionError: Error, Equatable {
     case noSessionExists
@@ -30,7 +32,6 @@ protocol SessionBoundData {
 final class PersistentSessionManager: SessionManager {
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
-    
     let localAuthentication: LocalAuthenticationManager
     
     let tokenProvider: TokenHolder
@@ -110,7 +111,10 @@ final class PersistentSessionManager: SessionManager {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
     }
     
-    func startSession(using session: any LoginSession) async throws {
+    func startSession(
+        _ session: any LoginSession,
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
+    ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
             // but cannot reauthenticate because I don't have a persistent session ID
@@ -125,17 +129,14 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.sessionMismatch
         }
         
-        let configuration = LoginSessionConfiguration
-            .oneLogin(persistentSessionId: persistentID)
         let response = try await session
-            .performLoginFlow(configuration: configuration)
+            .performLoginFlow(configuration: configuration(persistentID))
         tokenResponse = response
         
         // update curent state
         tokenProvider.update(subjectToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
-        if AppEnvironment.callingSTSEnabled,
-           let idToken = response.idToken {
+        if let idToken = response.idToken {
             try user.send(IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)

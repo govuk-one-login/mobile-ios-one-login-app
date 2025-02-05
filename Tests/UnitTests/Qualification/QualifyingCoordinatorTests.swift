@@ -32,7 +32,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
         
         walletAvailabilityService = MockWalletAvailabilityService()
 
-        sut = QualifyingCoordinator(window: window,
+        sut = QualifyingCoordinator(appWindow: window,
                                     analyticsCenter: analyticsCenter,
                                     appQualifyingService: qualifyingService,
                                     sessionManager: sessionManager,
@@ -57,10 +57,8 @@ extension QualifyingCoordinatorTests {
     func test_start_displaysLoadingScreen() throws {
         // GIVEN I open the app
         sut.start()
-        // THEN I am shown the loading screen
-        _ = try XCTUnwrap(
-            window.rootViewController as? UnlockScreenViewController
-        )
+        // THEN there should be no screen on the app window
+        XCTAssertNil(window.rootViewController)
     }
 
     @MainActor
@@ -68,10 +66,8 @@ extension QualifyingCoordinatorTests {
         // GIVEN I reopen the app
         // WHEN I have not yet received a result from `appInfo`
         sut.didChangeAppInfoState(state: .notChecked)
-        // THEN I remain on the loading screen
-        _ = try XCTUnwrap(
-            window.rootViewController as? UnlockScreenViewController
-        )
+        // THEN there should be no screen on the app window
+        XCTAssertNil(window.rootViewController)
     }
     
     @MainActor
@@ -102,6 +98,7 @@ extension QualifyingCoordinatorTests {
 extension QualifyingCoordinatorTests {
     @MainActor
     func test_confirmedUser_displaysMainView() throws {
+        sut.deeplink = try XCTUnwrap(URL(string: "google.co.uk"))
         // GIVEN I reopen the app
         // WHEN I authenticate as a valid user
         sut.didChangeUserState(state: .loggedIn)
@@ -155,5 +152,12 @@ extension QualifyingCoordinatorTests {
         )
         let viewModel = try XCTUnwrap(vc.viewModel as? UnableToLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")
+    }
+    
+    @MainActor
+    func test_handleUniversalLink() throws {
+        let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
+        sut.handleUniversalLink(deeplink)
+        XCTAssertEqual(sut.deeplink, deeplink)
     }
 }

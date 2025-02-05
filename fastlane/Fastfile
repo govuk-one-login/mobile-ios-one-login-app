@@ -16,15 +16,16 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode_16.app")
+xcode_select("/Applications/Xcode_16.2.app")
 
 platform :ios do
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverage do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.0)",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
+      configuration: options[:configuration],
       testplan: options[:testplan]
     )
   end
@@ -33,8 +34,9 @@ platform :ios do
   lane :testWithoutCoverageForUITests do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.0)",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
+      configuration: options[:configuration],
       testplan: options[:testplan],
       prelaunch_simulator: true,
       result_bundle: true,
@@ -46,8 +48,9 @@ platform :ios do
   lane :test do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.0)",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
+      configuration: options[:configuration],
       testplan: options[:testplan],
       result_bundle: true
     )
@@ -112,7 +115,7 @@ platform :ios do
       if options[:configuration] == "Staging" then
         profile_name += " Staging"
         app_identifier += ".staging"
-      elsif options[:configuration] == "Debug_Build" then
+      elsif options[:configuration] == "Build" then
         profile_name += " Build"
         app_identifier += ".build"
       end

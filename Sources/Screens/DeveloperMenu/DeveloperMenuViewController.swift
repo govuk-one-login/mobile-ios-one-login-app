@@ -33,12 +33,8 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBOutlet private var happyPathButton: RoundedButton! {
         didSet {
-            if AppEnvironment.callingSTSEnabled {
-                happyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                happyPathButton.setTitle("Hello World Happy", for: .normal)
-            } else {
-                happyPathButton.isHidden = true
-            }
+            happyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            happyPathButton.setTitle("Hello World Happy", for: .normal)
             happyPathButton.accessibilityIdentifier = "sts-happy-path-button"
         }
     }
@@ -73,12 +69,8 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBOutlet private var errorPathButton: RoundedButton! {
         didSet {
-            if AppEnvironment.callingSTSEnabled {
-                errorPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                errorPathButton.setTitle("Hello World Error", for: .normal)
-            } else {
-                errorPathButton.isHidden = true
-            }
+            errorPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            errorPathButton.setTitle("Hello World Error", for: .normal)
             errorPathButton.accessibilityIdentifier = "sts-error-path-button"
         }
     }
@@ -112,12 +104,8 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBOutlet private var unauthorizedPathButton: RoundedButton! {
         didSet {
-            if AppEnvironment.callingSTSEnabled {
-                unauthorizedPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                unauthorizedPathButton.setTitle("Hello World Unauthorized", for: .normal)
-            } else {
-                unauthorizedPathButton.isHidden = true
-            }
+            unauthorizedPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            unauthorizedPathButton.setTitle("Hello World Unauthorized", for: .normal)
             unauthorizedPathButton.accessibilityIdentifier = "sts-unauthorized-path-button"
         }
     }
@@ -151,12 +139,8 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBOutlet private var deletePersistentSessionIDButton: RoundedButton! {
         didSet {
-            if AppEnvironment.callingSTSEnabled {
-                deletePersistentSessionIDButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                deletePersistentSessionIDButton.setTitle("Delete Persistent Session ID", for: .normal)
-            } else {
-                deletePersistentSessionIDButton.isHidden = true
-            }
+            deletePersistentSessionIDButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            deletePersistentSessionIDButton.setTitle("Delete Persistent Session ID", for: .normal)
             deletePersistentSessionIDButton.accessibilityIdentifier = "sts-delete-persistent-session-id-path-button"
         }
     }
@@ -173,12 +157,8 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBOutlet private var expireAccessTokenButton: RoundedButton! {
         didSet {
-            if AppEnvironment.callingSTSEnabled {
-                expireAccessTokenButton.titleLabel?.adjustsFontForContentSizeCategory = true
-                expireAccessTokenButton.setTitle("Expire Access Token", for: .normal)
-            } else {
-                expireAccessTokenButton.isHidden = true
-            }
+            expireAccessTokenButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            expireAccessTokenButton.setTitle("Expire Access Token", for: .normal)
             expireAccessTokenButton.accessibilityIdentifier = "sts-expire-access-token-button"
         }
     }

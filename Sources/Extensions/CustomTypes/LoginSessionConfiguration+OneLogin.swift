@@ -1,15 +1,24 @@
+import AppIntegrity
 import Authentication
 import Foundation
 
 extension LoginSessionConfiguration {
-    static func oneLogin(persistentSessionId: String? = nil) -> Self {
+    @Sendable
+    static func oneLoginSessionConfiguration(
+        persistentSessionID: String?
+    ) async throws -> Self {
         let env = AppEnvironment.self
-        return .init(authorizationEndpoint: env.callingSTSEnabled ? env.stsAuthorize : env.oneLoginAuthorize,
-                     tokenEndpoint: env.callingSTSEnabled ? env.stsToken : env.oneLoginToken,
-                     scopes: [.openid],
-                     clientID: env.callingSTSEnabled ? env.stsClientID : env.oneLoginClientID,
-                     redirectURI: env.oneLoginRedirect,
-                     locale: env.isLocaleWelsh ? .cy : .en,
-                     persistentSessionId: persistentSessionId)
+        let shouldAttestIntegrity = env.appIntegrityEnabled || UserDefaults.standard.validAttestation
+        return await .init(
+            authorizationEndpoint: env.stsAuthorize,
+            tokenEndpoint: env.stsToken,
+            scopes: [.openid],
+            clientID: env.stsClientID,
+            redirectURI: env.mobileRedirect.absoluteString,
+            locale: env.isLocaleWelsh ? .cy : .en,
+            persistentSessionId: persistentSessionID,
+            tokenHeaders: shouldAttestIntegrity ? try await FirebaseAppIntegrityService
+                .firebaseAppCheck().integrityAssertions : nil
+        )
     }
 }

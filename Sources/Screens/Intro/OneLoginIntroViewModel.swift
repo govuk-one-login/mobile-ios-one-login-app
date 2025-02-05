@@ -17,7 +17,7 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
          signinAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_signInButton",
-                              linkDomain: AppEnvironment.oneLoginBaseURL,
+                              linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         introButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_signInButton",
                                                         analyticsService: analyticsService,

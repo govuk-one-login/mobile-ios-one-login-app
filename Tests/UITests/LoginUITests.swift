@@ -6,7 +6,10 @@ final class LoginUITests: XCTestCase {
     override func setUp() async throws {
         await MainActor.run {
             sut = WelcomeScreen()
-            sut.app.launchArguments = ["uiTests"]
+            guard let debugToken = ProcessInfo.processInfo.environment["FIRAAppCheckDebugToken"] else {
+                preconditionFailure("No Firebase App Check Debug Token passed in environment")
+            }
+            sut.app.launchEnvironment["FIRAAppCheckDebugToken"] = debugToken
             sut.app.launch()
             let exp = expectation(description: "Waiting once App has launched")
             XCTWaiter().wait(for: [exp], timeout: 30)
@@ -20,7 +23,7 @@ final class LoginUITests: XCTestCase {
     
     func agreeIfAnalytics() {
         if sut.app.staticTexts["Help improve the app by sharing analytics"].exists {
-            let analyticsButton = sut.app.buttons["Agree"]
+            let analyticsButton = sut.app.buttons["Share analytics"]
             XCTAssertTrue(analyticsButton.exists)
             // Tap Analytics Permission Button
             analyticsButton.tap()

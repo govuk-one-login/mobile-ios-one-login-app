@@ -1,5 +1,6 @@
 @testable import AppIntegrity
 import FirebaseAppCheck
+import FirebaseCore
 import Foundation
 import MockNetworking
 @testable import Networking
@@ -9,7 +10,11 @@ import Testing
 struct FirebaseAppIntegrityServiceTests {
     let sut: FirebaseAppIntegrityService
     let proofProvider: ProofOfPossessionProvider
-
+    let networkClient: NetworkClient
+    let baseURL: URL
+    let mockProofTokenGenerator: MockProofTokenGenerator
+    let mockAttestationStore: MockAttestationStore
+    
     init() throws {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [
@@ -20,15 +25,21 @@ struct FirebaseAppIntegrityServiceTests {
 
         proofProvider = MockProofOfPossessionProvider()
 
-        let client = NetworkClient(configuration: configuration)
-        let baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
+        networkClient = NetworkClient(configuration: configuration)
+        baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
+        mockProofTokenGenerator = MockProofTokenGenerator(
+            header: ["mockHeaderKey1": "mockHeaderValue1"],
+            payload: ["mockPayloadKey1": "mockPayloadValue1"]
+        )
+        mockAttestationStore = MockAttestationStore()
 
         sut = FirebaseAppIntegrityService(
             vendor: MockAppCheckVendor(),
-            providerFactory: AppCheckDebugProviderFactory(),
+            networkClient: networkClient,
             proofOfPossessionProvider: proofProvider,
-            client: client,
-            baseURL: baseURL
+            baseURL: baseURL,
+            proofTokenGenerator: mockProofTokenGenerator,
+            attestationStore: mockAttestationStore
         )
     }
 
@@ -49,7 +60,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
 
         await #expect(throws: AppIntegrityError.invalidToken) {
-            try await sut.assertIntegrity()
+            try await sut.integrityAssertions
         }
     }
 
@@ -62,8 +73,30 @@ struct FirebaseAppIntegrityServiceTests {
         }
 
         await #expect(throws: AppIntegrityError.invalidPublicKey) {
-            try await sut.assertIntegrity()
+            try await sut.integrityAssertions
         }
+    }
+    
+    @Test("""
+          Check the saved attestation and proof token are returned if valid
+          """)
+    func testSavedIntegrityAssertion() async throws {
+        mockAttestationStore.validAttestation = true
+        
+        let integrityResponse = try await sut.integrityAssertions
+        
+        #expect(integrityResponse["OAuth-Client-Attestation"] == "testSavedAttestation")
+        let header = try #require(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockHeaderKey1": "mockHeaderValue1""#) as Bool?
+        )
+        #expect(header)
+        
+        let payload = try #require(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPayloadKey1": "mockPayloadValue1""#) as Bool?
+        )
+        #expect(payload)
     }
 
     @Test("""
@@ -73,19 +106,58 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data("""
              {
-              "client_attestation": "eyJ...",
+              "client_attestation": "testAttestation",
               "expires_in": 86400
              }
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
 
-        _ = try await sut.assertIntegrity()
+        _ = try await sut.integrityAssertions
 
         #expect(MockURLProtocol.requests.count == 1)
         #expect(
             MockURLProtocol.requests[0].url?.absoluteString ==
             "https://mobile.build.account.gov.uk/client-attestation"
         )
+    }
+    
+    @Test("""
+          Check that the assertIntegrity returns correct dictionary
+          """)
+    func testAssertIntegrityResponse() async throws {
+        MockURLProtocol.handler = {
+            (Data("""
+             {
+              "client_attestation": "testAttestation",
+              "expires_in": 86400
+             }
+            """.utf8), HTTPURLResponse(statusCode: 200))
+        }
+
+        let integrityResponse = try await sut.integrityAssertions
+        
+        #expect(integrityResponse["OAuth-Client-Attestation"] == "testAttestation")
+        let header = try #require(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockHeaderKey1": "mockHeaderValue1""#) as Bool?
+        )
+        #expect(header)
+        
+        let payload = try #require(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPayloadKey1": "mockPayloadValue1""#) as Bool?
+        )
+        #expect(payload)
+        
+        #expect(
+            mockAttestationStore.mockStorage["attestationJWT"] as? String == "testAttestation"
+        )
+        if #available(iOS 15.0, *) {
+            #expect(
+                (mockAttestationStore.mockStorage["attestationExpiry"] as? Date)?
+                    .formatted(.dateTime) == Date(timeIntervalSinceNow: 86400).formatted(.dateTime)
+            )
+        }
     }
 
     @Test("""
@@ -97,7 +169,7 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data("""
              {
-              "client_attestation": "eyJ...",
+              "client_attestation": "testAttestation",
               "expires_in": \(expiresIn)
              }
             """.utf8), HTTPURLResponse(statusCode: 200))
@@ -106,26 +178,11 @@ struct FirebaseAppIntegrityServiceTests {
         let initialDate = Date()
         let response = try await sut
             .fetchClientAttestation(appCheckToken: UUID().uuidString)
-        #expect(response.attestationJWT == "eyJ...")
+        #expect(response.attestationJWT == "testAttestation")
 
         // Expiry time should be more a day since before we made the request
         // but less than a day from now
         #expect(response.expiryDate > initialDate.addingTimeInterval(expiresIn))
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
-
-    @Test("""
-          Check that headers are added to URL
-          """)
-    func testAddIntegrityAssertions() async throws {
-        let baseURL = try #require(URL(string: "https://token.build.account.gov.uk"))
-        let request = URLRequest(url: baseURL)
-
-        let assertedRequest = try await sut.addIntegrityAssertions(to: request)
-        #expect(assertedRequest.allHTTPHeaderFields == [
-            "OAuth-Client-Attestation": "abc",
-            "OAuth-Client-Attestation-PoP": "def"
-
-        ])
-    }
-}
+ }

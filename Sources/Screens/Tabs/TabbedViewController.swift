@@ -1,6 +1,7 @@
 import Combine
 import Coordination
 import GDSCommon
+import Logging
 import UIKit
 
 final class TabbedViewController: BaseViewController {
@@ -9,15 +10,18 @@ final class TabbedViewController: BaseViewController {
     private let viewModel: TabbedViewModel
     private let headerView: UIView?
     private let userProvider: UserProvider
-
+    
+    private var analyticsPreference: AnalyticsPreferenceStore
     private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
-         headerView: UIView? = nil) {
+         headerView: UIView? = nil,
+         analyticsPreference: AnalyticsPreferenceStore) {
         self.viewModel = viewModel
         self.headerView = headerView
         self.userProvider = userProvider
+        self.analyticsPreference = analyticsPreference
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
@@ -39,6 +43,8 @@ final class TabbedViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
+        analyticsSwitch.setOn(analyticsAccepted, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,6 +58,12 @@ final class TabbedViewController: BaseViewController {
         }
     }
 
+    @IBOutlet private var analyticsSwitch: UISwitch! {
+        didSet {
+            analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
+        }
+    }
+    
     private func subscribeToUsers() {
         userProvider.user
             .receive(on: DispatchQueue.main)
@@ -64,6 +76,10 @@ final class TabbedViewController: BaseViewController {
         guard let headerView = headerView as? SignInView else { return }
         headerView.userEmail = email ?? ""
         resizeHeaderView()
+    }
+    
+    @IBAction private func updateAnalytics(_ sender: UISwitch) {
+        analyticsPreference.hasAcceptedAnalytics?.toggle()
     }
     
     func screenAnalytics() {
@@ -108,6 +124,10 @@ extension TabbedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
                 as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
+        
+        if viewModel.sectionModels[indexPath.section].sectionTitle == "app_aboutSubtitle" {
+            cell.accessoryView = analyticsSwitch
+        }
         return cell
     }
 }

@@ -7,15 +7,18 @@ enum AppIntegrityError: Int, Error {
     case invalidToken = 401
 }
 
-enum NotImplementedError: Error {
-    case notImplemented
+public enum TokenHeaderKey: String {
+    case attestationJWT = "OAuth-Client-Attestation"
+    case attestationPoP = "OAuth-Client-Attestation-PoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
-    private let client: NetworkClient
+    private let networkClient: NetworkClient
     private let baseURL: URL
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
+    private let proofTokenGenerator: ProofTokenGenerator
+    private let attestationStore: AttestationStorage
 
     // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
     private var isValidAttestationAvailable: Bool = false
@@ -39,70 +42,81 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     public static func configure() {
         configure(vendorType: AppCheck.self)
     }
+    
+    public var integrityAssertions: [String: String] {
+        get async throws {
+            guard !attestationStore.validAttestation else {
+                return [
+                    TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
+                    TokenHeaderKey.attestationPoP.rawValue: try proofTokenGenerator.token
+                ]
+            }
+            
+            let appCheck = try await vendor.limitedUseToken()
+            
+            do {
+                let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
+                let attestationPOP = try proofTokenGenerator.token
+                
+                return [
+                    TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
+                    TokenHeaderKey.attestationPoP.rawValue: attestationPOP
+                ]
+                
+            } catch let error as ServerError where
+                        error.errorCode == 400 {
+                throw AppIntegrityError.invalidPublicKey
+            } catch let error as ServerError where
+                        error.errorCode == 401 {
+                throw AppIntegrityError.invalidToken
+            }
+        }
+    }
 
     init(vendor: AppCheckVendor,
-         providerFactory: AppCheckProviderFactory,
+         networkClient: NetworkClient,
          proofOfPossessionProvider: ProofOfPossessionProvider,
-         client: NetworkClient,
-         baseURL: URL) {
-        self.client = client
+         baseURL: URL,
+         proofTokenGenerator: ProofTokenGenerator,
+         attestationStore: AttestationStorage) {
+        self.networkClient = networkClient
         self.vendor = vendor
-        self.baseURL = baseURL
         self.proofOfPossessionProvider = proofOfPossessionProvider
+        self.baseURL = baseURL
+        self.proofTokenGenerator = proofTokenGenerator
+        self.attestationStore = attestationStore
     }
-
-    public convenience init(
-        client: NetworkClient,
-        baseURL: URL,
-        proofOfPossessionProvider: ProofOfPossessionProvider
-    ) {
+    
+    public convenience init(networkClient: NetworkClient,
+                            proofOfPossessionProvider: ProofOfPossessionProvider,
+                            baseURL: URL,
+                            proofTokenGenerator: ProofTokenGenerator,
+                            attestationStore: AttestationStorage) {
         self.init(
             vendor: AppCheck.appCheck(),
-            providerFactory: Self.providerFactory,
+            networkClient: networkClient,
             proofOfPossessionProvider: proofOfPossessionProvider,
-            client: client,
-            baseURL: baseURL
+            baseURL: baseURL,
+            proofTokenGenerator: proofTokenGenerator,
+            attestationStore: attestationStore
         )
-    }
-
-    public func assertIntegrity() async throws -> String {
-        guard !isValidAttestationAvailable else {
-            // nothing to do:
-            throw NotImplementedError.notImplemented
-        }
-
-        let token = try await vendor.token(forcingRefresh: false)
-        print("vendor token: \(token.token)")
-
-        do {
-            let attestation = try await fetchClientAttestation(appCheckToken: token.token)
-            // TODO: DCMAW-10322 | store this locally
-            return attestation.attestationJWT
-        } catch let error as ServerError where
-                    error.errorCode == 400 {
-            throw AppIntegrityError.invalidPublicKey
-        } catch let error as ServerError where
-                    error.errorCode == 401 {
-            throw AppIntegrityError.invalidToken
-        }
     }
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
-        let data = try await client.makeRequest(.clientAttestation(
+        let data = try await networkClient.makeRequest(.clientAttestation(
             baseURL: baseURL,
             token: appCheckToken,
             body: proofOfPossessionProvider.publicKey
         ))
-        return try JSONDecoder()
+        
+        let assertionResponse = try JSONDecoder()
             .decode(ClientAssertionResponse.self, from: data)
-    }
-
-    public func addIntegrityAssertions(to request: URLRequest) async throws -> URLRequest {
-        var signedRequest = request
-        signedRequest.addValue("abc",
-                               forHTTPHeaderField: "OAuth-Client-Attestation")
-        signedRequest.addValue("def",
-                               forHTTPHeaderField: "OAuth-Client-Attestation-PoP")
-        return signedRequest
+        
+        attestationStore.store(
+            assertionJWT: assertionResponse.attestationJWT,
+            assertionExpiry: assertionResponse.expiryDate
+        )
+        
+        return assertionResponse
     }
 }

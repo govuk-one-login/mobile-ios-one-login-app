@@ -1,3 +1,4 @@
+import MobilePlatformServices
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
@@ -23,10 +24,6 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
 
         mockHelloWorldService = MockHelloWorldService()
 
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
-
         devMenuViewModel = DeveloperMenuViewModel()
         mockSessionManager = MockSessionManager()
 
@@ -36,8 +33,10 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     }
     
     override func tearDown() {
-        AppEnvironment.updateReleaseFlags([:])
-
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         devMenuViewModel = nil
         mockSessionManager = nil
         sut = nil
@@ -59,20 +58,6 @@ extension DeveloperMenuViewControllerTests {
         XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
         XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Error")
         XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unauthorized")
-    }
-    
-    func test_labelContents_STSDisabled() throws {
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: false
-        ])
-
-        XCTAssertTrue(try sut.happyPathButton.isHidden)
-        XCTAssertTrue(try sut.errorPathButton.isHidden)
-        XCTAssertTrue(try sut.unauthorizedPathButton.isHidden)
-
-        AppEnvironment.updateReleaseFlags([
-            FeatureFlags.enableCallingSTS.rawValue: true
-        ])
     }
     
     func test_happyPathButton() throws {

@@ -1,16 +1,24 @@
+import CRIOrchestrator
 import GDSAnalytics
 import GDSCommon
 import Logging
+import Networking
 import UIKit
 
 final class HomeViewController: UITableViewController {
     let analyticsService: AnalyticsService
+    let networkClient: NetworkClient
+    let criOrchestrator: CRIOrchestrator
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
 
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: AnalyticsService,
+         networkClient: NetworkClient,
+         criOrchestrator: CRIOrchestrator) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
         self.analyticsService = tempAnalyticsService
+        self.networkClient = networkClient
+        self.criOrchestrator = criOrchestrator
         super.init(style: .insetGrouped)
     }
     
@@ -23,6 +31,10 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
+        if AppEnvironment.criOrchestratorEnabled {
+            criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,26 +48,42 @@ final class HomeViewController: UITableViewController {
 
 extension HomeViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        HomeScreenTile.allCases.count
+        1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ContentTileCell()
-        switch HomeScreenTile(rawValue: indexPath.row) {
-        case .yourServices:
+        switch indexPath.section {
+        case 0:
+            let cell = ContentTileCell()
             cell.viewModel = .yourServices(analyticsService: analyticsService,
                                            urlOpener: UIApplication.shared)
+            return cell
+        case 1:
+            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) {
+                tableView.reloadData()
+            }
+            let tableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: "OneLoginHomeScreenCell",
+                for: indexPath
+            )
+            
+            tableViewCell.addSubview(idCheckCard.view)
+            tableViewCell.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
+                tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
+                tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
+                tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
+            ])
+            tableViewCell.isHidden = !AppEnvironment.criOrchestratorEnabled
+            
+            return tableViewCell
         default:
-            break
+            return UITableViewCell()
         }
-        return cell
     }
-}
-
-enum HomeScreenTile: Int, CaseIterable {
-    case yourServices
 }

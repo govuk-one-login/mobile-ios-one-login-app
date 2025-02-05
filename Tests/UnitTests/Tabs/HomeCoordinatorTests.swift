@@ -5,13 +5,16 @@ import XCTest
 @MainActor
 final class HomeCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
+    var mockNetworkClient: NetworkClient!
     var sut: HomeCoordinator!
     
     override func setUp() {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
-        sut = HomeCoordinator(analyticsService: mockAnalyticsService)
+        mockNetworkClient = NetworkClient()
+        sut = HomeCoordinator(analyticsService: mockAnalyticsService,
+                              networkClient: mockNetworkClient)
     }
     
     override func tearDown() {

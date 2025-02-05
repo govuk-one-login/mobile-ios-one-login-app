@@ -5,6 +5,7 @@ import GDSCommon
 import Logging
 import UIKit
 
+@MainActor
 final class AuthenticationCoordinator: NSObject,
                                        ChildCoordinator,
                                        NavigationCoordinator {
@@ -29,9 +30,12 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func start() {
-        Task(priority: .userInitiated) {
+        Task {
             do {
-                try await sessionManager.startSession(using: session)
+                try await sessionManager.startSession(
+                    session,
+                    using: LoginSessionConfiguration.oneLoginSessionConfiguration
+                )
                 finish()
             } catch PersistentSessionError.sessionMismatch {
                 let viewModel = DataDeletedWarningViewModel { [unowned self] in

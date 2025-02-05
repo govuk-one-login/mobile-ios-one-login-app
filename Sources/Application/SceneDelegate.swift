@@ -1,12 +1,8 @@
 import Authentication
 import GAnalytics
-import GDSCommon
-import LocalAuthentication
 import Logging
 import Networking
-import SecureStore
 import UIKit
-import Wallet
 
 final class SceneDelegate: UIResponder,
                            UIWindowSceneDelegate,
@@ -47,7 +43,7 @@ final class SceneDelegate: UIResponder,
         trackSplashScreen()
 
         rootCoordinator = QualifyingCoordinator(
-            window: UIWindow(windowScene: windowScene),
+            appWindow: UIWindow(windowScene: windowScene),
             analyticsCenter: analyticsCenter,
             appQualifyingService: appQualifyingService,
             sessionManager: sessionManager,
@@ -55,8 +51,11 @@ final class SceneDelegate: UIResponder,
             walletAvailabilityService: walletAvailabilityService
         )
         rootCoordinator?.start()
-        
         setUpBasicUI()
+
+        if let deepLink = connectionOptions.userActivities.first?.webpageURL {
+            rootCoordinator?.handleUniversalLink(deepLink)
+        }
     }
     
     func scene(_ scene: UIScene,
@@ -66,7 +65,7 @@ final class SceneDelegate: UIResponder,
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        rootCoordinator?.lock()
+        rootCoordinator?.displayUnlockWindow()
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {

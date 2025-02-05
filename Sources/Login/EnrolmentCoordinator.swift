@@ -41,15 +41,21 @@ final class EnrolmentCoordinator: NSObject,
         case .passcodeOnly:
             saveSession()
         case .none:
-            showPasscodeInfo()
+            completeEnrolment()
         }
     }
 
     private func saveSession() {
         Task {
-            if !ProcessInfo.processInfo.arguments.contains("uiTests") {
-                try await sessionManager.saveSession()
-            }
+            #if targetEnvironment(simulator)
+                if sessionManager is PersistentSessionManager {
+                    // UI tests or running on simulator
+                    completeEnrolment()
+                    return
+                }
+            #endif
+            // Unit tests or running on device
+            try await sessionManager.saveSession()
             completeEnrolment()
         }
     }
@@ -57,13 +63,5 @@ final class EnrolmentCoordinator: NSObject,
     private func completeEnrolment() {
         NotificationCenter.default.post(name: .enrolmentComplete)
         finish()
-    }
-
-    private func showPasscodeInfo() {
-        let viewModel = PasscodeInformationViewModel(analyticsService: analyticsService) { [unowned self] in
-                completeEnrolment()
-            }
-        let passcodeInformationScreen = GDSInformationViewController(viewModel: viewModel)
-        root.pushViewController(passcodeInformationScreen, animated: true)
     }
 }

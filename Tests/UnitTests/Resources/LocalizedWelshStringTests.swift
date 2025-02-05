@@ -18,8 +18,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Anghytuno")
         XCTAssertEqual("app_loadingBody".getWelshString(),
                        "Llwytho")
-        XCTAssertEqual("app_maybeLaterButton".getWelshString(),
-                       "Efallai nes ymlaen")
+        XCTAssertEqual("app_skipButton".getWelshString(),
+                       "Osgoi")
         XCTAssertEqual("app_enterPasscodeButton".getWelshString(),
                        "Rhowch god mynediad")
         XCTAssertEqual("app_exitButton".getWelshString(),
@@ -48,8 +48,8 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_acceptAnalyticsPreferences_title".getWelshString(),
                        "Helpu i wella'r ap drwy rannu dadansoddi")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
-                       "Gallwch ein helpu i wella'r ap hwn drwy ddewis i rannu gweithgaredd ap a data dadansoddi yn awtomatig.\n\nMae hyn yn ddewisol ac yn gadael i ni ddeall sut mae pobl yn defnyddio'r gwasanaeth fel ein bod yn gallu ei wella.\n\nGallwch newid eich dewisiadau ar unrhyw bryd yn eich Gosodiadau.")
-        XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Edrych ar hysbysiad preifatrwydd GOV.UK One Login")
+                       "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.")
+        XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Darllenwch fwy am hyn yn hysbysiad preifatrwydd GOV.UK One Login")
     }
     
     func test_unableToLoginErrorScreen_keys() throws {
@@ -73,33 +73,22 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
-    func test_passcodeInformationScreen_keys() throws {
-        XCTAssertEqual("app_noPasscodeSetupTitle".getWelshString(),
-                       "Mae'n edrych fel nad oes gan y ffôn hwn god mynediad")
-        XCTAssertEqual("app_noPasscodeSetupBody".getWelshString(),
-                       "Mae gosod cod mynediad ar eich ffôn yn ychwanegu mwy o ddiogelwch. Yna gallwch fewngofnodi i'r ap y ffordd hyn yn hytrach na gyda'ch cyfeiriad e-bost a'ch cyfrinair.\n\nGallwch osod cod mynediad yn nes ymlaen trwy fynd i'ch gosodiadau ffôn.")
-    }
-    
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableFaceIDTitle".getWelshString(),
-                       "Defnyddio Face ID i fewngofnodi")
+                       "Datgloi'r ap gyda Face ID")
         XCTAssertEqual("app_enableFaceIDBody".getWelshString(),
-                       "Mewngofnodi gyda'ch wyneb yn hytrach na'ch cyfeiriad e-bost a'ch cyfrinair. Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.")
-        XCTAssertEqual("app_enableFaceIDFootnote".getWelshString(),
-                       "Os ydych yn defnyddio Face ID, gall unrhyw un gyda Face ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.")
+                       "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
         XCTAssertEqual("app_enableFaceIDButton".getWelshString(),
-                       "Defnyddio Face ID")
+                       "Caniatáu Face ID")
     }
     
     func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_enableTouchIDTitle".getWelshString(),
-                       "Defnyddio Touch ID i fewngofnodi")
+                       "Datgloi'r ap gyda Touch ID")
         XCTAssertEqual("app_enableTouchIDBody".getWelshString(),
-                       "Mewngofnodi gyda'ch olion bysedd yn hytrach na'ch cyfeiriad e-bost a chyfrinair. Nid yw eich Touch ID yn cael ei rannu â GOV.UK One Login.")
-        XCTAssertEqual("app_enableTouchIDFootnote".getWelshString(),
-                       "Os ydych yn defnyddio Touch ID, gall unrhyw un gyda Touch ID wedi'i arbed i'ch ffôn mewngofnoi i'r ap hwn.")
+                       "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
         XCTAssertEqual("app_enableTouchIDEnableButton".getWelshString(),
-                       "Defnyddio Touch ID")
+                       "Caniatáu Touch ID")
     }
     
     func test_unlockScreenKeys() {
@@ -142,6 +131,12 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Canllawiau ar ddefnyddio'r ap")
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
+        XCTAssertEqual("app_aboutSubtitle".getWelshString(),
+                       "Am yr ap")
+        XCTAssertEqual("app_analyticsToggle".getWelshString(),
+                       "Rhannu dadansoddeg yr ap")
+        XCTAssertEqual("app_analyticsFooter".getWelshString(),
+                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd")
     }
     
     func test_signOutPageKeys() {

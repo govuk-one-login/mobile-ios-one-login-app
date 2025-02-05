@@ -8,6 +8,7 @@ import XCTest
 final class ProfileCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
+    var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
@@ -19,6 +20,7 @@ final class ProfileCoordinatorTests: XCTestCase {
 
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsPreference =  MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
@@ -27,7 +29,8 @@ final class ProfileCoordinatorTests: XCTestCase {
                                  sessionManager: mockSessionManager,
                                  networkClient: mockNetworkClient,
                                  urlOpener: urlOpener,
-                                 walletAvailabilityService: mockWalletAvailabilityService)
+                                 walletAvailabilityService: mockWalletAvailabilityService,
+                                 analyticsPreference: mockAnalyticsPreference)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }

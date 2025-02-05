@@ -15,7 +15,7 @@ final class MockAppCheckVendor: AppCheckVendor {
         return vendor
     }
     
-    func token(forcingRefresh: Bool) async throws -> AppCheckToken {
+    func limitedUseToken() async throws -> AppCheckToken {
         AppCheckToken(token: "abc", expirationDate: .distantFuture)
     }
 }

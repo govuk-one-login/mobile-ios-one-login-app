@@ -40,14 +40,14 @@ extension AnalyticsPreferenceViewModelTests {
     }
 
     func test_primaryButton() throws {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_agreeButton")
+        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_shareAnalyticsButton")
         XCTAssertFalse(didCallPrimaryButtonAction)
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(didCallPrimaryButtonAction)
     }
 
     func test_secondaryButton_action() throws {
-        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_disagreeButton")
+        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_doNotShareAnalytics")
         XCTAssertFalse(didCallSecondaryButtonAction)
         sut.secondaryButtonViewModel.action()
         XCTAssertTrue(didCallSecondaryButtonAction)

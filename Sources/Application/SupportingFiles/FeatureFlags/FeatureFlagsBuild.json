@@ -1,9 +1,5 @@
 [
     {
-        "name": "EnableCallingSTS",
-        "isEnabled": true
-    },
-    {
         "name": "EnableSignoutError",
         "isEnabled": false
     },
@@ -21,6 +17,10 @@
     },
     {
         "name": "EnableWalletVisibleIfExists",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableCRIOrchestrator",
         "isEnabled": false
     }
 ]
