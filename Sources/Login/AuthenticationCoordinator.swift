@@ -78,15 +78,13 @@ final class AuthenticationCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        Task {
-            do {
-                window.rootViewController?.presentedViewController?.dismiss(animated: true)
-                let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
-                root.pushViewController(loginLoadingScreen, animated: false)
-                try await session.finalise(redirectURL: url)
-            } catch {
-                showGenericErrorScreen(error)
-            }
+        do {
+            window.rootViewController?.presentedViewController?.dismiss(animated: true)
+            let loginLoadingScreen = GDSLoadingViewController(viewModel: LoginLoadingViewModel(analyticsService: analyticsService))
+            root.pushViewController(loginLoadingScreen, animated: false)
+            try session.finalise(redirectURL: url)
+        } catch {
+            showGenericErrorScreen(error)
         }
     }
 }

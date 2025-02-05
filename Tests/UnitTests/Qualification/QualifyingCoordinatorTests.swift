@@ -32,7 +32,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
         
         walletAvailabilityService = MockWalletAvailabilityService()
 
-        sut = QualifyingCoordinator(window: window,
+        sut = QualifyingCoordinator(appWindow: window,
                                     analyticsCenter: analyticsCenter,
                                     appQualifyingService: qualifyingService,
                                     sessionManager: sessionManager,
@@ -57,10 +57,8 @@ extension QualifyingCoordinatorTests {
     func test_start_displaysLoadingScreen() throws {
         // GIVEN I open the app
         sut.start()
-        // THEN I am shown the loading screen
-        _ = try XCTUnwrap(
-            window.rootViewController as? UnlockScreenViewController
-        )
+        // THEN there should be no screen on the app window
+        XCTAssertNil(window.rootViewController)
     }
 
     @MainActor
@@ -68,10 +66,8 @@ extension QualifyingCoordinatorTests {
         // GIVEN I reopen the app
         // WHEN I have not yet received a result from `appInfo`
         sut.didChangeAppInfoState(state: .notChecked)
-        // THEN I remain on the loading screen
-        _ = try XCTUnwrap(
-            window.rootViewController as? UnlockScreenViewController
-        )
+        // THEN there should be no screen on the app window
+        XCTAssertNil(window.rootViewController)
     }
     
     @MainActor
