@@ -143,7 +143,9 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
                        "Ydych chi'n siwr eich bod chi eisiau allgofnodi?")
         XCTAssertEqual("app_signOutConfirmationBody1".getWelshString(),
-                       "Os byddwch yn allgofnodi, bydd y wybodaeth a gedwir yn eich ap yn cael ei dileu. Mae hyn er mwyn lleihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nMae hyn yn golygu:")
+                       "Os byddwch yn allgofnodi, bydd y wybodaeth a gedwir yn eich ap yn cael ei dileu. Mae hyn er mwyn lleihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.")
+        XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
+                       "Mae hyn yn golygu:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
                        "bydd unrhyw ddogfennau a arbedir yn eich GOV.UK Wallet yn cael eu dileu")
         XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),

@@ -143,7 +143,9 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationTitle".getEnglishString(),
                        "Are you sure you want to sign out?")
         XCTAssertEqual("app_signOutConfirmationBody1".getEnglishString(),
-                       "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.\n\nThis means:")
+                       "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.")
+        XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
+                       "This means:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
                        "any documents saved in your GOV.UK Wallet will be removed")
         XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),

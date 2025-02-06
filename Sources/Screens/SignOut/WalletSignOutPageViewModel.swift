@@ -38,6 +38,16 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     }
     
     private func configureStackView() -> UIView {
+        let body2Label = {
+            let label = UILabel()
+            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
+            label.adjustsFontForContentSizeCategory = true
+            label.numberOfLines = 0
+            label.font = .body
+            label.accessibilityIdentifier = "sign-out-body2-text-with-wallet"
+            return label
+        }()
+        
         let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
@@ -46,17 +56,17 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
                                                 ])
         bulletView.accessibilityIdentifier = "sign-out-bullet-list-with-wallet"
         
-        let body2Label = {
+        let body3Label = {
             let label = UILabel()
             label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
-            label.accessibilityIdentifier = "sign-out-body2-text-with-wallet"
+            label.accessibilityIdentifier = "sign-out-body3-text-with-wallet"
             return label
         }()
         
-        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label])
+        let stackView = UIStackView(arrangedSubviews: [body2Label, bulletView, body3Label])
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12

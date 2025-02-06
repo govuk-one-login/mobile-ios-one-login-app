@@ -131,7 +131,9 @@
 // Mark: Sign Out Confirmation screen with Wallet
 "app_signOutConfirmationTitle" = "Are you sure you want to sign out?";
 
-"app_signOutConfirmationBody1" = "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.\n\nThis means:";
+"app_signOutConfirmationBody1" = "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.";
+
+"app_signOutConfirmationBody2" = "This means:";
 
 "app_signOutConfirmationBullet1" = "any documents saved in your GOV.UK Wallet will be removed";
 
