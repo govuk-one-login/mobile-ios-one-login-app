@@ -48,16 +48,6 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         
         let body2Label = {
             let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
-            label.adjustsFontForContentSizeCategory = true
-            label.numberOfLines = 0
-            label.font = .bodyBold
-            label.accessibilityIdentifier = "sign-out-body2-text-with-wallet"
-            return label
-        }()
-        
-        let body3Label = {
-            let label = UILabel()
             label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
@@ -66,7 +56,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             return label
         }()
         
-        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label, body3Label])
+        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label])
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12

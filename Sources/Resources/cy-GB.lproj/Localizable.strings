@@ -128,22 +128,20 @@
 "app_signOutButton" = "Allgofnodi";
 
 
-// Mark: Sign Out Confirmation screen
-"app_signOutConfirmationTitle" = "Bydd allgofnodi yn dileu data eich ap";
+// Mark: Sign Out Confirmation screen with Wallet
+"app_signOutConfirmationTitle" = "Ydych chi'n siwr eich bod chi eisiau allgofnodi?";
 
-"app_signOutConfirmationBody1" = "Pan fyddwch yn allgofnodi, bydd yr holl wybodaeth a dogfennau a gedwir yn eich ap yn cael eu dileu, gan gynnwys:";
+"app_signOutConfirmationBody1" = "Os byddwch yn allgofnodi, bydd y wybodaeth a gedwir yn eich ap yn cael ei dileu. Mae hyn er mwyn lleihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.\n\nMae hyn yn golygu:";
 
-"app_signOutConfirmationBullet1" = "unrhyw ddogfennau a arbedwyd yn eich GOV.UK Wallet";
+"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau a arbedir yn eich GOV.UK Wallet yn cael eu dileu";
 
-"app_signOutConfirmationBullet2" = "eich gosodiadau ar gyfer mewngofnodi";
+"app_signOutConfirmationBullet2" = "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd";
 
-"app_signOutConfirmationBullet3" = "eich dewisiadau rhannu dadansoddi";
+"app_signOutConfirmationBullet3" = "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap";
 
-"app_signOutConfirmationBody2" = "Mae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
+"app_signOutConfirmationBody3" = "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich GOV.UK Wallet a gosod eich dewisiadau eto.";
 
-"app_signOutConfirmationBody3" = "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.";
-
-"app_signOutAndDeleteAppDataButton" = "Allgofnodwch a dileu data yr ap";
+"app_signOutAndDeleteAppDataButton" = "Mewngofnodi a dileu gwybodaeth";
 
 // Mark: Sign Out Confirmation screen no Wallet displayed
 "app_signOutConfirmationTitleNoWallet" = "Ydych chi'n siŵr eich bod eisiau allgofnodi?";
