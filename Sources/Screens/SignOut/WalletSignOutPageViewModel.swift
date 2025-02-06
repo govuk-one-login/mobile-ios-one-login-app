@@ -52,7 +52,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
-            label.accessibilityIdentifier = "sign-out-body3-text-with-wallet"
+            label.accessibilityIdentifier = "sign-out-body2-text-with-wallet"
             return label
         }()
         

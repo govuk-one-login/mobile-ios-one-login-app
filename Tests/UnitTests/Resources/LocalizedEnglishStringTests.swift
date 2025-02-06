@@ -141,21 +141,19 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_signOutPageKeys() {
         XCTAssertEqual("app_signOutConfirmationTitle".getEnglishString(),
-                       "Signing out will delete your app data")
+                       "Are you sure you want to sign out?")
         XCTAssertEqual("app_signOutConfirmationBody1".getEnglishString(),
-                       "When you sign out, all the information and documents saved in your app will be deleted, including:")
+                       "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.\n\nThis means:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
-                       "any documents saved in your GOV.UK Wallet")
+                       "any documents saved in your GOV.UK Wallet will be removed")
         XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
-                       "your settings for signing in")
+                       "if you’re using Face ID or Touch ID to unlock the app, this will be switched off")
         XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
-                       "your analytics sharing preferences")
-        XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
-                       "This is to keep your information secure.")
+                       "you’ll stop sharing analytics about how you use the app")
         XCTAssertEqual("app_signOutConfirmationBody3".getEnglishString(),
-                       "Any deleted documents will still be available online for you to add to your GOV.UK Wallet again.")
+                       "Next time you sign in, you’ll be able to add your documents to your GOV.UK  Wallet and set your preferences again.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
-                       "Sign out and delete app data")
+                       "Sign out and delete information")
     }
     
     func test_signOutErrorPageKeys() {

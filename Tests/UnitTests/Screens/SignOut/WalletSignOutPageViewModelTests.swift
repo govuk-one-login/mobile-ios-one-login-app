@@ -53,14 +53,10 @@ extension WalletSignOutPageViewModelTests {
     }
     
     func test_views() throws {
-        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
+        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
-        XCTAssertEqual(try body2Label.font, .bodyBold)
-        XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
-        XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
-        XCTAssertEqual(try body3Label.numberOfLines, 0)
-        XCTAssertEqual(try body3Label.font, .body)
+        XCTAssertEqual(try body2Label.font, .body)
     }
     
     func test_button() throws {
@@ -108,12 +104,6 @@ extension WalletSignOutPageViewModelTests {
     var body2Label: UILabel {
         get throws {
             try XCTUnwrap(sut.childView[child: "sign-out-body2-text-with-wallet"])
-        }
-    }
-    
-    var body3Label: UILabel {
-        get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body3-text-with-wallet"])
         }
     }
 }
