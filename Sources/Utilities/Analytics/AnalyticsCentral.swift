@@ -9,8 +9,4 @@ extension AnalyticsCentral {
     var analyticsPermissionsNotSet: Bool {
         analyticsPreferenceStore.hasAcceptedAnalytics == nil
     }
-    
-    func resetAnalyticsPreferences() {
-        analyticsPreferenceStore.hasAcceptedAnalytics = nil
-    }
 }

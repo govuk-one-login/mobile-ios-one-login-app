@@ -156,13 +156,8 @@ final class QualifyingCoordinator: NSObject,
     }
 
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
-        // display in window:
+        openChild(coordinator)
         displayViewController(coordinator.root)
-
-        // TODO: DCMAW-9866 | call `openChild` within `ParentCoordinator.swift`
-        childCoordinators.append(coordinator)
-        coordinator.parentCoordinator = self
-        coordinator.start()
     }
 
     private func displayViewController(_ viewController: UIViewController) {
