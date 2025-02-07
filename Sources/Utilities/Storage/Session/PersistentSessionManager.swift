@@ -29,54 +29,62 @@ protocol SessionBoundData {
     func delete() throws
 }
 
+extension SecureStorable where Self == SecureStoreService {
+    static func accessControlEncryptedStore(
+        localAuthManager: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
+    ) -> SecureStoreService {
+        let accessControlConfiguration = SecureStorageConfiguration(
+            id: .oneLoginTokens,
+            accessControlLevel: localAuthManager.type == .passcodeOnly ?
+                .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
+            localAuthStrings: localAuthManager.contextStrings
+        )
+        return SecureStoreService(
+            configuration: accessControlConfiguration
+        )
+    }
+}
+
+extension SecureStoreService: SessionBoundData { }
+
 final class PersistentSessionManager: SessionManager {
+    private var storeKeyService: TokenStore
     private let encryptedStore: SecureStorable
     private let unprotectedStore: DefaultsStorable
-    let localAuthentication: LocalAuthenticationManager
+    let localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
     
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
-    private let storeKeyService: TokenStore
     
+    private var sessionBoundData = [SessionBoundData]()
+
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
-    private var sessionBoundData: [SessionBoundData] = []
-    
-    init(accessControlEncryptedStore: SecureStorable,
-         encryptedStore: SecureStorable,
-         unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthenticationManager) {
-        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
-        self.encryptedStore = encryptedStore
-        self.unprotectedStore = unprotectedStore
-        self.localAuthentication = localAuthentication
-        
-        self.tokenProvider = TokenHolder()
-    }
-    
-    convenience init(context: LocalAuthenticationContext = LAContext()) {
-        let localAuthentication = LALocalAuthenticationManager(context: context)
-        // Due to a possible Apple bug, .currentBiometricsOrPasscode does not allow creation of private
-        // keys in the secure enclave if no biometrics are registered on the device.
-        // Hence the store needs to be created with access controls that allow it
-        let accessControlConfiguration = SecureStorageConfiguration(
-            id: .oneLoginTokens,
-            accessControlLevel: localAuthentication.type == .passcodeOnly ?
-                .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
-            localAuthStrings: context.contextStrings
-        )
-        
+    convenience init(accessControlEncryptedStore: SecureStorable,
+                     localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
         let encryptedConfiguration = SecureStorageConfiguration(
             id: .persistentSessionID,
             accessControlLevel: .open
         )
         
         self.init(
-            accessControlEncryptedStore: SecureStoreService(configuration: accessControlConfiguration),
+            accessControlEncryptedStore: accessControlEncryptedStore,
             encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
             unprotectedStore: UserDefaults.standard,
             localAuthentication: localAuthentication
         )
+    }
+    
+    init(accessControlEncryptedStore: SecureStorable,
+         encryptedStore: SecureStorable,
+         unprotectedStore: DefaultsStorable,
+         localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
+        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
+        self.encryptedStore = encryptedStore
+        self.unprotectedStore = unprotectedStore
+        self.localAuthentication = localAuthentication
+        
+        self.tokenProvider = TokenHolder()
     }
     
     private var persistentID: String? {
@@ -113,7 +121,7 @@ final class PersistentSessionManager: SessionManager {
     
     func startSession(
         _ session: any LoginSession,
-        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
+        using configuration: sending (String?) async throws -> LoginSessionConfiguration
     ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
@@ -209,7 +217,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func endCurrentSession() {
-        storeKeyService.delete()
+        storeKeyService.deleteTokens()
         
         tokenProvider.clear()
         tokenResponse = nil
@@ -224,6 +232,11 @@ final class PersistentSessionManager: SessionManager {
         encryptedStore.deleteItem(itemName: .persistentSessionID)
         unprotectedStore.removeObject(forKey: .returningUser)
         unprotectedStore.removeObject(forKey: .accessTokenExpiry)
+        storeKeyService = SecureTokenStore(
+            accessControlEncryptedStore: .accessControlEncryptedStore(
+                localAuthManager: localAuthentication
+            )
+        )
         
         NotificationCenter.default.post(name: .didLogout)
     }

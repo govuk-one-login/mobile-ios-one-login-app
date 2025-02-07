@@ -158,6 +158,9 @@ final class QualifyingCoordinator: NSObject,
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
         openChild(coordinator)
         displayViewController(coordinator.root)
+        if coordinator is LoginCoordinator {
+            NotificationCenter.default.post(name: .didHitSignIn)
+        }
     }
 
     private func displayViewController(_ viewController: UIViewController) {

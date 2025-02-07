@@ -22,4 +22,8 @@ extension Notification.Name {
     static var didLogout: Self {
         Notification.Name("onelogin:logout")
     }
+    
+    static var didHitSignIn: Self {
+        Notification.Name("onelogin:signin")
+    }
 }

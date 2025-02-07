@@ -1,5 +1,6 @@
 import GDSCommon
 import LocalAuthentication
+import SecureStore
 
 enum LocalAuthenticationType {
     case touchID
@@ -13,6 +14,10 @@ protocol LocalAuthenticationManager {
 
     func canUseLocalAuth(type policy: LAPolicy) -> Bool
     func enrolFaceIDIfAvailable() async throws -> Bool
+}
+
+protocol LocalAuthenticationContextStringCheck {
+    var contextStrings: LocalAuthenticationLocalizedStrings? { get }
 }
 
 final class LALocalAuthenticationManager: LocalAuthenticationManager {
@@ -66,5 +71,23 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
         context.localizedCancelTitle = GDSLocalisedString(
             stringLiteral: "app_cancelButton"
         ).value
+    }
+}
+
+extension LALocalAuthenticationManager: LocalAuthenticationContextStringCheck {
+    var contextStrings: LocalAuthenticationLocalizedStrings? {
+        context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ?
+            LocalAuthenticationLocalizedStrings(
+                localizedReason: GDSLocalisedString(
+                    stringLiteral: "app_\(context.biometryType == .touchID ? "touch" : "face")Id_subtitle"
+                ).value,
+                localisedFallbackTitle: GDSLocalisedString(
+                    stringLiteral: "app_enterPasscodeButton"
+                ).value,
+                localisedCancelTitle: GDSLocalisedString(
+                    stringLiteral: "app_cancelButton"
+                ).value
+            )
+        : nil
     }
 }

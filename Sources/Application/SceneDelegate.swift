@@ -1,7 +1,8 @@
-import Authentication
 import GAnalytics
+import LocalAuthentication
 import Logging
 import Networking
+import SecureStore
 import UIKit
 
 final class SceneDelegate: UIResponder,
@@ -12,9 +13,16 @@ final class SceneDelegate: UIResponder,
     private let walletAvailabilityService = WalletAvailabilityService()
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
-        let manager = PersistentSessionManager()
+        let localAuthentication = LALocalAuthenticationManager(context: LAContext())
+        let accessControlEncryptedStore = SecureStoreService.accessControlEncryptedStore(
+            localAuthManager: localAuthentication
+        )
+        
+        let manager = PersistentSessionManager(accessControlEncryptedStore: accessControlEncryptedStore,
+                                               localAuthentication: localAuthentication)
         networkClient.authorizationProvider = manager.tokenProvider
-
+        
+        manager.registerSessionBoundData(accessControlEncryptedStore)
         manager.registerSessionBoundData(WalletSessionData())
         manager.registerSessionBoundData(walletAvailabilityService)
         manager.registerSessionBoundData(analyticsCenter)
