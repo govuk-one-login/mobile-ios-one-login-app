@@ -19,21 +19,21 @@ final class QualifyingCoordinator: NSObject,
     private let appWindow: UIWindow
     var childCoordinators = [ChildCoordinator]()
     var deeplink: URL?
-
+    
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     private let walletAvailabilityService: WalletFeatureAvailabilityService
-
+    
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
-
+    
     private var tabManagerCoordinator: TabManagerCoordinator? {
         childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
-
+    
     private lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             Task {
@@ -42,7 +42,7 @@ final class QualifyingCoordinator: NSObject,
         }
         return UnlockScreenViewController(viewModel: viewModel)
     }()
-
+    
     init(appWindow: UIWindow,
          analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
@@ -59,7 +59,25 @@ final class QualifyingCoordinator: NSObject,
         self.appQualifyingService.delegate = self
     }
     
+    private let updateStream = AsyncStream.makeStream(of: ChildCoordinator.self)
+    
+    func waitForUpdates() {
+        Task {
+            for await coordinator in updateStream.stream {
+                if let loginCoordinator = coordinator as? LoginCoordinator {
+                    loginCoordinator.launchOnboardingCoordinator()
+                } else if let tabCoordinator = coordinator as? TabManagerCoordinator {
+                    if let deeplink {
+                        tabCoordinator.handleUniversalLink(deeplink)
+                        self.deeplink = nil
+                    }
+                }
+            }
+        }
+    }
+    
     func start() {
+        waitForUpdates()
         displayUnlockWindow()
     }
     
@@ -120,7 +138,9 @@ final class QualifyingCoordinator: NSObject,
             displayChildCoordinator(loginCoordinator)
         }
     }
-    
+}
+
+extension QualifyingCoordinator {
     func launchTabManagerCoordinator() {
         if let tabManagerCoordinator {
             displayViewController(tabManagerCoordinator.root)
@@ -133,10 +153,6 @@ final class QualifyingCoordinator: NSObject,
                 sessionManager: sessionManager,
                 walletAvailabilityService: walletAvailabilityService)
             displayChildCoordinator(tabManagerCoordinator)
-        }
-        if let deeplink {
-            tabManagerCoordinator?.handleUniversalLink(deeplink)
-            self.deeplink = nil
         }
     }
 
@@ -158,9 +174,7 @@ final class QualifyingCoordinator: NSObject,
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
         openChild(coordinator)
         displayViewController(coordinator.root)
-        if coordinator is LoginCoordinator {
-            NotificationCenter.default.post(name: .didHitSignIn)
-        }
+        updateStream.continuation.yield(coordinator)
     }
 
     private func displayViewController(_ viewController: UIViewController) {

@@ -41,12 +41,6 @@ final class LoginCoordinator: NSObject,
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.isExpiredUser = isExpiredUser
-        super.init()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(launchOnboardingCoordinator),
-            name: .didHitSignIn
-        )
     }
 
     func start() {
@@ -84,7 +78,7 @@ final class LoginCoordinator: NSObject,
         launchAuthenticationCoordinator()
     }
 
-    @objc private func launchOnboardingCoordinator() {
+    func launchOnboardingCoordinator() {
         if analyticsCenter.analyticsPermissionsNotSet {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
