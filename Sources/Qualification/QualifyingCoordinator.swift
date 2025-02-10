@@ -19,6 +19,7 @@ final class QualifyingCoordinator: NSObject,
     private let appWindow: UIWindow
     var childCoordinators = [ChildCoordinator]()
     var deeplink: URL?
+    private let updateStream = AsyncStream.makeStream(of: ChildCoordinator.self)
     
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
@@ -57,23 +58,6 @@ final class QualifyingCoordinator: NSObject,
         self.walletAvailabilityService = walletAvailabilityService
         super.init()
         self.appQualifyingService.delegate = self
-    }
-    
-    private let updateStream = AsyncStream.makeStream(of: ChildCoordinator.self)
-    
-    func waitForUpdates() {
-        Task {
-            for await coordinator in updateStream.stream {
-                if let loginCoordinator = coordinator as? LoginCoordinator {
-                    loginCoordinator.launchOnboardingCoordinator()
-                } else if let tabCoordinator = coordinator as? TabManagerCoordinator {
-                    if let deeplink {
-                        tabCoordinator.handleUniversalLink(deeplink)
-                        self.deeplink = nil
-                    }
-                }
-            }
-        }
     }
     
     func start() {
@@ -144,6 +128,7 @@ extension QualifyingCoordinator {
     func launchTabManagerCoordinator() {
         if let tabManagerCoordinator {
             displayViewController(tabManagerCoordinator.root)
+            updateStream.continuation.yield(tabManagerCoordinator)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
                 appWindow: appWindow,
@@ -161,11 +146,7 @@ extension QualifyingCoordinator {
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            guard appWindow.rootViewController is UITabBarController else {
-                deeplink = url
-                return
-            }
-            tabManagerCoordinator?.handleUniversalLink(url)
+            deeplink = url
         case .unknown:
             return
         }
@@ -193,5 +174,20 @@ extension QualifyingCoordinator {
         unlockWindow?.rootViewController = unlockViewController
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()
+    }
+    
+    private func waitForUpdates() {
+        Task {
+            for await coordinator in updateStream.stream {
+                if let loginCoordinator = coordinator as? LoginCoordinator {
+                    loginCoordinator.launchOnboardingCoordinator()
+                } else if let tabCoordinator = coordinator as? TabManagerCoordinator {
+                    if let deeplink {
+                        tabCoordinator.handleUniversalLink(deeplink)
+                        self.deeplink = nil
+                    }
+                }
+            }
+        }
     }
 }
