@@ -13,25 +13,21 @@ final class TabManagerCoordinatorTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
-    var mockUpdateService: MockAppInformationService!
     var mockWalletAvailabilityService: MockWalletAvailabilityService!
-    var mockLocalAuthManager: MockLocalAuthManager!
     var sut: TabManagerCoordinator!
     
     @MainActor
     override func setUp() {
         super.setUp()
         
+        window = UIWindow()
         tabBarController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
-        mockUpdateService = MockAppInformationService()
         mockWalletAvailabilityService = MockWalletAvailabilityService()
-        
-        window = UIWindow()
         
         sut = TabManagerCoordinator(appWindow: window,
                                     root: tabBarController,
@@ -50,7 +46,6 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
         mockSessionManager = nil
-        mockUpdateService = nil
         mockWalletAvailabilityService = nil
         sut = nil
         
@@ -228,5 +223,19 @@ extension TabManagerCoordinatorTests {
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
         XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
+    }
+    
+    @MainActor
+    func test_handleUniversalLink() throws {
+        sut.start()
+        // WHEN the wallet feature flag is on
+        mockWalletAvailabilityService.shouldShowFeatureOnUniversalLink = true
+        XCTAssertFalse(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
+        // GIVEN the handleUniversalLink receives a deeplink
+        let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
+        sut.handleUniversalLink(deeplink)
+        // THEN the wallet tab should be added and the selected index should be 1
+        XCTAssertTrue(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
+        XCTAssertTrue(sut.root.selectedIndex == 1)
     }
 }

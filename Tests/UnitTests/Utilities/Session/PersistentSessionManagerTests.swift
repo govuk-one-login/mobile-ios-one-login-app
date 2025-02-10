@@ -5,14 +5,12 @@ import Networking
 import XCTest
 
 final class PersistentSessionManagerTests: XCTestCase {
-    private var sut: PersistentSessionManager!
     private var accessControlEncryptedStore: MockSecureStoreService!
     private var encryptedStore: MockSecureStoreService!
     private var unprotectedStore: MockDefaultsStore!
     private var localAuthentication: MockLocalAuthManager!
-    private var secureTokenStore: MockSecureTokenStore!
     private var storedTokens: StoredTokens!
-    private var walletAvilabilityService: MockWalletAvailabilityService!
+    private var sut: PersistentSessionManager!
 
     private var didCall_deleteSessionBoundData = false
 
@@ -24,8 +22,6 @@ final class PersistentSessionManagerTests: XCTestCase {
         encryptedStore = MockSecureStoreService()
         unprotectedStore = MockDefaultsStore()
         localAuthentication = MockLocalAuthManager()
-        secureTokenStore = MockSecureTokenStore()
-        walletAvilabilityService = MockWalletAvailabilityService()
 
         sut = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -45,8 +41,6 @@ final class PersistentSessionManagerTests: XCTestCase {
         encryptedStore = nil
         unprotectedStore = nil
         localAuthentication = nil
-        secureTokenStore = nil
-        walletAvilabilityService = nil
         storedTokens = nil
 
         sut = nil
