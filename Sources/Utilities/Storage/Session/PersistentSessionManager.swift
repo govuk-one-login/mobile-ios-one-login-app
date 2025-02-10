@@ -29,24 +29,6 @@ protocol SessionBoundData {
     func delete() throws
 }
 
-extension SecureStorable where Self == SecureStoreService {
-    static func accessControlEncryptedStore(
-        localAuthManager: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
-    ) -> SecureStoreService {
-        let accessControlConfiguration = SecureStorageConfiguration(
-            id: .oneLoginTokens,
-            accessControlLevel: localAuthManager.type == .passcodeOnly ?
-                .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
-            localAuthStrings: localAuthManager.contextStrings
-        )
-        return SecureStoreService(
-            configuration: accessControlConfiguration
-        )
-    }
-}
-
-extension SecureStoreService: SessionBoundData { }
-
 final class PersistentSessionManager: SessionManager {
     private var storeKeyService: TokenStore
     private let encryptedStore: SecureStorable
@@ -121,7 +103,7 @@ final class PersistentSessionManager: SessionManager {
     
     func startSession(
         _ session: any LoginSession,
-        using configuration: sending (String?) async throws -> LoginSessionConfiguration
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user

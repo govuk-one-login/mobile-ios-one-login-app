@@ -16,10 +16,6 @@ protocol LocalAuthenticationManager {
     func enrolFaceIDIfAvailable() async throws -> Bool
 }
 
-protocol LocalAuthenticationContextStringCheck {
-    var contextStrings: LocalAuthenticationLocalizedStrings? { get }
-}
-
 final class LALocalAuthenticationManager: LocalAuthenticationManager {
     private let context: LocalAuthenticationContext
 
@@ -72,6 +68,10 @@ final class LALocalAuthenticationManager: LocalAuthenticationManager {
             stringLiteral: "app_cancelButton"
         ).value
     }
+}
+
+protocol LocalAuthenticationContextStringCheck {
+    var contextStrings: LocalAuthenticationLocalizedStrings? { get }
 }
 
 extension LALocalAuthenticationManager: LocalAuthenticationContextStringCheck {

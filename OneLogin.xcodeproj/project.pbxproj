@@ -199,6 +199,7 @@
 		C8ECA1272BB5891000722218 /* MockAnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */; };
 		C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1292BB5957500722218 /* WalletCoordinator.swift */; };
 		C8ECA12C2BB5958000722218 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */; };
+		C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */; };
 		D01A72772BE29B51004333F8 /* ProfileCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */; };
 		D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
 		D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */; };
@@ -458,6 +459,7 @@
 		C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsCenter.swift; sourceTree = "<group>"; };
 		C8ECA1292BB5957500722218 /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA12B2BB5958000722218 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
+		C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStorable+OneLogin.swift"; sourceTree = "<group>"; };
 		D01A72762BE29B51004333F8 /* ProfileCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorTests.swift; sourceTree = "<group>"; };
 		D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
 		D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenVerifier.swift; sourceTree = "<group>"; };
@@ -861,6 +863,7 @@
 		C8098B952AEFF198001517A0 /* CustomTypes */ = {
 			isa = PBXGroup;
 			children = (
+				C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */,
 				C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */,
 				C8DC472D2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift */,
 				ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */,
@@ -1969,6 +1972,7 @@
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
+				C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
