@@ -56,7 +56,7 @@ extension WalletSignOutPageViewModelTests {
         XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
-        XCTAssertEqual(try body2Label.font, .bodyBold)
+        XCTAssertEqual(try body2Label.font, .body)
         XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
         XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body3Label.numberOfLines, 0)

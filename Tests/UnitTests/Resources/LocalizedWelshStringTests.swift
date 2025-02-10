@@ -141,21 +141,21 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_signOutPageKeys() {
         XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
-                       "Bydd allgofnodi yn dileu data eich ap")
+                       "Ydych chi'n siwr eich bod chi eisiau allgofnodi?")
         XCTAssertEqual("app_signOutConfirmationBody1".getWelshString(),
-                       "Pan fyddwch yn allgofnodi, bydd yr holl wybodaeth a dogfennau a gedwir yn eich ap yn cael eu dileu, gan gynnwys:")
-        XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
-                       "unrhyw ddogfennau a arbedwyd yn eich GOV.UK Wallet")
-        XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
-                       "eich gosodiadau ar gyfer mewngofnodi")
-        XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
-                       "eich dewisiadau rhannu dadansoddi")
+                       "Os byddwch yn allgofnodi, bydd y wybodaeth a gedwir yn eich ap yn cael ei dileu. Mae hyn er mwyn lleihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.")
         XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
-                       "Mae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
+                       "Mae hyn yn golygu:")
+        XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
+                       "bydd unrhyw ddogfennau a arbedir yn eich GOV.UK Wallet yn cael eu dileu")
+        XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
+                       "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd")
+        XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
+                       "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap")
         XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
-                       "Bydd unrhyw ddogfennau sydd wedi'u dileu yn dal i fod ar gael ar-lein i chi eu hychwanegu at eich GOV.UK Wallet eto.")
+                       "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich GOV.UK Wallet a gosod eich dewisiadau eto.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
-                       "Allgofnodwch a dileu data yr ap")
+                       "Mewngofnodi a dileu gwybodaeth")
     }
     
     func test_signOutErrorPageKeys() {
