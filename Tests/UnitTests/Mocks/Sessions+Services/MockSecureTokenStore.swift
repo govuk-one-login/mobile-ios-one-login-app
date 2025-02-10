@@ -5,7 +5,7 @@ final class MockSecureTokenStore: TokenStore {
     var mockStoredTokens: StoredTokens?
     var didCallFetch: Bool = false
     var didCallSave: Bool = false
-    var didCallDelete: Bool = false
+    var didCallDeleteTokens: Bool = false
 
     func fetch() throws -> StoredTokens {
         didCallFetch = true
@@ -17,7 +17,7 @@ final class MockSecureTokenStore: TokenStore {
         didCallSave = true
     }
 
-    func delete() {
-        didCallDelete = true
+    func deleteTokens() {
+        didCallDeleteTokens = true
     }
 }

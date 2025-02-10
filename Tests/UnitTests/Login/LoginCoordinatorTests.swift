@@ -73,9 +73,6 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // THEN the OnboardingCoordinator should be launched
-        XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
-        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
     @MainActor

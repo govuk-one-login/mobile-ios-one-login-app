@@ -25,7 +25,7 @@ final class MockSessionManager: SessionManager {
     var errorFromResumeSession: Error?
     var errorFromClearAllSessionData: Error?
 
-    var localAuthentication: LocalAuthenticationManager = MockLocalAuthManager()
+    var localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck = MockLocalAuthManager()
 
     init(expiryDate: Date? = nil,
          sessionExists: Bool = false,
