@@ -181,11 +181,10 @@ extension QualifyingCoordinator {
             for await coordinator in updateStream.stream {
                 if let loginCoordinator = coordinator as? LoginCoordinator {
                     loginCoordinator.launchOnboardingCoordinator()
-                } else if let tabCoordinator = coordinator as? TabManagerCoordinator {
-                    if let deeplink {
-                        tabCoordinator.handleUniversalLink(deeplink)
-                        self.deeplink = nil
-                    }
+                } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
+                          let deeplink {
+                    tabCoordinator.handleUniversalLink(deeplink)
+                    self.deeplink = nil
                 }
             }
         }
