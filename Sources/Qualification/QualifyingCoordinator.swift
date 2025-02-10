@@ -140,7 +140,7 @@ extension QualifyingCoordinator {
             displayChildCoordinator(tabManagerCoordinator)
         }
     }
-
+    
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
@@ -151,13 +151,13 @@ extension QualifyingCoordinator {
             return
         }
     }
-
+    
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
         openChild(coordinator)
         displayViewController(coordinator.root)
         updateStream.continuation.yield(coordinator)
     }
-
+    
     private func displayViewController(_ viewController: UIViewController) {
         appWindow.rootViewController = viewController
         appWindow.makeKeyAndVisible()
