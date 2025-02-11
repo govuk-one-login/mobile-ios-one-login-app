@@ -19,21 +19,22 @@ final class QualifyingCoordinator: NSObject,
     private let appWindow: UIWindow
     var childCoordinators = [ChildCoordinator]()
     var deeplink: URL?
-
+    private let updateStream = AsyncStream.makeStream(of: ChildCoordinator.self)
+    
     private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     private let walletAvailabilityService: WalletFeatureAvailabilityService
-
+    
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
-
+    
     private var tabManagerCoordinator: TabManagerCoordinator? {
         childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
-
+    
     private lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             Task {
@@ -42,7 +43,7 @@ final class QualifyingCoordinator: NSObject,
         }
         return UnlockScreenViewController(viewModel: viewModel)
     }()
-
+    
     init(appWindow: UIWindow,
          analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
@@ -60,6 +61,7 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func start() {
+        waitForUpdates()
         displayUnlockWindow()
     }
     
@@ -120,10 +122,13 @@ final class QualifyingCoordinator: NSObject,
             displayChildCoordinator(loginCoordinator)
         }
     }
-    
+}
+
+extension QualifyingCoordinator {
     func launchTabManagerCoordinator() {
         if let tabManagerCoordinator {
             displayViewController(tabManagerCoordinator.root)
+            updateStream.continuation.yield(tabManagerCoordinator)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
                 appWindow: appWindow,
@@ -134,37 +139,25 @@ final class QualifyingCoordinator: NSObject,
                 walletAvailabilityService: walletAvailabilityService)
             displayChildCoordinator(tabManagerCoordinator)
         }
-        if let deeplink {
-            tabManagerCoordinator?.handleUniversalLink(deeplink)
-            self.deeplink = nil
-        }
     }
-
+    
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login:
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
-            guard appWindow.rootViewController is UITabBarController else {
-                deeplink = url
-                return
-            }
-            tabManagerCoordinator?.handleUniversalLink(url)
+            deeplink = url
         case .unknown:
             return
         }
     }
-
+    
     private func displayChildCoordinator(_ coordinator: any ChildCoordinator & AnyCoordinator) {
-        // display in window:
+        openChild(coordinator)
         displayViewController(coordinator.root)
-
-        // TODO: DCMAW-9866 | call `openChild` within `ParentCoordinator.swift`
-        childCoordinators.append(coordinator)
-        coordinator.parentCoordinator = self
-        coordinator.start()
+        updateStream.continuation.yield(coordinator)
     }
-
+    
     private func displayViewController(_ viewController: UIViewController) {
         appWindow.rootViewController = viewController
         appWindow.makeKeyAndVisible()
@@ -181,5 +174,19 @@ final class QualifyingCoordinator: NSObject,
         unlockWindow?.rootViewController = unlockViewController
         unlockWindow?.windowLevel = .alert
         unlockWindow?.makeKeyAndVisible()
+    }
+    
+    private func waitForUpdates() {
+        Task {
+            for await coordinator in updateStream.stream {
+                if let loginCoordinator = coordinator as? LoginCoordinator {
+                    loginCoordinator.launchOnboardingCoordinator()
+                } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
+                          let deeplink {
+                    tabCoordinator.handleUniversalLink(deeplink)
+                    self.deeplink = nil
+                }
+            }
+        }
     }
 }

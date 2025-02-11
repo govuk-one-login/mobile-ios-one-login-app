@@ -68,6 +68,7 @@ final class TabManagerCoordinator: NSObject,
         if walletCoordinator == nil {
             addWalletTab()
         }
+        root.selectedIndex = 1
         walletCoordinator?.handleUniversalLink(url)
     }
 }

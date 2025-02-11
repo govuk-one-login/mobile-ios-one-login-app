@@ -89,7 +89,7 @@ extension LALocalAuthenticationManagerTests {
         mockLAContext.biometricsIsEnabledOnTheDevice = true
         mockLAContext.biometryType = .faceID
 
-        let strings = try XCTUnwrap(mockLAContext.contextStrings)
+        let strings = try XCTUnwrap(sut.contextStrings)
 
         XCTAssertEqual(strings.localizedReason, "Enter iPhone passcode")
         XCTAssertEqual(strings.localisedFallbackTitle, "Enter passcode")
@@ -100,7 +100,7 @@ extension LALocalAuthenticationManagerTests {
         mockLAContext.biometricsIsEnabledOnTheDevice = true
         mockLAContext.biometryType = .touchID
 
-        let strings = try XCTUnwrap(mockLAContext.contextStrings)
+        let strings = try XCTUnwrap(sut.contextStrings)
        
         XCTAssertEqual(strings.localizedReason, "Unlock to proceed")
         XCTAssertEqual(strings.localisedFallbackTitle, "Enter passcode")
@@ -109,7 +109,7 @@ extension LALocalAuthenticationManagerTests {
 
     func test_contextStrings_nilForNone() throws {
         mockLAContext.biometryType = .none
-        XCTAssertNil(mockLAContext.contextStrings)
+        XCTAssertNil(sut.contextStrings)
     }
 
     func test_canUseLocalAuth_usesLAContext() {

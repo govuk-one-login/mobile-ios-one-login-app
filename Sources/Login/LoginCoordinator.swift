@@ -59,8 +59,6 @@ final class LoginCoordinator: NSObject,
         }
 
         root.setViewControllers([rootViewController], animated: true)
-
-        launchOnboardingCoordinator()
     }
 
     func authenticate() {
@@ -80,7 +78,7 @@ final class LoginCoordinator: NSObject,
         launchAuthenticationCoordinator()
     }
 
-    private func launchOnboardingCoordinator() {
+    func launchOnboardingCoordinator() {
         if analyticsCenter.analyticsPermissionsNotSet {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))

@@ -11,27 +11,22 @@ final class QualifyingCoordinatorTests: XCTestCase {
     private var analyticsCenter: MockAnalyticsCenter!
     private var walletAvailabilityService: MockWalletAvailabilityService!
     private var window: UIWindow!
-
+    
     private var sut: QualifyingCoordinator!
-
+    
     @MainActor
     override func setUp() {
         super.setUp()
-
-        window = UIWindow()
-
+        
+        sessionManager = MockSessionManager()
+        networkClient = NetworkClient()
+        qualifyingService = MockQualifyingService()
         analyticsCenter = MockAnalyticsCenter(
             analyticsService: MockAnalyticsService(),
             analyticsPreferenceStore: MockAnalyticsPreferenceStore()
         )
-
-        sessionManager = MockSessionManager()
-        qualifyingService = MockQualifyingService()
-
-        networkClient = NetworkClient()
-        
         walletAvailabilityService = MockWalletAvailabilityService()
-
+        window = UIWindow()
         sut = QualifyingCoordinator(appWindow: window,
                                     analyticsCenter: analyticsCenter,
                                     appQualifyingService: qualifyingService,
@@ -39,7 +34,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
                                     networkClient: networkClient,
                                     walletAvailabilityService: walletAvailabilityService)
     }
-
+    
     override func tearDown() {
         sessionManager = nil
         networkClient = nil
@@ -47,10 +42,12 @@ final class QualifyingCoordinatorTests: XCTestCase {
         analyticsCenter = nil
         walletAvailabilityService = nil
         window = nil
-
+        sut = nil
+        
         super.tearDown()
     }
 }
+
 // MARK: - App State updates
 extension QualifyingCoordinatorTests {
     @MainActor
@@ -60,7 +57,7 @@ extension QualifyingCoordinatorTests {
         // THEN there should be no screen on the app window
         XCTAssertNil(window.rootViewController)
     }
-
+    
     @MainActor
     func test_unconfirmedApp_remainsOnLoadingScreen() throws {
         // GIVEN I reopen the app
@@ -81,7 +78,7 @@ extension QualifyingCoordinatorTests {
         )
         XCTAssertTrue(vc.viewModel is AppUnavailableViewModel)
     }
-
+    
     @MainActor
     func test_outdatedApp_displaysUpdateAppScreen() throws {
         // GIVEN I reopen the app
@@ -94,57 +91,56 @@ extension QualifyingCoordinatorTests {
         XCTAssertTrue(vc.viewModel is UpdateAppViewModel)
     }
 }
+
 // MARK: - User State updates
 extension QualifyingCoordinatorTests {
     @MainActor
     func test_confirmedUser_displaysMainView() throws {
-        sut.deeplink = try XCTUnwrap(URL(string: "google.co.uk"))
-        // GIVEN I reopen the app
         // WHEN I authenticate as a valid user
         sut.didChangeUserState(state: .loggedIn)
         // THEN I am shown the Main View
         let tabManagerCoordinator = try XCTUnwrap(sut.childCoordinators
+            .lazy
             .compactMap { $0 as? TabManagerCoordinator }
             .first)
         XCTAssertIdentical(window.rootViewController, tabManagerCoordinator.root)
     }
-
+    
     @MainActor
     func test_unconfirmedUser_seesTheLoginScreen() throws {
-        // GIVEN I reopen the app
         // WHEN I have no session
         sut.didChangeUserState(state: .notLoggedIn)
         // THEN I am shown the Login Coordinator
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators
+            .lazy
             .compactMap { $0 as? LoginCoordinator }
             .first)
         XCTAssertIdentical(window.rootViewController, loginCoordinator.root)
     }
-
+    
     @MainActor
     func test_expiredUser_seesTheLoginScreen() throws {
-        // GIVEN I reopen the app
         // WHEN my session has expired
         sut.didChangeUserState(state: .expired)
         // THEN I am shown the Login Coordinator
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators
+            .lazy
             .compactMap { $0 as? LoginCoordinator }
             .first)
         XCTAssertIdentical(window.rootViewController, loginCoordinator.root)
     }
-
+    
     @MainActor
     func test_failedUser_seesTheUnableToLoginScreen() throws {
-        // GIVEN I reopen the app
         // WHEN I fail to login
         enum MockLoginError: Error, LocalizedError {
             case failed
-
+            
             var errorDescription: String? {
                 "Unable to login"
             }
         }
-
+        
         sut.didChangeUserState(state: .failed(MockLoginError.failed))
         // THEN I am shown the Login Error screen
         let vc = try XCTUnwrap(
@@ -155,9 +151,17 @@ extension QualifyingCoordinatorTests {
     }
     
     @MainActor
-    func test_handleUniversalLink() throws {
+    func test_handleUniversalLink_Wallet() throws {
+        // WHEN I open the app
+        sut.start()
+        // GIVEN I open the app with a wallet deeplink
         let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
         sut.handleUniversalLink(deeplink)
+        // THEN the wallet deeplink should be stored
         XCTAssertEqual(sut.deeplink, deeplink)
+        // GIVEN the user has authenticated
+        sut.didChangeUserState(state: .loggedIn)
+        // THEN the deeplink should be consumed
+        waitForTruth(self.sut.deeplink == nil, timeout: 2)
     }
 }

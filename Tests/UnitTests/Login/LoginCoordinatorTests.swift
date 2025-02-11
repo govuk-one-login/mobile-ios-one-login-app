@@ -73,9 +73,6 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the IntroViewController
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        // THEN the OnboardingCoordinator should be launched
-        XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
-        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
     @MainActor
@@ -117,11 +114,22 @@ extension LoginCoordinatorTests {
     
     // MARK: Coordinator flow
     @MainActor
-    func test_start_skips_launchOnboardingCoordinator() {
+    func test_launchOnboardingCoordinator() {
+        sut.start()
+        // WHEN the launchOnboardingCoordinator method is called
+        sut.launchOnboardingCoordinator()
+        // THEN the OnboardingCoordinator should be launched
+        XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
+        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
+    }
+    
+    @MainActor
+    func test_skip_launchOnboardingCoordinator() {
+        sut.start()
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the LoginCoordinator's start method is called
-        sut.start()
+        // WHEN the launchOnboardingCoordinator method is called
+        sut.launchOnboardingCoordinator()
         // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }

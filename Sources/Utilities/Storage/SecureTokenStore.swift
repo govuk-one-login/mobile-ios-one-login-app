@@ -13,7 +13,7 @@ public struct StoredTokens: Codable {
 public protocol TokenStore {
     func fetch() throws -> StoredTokens
     func save(tokens: StoredTokens) throws
-    func delete()
+    func deleteTokens()
 }
 
 final class SecureTokenStore: TokenStore {
@@ -40,7 +40,7 @@ final class SecureTokenStore: TokenStore {
         try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: .storedTokens)
     }
 
-    func delete() {
+    func deleteTokens() {
         accessControlEncryptedStore.deleteItem(itemName: .storedTokens)
     }
 }

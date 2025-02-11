@@ -1,7 +1,10 @@
 import LocalAuthentication
+import SecureStore
 
-final class MockLocalAuthManager: LocalAuthenticationManager {
+final class MockLocalAuthManager: LocalAuthenticationManager, LocalAuthenticationContextStringCheck {
     var type: LocalAuthenticationType = .touchID
+
+    var contextStrings: LocalAuthenticationLocalizedStrings?
     
     var LABiometricsIsEnabledOnTheDevice = false
     var LAlocalAuthIsEnabledOnTheDevice = false

@@ -26,7 +26,7 @@ final class HomeCoordinator: NSObject,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
         let criOrchestrator = CRIOrchestrator(analyticsService: analyticsService,
-                                             networkClient: networkClient)
+                                              networkClient: networkClient)
         let hc = HomeViewController(analyticsService: analyticsService,
                                     networkClient: networkClient,
                                     criOrchestrator: criOrchestrator)

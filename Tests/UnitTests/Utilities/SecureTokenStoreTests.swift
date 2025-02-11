@@ -52,7 +52,7 @@ extension SecureTokenStoreTests {
 
     func test_deletesTokens() throws {
         accessControlEncryptedStore.savedItems = [.storedTokens: "tokens"]
-        sut.delete()
+        sut.deleteTokens()
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }
 }
