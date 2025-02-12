@@ -8,7 +8,7 @@ import SecureStore
 import UIKit
 
 @MainActor
-final class ProfileCoordinator: NSObject,
+final class SettingsCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
                                 NavigationCoordinator {
@@ -34,18 +34,18 @@ final class ProfileCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_profileTitle").value,
+        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 2)
-        let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(coordinator: self,
+        let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
+                                            sectionModels: TabbedViewSectionFactory.settingsSections(coordinator: self,
                                                                                                     urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
-        let profileViewController = TabbedViewController(viewModel: viewModel,
+        let settingsViewController = TabbedViewController(viewModel: viewModel,
                                                          userProvider: sessionManager,
                                                          headerView: SignInView(),
                                                          analyticsPreference: analyticsPreference)
-        root.setViewControllers([profileViewController], animated: true)
+        root.setViewControllers([settingsViewController], animated: true)
     }
     
     func openSignOutPage() {

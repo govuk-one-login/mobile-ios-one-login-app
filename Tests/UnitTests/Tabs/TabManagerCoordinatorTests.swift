@@ -64,7 +64,7 @@ extension TabManagerCoordinatorTests {
         // THEN the TabManagerCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
-        XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[1] is SettingsCoordinator)
         // AND the root's delegate is the TabManagerCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
@@ -83,7 +83,7 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
-        XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[2] is SettingsCoordinator)
         // THEN the root's delegate is the TabManagerCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
@@ -139,10 +139,10 @@ extension TabManagerCoordinatorTests {
             XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
             return
         }
-        // WHEN the tab bar controller's delegate method didSelect is called with the profile view controller
+        // WHEN the tab bar controller's delegate method didSelect is called with the settings view controller
         tabBarController.delegate?.tabBarController?(tabBarController, didSelect: profileVC)
-        // THEN the profile view controller's tab bar event is sent
-        let iconEvent = IconEvent(textKey: "profile")
+        // THEN the settings view controller's tab bar event is sent
+        let iconEvent = IconEvent(textKey: "settings")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
@@ -159,12 +159,12 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let profileCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
-        // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
+        // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
@@ -182,12 +182,12 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let profileCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
-        // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
+        // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: profileCoordinator)
         // THEN the sign out error screen should be presented

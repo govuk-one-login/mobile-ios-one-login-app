@@ -5,14 +5,15 @@ import SecureStore
 import XCTest
 
 @MainActor
-final class ProfileCoordinatorTests: XCTestCase {
+final class SettingsCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
-    var sut: ProfileCoordinator!
+    var mockWalletAvailabilityService: MockWalletAvailabilityService!
+    var sut: SettingsCoordinator!
     
     override func setUp() {
         super.setUp()
@@ -23,10 +24,12 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        mockWalletAvailabilityService = MockWalletAvailabilityService()
+        sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                  sessionManager: mockSessionManager,
                                  networkClient: mockNetworkClient,
                                  urlOpener: urlOpener,
+                                 walletAvailabilityService: mockWalletAvailabilityService,
                                  analyticsPreference: mockAnalyticsPreference)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
@@ -38,13 +41,14 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil
+        mockWalletAvailabilityService = nil
         sut = nil
         
         super.tearDown()
     }
     
     func test_tabBarItem() {
-        // WHEN the ProfileCoordinator has started
+        // WHEN the SettingsCoordinator has started
         sut.start()
         let profileTab = UITabBarItem(title: "Profile",
                                       image: UIImage(systemName: "person.crop.circle"),
@@ -57,11 +61,8 @@ final class ProfileCoordinatorTests: XCTestCase {
     
     func test_openSignOutPageWithWallet() throws {
         // WHEN Wallet has been accessed before
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
-            featureFlags: [:]
-        )
-        // WHEN the ProfileCoordinator is started
+        mockWalletAvailabilityService.hasAccessedBefore = true
+        // WHEN the SettingsCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
@@ -71,7 +72,7 @@ final class ProfileCoordinatorTests: XCTestCase {
     }
     
     func test_openSignOutPageNoWallet() throws {
-        // WHEN the ProfileCoordinator is started
+        // WHEN the SettingsCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()

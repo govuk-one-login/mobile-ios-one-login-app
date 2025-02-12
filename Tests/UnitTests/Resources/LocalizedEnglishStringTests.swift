@@ -108,35 +108,33 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Wallet")
     }
     
-    func test_profileScreenKeys() {
-        XCTAssertEqual("app_profileTitle".getEnglishString(),
-                       "Profile")
-        XCTAssertEqual("app_profileSubtitle1".getEnglishString(),
-                       "Your details")
-        XCTAssertEqual("app_manageSignInDetailsLink".getEnglishString(),
-                       "Manage sign in details")
-        XCTAssertEqual("app_manageSignInDetailsFootnote".getEnglishString(),
-                       "Manage your sign in details with the GOV.UK One Login web service. You’ll need to sign in again.")
-        XCTAssertEqual("app_signInDetails".getEnglishString(),
-                       "Sign in details")
-        XCTAssertEqual("app_profileSubtitle2".getEnglishString(),
-                       "Legal")
+    func test_settingsScreenKeys() {
+        XCTAssertEqual("app_settingsTitle".getEnglishString(),
+                       "Settings")
+        XCTAssertEqual("app_settingsSignInDetailsTile".getEnglishString(),
+                       "Your GOV.UK One login")
+        XCTAssertEqual("app_settingsSignInDetailsLink".getEnglishString(),
+                       "Manage your sign in details")
+        XCTAssertEqual("app_settingSignInDetailsFootnote".getEnglishString(),
+                       "You might need to sign in again to manage your GOV.UK One Login details.")
         XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
                        "GOV.UK One Login privacy notice")
-        XCTAssertEqual("app_profileSubtitle3".getEnglishString(),
+        XCTAssertEqual("app_profileSubtitle1".getEnglishString(),
                        "Help and feedback")
-        XCTAssertEqual("app_reportAProblemGiveFeedbackLink".getEnglishString(),
-                       "Report a problem or give feedback")
+        XCTAssertEqual("app_contactLink".getEnglishString(),
+                       "Contact GOV.UK One Login")
         XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
-                       "Guidance about using the app")
+                       "Using the GOV.UK One Login app")
         XCTAssertEqual("app_signOutButton".getEnglishString(),
                        "Sign out")
-        XCTAssertEqual("app_aboutSubtitle".getEnglishString(),
+        XCTAssertEqual("app_settingsSubtitle2".getEnglishString(),
                        "About the app")
-        XCTAssertEqual("app_analyticsToggle".getEnglishString(),
+        XCTAssertEqual("app_settingsAnalyticsToggle".getEnglishString(),
                        "Share app analytics")
-        XCTAssertEqual("app_analyticsFooter".getEnglishString(),
+        XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getEnglishString(),
                        "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice")
+        XCTAssertEqual("app_accessibilityStatement".getEnglishString(),
+                       "Accessibility statement")
     }
     
     func test_signOutPageKeys() {

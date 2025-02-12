@@ -8,7 +8,7 @@ enum AppTaxonomy: String {
     case login
     case home
     case wallet
-    case profile
+    case settings
     case reauth = "re auth"
 }
 
@@ -29,7 +29,7 @@ extension AnalyticsService {
             switch appTaxonomy {
             case .reauth:
                 (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
-            case .profile:
+            case .settings:
                 (appTaxonomy.rawValue, "my \(appTaxonomy.rawValue)")
             default:
                 (appTaxonomy.rawValue, "undefined")

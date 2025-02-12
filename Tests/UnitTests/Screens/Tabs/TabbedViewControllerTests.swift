@@ -95,13 +95,13 @@ extension TabbedViewControllerTests {
 
     @MainActor
     func test_updateUser() throws {
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let profileCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     analyticsPreference: mockAnalyticsPreference)
-        let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
-        let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
+        let sections = TabbedViewSectionFactory.settingsSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
+        let viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                             sectionModels: sections)
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
