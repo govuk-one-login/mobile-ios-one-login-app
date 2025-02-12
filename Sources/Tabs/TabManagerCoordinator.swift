@@ -13,7 +13,7 @@ import UIKit
 /// Performs management of the three tabs in the tab bar navigation:
 /// - HomeCoordinator: the landing tab of the app where service cards are available.
 /// - WalletCoordinator: hosting the wallet functionality.
-/// - ProfileCoordinator: linking out to related services and meta app functionality like sign out.
+/// - SettingsCoordinator: linking out to related services and meta app functionality like sign out.
 ///
 @MainActor
 final class TabManagerCoordinator: NSObject,
@@ -37,8 +37,8 @@ final class TabManagerCoordinator: NSObject,
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
     
-    private var profileCoordinator: ProfileCoordinator? {
-        childCoordinators.firstInstanceOf(ProfileCoordinator.self)
+    private var settingsCoordinator: SettingsCoordinator? {
+        childCoordinators.firstInstanceOf(SettingsCoordinator.self)
     }
     
     init(appWindow: UIWindow,
@@ -79,7 +79,7 @@ extension TabManagerCoordinator {
         if walletAvailabilityService.shouldShowFeature {
             addWalletTab()
         }
-        addProfileTab()
+        addSettingsTab()
     }
     
     private func addHomeTab() {
@@ -100,8 +100,8 @@ extension TabManagerCoordinator {
         walletAvailabilityService.hasAccessedBefore = true
     }
     
-    private func addProfileTab() {
-        let pc = ProfileCoordinator(analyticsService: analyticsCenter.analyticsService,
+    private func addSettingsTab() {
+        let pc = SettingsCoordinator(analyticsService: analyticsCenter.analyticsService,
                                     sessionManager: sessionManager,
                                     networkClient: networkClient,
                                     urlOpener: UIApplication.shared,
@@ -121,7 +121,7 @@ extension TabManagerCoordinator: UITabBarControllerDelegate {
             case 1:
                 .init(textKey: "app_walletTitle")
             case 2:
-                .init(textKey: "app_profileTitle")
+                .init(textKey: "app_settingsTitle")
             default:
                 nil
             }
@@ -135,7 +135,7 @@ extension TabManagerCoordinator: UITabBarControllerDelegate {
 
 extension TabManagerCoordinator: ParentCoordinator {
     func performChildCleanup(child: ChildCoordinator) {
-        if child is ProfileCoordinator {
+        if child is SettingsCoordinator {
             do {
                 #if DEBUG
                 if AppEnvironment.signoutErrorEnabled {

@@ -98,32 +98,30 @@
 "app_walletTitle" = "Wallet";
 
 
-// MARK: Profile screen
-"app_profileTitle" = "Profile";
+// MARK: Settings screen
+"app_settingsTitle" = "Settings";
 
-"app_profileSubtitle1" = "Your details";
+"app_settingsSignInDetailsTile" = "Your GOV.UK One login";
 
-"app_manageSignInDetailsLink" = "Manage sign in details";
+"app_settingsSignInDetailsLink" = "Manage your sign in details";
 
-"app_manageSignInDetailsFootnote" = "Manage your sign in details with the GOV.UK One Login web service. You’ll need to sign in again.";
+"app_settingSignInDetailsFootnote" = "You might need to sign in again to manage your GOV.UK One Login details.";
 
-"app_signInDetails" = "Sign in details";
+"app_profileSubtitle1" = "Help and feedback";
 
-"app_profileSubtitle2" = "Legal";
+"app_appGuidanceLink" = "Using the GOV.UK One Login app";
+
+"app_contactLink" = "Contact GOV.UK One Login";
+
+"app_settingsSubtitle2" = "About the app";
+
+"app_settingsAnalyticsToggle" = "Share app analytics";
+
+"app_settingsAnalyticsToggleFootnote" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice";
 
 "app_privacyNoticeLink2" = "GOV.UK One Login privacy notice";
 
-"app_profileSubtitle3" = "Help and feedback";
-
-"app_reportAProblemGiveFeedbackLink" = "Report a problem or give feedback";
-
-"app_appGuidanceLink" = "Guidance about using the app";
-
-"app_aboutSubtitle" = "About the app";
-
-"app_analyticsToggle" = "Share app analytics";
-
-"app_analyticsFooter" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice";
+"app_accessibilityStatement" = "Accessibility statement";
 
 "app_signOutButton" = "Sign out";
 

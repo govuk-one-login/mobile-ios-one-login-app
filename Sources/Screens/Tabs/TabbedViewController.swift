@@ -125,7 +125,7 @@ extension TabbedViewController: UITableViewDataSource {
                 as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
         
-        if viewModel.sectionModels[indexPath.section].sectionTitle == "app_aboutSubtitle" {
+        if viewModel.sectionModels[indexPath.section].sectionTitle == "app_settingsSubtitle2" {
             cell.accessoryView = analyticsSwitch
         }
         return cell

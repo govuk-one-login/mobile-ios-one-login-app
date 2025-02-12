@@ -3,8 +3,8 @@ import GDSCommon
 import Logging
 
 @MainActor
-struct ProfileTabViewModel: TabbedViewModel {
-    let navigationTitle: GDSLocalisedString = "app_profileTitle"
+struct SettingsTabViewModel: TabbedViewModel {
+    let navigationTitle: GDSLocalisedString = "app_settingsTitle"
     let sectionModels: [TabbedViewSectionModel]
     let analyticsService: AnalyticsService
     
@@ -16,15 +16,15 @@ struct ProfileTabViewModel: TabbedViewModel {
     init(analyticsService: AnalyticsService,
          sectionModels: [TabbedViewSectionModel] = [TabbedViewSectionModel]()) {
         var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .profile)
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .settings)
         self.analyticsService = tempAnalyticsService
         self.sectionModels = sectionModels
     }
     
     func didAppear() {
         if isLoggedIn {
-            let screen = ScreenView(id: ProfileAnalyticsScreenID.profileScreen.rawValue,
-                                    screen: ProfileAnalyticsScreen.profileScreen,
+            let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
+                                    screen: SettingsAnalyticsScreen.settingsScreen,
                                     titleKey: navigationTitle.stringKey)
             analyticsService.trackScreen(screen)
         }
