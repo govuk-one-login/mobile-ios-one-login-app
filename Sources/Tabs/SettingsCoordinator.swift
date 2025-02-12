@@ -35,16 +35,15 @@ final class SettingsCoordinator: NSObject,
     
     func start() {
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
-                                       image: UIImage(systemName: "person.crop.circle"),
+                                       image: UIImage(systemName: "gearshape"),
                                        tag: 2)
         let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.settingsSections(coordinator: self,
+                                             sectionModels: TabbedViewSectionFactory.settingsSections(coordinator: self,
                                                                                                     urlOpener: urlOpener,
                                                                                                     action: openSignOutPage))
         let settingsViewController = TabbedViewController(viewModel: viewModel,
-                                                         userProvider: sessionManager,
-                                                         headerView: SignInView(),
-                                                         analyticsPreference: analyticsPreference)
+                                                          userProvider: sessionManager,
+                                                          analyticsPreference: analyticsPreference)
         root.setViewControllers([settingsViewController], animated: true)
     }
     
