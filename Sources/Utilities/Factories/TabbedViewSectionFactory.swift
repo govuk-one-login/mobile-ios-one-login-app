@@ -17,7 +17,7 @@ struct TabbedViewSectionFactory {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
         }])
         
-        let helpSection = createSection(header: "app_profileSubtitle3",
+        let helpSection = createSection(header: "app_profileSubtitle1",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "app_appGuidanceLink",
                                                            accessoryView: linkDisclosureArrow),
@@ -26,7 +26,7 @@ struct TabbedViewSectionFactory {
         
         let analyticsSection = createSection(header: "app_settingsSubtitle2",
                                              footer: "app_settingsAnalyticsToggleFootnote",
-                                             cellModels: [.init(cellTitle: "app_analyticsToggle")])
+                                             cellModels: [.init(cellTitle: "app_settingsAnalyticsToggle")])
         
         let noticesSection  = createSection(header: nil,
                                             footer: nil,
