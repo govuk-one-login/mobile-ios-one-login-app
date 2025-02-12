@@ -8,8 +8,8 @@ struct TabbedViewSectionFactory {
     
     @MainActor
     static func settingsSections(coordinator: SettingsCoordinator,
-                                urlOpener: URLOpener,
-                                action: @escaping () -> Void) -> [TabbedViewSectionModel] {
+                                 urlOpener: URLOpener,
+                                 action: @escaping () -> Void) -> [TabbedViewSectionModel] {
         let manageDetailsSection = createSection(header: nil,
                                                  footer: "app_settingSignInDetailsFootnote",
                                                  cellModels: [.init(cellTitle: "app_settingsSignInDetailsLink",
@@ -40,7 +40,7 @@ struct TabbedViewSectionFactory {
         let signoutSection = createSection(header: nil,
                                            footer: nil,
                                            cellModels: [.init(cellTitle: "app_signOutButton",
-                                                              textColor: .gdsRed) {
+                                                              textColor: .gdsGreen) {
             action()
         }])
         

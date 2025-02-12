@@ -27,6 +27,6 @@ final class SignInView: NibView {
         guard let userEmail else { return nil }
         return GDSLocalisedString(stringKey: "app_displayEmail",
                                   userEmail,
-                                  attributes: [(userEmail, [.font: UIFont.bodyBold])]).attributedValue
+                                  attributes: [(userEmail, [.font: UIFont(style: .subheadline), .foregroundColor: UIColor.gdsGrey])]).attributedValue
     }
 }
