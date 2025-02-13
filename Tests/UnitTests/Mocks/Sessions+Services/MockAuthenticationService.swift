@@ -12,11 +12,9 @@ final class MockAuthenticationService: AuthenticationService {
     
     func start() async throws {
         try await sessionManager.startSession(
-            MockLoginSession(window: UIWindow()),
-            using: {
-                _ in try await MockLoginSessionConfiguration.oneLoginSessionConfiguration()
+            MockLoginSession(window: UIWindow())) { _ in
+                try await MockLoginSessionConfiguration.oneLoginSessionConfiguration()
             }
-        )
     }
     
     func handleUniversalLink(_ url: URL) throws {
