@@ -86,12 +86,7 @@ final class LoginCoordinator: NSObject,
     func launchAuthenticationService() {
         loginTask = Task {
             do {
-                try await authService.start()
-                guard sessionManager.isReturningUser else {
-                    launchEnrolmentCoordinator()
-                    return
-                }
-                finish()
+                try await triggerAuthFlow()
             } catch PersistentSessionError.sessionMismatch {
                 showDataDeletedWarningScreen()
             } catch PersistentSessionError.cannotDeleteData(let error) {
@@ -113,6 +108,15 @@ final class LoginCoordinator: NSObject,
                 showGenericErrorScreen(error)
             }
         }
+    }
+    
+    private func triggerAuthFlow() async throws {
+        try await authService.start()
+        guard sessionManager.isReturningUser else {
+            launchEnrolmentCoordinator()
+            return
+        }
+        finish()
     }
     
     func handleUniversalLink(_ url: URL) {
