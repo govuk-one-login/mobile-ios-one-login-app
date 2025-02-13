@@ -118,10 +118,10 @@ final class QualifyingCoordinator: NSObject,
                 root: UINavigationController(),
                 analyticsCenter: analyticsCenter,
                 sessionManager: sessionManager,
-                isExpiredUser: userState == .expired,
-                authService: AuthenticationService(sessionManager: sessionManager,
-                                                   session: AppAuthSession(window: appWindow),
-                                                   analyticsService: analyticsCenter.analyticsService)
+                authService: WebAuthenticationService(sessionManager: sessionManager,
+                                                      session: AppAuthSession(window: appWindow),
+                                                      analyticsService: analyticsCenter.analyticsService),
+                isExpiredUser: userState == .expired
             )
             displayChildCoordinator(loginCoordinator)
         }

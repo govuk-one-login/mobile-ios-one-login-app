@@ -6,7 +6,7 @@ import Logging
 import UIKit
 
 @MainActor
-final class AuthenticationService {
+final class WebAuthenticationService: AuthenticationService {
     private let session: LoginSession
     private let sessionManager: SessionManager
     private let analyticsService: AnalyticsService

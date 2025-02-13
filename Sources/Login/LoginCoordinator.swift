@@ -19,8 +19,8 @@ final class LoginCoordinator: NSObject,
     private let analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
-    private var isExpiredUser: Bool
     private let authService: AuthenticationService
+    private var isExpiredUser: Bool
     
     private var loginTask: Task<Void, Never>? {
         didSet {
@@ -37,15 +37,15 @@ final class LoginCoordinator: NSObject,
          analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
-         isExpiredUser: Bool,
-         authService: AuthenticationService) {
+         authService: AuthenticationService,
+         isExpiredUser: Bool) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
-        self.isExpiredUser = isExpiredUser
         self.authService = authService
+        self.isExpiredUser = isExpiredUser
     }
     
     deinit {
@@ -75,22 +75,15 @@ final class LoginCoordinator: NSObject,
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
                 if networkMonitor.isConnected {
-                    launchAuthenticationCoordinator()
+                    launchAuthenticationService()
                 }
             }
             return
         }
-        launchAuthenticationCoordinator()
+        launchAuthenticationService()
     }
     
-    func launchOnboardingCoordinator() {
-        if analyticsCenter.analyticsPermissionsNotSet, root.topViewController is IntroViewController {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
-                                                   urlOpener: UIApplication.shared))
-        }
-    }
-    
-    func launchAuthenticationCoordinator() {
+    func launchAuthenticationService() {
         loginTask = Task {
             do {
                 try await authService.start()
@@ -142,6 +135,13 @@ final class LoginCoordinator: NSObject,
         }
     }
     
+    func launchOnboardingCoordinator() {
+        if analyticsCenter.analyticsPermissionsNotSet, root.topViewController is IntroViewController {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
+                                                   urlOpener: UIApplication.shared))
+        }
+    }
+        
     func launchEnrolmentCoordinator() {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCenter.analyticsService,

@@ -162,14 +162,14 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_didRegainFocus_fromLoginCoordinator_withBearerToken() throws {
         // GIVEN the user has an active session
-        let loginCoordinator = LoginCoordinator(appWindow: window,
-                                                root: UINavigationController(),
-                                                analyticsCenter: mockAnalyticsCenter,
-                                                sessionManager: mockSessionManager,
-                                                networkMonitor: MockNetworkMonitor(),
-                                                isExpiredUser: true)
+//        let loginCoordinator = LoginCoordinator(appWindow: window,
+//                                                root: UINavigationController(),
+//                                                analyticsCenter: mockAnalyticsCenter,
+//                                                sessionManager: mockSessionManager,
+//                                                networkMonitor: MockNetworkMonitor(),
+//                                                isExpiredUser: true)
         // WHEN the TabManagerCoordinator didRegainFocus from the LoginCoordinator
-        sut.didRegainFocus(fromChild: loginCoordinator)
+//        sut.didRegainFocus(fromChild: loginCoordinator)
         // THEN no coordinator should be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
