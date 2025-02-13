@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import GDSAnalytics
 import GDSCommon
 import LocalAuthentication
 import Logging
@@ -11,41 +12,49 @@ final class LoginCoordinator: NSObject,
                               NavigationCoordinator,
                               ChildCoordinator {
     private let appWindow: UIWindow
-
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-
+    
     private let analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
-    private let isExpiredUser: Bool
-
+    private var isExpiredUser: Bool
+    private let authService: AuthenticationService
+    
+    private var loginTask: Task<Void, Never>? {
+        didSet {
+            oldValue?.cancel()
+        }
+    }
+    
     private var introViewController: IntroViewController? {
         root.viewControllers.first as? IntroViewController
     }
-
-    private var authCoordinator: AuthenticationCoordinator? {
-        childCoordinators.firstInstanceOf(AuthenticationCoordinator.self)
-    }
-
+    
     init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
-         isExpiredUser: Bool) {
+         isExpiredUser: Bool,
+         authService: AuthenticationService) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.isExpiredUser = isExpiredUser
+        self.authService = authService
     }
-
+    
+    deinit {
+        loginTask?.cancel()
+    }
+    
     func start() {
         let rootViewController: UIViewController
-
+        
         if isExpiredUser {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
                 authenticate()
@@ -57,47 +66,82 @@ final class LoginCoordinator: NSObject,
             }
             rootViewController = IntroViewController(viewModel: viewModel)
         }
-
+        
         root.setViewControllers([rootViewController], animated: true)
     }
-
+    
     func authenticate() {
         guard networkMonitor.isConnected else {
-            let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
-                introViewController?.enableIntroButton()
-                root.popViewController(animated: true)
+            showNetworkConnectionErrorScreen { [unowned self] in
+                returnFromErrorScreen()
                 if networkMonitor.isConnected {
                     launchAuthenticationCoordinator()
                 }
             }
-            let networkErrorScreen = GDSErrorViewController(viewModel: viewModel)
-            root.pushViewController(networkErrorScreen, animated: true)
             return
         }
-
         launchAuthenticationCoordinator()
     }
-
+    
     func launchOnboardingCoordinator() {
-        if analyticsCenter.analyticsPermissionsNotSet {
+        if analyticsCenter.analyticsPermissionsNotSet, root.topViewController is IntroViewController {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }
     }
-
+    
     func launchAuthenticationCoordinator() {
-        let ac = AuthenticationCoordinator(window: appWindow,
-                                           root: root,
-                                           analyticsService: analyticsCenter.analyticsService,
-                                           sessionManager: sessionManager,
-                                           session: AppAuthSession(window: appWindow))
-        openChildInline(ac)
+        loginTask = Task {
+            do {
+                try await authService.start()
+                guard sessionManager.isReturningUser else {
+                    launchEnrolmentCoordinator()
+                    return
+                }
+                finish()
+            } catch PersistentSessionError.sessionMismatch {
+                let viewModel = DataDeletedWarningViewModel { [unowned self] in
+                    isExpiredUser = false
+                    start()
+                    launchOnboardingCoordinator()
+                }
+                let vc = GDSErrorViewController(viewModel: viewModel)
+                root.pushViewController(vc, animated: true)
+            } catch PersistentSessionError.cannotDeleteData(let error) {
+                showUnableToLoginErrorScreen(error)
+            } catch let error as LoginError where error == .userCancelled {
+                introViewController?.enableIntroButton()
+            } catch let error as LoginError where error == .network {
+                showNetworkConnectionErrorScreen { [unowned self] in
+                    returnFromErrorScreen()
+                }
+            } catch let error as LoginError where error == .non200,
+                    let error as LoginError where error == .invalidRequest,
+                    let error as LoginError where error == .clientError,
+                    let error as LoginError where error == .serverError {
+                showUnableToLoginErrorScreen(error)
+            } catch let error as JWTVerifierError {
+                showUnableToLoginErrorScreen(error)
+            } catch {
+                showGenericErrorScreen(error)
+            }
+        }
     }
-
+    
     func handleUniversalLink(_ url: URL) {
-        authCoordinator?.handleUniversalLink(url)
+        let loginLoadingScreen = GDSLoadingViewController(
+            viewModel: LoginLoadingViewModel(
+                analyticsService: analyticsCenter.analyticsService
+            )
+        )
+        root.pushViewController(loginLoadingScreen, animated: false)
+        do {
+            try authService.handleUniversalLink(url)
+        } catch {
+            showGenericErrorScreen(error)
+        }
     }
-
+    
     func launchEnrolmentCoordinator() {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsCenter.analyticsService,
@@ -105,16 +149,42 @@ final class LoginCoordinator: NSObject,
     }
 }
 
+extension LoginCoordinator {
+    private func showUnableToLoginErrorScreen(_ error: Error) {
+        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+                                                    errorDescription: error.localizedDescription) { [unowned self] in
+            returnFromErrorScreen()
+        }
+        let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
+        root.pushViewController(unableToLoginErrorScreen, animated: true)
+    }
+    
+    private func showNetworkConnectionErrorScreen(action: @escaping () -> Void) {
+        let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsCenter.analyticsService) {
+            action()
+        }
+        let networkErrorScreen = GDSErrorViewController(viewModel: viewModel)
+        root.pushViewController(networkErrorScreen, animated: true)
+    }
+    
+    private func showGenericErrorScreen(_ error: Error) {
+        let viewModel = GenericErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+                                              errorDescription: error.localizedDescription) { [unowned self] in
+            returnFromErrorScreen()
+        }
+        let genericErrorScreen = GDSErrorViewController(viewModel: viewModel)
+        root.pushViewController(genericErrorScreen, animated: true)
+    }
+    
+    private func returnFromErrorScreen() {
+        root.popToRootViewController(animated: true)
+        introViewController?.enableIntroButton()
+    }
+}
+
 extension LoginCoordinator: ParentCoordinator {
     func didRegainFocus(fromChild child: ChildCoordinator?) {
         switch child {
-        case let child as AuthenticationCoordinator where child.authError != nil:
-            root.popToRootViewController(animated: true)
-            introViewController?.enableIntroButton()
-        case is AuthenticationCoordinator where sessionManager.isReturningUser:
-            finish()
-        case is AuthenticationCoordinator:
-            launchEnrolmentCoordinator()
         case is EnrolmentCoordinator:
             finish()
         default:
