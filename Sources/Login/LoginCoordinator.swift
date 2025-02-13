@@ -93,13 +93,7 @@ final class LoginCoordinator: NSObject,
                 }
                 finish()
             } catch PersistentSessionError.sessionMismatch {
-                let viewModel = DataDeletedWarningViewModel { [unowned self] in
-                    isExpiredUser = false
-                    start()
-                    launchOnboardingCoordinator()
-                }
-                let vc = GDSErrorViewController(viewModel: viewModel)
-                root.pushViewController(vc, animated: true)
+                showDataDeletedWarningScreen()
             } catch PersistentSessionError.cannotDeleteData(let error) {
                 showUnableToLoginErrorScreen(error)
             } catch let error as LoginError where error == .userCancelled {
@@ -150,6 +144,16 @@ final class LoginCoordinator: NSObject,
 }
 
 extension LoginCoordinator {
+    private func showDataDeletedWarningScreen() {
+        let viewModel = DataDeletedWarningViewModel { [unowned self] in
+            isExpiredUser = false
+            start()
+            launchOnboardingCoordinator()
+        }
+        let vc = GDSErrorViewController(viewModel: viewModel)
+        root.pushViewController(vc, animated: true)
+    }
+    
     private func showUnableToLoginErrorScreen(_ error: Error) {
         let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsCenter.analyticsService,
                                                     errorDescription: error.localizedDescription) { [unowned self] in
