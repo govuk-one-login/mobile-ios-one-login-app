@@ -127,6 +127,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = PersistentSessionError.sessionMismatch
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the DataDeletedWarningViewModel
@@ -139,6 +140,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = PersistentSessionError.cannotDeleteData(MockWalletError.cantDelete)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -151,6 +153,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = LoginError.network
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
@@ -163,6 +166,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = LoginError.non200
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -175,6 +179,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = LoginError.invalidRequest
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -187,6 +192,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = LoginError.clientError
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -199,6 +205,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = LoginError.serverError
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -211,6 +218,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = JWTVerifierError.unableToFetchJWKs
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -223,6 +231,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = JWTVerifierError.invalidJWTFormat
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
@@ -235,6 +244,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = LoginError.generic(description: "")
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the GenericErrorViewModel
@@ -247,6 +257,7 @@ extension LoginCoordinatorTests {
         mockSessionManager.errorFromStartSession = AuthenticationError.generic
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorViewController
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
         // THEN the visible view controller's view model should be the GenericErrorViewModel
