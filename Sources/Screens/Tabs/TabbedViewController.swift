@@ -64,6 +64,12 @@ final class TabbedViewController: BaseViewController {
         }
     }
     
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage()
+        return imageView
+    }()
+    
     private func subscribeToUsers() {
         userProvider.user
             .receive(on: DispatchQueue.main)
@@ -124,6 +130,10 @@ extension TabbedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
                 as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
+        
+        if indexPath.row == 1 {
+            cell.contentView.addSubview(imageView)
+        }
         
         if viewModel.sectionModels[indexPath.section].sectionTitle == "app_settingsSubtitle2" {
             cell.accessoryView = analyticsSwitch
