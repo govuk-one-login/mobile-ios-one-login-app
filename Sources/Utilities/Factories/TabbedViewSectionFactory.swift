@@ -12,7 +12,9 @@ struct TabbedViewSectionFactory {
                                  action: @escaping () -> Void) -> [TabbedViewSectionModel] {
         let manageDetailsSection = createSection(header: nil,
                                                  footer: "app_settingSignInDetailsFootnote",
-                                                 cellModels: [.init(cellTitle: "app_settingsSignInDetailsLink",
+                                                 cellModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
+                                                                    image: UIImage(named: "userAccountIcon")),
+                                                              .init(cellTitle: "app_settingsSignInDetailsLink",
                                                                     accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
         }])

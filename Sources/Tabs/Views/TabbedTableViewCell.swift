@@ -5,6 +5,7 @@ final class TabbedTableViewCell: UITableViewCell, ViewIdentifiable {
         didSet {
             textLabel?.text = viewModel?.cellTitle?.value
             textLabel?.textColor = viewModel?.textColor
+            imageView?.image = viewModel?.image
             guard let viewName = viewModel?.accessoryView else { return }
             let config = UIImage.SymbolConfiguration(textStyle: .body)
             var accessoryImage = UIImage(systemName: viewName)
