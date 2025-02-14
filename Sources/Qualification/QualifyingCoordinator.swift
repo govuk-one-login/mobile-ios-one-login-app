@@ -170,7 +170,6 @@ extension QualifyingCoordinator {
     }
     
     func displayUnlockWindow() {
-        unlockViewController.isLoading = true
         guard unlockWindow == nil,
               let appWindowScene = appWindow.windowScene else {
             return
