@@ -50,7 +50,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
-            label.font = .bodyBold
+            label.font = .body
             label.accessibilityIdentifier = "sign-out-body2-text-no-wallet"
             return label
         }()

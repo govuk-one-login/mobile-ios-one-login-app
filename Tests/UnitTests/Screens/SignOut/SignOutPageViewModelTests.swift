@@ -53,7 +53,7 @@ extension SignOutPageViewModelTests {
         XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value)
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
-        XCTAssertEqual(try body2Label.font, .bodyBold)
+        XCTAssertEqual(try body2Label.font, .body)
     }
     
     func test_button() throws {
