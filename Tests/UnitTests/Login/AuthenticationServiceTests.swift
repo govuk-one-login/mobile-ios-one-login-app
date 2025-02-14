@@ -42,7 +42,7 @@ extension AuthenticationServiceTests {
     func test_loginError_userCancelled() async throws {
         mockSessionManager.errorFromStartSession = LoginError.userCancelled
         do {
-            try await sut.start()
+            try await sut.startWebSession()
         } catch {
             guard let error = error as? LoginError else {
                 XCTFail("Error should be a LoginError")
