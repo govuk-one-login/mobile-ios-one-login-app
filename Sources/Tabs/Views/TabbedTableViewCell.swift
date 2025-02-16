@@ -3,9 +3,12 @@ import UIKit
 final class TabbedTableViewCell: UITableViewCell, ViewIdentifiable {
     var viewModel: TabbedViewCellModel? {
         didSet {
-            textLabel?.text = viewModel?.cellTitle?.value
-            textLabel?.textColor = viewModel?.textColor
-            imageView?.image = viewModel?.image
+            var cellConfig = defaultContentConfiguration()
+            cellConfig.text = viewModel?.cellTitle?.value
+            cellConfig.textProperties.color = viewModel?.textColor ?? .label
+            cellConfig.image = viewModel?.image
+            contentConfiguration = cellConfig
+            
             guard let viewName = viewModel?.accessoryView else { return }
             let config = UIImage.SymbolConfiguration(textStyle: .body)
             var accessoryImage = UIImage(systemName: viewName)
