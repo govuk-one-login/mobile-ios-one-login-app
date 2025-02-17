@@ -1,3 +1,4 @@
+import Authentication
 import Coordination
 import GDSCommon
 import Logging
@@ -117,6 +118,9 @@ final class QualifyingCoordinator: NSObject,
                 root: UINavigationController(),
                 analyticsCenter: analyticsCenter,
                 sessionManager: sessionManager,
+                authService: WebAuthenticationService(sessionManager: sessionManager,
+                                                      session: AppAuthSession(window: appWindow),
+                                                      analyticsService: analyticsCenter.analyticsService),
                 isExpiredUser: userState == .expired
             )
             displayChildCoordinator(loginCoordinator)

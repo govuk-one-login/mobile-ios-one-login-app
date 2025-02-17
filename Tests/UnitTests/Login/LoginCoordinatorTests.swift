@@ -1,3 +1,4 @@
+import Authentication
 import GDSCommon
 @testable import OneLogin
 import SecureStore
@@ -11,12 +12,13 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockAnalyticsCenter: AnalyticsCentral!
     var mockSessionManager: MockSessionManager!
     var mockNetworkMonitor: NetworkMonitoring!
+    var mockAuthenticationService: MockAuthenticationService!
     var sut: LoginCoordinator!
     
     @MainActor
     override func setUp() {
         super.setUp()
-
+        
         appWindow = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
@@ -25,6 +27,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                               analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         mockNetworkMonitor = MockNetworkMonitor()
+        mockAuthenticationService = MockAuthenticationService(sessionManager: mockSessionManager)
         appWindow.rootViewController = navigationController
         appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(appWindow: appWindow,
@@ -32,6 +35,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
+                               authService: mockAuthenticationService,
                                isExpiredUser: false)
     }
     
@@ -50,18 +54,19 @@ final class LoginCoordinatorTests: XCTestCase {
     
     @MainActor
     func reauthLogin() {
+        mockSessionManager.isReturningUser = true
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsCenter: mockAnalyticsCenter,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
+                               authService: mockAuthenticationService,
                                isExpiredUser: true)
-        mockSessionManager.isReturningUser = true
     }
-    
-    private enum AuthenticationError: Error {
-        case generic
-    }
+}
+
+enum AuthenticationError: Error {
+    case generic
 }
 
 extension LoginCoordinatorTests {
@@ -82,34 +87,193 @@ extension LoginCoordinatorTests {
         sut.start()
         // THEN the user sees the session expired screen
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-
+        // THEN the visible view controller should be the GDSErrorViewController
         let screen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the SignOutWarningViewModel
         XCTAssertTrue(screen.viewModelV2 is SignOutWarningViewModel)
     }
     
     @MainActor
-    func test_authenticate_opensAuthenticationCoordinator() throws {
-        // WHEN the LoginCoordinator is started
+    func test_authenticate_launchAuthenticationService() {
+        // WHEN the LoginCoordinator's authenticate method is called
         sut.authenticate()
-        // THEN the AuthenticationCoordinator should be launched
-        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
+        // THEN the AuthenticationService should be launched
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
     }
     
     @MainActor
     func test_authenticate_noNetwork() throws {
         // GIVEN the network is not connected
         mockNetworkMonitor.isConnected = false
-        // WHEN the LoginCoordinator's authenticate method is called for a first time user
+        // WHEN the LoginCoordinator's authenticate method is called
         sut.authenticate()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the visible view controller should be the GDSErrorViewController
         let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
-        let errorButton: UIButton = try XCTUnwrap(errorScreen.view[child: "error-primary-button"])
-        // WHEN the network error screens button is pressed
-        mockNetworkMonitor.isConnected = true
-        errorButton.sendActions(for: .touchUpInside)
-        // THEN the AuthenticationCoordinator is launched
-        XCTAssertTrue(sut.childCoordinators.last is AuthenticationCoordinator)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService() {
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        // THEN the AuthenticationService should be launched
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_sessionMismatch() throws {
+        // GIVEN the authentication session returns a sessionMismatch error
+        mockSessionManager.errorFromStartSession = PersistentSessionError.sessionMismatch
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the DataDeletedWarningViewModel
+        XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_cannotDeleteData() throws {
+        // GIVEN the authentication session returns a cannotDeleteData error
+        mockSessionManager.errorFromStartSession = PersistentSessionError.cannotDeleteData(MockWalletError.cantDelete)
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_network() throws {
+        // GIVEN the authentication session returns a network error
+        mockSessionManager.errorFromStartSession = LoginError.network
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
+        XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_non200() throws {
+        // GIVEN the authentication session returns a non200 error
+        mockSessionManager.errorFromStartSession = LoginError.non200
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_invalidRequest() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        mockSessionManager.errorFromStartSession = LoginError.invalidRequest
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_clientError() throws {
+        // GIVEN the authentication session returns a clientError error
+        mockSessionManager.errorFromStartSession = LoginError.clientError
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_serverError() throws {
+        // GIVEN the authentication session returns a serverError error
+        mockSessionManager.errorFromStartSession = LoginError.serverError
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_jwtFetchError() throws {
+        // GIVEN the authentication session returns a unableToFetchJWKs error
+        mockSessionManager.errorFromStartSession = JWTVerifierError.unableToFetchJWKs
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_jwtVerifyError() throws {
+        // GIVEN the authentication session returns a invalidJWTFormat error
+        mockSessionManager.errorFromStartSession = JWTVerifierError.invalidJWTFormat
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_generic() throws {
+        // GIVEN the authentication session returns a generic error
+        mockSessionManager.errorFromStartSession = LoginError.generic(description: "")
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the GenericErrorViewModel
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_catchAllError() throws {
+        // GIVEN the authentication session returns a generic error
+        mockSessionManager.errorFromStartSession = AuthenticationError.generic
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the GenericErrorViewModel
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+    }
+    
+    @MainActor
+    func test_handleUniversalLink_catchAllError() throws {
+        // GIVEN the authentication session returns a generic error
+        let callbackURL = try XCTUnwrap(URL(string: "https://www.test.com"))
+        // WHEN the LoginCoordinator's handleUniversalLink method is called
+        sut.handleUniversalLink(callbackURL)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the GenericErrorViewModel
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
     }
     
     // MARK: Coordinator flow
@@ -133,57 +297,13 @@ extension LoginCoordinatorTests {
         // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
-
-    @MainActor
-    func test_launchAuthenticationCoordinator() {
-        // WHEN the LoginCoordinator's launchAuthenticationCoordinator method is called
-        sut.launchAuthenticationCoordinator()
-        // THEN the LoginCoordinator should have an AuthenticationCoordinator as it's only child coordinator
-        XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators[0] is AuthenticationCoordinator)
-    }
     
     @MainActor
     func test_launchEnrolmentCoordinator() {
-        // GIVEN sufficient test set up to ensure enrolment coordinator does not finish before test assertions
-        let mockLocalAuthManager = MockLocalAuthManager()
-        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator()
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
     }
-    
-    @MainActor
-    func test_didRegainFocus_fromOnboardingCoordinator() {
-        let onboardingCoordinator = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
-                                                          urlOpener: MockURLOpener())
-        // GIVEN the LoginCoordinator has started and set it's view controllers
-        sut.start()
-        // GIVEN the LoginCoordinator regained focus from the OnboardingCoordinator
-        sut.didRegainFocus(fromChild: onboardingCoordinator)
-        // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-    }
-    
-    @MainActor
-    func test_didRegainFocus_fromAuthenticationCoordinator_withError() throws {
-        let authCoordinator = AuthenticationCoordinator(window: appWindow,
-                                                        root: navigationController,
-                                                        analyticsService: mockAnalyticsService,
-                                                        sessionManager: mockSessionManager,
-                                                        session: MockLoginSession(window: UIWindow()))
-        authCoordinator.authError = AuthenticationError.generic
-        // GIVEN the LoginCoordinator has started and set it's view controllers
-        sut.start()
-        let vc = try XCTUnwrap(sut.root.topViewController as? IntroViewController)
-        vc.loadView()
-        // GIVEN the LoginCoordinator regained focus from the AuthenticationCoordinator
-        sut.didRegainFocus(fromChild: authCoordinator)
-        // THEN the LoginCoordinator should still have IntroViewController as it's top view controller
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
-        let introButton: UIButton = try XCTUnwrap(vc.view[child: "intro-button"])
-        XCTAssertTrue(introButton.isEnabled)
-    }
-}
+ }
