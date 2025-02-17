@@ -1,4 +1,3 @@
-import Combine
 import Coordination
 import GDSCommon
 import Logging
@@ -8,18 +7,13 @@ final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
     private let viewModel: TabbedViewModel
-    private let headerView: UIView?
     private let userProvider: UserProvider
-    
     private var analyticsPreference: AnalyticsPreferenceStore
-    private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
-         headerView: UIView? = nil,
          analyticsPreference: AnalyticsPreferenceStore) {
         self.viewModel = viewModel
-        self.headerView = headerView
         self.userProvider = userProvider
         self.analyticsPreference = analyticsPreference
         super.init(viewModel: viewModel,
@@ -35,9 +29,6 @@ final class TabbedViewController: BaseViewController {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
         configureTableView()
-
-        updateEmail(userProvider.user.value?.email)
-        subscribeToUsers()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -45,11 +36,6 @@ final class TabbedViewController: BaseViewController {
         navigationController?.navigationBar.sizeToFit()
         guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
         analyticsSwitch.setOn(analyticsAccepted, animated: true)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        resizeHeaderView()
     }
     
     @IBOutlet private var tableView: UITableView! {
@@ -62,20 +48,6 @@ final class TabbedViewController: BaseViewController {
         didSet {
             analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
         }
-    }
-    
-    private func subscribeToUsers() {
-        userProvider.user
-            .receive(on: DispatchQueue.main)
-            .sink { user in
-                self.updateEmail(user?.email)
-            }.store(in: &cancellables)
-    }
-
-    func updateEmail(_ email: String?) {
-        guard let headerView = headerView as? SignInView else { return }
-        headerView.userEmail = email ?? ""
-        resizeHeaderView()
     }
     
     @IBAction private func updateAnalytics(_ sender: UISwitch) {
@@ -104,7 +76,6 @@ final class TabbedViewController: BaseViewController {
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
         tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
         tableView.register(TabbedViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier)
-        tableView.tableHeaderView = headerView
         tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self

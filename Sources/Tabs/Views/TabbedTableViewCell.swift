@@ -6,6 +6,8 @@ final class TabbedTableViewCell: UITableViewCell, ViewIdentifiable {
             var cellConfig = defaultContentConfiguration()
             cellConfig.text = viewModel?.cellTitle?.value
             cellConfig.textProperties.color = viewModel?.textColor ?? .label
+            cellConfig.secondaryText = viewModel?.cellSubtitle
+            cellConfig.secondaryTextProperties.color = .gdsGrey
             cellConfig.image = viewModel?.image
             contentConfiguration = cellConfig
             

@@ -9,10 +9,12 @@ struct TabbedViewSectionFactory {
     @MainActor
     static func settingsSections(coordinator: SettingsCoordinator,
                                  urlOpener: URLOpener,
+                                 userEmail: String,
                                  action: @escaping () -> Void) -> [TabbedViewSectionModel] {
         let manageDetailsSection = createSection(header: nil,
                                                  footer: "app_settingSignInDetailsFootnote",
                                                  cellModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
+                                                                    cellSubtitle: userEmail,
                                                                     image: UIImage(named: "userAccountIcon")),
                                                               .init(cellTitle: "app_settingsSignInDetailsLink",
                                                                     accessoryView: linkDisclosureArrow) {
@@ -50,7 +52,6 @@ struct TabbedViewSectionFactory {
                                                               textColor: .gdsGreen) {
             action()
         }])
-        
         #if DEBUG
         let developerSection = createSection(header: "Developer Menu",
                                              footer: nil,
@@ -60,7 +61,6 @@ struct TabbedViewSectionFactory {
         #else
         let developerSection = TabbedViewSectionModel()
         #endif
-        
         return [manageDetailsSection,
                 helpSection,
                 analyticsSection,
