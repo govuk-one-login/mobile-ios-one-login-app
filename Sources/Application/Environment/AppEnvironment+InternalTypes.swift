@@ -22,5 +22,6 @@ extension AppEnvironment {
         case stsClientID = "STS Client ID"
         case appStoreURL = "App Store URL"
         case yourServicesURL = "Your Services URL"
+        case govURLString = "Gov URL"
     }
 }

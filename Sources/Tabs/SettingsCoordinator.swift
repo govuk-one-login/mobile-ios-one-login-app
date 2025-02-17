@@ -80,4 +80,12 @@ final class SettingsCoordinator: NSObject,
         let navController = UINavigationController(rootViewController: devMenuViewController)
         root.present(navController, animated: true)
     }
+    
+    func openManageDetailsPage() {
+        if AppEnvironment.isLocaleWelsh {
+            urlOpener.open(url: AppEnvironment.manageAccountURLWelsh)
+        } else {
+            urlOpener.open(url: AppEnvironment.manageAccountURL)
+        }
+    }
 }

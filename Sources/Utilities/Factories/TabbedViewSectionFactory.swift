@@ -16,13 +16,16 @@ struct TabbedViewSectionFactory {
                                                                     image: UIImage(named: "userAccountIcon")),
                                                               .init(cellTitle: "app_settingsSignInDetailsLink",
                                                                     accessoryView: linkDisclosureArrow) {
-            urlOpener.open(url: AppEnvironment.manageAccountURL)
+            coordinator.openManageDetailsPage()
+            
         }])
         
         let helpSection = createSection(header: "app_profileSubtitle1",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "app_appGuidanceLink",
-                                                           accessoryView: linkDisclosureArrow),
+                                                           accessoryView: linkDisclosureArrow) {
+            urlOpener.open(url: AppEnvironment.appHelpURL)
+        },
                                                      .init(cellTitle: "app_contactLink",
                                                                         accessoryView: linkDisclosureArrow)])
         
@@ -33,10 +36,12 @@ struct TabbedViewSectionFactory {
         let noticesSection  = createSection(header: nil,
                                             footer: nil,
                                             cellModels: [.init(cellTitle: "app_privacyNoticeLink2",
-                                                               accessoryView: linkDisclosureArrow),
+                                                               accessoryView: linkDisclosureArrow) {
+            urlOpener.open(url: AppEnvironment.privacyPolicyURL)
+        },
                                                          .init(cellTitle: "app_accessibilityStatement",
                                                                accessoryView: linkDisclosureArrow) {
-            action()
+            urlOpener.open(url: AppEnvironment.accessibilityStatementURL)
         }])
         
         let signoutSection = createSection(header: nil,
