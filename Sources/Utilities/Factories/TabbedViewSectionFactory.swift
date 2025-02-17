@@ -29,7 +29,9 @@ struct TabbedViewSectionFactory {
             urlOpener.open(url: AppEnvironment.appHelpURL)
         },
                                                      .init(cellTitle: "app_contactLink",
-                                                                        accessoryView: linkDisclosureArrow)])
+                                                           accessoryView: linkDisclosureArrow) {
+            urlOpener.open(url: AppEnvironment.contactURL)
+        }])
         
         let analyticsSection = createSection(header: "app_settingsSubtitle2",
                                              footer: "app_settingsAnalyticsToggleFootnote",
