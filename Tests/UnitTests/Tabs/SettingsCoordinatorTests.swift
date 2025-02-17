@@ -50,13 +50,13 @@ final class SettingsCoordinatorTests: XCTestCase {
     func test_tabBarItem() {
         // WHEN the SettingsCoordinator has started
         sut.start()
-        let profileTab = UITabBarItem(title: "Profile",
-                                      image: UIImage(systemName: "person.crop.circle"),
+        let settingsTab = UITabBarItem(title: "Settings",
+                                      image: UIImage(systemName: "gearshape"),
                                       tag: 2)
         // THEN the bar button item of the root is correctly configured
-        XCTAssertEqual(sut.root.tabBarItem.title, profileTab.title)
-        XCTAssertEqual(sut.root.tabBarItem.image, profileTab.image)
-        XCTAssertEqual(sut.root.tabBarItem.tag, profileTab.tag)
+        XCTAssertEqual(sut.root.tabBarItem.title, settingsTab.title)
+        XCTAssertEqual(sut.root.tabBarItem.image, settingsTab.image)
+        XCTAssertEqual(sut.root.tabBarItem.tag, settingsTab.tag)
     }
     
     func test_openSignOutPageWithWallet() throws {

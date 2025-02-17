@@ -28,7 +28,6 @@ final class TabbedViewControllerTests: XCTestCase {
         }
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
-                                   headerView: UIView(),
                                    analyticsPreference: mockAnalyticsPreference)
     }
     
@@ -74,10 +73,7 @@ extension TabbedViewControllerTests {
     func test_cellConfiguration() throws {
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
-        let cellLabel = try XCTUnwrap(cell.textLabel)
-        XCTAssertEqual(cellLabel.text, "Test Cell")
-        XCTAssertEqual(cellLabel.font.familyName, UIFont.body.familyName)
-        XCTAssertEqual(cellLabel.textColor, .systemRed)
+        let cellLabel = cell.defaultContentConfiguration()
         XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
         XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
     }
@@ -134,6 +130,7 @@ extension TabbedViewControllerTests {
         let testSection = TabbedViewSectionFactory.createSection(header: "Test Header",
                                                                  footer: "Test Footer",
                                                                  cellModels: [.init(cellTitle: "Test Cell",
+                                                                                    cellSubtitle: MockUser().email,
                                                                                     accessoryView: "arrow.up.right",
                                                                                     textColor: .systemRed) {
             self.didTapRow = true
@@ -144,12 +141,6 @@ extension TabbedViewControllerTests {
 }
 
 extension TabbedViewController {
-    var emailLabel: UILabel {
-        get throws {
-            try XCTUnwrap(view[child: "signin-view-email-label"])
-        }
-    }
-    
     var tabbedTableView: UITableView {
         get throws {
             try XCTUnwrap(view[child: "tabbed-view-table-view"])
