@@ -7,6 +7,7 @@ struct TabbedViewSectionFactory {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
     @MainActor
+    // swiftlint:disable function_body_length
     static func settingsSections(coordinator: SettingsCoordinator,
                                  urlOpener: URLOpener,
                                  userEmail: String,
@@ -66,6 +67,7 @@ struct TabbedViewSectionFactory {
                 signoutSection,
                 developerSection]
     }
+    // swiftlint:enable function_body_length
     
     static func createSection(header: GDSLocalisedString?,
                               footer: GDSLocalisedString?,
