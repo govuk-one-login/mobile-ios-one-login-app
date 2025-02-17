@@ -177,24 +177,11 @@ extension AppEnvironment {
     static var govURLString: String {
         string(for: .govURLString)
     }
+}
+
+// MARK: - Settings Page URLs
     
-    static var privacyPolicyURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = externalBaseURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/privacy-notice"
-        return components.url!
-    }
-    
-    static var accessibilityStatementURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = externalBaseURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/accessibility-statement"
-        return components.url!
-    }
+extension AppEnvironment {
     
     static var manageAccountURL: URL {
         var components = URLComponents()
@@ -218,6 +205,33 @@ extension AppEnvironment {
         components.host = govURLString
         components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/one-login/app-help"
+        return components.url!
+    }
+    
+    static var contactURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = yourServicesLink
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
+        components.path = "/contact-gov-uk-one-login"
+        return components.url!
+    }
+    
+    static var privacyPolicyURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = externalBaseURLString
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
+        components.path = "/privacy-notice"
+        return components.url!
+    }
+    
+    static var accessibilityStatementURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = externalBaseURLString
+        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
+        components.path = "/accessibility-statement"
         return components.url!
     }
 }
