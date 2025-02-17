@@ -58,20 +58,6 @@ final class TabbedViewController: BaseViewController {
         viewModel.didAppear()
     }
     
-    private func resizeHeaderView() {
-        guard self.isViewLoaded else { return }
-        guard let headerView = tableView.tableHeaderView else {
-            return
-        }
-        
-        let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        
-        if headerView.frame.height != size.height {
-            headerView.frame.size.height = size.height
-            tableView.tableHeaderView = headerView
-        }
-    }
-    
     private func configureTableView() {
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
         tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
