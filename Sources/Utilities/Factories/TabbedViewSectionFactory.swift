@@ -21,7 +21,6 @@ struct TabbedViewSectionFactory {
             coordinator.openManageDetailsPage()
             
         }])
-        
         let helpSection = createSection(header: "app_profileSubtitle1",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "app_appGuidanceLink",
@@ -32,11 +31,9 @@ struct TabbedViewSectionFactory {
                                                            accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.contactURL)
         }])
-        
         let analyticsSection = createSection(header: "app_settingsSubtitle2",
                                              footer: "app_settingsAnalyticsToggleFootnote",
                                              cellModels: [.init(cellTitle: "app_settingsAnalyticsToggle")])
-        
         let noticesSection  = createSection(header: nil,
                                             footer: nil,
                                             cellModels: [.init(cellTitle: "app_privacyNoticeLink2",
@@ -47,7 +44,6 @@ struct TabbedViewSectionFactory {
                                                                accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.accessibilityStatementURL)
         }])
-        
         let signoutSection = createSection(header: nil,
                                            footer: nil,
                                            cellModels: [.init(cellTitle: "app_signOutButton",
