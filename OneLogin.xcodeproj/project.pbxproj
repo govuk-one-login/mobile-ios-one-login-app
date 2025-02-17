@@ -219,8 +219,6 @@
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
 		D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */; };
-		D08B0B652BDA478000769CEA /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B642BDA478000769CEA /* SignInView.swift */; };
-		D08B0B682BDA47AD00769CEA /* SignInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B672BDA47AD00769CEA /* SignInView.xib */; };
 		D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */; };
 		D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B722BDA8DD100769CEA /* TabbedView.xib */; };
 		D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */; };
@@ -483,8 +481,6 @@
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
 		D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
-		D08B0B642BDA478000769CEA /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		D08B0B672BDA47AD00769CEA /* SignInView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignInView.xib; sourceTree = "<group>"; };
 		D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewController.swift; sourceTree = "<group>"; };
 		D08B0B722BDA8DD100769CEA /* TabbedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedView.xib; sourceTree = "<group>"; };
 		D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewModel.swift; sourceTree = "<group>"; };
@@ -1093,7 +1089,6 @@
 			isa = PBXGroup;
 			children = (
 				C85E21162ACEECC600AF8B4E /* Buttons */,
-				D08B0B662BDA479000769CEA /* Components */,
 				C80C57FF2CB0011200021D4F /* ContentTile */,
 			);
 			path = Views;
@@ -1551,15 +1546,6 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
-		D08B0B662BDA479000769CEA /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				D08B0B642BDA478000769CEA /* SignInView.swift */,
-				D08B0B672BDA47AD00769CEA /* SignInView.xib */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		D08B0B7B2BDBF82600769CEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1785,7 +1771,6 @@
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
-				D08B0B682BDA47AD00769CEA /* SignInView.xib in Resources */,
 				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 			);
@@ -1980,7 +1965,6 @@
 				C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */,
 				C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
-				D08B0B652BDA478000769CEA /* SignInView.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				F1B6807E2CA4424400A64971 /* SignOutPageViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
