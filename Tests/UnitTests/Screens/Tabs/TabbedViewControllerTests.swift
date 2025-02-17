@@ -73,7 +73,12 @@ extension TabbedViewControllerTests {
     func test_cellConfiguration() throws {
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
-        let cellLabel = cell.defaultContentConfiguration()
+        let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
+        XCTAssertEqual(cellConfig.text, "Test Cell")
+        XCTAssertEqual(cellConfig.textProperties.color, .systemRed)
+        XCTAssertEqual(cellConfig.secondaryText, "test@example.com")
+        XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
+        cellConfig.image
         XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
         XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
     }
