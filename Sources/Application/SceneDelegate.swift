@@ -27,9 +27,9 @@ final class SceneDelegate: UIResponder,
         manager.registerSessionBoundData(
             [
                 secureStoreManager,
-                analyticsCenter,
-                walletAvailabilityService,
                 WalletSessionData(),
+                walletAvailabilityService,
+                analyticsCenter,
                 UserDefaults.standard
             ]
         )
