@@ -19,7 +19,7 @@ struct TabbedViewSectionFactory {
                                                                     image: UIImage(named: "userAccountIcon")),
                                                               .init(cellTitle: "app_settingsSignInDetailsLink",
                                                                     accessoryView: linkDisclosureArrow) {
-            coordinator.openManageDetailsPage()
+            urlOpener.open(url: AppEnvironment.manageAccountURL)
             
         }])
         let helpSection = createSection(header: "app_settingsSubtitle1",

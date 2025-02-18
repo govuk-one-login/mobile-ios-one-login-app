@@ -9,7 +9,6 @@ final class AppEnvironmentTests: XCTestCase {
         let sut = AppEnvironment.self
         XCTAssertEqual(sut.privacyPolicyURL.absoluteString, "https://signin.account.gov.uk/privacy-notice?lng=en")
         XCTAssertEqual(sut.manageAccountURL.absoluteString, "https://gov.uk/using-your-gov-uk-one-login")
-        XCTAssertEqual(sut.manageAccountURLWelsh.absoluteString, "https://gov.uk/defnyddio-eich-gov-uk-one-login")
         XCTAssertEqual(sut.appHelpURL.absoluteString, "https://gov.uk/one-login/app-help?lng=en")
         XCTAssertEqual(sut.contactURL.absoluteString, "https://home.account.gov.uk/contact-gov-uk-one-login?lng=en")
         XCTAssertEqual(sut.accessibilityStatementURL.absoluteString, "https://signin.account.gov.uk/accessibility-statement?lng=en")
