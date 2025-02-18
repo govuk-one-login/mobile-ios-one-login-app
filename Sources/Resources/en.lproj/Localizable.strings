@@ -105,9 +105,9 @@
 
 "app_settingsSignInDetailsLink" = "Manage your sign in details";
 
-"app_settingSignInDetailsFootnote" = "You might need to sign in again to manage your GOV.UK One Login details.";
+"app_settingsSignInDetailsFootnote" = "You might need to sign in again to manage your GOV.UK One Login details.";
 
-"app_profileSubtitle1" = "Help and feedback";
+"app_settingsSubtitle1" = "Help and feedback";
 
 "app_appGuidanceLink" = "Using the GOV.UK One Login app";
 

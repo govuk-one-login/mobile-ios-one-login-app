@@ -115,11 +115,11 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Your GOV.UK One login")
         XCTAssertEqual("app_settingsSignInDetailsLink".getEnglishString(),
                        "Manage your sign in details")
-        XCTAssertEqual("app_settingSignInDetailsFootnote".getEnglishString(),
+        XCTAssertEqual("app_settingsSignInDetailsFootnote".getEnglishString(),
                        "You might need to sign in again to manage your GOV.UK One Login details.")
         XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
                        "GOV.UK One Login privacy notice")
-        XCTAssertEqual("app_profileSubtitle1".getEnglishString(),
+        XCTAssertEqual("app_settingsSubtitle1".getEnglishString(),
                        "Help and feedback")
         XCTAssertEqual("app_contactLink".getEnglishString(),
                        "Contact GOV.UK One Login")

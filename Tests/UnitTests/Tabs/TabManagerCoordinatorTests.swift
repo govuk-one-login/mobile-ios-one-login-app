@@ -135,7 +135,7 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_didSelect_tabBarItem_profile() {
+    func test_didSelect_tabBarItem_settings() {
         mockWalletAvailabilityService.shouldShowFeature = false
         
         AppEnvironment.updateFlags(
@@ -145,12 +145,12 @@ extension TabManagerCoordinatorTests {
         
         // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
-        guard let profileVC = tabBarController.viewControllers?[1] else {
-            XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
+        guard let settingsVC = tabBarController.viewControllers?[1] else {
+            XCTFail("SettingsVC not added as child viewcontroller to tabBarController")
             return
         }
         // WHEN the tab bar controller's delegate method didSelect is called with the settings view controller
-        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: profileVC)
+        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: settingsVC)
         // THEN the settings view controller's tab bar event is sent
         let iconEvent = IconEvent(textKey: "settings")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
@@ -160,7 +160,7 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_performChildCleanup_fromProfileCoordinator_succeeds() async throws {
+    func test_performChildCleanup_fromSettingsCoordinator_succeeds() async throws {
         let exp = XCTNSNotificationExpectation(
             name: .didLogout,
             object: nil,
@@ -169,14 +169,14 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
+        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     walletAvailabilityService: mockWalletAvailabilityService,
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
-        sut.performChildCleanup(child: profileCoordinator)
+        sut.performChildCleanup(child: settingsCoordinator)
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
         // And the session should be cleared
@@ -184,7 +184,7 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_performChildCleanup_fromProfileCoordinator_errors() throws {
+    func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
         AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableSignoutError.rawValue: true],
             featureFlags: [:]
@@ -193,7 +193,7 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
+        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
@@ -201,7 +201,7 @@ extension TabManagerCoordinatorTests {
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         // but there was an error in signing out
-        sut.performChildCleanup(child: profileCoordinator)
+        sut.performChildCleanup(child: settingsCoordinator)
         // THEN the sign out error screen should be presented
         let errorVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         XCTAssertTrue(errorVC.viewModel is SignOutErrorViewModel)

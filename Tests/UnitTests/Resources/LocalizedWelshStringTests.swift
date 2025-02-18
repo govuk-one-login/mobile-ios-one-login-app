@@ -115,11 +115,11 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Eich GOV.UK One Login")
         XCTAssertEqual("app_settingsSignInDetailsLink".getWelshString(),
                        "Rheoli eich manylion mewngofnodi")
-        XCTAssertEqual("app_settingSignInDetailsFootnote".getWelshString(),
+        XCTAssertEqual("app_settingsSignInDetailsFootnote".getWelshString(),
                        "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.")
         XCTAssertEqual("app_privacyNoticeLink2".getWelshString(),
                        "Rhybudd Preifatrwydd GOV.UK One Login")
-        XCTAssertEqual("app_profileSubtitle1".getWelshString(),
+        XCTAssertEqual("app_settingsSubtitle1".getWelshString(),
                        "Help ac adborth")
         XCTAssertEqual("app_contactLink".getWelshString(),
                        "Cysylltu GOV.UK One Login")
