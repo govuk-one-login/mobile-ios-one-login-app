@@ -105,9 +105,9 @@
 
 "app_settingsSignInDetailsLink" = "Rheoli eich manylion mewngofnodi";
 
-"app_settingSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.";
+"app_settingsSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.";
 
-"app_profileSubtitle1" = "Help ac adborth";
+"app_settingsSubtitle1" = "Help ac adborth";
 
 "app_appGuidanceLink" = "Defnyddio'r ap GOV.UK One Login";
 

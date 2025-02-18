@@ -13,7 +13,7 @@ struct TabbedViewSectionFactory {
                                  userEmail: String,
                                  action: @escaping () -> Void) -> [TabbedViewSectionModel] {
         let manageDetailsSection = createSection(header: nil,
-                                                 footer: "app_settingSignInDetailsFootnote",
+                                                 footer: "app_settingsSignInDetailsFootnote",
                                                  cellModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
                                                                     cellSubtitle: userEmail,
                                                                     image: UIImage(named: "userAccountIcon")),
@@ -22,7 +22,7 @@ struct TabbedViewSectionFactory {
             coordinator.openManageDetailsPage()
             
         }])
-        let helpSection = createSection(header: "app_profileSubtitle1",
+        let helpSection = createSection(header: "app_settingsSubtitle1",
                                         footer: nil,
                                         cellModels: [.init(cellTitle: "app_appGuidanceLink",
                                                            accessoryView: linkDisclosureArrow) {
