@@ -78,7 +78,7 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(cellConfig.textProperties.color, .systemRed)
         XCTAssertEqual(cellConfig.secondaryText, "test@example.com")
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
-        cellConfig.image
+        XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
         XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
         XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
     }
@@ -136,6 +136,7 @@ extension TabbedViewControllerTests {
                                                                  footer: "Test Footer",
                                                                  cellModels: [.init(cellTitle: "Test Cell",
                                                                                     cellSubtitle: MockUser().email,
+                                                                                    image: UIImage(named: "userAccountIcon"),
                                                                                     accessoryView: "arrow.up.right",
                                                                                     textColor: .systemRed) {
             self.didTapRow = true
