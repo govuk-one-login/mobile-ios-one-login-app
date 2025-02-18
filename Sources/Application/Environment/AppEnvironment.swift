@@ -187,15 +187,7 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = govURLString
-        components.path = "/using-your-gov-uk-one-login"
-        return components.url!
-    }
-    
-    static var manageAccountURLWelsh: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = govURLString
-        components.path = "/defnyddio-eich-gov-uk-one-login"
+        components.path = isLocaleWelsh ? "/defnyddio-eich-gov-uk-one-login" : "/using-your-gov-uk-one-login"
         return components.url!
     }
     
