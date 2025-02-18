@@ -1,4 +1,3 @@
-import Combine
 import Coordination
 import GDSCommon
 import LocalAuthentication
@@ -22,9 +21,7 @@ final class SettingsCoordinator: NSObject,
     private let urlOpener: URLOpener
     private let walletAvailablityService: WalletFeatureAvailabilityService
     private let analyticsPreference: AnalyticsPreferenceStore
-    
-    private var cancellables = Set<AnyCancellable>()
-    
+        
     init(analyticsService: AnalyticsService,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
