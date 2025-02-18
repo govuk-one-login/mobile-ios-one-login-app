@@ -30,8 +30,8 @@ protocol SessionBoundData {
 }
 
 final class PersistentSessionManager: SessionManager {
-    private var storeKeyService: TokenStore
-    private let encryptedStore: SecureStorable
+    private let secureStoreManager: SecureStoreManager
+    private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
     let localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
     
@@ -39,30 +39,23 @@ final class PersistentSessionManager: SessionManager {
     private var tokenResponse: TokenResponse?
     
     private var sessionBoundData = [SessionBoundData]()
-
+    
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
-    convenience init(accessControlEncryptedStore: SecureStorable,
+    convenience init(secureStoreManager: SecureStoreManager,
                      localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
-        let encryptedConfiguration = SecureStorageConfiguration(
-            id: .persistentSessionID,
-            accessControlLevel: .open
-        )
-        
         self.init(
-            accessControlEncryptedStore: accessControlEncryptedStore,
-            encryptedStore: SecureStoreService(configuration: encryptedConfiguration),
+            secureStoreManager: secureStoreManager,
             unprotectedStore: UserDefaults.standard,
             localAuthentication: localAuthentication
         )
     }
     
-    init(accessControlEncryptedStore: SecureStorable,
-         encryptedStore: SecureStorable,
+    init(secureStoreManager: SecureStoreManager,
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
-        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
-        self.encryptedStore = encryptedStore
+        self.secureStoreManager = secureStoreManager
+        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore)
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
         
@@ -70,7 +63,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var persistentID: String? {
-        try? encryptedStore.readItem(itemName: .persistentSessionID)
+        try? secureStoreManager.encryptedStore.readItem(itemName: .persistentSessionID)
     }
     
     var expiryDate: Date? {
@@ -163,10 +156,10 @@ final class PersistentSessionManager: SessionManager {
         try storeKeyService.save(tokens: tokens)
         
         if let persistentID = user.value?.persistentID {
-            try encryptedStore.saveItem(item: persistentID,
+            try secureStoreManager.encryptedStore.saveItem(item: persistentID,
                                         itemName: .persistentSessionID)
         } else {
-            encryptedStore.deleteItem(itemName: .persistentSessionID)
+            secureStoreManager.encryptedStore.deleteItem(itemName: .persistentSessionID)
         }
         
         unprotectedStore.set(tokenResponse.expiryDate,
@@ -210,20 +203,14 @@ final class PersistentSessionManager: SessionManager {
         try sessionBoundData.forEach {
             try $0.delete()
         }
+        endCurrentSession()
         
-        encryptedStore.deleteItem(itemName: .persistentSessionID)
-        unprotectedStore.removeObject(forKey: .returningUser)
-        unprotectedStore.removeObject(forKey: .accessTokenExpiry)
-        storeKeyService = SecureTokenStore(
-            accessControlEncryptedStore: .accessControlEncryptedStore(
-                localAuthManager: localAuthentication
-            )
+        NotificationCenter.default.post(
+            name: .didLogout
         )
-        
-        NotificationCenter.default.post(name: .didLogout)
     }
     
-    func registerSessionBoundData(_ data: SessionBoundData) {
-        sessionBoundData.append(data)
+    func registerSessionBoundData(_ data: [SessionBoundData]) {
+        sessionBoundData = data
     }
 }
