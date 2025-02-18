@@ -507,7 +507,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C825C02A2D5CF58B00112918 /* Wallet in Frameworks */,
 				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
@@ -522,6 +521,7 @@
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
+				C825C02A2D5CF58B00112918 /* Wallet in Frameworks */,
 				AB2D07972D5B8958000E4EB3 /* Wallet in Frameworks */,
 				AB327B142D36BF0D00AC169E /* Wallet in Frameworks */,
 			);
@@ -1044,9 +1044,9 @@
 				C88958832C7E8A1100663299 /* LocalAuth */,
 				41E1A90F2BE126910034B6C7 /* Networking */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
-				C825C02D2D5E291500112918 /* MockAuthenticationService.swift */,
 				ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */,
 				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
+				C825C02D2D5E291500112918 /* MockAuthenticationService.swift */,
 				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 				41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */,
 				D0275CC02C00951600AF9A50 /* MockTokenVerifier.swift */,
@@ -1081,10 +1081,10 @@
 			isa = PBXGroup;
 			children = (
 				C825C02B2D5E281C00112918 /* AuthenticationService.swift */,
-				C8B320782B062F9100FECDF0 /* WebAuthenticationService.swift */,
 				C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */,
 				C8B825C22B98C34A00336146 /* LoginCoordinator.swift */,
 				C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */,
+				C8B320782B062F9100FECDF0 /* WebAuthenticationService.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1912,7 +1912,7 @@
 				C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */,
 				C8BFE5E92CB57FD800FA9A35 /* AppUnavailableViewModel.swift in Sources */,
 				7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */,
-				C8B320792B062F9100FECDF0 /* WebAuthenticationService.swift in Sources */,
+				C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */,
 				C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */,
 				ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */,
@@ -1984,7 +1984,6 @@
 				C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
-				C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */,
 				41C8E4332B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
@@ -2000,6 +1999,7 @@
 				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
 				7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */,
 				41279DD52BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift in Sources */,
+				C8B320792B062F9100FECDF0 /* WebAuthenticationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2034,6 +2034,7 @@
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,
 				C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */,
+				C825C02E2D5E291C00112918 /* MockAuthenticationService.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
 				7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
