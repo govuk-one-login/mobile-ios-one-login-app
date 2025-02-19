@@ -11,6 +11,21 @@ struct UserDefaultsTests {
         sut = UserDefaults()
     }
     
+    @Test("Check that extension method delete works accordingly")
+    func checkDelete() throws {
+        sut.set(
+            true,
+            forKey: .returningUser
+        )
+        sut.set(
+            123456789,
+            forKey: .accessTokenExpiry
+        )
+        try sut.delete()
+        #expect(sut.object(forKey: "returningUser") == nil)
+        #expect(sut.object(forKey: "accessTokenExpiry") == nil)
+    }
+    
     @Test("Check that validAttestation is true if valid")
     func validAttestation() {
         sut.set(
@@ -69,20 +84,5 @@ struct UserDefaultsTests {
         let attestationExpiry = sut.value(forKey: AttestationStorageKey.attestationExpiry.rawValue)
         #expect(attestation as? String == "testAttestation")
         #expect(attestationExpiry as? Date == dateToStore)
-    }
-    
-    @Test("Check that extension method delete works accordingly")
-    func checkDelete() throws {
-        sut.set(
-            true,
-            forKey: .returningUser
-        )
-        sut.set(
-            123456789,
-            forKey: .accessTokenExpiry
-        )
-        try sut.delete()
-        #expect(sut.object(forKey: "returningUser") == nil)
-        #expect(sut.object(forKey: "accessTokenExpiry") == nil)
     }
 }
