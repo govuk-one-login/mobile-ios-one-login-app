@@ -1,3 +1,4 @@
+import Combine
 import Coordination
 import GDSCommon
 import Logging
@@ -9,6 +10,7 @@ final class TabbedViewController: BaseViewController {
     private let viewModel: TabbedViewModel
     private let userProvider: UserProvider
     private var analyticsPreference: AnalyticsPreferenceStore
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
@@ -29,6 +31,9 @@ final class TabbedViewController: BaseViewController {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
         configureTableView()
+        
+        updateEmail(userProvider.user.value?.email)
+        subscribeToUsers()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -43,6 +48,19 @@ final class TabbedViewController: BaseViewController {
             tableView.accessibilityIdentifier = "tabbed-view-table-view"
         }
     }
+    
+    private func subscribeToUsers() {
+        userProvider.user
+            .receive(on: DispatchQueue.main)
+            .sink { user in
+                self.updateEmail(user?.email)
+            }.store(in: &cancellables)
+    }
+    
+    func updateEmail(_ email: String?) {
+        self.tableView.reloadData()
+    }
+
 
     @IBOutlet private var analyticsSwitch: UISwitch! {
         didSet {
