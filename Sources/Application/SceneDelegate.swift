@@ -19,7 +19,7 @@ final class SceneDelegate: UIResponder,
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let localAuthentication = LALocalAuthenticationManager(context: LAContext())
-        let secureStoreManager = SecureStoreManager(localAuthentication: localAuthentication)
+        let secureStoreManager = OneLoginSecureStoreManager(localAuthentication: localAuthentication)
         let manager = PersistentSessionManager(secureStoreManager: secureStoreManager,
                                                localAuthentication: localAuthentication)
         networkClient.authorizationProvider = manager.tokenProvider
