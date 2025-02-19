@@ -1,3 +1,4 @@
+import Combine
 import Coordination
 import GDSCommon
 import LocalAuthentication
@@ -20,6 +21,7 @@ final class SettingsCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
     private let analyticsPreference: AnalyticsPreferenceStore
+    private var cancellables = Set<AnyCancellable>()
         
     init(analyticsService: AnalyticsService,
          sessionManager: SessionManager & UserProvider,
@@ -38,11 +40,9 @@ final class SettingsCoordinator: NSObject,
                                        image: UIImage(systemName: "gearshape"),
                                        tag: 2)
         let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
-                                             sectionModels: TabbedViewSectionFactory.settingsSections(coordinator: self,
-                                                                                                      urlOpener: urlOpener,
-                                                                                                      userEmail:
-                                                                                                        sessionManager.user.value?.email ?? "",
-                                                                                                    action: openSignOutPage))
+                                             userProvider: sessionManager,
+                                             openSignOutPage: openSignOutPage,
+                                             openDeveloperMenu: openDeveloperMenu)
         let settingsViewController = TabbedViewController(viewModel: viewModel,
                                                           userProvider: sessionManager,
                                                           analyticsPreference: analyticsPreference)
@@ -73,7 +73,7 @@ final class SettingsCoordinator: NSObject,
         }
     }
     
-    func showDeveloperMenu() {
+    func openDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
         let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
         let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
