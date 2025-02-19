@@ -12,9 +12,13 @@ final class OneLoginSecureStoreManager: SecureStoreManager, SessionBoundData {
     let localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
     
     convenience init(localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
-        self.init(accessControlEncryptedStore: .accessControlEncryptedStore(localAuthManager: localAuthentication),
-                  encryptedStore: .encryptedStore(),
-                  localAuthentication: localAuthentication)
+        self.init(
+            accessControlEncryptedStore: .accessControlEncryptedStore(
+                localAuthManager: localAuthentication
+            ),
+            encryptedStore: .encryptedStore(),
+            localAuthentication: localAuthentication
+        )
     }
     
     init(accessControlEncryptedStore: SecureStorable,
@@ -29,9 +33,9 @@ final class OneLoginSecureStoreManager: SecureStoreManager, SessionBoundData {
         try accessControlEncryptedStore.delete()
         try encryptedStore.delete()
         
-        accessControlEncryptedStore = SecureStoreService.accessControlEncryptedStore(
+        accessControlEncryptedStore = .accessControlEncryptedStore(
             localAuthManager: localAuthentication
         )
-        encryptedStore = SecureStoreService.encryptedStore()
+        encryptedStore = .encryptedStore()
     }
 }
