@@ -166,7 +166,7 @@ extension PersistentSessionManagerTests {
         
         // GIVEN I am a returning user
         mockUnprotectedStore.set(true, forKey: .returningUser)
-        sut.registerSessionBoundData([self])
+        sut.registerSessionBoundData([self, mockUnprotectedStore])
         // AND I am unable to re-authenticate because I have no persistent session ID
         mockEncryptedStore.deleteItem(itemName: .persistentSessionID)
         // WHEN I start a session
@@ -310,6 +310,7 @@ extension PersistentSessionManagerTests {
         mockEncryptedStore.savedItems = [
             .persistentSessionID: UUID().uuidString
         ]
+        sut.registerSessionBoundData([mockUnprotectedStore, mockEncryptedStore])
         // WHEN I clear all session data
         try sut.clearAllSessionData()
         // THEN my session data is deleted
