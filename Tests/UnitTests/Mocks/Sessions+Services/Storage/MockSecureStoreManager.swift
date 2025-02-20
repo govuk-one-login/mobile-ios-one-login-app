@@ -13,4 +13,6 @@ class MockSecureStoreManager: SecureStoreManager {
         self.encryptedStore = encryptedStore
         self.localAuthentication = localAuthentication
     }
+    
+    func refreshStore() throws { }
 }
