@@ -11,6 +11,7 @@ public struct StoredTokens: Codable {
 }
 
 public protocol TokenStore {
+    var hasLoginTokens: Bool { get }
     func fetch() throws -> StoredTokens
     func save(tokens: StoredTokens) throws
     func deleteTokens()
@@ -21,6 +22,10 @@ final class SecureTokenStore: TokenStore {
 
     init(accessControlEncryptedStore: SecureStorable) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
+    }
+    
+    var hasLoginTokens: Bool {
+        accessControlEncryptedStore.checkItemExists(itemName: .storedTokens)
     }
     
     func fetch() throws -> StoredTokens {
