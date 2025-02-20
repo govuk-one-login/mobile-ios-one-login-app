@@ -505,7 +505,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABD5C1DA2D65EB2100A1FD5B /* Wallet in Frameworks */,
 				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
@@ -514,13 +513,14 @@
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */,
-				AB9068802D64B5E100C5D025 /* Wallet in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
+				ABD5C1DA2D65EB2100A1FD5B /* Wallet in Frameworks */,
+				AB9068802D64B5E100C5D025 /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

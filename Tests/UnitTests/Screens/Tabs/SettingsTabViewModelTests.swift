@@ -5,13 +5,25 @@ import XCTest
 @MainActor
 final class SettingsTabViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
+    var mockSessionManager: MockSessionManager!
     var sut: SettingsTabViewModel!
+    
+    var didOpenSignOutPage: Bool = false
+    var didOpenDeveloperMenu: Bool = false
     
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = SettingsTabViewModel(analyticsService: mockAnalyticsService)
+        mockSessionManager = MockSessionManager()
+        sut = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                   userProvider: mockSessionManager,
+                                   openSignOutPage: {
+            self.didOpenSignOutPage = true
+        },
+                                   openDeveloperMenu: {
+            self.didOpenDeveloperMenu = true
+        })
     }
     
     override func tearDown() {
