@@ -10,37 +10,32 @@ final class SceneDelegate: UIResponder,
                            SceneLifecycle {
     private var rootCoordinator: QualifyingCoordinator?
 
-    private let walletAvailabilityService = WalletAvailabilityService()
+    lazy var analyticsService: AnalyticsService = GAnalytics()
+    private lazy var analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
+                                                       analyticsPreferenceStore: UserDefaultsPreferenceStore())
+    private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
+                                                                 sessionManager: sessionManager)
+    private lazy var walletAvailabilityService = WalletAvailabilityService()
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let localAuthentication = LALocalAuthenticationManager(context: LAContext())
-        let accessControlEncryptedStore = SecureStoreService.accessControlEncryptedStore(
-            localAuthManager: localAuthentication
-        )
-        
-        let manager = PersistentSessionManager(accessControlEncryptedStore: accessControlEncryptedStore,
+        let secureStoreManager = OneLoginSecureStoreManager(localAuthentication: localAuthentication)
+        let manager = PersistentSessionManager(secureStoreManager: secureStoreManager,
                                                localAuthentication: localAuthentication)
         networkClient.authorizationProvider = manager.tokenProvider
         
-        manager.registerSessionBoundData(accessControlEncryptedStore)
-        manager.registerSessionBoundData(WalletSessionData())
-        manager.registerSessionBoundData(walletAvailabilityService)
-        manager.registerSessionBoundData(analyticsCenter)
-
+        manager.registerSessionBoundData(
+            [
+                secureStoreManager,
+                WalletSessionData(),
+                walletAvailabilityService,
+                analyticsCenter,
+                UserDefaults.standard
+            ]
+        )
         return manager
     }()
-
-    private lazy var appQualifyingService = {
-        AppQualifyingService(analyticsService: analyticsService,
-                             sessionManager: sessionManager)
-    }()
-
-    let analyticsService: AnalyticsService = GAnalytics()
-    private lazy var analyticsCenter = {
-        AnalyticsCenter(analyticsService: analyticsService,
-                        analyticsPreferenceStore: UserDefaultsPreferenceStore())
-    }()
-
+    
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {

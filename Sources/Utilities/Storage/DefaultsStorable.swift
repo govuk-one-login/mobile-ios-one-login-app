@@ -7,3 +7,10 @@ protocol DefaultsStorable {
 }
 
 extension UserDefaults: DefaultsStorable { }
+
+extension UserDefaults: SessionBoundData {
+    func delete() throws {
+        removeObject(forKey: .returningUser)
+        removeObject(forKey: .accessTokenExpiry)
+    }
+}

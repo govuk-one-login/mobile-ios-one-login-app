@@ -1,7 +1,7 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStoreService: SecureStorable {
+final class MockSecureStoreService: SecureStorable, SessionBoundData {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
     
@@ -38,7 +38,7 @@ final class MockSecureStoreService: SecureStorable {
         if let errorFromDeleteItem {
             throw errorFromDeleteItem
         }
-        savedItems = [String: String]()
+        savedItems = [:]
     }
     
     func checkItemExists(itemName: String) -> Bool {

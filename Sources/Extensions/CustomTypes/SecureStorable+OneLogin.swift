@@ -14,6 +14,14 @@ extension SecureStorable where Self == SecureStoreService {
             configuration: accessControlConfiguration
         )
     }
+    
+    static func encryptedStore() -> SecureStoreService {
+        let encryptedConfiguration = SecureStorageConfiguration(
+            id: .persistentSessionID,
+            accessControlLevel: .open
+        )
+        return SecureStoreService(configuration: encryptedConfiguration)
+    }
 }
 
 extension SecureStoreService: SessionBoundData { }

@@ -1,7 +1,7 @@
 import Foundation
 @testable import OneLogin
 
-class MockDefaultsStore: DefaultsStorable {
+class MockDefaultsStore: DefaultsStorable, SessionBoundData {
     var savedData = [String: Any]()
     
     func set(_ value: Any?, forKey defaultName: String) {
@@ -14,5 +14,9 @@ class MockDefaultsStore: DefaultsStorable {
     
     func removeObject(forKey defaultName: String) {
         savedData[defaultName] = nil
+    }
+    
+    func delete() throws {
+        savedData = [:]
     }
 }
