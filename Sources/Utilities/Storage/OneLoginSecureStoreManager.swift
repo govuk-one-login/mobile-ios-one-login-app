@@ -4,11 +4,12 @@ protocol SecureStoreManager {
     var accessControlEncryptedStore: SecureStorable { get }
     var encryptedStore: SecureStorable { get }
     var localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck { get }
+    func refreshStore() throws
 }
 
-final class OneLoginSecureStoreManager: SecureStoreManager, SessionBoundData {
-    var accessControlEncryptedStore: SecureStorable
-    var encryptedStore: SecureStorable
+final class OneLoginSecureStoreManager: SecureStoreManager {
+    private(set) var accessControlEncryptedStore: SecureStorable
+    private(set) var encryptedStore: SecureStorable
     let localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
     
     convenience init(localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
@@ -29,7 +30,7 @@ final class OneLoginSecureStoreManager: SecureStoreManager, SessionBoundData {
         self.localAuthentication = localAuthentication
     }
     
-    func delete() throws {
+    func refreshStore() throws {
         try accessControlEncryptedStore.delete()
         try encryptedStore.delete()
         
@@ -37,5 +38,11 @@ final class OneLoginSecureStoreManager: SecureStoreManager, SessionBoundData {
             localAuthManager: localAuthentication
         )
         encryptedStore = .encryptedStore()
+    }
+}
+
+extension OneLoginSecureStoreManager: SessionBoundData {
+    func delete() throws {
+        try refreshStore()
     }
 }
