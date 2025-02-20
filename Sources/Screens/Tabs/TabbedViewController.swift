@@ -58,7 +58,7 @@ final class TabbedViewController: BaseViewController {
     }
     
     func updateEmail(_ email: String?) {
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
     }
 
 

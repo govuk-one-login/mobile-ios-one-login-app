@@ -94,6 +94,22 @@ extension TabbedViewControllerTests {
         XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
     }
     
+    func test_updateUser() {
+        let viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                             userProvider: mockSessionManager,
+                                             openSignOutPage: { },
+                                             openDeveloperMenu: { })
+        sut = TabbedViewController(viewModel: viewModel,
+                                   userProvider: mockSessionManager,
+                                   analyticsPreference: mockAnalyticsPreference)
+        // GIVEN I am not logged in
+        XCTAssertEqual(viewModel.sectionModels[0].tabModels[0].cellSubtitle, "")
+        // WHEN the user is updated
+        mockSessionManager.user.send(MockUser())
+        // THEN my email is displayed
+        XCTAssertEqual(viewModel.sectionModels[0].tabModels[0].cellSubtitle, "test@example.com")
+    }
+    
     func test_updateAnalytics() throws {
         mockAnalyticsPreference.hasAcceptedAnalytics = true
         XCTAssertTrue(try sut.analyticsSwitch.isOn)
@@ -109,13 +125,13 @@ extension TabbedViewControllerTests {
     }
     
     private func createSectionModels() -> [TabbedViewSectionModel] {
-        let testSection = TabbedViewSectionFactory.createSection(header: "Test Header",
-                                                                 footer: "Test Footer",
-                                                                 cellModels: [.init(cellTitle: "Test Cell",
-                                                                                    cellSubtitle: MockUser().email,
-                                                                                    image: UIImage(named: "userAccountIcon"),
-                                                                                    accessoryView: "arrow.up.right",
-                                                                                    textColor: .systemRed) {
+        let testSection = TabbedViewSectionModel(sectionTitle: "Test Header",
+                                                 sectionFooter: "Test Footer",
+                                                 tabModels: [.init(cellTitle: "Test Cell",
+                                                                   cellSubtitle: MockUser().email,
+                                                                   image: UIImage(named: "userAccountIcon"),
+                                                                   accessoryView: "arrow.up.right",
+                                                                   textColor: .systemRed) {
             self.didTapRow = true
         }])
         

@@ -99,7 +99,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         window.makeKeyAndVisible()
         sut.start()
         // WHEN the showDeveloperMenu method is called
-        sut.showDeveloperMenu()
+        sut.openDeveloperMenu()
         // THEN the presented view controller is the DeveloperMenuViewController
         let presentedViewController = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         XCTAssertTrue(presentedViewController.topViewController is DeveloperMenuViewController)
