@@ -30,6 +30,9 @@ final class SettingsTabViewModelTests: XCTestCase {
         mockAnalyticsService = nil
         sut = nil
         
+        didOpenDeveloperMenu = false
+        didOpenSignOutPage = false
+        
         super.tearDown()
     }
 }
@@ -53,5 +56,17 @@ extension SettingsTabViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "my settings")
+    }
+    
+    func test_openSignOutPage() {
+        XCTAssertFalse(didOpenSignOutPage)
+        sut.openSignOutPage()
+        XCTAssertTrue(didOpenSignOutPage)
+    }
+    
+    func test_openDeveloperMenu() {
+        XCTAssertFalse(didOpenDeveloperMenu)
+        sut.openDeveloperMenu()
+        XCTAssertTrue(didOpenDeveloperMenu)
     }
 }
