@@ -6,6 +6,8 @@ class MockSecureStoreManager: SecureStoreManager {
     var encryptedStore: SecureStorable
     var localAuthentication: LocalAuthenticationContextStringCheck & LocalAuthenticationManager
     
+    var didCallRefreshStore = false
+    
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
          localAuthentication: LocalAuthenticationContextStringCheck & LocalAuthenticationManager) {

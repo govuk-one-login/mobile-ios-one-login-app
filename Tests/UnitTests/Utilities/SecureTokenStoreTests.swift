@@ -22,6 +22,16 @@ final class SecureTokenStoreTests: XCTestCase {
 }
 
 extension SecureTokenStoreTests {
+    func test_hasLoginTokens() throws {
+        try accessControlEncryptedStore.saveItem(item: "storedTokens", itemName: OLString.storedTokens)
+        XCTAssertTrue(sut.hasLoginTokens)
+    }
+    
+    func test_doesNotHaveLoginTokens() throws {
+        accessControlEncryptedStore.savedItems = [:]
+        XCTAssertFalse(sut.hasLoginTokens)
+    }
+    
     func test_canFetchStoredTokens() throws {
         let tokensToSave = StoredTokens(idToken: "idToken", accessToken: "accessToken")
         try sut.save(tokens: tokensToSave)

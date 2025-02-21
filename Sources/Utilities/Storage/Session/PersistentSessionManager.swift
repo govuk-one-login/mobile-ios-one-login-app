@@ -161,7 +161,7 @@ final class PersistentSessionManager: SessionManager {
         
         if let persistentID = user.value?.persistentID {
             try secureStoreManager.encryptedStore.saveItem(item: persistentID,
-                                        itemName: OLString.persistentSessionID)
+                                                           itemName: OLString.persistentSessionID)
         } else {
             secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }

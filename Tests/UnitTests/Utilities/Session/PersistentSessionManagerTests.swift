@@ -146,7 +146,6 @@ extension PersistentSessionManagerTests {
         let persistentSessionID = UUID().uuidString
         try mockEncryptedStore.saveItem(item: persistentSessionID,
                                         itemName: OLString.persistentSessionID)
-        
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
         try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
@@ -172,7 +171,7 @@ extension PersistentSessionManagerTests {
         // WHEN I start a session
         do {
             let loginSession = await MockLoginSession(window: UIWindow())
-            try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
+            try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
             
             XCTFail("Expected a sessionMismatch error to be thrown")
         } catch PersistentSessionError.sessionMismatch {
@@ -191,7 +190,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
+        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // THEN my User details
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
@@ -203,7 +202,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am not logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
+        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // THEN my session data is not saved
         XCTAssertEqual(mockEncryptedStore.savedItems, [:])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
@@ -223,7 +222,7 @@ extension PersistentSessionManagerTests {
                                         itemName: OLString.persistentSessionID)
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
+        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
@@ -236,12 +235,32 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
+        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN the user is asked to consent to biometrics if available
         XCTAssertTrue(mockLocalAuthentication.didCallEnrolFaceIDIfAvailable)
+        // THEN the secure store manager is refreshed
+        XCTAssertTrue(mockSecureStoreManager.didCallRefreshStore)
         // THEN my session data is updated in the store
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+        XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
+    }
+    
+    func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
+        // GIVEN I am a new user
+        mockUnprotectedStore.savedData = [OLString.returningUser: false]
+        try mockAccessControlEncryptedStore.saveItem(item: "storedTokens", itemName: OLString.storedTokens)
+        // AND I have logged in
+        let loginSession = await MockLoginSession(window: UIWindow())
+        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
+        // WHEN I attempt to save my session
+        try await sut.saveSession()
+        // THEN the user is asked to consent to biometrics if available
+        XCTAssertTrue(mockLocalAuthentication.didCallEnrolFaceIDIfAvailable)
+        // THEN the secure store manager is not refreshed
+        XCTAssertFalse(mockSecureStoreManager.didCallRefreshStore)
+        // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
@@ -253,7 +272,7 @@ extension PersistentSessionManagerTests {
         mockLocalAuthentication.userDidConsentToFaceID = false
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
+        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
         try await sut.saveSession()
         // THEN my session data is not stored
