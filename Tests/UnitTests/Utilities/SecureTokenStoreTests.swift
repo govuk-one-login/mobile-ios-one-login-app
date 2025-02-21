@@ -31,7 +31,7 @@ extension SecureTokenStoreTests {
     }
 
     func test_fetchThrowsErrorIfTokensHaveIncorrectFormat() throws {
-        accessControlEncryptedStore.savedItems = [.storedTokens: "normal string"]
+        accessControlEncryptedStore.savedItems = [OLString.storedTokens: "normal string"]
         do {
             _ = try sut.fetch()
             XCTFail("Expected to recieve token error")
@@ -47,11 +47,11 @@ extension SecureTokenStoreTests {
         let tokensAsData = try jsonEncoder.encode(tokens).base64EncodedString()
         print(tokensAsData)
         try sut.save(tokens: tokens)
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [.storedTokens: tokensAsData])
+        XCTAssertEqual(accessControlEncryptedStore.savedItems, [OLString.storedTokens: tokensAsData])
     }
 
     func test_deletesTokens() throws {
-        accessControlEncryptedStore.savedItems = [.storedTokens: "tokens"]
+        accessControlEncryptedStore.savedItems = [OLString.storedTokens: "tokens"]
         sut.deleteTokens()
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
     }

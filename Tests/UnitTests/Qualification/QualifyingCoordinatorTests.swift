@@ -9,7 +9,6 @@ final class QualifyingCoordinatorTests: XCTestCase {
     private var networkClient: NetworkClient!
     private var qualifyingService: MockQualifyingService!
     private var analyticsCenter: MockAnalyticsCenter!
-    private var walletAvailabilityService: MockWalletAvailabilityService!
     private var window: UIWindow!
     
     private var sut: QualifyingCoordinator!
@@ -25,14 +24,12 @@ final class QualifyingCoordinatorTests: XCTestCase {
             analyticsService: MockAnalyticsService(),
             analyticsPreferenceStore: MockAnalyticsPreferenceStore()
         )
-        walletAvailabilityService = MockWalletAvailabilityService()
         window = UIWindow()
         sut = QualifyingCoordinator(appWindow: window,
                                     analyticsCenter: analyticsCenter,
                                     appQualifyingService: qualifyingService,
                                     sessionManager: sessionManager,
-                                    networkClient: networkClient,
-                                    walletAvailabilityService: walletAvailabilityService)
+                                    networkClient: networkClient)
     }
     
     override func tearDown() {
@@ -40,7 +37,6 @@ final class QualifyingCoordinatorTests: XCTestCase {
         networkClient = nil
         qualifyingService = nil
         analyticsCenter = nil
-        walletAvailabilityService = nil
         window = nil
         sut = nil
         

@@ -1,4 +1,4 @@
-extension String {
+enum OLString {
     // Token & Login
     static let accessTokenExpiry = "accessTokenExpiry"
     static let storedTokens = "storedTokens"

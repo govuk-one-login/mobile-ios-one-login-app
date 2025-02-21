@@ -6,7 +6,6 @@ public struct App: Decodable {
     public let allowAppUsage: Bool
     public let releaseFlags: [String: Bool]
     public let featureFlags: [String: Bool]
-
     
     init(minimumVersion: Version,
          allowAppUsage: Bool,

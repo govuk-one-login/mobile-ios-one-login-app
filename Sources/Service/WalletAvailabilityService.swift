@@ -16,10 +16,10 @@ typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & Univer
 final class WalletAvailabilityService: WalletFeatureAvailabilityService {
     static var hasAccessedBefore: Bool {
         get {
-            UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
+            UserDefaults.standard.bool(forKey: OLString.hasAccessedWalletBefore)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "hasAccessedWalletBefore")
+            UserDefaults.standard.set(newValue, forKey: OLString.hasAccessedWalletBefore)
         }
     }
     

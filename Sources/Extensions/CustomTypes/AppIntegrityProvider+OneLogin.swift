@@ -6,7 +6,7 @@ import TokenGeneration
 
 extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
     static func firebaseAppCheck() throws -> FirebaseAppIntegrityService {
-        let configuration = CryptoServiceConfiguration(id: .attestation, accessControlLevel: .open)
+        let configuration = CryptoServiceConfiguration(id: OLString.attestation, accessControlLevel: .open)
         let signingService = try CryptoSigningService(configuration: configuration)
         let jwtRepresentation = JWTRepresentation(header: AppIntegrityJWT.headers(),
                                                   payload: AppIntegrityJWT.payload())

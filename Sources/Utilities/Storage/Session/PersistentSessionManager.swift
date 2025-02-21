@@ -63,11 +63,11 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var persistentID: String? {
-        try? secureStoreManager.encryptedStore.readItem(itemName: .persistentSessionID)
+        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
     }
     
     var expiryDate: Date? {
-        unprotectedStore.value(forKey: .accessTokenExpiry) as? Date
+        unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
     }
     
     var sessionExists: Bool {
@@ -82,7 +82,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var isReturningUser: Bool {
-        unprotectedStore.value(forKey: .returningUser) as? Bool
+        unprotectedStore.value(forKey: OLString.returningUser) as? Bool
         ?? false
     }
     
@@ -161,14 +161,14 @@ final class PersistentSessionManager: SessionManager {
         
         if let persistentID = user.value?.persistentID {
             try secureStoreManager.encryptedStore.saveItem(item: persistentID,
-                                        itemName: .persistentSessionID)
+                                        itemName: OLString.persistentSessionID)
         } else {
-            secureStoreManager.encryptedStore.deleteItem(itemName: .persistentSessionID)
+            secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
         unprotectedStore.set(tokenResponse.expiryDate,
-                             forKey: .accessTokenExpiry)
-        unprotectedStore.set(true, forKey: .returningUser)
+                             forKey: OLString.accessTokenExpiry)
+        unprotectedStore.set(true, forKey: OLString.returningUser)
     }
     
     func resumeSession() throws {

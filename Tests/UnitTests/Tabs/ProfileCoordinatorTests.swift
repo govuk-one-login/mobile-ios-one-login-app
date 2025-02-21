@@ -12,7 +12,6 @@ final class ProfileCoordinatorTests: XCTestCase {
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
-    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: ProfileCoordinator!
     
     override func setUp() {
@@ -24,12 +23,10 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        mockWalletAvailabilityService = MockWalletAvailabilityService()
         sut = ProfileCoordinator(analyticsService: mockAnalyticsService,
                                  sessionManager: mockSessionManager,
                                  networkClient: mockNetworkClient,
                                  urlOpener: urlOpener,
-                                 walletAvailabilityService: mockWalletAvailabilityService,
                                  analyticsPreference: mockAnalyticsPreference)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
@@ -41,7 +38,6 @@ final class ProfileCoordinatorTests: XCTestCase {
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil
-        mockWalletAvailabilityService = nil
         sut = nil
         
         super.tearDown()
@@ -61,7 +57,10 @@ final class ProfileCoordinatorTests: XCTestCase {
     
     func test_openSignOutPageWithWallet() throws {
         // WHEN Wallet has been accessed before
-        mockWalletAvailabilityService.hasAccessedBefore = true
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
+            featureFlags: [:]
+        )
         // WHEN the ProfileCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called

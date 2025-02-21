@@ -6,6 +6,8 @@ final class MockSecureTokenStore: TokenStore {
     var didCallFetch: Bool = false
     var didCallSave: Bool = false
     var didCallDeleteTokens: Bool = false
+    
+    var hasLoginTokens: Bool = false
 
     func fetch() throws -> StoredTokens {
         didCallFetch = true
