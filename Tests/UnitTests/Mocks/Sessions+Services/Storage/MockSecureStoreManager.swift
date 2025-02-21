@@ -16,5 +16,7 @@ class MockSecureStoreManager: SecureStoreManager {
         self.localAuthentication = localAuthentication
     }
     
-    func refreshStore() throws { }
+    func refreshStore() throws {
+        didCallRefreshStore = true
+    }
 }
