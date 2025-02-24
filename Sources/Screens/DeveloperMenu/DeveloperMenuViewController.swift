@@ -147,11 +147,11 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
         let encryptedConfiguration = SecureStorageConfiguration(
-            id: .persistentSessionID,
+            id: OLString.persistentSessionID,
             accessControlLevel: .open
         )
         let persistentSessionStore = SecureStoreService(configuration: encryptedConfiguration)
-        persistentSessionStore.deleteItem(itemName: .persistentSessionID)
+        persistentSessionStore.deleteItem(itemName: OLString.persistentSessionID)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     
@@ -170,7 +170,7 @@ final class DeveloperMenuViewController: BaseViewController {
         """
         // swiftlint:enable line_length
         sessionManager.tokenProvider.update(subjectToken: expiredToken)
-        UserDefaults.standard.set(Date.distantPast, forKey: .accessTokenExpiry)
+        UserDefaults.standard.set(Date.distantPast, forKey: OLString.accessTokenExpiry)
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

@@ -5,24 +5,12 @@ import Networking
 import XCTest
 
 final class WalletAvailabilityServiceTests: XCTestCase {
-    private var sut: WalletAvailabilityService!
-    private var app: App!
-    
-    override func setUp() {
-        sut = WalletAvailabilityService()
-        
-        super.setUp()
-    }
-    
     override func tearDown() {
-        sut = nil
-        app = nil
-        
         AppEnvironment.updateFlags(
             releaseFlags: [:],
             featureFlags: [:]
         )
-        UserDefaults.standard.removeObject(forKey: "hasAccessedWalletBefore")
+        UserDefaults.standard.removeObject(forKey: OLString.hasAccessedWalletBefore)
         
         super.tearDown()
     }
@@ -35,7 +23,7 @@ extension WalletAvailabilityServiceTests {
             featureFlags: [:]
         )
 
-        XCTAssertTrue(sut.shouldShowFeature)
+        XCTAssertTrue(WalletAvailabilityService.shouldShowFeature)
     }
     
     func test_hideWallet_flagEnabled_visibleToAll() {
@@ -44,7 +32,7 @@ extension WalletAvailabilityServiceTests {
             featureFlags: [:]
         )
         
-        XCTAssertFalse(sut.shouldShowFeature)
+        XCTAssertFalse(WalletAvailabilityService.shouldShowFeature)
     }
     
     func test_showWallet_flagEnabled_ifExists_accessedBefore() {
@@ -53,9 +41,9 @@ extension WalletAvailabilityServiceTests {
                            FeatureFlagsName.enableWalletVisibleIfExists.rawValue: true],
             featureFlags: [:]
         )
-        sut.hasAccessedBefore = true
+        WalletAvailabilityService.hasAccessedBefore = true
         
-        XCTAssertTrue(sut.shouldShowFeature)
+        XCTAssertTrue(WalletAvailabilityService.shouldShowFeature)
     }
     
     func test_hideWallet_flagEnabled_ifExists_notAccessBefore() {
@@ -65,7 +53,7 @@ extension WalletAvailabilityServiceTests {
             featureFlags: [:]
         )
         
-        XCTAssertFalse(sut.shouldShowFeature)
+        XCTAssertFalse(WalletAvailabilityService.shouldShowFeature)
     }
     
     func test_hideWallet_flagEnabled_accessedBefore_notExists() {
@@ -73,9 +61,9 @@ extension WalletAvailabilityServiceTests {
             releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
             featureFlags: [:]
         )
-        sut.hasAccessedBefore = true
+        WalletAvailabilityService.hasAccessedBefore = true
         
-        XCTAssertFalse(sut.shouldShowFeature)
+        XCTAssertFalse(WalletAvailabilityService.shouldShowFeature)
     }
     
     func test_showViaDeepLink_flagEnabled_visibleViaDeepLink() {
@@ -84,7 +72,7 @@ extension WalletAvailabilityServiceTests {
             featureFlags: [:]
         )
         
-        XCTAssertTrue(sut.shouldShowFeatureOnUniversalLink)
+        XCTAssertTrue(WalletAvailabilityService.shouldShowFeatureOnUniversalLink)
     }
     
     func test_hideViaDeepLink_flagEnabled_visibleToAll() {
@@ -93,7 +81,7 @@ extension WalletAvailabilityServiceTests {
             featureFlags: [:]
         )
         
-        XCTAssertFalse(sut.shouldShowFeatureOnUniversalLink)
+        XCTAssertFalse(WalletAvailabilityService.shouldShowFeatureOnUniversalLink)
     }
     
     func test_hideViaDeepLink_flagEnabled_visibleViaDeepLink() {
@@ -103,6 +91,6 @@ extension WalletAvailabilityServiceTests {
             featureFlags: [:]
         )
         
-        XCTAssertTrue(sut.shouldShowFeatureOnUniversalLink)
+        XCTAssertTrue(WalletAvailabilityService.shouldShowFeatureOnUniversalLink)
     }
 }

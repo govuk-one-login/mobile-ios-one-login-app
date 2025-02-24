@@ -19,20 +19,17 @@ final class ProfileCoordinator: NSObject,
     private let sessionManager: SessionManager & UserProvider
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
-    private let walletAvailablityService: WalletFeatureAvailabilityService
     private let analyticsPreference: AnalyticsPreferenceStore
     
     init(analyticsService: AnalyticsService,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
          urlOpener: URLOpener,
-         walletAvailabilityService: WalletFeatureAvailabilityService,
          analyticsPreference: AnalyticsPreferenceStore) {
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkClient = networkClient
         self.urlOpener = urlOpener
-        self.walletAvailablityService = walletAvailabilityService
         self.analyticsPreference = analyticsPreference
     }
     
@@ -53,28 +50,24 @@ final class ProfileCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let viewModel = showSignOutConfirmationScreen(walletAvailable: walletAvailablityService.hasAccessedBefore,
-                                                      navController: navController)
+        let viewModel = showSignOutConfirmationScreen(navController: navController)
         let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
         navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)
     }
     
     private func showSignOutConfirmationScreen(
-        walletAvailable: Bool,
         navController: UINavigationController
     ) -> GDSInstructionsViewModel {
-        return if walletAvailable {
-            WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-                navController.dismiss(animated: true) { [unowned self] in
-                    finish()
-                }
+        WalletAvailabilityService.hasAccessedBefore ?
+        WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+            navController.dismiss(animated: true) { [unowned self] in
+                finish()
             }
-        } else {
-            SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-                navController.dismiss(animated: true) { [unowned self] in
-                    finish()
-                }
+        }
+        : SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+            navController.dismiss(animated: true) { [unowned self] in
+                finish()
             }
         }
     }

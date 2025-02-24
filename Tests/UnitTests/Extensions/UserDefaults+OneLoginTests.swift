@@ -15,11 +15,11 @@ struct UserDefaultsTests {
     func checkDelete() throws {
         sut.set(
             true,
-            forKey: .returningUser
+            forKey: OLString.returningUser
         )
         sut.set(
             123456789,
-            forKey: .accessTokenExpiry
+            forKey: OLString.accessTokenExpiry
         )
         try sut.delete()
         #expect(sut.object(forKey: "returningUser") == nil)

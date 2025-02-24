@@ -9,9 +9,9 @@ enum AppRoute {
 struct UniversalLinkQualifier {
     static func qualifyOneLoginUniversalLink(_ url: URL) -> AppRoute {
         let path = url.pathComponents
-        if path.last == .redirect {
+        if path.last == OLString.redirect {
             return .login
-        } else if path.contains(where: { $0 == .wallet }) {
+        } else if path.contains(where: { $0 == OLString.wallet }) {
             return .wallet
         }
         return .unknown

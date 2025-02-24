@@ -10,7 +10,7 @@ extension UserDefaults: DefaultsStorable { }
 
 extension UserDefaults: SessionBoundData {
     func delete() throws {
-        removeObject(forKey: .returningUser)
-        removeObject(forKey: .accessTokenExpiry)
+        removeObject(forKey: OLString.returningUser)
+        removeObject(forKey: OLString.accessTokenExpiry)
     }
 }

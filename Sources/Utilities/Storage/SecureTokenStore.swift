@@ -11,6 +11,7 @@ public struct StoredTokens: Codable {
 }
 
 public protocol TokenStore {
+    var hasLoginTokens: Bool { get }
     func fetch() throws -> StoredTokens
     func save(tokens: StoredTokens) throws
     func deleteTokens()
@@ -23,8 +24,12 @@ final class SecureTokenStore: TokenStore {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
+    var hasLoginTokens: Bool {
+        accessControlEncryptedStore.checkItemExists(itemName: OLString.storedTokens)
+    }
+    
     func fetch() throws -> StoredTokens {
-        let storedTokens = try accessControlEncryptedStore.readItem(itemName: .storedTokens)
+        let storedTokens = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
         guard let tokensAsData = Data(base64Encoded: storedTokens) else {
             throw StoredTokenError.unableToDecodeTokens
         }
@@ -37,10 +42,10 @@ final class SecureTokenStore: TokenStore {
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
-        try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: .storedTokens)
+        try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: OLString.storedTokens)
     }
 
     func deleteTokens() {
-        accessControlEncryptedStore.deleteItem(itemName: .storedTokens)
+        accessControlEncryptedStore.deleteItem(itemName: OLString.storedTokens)
     }
 }

@@ -9,13 +9,12 @@ final class SceneDelegate: UIResponder,
                            UIWindowSceneDelegate,
                            SceneLifecycle {
     private var rootCoordinator: QualifyingCoordinator?
-
+    
     lazy var analyticsService: AnalyticsService = GAnalytics()
     private lazy var analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                                        analyticsPreferenceStore: UserDefaultsPreferenceStore())
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
-    private lazy var walletAvailabilityService = WalletAvailabilityService()
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         let localAuthentication = LALocalAuthenticationManager(context: LAContext())
@@ -28,7 +27,7 @@ final class SceneDelegate: UIResponder,
             [
                 secureStoreManager,
                 WalletSessionData(),
-                walletAvailabilityService,
+                WalletAvailabilityService(),
                 analyticsCenter,
                 UserDefaults.standard
             ]
@@ -44,18 +43,17 @@ final class SceneDelegate: UIResponder,
         }
         // TODO: DCMAW-9866 | can we move this into the UI (viewDidAppear?) itself
         trackSplashScreen()
-
+        
         rootCoordinator = QualifyingCoordinator(
             appWindow: UIWindow(windowScene: windowScene),
             analyticsCenter: analyticsCenter,
             appQualifyingService: appQualifyingService,
             sessionManager: sessionManager,
-            networkClient: networkClient,
-            walletAvailabilityService: walletAvailabilityService
+            networkClient: networkClient
         )
         rootCoordinator?.start()
         setUpBasicUI()
-
+        
         if let deepLink = connectionOptions.userActivities.first?.webpageURL {
             rootCoordinator?.handleUniversalLink(deepLink)
         }

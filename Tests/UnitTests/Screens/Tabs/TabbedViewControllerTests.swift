@@ -99,7 +99,6 @@ extension TabbedViewControllerTests {
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
-                                                    walletAvailabilityService: MockWalletAvailabilityService(),
                                                     analyticsPreference: mockAnalyticsPreference)
         let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
         let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,

@@ -2,29 +2,28 @@ import Foundation
 import Networking
 import UIKit
 
-protocol FeatureAvailabilityService: AnyObject {
-    var hasAccessedBefore: Bool { get set }
-    var shouldShowFeature: Bool { get }
+protocol FeatureAvailabilityService {
+    static var hasAccessedBefore: Bool { get set }
+    static var shouldShowFeature: Bool { get }
 }
 
 protocol UniversalLinkFeatureAvailabilityService {
-    var shouldShowFeatureOnUniversalLink: Bool { get }
+    static var shouldShowFeatureOnUniversalLink: Bool { get }
 }
 
 typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService & SessionBoundData
 
-final class WalletAvailabilityService: WalletFeatureAvailabilityService {
-
-    var hasAccessedBefore: Bool {
+struct WalletAvailabilityService: WalletFeatureAvailabilityService {
+    static var hasAccessedBefore: Bool {
         get {
-            UserDefaults.standard.bool(forKey: "hasAccessedWalletBefore")
+            UserDefaults.standard.bool(forKey: OLString.hasAccessedWalletBefore)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "hasAccessedWalletBefore")
+            UserDefaults.standard.set(newValue, forKey: OLString.hasAccessedWalletBefore)
         }
     }
     
-    var shouldShowFeature: Bool {
+    static var shouldShowFeature: Bool {
         guard AppEnvironment.walletVisibleToAll else {
             guard AppEnvironment.walletVisibleIfExists,
                   hasAccessedBefore else {
@@ -35,7 +34,7 @@ final class WalletAvailabilityService: WalletFeatureAvailabilityService {
         return true
     }
     
-    var shouldShowFeatureOnUniversalLink: Bool {
+    static var shouldShowFeatureOnUniversalLink: Bool {
         guard AppEnvironment.walletVisibleToAll else {
             guard AppEnvironment.walletVisibleViaDeepLink else {
                 return false
@@ -46,6 +45,6 @@ final class WalletAvailabilityService: WalletFeatureAvailabilityService {
     }
     
     func delete() throws {
-        hasAccessedBefore = false
+        Self.hasAccessedBefore = false
     }
 }

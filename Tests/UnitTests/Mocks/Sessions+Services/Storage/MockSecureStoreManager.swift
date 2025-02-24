@@ -6,6 +6,8 @@ class MockSecureStoreManager: SecureStoreManager {
     var encryptedStore: SecureStorable
     var localAuthentication: LocalAuthenticationContextStringCheck & LocalAuthenticationManager
     
+    var didCallRefreshStore = false
+    
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
          localAuthentication: LocalAuthenticationContextStringCheck & LocalAuthenticationManager) {
@@ -14,5 +16,7 @@ class MockSecureStoreManager: SecureStoreManager {
         self.localAuthentication = localAuthentication
     }
     
-    func refreshStore() throws { }
+    func refreshStore() throws {
+        didCallRefreshStore = true
+    }
 }

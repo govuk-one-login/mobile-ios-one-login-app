@@ -13,7 +13,6 @@ final class TabManagerCoordinatorTests: XCTestCase {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
-    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: TabManagerCoordinator!
     
     @MainActor
@@ -27,14 +26,11 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
-        mockWalletAvailabilityService = MockWalletAvailabilityService()
-        
         sut = TabManagerCoordinator(appWindow: window,
                                     root: tabBarController,
                                     analyticsCenter: mockAnalyticsCenter,
                                     networkClient: NetworkClient(),
-                                    sessionManager: mockSessionManager,
-                                    walletAvailabilityService: mockWalletAvailabilityService)
+                                    sessionManager: mockSessionManager)
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
@@ -46,13 +42,9 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore = nil
         mockAnalyticsCenter = nil
         mockSessionManager = nil
-        mockWalletAvailabilityService = nil
         sut = nil
         
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [:]
-        )
+        UserDefaults.standard.removeObject(forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
         
         super.tearDown()
     }
@@ -62,8 +54,6 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
-        mockWalletAvailabilityService.shouldShowFeature = false
-        
         AppEnvironment.updateFlags(
             releaseFlags: [:],
             featureFlags: [:]
@@ -82,7 +72,11 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
-        mockWalletAvailabilityService.shouldShowFeature = true
+        UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
+            featureFlags: [:]
+        )
         // AND the TabManagerCoordinator is started
         sut.start()
         // THEN the TabManagerCoordinator should have child coordinators
@@ -116,8 +110,7 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_didSelect_tabBarItem_wallet() {
         // GIVEN the wallet feature flag is on
-        mockWalletAvailabilityService.shouldShowFeature = true
-        
+        UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
         // WHEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
         guard let walletVC = tabBarController.viewControllers?[1] else {
@@ -136,13 +129,10 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_profile() {
-        mockWalletAvailabilityService.shouldShowFeature = false
-        
         AppEnvironment.updateFlags(
-            releaseFlags: [:],
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
             featureFlags: [:]
         )
-        
         // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
         guard let profileVC = tabBarController.viewControllers?[1] else {
@@ -173,7 +163,6 @@ extension TabManagerCoordinatorTests {
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
-                                                    walletAvailabilityService: mockWalletAvailabilityService,
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         sut.performChildCleanup(child: profileCoordinator)
@@ -197,7 +186,6 @@ extension TabManagerCoordinatorTests {
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
-                                                    walletAvailabilityService: mockWalletAvailabilityService,
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
         // but there was an error in signing out
@@ -214,7 +202,7 @@ extension TabManagerCoordinatorTests {
     func test_handleUniversalLink() throws {
         sut.start()
         // WHEN the wallet feature flag is on
-        mockWalletAvailabilityService.shouldShowFeatureOnUniversalLink = true
+        UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
         XCTAssertFalse(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
         // GIVEN the handleUniversalLink receives a deeplink
         let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))

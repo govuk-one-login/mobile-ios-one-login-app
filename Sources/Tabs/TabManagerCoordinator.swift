@@ -27,7 +27,6 @@ final class TabManagerCoordinator: NSObject,
     private var analyticsCenter: AnalyticsCentral
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
-    private let walletAvailabilityService: WalletFeatureAvailabilityService
     
     private var homeCoordinator: HomeCoordinator? {
         childCoordinators.firstInstanceOf(HomeCoordinator.self)
@@ -45,14 +44,12 @@ final class TabManagerCoordinator: NSObject,
          root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
-         sessionManager: SessionManager,
-         walletAvailabilityService: WalletFeatureAvailabilityService) {
+         sessionManager: SessionManager) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.networkClient = networkClient
         self.sessionManager = sessionManager
-        self.walletAvailabilityService = walletAvailabilityService
     }
     
     func start() {
@@ -62,7 +59,7 @@ final class TabManagerCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        guard walletAvailabilityService.shouldShowFeatureOnUniversalLink else {
+        guard WalletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
         if walletCoordinator == nil {
@@ -76,7 +73,7 @@ final class TabManagerCoordinator: NSObject,
 extension TabManagerCoordinator {
     private func addTabs() {
         addHomeTab()
-        if walletAvailabilityService.shouldShowFeature {
+        if WalletAvailabilityService.shouldShowFeature {
             addWalletTab()
         }
         addProfileTab()
@@ -97,7 +94,7 @@ extension TabManagerCoordinator {
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        walletAvailabilityService.hasAccessedBefore = true
+        WalletAvailabilityService.hasAccessedBefore = true
     }
     
     private func addProfileTab() {
@@ -105,7 +102,6 @@ extension TabManagerCoordinator {
                                     sessionManager: sessionManager,
                                     networkClient: networkClient,
                                     urlOpener: UIApplication.shared,
-                                    walletAvailabilityService: walletAvailabilityService,
                                     analyticsPreference: analyticsCenter.analyticsPreferenceStore)
         addTab(pc)
     }
