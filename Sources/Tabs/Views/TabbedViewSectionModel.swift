@@ -8,7 +8,7 @@ struct TabbedViewSectionModel {
     
     init(sectionTitle: GDSLocalisedString? = nil,
          sectionFooter: GDSLocalisedString? = nil,
-         tabModels: [TabbedViewCellModel] = [TabbedViewCellModel]()) {
+         tabModels: [TabbedViewCellModel]) {
         self.sectionTitle = sectionTitle
         self.sectionFooter = sectionFooter
         self.tabModels = tabModels

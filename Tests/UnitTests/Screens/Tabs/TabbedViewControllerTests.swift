@@ -28,7 +28,6 @@ final class TabbedViewControllerTests: XCTestCase {
         }
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
-                                   headerView: UIView(),
                                    analyticsPreference: mockAnalyticsPreference)
     }
     
@@ -74,10 +73,12 @@ extension TabbedViewControllerTests {
     func test_cellConfiguration() throws {
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
-        let cellLabel = try XCTUnwrap(cell.textLabel)
-        XCTAssertEqual(cellLabel.text, "Test Cell")
-        XCTAssertEqual(cellLabel.font.familyName, UIFont.body.familyName)
-        XCTAssertEqual(cellLabel.textColor, .systemRed)
+        let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
+        XCTAssertEqual(cellConfig.text, "Test Cell")
+        XCTAssertEqual(cellConfig.textProperties.color, .systemRed)
+        XCTAssertEqual(cellConfig.secondaryText, "test@example.com")
+        XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
+        XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
         XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
         XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
     }
@@ -94,26 +95,20 @@ extension TabbedViewControllerTests {
     }
 
     @MainActor
-    func test_updateUser() throws {
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
-                                                    sessionManager: mockSessionManager,
-                                                    networkClient: NetworkClient(),
-                                                    urlOpener: MockURLOpener(),
-                                                    analyticsPreference: mockAnalyticsPreference)
-        let sections = TabbedViewSectionFactory.profileSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
-        let viewModel = ProfileTabViewModel(analyticsService: mockAnalyticsService,
-                                            sectionModels: sections)
+    func test_updateUser() {
+        let viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                             userProvider: mockSessionManager,
+                                             openSignOutPage: { },
+                                             openDeveloperMenu: { })
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
-                                   headerView: SignInView(),
                                    analyticsPreference: mockAnalyticsPreference)
         // GIVEN I am not logged in
-        XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\n")
+        XCTAssertEqual(viewModel.sectionModels[0].tabModels[0].cellSubtitle, "")
         // WHEN the user is updated
         mockSessionManager.user.send(MockUser())
         // THEN my email is displayed
-        let emailLabel = try sut.emailLabel
-        waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 5)
+        XCTAssertEqual(viewModel.sectionModels[0].tabModels[0].cellSubtitle, "test@example.com")
     }
     
     func test_updateAnalytics() throws {
@@ -131,11 +126,13 @@ extension TabbedViewControllerTests {
     }
     
     private func createSectionModels() -> [TabbedViewSectionModel] {
-        let testSection = TabbedViewSectionFactory.createSection(header: "Test Header",
-                                                                 footer: "Test Footer",
-                                                                 cellModels: [.init(cellTitle: "Test Cell",
-                                                                                    accessoryView: "arrow.up.right",
-                                                                                    textColor: .systemRed) {
+        let testSection = TabbedViewSectionModel(sectionTitle: "Test Header",
+                                                 sectionFooter: "Test Footer",
+                                                 tabModels: [.init(cellTitle: "Test Cell",
+                                                                   cellSubtitle: MockUser().email,
+                                                                   image: UIImage(named: "userAccountIcon"),
+                                                                   accessoryView: "arrow.up.right",
+                                                                   textColor: .systemRed) {
             self.didTapRow = true
         }])
         
@@ -144,12 +141,6 @@ extension TabbedViewControllerTests {
 }
 
 extension TabbedViewController {
-    var emailLabel: UILabel {
-        get throws {
-            try XCTUnwrap(view[child: "signin-view-email-label"])
-        }
-    }
-    
     var tabbedTableView: UITableView {
         get throws {
             try XCTUnwrap(view[child: "tabbed-view-table-view"])

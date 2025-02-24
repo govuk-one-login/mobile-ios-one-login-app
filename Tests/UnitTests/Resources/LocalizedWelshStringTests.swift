@@ -108,35 +108,33 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Waled")
     }
     
-    func test_profileScreenKeys() {
-        XCTAssertEqual("app_profileTitle".getWelshString(),
-                       "Proffil")
-        XCTAssertEqual("app_profileSubtitle1".getWelshString(),
-                       "Eich manylion")
-        XCTAssertEqual("app_manageSignInDetailsLink".getWelshString(),
-                       "Rheoli manylion mewngofnodi")
-        XCTAssertEqual("app_manageSignInDetailsFootnote".getWelshString(),
-                       "Rheoli eich manylion mewngofnodi gyda'r gwasanaeth gwe GOV.UK One Login. Bydd angen i chi fewngofnodi eto.")
-        XCTAssertEqual("app_signInDetails".getWelshString(),
-                       "Manylion mewngofnodi")
-        XCTAssertEqual("app_profileSubtitle2".getWelshString(),
-                       "Cyfreithiol")
+    func test_settingsScreenKeys() {
+        XCTAssertEqual("app_settingsTitle".getWelshString(),
+                       "Gosodiadau")
+        XCTAssertEqual("app_settingsSignInDetailsTile".getWelshString(),
+                       "Eich GOV.UK One Login")
+        XCTAssertEqual("app_settingsSignInDetailsLink".getWelshString(),
+                       "Rheoli eich manylion mewngofnodi")
+        XCTAssertEqual("app_settingsSignInDetailsFootnote".getWelshString(),
+                       "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.")
         XCTAssertEqual("app_privacyNoticeLink2".getWelshString(),
                        "Rhybudd Preifatrwydd GOV.UK One Login")
-        XCTAssertEqual("app_profileSubtitle3".getWelshString(),
+        XCTAssertEqual("app_settingsSubtitle1".getWelshString(),
                        "Help ac adborth")
-        XCTAssertEqual("app_reportAProblemGiveFeedbackLink".getWelshString(),
-                       "Rhoi gwybod am broblem neu roi adborth")
+        XCTAssertEqual("app_contactLink".getWelshString(),
+                       "Cysylltu GOV.UK One Login")
         XCTAssertEqual("app_appGuidanceLink".getWelshString(),
-                       "Canllawiau ar ddefnyddio'r ap")
+                       "Defnyddio'r ap GOV.UK One Login")
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
-        XCTAssertEqual("app_aboutSubtitle".getWelshString(),
+        XCTAssertEqual("app_settingsSubtitle2".getWelshString(),
                        "Am yr ap")
-        XCTAssertEqual("app_analyticsToggle".getWelshString(),
+        XCTAssertEqual("app_settingsAnalyticsToggle".getWelshString(),
                        "Rhannu dadansoddeg yr ap")
-        XCTAssertEqual("app_analyticsFooter".getWelshString(),
+        XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getWelshString(),
                        "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd")
+        XCTAssertEqual("app_accessibilityStatement".getWelshString(),
+                       "Datganiad hygyrchedd")
     }
     
     func test_signOutPageKeys() {

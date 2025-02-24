@@ -99,31 +99,29 @@
 
 
 // MARK: Profile screen
-"app_profileTitle" = "Proffil";
+"app_settingsTitle" = "Gosodiadau";
 
-"app_profileSubtitle1" = "Eich manylion";
+"app_settingsSignInDetailsTile" = "Eich GOV.UK One Login";
 
-"app_manageSignInDetailsLink" = "Rheoli manylion mewngofnodi";
+"app_settingsSignInDetailsLink" = "Rheoli eich manylion mewngofnodi";
 
-"app_manageSignInDetailsFootnote" = "Rheoli eich manylion mewngofnodi gyda'r gwasanaeth gwe GOV.UK One Login. Bydd angen i chi fewngofnodi eto.";
+"app_settingsSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.";
 
-"app_signInDetails" = "Manylion mewngofnodi";
+"app_settingsSubtitle1" = "Help ac adborth";
 
-"app_profileSubtitle2" = "Cyfreithiol";
+"app_appGuidanceLink" = "Defnyddio'r ap GOV.UK One Login";
+
+"app_contactLink" = "Cysylltu GOV.UK One Login";
+
+"app_settingsSubtitle2" = "Am yr ap";
+
+"app_settingsAnalyticsToggle" = "Rhannu dadansoddeg yr ap";
+
+"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd";
 
 "app_privacyNoticeLink2" = "Rhybudd Preifatrwydd GOV.UK One Login";
 
-"app_profileSubtitle3" = "Help ac adborth";
-
-"app_reportAProblemGiveFeedbackLink" = "Rhoi gwybod am broblem neu roi adborth";
-
-"app_appGuidanceLink" = "Canllawiau ar ddefnyddio'r ap";
-
-"app_aboutSubtitle" = "Am yr ap";
-
-"app_analyticsToggle" = "Rhannu dadansoddeg yr ap";
-
-"app_analyticsFooter" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd";
+"app_accessibilityStatement" = "Datganiad hygyrchedd";
 
 "app_signOutButton" = "Allgofnodi";
 

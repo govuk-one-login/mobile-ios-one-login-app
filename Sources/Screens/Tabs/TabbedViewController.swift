@@ -8,18 +8,14 @@ final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
     private let viewModel: TabbedViewModel
-    private let headerView: UIView?
     private let userProvider: UserProvider
-    
     private var analyticsPreference: AnalyticsPreferenceStore
     private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
-         headerView: UIView? = nil,
          analyticsPreference: AnalyticsPreferenceStore) {
         self.viewModel = viewModel
-        self.headerView = headerView
         self.userProvider = userProvider
         self.analyticsPreference = analyticsPreference
         super.init(viewModel: viewModel,
@@ -35,8 +31,8 @@ final class TabbedViewController: BaseViewController {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
         configureTableView()
-
-        updateEmail(userProvider.user.value?.email)
+        
+        updateEmail()
         subscribeToUsers()
     }
     
@@ -47,35 +43,30 @@ final class TabbedViewController: BaseViewController {
         analyticsSwitch.setOn(analyticsAccepted, animated: true)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        resizeHeaderView()
-    }
-    
     @IBOutlet private var tableView: UITableView! {
         didSet {
             tableView.accessibilityIdentifier = "tabbed-view-table-view"
-        }
-    }
-
-    @IBOutlet private var analyticsSwitch: UISwitch! {
-        didSet {
-            analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
         }
     }
     
     private func subscribeToUsers() {
         userProvider.user
             .receive(on: DispatchQueue.main)
-            .sink { user in
-                self.updateEmail(user?.email)
+            .sink { _ in
+                self.updateEmail()
             }.store(in: &cancellables)
     }
+    
+    func updateEmail() {
+        // temporary solution to stop app from freezing. Similar resolution here: https://stackoverflow.com/questions/74868322/tableview-freeze
+        self.tableView.reloadRows(at: [.first], with: .none)
+    }
 
-    func updateEmail(_ email: String?) {
-        guard let headerView = headerView as? SignInView else { return }
-        headerView.userEmail = email ?? ""
-        resizeHeaderView()
+
+    @IBOutlet private var analyticsSwitch: UISwitch! {
+        didSet {
+            analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
+        }
     }
     
     @IBAction private func updateAnalytics(_ sender: UISwitch) {
@@ -86,25 +77,10 @@ final class TabbedViewController: BaseViewController {
         viewModel.didAppear()
     }
     
-    private func resizeHeaderView() {
-        guard self.isViewLoaded else { return }
-        guard let headerView = tableView.tableHeaderView else {
-            return
-        }
-        
-        let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        
-        if headerView.frame.height != size.height {
-            headerView.frame.size.height = size.height
-            tableView.tableHeaderView = headerView
-        }
-    }
-    
     private func configureTableView() {
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
         tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
         tableView.register(TabbedViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier)
-        tableView.tableHeaderView = headerView
         tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
@@ -125,7 +101,7 @@ extension TabbedViewController: UITableViewDataSource {
                 as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
         
-        if viewModel.sectionModels[indexPath.section].sectionTitle == "app_aboutSubtitle" {
+        if viewModel.sectionModels[indexPath.section].sectionTitle == "app_settingsSubtitle2" {
             cell.accessoryView = analyticsSwitch
         }
         return cell
@@ -153,4 +129,8 @@ extension TabbedViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? TabbedTableViewCell else { return }
         cell.viewModel?.action?()
     }
+}
+
+extension IndexPath {
+    static let first = IndexPath.init(row: 0, section: 0)
 }

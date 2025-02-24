@@ -8,7 +8,7 @@ import SecureStore
 import UIKit
 
 @MainActor
-final class ProfileCoordinator: NSObject,
+final class SettingsCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
                                 NavigationCoordinator {
@@ -20,7 +20,7 @@ final class ProfileCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
     private let analyticsPreference: AnalyticsPreferenceStore
-    
+        
     init(analyticsService: AnalyticsService,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
@@ -34,18 +34,17 @@ final class ProfileCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_profileTitle").value,
-                                       image: UIImage(systemName: "person.crop.circle"),
+        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
+                                       image: UIImage(systemName: "gearshape"),
                                        tag: 2)
-        let viewModel = ProfileTabViewModel(analyticsService: analyticsService,
-                                            sectionModels: TabbedViewSectionFactory.profileSections(coordinator: self,
-                                                                                                    urlOpener: urlOpener,
-                                                                                                    action: openSignOutPage))
-        let profileViewController = TabbedViewController(viewModel: viewModel,
-                                                         userProvider: sessionManager,
-                                                         headerView: SignInView(),
-                                                         analyticsPreference: analyticsPreference)
-        root.setViewControllers([profileViewController], animated: true)
+        let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
+                                             userProvider: sessionManager,
+                                             openSignOutPage: openSignOutPage,
+                                             openDeveloperMenu: openDeveloperMenu)
+        let settingsViewController = TabbedViewController(viewModel: viewModel,
+                                                          userProvider: sessionManager,
+                                                          analyticsPreference: analyticsPreference)
+        root.setViewControllers([settingsViewController], animated: true)
     }
     
     func openSignOutPage() {
@@ -72,7 +71,7 @@ final class ProfileCoordinator: NSObject,
         }
     }
     
-    func showDeveloperMenu() {
+    func openDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
         let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
         let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,

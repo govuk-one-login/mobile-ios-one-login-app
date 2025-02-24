@@ -64,7 +64,7 @@ extension TabManagerCoordinatorTests {
         // THEN the TabManagerCoordinator should have child coordinators
         XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
-        XCTAssertTrue(sut.childCoordinators[1] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[1] is SettingsCoordinator)
         // AND the root's delegate is the TabManagerCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
@@ -83,7 +83,7 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 3)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
-        XCTAssertTrue(sut.childCoordinators[2] is ProfileCoordinator)
+        XCTAssertTrue(sut.childCoordinators[2] is SettingsCoordinator)
         // THEN the root's delegate is the TabManagerCoordinator
         XCTAssertTrue(sut.root.delegate === sut)
     }
@@ -128,21 +128,21 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_didSelect_tabBarItem_profile() {
+    func test_didSelect_tabBarItem_settings() {
         AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
             featureFlags: [:]
         )
         // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
-        guard let profileVC = tabBarController.viewControllers?[1] else {
-            XCTFail("ProfileVC not added as child viewcontroller to tabBarController")
+        guard let settingsVC = tabBarController.viewControllers?[1] else {
+            XCTFail("SettingsVC not added as child viewcontroller to tabBarController")
             return
         }
-        // WHEN the tab bar controller's delegate method didSelect is called with the profile view controller
-        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: profileVC)
-        // THEN the profile view controller's tab bar event is sent
-        let iconEvent = IconEvent(textKey: "profile")
+        // WHEN the tab bar controller's delegate method didSelect is called with the settings view controller
+        tabBarController.delegate?.tabBarController?(tabBarController, didSelect: settingsVC)
+        // THEN the settings view controller's tab bar event is sent
+        let iconEvent = IconEvent(textKey: "settings")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
@@ -150,7 +150,7 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_performChildCleanup_fromProfileCoordinator_succeeds() async throws {
+    func test_performChildCleanup_fromSettingsCoordinator_succeeds() async throws {
         let exp = XCTNSNotificationExpectation(
             name: .didLogout,
             object: nil,
@@ -159,13 +159,13 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
-        // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
-        sut.performChildCleanup(child: profileCoordinator)
+        // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
+        sut.performChildCleanup(child: settingsCoordinator)
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
         // And the session should be cleared
@@ -173,7 +173,7 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_performChildCleanup_fromProfileCoordinator_errors() throws {
+    func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
         AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableSignoutError.rawValue: true],
             featureFlags: [:]
@@ -182,14 +182,14 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
-        let profileCoordinator = ProfileCoordinator(analyticsService: mockAnalyticsService,
+        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                     sessionManager: mockSessionManager,
                                                     networkClient: NetworkClient(),
                                                     urlOpener: MockURLOpener(),
                                                     analyticsPreference: mockAnalyticsPreferenceStore)
-        // WHEN the TabManagerCoordinator's performChildCleanup method is called from ProfileCoordinator (on user sign out)
+        // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         // but there was an error in signing out
-        sut.performChildCleanup(child: profileCoordinator)
+        sut.performChildCleanup(child: settingsCoordinator)
         // THEN the sign out error screen should be presented
         let errorVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         XCTAssertTrue(errorVC.viewModel is SignOutErrorViewModel)
@@ -200,11 +200,11 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_handleUniversalLink() throws {
-        sut.start()
-        // WHEN the wallet feature flag is on
+        // GIVEN the wallet feature flag is on
         UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        sut.start()
         XCTAssertFalse(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
-        // GIVEN the handleUniversalLink receives a deeplink
+        // WHEN the handleUniversalLink receives a deeplink
         let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
         sut.handleUniversalLink(deeplink)
         // THEN the wallet tab should be added and the selected index should be 1
