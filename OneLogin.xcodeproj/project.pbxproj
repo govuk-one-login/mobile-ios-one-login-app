@@ -79,7 +79,7 @@
 		7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */ = {isa = PBXBuildFile; productRef = 7CF44B272CAB45A70027839B /* AppIntegrity */; };
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
 		AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = AB327B102D36BEAD00AC169E /* CRIOrchestrator */; };
-		AB9068802D64B5E100C5D025 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = AB90687F2D64B5E100C5D025 /* Wallet */; };
+		AB7B56242D6CD9A100193241 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = AB7B56232D6CD9A100193241 /* Wallet */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
 		ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */; };
@@ -508,6 +508,7 @@
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
+				AB7B56242D6CD9A100193241 /* Wallet in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				C8A13C9F2AFBD05700FCBD36 /* GDSAnalytics in Frameworks */,
 				C8A13CA12AFBD05700FCBD36 /* GDSCommon in Frameworks */,
@@ -517,7 +518,6 @@
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
-				AB9068802D64B5E100C5D025 /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1602,7 +1602,7 @@
 				ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */,
 				ABD7A0BF2CEF887E006D6C7A /* CryptoService */,
 				AB327B102D36BEAD00AC169E /* CRIOrchestrator */,
-				AB90687F2D64B5E100C5D025 /* Wallet */,
+				AB7B56232D6CD9A100193241 /* Wallet */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1735,7 +1735,7 @@
 				7CDC2EBC2C8B1CF200EAA592 /* XCLocalSwiftPackageReference "MobilePlatformServices" */,
 				7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */,
 				AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */,
-				AB90687E2D64B5E100C5D025 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
+				AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -3035,7 +3035,7 @@
 				minimumVersion = 4.4.0;
 			};
 		};
-		AB90687E2D64B5E100C5D025 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
+		AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
 			requirement = {
@@ -3115,9 +3115,9 @@
 			package = AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */;
 			productName = CRIOrchestrator;
 		};
-		AB90687F2D64B5E100C5D025 /* Wallet */ = {
+		AB7B56232D6CD9A100193241 /* Wallet */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AB90687E2D64B5E100C5D025 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */;
+			package = AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */;
 			productName = Wallet;
 		};
 		ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */ = {
