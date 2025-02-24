@@ -200,11 +200,11 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_handleUniversalLink() throws {
-        sut.start()
-        // WHEN the wallet feature flag is on
+        // GIVEN the wallet feature flag is on
         UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        sut.start()
         XCTAssertFalse(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
-        // GIVEN the handleUniversalLink receives a deeplink
+        // WHEN the handleUniversalLink receives a deeplink
         let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
         sut.handleUniversalLink(deeplink)
         // THEN the wallet tab should be added and the selected index should be 1
