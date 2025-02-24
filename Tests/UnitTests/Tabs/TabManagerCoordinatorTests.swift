@@ -54,11 +54,7 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [:]
-        )
-
+        UserDefaults.standard.removeObject(forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
         // AND the TabManagerCoordinator is started
         sut.start()
         // THEN the TabManagerCoordinator should have child coordinators
@@ -73,10 +69,6 @@ extension TabManagerCoordinatorTests {
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
         UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
-            featureFlags: [:]
-        )
         // AND the TabManagerCoordinator is started
         sut.start()
         // THEN the TabManagerCoordinator should have child coordinators
@@ -129,10 +121,6 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_settings() {
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
-            featureFlags: [:]
-        )
         // GIVEN the TabManagerCoordinator has started and added it's tab bar items
         sut.start()
         guard let settingsVC = tabBarController.viewControllers?[1] else {
@@ -203,7 +191,6 @@ extension TabManagerCoordinatorTests {
         // GIVEN the wallet feature flag is on
         UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
         sut.start()
-        XCTAssertFalse(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
         // WHEN the handleUniversalLink receives a deeplink
         let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
         sut.handleUniversalLink(deeplink)

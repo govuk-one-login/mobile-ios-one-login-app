@@ -40,6 +40,8 @@ final class SettingsCoordinatorTests: XCTestCase {
         urlOpener = nil
         sut = nil
         
+        WalletAvailabilityService.hasAccessedBefore = false
+        
         super.tearDown()
     }
     
@@ -62,19 +64,23 @@ final class SettingsCoordinatorTests: XCTestCase {
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
-        // THEN the presented view controller is the GDSInstructionsViewController
+        // THEN the presented view controller's view model is the WalletSignOutPageViewModel
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
+        XCTAssertTrue(viewController.viewModel is WalletSignOutPageViewModel)
     }
     
     func test_openSignOutPageNoWallet() throws {
+        // WHEN Wallet has not been accessed before
+        WalletAvailabilityService.hasAccessedBefore = false
         // WHEN the SettingsCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
-        // THEN the presented view controller is the GDSInstructionsViewController
+        // THEN the presented view controller's view model is the SignOutPageViewModel
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        XCTAssertTrue(presentedVC.topViewController is GDSInstructionsViewController)
+        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
+        XCTAssertTrue(viewController.viewModel is SignOutPageViewModel)
     }
     
     func test_tapSignoutClearsData() throws {
