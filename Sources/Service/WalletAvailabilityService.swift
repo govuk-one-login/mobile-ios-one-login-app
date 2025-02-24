@@ -2,7 +2,7 @@ import Foundation
 import Networking
 import UIKit
 
-protocol FeatureAvailabilityService: AnyObject {
+protocol FeatureAvailabilityService {
     static var hasAccessedBefore: Bool { get set }
     static var shouldShowFeature: Bool { get }
 }
@@ -13,7 +13,7 @@ protocol UniversalLinkFeatureAvailabilityService {
 
 typealias WalletFeatureAvailabilityService = FeatureAvailabilityService & UniversalLinkFeatureAvailabilityService & SessionBoundData
 
-final class WalletAvailabilityService: WalletFeatureAvailabilityService {
+struct WalletAvailabilityService: WalletFeatureAvailabilityService {
     static var hasAccessedBefore: Bool {
         get {
             UserDefaults.standard.bool(forKey: OLString.hasAccessedWalletBefore)
