@@ -32,7 +32,7 @@ final class TabbedViewController: BaseViewController {
         title = viewModel.navigationTitle.value
         configureTableView()
         
-        updateEmail(userProvider.user.value?.email)
+        updateEmail()
         subscribeToUsers()
     }
     
@@ -52,12 +52,12 @@ final class TabbedViewController: BaseViewController {
     private func subscribeToUsers() {
         userProvider.user
             .receive(on: DispatchQueue.main)
-            .sink { user in
-                self.updateEmail(user?.email)
+            .sink { _ in
+                self.updateEmail()
             }.store(in: &cancellables)
     }
     
-    func updateEmail(_ email: String?) {
+    func updateEmail() {
         // temporary solution to stop app from freezing. Similar resolution here: https://stackoverflow.com/questions/74868322/tableview-freeze
         self.tableView.reloadRows(at: [.first], with: .none)
     }
