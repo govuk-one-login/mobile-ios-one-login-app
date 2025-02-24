@@ -148,10 +148,10 @@ extension TabManagerCoordinatorTests {
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                    sessionManager: mockSessionManager,
-                                                    networkClient: NetworkClient(),
-                                                    urlOpener: MockURLOpener(),
-                                                    analyticsPreference: mockAnalyticsPreferenceStore)
+                                                      sessionManager: mockSessionManager,
+                                                      networkClient: NetworkClient(),
+                                                      urlOpener: MockURLOpener(),
+                                                      analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         sut.performChildCleanup(child: settingsCoordinator)
         // THEN a logout notification is sent
@@ -166,15 +166,15 @@ extension TabManagerCoordinatorTests {
             releaseFlags: [FeatureFlagsName.enableSignoutError.rawValue: true],
             featureFlags: [:]
         )
-
+        
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
         try mockSessionManager.setupSession(returningUser: true)
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                    sessionManager: mockSessionManager,
-                                                    networkClient: NetworkClient(),
-                                                    urlOpener: MockURLOpener(),
-                                                    analyticsPreference: mockAnalyticsPreferenceStore)
+                                                      sessionManager: mockSessionManager,
+                                                      networkClient: NetworkClient(),
+                                                      urlOpener: MockURLOpener(),
+                                                      analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: settingsCoordinator)

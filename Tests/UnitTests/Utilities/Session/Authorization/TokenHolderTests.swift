@@ -25,7 +25,7 @@ final class TokenHolderTests: XCTestCase {
 }
 
 extension TokenHolderTests {
-    func testFetchToken_throwsErrorForMissingToken() throws {
+    func testFetchToken_throwsErrorForMissingToken() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
         exp.assertForOverFulfill = true
@@ -46,10 +46,10 @@ extension TokenHolderTests {
         }
 
         // THEN an error is thrown
-        wait(for: [exp], timeout: 5)
+        await fulfillment(of: [exp], timeout: 5)
     }
 
-    func testFetchToken_makesTokenExchangeRequest() throws {
+    func testFetchToken_makesTokenExchangeRequest() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
         exp.assertForOverFulfill = true
@@ -70,7 +70,7 @@ extension TokenHolderTests {
         }
 
         // THEN a request is made to exchange the access token
-        wait(for: [exp], timeout: 5)
+        await fulfillment(of: [exp], timeout: 5)
 
         let request = try XCTUnwrap(MockURLProtocol.requests.first)
         XCTAssertEqual(request.url?.absoluteString,
@@ -93,7 +93,7 @@ extension TokenHolderTests {
         ])
     }
 
-    func testFetchToken_returnsExpectedToken() throws {
+    func testFetchToken_returnsExpectedToken() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
         exp.assertForOverFulfill = true
@@ -129,10 +129,10 @@ extension TokenHolderTests {
             exp.fulfill()
         }
 
-        wait(for: [exp], timeout: 5)
+        await fulfillment(of: [exp], timeout: 5)
     }
 
-    func testFetchToken_sendsExpiredSessionNotification() {
+    func testFetchToken_sendsExpiredSessionNotification() async {
         // GIVEN I am connected to the internet
         let exp = XCTNSNotificationExpectation(
             name: .sessionExpired,
@@ -152,6 +152,6 @@ extension TokenHolderTests {
         }
 
         // THEN an XCTNSNotificationExpectation is sent
-        wait(for: [exp], timeout: 5)
+        await fulfillment(of: [exp], timeout: 5)
     }
 }
