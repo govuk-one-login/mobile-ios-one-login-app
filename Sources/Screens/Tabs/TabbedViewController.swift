@@ -58,7 +58,8 @@ final class TabbedViewController: BaseViewController {
     }
     
     func updateEmail(_ email: String?) {
-//        self.tableView.reloadData()
+        // temporary solution to stop app from freezing. Similar resolution here: https://stackoverflow.com/questions/74868322/tableview-freeze
+        self.tableView.reloadRows(at: [.first], with: .none)
     }
 
 
@@ -128,4 +129,8 @@ extension TabbedViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? TabbedTableViewCell else { return }
         cell.viewModel?.action?()
     }
+}
+
+extension IndexPath {
+    static let first = IndexPath.init(row: 0, section: 0)
 }
