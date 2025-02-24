@@ -1024,10 +1024,10 @@
 		C85C874B2AD40479001274AC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C8C343962B909A2F00E92FB9 /* OLString.swift */,
 				C85507012B7FB58D00AA9375 /* InfoPlist.strings */,
 				3BBF28E82A9F7D3200491BB1 /* LaunchScreen.storyboard */,
 				1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */,
+				C8C343962B909A2F00E92FB9 /* OLString.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1409,8 +1409,8 @@
 		C8BADD352B88CC0100385FE7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */,
 				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
+				C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */,
 				C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */,
 				C8BADD2E2B889CB900385FE7 /* MockSessionManager.swift */,
 			);
@@ -1947,6 +1947,7 @@
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
+				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C836FDD32D64837E00F8AC37 /* OneLoginSecureStoreManager.swift in Sources */,
@@ -1966,7 +1967,6 @@
 				F1B6807E2CA4424400A64971 /* SignOutPageViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
-				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
@@ -2017,7 +2017,6 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
-				C836FDD52D64DE6900F8AC37 /* MockSecureStoreManager.swift in Sources */,
 				C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
@@ -2029,16 +2028,16 @@
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,
 				C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */,
 				C825C02E2D5E291C00112918 /* MockAuthenticationService.swift in Sources */,
+				C825C02E2D5E291C00112918 /* MockAuthenticationService.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
 				7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
 				C8A94C4D2D07558700303578 /* MockLoginSessionConfiguration.swift in Sources */,
 				41E1A9132BE1278F0034B6C7 /* MockNetworkMonitor.swift in Sources */,
-				C825C02E2D5E291C00112918 /* MockAuthenticationService.swift in Sources */,
-				C836FDDC2D6619B000F8AC37 /* OneLoginSecureStoreManagerTests.swift in Sources */,
 				7CD66F872C90A96A008513F4 /* MockQualifyingService.swift in Sources */,
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
+				C836FDD52D64DE6900F8AC37 /* MockSecureStoreManager.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */,
@@ -2048,8 +2047,10 @@
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,
 				C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
+				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
+				C836FDDC2D6619B000F8AC37 /* OneLoginSecureStoreManagerTests.swift in Sources */,
 				7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */,
 				7CD66F842C90A890008513F4 /* QualifyingCoordinatorTests.swift in Sources */,
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
@@ -2060,7 +2061,6 @@
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
 				F1B680822CA452CD00A64971 /* SignOutPageViewModelTests.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
-				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
