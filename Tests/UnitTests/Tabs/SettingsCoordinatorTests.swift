@@ -12,7 +12,6 @@ final class SettingsCoordinatorTests: XCTestCase {
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
-    var mockWalletAvailabilityService: MockWalletAvailabilityService!
     var sut: SettingsCoordinator!
     
     override func setUp() {
@@ -24,12 +23,10 @@ final class SettingsCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        mockWalletAvailabilityService = MockWalletAvailabilityService()
         sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                  sessionManager: mockSessionManager,
                                  networkClient: mockNetworkClient,
                                  urlOpener: urlOpener,
-                                 walletAvailabilityService: mockWalletAvailabilityService,
                                  analyticsPreference: mockAnalyticsPreference)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
@@ -41,7 +38,6 @@ final class SettingsCoordinatorTests: XCTestCase {
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil
-        mockWalletAvailabilityService = nil
         sut = nil
         
         super.tearDown()
@@ -61,7 +57,7 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     func test_openSignOutPageWithWallet() throws {
         // WHEN Wallet has been accessed before
-        mockWalletAvailabilityService.hasAccessedBefore = true
+        WalletAvailabilityService.hasAccessedBefore = true
         // WHEN the SettingsCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called

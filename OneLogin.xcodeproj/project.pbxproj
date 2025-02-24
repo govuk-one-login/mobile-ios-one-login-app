@@ -82,7 +82,6 @@
 		AB9068802D64B5E100C5D025 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = AB90687F2D64B5E100C5D025 /* Wallet */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
-		ABD5C1DA2D65EB2100A1FD5B /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 7CA719732C848EF600973585 /* Wallet */; };
 		ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */; };
 		ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */; };
 		ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BF2CEF887E006D6C7A /* CryptoService */; };
@@ -1600,7 +1599,6 @@
 				C8A13CAF2AFBD0F100FCBD36 /* Coordination */,
 				C8BADD1F2B8638BA00385FE7 /* SecureStore */,
 				D0BE243D2BEB7E5E00759529 /* JWTKit */,
-				7CA719732C848EF600973585 /* Wallet */,
 				7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */,
 				7CF44B272CAB45A70027839B /* AppIntegrity */,
 				ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */,
@@ -3106,10 +3104,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7CA719732C848EF600973585 /* Wallet */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Wallet;
-		};
 		7CDC2EBD2C8B1CF200EAA592 /* MobilePlatformServices */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MobilePlatformServices;

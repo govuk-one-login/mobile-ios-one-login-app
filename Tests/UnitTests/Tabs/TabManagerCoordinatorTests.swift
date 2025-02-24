@@ -129,8 +129,6 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_didSelect_tabBarItem_settings() {
-        mockWalletAvailabilityService.shouldShowFeature = false
-        
         AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
             featureFlags: [:]

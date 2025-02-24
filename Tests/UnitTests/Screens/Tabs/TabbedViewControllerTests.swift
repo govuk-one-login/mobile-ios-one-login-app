@@ -95,28 +95,6 @@ extension TabbedViewControllerTests {
     }
 
     @MainActor
-    func test_updateUser() throws {
-        let profileCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                    sessionManager: mockSessionManager,
-                                                    networkClient: NetworkClient(),
-                                                    urlOpener: MockURLOpener(),
-                                                    analyticsPreference: mockAnalyticsPreference)
-        let sections = TabbedViewSectionFactory.settingsSections(coordinator: profileCoordinator, urlOpener: MockURLOpener()) { }
-        let viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
-                                            sectionModels: sections)
-        sut = TabbedViewController(viewModel: viewModel,
-                                   userProvider: mockSessionManager,
-                                   headerView: SignInView(),
-                                   analyticsPreference: mockAnalyticsPreference)
-        // GIVEN I am not logged in
-        XCTAssertEqual(try sut.emailLabel.text, "You’re signed in as\n")
-        // WHEN the user is updated
-        mockSessionManager.user.send(MockUser())
-        // THEN my email is displayed
-        let emailLabel = try sut.emailLabel
-        waitForTruth(emailLabel.text == "You’re signed in as\ntest@example.com", timeout: 5)
-    }
-    
     func test_updateUser() {
         let viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                              userProvider: mockSessionManager,
