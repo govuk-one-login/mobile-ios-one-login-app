@@ -163,9 +163,9 @@
 
 
 // Mark: Sign Out Warning screen
-"app_signOutWarningTitle" = "Rydych wedi cael eich allgofnodi";
+"app_signOutWarningTitle" = "Mae angen i chi fewngofnodi eto";
 
-"app_signOutWarningBody" = "Mae hyn er mwyn cadw'r wybodaeth yn eich ap GOV.UK One Login yn ddiogel.\n\nMae angen i chi fewngofnodi eto i barhau.";
+"app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap GOV.UK  One Login.\n\nMewngofnodwch eto i barhau.";
 
 
 // MARK: Data DeletionWarning screen

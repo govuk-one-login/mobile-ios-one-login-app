@@ -165,9 +165,9 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_signOutWarningPageKeys() {
         XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
-                       "Rydych wedi cael eich allgofnodi")
+                       "Mae angen i chi fewngofnodi eto")
         XCTAssertEqual("app_signOutWarningBody".getWelshString(),
-                       "Mae hyn er mwyn cadw'r wybodaeth yn eich ap GOV.UK One Login yn ddiogel.\n\nMae angen i chi fewngofnodi eto i barhau.")
+                       "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap GOV.UK  One Login.\n\nMewngofnodwch eto i barhau.")
     }
     
     func test_dataDeletedWarningPageKeys() {

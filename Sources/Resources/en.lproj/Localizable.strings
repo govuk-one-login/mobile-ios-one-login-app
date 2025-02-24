@@ -164,9 +164,9 @@
 
 
 // Mark: Sign Out Warning screen
-"app_signOutWarningTitle" = "You’ve been signed out";
+"app_signOutWarningTitle" = "You need to sign in again";
 
-"app_signOutWarningBody" = "This is to keep the information in your GOV.UK One Login app secure.\n\nYou need to sign in again to continue.";
+"app_signOutWarningBody" = "It’s been more than 30 minutes since you last signed in to the GOV.UK One Login app.\n\nSign in again to continue.";
 
 
 // MARK: Data DeletionWarning screen

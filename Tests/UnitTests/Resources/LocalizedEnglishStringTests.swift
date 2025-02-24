@@ -165,9 +165,9 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_signOutWarningPageKeys() {
         XCTAssertEqual("app_signOutWarningTitle".getEnglishString(),
-                       "You’ve been signed out")
+                       "You need to sign in again")
         XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
-                       "This is to keep the information in your GOV.UK One Login app secure.\n\nYou need to sign in again to continue.")
+                       "It’s been more than 30 minutes since you last signed in to the GOV.UK One Login app.\n\nSign in again to continue.")
     }
     
     func test_dataDeletedWarningPageKeys() {
