@@ -8,7 +8,7 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.stsAuthorize.absoluteString, "https://token.build.account.gov.uk/authorize")
         XCTAssertEqual(sut.stsToken.absoluteString, "https://token.build.account.gov.uk/token")
         XCTAssertEqual(sut.privacyPolicyURL.absoluteString, "https://signin.account.gov.uk/privacy-notice?lng=en")
-        XCTAssertEqual(sut.manageAccountURL.absoluteString, "https://www.gov.uk/using-your-gov-uk-one-login")
+        XCTAssertEqual(sut.manageAccountURL.absoluteString, "https://gov.uk/using-your-gov-uk-one-login")
         XCTAssertEqual(sut.stsClientID, "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         XCTAssertEqual(sut.mobileRedirect.absoluteString, "https://mobile.build.account.gov.uk/redirect")
         XCTAssertEqual(sut.mobileBaseURL.absoluteString, "https://mobile.build.account.gov.uk")
