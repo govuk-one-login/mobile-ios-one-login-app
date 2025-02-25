@@ -145,8 +145,6 @@ extension TabManagerCoordinatorTests {
             notificationCenter: NotificationCenter.default
         )
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        try mockSessionManager.setupSession(returningUser: true)
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
