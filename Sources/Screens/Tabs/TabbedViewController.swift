@@ -1,11 +1,13 @@
 import Combine
 import Coordination
+import GDSAnalytics
 import GDSCommon
 import Logging
 import UIKit
 
 final class TabbedViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
+    var analyticsService: AnalyticsService
     
     private let viewModel: TabbedViewModel
     private let userProvider: UserProvider
@@ -14,9 +16,11 @@ final class TabbedViewController: BaseViewController {
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
+         analyticsService: AnalyticsService,
          analyticsPreference: AnalyticsPreferenceStore) {
         self.viewModel = viewModel
         self.userProvider = userProvider
+        self.analyticsService = analyticsService
         self.analyticsPreference = analyticsPreference
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
@@ -128,6 +132,12 @@ extension TabbedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TabbedTableViewCell else { return }
         cell.viewModel?.action?()
+
+        let event = LinkEvent(textKey: cell.viewModel?.cellTitle?.value ?? "",
+                              linkDomain: returnEventLink(indexPath: indexPath.row),
+                              external: .false)
+        analyticsService.setAdditionalParameters(appTaxonomy: .settings)
+        analyticsService.logEvent(event)
     }
 }
 

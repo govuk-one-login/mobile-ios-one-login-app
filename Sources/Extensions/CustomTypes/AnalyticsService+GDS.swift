@@ -30,7 +30,7 @@ extension AnalyticsService {
             case .reauth:
                 (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
             case .settings:
-                (appTaxonomy.rawValue, "my \(appTaxonomy.rawValue)")
+                (appTaxonomy.rawValue, "undefined")
             default:
                 (appTaxonomy.rawValue, "undefined")
             }
