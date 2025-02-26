@@ -102,6 +102,8 @@ final class LoginCoordinator: NSObject,
                     let error as LoginError where error == .clientError,
                     let error as LoginError where error == .serverError {
                 showUnableToLoginErrorScreen(error)
+            } catch let error as LoginError where error == .accessDenied {
+                showDataDeletedWarningScreen()
             } catch let error as JWTVerifierError {
                 showUnableToLoginErrorScreen(error)
             } catch {

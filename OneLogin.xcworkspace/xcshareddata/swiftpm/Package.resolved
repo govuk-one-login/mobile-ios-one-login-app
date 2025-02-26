@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "1a1aa6b2e4598f1a90bd7106d383154d3e5e354c",
-        "version" : "2.1.2"
+        "branch" : "feature/dcmaw-11375-access-denied-authentication-error",
+        "revision" : "423c0f02656c10c10b8b67c9c98baa89dcffcfe3"
       }
     },
     {
