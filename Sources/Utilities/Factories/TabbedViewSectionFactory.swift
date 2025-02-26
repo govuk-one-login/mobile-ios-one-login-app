@@ -1,4 +1,5 @@
 import Foundation
+import GDSAnalytics
 import GDSCommon
 import Logging
 import UIKit
@@ -7,7 +8,7 @@ import UIKit
 extension TabbedViewSectionModel {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
-    static func manageDetails(urlOpener: URLOpener, userEmail: String) -> Self {
+    static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: AnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: "app_settingsSignInDetailsFootnote",
                                       tabModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
@@ -16,19 +17,31 @@ extension TabbedViewSectionModel {
                                                   .init(cellTitle: "app_settingsSignInDetailsLink",
                                                         accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
+            let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
+                                  linkDomain: AppEnvironment.manageAccountURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
         }])
     }
     
-    static func help(urlOpener: URLOpener) -> Self {
+    static func help(urlOpener: URLOpener, analyticsService: AnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_appGuidanceLink",
                                                         accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.appHelpURL)
+            let event = LinkEvent(textKey: "app_appGuidanceLink",
+                                  linkDomain: AppEnvironment.appHelpURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_contactLink",
                                                         accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.contactURL)
+            let event = LinkEvent(textKey: "app_contactLink",
+                                  linkDomain: AppEnvironment.contactURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
         }])
     }
     
@@ -38,16 +51,24 @@ extension TabbedViewSectionModel {
                                tabModels: [.init(cellTitle: "app_settingsAnalyticsToggle")])
     }
     
-    static func notices(urlOpener: URLOpener) -> Self {
+    static func notices(urlOpener: URLOpener, analyticsService: AnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_privacyNoticeLink2",
                                                         accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.privacyPolicyURL)
+            let event = LinkEvent(textKey: "app_privacyNoticeLink2",
+                                  linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_accessibilityStatement",
                                                         accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.accessibilityStatementURL)
+            let event = LinkEvent(textKey: "app_accessibilityStatement",
+                                  linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
         }])
     }
     
