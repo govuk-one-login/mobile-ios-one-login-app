@@ -125,6 +125,18 @@ extension TabbedViewControllerTests {
         XCTAssertTrue(didAppearCalled)
     }
     
+    func test_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        let indexPath = IndexPath(row: 0, section: 0)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        
+        let event = LinkEvent(textKey: "test cell", linkDomain: "/test-link", external: .false)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+    }
+    
     private func createSectionModels() -> [TabbedViewSectionModel] {
         let testSection = TabbedViewSectionModel(sectionTitle: "Test Header",
                                                  sectionFooter: "Test Footer",
@@ -134,6 +146,10 @@ extension TabbedViewControllerTests {
                                                                    accessoryView: "arrow.up.right",
                                                                    textColor: .systemRed) {
             self.didTapRow = true
+            let event = LinkEvent(textKey: "Test Cell",
+                                  linkDomain: "/test-link",
+                                  external: .false)
+            self.mockAnalyticsService.logEvent(event)
         }])
         
         return [testSection]
