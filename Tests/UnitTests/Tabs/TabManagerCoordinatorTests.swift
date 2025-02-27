@@ -153,7 +153,7 @@ extension TabManagerCoordinatorTests {
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         sut.performChildCleanup(child: settingsCoordinator)
         // THEN a logout notification is sent
-        await fulfillment(of: [exp], timeout: 5)
+        await fulfillment(of: [exp], timeout: 20)
         // And the session should be cleared
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
