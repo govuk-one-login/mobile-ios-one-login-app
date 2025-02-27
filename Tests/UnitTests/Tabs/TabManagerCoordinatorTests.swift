@@ -139,6 +139,11 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromSettingsCoordinator_succeeds() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .didLogout,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
         // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                       sessionManager: mockSessionManager,
@@ -149,6 +154,8 @@ extension TabManagerCoordinatorTests {
         sut.performChildCleanup(child: settingsCoordinator)
         // And the session should be cleared
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
+        // THEN a logout notification is sent
+        await fulfillment(of: [exp], timeout: 5)
     }
     
     @MainActor
