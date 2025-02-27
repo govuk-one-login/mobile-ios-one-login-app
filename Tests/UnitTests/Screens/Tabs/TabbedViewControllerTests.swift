@@ -135,6 +135,8 @@ extension TabbedViewControllerTests {
         let event = LinkEvent(textKey: "test cell", linkDomain: "/test-link", external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     private func createSectionModels() -> [TabbedViewSectionModel] {
@@ -150,6 +152,7 @@ extension TabbedViewControllerTests {
                                   linkDomain: "/test-link",
                                   external: .false)
             self.mockAnalyticsService.logEvent(event)
+            self.mockAnalyticsService.setAdditionalParameters(appTaxonomy: .settings)
         }])
         
         return [testSection]
