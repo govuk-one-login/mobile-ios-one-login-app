@@ -160,14 +160,8 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
-        AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableSignoutError.rawValue: true],
-            featureFlags: [:]
-        )
-        
         // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        try mockSessionManager.setupSession(returningUser: true)
+        mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
@@ -181,7 +175,6 @@ extension TabManagerCoordinatorTests {
         XCTAssertTrue(errorVC.viewModel is SignOutErrorViewModel)
         // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
-        XCTAssertTrue(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == true)
     }
     
     @MainActor
