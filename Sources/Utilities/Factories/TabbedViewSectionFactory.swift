@@ -72,12 +72,15 @@ extension TabbedViewSectionModel {
         }])
     }
     
-    static func signOutSection(action: @escaping () -> Void) -> Self {
+    static func signOutSection(analyticsService: AnalyticsService, action: @escaping () -> Void) -> Self {
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_signOutButton",
-                                                        textColor: .gdsGreen,
-                                                        action: action)])
+                                                        textColor: .gdsGreen) {
+            action()
+            let event = ButtonEvent(textKey: "app_signOutButton")
+            analyticsService.logEvent(event)
+        }])
     }
     
     static func developer(action: @escaping () -> Void) -> Self {

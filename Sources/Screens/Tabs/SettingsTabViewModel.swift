@@ -14,7 +14,8 @@ struct SettingsTabViewModel: TabbedViewModel {
                                                    .analyticsToggle(),
                                                    .notices(urlOpener: urlOpener,
                                                             analyticsService: analyticsService),
-                                                   .signOutSection(action: openSignOutPage),
+                                                   .signOutSection(analyticsService: analyticsService,
+                                                                   action: openSignOutPage),
                                                    .developer(action: openDeveloperMenu)]
     }
     
