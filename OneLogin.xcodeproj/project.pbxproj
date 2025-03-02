@@ -556,12 +556,6 @@
 		219601DE2A976302008F3427 = {
 			isa = PBXGroup;
 			children = (
-				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
-				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
-				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
-				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
-				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
-				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				3BBF28E42A9F7D3200491BB1 /* Sources */,
 				219602002A976305008F3427 /* Tests */,
 				219601E82A976302008F3427 /* Products */,
@@ -640,6 +634,8 @@
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
+				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
+				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1367,6 +1363,7 @@
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				C8DA2C652D73DAC300EBBE3E /* Entitlements */,
 				7C0CCECD2C8A12A500F61C11 /* Configuration */,
 				C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */,
 				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
@@ -1460,6 +1457,17 @@
 				C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */,
 			);
 			path = Analytics;
+			sourceTree = "<group>";
+		};
+		C8DA2C652D73DAC300EBBE3E /* Entitlements */ = {
+			isa = PBXGroup;
+			children = (
+				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
+				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
+				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
+				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
+			);
+			path = Entitlements;
 			sourceTree = "<group>";
 		};
 		C8DC472A2CF01B660022A24A /* AppAttestation */ = {
@@ -2298,11 +2306,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2331,11 +2340,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginBuild.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2624,11 +2634,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2815,11 +2826,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginStaging.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
