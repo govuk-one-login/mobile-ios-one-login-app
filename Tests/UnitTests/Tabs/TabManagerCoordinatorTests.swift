@@ -144,7 +144,7 @@ extension TabManagerCoordinatorTests {
             object: nil,
             notificationCenter: NotificationCenter.default
         )
-        // GIVEN the app has token information stored, the user has accepted analytics and the accessToken is valid
+        // GIVEN the app has an existing session
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
@@ -152,7 +152,7 @@ extension TabManagerCoordinatorTests {
                                                       analyticsPreference: mockAnalyticsPreferenceStore)
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         sut.performChildCleanup(child: settingsCoordinator)
-        // And the session should be cleared
+        // THEN the session should not be cleared
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
@@ -160,7 +160,7 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
-        // GIVEN the app has token information store, the user has accepted analytics and the accessToken is valid
+        // GIVEN the app has an existing session
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                                       sessionManager: mockSessionManager,
@@ -173,7 +173,7 @@ extension TabManagerCoordinatorTests {
         // THEN the sign out error screen should be presented
         let errorVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
         XCTAssertTrue(errorVC.viewModel is SignOutErrorViewModel)
-        // THEN the tokens shouldn't be deleted and the analytics shouldn't be reset; the app shouldn't be reset
+        // THEN the session should not be cleared
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
     }
     
