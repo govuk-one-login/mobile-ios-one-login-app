@@ -21,11 +21,17 @@ final class TabbedViewControllerTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
+        let settings = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                            userProvider: mockSessionManager,
+                                            openSignOutPage: { },
+                                            openDeveloperMenu: { })
+        
         viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
                                         navigationTitle: "Test Navigation Title",
-                                        sectionModels: createSectionModels()) {
+                                        sectionModels: settings.sectionModels) {
             self.didAppearCalled = true
         }
+
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
                                    analyticsPreference: mockAnalyticsPreference)
@@ -46,25 +52,25 @@ final class TabbedViewControllerTests: XCTestCase {
 
 extension TabbedViewControllerTests {
     func test_numberOfSections() {
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tabbedTableView), 1)
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tabbedTableView), 6)
     }
     
     func test_numberOfRows() {
-        XCTAssertEqual(sut.tableView(try sut.tabbedTableView, numberOfRowsInSection: 0), 1)
+        XCTAssertEqual(sut.tableView(try sut.tabbedTableView, numberOfRowsInSection: 0), 2)
     }
     
     func test_rowSelected() throws {
         XCTAssertFalse(didTapRow)
-        let indexPath = IndexPath(row: 0, section: 0)
+        let indexPath = IndexPath(row: 1, section: 0)
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
-        XCTAssertTrue(didTapRow)
+        try XCTAssertTrue(sut.tabbedTableView.allowsSelection)
     }
     
     func test_headerConfiguration() throws {
-        let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 0) as? UITableViewHeaderFooterView
+        let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 1) as? UITableViewHeaderFooterView
         let headerLabel = try XCTUnwrap(header?.textLabel)
-        XCTAssertEqual(headerLabel.text, "Test Header")
+        XCTAssertEqual(headerLabel.text, "Help and feedback")
         XCTAssertEqual(headerLabel.font, .bodyBold)
         XCTAssertEqual(headerLabel.textColor, .label)
         XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
@@ -74,19 +80,17 @@ extension TabbedViewControllerTests {
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
         let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
-        XCTAssertEqual(cellConfig.text, "Test Cell")
-        XCTAssertEqual(cellConfig.textProperties.color, .systemRed)
-        XCTAssertEqual(cellConfig.secondaryText, "test@example.com")
+        XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
+        XCTAssertEqual(cellConfig.textProperties.color, .label)
+        XCTAssertEqual(cellConfig.secondaryText, viewModel.sectionModels[0].tabModels[0].cellSubtitle)
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
         XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
-        XCTAssertTrue((cell.accessoryView as? UIImageView)?.image != nil)
-        XCTAssertEqual(cell.accessoryView?.tintColor, .secondaryLabel)
     }
     
     func test_footerConfiguration() throws {
         let header = sut.tableView(try sut.tabbedTableView, viewForFooterInSection: 0) as? UITableViewHeaderFooterView
         let headerLabel = try XCTUnwrap(header?.textLabel)
-        XCTAssertEqual(headerLabel.text, "Test Footer")
+        XCTAssertEqual(headerLabel.text, "You might need to sign in again to manage your GOV.UK One Login details.")
         XCTAssertEqual(headerLabel.numberOfLines, 0)
         XCTAssertEqual(headerLabel.lineBreakMode, .byWordWrapping)
         XCTAssertEqual(headerLabel.font, .footnote)
@@ -125,37 +129,88 @@ extension TabbedViewControllerTests {
         XCTAssertTrue(didAppearCalled)
     }
     
-    func test_eventAnalytics() throws {
+    func test_manageAccount_eventAnalytics() throws {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        let indexPath = IndexPath(row: 0, section: 0)
+        
+        let indexPath = IndexPath(row: 1, section: 0)
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         
-        let event = LinkEvent(textKey: "test cell", linkDomain: "/test-link", external: .false)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "your gov.uk one login")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
-    private func createSectionModels() -> [TabbedViewSectionModel] {
-        let testSection = TabbedViewSectionModel(sectionTitle: "Test Header",
-                                                 sectionFooter: "Test Footer",
-                                                 tabModels: [.init(cellTitle: "Test Cell",
-                                                                   cellSubtitle: MockUser().email,
-                                                                   image: UIImage(named: "userAccountIcon"),
-                                                                   accessoryView: "arrow.up.right",
-                                                                   textColor: .systemRed) {
-            self.didTapRow = true
-            let event = LinkEvent(textKey: "Test Cell",
-                                  linkDomain: "/test-link",
-                                  external: .false)
-            self.mockAnalyticsService.logEvent(event)
-            self.mockAnalyticsService.setAdditionalParameters(appTaxonomy: .settings)
-        }])
+    func test_helpCell_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         
-        return [testSection]
+        let indexPath = IndexPath(row: 0, section: 1)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "using the gov.uk one login app")
+
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+    }
+    
+    func test_contactCell_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 1, section: 1)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "contact gov.uk one login")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+    }
+    
+    func test_privacyNoticeCell_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 0, section: 3)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "gov.uk one login privacy notice")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+    }
+    
+    func test_accessibilityCell_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 1, section: 3)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "accessibility statement")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+    }
+    
+    func test_signOut_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 0, section: 4)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "sign out")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
 }
 
