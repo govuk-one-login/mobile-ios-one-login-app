@@ -27,6 +27,9 @@ final class WebAuthenticationService: AuthenticationService {
             let userCancelEvent = ButtonEvent(textKey: "back")
             analyticsService.logEvent(userCancelEvent)
             throw error
+        } catch let error as LoginError where error == .accessDenied {
+            try sessionManager.clearAllSessionData()
+            throw error
         }
     }
     

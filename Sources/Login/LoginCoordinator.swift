@@ -87,13 +87,14 @@ final class LoginCoordinator: NSObject,
         loginTask = Task {
             do {
                 try await triggerAuthFlow()
-            } catch PersistentSessionError.sessionMismatch {
+            } catch PersistentSessionError.sessionMismatch,
+                    LoginError.accessDenied {
                 showDataDeletedWarningScreen()
             } catch PersistentSessionError.cannotDeleteData(let error) {
                 showUnableToLoginErrorScreen(error)
-            } catch let error as LoginError where error == .userCancelled {
+            } catch LoginError.userCancelled {
                 introViewController?.enableIntroButton()
-            } catch let error as LoginError where error == .network {
+            } catch LoginError.network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }

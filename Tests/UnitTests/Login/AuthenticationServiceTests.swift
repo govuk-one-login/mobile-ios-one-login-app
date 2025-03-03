@@ -39,7 +39,7 @@ final class AuthenticationServiceTests: XCTestCase {
 }
 
 extension AuthenticationServiceTests {
-    func test_loginError_userCancelled() async throws {
+    func test_loginError_userCancelled() async {
         mockSessionManager.errorFromStartSession = LoginError.userCancelled
         do {
             try await sut.startWebSession()
@@ -55,7 +55,21 @@ extension AuthenticationServiceTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], userCancelledEvent.parameters["text"])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
     }
-        
+    
+    func test_loginError_accessDenied() async {
+        mockSessionManager.errorFromStartSession = LoginError.accessDenied
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? LoginError else {
+                XCTFail("Error should be a LoginError")
+                return
+            }
+            XCTAssertTrue(error == .accessDenied)
+        }
+        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
+    }
+    
     @MainActor
     func test_handleUniversalLink_catchAllError() throws {
         mockLoginSession.errorFromFinalise = AuthenticationError.generic

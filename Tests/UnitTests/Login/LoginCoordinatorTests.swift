@@ -213,6 +213,19 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
+    func test_launchAuthenticationService_accessDenied() throws {
+        // GIVEN the authentication session returns a serverError error
+        mockSessionManager.errorFromStartSession = LoginError.accessDenied
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorViewController
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
+    }
+    
+    @MainActor
     func test_launchAuthenticationService_jwtFetchError() throws {
         // GIVEN the authentication session returns a unableToFetchJWKs error
         mockSessionManager.errorFromStartSession = JWTVerifierError.unableToFetchJWKs
