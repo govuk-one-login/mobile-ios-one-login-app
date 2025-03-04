@@ -29,8 +29,6 @@ extension AnalyticsService {
             switch appTaxonomy {
             case .reauth:
                 (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
-            case .settings:
-                (appTaxonomy.rawValue, "undefined")
             default:
                 (appTaxonomy.rawValue, "undefined")
             }
