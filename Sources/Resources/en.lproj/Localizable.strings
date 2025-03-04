@@ -188,6 +188,14 @@
 "app_yourServicesCardLink" = "Go to your services";
 
 
+// MARK: OneLogin Card content tile
+"app_oneLoginCardTitle" = "Using your GOV.UK One Login";
+
+"app_oneLoginCardBody" = "Sign in to your GOV.UK One Login and read about the services you can use with it.";
+
+"app_oneLoginCardLink" = "Go to the GOV.UK website";
+
+
 // MARK: App Unavailable Screen
 "app_appUnavailableTitle" = "Sorry, the app is unavailable";
 
