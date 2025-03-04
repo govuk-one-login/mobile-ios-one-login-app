@@ -23,7 +23,9 @@ final class TabbedViewControllerTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         let settings = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                             userProvider: mockSessionManager,
-                                            openSignOutPage: { },
+                                            openSignOutPage: {
+            self.didTapRow = true
+        },
                                             openDeveloperMenu: { })
         
         viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
@@ -61,10 +63,10 @@ extension TabbedViewControllerTests {
     
     func test_rowSelected() throws {
         XCTAssertFalse(didTapRow)
-        let indexPath = IndexPath(row: 1, section: 0)
+        let indexPath = IndexPath(row: 0, section: 4)
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
-        try XCTAssertTrue(sut.tabbedTableView.allowsSelection)
+        XCTAssertTrue(didTapRow)
     }
     
     func test_headerConfiguration() throws {
