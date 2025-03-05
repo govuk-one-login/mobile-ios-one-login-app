@@ -28,7 +28,6 @@ struct SettingsTabViewModel: TabbedViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    var isLoggedIn = false
     
     @MainActor
     init(analyticsService: AnalyticsService,
@@ -46,12 +45,10 @@ struct SettingsTabViewModel: TabbedViewModel {
     }
     
     func didAppear() {
-        if isLoggedIn {
-            let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
-                                    screen: SettingsAnalyticsScreen.settingsScreen,
-                                    titleKey: navigationTitle.stringKey)
-            analyticsService.trackScreen(screen)
-        }
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
+                                screen: SettingsAnalyticsScreen.settingsScreen,
+                                titleKey: navigationTitle.stringKey)
+        analyticsService.trackScreen(screen)
     }
     
     func didDismiss() { /* protocol conformance */ }

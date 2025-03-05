@@ -45,7 +45,6 @@ extension SettingsTabViewModelTests {
     }
     
     func test_didAppear() {
-        sut.isLoggedIn = true
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)

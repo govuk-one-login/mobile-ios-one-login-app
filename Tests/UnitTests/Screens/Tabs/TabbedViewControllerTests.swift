@@ -21,19 +21,11 @@ final class TabbedViewControllerTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
-        let settings = SettingsTabViewModel(analyticsService: mockAnalyticsService,
-                                            userProvider: mockSessionManager,
-                                            openSignOutPage: {
-            self.didTapRow = true
-        },
-                                            openDeveloperMenu: { })
         
-        viewModel = MockTabbedViewModel(analyticsService: mockAnalyticsService,
-                                        navigationTitle: "Test Navigation Title",
-                                        sectionModels: settings.sectionModels) {
-            self.didAppearCalled = true
-        }
-
+        viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                         userProvider: mockSessionManager,
+                                         openSignOutPage: { self.didTapRow = true },
+                                         openDeveloperMenu: { })
         sut = TabbedViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
                                    analyticsPreference: mockAnalyticsPreference)
@@ -79,12 +71,22 @@ extension TabbedViewControllerTests {
     }
     
     func test_cellConfiguration() throws {
-        let indexPath = IndexPath(row: 0, section: 0)
-        let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: indexPath)
+        let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
         let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
         XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
         XCTAssertEqual(cellConfig.textProperties.color, .label)
-        XCTAssertNotNil(cellConfig.secondaryText)
+        XCTAssertEqual(cellConfig.secondaryText, "")
+        XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
+        XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
+    }
+    
+    func test_cellConfiguration_updateEmail() throws {
+        mockSessionManager.user.send(MockUser())
+        let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
+        let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
+        XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
+        XCTAssertEqual(cellConfig.textProperties.color, .label)
+        XCTAssertEqual(cellConfig.secondaryText, "test@example.com")
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
         XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
     }
@@ -124,11 +126,6 @@ extension TabbedViewControllerTests {
         try sut.analyticsSwitch.sendActions(for: .valueChanged)
         
         XCTAssertEqual(mockAnalyticsPreference.hasAcceptedAnalytics, false)
-    }
-
-    func test_screenAnalytics() {
-        sut.screenAnalytics()
-        XCTAssertTrue(didAppearCalled)
     }
     
     func test_manageAccount_eventAnalytics() throws {
