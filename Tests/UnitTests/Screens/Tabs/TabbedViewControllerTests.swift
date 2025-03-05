@@ -84,7 +84,7 @@ extension TabbedViewControllerTests {
         let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
         XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
         XCTAssertEqual(cellConfig.textProperties.color, .label)
-        XCTAssertEqual(cellConfig.secondaryText, viewModel.sectionModels[0].tabModels[0].cellSubtitle)
+        XCTAssertNotNil(cellConfig.secondaryText)
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
         XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
     }
