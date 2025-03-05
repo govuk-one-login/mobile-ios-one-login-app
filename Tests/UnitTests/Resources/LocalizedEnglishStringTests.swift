@@ -184,15 +184,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Update GOV.UK One Login app")
     }
     
-    func test_yourServiceTile() {
-        XCTAssertEqual("app_yourServicesCardTitle".getEnglishString(),
-                       "Your services")
-        XCTAssertEqual("app_yourServicesCardBody".getEnglishString(),
-                       "See and access the services you’ve used with GOV.UK One Login.")
-        XCTAssertEqual("app_yourServicesCardLink".getEnglishString(),
-                       "Go to your services")
-    }
-    
     func test_oneLoginTile() {
         XCTAssertEqual("app_oneLoginCardTitle".getEnglishString(),
                        "Using your GOV.UK One Login")

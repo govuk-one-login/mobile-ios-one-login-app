@@ -177,6 +177,10 @@ extension AppEnvironment {
     static var govURLString: String {
         string(for: .govURLString)
     }
+    
+    static var yourServicesLink: String {
+        string(for: .yourServicesURL)
+    }
 }
 
 // MARK: - Settings Page URLs
@@ -256,22 +260,5 @@ extension AppEnvironment {
             .appendingPathExtension("app")
             .appendingPathExtension("uk.gov.digital-identity")
         // TODO: DCMAW-9819: Update to App ID
-    }
-}
-
-// MARK: - Content tile URLs
-
-extension AppEnvironment {
-    static var yourServicesURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = string(for: .yourServicesURL)
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/your-services"
-        return components.url!
-    }
-    
-    static var yourServicesLink: String {
-        string(for: .yourServicesURL)
     }
 }

@@ -180,14 +180,6 @@
 "app_updateAppButton" = "Update GOV.UK One Login app";
 
 
-// MARK: Your Services content tile
-"app_yourServicesCardTitle" = "Your services";
-
-"app_yourServicesCardBody" = "See and access the services you’ve used with GOV.UK One Login.";
-
-"app_yourServicesCardLink" = "Go to your services";
-
-
 // MARK: OneLogin Card content tile
 "app_oneLoginCardTitle" = "Using your GOV.UK One Login";
 

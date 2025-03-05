@@ -17,7 +17,6 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.appInfoURL.absoluteString, "https://mobile.staging.account.gov.uk/appInfo")
         XCTAssertEqual(sut.appStoreURL.absoluteString, "https://apps.apple.com")
         XCTAssertEqual(sut.appStore.absoluteString, "https://apps.apple.com/gb.app.uk.gov.digital-identity")
-        XCTAssertEqual(sut.yourServicesURL.absoluteString, "https://home.account.gov.uk/your-services?lng=en")
         XCTAssertEqual(sut.yourServicesLink, "home.account.gov.uk")
         XCTAssertEqual(sut.walletCredentialIssuer.absoluteString, "https://example-credential-issuer.mobile.staging.account.gov.uk")
         XCTAssertFalse(sut.isLocaleWelsh)

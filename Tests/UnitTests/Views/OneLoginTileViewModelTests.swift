@@ -56,9 +56,9 @@ extension OneLoginTileViewModelTests {
     
     func test_yourServices_viewModel() {
         let mockURLOpener = MockURLOpener()
-        let yourServicesTileViewModel: ServicesTileViewModel = .yourServices(analyticsService: mockAnalyticsService,
-                                                                             urlOpener: mockURLOpener)
-        yourServicesTileViewModel.secondaryButtonViewModel.action()
+        let oneLoginTileViewModel: OneLoginTileViewModel = .oneLoginCard(analyticsService: mockAnalyticsService,
+                                                                         urlOpener: mockURLOpener)
+        oneLoginTileViewModel.secondaryButtonViewModel.action()
         XCTAssertTrue(mockURLOpener.didOpenURL)
     }
 }

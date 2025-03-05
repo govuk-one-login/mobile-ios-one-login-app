@@ -179,14 +179,6 @@
 "app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
 
 
-// MARK: Your Services content tile
-"app_yourServicesCardTitle" = "Eich gwasanaethau";
-
-"app_yourServicesCardBody" = "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login";
-
-"app_yourServicesCardLink" = "Ewch i'ch gwasanaethau";
-
-
 //TODO: Update to Welsh strings
 // MARK: OneLogin Card content tile
 "app_oneLoginCardTitle" = "Using your GOV.UK One Login";
