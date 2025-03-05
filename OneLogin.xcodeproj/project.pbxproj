@@ -80,6 +80,7 @@
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
 		AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = AB327B102D36BEAD00AC169E /* CRIOrchestrator */; };
 		AB51B3752D771E9500348FB6 /* OneLoginTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51B3742D771E9500348FB6 /* OneLoginTileViewModel.swift */; };
+		AB51B3772D78824F00348FB6 /* OneLoginTileViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51B3762D78824F00348FB6 /* OneLoginTileViewModelTests.swift */; };
 		AB7B56242D6CD9A100193241 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = AB7B56232D6CD9A100193241 /* Wallet */; };
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
@@ -347,6 +348,7 @@
 		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
 		7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletSessionData+OneLogin.swift"; sourceTree = "<group>"; };
 		AB51B3742D771E9500348FB6 /* OneLoginTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginTileViewModel.swift; sourceTree = "<group>"; };
+		AB51B3762D78824F00348FB6 /* OneLoginTileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginTileViewModelTests.swift; sourceTree = "<group>"; };
 		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -906,8 +908,8 @@
 			isa = PBXGroup;
 			children = (
 				C80C58042CB001AB00021D4F /* ContentTileCell.swift */,
-				C80C58002CB0011C00021D4F /* ServicesTileViewModel.swift */,
 				AB51B3742D771E9500348FB6 /* OneLoginTileViewModel.swift */,
+				C80C58002CB0011C00021D4F /* ServicesTileViewModel.swift */,
 			);
 			path = ContentTile;
 			sourceTree = "<group>";
@@ -1408,6 +1410,7 @@
 			isa = PBXGroup;
 			children = (
 				C885C8952CB45EAD001BE99C /* ServicesTileViewModelTests.swift */,
+				AB51B3762D78824F00348FB6 /* OneLoginTileViewModelTests.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1892,7 +1895,6 @@
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
 				C8C343A62B9233FC00E92FB9 /* AnalyticsCenter.swift in Sources */,
 				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
-				AB51B3752D771E9500348FB6 /* OneLoginTileViewModel.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
@@ -1949,6 +1951,7 @@
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C836FDD32D64837E00F8AC37 /* OneLoginSecureStoreManager.swift in Sources */,
+				AB51B3752D771E9500348FB6 /* OneLoginTileViewModel.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
 				C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
@@ -2010,6 +2013,7 @@
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
+				AB51B3772D78824F00348FB6 /* OneLoginTileViewModelTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* FaceIDEnrolmentViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
