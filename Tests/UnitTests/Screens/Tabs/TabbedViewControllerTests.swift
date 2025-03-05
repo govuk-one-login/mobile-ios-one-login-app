@@ -11,17 +11,16 @@ final class TabbedViewControllerTests: XCTestCase {
     private var mockSessionManager: MockSessionManager!
     private var viewModel: TabbedViewModel!
     private var sut: TabbedViewController!
-
+    
     private var didTapRow = false
     private var didAppearCalled = false
-
+    
     override func setUp() {
         super.setUp()
-
+        
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
-        
         viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                          userProvider: mockSessionManager,
                                          openSignOutPage: { self.didTapRow = true },
@@ -33,6 +32,7 @@ final class TabbedViewControllerTests: XCTestCase {
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockAnalyticsPreference = nil
         mockSessionManager = nil
         viewModel = nil
         sut = nil
@@ -101,22 +101,18 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(headerLabel.textColor, .secondaryLabel)
         XCTAssertTrue(headerLabel.adjustsFontForContentSizeCategory)
     }
-
-    @MainActor
-    func test_updateUser() {
-        let viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
-                                             userProvider: mockSessionManager,
-                                             openSignOutPage: { },
-                                             openDeveloperMenu: { })
-        sut = TabbedViewController(viewModel: viewModel,
-                                   userProvider: mockSessionManager,
-                                   analyticsPreference: mockAnalyticsPreference)
-        // GIVEN I am not logged in
-        XCTAssertEqual(viewModel.sectionModels[0].tabModels[0].cellSubtitle, "")
-        // WHEN the user is updated
-        mockSessionManager.user.send(MockUser())
-        // THEN my email is displayed
-        XCTAssertEqual(viewModel.sectionModels[0].tabModels[0].cellSubtitle, "test@example.com")
+    
+    func test_screenAnalytics() {
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
+                                screen: SettingsAnalyticsScreen.settingsScreen,
+                                titleKey: "app_settingsTitle")
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_updateAnalytics() throws {
@@ -135,9 +131,12 @@ extension TabbedViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
+        let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
+                              linkDomain: "https://www.gov.uk/using-your-gov-uk-one-login",
+                              external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "your gov.uk one login")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
@@ -149,9 +148,12 @@ extension TabbedViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "using the gov.uk one login app")
-
+        let event = LinkEvent(textKey: "app_appGuidanceLink",
+                              linkDomain: AppEnvironment.appHelpURL.absoluteString,
+                              external: .false)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
@@ -163,9 +165,12 @@ extension TabbedViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
+        let event = LinkEvent(textKey: "app_contactLink",
+                              linkDomain: AppEnvironment.contactURL.absoluteString,
+                              external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "contact gov.uk one login")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
@@ -177,9 +182,12 @@ extension TabbedViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
+        let event = LinkEvent(textKey: "app_privacyNoticeLink2",
+                              linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
+                              external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "gov.uk one login privacy notice")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
@@ -191,9 +199,11 @@ extension TabbedViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "accessibility statement")
+        let event = LinkEvent(textKey: "app_accessibilityStatement",
+                              linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
+                              external: .false)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
@@ -205,9 +215,9 @@ extension TabbedViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, ["navigation"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], "sign out")
+        let event = ButtonEvent(textKey: "app_signOutButton")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
