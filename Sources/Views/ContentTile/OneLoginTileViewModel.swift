@@ -15,7 +15,7 @@ struct OneLoginTileViewModel: GDSContentTileViewModel,
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
         let event = LinkEvent(textKey: "app_oneLoginCardLink",
-                              linkDomain: AppEnvironment.manageAccountURL.absoluteString.getEnglishString(),
+                              linkDomain: "https://gov.uk/using-your-gov-uk-one-login",
                               external: .false)
         self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_oneLoginCardLink",
                                                                  icon: .external,
@@ -34,10 +34,3 @@ extension GDSContentTileViewModel where Self == OneLoginTileViewModel {
         }
     }
 }
-
-extension String {
-    func getEnglishString() -> String {
-        return NSLocalizedString(key: self, tableName: "en.lproj/Localizable", comment: "")
-    }
-}
- 

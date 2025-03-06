@@ -54,7 +54,7 @@ extension OneLoginTileViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_yourServices_viewModel() {
+    func test_oneLogin_viewModel() {
         let mockURLOpener = MockURLOpener()
         let oneLoginTileViewModel: OneLoginTileViewModel = .oneLoginCard(analyticsService: mockAnalyticsService,
                                                                          urlOpener: mockURLOpener)
