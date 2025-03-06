@@ -7,11 +7,15 @@ import UIKit
 struct SettingsTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_settingsTitle"
     var sectionModels: [TabbedViewSectionModel] { [.manageDetails(urlOpener: urlOpener,
-                                                                  userEmail: userProvider.user.value?.email ?? ""),
-                                                   .help(urlOpener: urlOpener),
+                                                                  userEmail: userProvider.user.value?.email ?? "",
+                                                                  analyticsService: analyticsService),
+                                                   .help(urlOpener: urlOpener,
+                                                         analyticsService: analyticsService),
                                                    .analyticsToggle(),
-                                                   .notices(urlOpener: urlOpener),
-                                                   .signOutSection(action: openSignOutPage),
+                                                   .notices(urlOpener: urlOpener,
+                                                            analyticsService: analyticsService),
+                                                   .signOutSection(analyticsService: analyticsService,
+                                                                   action: openSignOutPage),
                                                    .developer(action: openDeveloperMenu)]
     }
     
@@ -24,7 +28,6 @@ struct SettingsTabViewModel: TabbedViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    var isLoggedIn = false
     
     @MainActor
     init(analyticsService: AnalyticsService,
@@ -42,12 +45,10 @@ struct SettingsTabViewModel: TabbedViewModel {
     }
     
     func didAppear() {
-        if isLoggedIn {
-            let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
-                                    screen: SettingsAnalyticsScreen.settingsScreen,
-                                    titleKey: navigationTitle.stringKey)
-            analyticsService.trackScreen(screen)
-        }
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
+                                screen: SettingsAnalyticsScreen.settingsScreen,
+                                titleKey: navigationTitle.stringKey)
+        analyticsService.trackScreen(screen)
     }
     
     func didDismiss() { /* protocol conformance */ }

@@ -73,10 +73,6 @@ final class TabbedViewController: BaseViewController {
         analyticsPreference.hasAcceptedAnalytics?.toggle()
     }
     
-    func screenAnalytics() {
-        viewModel.didAppear()
-    }
-    
     private func configureTableView() {
         tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
         tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
