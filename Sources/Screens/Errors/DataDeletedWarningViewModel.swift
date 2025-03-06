@@ -6,7 +6,7 @@ struct DataDeletedWarningViewModel: GDSErrorViewModelV2,
                                     GDSErrorViewModelWithImage,
                                     BaseViewModel {
     let image: String = "exclamationmark.circle"
-    var title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
+    let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
     
     var body: GDSLocalisedString {
         if WalletAvailabilityService.shouldShowFeature {
