@@ -19,7 +19,7 @@ extension TabbedViewSectionModel {
                                                         accessoryView: linkDisclosureArrow) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
             let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
-                                  linkDomain: "https://www.gov.uk/using-your-gov-uk-one-login",
+                                  linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                                   external: .false)
             analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)

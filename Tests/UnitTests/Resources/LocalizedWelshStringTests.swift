@@ -184,14 +184,14 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Diweddaru Ap GOV.UK One Login")
     }
     
-    func test_yourServiceTile() {
-        XCTAssertEqual("app_yourServicesCardTitle".getWelshString(),
-                       "Eich gwasanaethau")
-        XCTAssertEqual("app_yourServicesCardBody".getWelshString(),
-                       "Gweld a chael mynediad at y gwasanaethau rydych wedi'u defnyddio gyda GOV.UK One Login")
-        XCTAssertEqual("app_yourServicesCardLink".getWelshString(),
-                       "Ewch i'ch gwasanaethau")
-    }
+    func test_oneLoginTile() {
+            XCTAssertEqual("app_oneLoginCardTitle".getWelshString(),
+                           "Using your GOV.UK One Login")
+            XCTAssertEqual("app_oneLoginCardBody".getWelshString(),
+                           "Sign in to your GOV.UK One Login and read about the services you can use with it.")
+            XCTAssertEqual("app_oneLoginCardLink".getWelshString(),
+                           "Go to the GOV.UK website")
+        }
     
     func test_appUnavailablePageKeys() {
         XCTAssertEqual("app_appUnavailableTitle".getWelshString(),

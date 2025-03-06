@@ -59,7 +59,7 @@ extension HomeViewController {
         switch indexPath.section {
         case 0:
             let cell = ContentTileCell()
-            cell.viewModel = .yourServices(analyticsService: analyticsService,
+            cell.viewModel = .oneLoginCard(analyticsService: analyticsService,
                                            urlOpener: UIApplication.shared)
             return cell
         case 1:

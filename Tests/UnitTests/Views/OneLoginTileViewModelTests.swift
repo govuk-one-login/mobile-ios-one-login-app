@@ -4,9 +4,9 @@ import GDSCommon
 import XCTest
 
 @MainActor
-final class ServicesTileViewModelTests: XCTestCase {
+final class OneLoginTileViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: ServicesTileViewModel!
+    var sut: OneLoginTileViewModel!
     
     var didCallButtonAction = false
     
@@ -14,7 +14,7 @@ final class ServicesTileViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = ServicesTileViewModel(analyticsService: mockAnalyticsService) {
+        sut = OneLoginTileViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -29,12 +29,12 @@ final class ServicesTileViewModelTests: XCTestCase {
     }
 }
 
-extension ServicesTileViewModelTests {
+extension OneLoginTileViewModelTests {
     func test_view_contents() throws {
-        XCTAssertEqual(sut.title.stringKey, "app_yourServicesCardTitle")
-        XCTAssertEqual(sut.body.stringKey, "app_yourServicesCardBody")
+        XCTAssertEqual(sut.title.value, "Using your GOV.UK One Login")
+        XCTAssertEqual(sut.body.value, "Sign in to your GOV.UK One Login and read about the services you can use with it.")
         XCTAssertTrue(sut.secondaryButtonViewModel is AnalyticsButtonViewModel)
-        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_yourServicesCardLink")
+        XCTAssertEqual(sut.secondaryButtonViewModel.title.value, "Go to the GOV.UK website")
         XCTAssertEqual(sut.secondaryButtonViewModel.icon?.iconName, ButtonIcon.arrowUpRight)
         XCTAssertEqual(sut.secondaryButtonViewModel.icon?.symbolPosition, .afterTitle)
         XCTAssertTrue(sut.showSeparatorLine)
@@ -47,18 +47,18 @@ extension ServicesTileViewModelTests {
         sut.secondaryButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = LinkEvent(textKey: "app_yourServicesCardLink",
-                              linkDomain: AppEnvironment.yourServicesLink,
+        let event = LinkEvent(textKey: "app_oneLoginCardLink",
+                              linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_yourServices_viewModel() {
+    func test_oneLogin_viewModel() {
         let mockURLOpener = MockURLOpener()
-        let yourServicesTileViewModel: ServicesTileViewModel = .yourServices(analyticsService: mockAnalyticsService,
-                                                                             urlOpener: mockURLOpener)
-        yourServicesTileViewModel.secondaryButtonViewModel.action()
+        let oneLoginTileViewModel: OneLoginTileViewModel = .oneLoginCard(analyticsService: mockAnalyticsService,
+                                                                         urlOpener: mockURLOpener)
+        oneLoginTileViewModel.secondaryButtonViewModel.action()
         XCTAssertTrue(mockURLOpener.didOpenURL)
     }
 }

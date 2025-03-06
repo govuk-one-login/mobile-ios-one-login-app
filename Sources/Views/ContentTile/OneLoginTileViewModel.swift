@@ -3,21 +3,21 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct ServicesTileViewModel: GDSContentTileViewModel,
+struct OneLoginTileViewModel: GDSContentTileViewModel,
                               GDSContentTileViewModelWithBody,
                               GDSContentTileViewModelWithSecondaryButton {
-    let title: GDSLocalisedString = "app_yourServicesCardTitle"
-    let body: GDSLocalisedString = "app_yourServicesCardBody"
+    let title: GDSLocalisedString = "app_oneLoginCardTitle"
+    let body: GDSLocalisedString = "app_oneLoginCardBody"
     let showSeparatorLine: Bool = true
     let secondaryButtonViewModel: ButtonViewModel
     let backgroundColour: UIColor? = .secondarySystemGroupedBackground
     
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
-        let event = LinkEvent(textKey: "app_yourServicesCardLink",
-                              linkDomain: AppEnvironment.yourServicesLink,
+        let event = LinkEvent(textKey: "app_oneLoginCardLink",
+                              linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                               external: .false)
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_yourServicesCardLink",
+        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_oneLoginCardLink",
                                                                  icon: .external,
                                                                  analyticsService: analyticsService,
                                                                  analyticsEvent: event) {
@@ -26,12 +26,11 @@ struct ServicesTileViewModel: GDSContentTileViewModel,
     }
 }
 
-extension GDSContentTileViewModel where Self == ServicesTileViewModel {
-    static func yourServices(analyticsService: AnalyticsService,
-                             urlOpener: URLOpener) -> ServicesTileViewModel {
-        ServicesTileViewModel(analyticsService: analyticsService) {
-            urlOpener.open(url: AppEnvironment.yourServicesURL)
+extension GDSContentTileViewModel where Self == OneLoginTileViewModel {
+    static func oneLoginCard(analyticsService: AnalyticsService,
+                             urlOpener: URLOpener) -> OneLoginTileViewModel {
+        OneLoginTileViewModel(analyticsService: analyticsService) {
+            urlOpener.open(url: AppEnvironment.manageAccountURL)
         }
     }
 }
- 

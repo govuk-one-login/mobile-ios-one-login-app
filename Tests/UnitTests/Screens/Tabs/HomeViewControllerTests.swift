@@ -61,7 +61,7 @@ extension HomeViewControllerTests {
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
-        XCTAssertTrue(servicesTile?.viewModel is ServicesTileViewModel)
+        XCTAssertTrue(servicesTile?.viewModel is OneLoginTileViewModel)
     }
     
     func test_idCheckTileCell_isVisible() {
