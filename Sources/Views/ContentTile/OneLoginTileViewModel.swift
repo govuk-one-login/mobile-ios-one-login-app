@@ -15,7 +15,7 @@ struct OneLoginTileViewModel: GDSContentTileViewModel,
     init(analyticsService: AnalyticsService,
          action: @escaping () -> Void) {
         let event = LinkEvent(textKey: "app_oneLoginCardLink",
-                              linkDomain: "https://gov.uk/using-your-gov-uk-one-login",
+                              linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                               external: .false)
         self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_oneLoginCardLink",
                                                                  icon: .external,

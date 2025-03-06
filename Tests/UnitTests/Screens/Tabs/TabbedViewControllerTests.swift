@@ -132,7 +132,7 @@ extension TabbedViewControllerTests {
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
         let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
-                              linkDomain: "https://www.gov.uk/using-your-gov-uk-one-login",
+                              linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])

@@ -48,7 +48,7 @@ extension OneLoginTileViewModelTests {
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = LinkEvent(textKey: "app_oneLoginCardLink",
-                              linkDomain: AppEnvironment.manageAccountURL.absoluteString,
+                              linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
