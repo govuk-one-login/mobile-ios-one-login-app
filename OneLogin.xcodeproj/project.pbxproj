@@ -629,10 +629,10 @@
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
-				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
-				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
 				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
+				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
+				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1352,8 +1352,8 @@
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
-				C8DA2C652D73DAC300EBBE3E /* Entitlements */,
 				7C0CCECD2C8A12A500F61C11 /* Configuration */,
+				C8DA2C652D73DAC300EBBE3E /* Entitlements */,
 				C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */,
 				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 				C8BACAFE2B4DE1C300530419 /* Flag.swift */,
@@ -1451,10 +1451,10 @@
 		C8DA2C652D73DAC300EBBE3E /* Entitlements */ = {
 			isa = PBXGroup;
 			children = (
-				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
 				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
-				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
+				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
 				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
+				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
 			);
 			path = Entitlements;
 			sourceTree = "<group>";
