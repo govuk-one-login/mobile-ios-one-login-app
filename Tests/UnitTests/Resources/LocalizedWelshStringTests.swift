@@ -171,6 +171,9 @@ final class LocalizedWelshStringTests: XCTestCase {
     }
     
     func test_dataDeletedWarningPageKeys() {
+        XCTAssertEqual("app_dataDeletionWarningTitle".getWelshString(),
+                       "Mae rhywbeth wedi mynd o'i le")
+        
         XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
                        "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich GOV.UK Wallet wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich GOV.UK  Wallet.")
         

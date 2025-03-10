@@ -33,7 +33,7 @@ extension DataDeletedWarningViewModelTests {
         )
         
         XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.stringKey, "app_somethingWentWrongErrorTitle")
+        XCTAssertEqual(sut.title.stringKey, "app_dataDeletionWarningTitle")
         XCTAssertEqual(sut.body, "app_dataDeletionWarningBodyNoWallet")
         XCTAssertNil(sut.secondaryButtonViewModel)
         XCTAssertNil(sut.rightBarButtonTitle)
@@ -48,7 +48,7 @@ extension DataDeletedWarningViewModelTests {
         )
         
         XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.stringKey, "app_somethingWentWrongErrorTitle")
+        XCTAssertEqual(sut.title.stringKey, "app_dataDeletionWarningTitle")
         XCTAssertEqual(sut.body, "app_dataDeletionWarningBody")
         XCTAssertNil(sut.secondaryButtonViewModel)
         XCTAssertNil(sut.rightBarButtonTitle)

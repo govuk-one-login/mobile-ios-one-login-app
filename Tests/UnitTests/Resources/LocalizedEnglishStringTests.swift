@@ -170,12 +170,13 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "It’s been more than 30 minutes since you last signed in to the GOV.UK One Login app.\n\nSign in again to continue.")
     }
     
-    func test_dataDeletedWarningNoWalletPageKeys() {
+    func test_dataDeletedWarningPageKeys() {
+        XCTAssertEqual("app_dataDeletionWarningTitle".getEnglishString(),
+                       "Something went wrong")
+        
         XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getEnglishString(),
                        "We could not confirm your sign in details.\n\nTo keep your information secure, your preference for using Touch ID or Face ID to unlock the app has been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")
-    }
-    
-    func test_dataDeletedWarningPageKeys() {
+        
         XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
                        "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your GOV.UK Wallet have been removed and your app preferences have been reset.\n\nYou need to sign in again and set your preferences again to continue using the app. You’ll then be able to add documents to you GOV.UK Wallet.")
     }

@@ -167,6 +167,9 @@
 
 "app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap GOV.UK  One Login.\n\nMewngofnodwch eto i barhau.";
 
+// MARK: Data DeletionWarning screen
+// English title is same as generic but need a different key for welsh
+"app_dataDeletionWarningTitle" = "Mae rhywbeth wedi mynd o'i le";
 
 // MARK: Data DeletionWarning No Wallet screen
 "app_dataDeletionWarningBodyNoWallet" = "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
