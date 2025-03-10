@@ -6,8 +6,16 @@ struct DataDeletedWarningViewModel: GDSErrorViewModelV2,
                                     GDSErrorViewModelWithImage,
                                     BaseViewModel {
     let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
-    let body: GDSLocalisedString = "app_dataDeletionWarningBody"
+    let title: GDSLocalisedString = "app_dataDeletionWarningTitle"
+    
+    var body: GDSLocalisedString {
+        if WalletAvailabilityService.shouldShowFeature {
+            GDSLocalisedString(stringLiteral: "app_dataDeletionWarningBody")
+        } else {
+            GDSLocalisedString(stringLiteral: "app_dataDeletionWarningBodyNoWallet")
+        }
+    }
+    
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     
@@ -15,7 +23,7 @@ struct DataDeletedWarningViewModel: GDSErrorViewModelV2,
     let backButtonIsHidden: Bool = true
     
     init(action: @escaping () -> Void) {
-        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_extendedSignInButton") {
+        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_signInButton") {
             action()
         }
     }
