@@ -23,8 +23,8 @@ struct SettingsTabViewModel: TabbedViewModel {
     let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
     private let userProvider: UserProvider
-    private let openDeveloperMenu: () -> Void
-    private let openSignOutPage: () -> Void
+    let openDeveloperMenu: () -> Void
+    let openSignOutPage: () -> Void
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
