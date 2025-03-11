@@ -14,8 +14,8 @@ import UIKit
 @MainActor
 final class TabManagerCoordinator: NSObject,
                                    AnyCoordinator,
-                                   TabCoordinatorV2,
-                                   ChildCoordinator {
+                                   ChildCoordinator,
+                                   TabCoordinatorV2 {
     private let appWindow: UIWindow
     let root: UITabBarController
     weak var parentCoordinator: ParentCoordinator?
@@ -74,7 +74,7 @@ final class TabManagerCoordinator: NSObject,
     
     private func addWalletTab() {
         let wc = WalletCoordinator(window: appWindow,
-                                   analyticsCenter: analyticsCenter,
+                                   analyticsService: analyticsCenter.analyticsService,
                                    networkClient: networkClient,
                                    sessionManager: sessionManager)
         addTab(wc)
@@ -85,11 +85,10 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addSettingsTab() {
-        let pc = SettingsCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                    sessionManager: sessionManager,
-                                    networkClient: networkClient,
-                                    urlOpener: UIApplication.shared,
-                                    analyticsPreference: analyticsCenter.analyticsPreferenceStore)
+        let pc = SettingsCoordinator(analyticsCenter: analyticsCenter,
+                                     sessionManager: sessionManager,
+                                     networkClient: networkClient,
+                                     urlOpener: UIApplication.shared)
         addTab(pc)
     }
 }

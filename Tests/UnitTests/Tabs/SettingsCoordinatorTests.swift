@@ -9,6 +9,7 @@ final class SettingsCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
+    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
@@ -16,18 +17,19 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
+        
         window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference =  MockAnalyticsPreferenceStore()
+        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                  analyticsPreferenceStore: mockAnalyticsPreference)
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                 sessionManager: mockSessionManager,
-                                 networkClient: mockNetworkClient,
-                                 urlOpener: urlOpener,
-                                 analyticsPreference: mockAnalyticsPreference)
+        sut = SettingsCoordinator(analyticsCenter: mockAnalyticsCenter,
+                                  sessionManager: mockSessionManager,
+                                  networkClient: mockNetworkClient,
+                                  urlOpener: urlOpener)
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
@@ -35,6 +37,8 @@ final class SettingsCoordinatorTests: XCTestCase {
     override func tearDown() {
         window = nil
         mockAnalyticsService = nil
+        mockAnalyticsPreference = nil
+        mockAnalyticsCenter = nil
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil

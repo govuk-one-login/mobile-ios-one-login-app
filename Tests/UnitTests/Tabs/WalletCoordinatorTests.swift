@@ -6,8 +6,6 @@ import XCTest
 final class WalletCoordinatorTests: XCTestCase {
     var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: AnalyticsCentral!
     var mockSessionManager: MockSessionManager!
     var sut: WalletCoordinator!
     
@@ -16,12 +14,9 @@ final class WalletCoordinatorTests: XCTestCase {
 
         window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         sut = WalletCoordinator(window: window,
-                                analyticsCenter: mockAnalyticsCenter,
+                                analyticsService: mockAnalyticsService,
                                 networkClient: NetworkClient(),
                                 sessionManager: mockSessionManager)
     }
@@ -29,8 +24,6 @@ final class WalletCoordinatorTests: XCTestCase {
     override func tearDown() {
         window = nil
         mockAnalyticsService = nil
-        mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCenter = nil
         mockSessionManager = nil
         sut = nil
         

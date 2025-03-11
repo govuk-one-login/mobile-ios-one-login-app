@@ -15,42 +15,39 @@ final class SettingsCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
 
-    private var analyticsService: AnalyticsService
+    private let analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager & UserProvider
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
-    private let analyticsPreference: AnalyticsPreferenceStore
         
-    init(analyticsService: AnalyticsService,
+    init(analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
-         urlOpener: URLOpener,
-         analyticsPreference: AnalyticsPreferenceStore) {
-        self.analyticsService = analyticsService
+         urlOpener: URLOpener) {
+        self.analyticsCenter = analyticsCenter
         self.sessionManager = sessionManager
         self.networkClient = networkClient
         self.urlOpener = urlOpener
-        self.analyticsPreference = analyticsPreference
     }
     
     func start() {
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
                                        image: UIImage(systemName: "gearshape"),
                                        tag: 2)
-        let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
+        let viewModel = SettingsTabViewModel(analyticsService: analyticsCenter.analyticsService,
                                              userProvider: sessionManager,
                                              openSignOutPage: openSignOutPage,
                                              openDeveloperMenu: openDeveloperMenu)
         let settingsViewController = TabbedViewController(viewModel: viewModel,
                                                           userProvider: sessionManager,
-                                                          analyticsPreference: analyticsPreference)
+                                                          analyticsPreference: analyticsCenter.analyticsPreferenceStore)
         root.setViewControllers([settingsViewController], animated: true)
     }
     
     func didBecomeSelected() {
-        analyticsService.setAdditionalParameters(appTaxonomy: .settings)
+        analyticsCenter.analyticsService.setAdditionalParameters(appTaxonomy: .settings)
         let event = IconEvent(textKey: "app_settingsTitle")
-        analyticsService.logEvent(event)
+        analyticsCenter.analyticsService.logEvent(event)
     }
     
     func openSignOutPage() {
@@ -65,12 +62,12 @@ final class SettingsCoordinator: NSObject,
         navController: UINavigationController
     ) -> GDSInstructionsViewModel {
         WalletAvailabilityService.hasAccessedBefore ?
-        WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+        WalletSignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 finish()
             }
         }
-        : SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+        : SignOutPageViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 finish()
             }
