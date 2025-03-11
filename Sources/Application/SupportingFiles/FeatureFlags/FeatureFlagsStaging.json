@@ -21,6 +21,6 @@
     },
     {
         "name": "EnableCRIOrchestrator",
-        "isEnabled": true
+        "isEnabled": false
     }
 ]
