@@ -1,9 +1,7 @@
 import GDSAnalytics
 import GDSCommon
-import MobilePlatformServices
 import Networking
 @testable import OneLogin
-import SecureStore
 import XCTest
 
 final class TabManagerCoordinatorTests: XCTestCase {

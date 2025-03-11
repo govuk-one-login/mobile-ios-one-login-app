@@ -1,10 +1,7 @@
 import Coordination
 import GDSAnalytics
 import GDSCommon
-import LocalAuthentication
-import Logging
 import Networking
-import SecureStore
 import UIKit
 import Wallet
 
