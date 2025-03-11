@@ -6,24 +6,25 @@ import UIKit
 @MainActor
 struct SettingsTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_settingsTitle"
-    var sectionModels: [TabbedViewSectionModel] { [.manageDetails(urlOpener: urlOpener,
-                                                                  userEmail: userProvider.user.value?.email ?? "",
-                                                                  analyticsService: analyticsService),
-                                                   .help(urlOpener: urlOpener,
-                                                         analyticsService: analyticsService),
-                                                   .analyticsToggle(),
-                                                   .notices(urlOpener: urlOpener,
-                                                            analyticsService: analyticsService),
-                                                   .signOutSection(analyticsService: analyticsService,
-                                                                   action: openSignOutPage),
-                                                   .developer(action: openDeveloperMenu)]
-    }
+    var sectionModels: [TabbedViewSectionModel] {[
+        .manageDetails(urlOpener: urlOpener,
+                       userEmail: userProvider.user.value?.email ?? "",
+                       analyticsService: analyticsService),
+        .help(urlOpener: urlOpener,
+              analyticsService: analyticsService),
+        .analyticsToggle(),
+        .notices(urlOpener: urlOpener,
+                 analyticsService: analyticsService),
+        .signOutSection(analyticsService: analyticsService,
+                        action: openSignOutPage),
+        .developer(action: openDeveloperMenu)
+    ]}
     
     let analyticsService: AnalyticsService
     private let urlOpener: URLOpener
     private let userProvider: UserProvider
-    let openDeveloperMenu: () -> Void
-    let openSignOutPage: () -> Void
+    private let openDeveloperMenu: () -> Void
+    private let openSignOutPage: () -> Void
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true

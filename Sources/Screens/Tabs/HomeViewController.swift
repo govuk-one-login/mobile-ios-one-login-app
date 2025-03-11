@@ -6,17 +6,15 @@ import Networking
 import UIKit
 
 final class HomeViewController: UITableViewController {
-    let analyticsService: AnalyticsService
-    let networkClient: NetworkClient
-    let criOrchestrator: CRIOrchestrator
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
+    private var analyticsService: AnalyticsService
+    private let networkClient: NetworkClient
+    private let criOrchestrator: CRIOrchestrator
 
     init(analyticsService: AnalyticsService,
          networkClient: NetworkClient,
          criOrchestrator: CRIOrchestrator) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .home)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.criOrchestrator = criOrchestrator
         super.init(style: .insetGrouped)
@@ -39,6 +37,7 @@ final class HomeViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        analyticsService.setAdditionalParameters(appTaxonomy: .home)
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: navigationTitle.stringKey)
