@@ -1,4 +1,5 @@
 import Coordination
+import GDSAnalytics
 import GDSCommon
 import LocalAuthentication
 import Logging
@@ -11,11 +12,12 @@ import UIKit
 final class SettingsCoordinator: NSObject,
                                 AnyCoordinator,
                                 ChildCoordinator,
-                                NavigationCoordinator {
+                                NavigationCoordinator,
+                                TabItemCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
 
-    private let analyticsService: AnalyticsService
+    private var analyticsService: AnalyticsService
     private let sessionManager: SessionManager & UserProvider
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
@@ -45,6 +47,12 @@ final class SettingsCoordinator: NSObject,
                                                           userProvider: sessionManager,
                                                           analyticsPreference: analyticsPreference)
         root.setViewControllers([settingsViewController], animated: true)
+    }
+    
+    func didBecomeSelected() {
+        analyticsService.setAdditionalParameters(appTaxonomy: .settings)
+        let event = IconEvent(textKey: "app_settingsTitle")
+        analyticsService.logEvent(event)
     }
     
     func openSignOutPage() {

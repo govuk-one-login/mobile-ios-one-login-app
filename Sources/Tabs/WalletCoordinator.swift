@@ -1,4 +1,5 @@
 import Coordination
+import GDSAnalytics
 import GDSCommon
 import LocalAuthentication
 import Logging
@@ -11,7 +12,8 @@ import Wallet
 final class WalletCoordinator: NSObject,
                                AnyCoordinator,
                                ChildCoordinator,
-                               NavigationCoordinator {
+                               NavigationCoordinator,
+                               TabItemCoordinator {
     private let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
@@ -39,6 +41,12 @@ final class WalletCoordinator: NSObject,
                         analyticsService: analyticsCenter.analyticsService,
                         localAuthService: DummyLocalAuthService(),
                         credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString)
+    }
+    
+    func didBecomeSelected() {
+        analyticsCenter.analyticsService.setAdditionalParameters(appTaxonomy: .wallet)
+        let event = IconEvent(textKey: "app_walletTitle")
+        analyticsCenter.analyticsService.logEvent(event)
     }
     
     func handleUniversalLink(_ url: URL) {

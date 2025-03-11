@@ -1,5 +1,6 @@
 import Coordination
 import CRIOrchestrator
+import GDSAnalytics
 import GDSCommon
 import Logging
 import Networking
@@ -9,10 +10,11 @@ import UIKit
 final class HomeCoordinator: NSObject,
                              AnyCoordinator,
                              ChildCoordinator,
-                             NavigationCoordinator {
+                             NavigationCoordinator,
+                             TabItemCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    private let analyticsService: AnalyticsService
+    private var analyticsService: AnalyticsService
     private let networkClient: NetworkClient
     
     init(analyticsService: AnalyticsService,
@@ -31,5 +33,11 @@ final class HomeCoordinator: NSObject,
                                     networkClient: networkClient,
                                     criOrchestrator: criOrchestrator)
         root.setViewControllers([hc], animated: true)
+    }
+    
+    func didBecomeSelected() {
+        analyticsService.setAdditionalParameters(appTaxonomy: .home)
+        let event = IconEvent(textKey: "app_homeTitle")
+        analyticsService.logEvent(event)
     }
 }

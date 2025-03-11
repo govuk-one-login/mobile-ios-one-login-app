@@ -61,8 +61,6 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is SettingsCoordinator)
-        // AND the root's delegate is the TabManagerCoordinator
-        XCTAssertTrue(sut.root.delegate === sut)
     }
     
     @MainActor
@@ -76,8 +74,6 @@ extension TabManagerCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is SettingsCoordinator)
-        // THEN the root's delegate is the TabManagerCoordinator
-        XCTAssertTrue(sut.root.delegate === sut)
     }
     
     @MainActor
@@ -95,7 +91,7 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.home.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -115,7 +111,7 @@ extension TabManagerCoordinatorTests {
         let iconEvent = IconEvent(textKey: "wallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.wallet.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -133,7 +129,7 @@ extension TabManagerCoordinatorTests {
         let iconEvent = IconEvent(textKey: "settings")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     

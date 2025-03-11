@@ -18,7 +18,7 @@ import UIKit
 @MainActor
 final class TabManagerCoordinator: NSObject,
                                    AnyCoordinator,
-                                   TabCoordinator,
+                                   TabCoordinatorV2,
                                    ChildCoordinator {
     private let appWindow: UIWindow
     let root: UITabBarController
@@ -28,16 +28,10 @@ final class TabManagerCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     
-    private var homeCoordinator: HomeCoordinator? {
-        childCoordinators.firstInstanceOf(HomeCoordinator.self)
-    }
+    lazy var delegate: TabCoordinatorDelegate? = TabCoordinatorDelegate(coordinator: self)
     
     private var walletCoordinator: WalletCoordinator? {
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
-    }
-    
-    private var settingsCoordinator: SettingsCoordinator? {
-        childCoordinators.firstInstanceOf(SettingsCoordinator.self)
     }
     
     init(appWindow: UIWindow,
@@ -53,7 +47,6 @@ final class TabManagerCoordinator: NSObject,
     }
     
     func start() {
-        root.delegate = self
         addTabs()
         subscribe()
     }
@@ -68,9 +61,7 @@ final class TabManagerCoordinator: NSObject,
         root.selectedIndex = 1
         walletCoordinator?.handleUniversalLink(url)
     }
-}
-
-extension TabManagerCoordinator {
+    
     private func addTabs() {
         addHomeTab()
         if WalletAvailabilityService.shouldShowFeature {
@@ -104,28 +95,6 @@ extension TabManagerCoordinator {
                                     urlOpener: UIApplication.shared,
                                     analyticsPreference: analyticsCenter.analyticsPreferenceStore)
         addTab(pc)
-    }
-}
-
-extension TabManagerCoordinator: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController,
-                          didSelect viewController: UIViewController) {
-        var event: IconEvent? {
-            switch viewController.tabBarItem.tag {
-            case 0:
-                .init(textKey: "app_homeTitle")
-            case 1:
-                .init(textKey: "app_walletTitle")
-            case 2:
-                .init(textKey: "app_settingsTitle")
-            default:
-                nil
-            }
-        }
-        if let event {
-            analyticsCenter.analyticsService.setAdditionalParameters(appTaxonomy: .login)
-            analyticsCenter.analyticsService.logEvent(event)
-        }
     }
 }
 
