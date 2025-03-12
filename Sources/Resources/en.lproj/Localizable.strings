@@ -19,6 +19,12 @@
 
 "app_exitButton" = "Exit";
 
+// MARK: Accessibility - voiceover additions
+
+"app_externalBrowser" = "opens in web browser";
+
+"app_externalApp" = "opens in app store";
+
 
 // MARK: Local Auth prompt (Face ID)
 "app_faceId_subtitle" = "Enter iPhone passcode";
