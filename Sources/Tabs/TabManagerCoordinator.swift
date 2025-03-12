@@ -1,9 +1,5 @@
 import Coordination
-import GDSAnalytics
 import GDSCommon
-import LocalAuthentication
-import Logging
-import MobilePlatformServices
 import Networking
 import SecureStore
 import UIKit
@@ -18,9 +14,8 @@ import UIKit
 @MainActor
 final class TabManagerCoordinator: NSObject,
                                    AnyCoordinator,
-                                   TabCoordinator,
-                                   ChildCoordinator {
-    private let appWindow: UIWindow
+                                   ChildCoordinator,
+                                   TabCoordinatorV2 {
     let root: UITabBarController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
@@ -28,24 +23,16 @@ final class TabManagerCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     
-    private var homeCoordinator: HomeCoordinator? {
-        childCoordinators.firstInstanceOf(HomeCoordinator.self)
-    }
+    lazy var delegate: TabCoordinatorDelegate? = TabCoordinatorDelegate(coordinator: self)
     
     private var walletCoordinator: WalletCoordinator? {
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
     
-    private var settingsCoordinator: SettingsCoordinator? {
-        childCoordinators.firstInstanceOf(SettingsCoordinator.self)
-    }
-    
-    init(appWindow: UIWindow,
-         root: UITabBarController,
+    init(root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager) {
-        self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.networkClient = networkClient
@@ -53,7 +40,6 @@ final class TabManagerCoordinator: NSObject,
     }
     
     func start() {
-        root.delegate = self
         addTabs()
         subscribe()
     }
@@ -68,9 +54,7 @@ final class TabManagerCoordinator: NSObject,
         root.selectedIndex = 1
         walletCoordinator?.handleUniversalLink(url)
     }
-}
-
-extension TabManagerCoordinator {
+    
     private func addTabs() {
         addHomeTab()
         if WalletAvailabilityService.shouldShowFeature {
@@ -86,8 +70,7 @@ extension TabManagerCoordinator {
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: appWindow,
-                                   analyticsCenter: analyticsCenter,
+        let wc = WalletCoordinator(analyticsService: analyticsCenter.analyticsService,
                                    networkClient: networkClient,
                                    sessionManager: sessionManager)
         addTab(wc)
@@ -98,34 +81,11 @@ extension TabManagerCoordinator {
     }
     
     private func addSettingsTab() {
-        let pc = SettingsCoordinator(analyticsService: analyticsCenter.analyticsService,
-                                    sessionManager: sessionManager,
-                                    networkClient: networkClient,
-                                    urlOpener: UIApplication.shared,
-                                    analyticsPreference: analyticsCenter.analyticsPreferenceStore)
+        let pc = SettingsCoordinator(analyticsCenter: analyticsCenter,
+                                     sessionManager: sessionManager,
+                                     networkClient: networkClient,
+                                     urlOpener: UIApplication.shared)
         addTab(pc)
-    }
-}
-
-extension TabManagerCoordinator: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController,
-                          didSelect viewController: UIViewController) {
-        var event: IconEvent? {
-            switch viewController.tabBarItem.tag {
-            case 0:
-                .init(textKey: "app_homeTitle")
-            case 1:
-                .init(textKey: "app_walletTitle")
-            case 2:
-                .init(textKey: "app_settingsTitle")
-            default:
-                nil
-            }
-        }
-        if let event {
-            analyticsCenter.analyticsService.setAdditionalParameters(appTaxonomy: .login)
-            analyticsCenter.analyticsService.logEvent(event)
-        }
     }
 }
 

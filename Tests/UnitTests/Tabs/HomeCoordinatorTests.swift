@@ -1,3 +1,4 @@
+import GDSAnalytics
 import Networking
 @testable import OneLogin
 import XCTest
@@ -34,5 +35,16 @@ final class HomeCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.title, homeTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, homeTab.image)
         XCTAssertEqual(sut.root.tabBarItem.tag, homeTab.tag)
+    }
+    
+    func test_didBecomeSelected() {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        sut.didBecomeSelected()
+        let event = IconEvent(textKey: "app_homeTitle")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.home.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
 }

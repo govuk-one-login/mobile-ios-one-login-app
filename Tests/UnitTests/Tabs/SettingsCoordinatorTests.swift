@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 import Networking
 @testable import OneLogin
@@ -6,9 +7,9 @@ import XCTest
 
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
+    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
@@ -16,25 +17,27 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
-        window = .init()
+        
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference =  MockAnalyticsPreferenceStore()
+        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                  analyticsPreferenceStore: mockAnalyticsPreference)
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                 sessionManager: mockSessionManager,
-                                 networkClient: mockNetworkClient,
-                                 urlOpener: urlOpener,
-                                 analyticsPreference: mockAnalyticsPreference)
+        sut = SettingsCoordinator(analyticsCenter: mockAnalyticsCenter,
+                                  sessionManager: mockSessionManager,
+                                  networkClient: mockNetworkClient,
+                                  urlOpener: urlOpener)
+        let window = UIWindow()
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
     
     override func tearDown() {
-        window = nil
         mockAnalyticsService = nil
+        mockAnalyticsPreference = nil
+        mockAnalyticsCenter = nil
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil
@@ -55,6 +58,17 @@ final class SettingsCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.title, settingsTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, settingsTab.image)
         XCTAssertEqual(sut.root.tabBarItem.tag, settingsTab.tag)
+    }
+    
+    func test_didBecomeSelected() {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        sut.didBecomeSelected()
+        let event = IconEvent(textKey: "app_settingsTitle")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_openSignOutPageWithWallet() throws {
@@ -97,8 +111,6 @@ final class SettingsCoordinatorTests: XCTestCase {
     }
     
     func test_showDeveloperMenu() throws {
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
         sut.start()
         // WHEN the showDeveloperMenu method is called
         sut.openDeveloperMenu()

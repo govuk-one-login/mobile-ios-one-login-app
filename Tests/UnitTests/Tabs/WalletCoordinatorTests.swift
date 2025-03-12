@@ -1,36 +1,26 @@
+import GDSAnalytics
 import Networking
 @testable import OneLogin
 import XCTest
 
 @MainActor
 final class WalletCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: AnalyticsCentral!
     var mockSessionManager: MockSessionManager!
     var sut: WalletCoordinator!
     
     override func setUp() {
         super.setUp()
 
-        window = UIWindow()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
-        sut = WalletCoordinator(window: window,
-                                analyticsCenter: mockAnalyticsCenter,
+        sut = WalletCoordinator(analyticsService: mockAnalyticsService,
                                 networkClient: NetworkClient(),
                                 sessionManager: mockSessionManager)
     }
     
     override func tearDown() {
-        window = nil
         mockAnalyticsService = nil
-        mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCenter = nil
         mockSessionManager = nil
         sut = nil
         
@@ -49,6 +39,17 @@ extension WalletCoordinatorTests {
         XCTAssertEqual(sut.root.tabBarItem.title, walletTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, walletTab.image)
         XCTAssertEqual(sut.root.tabBarItem.tag, walletTab.tag)
+    }
+    
+    func test_didBecomeSelected() {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        sut.didBecomeSelected()
+        let event = IconEvent(textKey: "app_walletTitle")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.wallet.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_deleteWalletData() throws {

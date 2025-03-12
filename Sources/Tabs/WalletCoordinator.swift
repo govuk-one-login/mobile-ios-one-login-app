@@ -1,9 +1,8 @@
 import Coordination
+import GDSAnalytics
 import GDSCommon
-import LocalAuthentication
 import Logging
 import Networking
-import SecureStore
 import UIKit
 import Wallet
 
@@ -11,21 +10,19 @@ import Wallet
 final class WalletCoordinator: NSObject,
                                AnyCoordinator,
                                ChildCoordinator,
-                               NavigationCoordinator {
-    private let window: UIWindow
+                               NavigationCoordinator,
+                               TabItemCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    private var analyticsCenter: AnalyticsCentral
+    
+    private var analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-
     private let networkClient: NetworkClient
-
-    init(window: UIWindow,
-         analyticsCenter: AnalyticsCentral,
+    
+    init(analyticsService: AnalyticsService,
          networkClient: NetworkClient,
          sessionManager: SessionManager) {
-        self.window = window
-        self.analyticsCenter = analyticsCenter
+        self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
@@ -36,9 +33,15 @@ final class WalletCoordinator: NSObject,
                                        tag: 1)
         WalletSDK.start(in: root,
                         networkClient: networkClient,
-                        analyticsService: analyticsCenter.analyticsService,
+                        analyticsService: analyticsService,
                         localAuthService: DummyLocalAuthService(),
                         credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString)
+    }
+    
+    func didBecomeSelected() {
+        analyticsService.setAdditionalParameters(appTaxonomy: .wallet)
+        let event = IconEvent(textKey: "app_walletTitle")
+        analyticsService.logEvent(event)
     }
     
     func handleUniversalLink(_ url: URL) {

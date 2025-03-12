@@ -132,7 +132,6 @@ extension QualifyingCoordinator {
             updateStream.continuation.yield(tabManagerCoordinator)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
-                appWindow: appWindow,
                 root: UITabBarController(),
                 analyticsCenter: analyticsCenter,
                 networkClient: networkClient,

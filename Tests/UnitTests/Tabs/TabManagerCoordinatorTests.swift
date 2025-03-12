@@ -1,13 +1,10 @@
 import GDSAnalytics
 import GDSCommon
-import MobilePlatformServices
 import Networking
 @testable import OneLogin
-import SecureStore
 import XCTest
 
 final class TabManagerCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
@@ -19,24 +16,19 @@ final class TabManagerCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        window = UIWindow()
-        tabBarController = .init()
+        tabBarController = UITabBarController()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
-        sut = TabManagerCoordinator(appWindow: window,
-                                    root: tabBarController,
+        sut = TabManagerCoordinator(root: tabBarController,
                                     analyticsCenter: mockAnalyticsCenter,
                                     networkClient: NetworkClient(),
                                     sessionManager: mockSessionManager)
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
     }
     
     override func tearDown() {
-        window = nil
         tabBarController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
@@ -61,8 +53,6 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is SettingsCoordinator)
-        // AND the root's delegate is the TabManagerCoordinator
-        XCTAssertTrue(sut.root.delegate === sut)
     }
     
     @MainActor
@@ -76,8 +66,6 @@ extension TabManagerCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is SettingsCoordinator)
-        // THEN the root's delegate is the TabManagerCoordinator
-        XCTAssertTrue(sut.root.delegate === sut)
     }
     
     @MainActor
@@ -95,7 +83,7 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.home.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -115,7 +103,7 @@ extension TabManagerCoordinatorTests {
         let iconEvent = IconEvent(textKey: "wallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.wallet.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -133,7 +121,7 @@ extension TabManagerCoordinatorTests {
         let iconEvent = IconEvent(textKey: "settings")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -145,11 +133,11 @@ extension TabManagerCoordinatorTests {
             notificationCenter: NotificationCenter.default
         )
         // GIVEN the app has an existing session
-        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
+        let settingsCoordinator = SettingsCoordinator(analyticsCenter: MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                                                           analyticsPreferenceStore: mockAnalyticsPreferenceStore),
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
-                                                      urlOpener: MockURLOpener(),
-                                                      analyticsPreference: mockAnalyticsPreferenceStore)
+                                                      urlOpener: MockURLOpener())
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         sut.performChildCleanup(child: settingsCoordinator)
         // THEN the session should not be cleared
@@ -160,13 +148,16 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
+        let window = UIWindow()
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
         // GIVEN the app has an existing session
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
-        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
+        let settingsCoordinator = SettingsCoordinator(analyticsCenter: MockAnalyticsCenter(analyticsService: mockAnalyticsService,
+                                                                                           analyticsPreferenceStore: mockAnalyticsPreferenceStore),
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
-                                                      urlOpener: MockURLOpener(),
-                                                      analyticsPreference: mockAnalyticsPreferenceStore)
+                                                      urlOpener: MockURLOpener())
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         // but there was an error in signing out
         sut.performChildCleanup(child: settingsCoordinator)
