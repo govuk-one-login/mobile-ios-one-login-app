@@ -29,7 +29,6 @@ struct SettingsTabViewModel: TabbedViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    
     @MainActor
     init(analyticsService: AnalyticsService,
          userProvider: UserProvider,
