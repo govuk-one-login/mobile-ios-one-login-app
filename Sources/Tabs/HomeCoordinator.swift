@@ -14,6 +14,7 @@ final class HomeCoordinator: NSObject,
                              TabItemCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
+    
     private var analyticsService: AnalyticsService
     private let networkClient: NetworkClient
     

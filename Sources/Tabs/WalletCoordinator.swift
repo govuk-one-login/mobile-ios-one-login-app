@@ -12,19 +12,16 @@ final class WalletCoordinator: NSObject,
                                ChildCoordinator,
                                NavigationCoordinator,
                                TabItemCoordinator {
-    private let window: UIWindow
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
+    
     private var analyticsService: AnalyticsService
     private let sessionManager: SessionManager
-
     private let networkClient: NetworkClient
-
-    init(window: UIWindow,
-         analyticsService: AnalyticsService,
+    
+    init(analyticsService: AnalyticsService,
          networkClient: NetworkClient,
          sessionManager: SessionManager) {
-        self.window = window
         self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager

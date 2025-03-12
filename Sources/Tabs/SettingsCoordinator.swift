@@ -8,18 +8,18 @@ import UIKit
 
 @MainActor
 final class SettingsCoordinator: NSObject,
-                                AnyCoordinator,
-                                ChildCoordinator,
-                                NavigationCoordinator,
-                                TabItemCoordinator {
+                                 AnyCoordinator,
+                                 ChildCoordinator,
+                                 NavigationCoordinator,
+                                 TabItemCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-
+    
     private let analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager & UserProvider
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
-        
+    
     init(analyticsCenter: AnalyticsCentral,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,

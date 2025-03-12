@@ -16,7 +16,6 @@ final class TabManagerCoordinator: NSObject,
                                    AnyCoordinator,
                                    ChildCoordinator,
                                    TabCoordinatorV2 {
-    private let appWindow: UIWindow
     let root: UITabBarController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
@@ -30,12 +29,10 @@ final class TabManagerCoordinator: NSObject,
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
     
-    init(appWindow: UIWindow,
-         root: UITabBarController,
+    init(root: UITabBarController,
          analyticsCenter: AnalyticsCentral,
          networkClient: NetworkClient,
          sessionManager: SessionManager) {
-        self.appWindow = appWindow
         self.root = root
         self.analyticsCenter = analyticsCenter
         self.networkClient = networkClient
@@ -73,8 +70,7 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(window: appWindow,
-                                   analyticsService: analyticsCenter.analyticsService,
+        let wc = WalletCoordinator(analyticsService: analyticsCenter.analyticsService,
                                    networkClient: networkClient,
                                    sessionManager: sessionManager)
         addTab(wc)

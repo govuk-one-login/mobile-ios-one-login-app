@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 import Networking
 @testable import OneLogin
@@ -59,6 +60,17 @@ final class SettingsCoordinatorTests: XCTestCase {
         XCTAssertEqual(sut.root.tabBarItem.title, settingsTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, settingsTab.image)
         XCTAssertEqual(sut.root.tabBarItem.tag, settingsTab.tag)
+    }
+    
+    func test_didBecomeSelected() {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        sut.didBecomeSelected()
+        let event = IconEvent(textKey: "app_settingsTitle")
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
     func test_openSignOutPageWithWallet() throws {

@@ -5,7 +5,6 @@ import Networking
 import XCTest
 
 final class TabManagerCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
@@ -17,24 +16,19 @@ final class TabManagerCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        window = UIWindow()
-        tabBarController = .init()
+        tabBarController = UITabBarController()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
                                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
-        sut = TabManagerCoordinator(appWindow: window,
-                                    root: tabBarController,
+        sut = TabManagerCoordinator(root: tabBarController,
                                     analyticsCenter: mockAnalyticsCenter,
                                     networkClient: NetworkClient(),
                                     sessionManager: mockSessionManager)
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
     }
     
     override func tearDown() {
-        window = nil
         tabBarController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
@@ -154,6 +148,9 @@ extension TabManagerCoordinatorTests {
     
     @MainActor
     func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
+        let window = UIWindow()
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
         // GIVEN the app has an existing session
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         let settingsCoordinator = SettingsCoordinator(analyticsCenter: MockAnalyticsCenter(analyticsService: mockAnalyticsService,
