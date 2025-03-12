@@ -7,7 +7,6 @@ import XCTest
 
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
-    var window: UIWindow!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
     var mockAnalyticsCenter: MockAnalyticsCenter!
@@ -19,7 +18,6 @@ final class SettingsCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        window = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference =  MockAnalyticsPreferenceStore()
         mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
@@ -31,12 +29,12 @@ final class SettingsCoordinatorTests: XCTestCase {
                                   sessionManager: mockSessionManager,
                                   networkClient: mockNetworkClient,
                                   urlOpener: urlOpener)
+        let window = UIWindow()
         window.rootViewController = sut.root
         window.makeKeyAndVisible()
     }
     
     override func tearDown() {
-        window = nil
         mockAnalyticsService = nil
         mockAnalyticsPreference = nil
         mockAnalyticsCenter = nil
@@ -113,8 +111,6 @@ final class SettingsCoordinatorTests: XCTestCase {
     }
     
     func test_showDeveloperMenu() throws {
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
         sut.start()
         // WHEN the showDeveloperMenu method is called
         sut.openDeveloperMenu()
