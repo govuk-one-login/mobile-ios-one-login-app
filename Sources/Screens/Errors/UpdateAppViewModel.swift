@@ -3,8 +3,9 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct UpdateAppViewModel: GDSInformationViewModelV2,
-                           GDSInformationViewModelPrimaryButton,
+struct UpdateAppViewModel: GDSCentreAlignedViewModel,
+                           GDSCentreAlignedViewModelWithImage,
+                           GDSCentreAlignedViewModelWithPrimaryButton,
                            BaseViewModel {
     let image: String = "exclamationmark.arrow.circlepath"
     let imageWeight: UIFont.Weight? = .regular

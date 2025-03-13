@@ -3,7 +3,8 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct AppUnavailableViewModel: GDSInformationViewModelV2,
+struct AppUnavailableViewModel: GDSCentreAlignedViewModel,
+                                GDSCentreAlignedViewModelWithImage,
                                 BaseViewModel {
     let image: String = "exclamationmark.circle"
     let imageWeight: UIFont.Weight? = .regular

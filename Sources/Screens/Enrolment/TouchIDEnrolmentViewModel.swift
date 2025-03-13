@@ -3,9 +3,10 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct TouchIDEnrolmentViewModel: GDSInformationViewModelV2,
-                                  GDSInformationViewModelPrimaryButton,
-                                  GDSInformationViewModelWithSecondaryButton,
+struct TouchIDEnrolmentViewModel: GDSCentreAlignedViewModel,
+                                  GDSCentreAlignedViewModelWithImage,
+                                  GDSCentreAlignedViewModelWithPrimaryButton,
+                                  GDSCentreAlignedViewModelWithSecondaryButton,
                                   BaseViewModel {
     let image: String = "touchid"
     let imageWeight: UIFont.Weight? = .thin

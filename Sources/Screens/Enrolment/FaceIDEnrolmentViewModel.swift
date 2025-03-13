@@ -3,9 +3,10 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct FaceIDEnrolmentViewModel: GDSInformationViewModelV2,
-                                 GDSInformationViewModelPrimaryButton,
-                                 GDSInformationViewModelWithSecondaryButton,
+struct FaceIDEnrolmentViewModel: GDSCentreAlignedViewModel,
+                                 GDSCentreAlignedViewModelWithImage,
+                                 GDSCentreAlignedViewModelWithPrimaryButton,
+                                 GDSCentreAlignedViewModelWithSecondaryButton,
                                  BaseViewModel {
     let image: String = "faceid"
     let imageWeight: UIFont.Weight? = .thin
