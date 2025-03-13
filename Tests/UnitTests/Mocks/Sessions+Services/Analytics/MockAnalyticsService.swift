@@ -1,7 +1,7 @@
 import Logging
 import XCTest
 
-final class MockAnalyticsService: AnalyticsService {
+final class MockAnalyticsService: OneLoginAnalyticsService {
     var additionalParameters = [String: Any]()
     
     private(set) var screensVisited = [String]()

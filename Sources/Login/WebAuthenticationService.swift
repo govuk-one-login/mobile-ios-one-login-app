@@ -7,11 +7,11 @@ import UIKit
 final class WebAuthenticationService: AuthenticationService {
     private let session: LoginSession
     private let sessionManager: SessionManager
-    private let analyticsService: AnalyticsService
+    private let analyticsService: OneLoginAnalyticsService
     
     init(sessionManager: SessionManager,
          session: LoginSession,
-         analyticsService: AnalyticsService) {
+         analyticsService: OneLoginAnalyticsService) {
         self.sessionManager = sessionManager
         self.session = session
         self.analyticsService = analyticsService

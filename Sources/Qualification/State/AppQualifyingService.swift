@@ -15,7 +15,7 @@ protocol AppQualifyingServiceDelegate: AnyObject {
 }
 
 final class AppQualifyingService: QualifyingService {
-    private let analyticsService: AnalyticsService
+    private let analyticsService: OneLoginAnalyticsService
     private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
@@ -39,7 +39,7 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
          sessionManager: SessionManager) {
         self.analyticsService = analyticsService

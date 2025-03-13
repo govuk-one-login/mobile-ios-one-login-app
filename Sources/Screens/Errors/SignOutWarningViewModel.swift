@@ -8,12 +8,12 @@ struct SignOutWarningViewModel: GDSErrorViewModelV2,
     let body: GDSLocalisedString = "app_signOutWarningBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          action: @escaping () -> Void) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .reauth)

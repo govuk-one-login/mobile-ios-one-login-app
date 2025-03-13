@@ -16,12 +16,12 @@ struct TouchIDEnrolmentViewModel: GDSCentreAlignedViewModel,
     let body: GDSLocalisedString? = "app_enableTouchIDBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService

@@ -8,12 +8,12 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     let title: GDSLocalisedString = "app_signInTitle"
     let body: GDSLocalisedString = "app_signInBody"
     let introButtonViewModel: ButtonViewModel
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          signinAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_signInButton",

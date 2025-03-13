@@ -1,9 +1,9 @@
-import HTTPLogging
 import CRIOrchestrator
 import GAnalytics
-import Wallet
-import Networking
+import HTTPLogging
 import Logging
+import Networking
+import Wallet
 
 extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger { }
 

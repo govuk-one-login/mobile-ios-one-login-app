@@ -16,11 +16,11 @@ final class WalletCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     
-    private var analyticsService: AnalyticsService & WalletAnalyticsService
+    private var analyticsService: OneLoginAnalyticsService & WalletAnalyticsService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient & WalletNetworkClient
     
-    init(analyticsService: AnalyticsService & WalletAnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService & WalletAnalyticsService,
          networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
         self.analyticsService = analyticsService

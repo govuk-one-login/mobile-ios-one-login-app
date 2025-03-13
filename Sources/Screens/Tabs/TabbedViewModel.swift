@@ -3,7 +3,7 @@ import Logging
 
 @MainActor
 protocol TabbedViewModel: BaseViewModel {
-    var analyticsService: AnalyticsService { get }
+    var analyticsService: OneLoginAnalyticsService { get }
     var navigationTitle: GDSLocalisedString { get }
     var sectionModels: [TabbedViewSectionModel] { get }
 }

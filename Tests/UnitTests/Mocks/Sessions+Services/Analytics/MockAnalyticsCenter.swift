@@ -2,10 +2,10 @@ import Logging
 @testable import OneLogin
 
 final class MockAnalyticsCenter: AnalyticsCentral {
-    var analyticsService: AnalyticsService
+    var analyticsService: OneLoginAnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          analyticsPreferenceStore: AnalyticsPreferenceStore) {
         self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore

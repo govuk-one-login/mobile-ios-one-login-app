@@ -7,11 +7,11 @@ import UIKit
 
 final class HomeViewController: UITableViewController {
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
-    private var analyticsService: AnalyticsService
+    private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     private let criOrchestrator: CRIOrchestrator
 
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
          criOrchestrator: CRIOrchestrator) {
         self.analyticsService = analyticsService

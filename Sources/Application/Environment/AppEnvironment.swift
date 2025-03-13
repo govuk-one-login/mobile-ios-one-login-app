@@ -101,8 +101,10 @@ extension AppEnvironment {
     }
     
     static var txma: URL {
-        mobileBaseURL
+        let url = mobileBaseURL
             .appendingPathComponent("txma-event")
+        print("TXMA UURL:", url)
+        return url
     }
     
     static var mobileRedirect: URL {

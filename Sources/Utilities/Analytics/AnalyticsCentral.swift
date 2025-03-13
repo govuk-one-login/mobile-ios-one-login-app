@@ -3,7 +3,7 @@ import Logging
 import Wallet
 
 protocol AnalyticsCentral: AnyObject {
-    var analyticsService: AnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService { get set }
+    var analyticsService: OneLoginAnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService { get set }
     var analyticsPreferenceStore: AnalyticsPreferenceStore { get set }
 }
 

@@ -10,13 +10,13 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV2,
     let body: GDSLocalisedString = "app_signInErrorBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     let errorDescription: String
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService

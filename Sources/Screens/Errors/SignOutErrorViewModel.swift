@@ -10,13 +10,13 @@ struct SignOutErrorViewModel: GDSErrorViewModelV2,
     let body: GDSLocalisedString = "app_signOutErrorBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     let error: Error
     
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          error: Error) {
         self.analyticsService = analyticsService
         self.error = error

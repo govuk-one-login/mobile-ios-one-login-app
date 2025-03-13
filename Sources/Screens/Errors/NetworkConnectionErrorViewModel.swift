@@ -10,12 +10,12 @@ struct NetworkConnectionErrorViewModel: GDSErrorViewModelV2,
     let body: GDSLocalisedString = "app_networkErrorBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService, action: @escaping () -> Void) {
+    init(analyticsService: OneLoginAnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
                                                                analyticsService: analyticsService) {
