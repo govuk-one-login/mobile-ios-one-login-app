@@ -1,7 +1,7 @@
 import GDSAnalytics
 import Logging
 
-enum BiometricEnrolmentAnalyticsScreen: String, ScreenType {
+enum BiometricEnrolmentAnalyticsScreen: String, OneLoginScreenType {
     case faceIDEnrolment = "faceIDEnrollmentScreen"
     case touchIDEnrolment = "touchIDEnrollmentScreen"
     case unlock = "unlockScreen"

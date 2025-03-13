@@ -1,7 +1,7 @@
 import GDSAnalytics
 import Logging
 
-enum ErrorAnalyticsScreen: String, ScreenType {
+enum ErrorAnalyticsScreen: String, OneLoginScreenType {
     case appUnavailable = "appUnavailableScreen"
     case generic = "genericErrorScreen"
     case unableToLogin = "unableToLoginErrorScreen"

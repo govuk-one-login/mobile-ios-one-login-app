@@ -1,7 +1,7 @@
 import GDSAnalytics
 import Logging
 
-enum InformationAnalyticsScreen: String, ScreenType {
+enum InformationAnalyticsScreen: String, OneLoginScreenType {
     case passcode = "passcodeInformationScreen"
 }
 

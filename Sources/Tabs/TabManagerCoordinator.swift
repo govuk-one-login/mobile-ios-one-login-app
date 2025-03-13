@@ -3,7 +3,6 @@ import GDSCommon
 import Networking
 import SecureStore
 import UIKit
-import Wallet
 
 /// A type that is responsible for coordinating the main functionality of the app, a tab bar navigation.
 ///

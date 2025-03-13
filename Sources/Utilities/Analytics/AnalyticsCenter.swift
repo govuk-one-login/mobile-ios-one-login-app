@@ -4,10 +4,10 @@ import Logging
 import Wallet
 
 final class AnalyticsCenter: AnalyticsCentral {
-    var analyticsService: OneLoginAnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService
+    var analyticsService: OneLoginAnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     
-    init(analyticsService: OneLoginAnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          analyticsPreferenceStore: AnalyticsPreferenceStore) {
         self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore
