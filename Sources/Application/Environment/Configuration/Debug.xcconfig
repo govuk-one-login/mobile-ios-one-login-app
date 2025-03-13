@@ -3,7 +3,7 @@
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.build
 
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Build
-INFOPLIST_KEY_NSCameraUsageDescription = This app does not use the camera
+INFOPLIST_KEY_NSCameraUsageDescription = The app will only access your phone’s rear camera to scan the QR code.
 
 BASE_URL = account.gov.uk
 STS_BASE_URL = token.build.$BASE_URL

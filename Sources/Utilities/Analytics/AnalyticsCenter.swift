@@ -1,11 +1,13 @@
+import CRIOrchestrator
 import Foundation
 import Logging
+import Wallet
 
 final class AnalyticsCenter: AnalyticsCentral {
-    var analyticsService: AnalyticsService
+    var analyticsService: AnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: AnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService,
          analyticsPreferenceStore: AnalyticsPreferenceStore) {
         self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore

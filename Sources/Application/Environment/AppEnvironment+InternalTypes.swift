@@ -23,5 +23,6 @@ extension AppEnvironment {
         case appStoreURL = "App Store URL"
         case yourServicesURL = "Your Services URL"
         case govURLString = "Gov URL"
+        case buildConfiguration = "Build Configuration"
     }
 }

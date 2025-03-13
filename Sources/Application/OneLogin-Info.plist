@@ -11,6 +11,8 @@
 	</dict>
 	<key>External Base URL</key>
 	<string>signin.$(BASE_URL)</string>
+	<key>Build Configuration</key>
+	<string>$(CONFIGURATION)</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>

@@ -1,10 +1,22 @@
 import Coordination
 import CRIOrchestrator
+import GAnalytics
 import GDSAnalytics
 import GDSCommon
 import Logging
 import Networking
 import UIKit
+
+struct OneLoginCRIURLs: CRIURLs {
+    let criBaseURL: URL = URL(string: "google.co.uk")!
+    let govSupportURL: URL = URL(string: "google.co.uk")!
+    let handoffURL: URL = URL(string: "google.co.uk")!
+    let baseURL: URL = URL(string: "google.co.uk")!
+    let domainURL: URL = URL(string: "google.co.uk")!
+    let govUKURL: URL = URL(string: "google.co.uk")!
+    let readIDURLString: String = "google.co.uk"
+    let iProovURLString: String = "google.co.uk"
+}
 
 @MainActor
 final class HomeCoordinator: NSObject,
@@ -15,10 +27,10 @@ final class HomeCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     
-    private var analyticsService: AnalyticsService
+    private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient) {
         self.analyticsService = analyticsService
         self.networkClient = networkClient
@@ -29,7 +41,8 @@ final class HomeCoordinator: NSObject,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
         let criOrchestrator = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: networkClient)
+                                              networkClient: networkClient,
+                                              criURLs: OneLoginCRIURLs())
         let hc = HomeViewController(analyticsService: analyticsService,
                                     networkClient: networkClient,
                                     criOrchestrator: criOrchestrator)

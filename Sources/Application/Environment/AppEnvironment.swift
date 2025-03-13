@@ -80,6 +80,10 @@ public final class AppEnvironment {
         }
         return string
     }
+    
+    static var buildConfiguration: String {
+        string(for: .buildConfiguration)
+    }
 }
 
 // MARK: - Mobile Back End Info Plist values as Type properties
@@ -94,6 +98,11 @@ extension AppEnvironment {
         components.scheme = "https"
         components.host = mobileBaseURLString
         return components.url!
+    }
+    
+    static var txma: URL {
+        mobileBaseURL
+            .appendingPathComponent("txma-event")
     }
     
     static var mobileRedirect: URL {

@@ -1,7 +1,9 @@
+import CRIOrchestrator
 import Logging
+import Wallet
 
 protocol AnalyticsCentral: AnyObject {
-    var analyticsService: AnalyticsService { get set }
+    var analyticsService: AnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService { get set }
     var analyticsPreferenceStore: AnalyticsPreferenceStore { get set }
 }
 
