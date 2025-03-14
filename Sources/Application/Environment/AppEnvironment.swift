@@ -101,18 +101,13 @@ extension AppEnvironment {
     }
     
     static var txma: URL {
-        let url = mobileBaseURL
+        mobileBaseURL
             .appendingPathComponent("txma-event")
-        print("TXMA UURL:", url)
-        return url
     }
     
     static var mobileRedirect: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        components.path = "/redirect"
-        return components.url!
+        mobileBaseURL
+            .appendingPathComponent("/redirect")
     }
     
     static var walletCredentialIssuer: URL {
@@ -123,11 +118,8 @@ extension AppEnvironment {
     }
     
     static var appInfoURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        components.path = "/appInfo"
-        return components.url!
+        mobileBaseURL
+            .appendingPathComponent("/appInfo")
     }
 }
 
@@ -146,19 +138,13 @@ extension AppEnvironment {
     }
     
     static var stsAuthorize: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = stsBaseURLString
-        components.path = "/authorize"
-        return components.url!
+        stsBaseURL
+            .appendingPathComponent("/authorize")
     }
     
     static var stsToken: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = stsBaseURLString
-        components.path = "/token"
-        return components.url!
+        stsBaseURL
+            .appendingPathComponent("/token")
     }
     
     static var stsHelloWorld: URL {
@@ -170,11 +156,8 @@ extension AppEnvironment {
     }
     
     static var jwksURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = stsBaseURLString
-        components.path = "/.well-known/jwks.json"
-        return components.url!
+        stsBaseURL
+            .appendingPathComponent("/.well-known/jwks.json")
     }
 }
 
@@ -197,34 +180,30 @@ extension AppEnvironment {
 // MARK: - Settings Page URLs
     
 extension AppEnvironment {
-    
     static var manageAccountURL: URL {
         isLocaleWelsh ? manageAccountURLWelsh : manageAccountURLEnglish
     }
-
-    static var manageAccountURLEnglish: URL {
+    
+    static var govURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = govURLString
-        components.path = "/using-your-gov-uk-one-login"
-        return components.url!
-    }
-
-    private static var manageAccountURLWelsh: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = govURLString
-        components.path = "/defnyddio-eich-gov-uk-one-login"
         return components.url!
     }
     
+    static var manageAccountURLEnglish: URL {
+        govURL
+            .appendingPathComponent("/using-your-gov-uk-one-login")
+    }
+
+    private static var manageAccountURLWelsh: URL {
+        govURL
+            .appendingPathComponent("/defnyddio-eich-gov-uk-one-login")
+    }
+    
     static var appHelpURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = govURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/one-login/app-help"
-        return components.url!
+        govURL
+            .appendingPathComponent("/one-login/app-help?lng=\(isLocaleWelsh ? "cy" : "en")")
     }
     
     static var contactURL: URL {
@@ -236,22 +215,21 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var privacyPolicyURL: URL {
+    static var externalBaseURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = externalBaseURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/privacy-notice"
         return components.url!
     }
     
+    static var privacyPolicyURL: URL {
+        externalBaseURL
+            .appendingPathComponent("/privacy-notice?lng=\(isLocaleWelsh ? "cy" : "en")")
+    }
+    
     static var accessibilityStatementURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = externalBaseURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
-        components.path = "/accessibility-statement"
-        return components.url!
+        externalBaseURL
+            .appendingPathComponent("/accessibility-statement?lng=\(isLocaleWelsh ? "cy" : "en")")
     }
 }
 
