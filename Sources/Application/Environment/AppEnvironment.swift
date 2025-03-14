@@ -207,9 +207,12 @@ extension AppEnvironment {
     }
     
     static var appHelpURL: URL {
-        govURL
-            .appendingPathComponent("one-login")
-            .appendingPathComponent("app-help?lng=\(localeString)")
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = govURLString
+        components.path = "/one-login/app-help"
+        components.query = "lng=\(localeString)"
+        return components.url!
     }
     
     static var contactURL: URL {
@@ -229,13 +232,21 @@ extension AppEnvironment {
     }
     
     static var privacyPolicyURL: URL {
-        externalBaseURL
-            .appendingPathComponent("privacy-notice?lng=\(localeString)")
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = externalBaseURLString
+        components.path = "/privacy-notice"
+        components.query = "lng=\(localeString)"
+        return components.url!
     }
     
     static var accessibilityStatementURL: URL {
-        externalBaseURL
-            .appendingPathComponent("accessibility-statement?lng=\(localeString)")
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = externalBaseURLString
+        components.path = "/accessibility-statement"
+        components.query = "lng=\(localeString)"
+        return components.url!
     }
 }
 
