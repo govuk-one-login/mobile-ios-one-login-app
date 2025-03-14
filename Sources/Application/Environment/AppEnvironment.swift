@@ -84,6 +84,10 @@ public final class AppEnvironment {
     static var buildConfiguration: String {
         string(for: .buildConfiguration)
     }
+    
+    static var localeString: String {
+        isLocaleWelsh ? "cy" : "en"
+    }
 }
 
 // MARK: - Mobile Back End Info Plist values as Type properties
@@ -107,7 +111,7 @@ extension AppEnvironment {
     
     static var mobileRedirect: URL {
         mobileBaseURL
-            .appendingPathComponent("/redirect")
+            .appendingPathComponent("redirect")
     }
     
     static var walletCredentialIssuer: URL {
@@ -119,7 +123,7 @@ extension AppEnvironment {
     
     static var appInfoURL: URL {
         mobileBaseURL
-            .appendingPathComponent("/appInfo")
+            .appendingPathComponent("appInfo")
     }
 }
 
@@ -139,12 +143,12 @@ extension AppEnvironment {
     
     static var stsAuthorize: URL {
         stsBaseURL
-            .appendingPathComponent("/authorize")
+            .appendingPathComponent("authorize")
     }
     
     static var stsToken: URL {
         stsBaseURL
-            .appendingPathComponent("/token")
+            .appendingPathComponent("token")
     }
     
     static var stsHelloWorld: URL {
@@ -157,7 +161,8 @@ extension AppEnvironment {
     
     static var jwksURL: URL {
         stsBaseURL
-            .appendingPathComponent("/.well-known/jwks.json")
+            .appendingPathComponent(".well-known")
+            .appendingPathComponent("jwks.json")
     }
 }
 
@@ -193,25 +198,26 @@ extension AppEnvironment {
     
     static var manageAccountURLEnglish: URL {
         govURL
-            .appendingPathComponent("/using-your-gov-uk-one-login")
+            .appendingPathComponent("using-your-gov-uk-one-login")
     }
 
     private static var manageAccountURLWelsh: URL {
         govURL
-            .appendingPathComponent("/defnyddio-eich-gov-uk-one-login")
+            .appendingPathComponent("defnyddio-eich-gov-uk-one-login")
     }
     
     static var appHelpURL: URL {
         govURL
-            .appendingPathComponent("/one-login/app-help?lng=\(isLocaleWelsh ? "cy" : "en")")
+            .appendingPathComponent("one-login")
+            .appendingPathComponent("app-help?lng=\(localeString)")
     }
     
     static var contactURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = yourServicesLink
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/contact-gov-uk-one-login"
+        components.query = "lng=\(localeString)"
         return components.url!
     }
     
@@ -224,12 +230,12 @@ extension AppEnvironment {
     
     static var privacyPolicyURL: URL {
         externalBaseURL
-            .appendingPathComponent("/privacy-notice?lng=\(isLocaleWelsh ? "cy" : "en")")
+            .appendingPathComponent("privacy-notice?lng=\(localeString)")
     }
     
     static var accessibilityStatementURL: URL {
         externalBaseURL
-            .appendingPathComponent("/accessibility-statement?lng=\(isLocaleWelsh ? "cy" : "en")")
+            .appendingPathComponent("accessibility-statement?lng=\(localeString)")
     }
 }
 
