@@ -85,6 +85,10 @@ public final class AppEnvironment {
         string(for: .buildConfiguration)
     }
     
+    static var isLocaleWelsh: Bool {
+        UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy"
+    }
+    
     static var localeString: String {
         isLocaleWelsh ? "cy" : "en"
     }
@@ -130,6 +134,10 @@ extension AppEnvironment {
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
+    static var stsClientID: String {
+        return string(for: .stsClientID)
+    }
+    
     static var stsBaseURLString: String {
         string(for: .stsBaseURL)
     }
@@ -169,16 +177,16 @@ extension AppEnvironment {
 // MARK: - External Info Plist values as Type properties
 
 extension AppEnvironment {
-    static var externalBaseURLString: String {
-        string(for: .externalBaseURL)
-    }
-    
     static var govURLString: String {
         string(for: .govURLString)
     }
     
     static var yourServicesLink: String {
         string(for: .yourServicesURL)
+    }
+    
+    static var externalBaseURLString: String {
+        string(for: .externalBaseURL)
     }
 }
 
@@ -224,13 +232,6 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var externalBaseURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = externalBaseURLString
-        return components.url!
-    }
-    
     static var privacyPolicyURL: URL {
         var components = URLComponents()
         components.scheme = "https"
@@ -247,18 +248,6 @@ extension AppEnvironment {
         components.path = "/accessibility-statement"
         components.query = "lng=\(localeString)"
         return components.url!
-    }
-}
-
-// MARK: - Client ID as Strings
-
-extension AppEnvironment {
-    static var stsClientID: String {
-        return string(for: .stsClientID)
-    }
-    
-    static var isLocaleWelsh: Bool {
-        UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy"
     }
 }
 
