@@ -7,17 +7,6 @@ import Logging
 import Networking
 import UIKit
 
-struct OneLoginCRIURLs: CRIURLs {
-    let criBaseURL: URL = URL(string: "google.co.uk")!
-    let govSupportURL: URL = URL(string: "google.co.uk")!
-    let handoffURL: URL = URL(string: "google.co.uk")!
-    let baseURL: URL = URL(string: "google.co.uk")!
-    let domainURL: URL = URL(string: "google.co.uk")!
-    let govUKURL: URL = URL(string: "google.co.uk")!
-    let readIDURLString: String = "google.co.uk"
-    let iProovURLString: String = "google.co.uk"
-}
-
 @MainActor
 final class HomeCoordinator: NSObject,
                              AnyCoordinator,

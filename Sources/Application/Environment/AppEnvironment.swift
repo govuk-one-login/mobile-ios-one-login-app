@@ -165,6 +165,60 @@ extension AppEnvironment {
     }
 }
 
+// MARK: - ID Check Info Plist values as Type properties
+
+extension AppEnvironment {
+    static var idCheckDomainURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .idCheckDomain, in: .idCheck)
+        return components.url!
+    }
+    
+    static var idCheckBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .idCheckBaseURL, in: .idCheck)
+        return components.url!
+    }
+    
+    static var idCheckAsyncBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .idCheckAsyncBaseURL, in: .idCheck)
+        return components.url!
+    }
+    
+    static var idCheckHandoffURL: URL {
+        let url = idCheckDomainURL
+            .appendingPathComponent("dca")
+            .appendingPathComponent("app")
+            .appendingPathComponent("handoff")
+        
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        components.queryItems = [
+            .init(name: "device", value: "iphone")
+        ]
+        return components.url!
+    }
+    
+    static var readIDURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .readIDURL, in: .idCheck)
+        components.path = "/odata/v1/ODataServlet"
+        return components.url!
+    }
+    
+    static var iProovURL: URL {
+        var components = URLComponents()
+        components.scheme = "wss"
+        components.host = string(for: .iProovURL, in: .idCheck)
+        components.path = "/ws"
+        return components.url!
+    }
+}
+
 // MARK: - External Info Plist values as Type properties
 
 extension AppEnvironment {
@@ -192,6 +246,13 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = govURLString
+        return components.url!
+    }
+    
+    static var govSupportURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .govSupportURL, in: .external)
         return components.url!
     }
     

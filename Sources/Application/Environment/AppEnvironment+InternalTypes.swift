@@ -20,6 +20,7 @@ extension AppEnvironment {
         case sts = "STS"
         case mobileBE = "Mobile BE"
         case external = "External"
+        case idCheck = "ID Check"
     }
     
     enum PlistDictionaryKey: String {
@@ -31,6 +32,12 @@ extension AppEnvironment {
         case externalBaseURL = "External Base URL"
         case yourServicesURL = "Your Services URL"
         case govURL = "Gov URL"
+        case govSupportURL = "Gov Support URL"
         case appStoreURL = "App Store URL"
+        case idCheckDomain = "ID Check Domain"
+        case idCheckBaseURL = "ID Check Base URL"
+        case idCheckAsyncBaseURL = "ID Check Async Base URL"
+        case readIDURL = "Read ID URL"
+        case iProovURL = "iProov URL"
     }
 }

@@ -1,4 +1,5 @@
 import CRIOrchestrator
+import Foundation
 import GAnalytics
 import HTTPLogging
 import Logging
@@ -19,4 +20,15 @@ extension WalletConfig {
         credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString,
         clientID: AppEnvironment.stsClientID
     )
+}
+
+struct OneLoginCRIURLs: CRIURLs {
+    let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
+    let govSupportURL: URL = AppEnvironment.govSupportURL
+    let handoffURL: URL = AppEnvironment.idCheckHandoffURL
+    let baseURL: URL = AppEnvironment.idCheckBaseURL
+    let domainURL: URL = AppEnvironment.idCheckDomainURL
+    let govUKURL: URL = AppEnvironment.govURL
+    let readIDURLString: String = AppEnvironment.readIDURL.absoluteString
+    let iProovURLString: String = AppEnvironment.iProovURL.absoluteString
 }
