@@ -19,7 +19,8 @@ final class HomeViewControllerTests: XCTestCase {
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         
         criOrchestrator = CRIOrchestrator(analyticsService: mockAnalyticsService,
-                                          networkClient: mockNetworkClient)
+                                          networkClient: mockNetworkClient,
+                                          criURLs: OneLoginCRIURLs())
         sut = HomeViewController(analyticsService: mockAnalyticsService,
                                  networkClient: mockNetworkClient,
                                  criOrchestrator: criOrchestrator)

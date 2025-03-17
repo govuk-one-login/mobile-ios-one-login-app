@@ -44,8 +44,8 @@ public final class AppEnvironment {
         provider[key] as? T
     }
     
-    private static var remoteReleaseFlags = ReleaseFlags()
-    private static var remoteFeatureFlags = FeatureFlags()
+    static var remoteReleaseFlags = ReleaseFlags()
+    static var remoteFeatureFlags = FeatureFlags()
     
     private static var localFeatureFlags: FlagManager {
         FlagManager(flagFileName: string(for: .featureFlagFile, in: .configuration))

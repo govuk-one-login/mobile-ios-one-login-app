@@ -220,7 +220,7 @@ extension AppQualifyingServiceTests {
         )
 
         XCTAssert(analyticsService.crashesLogged.first as? SecureStoreError == .unableToRetrieveFromUserDefaults)
-        XCTAssert(sessionManager.didCallEndCurrentSession)
+        XCTAssert(sessionManager.didCallClearAllSessionData)
         XCTAssert(self.userState == .notLoggedIn)
     }
     
