@@ -21,9 +21,9 @@
 
 // MARK: Accessibility - voiceover additions
 
-"app_externalBrowser" = "agor mewn porwr gwe";
+"app_externalBrowser" = "Agor mewn porwr gwe";
 
-"app_externalApp" = "opens in app store";
+"app_externalApp" = "Yn agor yn yr App Store";
 
 
 // MARK: Local Auth prompt (Face ID)

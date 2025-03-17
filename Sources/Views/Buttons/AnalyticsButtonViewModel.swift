@@ -4,6 +4,7 @@ import Logging
 import UIKit
 
 struct AnalyticsButtonViewModel: ColoredButtonViewModel {
+    let accessibilityHint: GDSLocalisedString?
     let title: GDSLocalisedString
     let icon: ButtonIconViewModel?
     let backgroundColor: UIColor
@@ -16,6 +17,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
          backgroundColor: UIColor = .gdsGreen,
          shouldLoadOnTap: Bool = false,
          analyticsService: AnalyticsService,
+         accessibilityHint: GDSLocalisedString? = nil,
          action: @escaping () -> Void) {
         let event = ButtonEvent(textKey: titleKey,
                                 variableKeys: titleStringVariableKeys)
@@ -24,6 +26,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
                   backgroundColor: backgroundColor,
                   analyticsService: analyticsService,
                   analyticsEvent: event,
+                  accessibilityHint: accessibilityHint,
                   action: action)
     }
     
@@ -34,6 +37,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
          shouldLoadOnTap: Bool = false,
          analyticsService: AnalyticsService,
          analyticsEvent: Event,
+         accessibilityHint: GDSLocalisedString? = nil,
          action: @escaping () -> Void) {
         self.init(titleKey: titleKey,
                   titleStringVariableKeys: titleStringVariableKeys,
@@ -41,6 +45,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
                   backgroundColor: backgroundColor,
                   analyticsService: analyticsService,
                   analyticsEvent: analyticsEvent,
+                  accessibilityHint: accessibilityHint,
                   action: action)
     }
     
@@ -51,11 +56,13 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
                  shouldLoadOnTap: Bool = false,
                  analyticsService: AnalyticsService,
                  analyticsEvent: Event,
+                 accessibilityHint: GDSLocalisedString? = nil,
                  action: @escaping () -> Void) {
         self.title = GDSLocalisedString(stringKey: titleKey, variableKeys: titleStringVariableKeys)
         self.icon = icon
         self.backgroundColor = backgroundColor
         self.shouldLoadOnTap = shouldLoadOnTap
+        self.accessibilityHint = accessibilityHint
         self.action = {
             analyticsService.logEvent(analyticsEvent)
             

@@ -24,7 +24,8 @@ struct UpdateAppViewModel: GDSInformationViewModelV2,
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
         self.analyticsService = tempAnalyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp")) {
             urlOpener.open(url: AppEnvironment.appStoreURL)
         }
     }

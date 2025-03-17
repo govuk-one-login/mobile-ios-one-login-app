@@ -38,6 +38,7 @@ extension UpdateAppViewModelTests {
 
     func test_button() {
         XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_updateAppButton")
+        XCTAssertEqual(sut.primaryButtonViewModel.accessibilityHint?.stringKey, "app_externalApp")
         XCTAssertFalse(urlOpener.didOpenURL)
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(urlOpener.didOpenURL)

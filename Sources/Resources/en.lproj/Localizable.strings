@@ -19,11 +19,12 @@
 
 "app_exitButton" = "Exit";
 
+
 // MARK: Accessibility - voiceover additions
 
-"app_externalBrowser" = "opens in web browser";
+"app_externalBrowser" = "Opens in web browser";
 
-"app_externalApp" = "opens in app store";
+"app_externalApp" = "Opens in App Store";
 
 
 // MARK: Local Auth prompt (Face ID)

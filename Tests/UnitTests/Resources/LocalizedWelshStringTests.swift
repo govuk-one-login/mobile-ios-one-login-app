@@ -190,7 +190,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Diweddaru Ap GOV.UK One Login")
     }
     
-    func test_oneLoginTile() {
+    func test_oneLoginTileKeys() {
             XCTAssertEqual("app_oneLoginCardTitle".getWelshString(),
                            "Using your GOV.UK One Login")
             XCTAssertEqual("app_oneLoginCardBody".getWelshString(),
@@ -204,6 +204,11 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mae'n ddrwg gennym, nid yw'r ap ar gael")
         XCTAssertEqual("app_appUnavailableBody".getWelshString(),
                        "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
+    }
+    
+    func test_accessibilityHintKeys() {
+        XCTAssertEqual("app_externalBrowser".getWelshString(), "Agor mewn porwr gwe")
+        XCTAssertEqual("app_externalApp".getWelshString(), "Yn agor yn yr App Store")
     }
 }
 
