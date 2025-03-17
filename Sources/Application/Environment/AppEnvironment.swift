@@ -57,7 +57,7 @@ public final class AppEnvironment {
         remoteFeatureFlags.flags = featureFlags
     }
     
-    private static func infoPlistDictionary(name: DictionaryKey) -> [String: String] {
+    private static func infoPlistDictionary(name: PlistDictionaryKey) -> [String: String] {
         guard let plist = Bundle.main.infoDictionary,
               let appConfiguration = plist[name.rawValue] as? [String: String] else {
             fatalError("Info.plist doesn't contain a dictionary named '\(name.rawValue)'")
@@ -65,7 +65,7 @@ public final class AppEnvironment {
         return appConfiguration
     }
     
-    private static func string(for key: PlistDictionaryKey, in dictionary: DictionaryKey) -> String {
+    private static func string(for key: PlistRowKey, in dictionary: PlistDictionaryKey) -> String {
         guard let string = infoPlistDictionary(name: dictionary)[key.rawValue] else {
             preconditionFailure("'\(key.rawValue)' not found in Info.plist dictionary '\(dictionary.rawValue)")
         }

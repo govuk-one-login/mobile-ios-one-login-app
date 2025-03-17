@@ -15,7 +15,7 @@ extension AppEnvironment {
         }
     }
     
-    enum DictionaryKey: String {
+    enum PlistDictionaryKey: String {
         case configuration = "Configuration"
         case sts = "STS"
         case mobileBE = "Mobile BE"
@@ -23,7 +23,7 @@ extension AppEnvironment {
         case idCheck = "ID Check"
     }
     
-    enum PlistDictionaryKey: String {
+    enum PlistRowKey: String {
         case buildConfiguration = "Build Configuration"
         case featureFlagFile = "Feature Flag File"
         case stsBaseURL = "STS Base URL"
