@@ -40,14 +40,15 @@ public final class AppEnvironment {
             .first ?? false
     }
     
+    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
+        provider[key] as? T
+    }
+    
     private static var remoteReleaseFlags = ReleaseFlags()
     private static var remoteFeatureFlags = FeatureFlags()
     
     private static var localFeatureFlags: FlagManager {
-        guard let appConfiguration = appDictionary["Configuration"] as? [String: Any] else {
-            fatalError("Info.plist doesn't contain 'Configuration' as [String: Any]")
-        }
-        return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
+        FlagManager(flagFileName: string(for: .featureFlagFile, in: .configuration))
     }
     
     static func updateFlags(releaseFlags: [String: Bool],
@@ -56,33 +57,23 @@ public final class AppEnvironment {
         remoteFeatureFlags.flags = featureFlags
     }
     
-    private static var appDictionary: [String: Any] {
-        guard let plist = Bundle.main.infoDictionary else {
-            fatalError("Cannot load Info.plist from App")
+    private static func infoPlistDictionary(name: DictionaryKey) -> [String: String] {
+        guard let plist = Bundle.main.infoDictionary,
+              let appConfiguration = plist[name.rawValue] as? [String: String] else {
+            fatalError("Info.plist doesn't contain a dictionary named '\(name.rawValue)'")
         }
-        return plist
+        return appConfiguration
     }
     
-    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
-        provider[key] as? T
-    }
-    
-    private static func value<T>(for key: String) -> T {
-        guard let value = appDictionary[key] as? T else {
-            preconditionFailure("Value not found in Info.plist")
-        }
-        return value
-    }
-    
-    private static func string(for key: Key) -> String {
-        guard let string: String = value(for: key.rawValue) else {
-            preconditionFailure("Key not found in Info.plist")
+    private static func string(for key: PlistDictionaryKey, in dictionary: DictionaryKey) -> String {
+        guard let string = infoPlistDictionary(name: dictionary)[key.rawValue] else {
+            preconditionFailure("'\(key.rawValue)' not found in Info.plist dictionary '\(dictionary.rawValue)")
         }
         return string
     }
     
     static var buildConfiguration: String {
-        string(for: .buildConfiguration)
+        string(for: .buildConfiguration, in: .configuration)
     }
     
     static var isLocaleWelsh: Bool {
@@ -94,52 +85,15 @@ public final class AppEnvironment {
     }
 }
 
-// MARK: - Mobile Back End Info Plist values as Type properties
-
-extension AppEnvironment {
-    static var mobileBaseURLString: String {
-        string(for: .mobileBaseURL)
-    }
-    
-    static var mobileBaseURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        return components.url!
-    }
-    
-    static var txma: URL {
-        mobileBaseURL
-            .appendingPathComponent("txma-event")
-    }
-    
-    static var mobileRedirect: URL {
-        mobileBaseURL
-            .appendingPathComponent("redirect")
-    }
-    
-    static var walletCredentialIssuer: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "example-credential-issuer.\(mobileBaseURLString)"
-        return components.url!
-    }
-    
-    static var appInfoURL: URL {
-        mobileBaseURL
-            .appendingPathComponent("appInfo")
-    }
-}
-
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
     static var stsClientID: String {
-        return string(for: .stsClientID)
+        string(for: .stsClientID, in: .sts)
     }
     
     static var stsBaseURLString: String {
-        string(for: .stsBaseURL)
+        string(for: .stsBaseURL, in: .sts)
     }
     
     static var stsBaseURL: URL {
@@ -174,19 +128,56 @@ extension AppEnvironment {
     }
 }
 
+// MARK: - Mobile Back End Info Plist values as Type properties
+
+extension AppEnvironment {
+    static var mobileBaseURLString: String {
+        string(for: .mobileBaseURL, in: .mobileBE)
+    }
+    
+    static var mobileBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = mobileBaseURLString
+        return components.url!
+    }
+    
+    static var txma: URL {
+        mobileBaseURL
+            .appendingPathComponent("txma-event")
+    }
+    
+    static var mobileRedirect: URL {
+        mobileBaseURL
+            .appendingPathComponent("redirect")
+    }
+    
+    static var walletCredentialIssuer: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "example-credential-issuer.\(mobileBaseURLString)"
+        return components.url!
+    }
+    
+    static var appInfoURL: URL {
+        mobileBaseURL
+            .appendingPathComponent("appInfo")
+    }
+}
+
 // MARK: - External Info Plist values as Type properties
 
 extension AppEnvironment {
     static var govURLString: String {
-        string(for: .govURLString)
+        string(for: .govURL, in: .external)
     }
     
     static var yourServicesLink: String {
-        string(for: .yourServicesURL)
+        string(for: .yourServicesURL, in: .external)
     }
     
     static var externalBaseURLString: String {
-        string(for: .externalBaseURL)
+        string(for: .externalBaseURL, in: .external)
     }
 }
 
@@ -257,7 +248,7 @@ extension AppEnvironment {
     static var appStoreURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .appStoreURL)
+        components.host = string(for: .appStoreURL, in: .external)
         return components.url!
     }
     

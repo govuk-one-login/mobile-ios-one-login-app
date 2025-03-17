@@ -2,17 +2,36 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>App Store URL</key>
-	<string>apps.apple.com</string>
 	<key>Configuration</key>
 	<dict>
+        <key>Build Configuration</key>
+        <string>$(CONFIGURATION)</string>
 		<key>Feature Flag File</key>
 		<string>$(FEATURE_FLAG_FILE)</string>
 	</dict>
-	<key>External Base URL</key>
-	<string>signin.$(BASE_URL)</string>
-	<key>Build Configuration</key>
-	<string>$(CONFIGURATION)</string>
+	<key>STS</key>
+	<dict>
+		<key>STS Base URL</key>
+		<string>$(STS_BASE_URL)</string>
+		<key>STS Client ID</key>
+		<string>$(STS_CLIENT_ID)</string>
+	</dict>
+    <key>Mobile BE</key>
+    <dict>
+        <key>Mobile BE Base URL</key>
+        <string>$(MOBILE_BE_BASE_URL)</string>
+    </dict>
+	<key>External</key>
+	<dict>
+		<key>External Base URL</key>
+		<string>signin.$(BASE_URL)</string>
+		<key>Your Services URL</key>
+		<string>home.$(BASE_URL)</string>
+		<key>Gov URL</key>
+		<string>gov.uk</string>
+		<key>App Store URL</key>
+		<string>apps.apple.com</string>
+	</dict>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
@@ -23,12 +42,6 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<key>STS Base URL</key>
-	<string>$(STS_BASE_URL)</string>
-	<key>Mobile BE Base URL</key>
-	<string>$(MOBILE_BE_BASE_URL)</string>
-	<key>STS Client ID</key>
-	<string>$(STS_CLIENT_ID)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -46,9 +59,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>Your Services URL</key>
-	<string>home.account.gov.uk</string>
-	<key>Gov URL</key>
-	<string>gov.uk</string>
 </dict>
 </plist>
