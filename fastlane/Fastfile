@@ -52,7 +52,8 @@ platform :ios do
       scheme: options[:scheme],
       configuration: options[:configuration],
       testplan: options[:testplan],
-      result_bundle: true
+      result_bundle: true,
+      xcargs: '-skipPackagePluginValidation'
     )
     
     sh(
