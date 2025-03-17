@@ -19,11 +19,12 @@ final class QualifyingCoordinator: NSObject,
     private var unlockWindow: UIWindow?
     private let appWindow: UIWindow
     var childCoordinators = [ChildCoordinator]()
-    var deeplink: URL?
+    
+    private(set) var deeplink: URL?
     private let updateStream = AsyncStream.makeStream(of: ChildCoordinator.self)
     
-    private let analyticsCenter: AnalyticsCentral
     private let appQualifyingService: QualifyingService
+    private let analyticsCenter: AnalyticsCentral
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     

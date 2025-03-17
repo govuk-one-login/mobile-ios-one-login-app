@@ -32,11 +32,6 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        let walletConfig = WalletConfig(
-            environment: WalletEnvironment(rawValue: AppEnvironment.buildConfiguration.lowercased()),
-            credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString,
-            clientID: AppEnvironment.stsClientID
-        )
         let walletServices = WalletServices(
             networkClient: networkClient,
             localAuthService: DummyLocalAuthService(),
@@ -47,7 +42,7 @@ final class WalletCoordinator: NSObject,
             )
         )
         WalletSDK.start(in: root,
-                        config: walletConfig,
+                        config: .oneLoginWalletConfig,
                         services: walletServices,
                         analyticsService: analyticsService)
     }

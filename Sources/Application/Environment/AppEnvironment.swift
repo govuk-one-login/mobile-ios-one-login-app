@@ -32,7 +32,7 @@ public final class AppEnvironment {
         isFeatureEnabled(for: .appCheckEnabled)
     }
     
-    static private func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
+    private static func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
         let providers: [FeatureFlagProvider] = [UserDefaults.standard, remoteReleaseFlags, remoteFeatureFlags, localFeatureFlags]
         return providers
             .lazy
@@ -40,8 +40,8 @@ public final class AppEnvironment {
             .first ?? false
     }
     
-    static var remoteReleaseFlags = ReleaseFlags()
-    static var remoteFeatureFlags = FeatureFlags()
+    private static var remoteReleaseFlags = ReleaseFlags()
+    private static var remoteFeatureFlags = FeatureFlags()
     
     private static var localFeatureFlags: FlagManager {
         guard let appConfiguration = appDictionary["Configuration"] as? [String: Any] else {
@@ -63,7 +63,7 @@ public final class AppEnvironment {
         return plist
     }
     
-    static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
+    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
         provider[key] as? T
     }
     

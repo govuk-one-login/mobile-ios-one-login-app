@@ -12,3 +12,11 @@ extension NetworkClient: @retroactive WalletNetworkClient { }
 extension GAnalytics: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
 
 typealias OneLoginAnalyticsService = AnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService
+
+extension WalletConfig {
+    static let oneLoginWalletConfig = WalletConfig(
+        environment: WalletEnvironment(rawValue: AppEnvironment.buildConfiguration.lowercased()),
+        credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString,
+        clientID: AppEnvironment.stsClientID
+    )
+}
