@@ -8,14 +8,13 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
     let title: GDSLocalisedString
     let icon: ButtonIconViewModel?
     let backgroundColor: UIColor
-    let shouldLoadOnTap: Bool
+    var shouldLoadOnTap: Bool = false
     let action: (() -> Void)
     
     init(titleKey: String,
          _ titleStringVariableKeys: String...,
          icon: ButtonIconViewModel? = nil,
          backgroundColor: UIColor = .gdsGreen,
-         shouldLoadOnTap: Bool = false,
          analyticsService: AnalyticsService,
          accessibilityHint: GDSLocalisedString? = nil,
          action: @escaping () -> Void) {
