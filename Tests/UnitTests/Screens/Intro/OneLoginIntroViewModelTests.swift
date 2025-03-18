@@ -37,13 +37,13 @@ extension OneLoginIntroViewModelTests {
     }
     
     func test_button() {
-        XCTAssertEqual(sut.introButtonViewModel.title.stringKey, "app_signInButton")
+        XCTAssertEqual(sut.introButtonViewModel.title.stringKey, "app_extendedSignInButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.introButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = LinkEvent(textKey: "app_signInButton",
+        let event = LinkEvent(textKey: "app_extendedSignInButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])

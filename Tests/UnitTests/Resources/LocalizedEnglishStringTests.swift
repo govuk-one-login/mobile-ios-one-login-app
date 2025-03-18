@@ -37,7 +37,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signInTitle".getEnglishString(),
                        "GOV.UK One Login")
         XCTAssertEqual("app_signInBody".getEnglishString(),
-                       "Sign in with the email address you use for your GOV.UK One Login.")
+                       "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
         XCTAssertEqual("app_signInButton".getEnglishString(),
                        "Sign in")
         XCTAssertEqual("app_extendedSignInButton".getEnglishString(),
