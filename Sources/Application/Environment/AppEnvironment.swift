@@ -71,7 +71,11 @@ public final class AppEnvironment {
         }
         return string
     }
-    
+}
+
+// MARK: - Helper properties
+
+extension AppEnvironment {
     static var buildConfiguration: String {
         string(for: .buildConfiguration, in: .configuration)
     }
@@ -142,14 +146,19 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var txma: URL {
-        mobileBaseURL
-            .appendingPathComponent("txma-event")
-    }
-    
     static var mobileRedirect: URL {
         mobileBaseURL
             .appendingPathComponent("redirect")
+    }
+    
+    static var appInfoURL: URL {
+        mobileBaseURL
+            .appendingPathComponent("appInfo")
+    }
+    
+    static var txma: URL {
+        mobileBaseURL
+            .appendingPathComponent("txma-event")
     }
     
     static var walletCredentialIssuer: URL {
@@ -157,11 +166,6 @@ extension AppEnvironment {
         components.scheme = "https"
         components.host = "example-credential-issuer.\(mobileBaseURLString)"
         return components.url!
-    }
-    
-    static var appInfoURL: URL {
-        mobileBaseURL
-            .appendingPathComponent("appInfo")
     }
 }
 
@@ -261,7 +265,7 @@ extension AppEnvironment {
             .appendingPathComponent("using-your-gov-uk-one-login")
     }
 
-    private static var manageAccountURLWelsh: URL {
+    static var manageAccountURLWelsh: URL {
         govURL
             .appendingPathComponent("defnyddio-eich-gov-uk-one-login")
     }

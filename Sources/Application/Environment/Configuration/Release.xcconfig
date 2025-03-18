@@ -9,7 +9,7 @@ MOBILE_BE_BASE_URL = mobile.$(BASE_URL)
 EXTERNAL_BASE_URL = signin.$(BASE_URL)
 GOV_SUPPORT_URL = home.$(BASE_URL)
 
-ID_CHECK_DOMAIN = review-b.$(BASE_URL
+ID_CHECK_DOMAIN = review-b.$(BASE_URL)
 ID_CHECK_BASE_URL = api-backend-api.$(ID_CHECK_DOMAIN)
 ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.$(BASE_URL)
 READ_ID_URL = readid.$(ID_CHECK_DOMAIN)
