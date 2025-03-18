@@ -25,8 +25,8 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
         self.analyticsService = tempAnalyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
-                                                               analyticsService: analyticsService,
-                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp")) {
+                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp"),
+                                                               analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.appStoreURL)
         }
     }
