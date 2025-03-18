@@ -205,6 +205,11 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appUnavailableBody".getEnglishString(),
                        "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
     }
+    
+    func test_accessibilityHintKeys() {
+        XCTAssertEqual("app_externalBrowser".getEnglishString(), "Opens in web browser")
+        XCTAssertEqual("app_externalApp".getEnglishString(), "Opens in App Store")
+    }
 }
 
 // swiftlint:enable line_length

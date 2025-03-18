@@ -16,7 +16,8 @@ extension TabbedViewSectionModel {
                                                         cellSubtitle: userEmail,
                                                         image: UIImage(named: "userAccountIcon")),
                                                   .init(cellTitle: "app_settingsSignInDetailsLink",
-                                                        accessoryView: linkDisclosureArrow) {
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
             let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
                                   linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
@@ -31,7 +32,8 @@ extension TabbedViewSectionModel {
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_appGuidanceLink",
-                                                        accessoryView: linkDisclosureArrow) {
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.appHelpURL)
             let event = LinkEvent(textKey: "app_appGuidanceLink",
                                   linkDomain: AppEnvironment.appHelpURL.absoluteString,
@@ -40,7 +42,8 @@ extension TabbedViewSectionModel {
             analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_contactLink",
-                                                        accessoryView: linkDisclosureArrow) {
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.contactURL)
             let event = LinkEvent(textKey: "app_contactLink",
                                   linkDomain: AppEnvironment.contactURL.absoluteString,
@@ -61,7 +64,8 @@ extension TabbedViewSectionModel {
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_privacyNoticeLink2",
-                                                        accessoryView: linkDisclosureArrow) {
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.privacyPolicyURL)
             let event = LinkEvent(textKey: "app_privacyNoticeLink2",
                                   linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
@@ -70,7 +74,8 @@ extension TabbedViewSectionModel {
             analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_accessibilityStatement",
-                                                        accessoryView: linkDisclosureArrow) {
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.accessibilityStatementURL)
             let event = LinkEvent(textKey: "app_accessibilityStatement",
                                   linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,

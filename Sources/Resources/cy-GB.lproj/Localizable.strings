@@ -19,6 +19,12 @@
 
 "app_exitButton" = "Gadael";
 
+// MARK: Accessibility - voiceover additions
+
+"app_externalBrowser" = "Agor mewn porwr gwe";
+
+"app_externalApp" = "Yn agor yn yr App Store";
+
 
 // MARK: Local Auth prompt (Face ID)
 "app_faceId_subtitle" = "Rhowch god mynediad iPhone";

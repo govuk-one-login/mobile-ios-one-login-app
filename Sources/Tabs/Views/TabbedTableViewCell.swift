@@ -18,6 +18,7 @@ final class TabbedTableViewCell: UITableViewCell, ViewIdentifiable {
             let imageView = UIImageView(image: accessoryImage)
             accessoryView = imageView
             accessoryView?.tintColor = .secondaryLabel
+            accessibilityHint = viewModel?.accessibilityHint?.value
         }
     }
     
