@@ -24,7 +24,7 @@
 	<key>External</key>
 	<dict>
 		<key>External Base URL</key>
-		<string>signin.$(BASE_URL)</string>
+		<string>$(EXTERNAL_BASE_URL)</string>
 		<key>Your Services URL</key>
 		<string>home.$(BASE_URL)</string>
 		<key>Gov URL</key>
