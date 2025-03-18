@@ -19,24 +19,6 @@
       }
     },
     {
-      "identity" : "appauth-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/openid/AppAuth-iOS.git",
-      "state" : {
-        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
-        "version" : "1.7.5"
-      }
-    },
-    {
-      "identity" : "bigint",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/attaswift/BigInt",
-      "state" : {
-        "revision" : "793a7fac0bfc318e85994bf6900652e827aef33e",
-        "version" : "5.4.1"
-      }
-    },
-    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
@@ -100,15 +82,6 @@
       }
     },
     {
-      "identity" : "jwt-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/jwt-kit.git",
-      "state" : {
-        "revision" : "c2595b9ad7f512d7f334830b4df1fed6e917946a",
-        "version" : "4.13.4"
-      }
-    },
-    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -118,66 +91,12 @@
       }
     },
     {
-      "identity" : "mobile-ios-authentication",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
-      "state" : {
-        "revision" : "a587c692d70745453d9bddd47c1fb43440aa4f40",
-        "version" : "2.0.0"
-      }
-    },
-    {
-      "identity" : "mobile-ios-common",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
-      "state" : {
-        "revision" : "7cb7a224b6ea86ed88853086f2a95d0355b38d08",
-        "version" : "2.3.0"
-      }
-    },
-    {
-      "identity" : "mobile-ios-coordination",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
-      "state" : {
-        "revision" : "d4ac8868dcb52e0bb6beb121f6ec9adde52e4cfc",
-        "version" : "1.2.1"
-      }
-    },
-    {
-      "identity" : "mobile-ios-logging",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
-      "state" : {
-        "revision" : "f8aab4d8eaccb5e90c2ff2e811ead84ac5da5d04",
-        "version" : "2.0.1"
-      }
-    },
-    {
       "identity" : "mobile-ios-networking",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
         "revision" : "7ea8b9091042545403eb1db2ad2cc60e9ce17191",
         "version" : "3.0.0"
-      }
-    },
-    {
-      "identity" : "mobile-ios-secure-store",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
-      "state" : {
-        "revision" : "7ae407442d56c46f17b23e6d0c873a33aadfcb86",
-        "version" : "1.0.1"
-      }
-    },
-    {
-      "identity" : "mobile-wallet-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios",
-      "state" : {
-        "revision" : "c0d632c22fbc51788916cfb18619b1acb00a4b16",
-        "version" : "4.0.0"
       }
     },
     {
@@ -196,33 +115,6 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
-      }
-    },
-    {
-      "identity" : "realm-core",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-core.git",
-      "state" : {
-        "revision" : "b36f2436c2746c32b1f93dcc06ea8b859671a767",
-        "version" : "14.12.1"
-      }
-    },
-    {
-      "identity" : "realm-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift",
-      "state" : {
-        "revision" : "9b9992d59a5148eb557e6c0445fec05009022c8c",
-        "version" : "10.53.1"
-      }
-    },
-    {
-      "identity" : "swift-crypto",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-crypto.git",
-      "state" : {
-        "revision" : "81bee98e706aee68d39ed5996db069ef2b313d62",
-        "version" : "3.7.1"
       }
     },
     {
