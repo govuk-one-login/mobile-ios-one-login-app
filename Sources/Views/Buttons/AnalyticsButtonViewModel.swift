@@ -4,11 +4,11 @@ import Logging
 import UIKit
 
 struct AnalyticsButtonViewModel: ColoredButtonViewModel {
-    let accessibilityHint: GDSLocalisedString?
     let title: GDSLocalisedString
     let icon: ButtonIconViewModel?
     let backgroundColor: UIColor
-    var shouldLoadOnTap: Bool
+    let shouldLoadOnTap: Bool
+    let accessibilityHint: GDSLocalisedString?
     let action: (() -> Void)
     
     init(titleKey: String,
