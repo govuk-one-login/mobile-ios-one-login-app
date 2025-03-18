@@ -96,7 +96,6 @@ extension TabbedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
                 as? TabbedTableViewCell else { return UITableViewCell() }
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
-        cell.accessibilityHint = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row].accessibilityHint?.value
         
         if viewModel.sectionModels[indexPath.section].sectionTitle == "app_settingsSubtitle2" {
             cell.accessoryView = analyticsSwitch
