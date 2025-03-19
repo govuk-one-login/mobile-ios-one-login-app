@@ -1,7 +1,5 @@
-import CRIOrchestrator
 import Foundation
 import Logging
-import Wallet
 
 final class AnalyticsCenter: AnalyticsCentral {
     var analyticsService: OneLoginAnalyticsService

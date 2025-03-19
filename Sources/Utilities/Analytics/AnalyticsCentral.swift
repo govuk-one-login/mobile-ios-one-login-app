@@ -1,6 +1,4 @@
-import CRIOrchestrator
 import Logging
-import Wallet
 
 protocol AnalyticsCentral: AnyObject {
     var analyticsService: OneLoginAnalyticsService { get set }
