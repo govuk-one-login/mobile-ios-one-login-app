@@ -9,12 +9,10 @@ enum UserState {
 }
 
 protocol SessionManager: UserProvider {
-    var expiryDate: Date? { get }
     
-    var sessionExists: Bool { get }
-    var isSessionValid: Bool { get }
+    var sessionState: SessionState { get }
+    var expiryDate: Date? { get }
     var isReturningUser: Bool { get }
-    var isOneTimeUser: Bool { get }
 
     var tokenProvider: TokenHolder { get }
 

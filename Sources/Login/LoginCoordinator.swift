@@ -116,10 +116,12 @@ final class LoginCoordinator: NSObject,
     
     private func triggerAuthFlow() async throws {
         try await authService.startWebSession()
+        
         guard sessionManager.isReturningUser else {
             launchEnrolmentCoordinator()
             return
         }
+        
         finish()
     }
     

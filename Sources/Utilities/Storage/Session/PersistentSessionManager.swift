@@ -29,6 +29,14 @@ protocol SessionBoundData {
     func delete() async throws
 }
 
+enum SessionState {
+    case nonePresent
+    case enrolling
+    case oneTime
+    case saved
+    case expired
+}
+
 final class PersistentSessionManager: SessionManager {
     private let secureStoreManager: SecureStoreManager
     private let storeKeyService: TokenStore
@@ -62,19 +70,46 @@ final class PersistentSessionManager: SessionManager {
         self.tokenProvider = TokenHolder()
     }
     
-    private var persistentID: String? {
-        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
+    var sessionState: SessionState {
+        // Make sure there is a session in app memory or stored in secure store
+//        guard tokenProvider.subjectToken != nil || storeKeyService.hasLoginTokens else {
+//            return .nonePresent
+//        }
+//        
+//        guard isSessionValid else {
+//            return .expired
+//        }
+//        
+//        guard /* enrolling */ true else {
+//            
+//        }
+//        
+//        return .saved
+        
+        if isOneTimeUser {
+            return .oneTime
+        } else {
+            guard expiryDate != nil else {
+                return .nonePresent
+            }
+            
+            guard isSessionValid else {
+                return .expired
+            }
+            
+            return .saved
+        }
+    }
+    
+    private var isOneTimeUser: Bool {
+        tokenProvider.subjectToken != nil && !isReturningUser
     }
     
     var expiryDate: Date? {
         unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
     }
     
-    var sessionExists: Bool {
-        tokenProvider.subjectToken != nil
-    }
-    
-    var isSessionValid: Bool {
+    private var isSessionValid: Bool {
         guard let expiryDate else {
             return false
         }
@@ -86,8 +121,8 @@ final class PersistentSessionManager: SessionManager {
         ?? false
     }
     
-    var isOneTimeUser: Bool {
-        sessionExists && !isReturningUser
+    private var persistentID: String? {
+        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -116,7 +151,8 @@ final class PersistentSessionManager: SessionManager {
             .performLoginFlow(configuration: configuration(persistentID))
         tokenResponse = response
         
-        // update curent state
+        // MARK: ENROLLING
+        
         tokenProvider.update(subjectToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if let idToken = response.idToken {
@@ -137,6 +173,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func saveSession() async throws {
+        defer {
+            // MARK: ENROLMENT FINISHED
+        }
+        
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
             return
