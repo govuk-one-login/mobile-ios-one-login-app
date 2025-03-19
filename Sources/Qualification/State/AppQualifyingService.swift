@@ -90,14 +90,12 @@ final class AppQualifyingService: QualifyingService {
         }
         
         switch sessionManager.sessionState {
-        case .enrolling:
-            return userState = .notLoggedIn
-        case .oneTime:
-            return userState = .loggedIn
-        case .nonePresent:
-            return userState = .notLoggedIn
         case .expired:
-            return userState = .expired
+            userState = .expired
+        case .enrolling, .nonePresent:
+            userState = .notLoggedIn
+        case .oneTime:
+            userState = .loggedIn
         case .saved:
             do {
                 try await MainActor.run {
