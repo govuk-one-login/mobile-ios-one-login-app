@@ -73,7 +73,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var sessionState: SessionState {
-        if isEnrolling {
+        if isValidEnrolment {
             return .enrolling
         } else if isOneTimeUser {
             return .oneTime
@@ -88,6 +88,10 @@ final class PersistentSessionManager: SessionManager {
             
             return .saved
         }
+    }
+    
+    private var isValidEnrolment: Bool {
+        isEnrolling && tokenResponse?.expiryDate > .now
     }
     
     private var isOneTimeUser: Bool {
