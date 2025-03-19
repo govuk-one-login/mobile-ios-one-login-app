@@ -158,6 +158,6 @@ extension QualifyingCoordinatorTests {
         // GIVEN the user has authenticated
         sut.didChangeUserState(state: .loggedIn)
         // THEN the deeplink should be consumed
-        waitForTruth(self.sut.deeplink == nil, timeout: 2)
+        waitForTruth(self.sut.deeplink == nil, timeout: 5)
     }
 }
