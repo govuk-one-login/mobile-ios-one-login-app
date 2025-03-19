@@ -19,7 +19,9 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV2,
     init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String,
          action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        var tempAnalyticsService = analyticsService
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .loginError)
+        self.analyticsService = tempAnalyticsService
         self.errorDescription = errorDescription
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
                                                                analyticsService: analyticsService) {

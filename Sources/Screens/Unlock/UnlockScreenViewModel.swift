@@ -12,7 +12,9 @@ struct UnlockScreenViewModel: BaseViewModel {
     
     init(analyticsService: OneLoginAnalyticsService,
          primaryButtonAction: @escaping () -> Void ) {
-        self.analyticsService = analyticsService
+        var tempAnalyticsService = analyticsService
+        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .unlock)
+        self.analyticsService = tempAnalyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_unlockButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
