@@ -10,7 +10,7 @@ final class EnrolmentCoordinator: NSObject,
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: AnalyticsService
-    private(set) var sessionManager: SessionManager
+    private let sessionManager: SessionManager
     
     init(root: UINavigationController,
          analyticsService: OneLoginAnalyticsService,
