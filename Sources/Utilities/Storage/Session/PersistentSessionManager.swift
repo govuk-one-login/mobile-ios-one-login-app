@@ -50,6 +50,8 @@ final class PersistentSessionManager: SessionManager {
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
+    var isEnrolling: Bool = false
+    
     convenience init(secureStoreManager: SecureStoreManager,
                      localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
         self.init(
@@ -71,22 +73,9 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var sessionState: SessionState {
-        // Make sure there is a session in app memory or stored in secure store
-//        guard tokenProvider.subjectToken != nil || storeKeyService.hasLoginTokens else {
-//            return .nonePresent
-//        }
-//        
-//        guard isSessionValid else {
-//            return .expired
-//        }
-//        
-//        guard /* enrolling */ true else {
-//            
-//        }
-//        
-//        return .saved
-        
-        if isOneTimeUser {
+        if isEnrolling {
+            return .enrolling
+        } else if isOneTimeUser {
             return .oneTime
         } else {
             guard expiryDate != nil else {
@@ -128,7 +117,7 @@ final class PersistentSessionManager: SessionManager {
     private var hasNotRemovedLocalAuth: Bool {
         localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
     }
-    
+        
     func startSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration

@@ -9,8 +9,8 @@ final class EnrolmentCoordinator: NSObject,
                                   NavigationCoordinator {
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
-    private let analyticsService: OneLoginAnalyticsService
-    private let sessionManager: SessionManager
+    private let analyticsService: AnalyticsService
+    private(set) var sessionManager: SessionManager
     
     init(root: UINavigationController,
          analyticsService: OneLoginAnalyticsService,
@@ -18,6 +18,11 @@ final class EnrolmentCoordinator: NSObject,
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
+        self.sessionManager.isEnrolling = true
+    }
+    
+    deinit {
+        sessionManager.isEnrolling = false
     }
     
     func start() {

@@ -1,7 +1,5 @@
 import Authentication
 import Foundation
-import Networking
-import SecureStore
 
 enum UserState {
     case authenticated
@@ -13,6 +11,8 @@ protocol SessionManager: UserProvider {
     var sessionState: SessionState { get }
     var expiryDate: Date? { get }
     var isReturningUser: Bool { get }
+    
+    var isEnrolling: Bool { get set }
 
     var tokenProvider: TokenHolder { get }
 

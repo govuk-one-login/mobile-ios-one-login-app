@@ -90,7 +90,9 @@ final class AppQualifyingService: QualifyingService {
         }
         
         switch sessionManager.sessionState {
-        case .enrolling, .oneTime:
+        case .enrolling:
+            return userState = .notLoggedIn
+        case .oneTime:
             return userState = .loggedIn
         case .nonePresent:
             return userState = .notLoggedIn
