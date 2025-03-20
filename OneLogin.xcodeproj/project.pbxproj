@@ -189,8 +189,6 @@
 		C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */; };
 		C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */; };
 		C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */; };
-		C8C343A62B9233FC00E92FB9 /* AnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A42B9232B900E92FB9 /* AnalyticsCenter.swift */; };
-		C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */; };
 		C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */; };
 		C8C6665E2BD007BD00CF249B /* OutdatedTokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */; };
 		C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */; };
@@ -448,8 +446,6 @@
 		C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsPreferenceStore.swift; sourceTree = "<group>"; };
-		C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCentral.swift; sourceTree = "<group>"; };
-		C8C343A42B9232B900E92FB9 /* AnalyticsCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCenter.swift; sourceTree = "<group>"; };
 		C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonViewModel.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
 		C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OutdatedTokenResponse.json; sourceTree = "<group>"; };
@@ -978,7 +974,6 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C8C343A12B92313D00E92FB9 /* Analytics */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				D0BE243F2BEBAEB600759529 /* JWT */,
 				C889587D2C7E4CA600663299 /* LocalAuth */,
@@ -1442,15 +1437,6 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
-		C8C343A12B92313D00E92FB9 /* Analytics */ = {
-			isa = PBXGroup;
-			children = (
-				C8C343A42B9232B900E92FB9 /* AnalyticsCenter.swift */,
-				C8C343A22B92315B00E92FB9 /* AnalyticsCentral.swift */,
-			);
-			path = Analytics;
-			sourceTree = "<group>";
-		};
 		C8DA2C652D73DAC300EBBE3E /* Entitlements */ = {
 			isa = PBXGroup;
 			children = (
@@ -1890,8 +1876,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
-				C8C343A62B9233FC00E92FB9 /* AnalyticsCenter.swift in Sources */,
-				C8C343A72B92340000E92FB9 /* AnalyticsCentral.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,

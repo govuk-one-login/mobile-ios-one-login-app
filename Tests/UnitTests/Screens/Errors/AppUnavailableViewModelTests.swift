@@ -41,7 +41,7 @@ extension AppUnavailableViewModelTests {
                                      titleKey: "app_appUnavailableTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.system.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "app system")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
 }

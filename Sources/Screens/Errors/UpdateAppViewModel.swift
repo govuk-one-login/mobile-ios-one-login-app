@@ -21,9 +21,10 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
 
     init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            "taxonomy_level2": "app system",
+            "taxonomy_level3": "undefined"
+        ])
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
                                                                accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp"),
                                                                analyticsService: analyticsService) {

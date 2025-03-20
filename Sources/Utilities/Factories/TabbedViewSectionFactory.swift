@@ -22,7 +22,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
                                   linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }
@@ -38,7 +37,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_appGuidanceLink",
                                   linkDomain: AppEnvironment.appHelpURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_contactLink",
@@ -48,7 +46,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_contactLink",
                                   linkDomain: AppEnvironment.contactURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }
@@ -70,7 +67,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_privacyNoticeLink2",
                                   linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_accessibilityStatement",
@@ -80,7 +76,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_accessibilityStatement",
                                   linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }
@@ -93,7 +88,6 @@ extension TabbedViewSectionModel {
                                                         textColor: .gdsGreen) {
             action()
             let event = ButtonEvent(textKey: "app_signOutButton")
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }

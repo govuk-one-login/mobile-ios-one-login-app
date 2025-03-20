@@ -14,7 +14,10 @@ final class HomeViewController: UITableViewController {
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
          criOrchestrator: CRIOrchestrator) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            "taxonomy_level2": "home",
+            "taxonomy_level3": "undefined"
+        ])
         self.networkClient = networkClient
         self.criOrchestrator = criOrchestrator
         super.init(style: .insetGrouped)
@@ -37,7 +40,6 @@ final class HomeViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        analyticsService.setAdditionalParameters(appTaxonomy: .home)
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: navigationTitle.stringKey)

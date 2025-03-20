@@ -1,5 +1,6 @@
 import Coordination
 import GDSCommon
+import Logging
 import Networking
 import SecureStore
 import UIKit
@@ -19,7 +20,8 @@ final class TabManagerCoordinator: NSObject,
     let root: UITabBarController
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
-    private var analyticsCenter: AnalyticsCentral
+    private let analyticsService: OneLoginAnalyticsService
+    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     
@@ -30,11 +32,13 @@ final class TabManagerCoordinator: NSObject,
     }
     
     init(root: UITabBarController,
-         analyticsCenter: AnalyticsCentral,
+         analyticsService: OneLoginAnalyticsService,
+         analyticsPreferenceStore: AnalyticsPreferenceStore,
          networkClient: NetworkClient,
          sessionManager: SessionManager) {
         self.root = root
-        self.analyticsCenter = analyticsCenter
+        self.analyticsService = analyticsService
+        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
@@ -64,13 +68,13 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsCenter.analyticsService,
+        let hc = HomeCoordinator(analyticsService: analyticsService,
                                  networkClient: networkClient)
         addTab(hc)
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(analyticsService: analyticsCenter.analyticsService,
+        let wc = WalletCoordinator(analyticsService: analyticsService,
                                    networkClient: networkClient,
                                    sessionManager: sessionManager)
         addTab(wc)
@@ -81,7 +85,8 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addSettingsTab() {
-        let pc = SettingsCoordinator(analyticsCenter: analyticsCenter,
+        let pc = SettingsCoordinator(analyticsService: analyticsService,
+                                     analyticsPreferenceStore: analyticsPreferenceStore,
                                      sessionManager: sessionManager,
                                      networkClient: networkClient,
                                      urlOpener: UIApplication.shared)
@@ -100,7 +105,7 @@ extension TabManagerCoordinator: ParentCoordinator {
                 #endif
                 try sessionManager.clearAllSessionData()
             } catch {
-                let viewModel = SignOutErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+                let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
                                                       error: error)
                 let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
                 root.present(signOutErrorScreen, animated: true)

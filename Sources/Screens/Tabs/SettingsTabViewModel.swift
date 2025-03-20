@@ -35,9 +35,10 @@ struct SettingsTabViewModel: TabbedViewModel {
          urlOpener: URLOpener = UIApplication.shared,
          openSignOutPage: @escaping () -> Void,
          openDeveloperMenu: @escaping () -> Void) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .settings)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            "taxonomy_level2": "settings",
+            "taxonomy_level3": "undefined"
+        ])
         self.userProvider = userProvider
         self.urlOpener = urlOpener
         self.openDeveloperMenu = openDeveloperMenu

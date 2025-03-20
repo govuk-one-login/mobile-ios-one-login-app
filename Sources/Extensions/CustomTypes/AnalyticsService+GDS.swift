@@ -1,10 +1,9 @@
+import Foundation
 import GDSAnalytics
 import Logging
 import Wallet
 
 typealias OneLoginScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
-
-extension EventName: @retroactive LoggableEvent { }
 
 extension ScreenView: @retroactive LoggableScreenV2
 where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
@@ -28,14 +27,7 @@ where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
     }
 }
 
-enum AppTaxonomy: String {
-    case system = "app system"
-    case login
-    case home
-    case wallet
-    case settings
-    case reauth = "re auth"
-}
+extension EventName: @retroactive LoggableEvent { }
 
 extension AnalyticsService {
     public func logEvent(_ event: Event) {
@@ -47,19 +39,20 @@ extension AnalyticsService {
         trackScreen(screen,
                     parameters: screen.parameters)
     }
-    
-    mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
-        let (taxonomyLevel2, taxonomyLevel3) = {
-            switch appTaxonomy {
-            case .reauth:
-                (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
-            default:
-                (appTaxonomy.rawValue, "undefined")
-            }
-        }()
-        additionalParameters = additionalParameters.merging([
-            "taxonomy_level2": taxonomyLevel2,
-            "taxonomy_level3": taxonomyLevel3
-        ]) { $1 }
+}
+
+extension UserDefaultsPreferenceStore: SessionBoundData {
+    func delete() throws {
+        hasAcceptedAnalytics = nil
     }
+}
+
+extension Dictionary where Key == String, Value == Any {
+    static let oneLoginDefaults: Self = [
+        "saved_doc_type": "undefined",
+        "primary_publishing_organisation": "government digital service - digital identity",
+        "organisation": "<OT1056>",
+        "taxonomy_level1": "one login mobile application",
+        "language": "\(NSLocale.current.identifier.prefix(2))"
+    ]
 }

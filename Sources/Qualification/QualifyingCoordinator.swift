@@ -24,7 +24,8 @@ final class QualifyingCoordinator: NSObject,
     private let updateStream = AsyncStream.makeStream(of: ChildCoordinator.self)
     
     private let appQualifyingService: QualifyingService
-    private let analyticsCenter: AnalyticsCentral
+    private let analyticsService: OneLoginAnalyticsService
+    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     
@@ -37,7 +38,7 @@ final class QualifyingCoordinator: NSObject,
     }
     
     private lazy var unlockViewController = {
-        let viewModel = UnlockScreenViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+        let viewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
             Task {
                 await appQualifyingService.evaluateUser()
             }
@@ -46,13 +47,15 @@ final class QualifyingCoordinator: NSObject,
     }()
     
     init(appWindow: UIWindow,
-         analyticsCenter: AnalyticsCentral,
          appQualifyingService: QualifyingService,
+         analyticsService: OneLoginAnalyticsService,
+         analyticsPreferenceStore: AnalyticsPreferenceStore,
          sessionManager: SessionManager,
          networkClient: NetworkClient) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
-        self.analyticsCenter = analyticsCenter
+        self.analyticsService = analyticsService.addingAdditionalParameters(.oneLoginDefaults)
+        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkClient = networkClient
         super.init()
@@ -76,12 +79,12 @@ final class QualifyingCoordinator: NSObject,
             return
         case .unavailable:
             let updateAppScreen = GDSInformationViewController(
-                viewModel: AppUnavailableViewModel(analyticsService: analyticsCenter.analyticsService)
+                viewModel: AppUnavailableViewModel(analyticsService: analyticsService)
             )
             displayViewController(updateAppScreen)
         case .outdated:
             let updateAppScreen = GDSInformationViewController(
-                viewModel: UpdateAppViewModel(analyticsService: analyticsCenter.analyticsService)
+                viewModel: UpdateAppViewModel(analyticsService: analyticsService)
             )
             displayViewController(updateAppScreen)
         case .qualified:
@@ -97,9 +100,9 @@ final class QualifyingCoordinator: NSObject,
         case .notLoggedIn, .expired:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
-            let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+            let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService,
                                                         errorDescription: error.localizedDescription) { [unowned self] in
-                analyticsCenter.analyticsService.logCrash(error)
+                analyticsService.logCrash(error)
                 fatalError("We were unable to resume the session, there's not much we can do to help the user")
             }
             let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
@@ -114,11 +117,12 @@ final class QualifyingCoordinator: NSObject,
             let loginCoordinator = LoginCoordinator(
                 appWindow: appWindow,
                 root: UINavigationController(),
-                analyticsCenter: analyticsCenter,
+                analyticsService: analyticsService,
+                analyticsPreferenceStore: analyticsPreferenceStore,
                 sessionManager: sessionManager,
                 authService: WebAuthenticationService(sessionManager: sessionManager,
                                                       session: AppAuthSession(window: appWindow),
-                                                      analyticsService: analyticsCenter.analyticsService),
+                                                      analyticsService: analyticsService),
                 isExpiredUser: userState == .expired
             )
             displayChildCoordinator(loginCoordinator)
@@ -134,7 +138,8 @@ extension QualifyingCoordinator {
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
                 root: UITabBarController(),
-                analyticsCenter: analyticsCenter,
+                analyticsService: analyticsService,
+                analyticsPreferenceStore: analyticsPreferenceStore,
                 networkClient: networkClient,
                 sessionManager: sessionManager)
             displayChildCoordinator(tabManagerCoordinator)
