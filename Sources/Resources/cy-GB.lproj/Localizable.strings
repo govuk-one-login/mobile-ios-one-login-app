@@ -3,7 +3,7 @@
 
 "app_cancelButton" = "Canslo";
 
-"app_tryAgainButton" = "Rhowch gynnig arall";
+"app_tryAgainButton" = "Ewch yn ôl i roi cynnig eto";
 
 "app_continueButton" = "Parhau";
 
@@ -63,9 +63,9 @@
 
 
 // MARK: Network connection error screen
-"app_networkErrorTitle" = "Mae'n ymddangos nad ydych ar-lein";
+"app_networkErrorTitle" = "Nid ydych wedi'ch cysylltu â'r rhyngrwyd";
 
-"app_networkErrorBody" = "Nid yw GOV.UK One Login ar gael os nad ydych ar-lein. Ailgysylltwch â'r rhyngrwyd a rhoi cynnig arall.";
+"app_networkErrorBody" = "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio GOV.UK One Login.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.";
 
 
 // MARK: Generic error screen

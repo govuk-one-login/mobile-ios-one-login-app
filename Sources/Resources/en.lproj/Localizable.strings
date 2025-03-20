@@ -3,7 +3,7 @@
 
 "app_cancelButton" = "Cancel";
 
-"app_tryAgainButton" = "Try again";
+"app_tryAgainButton" = "Go back and try again";
 
 "app_continueButton" = "Continue";
 
@@ -64,9 +64,9 @@
 
 
 // MARK: Network connection error screen
-"app_networkErrorTitle" = "You appear to be offline";
+"app_networkErrorTitle" = "You are not connected to the internet";
 
-"app_networkErrorBody" = "GOV.UK One Login is not available offline. Reconnect to the internet and try again.";
+"app_networkErrorBody" = "You need to have an internet connection to use GOV.UK One Login.\n\nReconnect to the internet and try again.";
 
 
 // MARK: Generic error screen
