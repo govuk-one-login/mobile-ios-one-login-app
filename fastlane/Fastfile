@@ -26,7 +26,8 @@ platform :ios do
       device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
       configuration: options[:configuration],
-      testplan: options[:testplan]
+      testplan: options[:testplan],
+      xcargs: '-skipPackagePluginValidation'
     )
   end
 
@@ -40,7 +41,8 @@ platform :ios do
       testplan: options[:testplan],
       prelaunch_simulator: true,
       result_bundle: true,
-      include_simulator_logs: true
+      include_simulator_logs: true,
+      xcargs: '-skipPackagePluginValidation'
     )
   end
 
