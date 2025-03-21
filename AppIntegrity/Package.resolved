@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/abseil-cpp-binary.git",
       "state" : {
-        "revision" : "194a6706acbd25e4ef639bcaddea16e8758a3e27",
-        "version" : "1.2024011602.0"
+        "revision" : "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
+        "version" : "1.2024072200.0"
       }
     },
     {
@@ -14,26 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "21fe1af9be463a359aaf8d96789ef73fc3760d09",
-        "version" : "11.0.1"
-      }
-    },
-    {
-      "identity" : "appauth-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/openid/AppAuth-iOS.git",
-      "state" : {
-        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
-        "version" : "1.7.5"
-      }
-    },
-    {
-      "identity" : "bigint",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/attaswift/BigInt",
-      "state" : {
-        "revision" : "793a7fac0bfc318e85994bf6900652e827aef33e",
-        "version" : "5.4.1"
+        "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
+        "version" : "11.2.0"
       }
     },
     {
@@ -41,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "1fc52ab0e172e7c5a961f975a76c2611f4f22852",
-        "version" : "11.2.0"
+        "revision" : "2e4a4daac9da51f79c131e76cb47e785dd7708c4",
+        "version" : "11.10.0"
       }
     },
     {
@@ -50,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "07a2f57d147d2bf368a0d2dcb5579ff082d9e44f",
-        "version" : "11.1.0"
+        "revision" : "defe1970a9099d47765592ebd7ac5f5e9fdb57c6",
+        "version" : "11.10.0"
       }
     },
     {
@@ -77,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/grpc-binary.git",
       "state" : {
-        "revision" : "f56d8fc3162de9a498377c7b6cea43431f4f5083",
-        "version" : "1.65.1"
+        "revision" : "cc0001a0cf963aa40501d9c2b181e7fc9fd8ec71",
+        "version" : "1.69.0"
       }
     },
     {
@@ -95,17 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
       "state" : {
-        "revision" : "2d12673670417654f08f5f90fdd62926dc3a2648",
-        "version" : "100.0.0"
-      }
-    },
-    {
-      "identity" : "jwt-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vapor/jwt-kit.git",
-      "state" : {
-        "revision" : "c2595b9ad7f512d7f334830b4df1fed6e917946a",
-        "version" : "4.13.4"
+        "revision" : "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
+        "version" : "101.0.0"
       }
     },
     {
@@ -118,66 +91,12 @@
       }
     },
     {
-      "identity" : "mobile-ios-authentication",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
-      "state" : {
-        "revision" : "a587c692d70745453d9bddd47c1fb43440aa4f40",
-        "version" : "2.0.0"
-      }
-    },
-    {
-      "identity" : "mobile-ios-common",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
-      "state" : {
-        "revision" : "7cb7a224b6ea86ed88853086f2a95d0355b38d08",
-        "version" : "2.3.0"
-      }
-    },
-    {
-      "identity" : "mobile-ios-coordination",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-coordination.git",
-      "state" : {
-        "revision" : "d4ac8868dcb52e0bb6beb121f6ec9adde52e4cfc",
-        "version" : "1.2.1"
-      }
-    },
-    {
-      "identity" : "mobile-ios-logging",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
-      "state" : {
-        "revision" : "f8aab4d8eaccb5e90c2ff2e811ead84ac5da5d04",
-        "version" : "2.0.1"
-      }
-    },
-    {
       "identity" : "mobile-ios-networking",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "7ea8b9091042545403eb1db2ad2cc60e9ce17191",
-        "version" : "3.0.0"
-      }
-    },
-    {
-      "identity" : "mobile-ios-secure-store",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
-      "state" : {
-        "revision" : "7ae407442d56c46f17b23e6d0c873a33aadfcb86",
-        "version" : "1.0.1"
-      }
-    },
-    {
-      "identity" : "mobile-wallet-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-wallet-ios",
-      "state" : {
-        "revision" : "c0d632c22fbc51788916cfb18619b1acb00a4b16",
-        "version" : "4.0.0"
+        "revision" : "204728a8c16acb05bd70f7a64c37610c3aa75110",
+        "version" : "3.1.3"
       }
     },
     {
@@ -196,33 +115,6 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
-      }
-    },
-    {
-      "identity" : "realm-core",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-core.git",
-      "state" : {
-        "revision" : "b36f2436c2746c32b1f93dcc06ea8b859671a767",
-        "version" : "14.12.1"
-      }
-    },
-    {
-      "identity" : "realm-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift",
-      "state" : {
-        "revision" : "9b9992d59a5148eb557e6c0445fec05009022c8c",
-        "version" : "10.53.1"
-      }
-    },
-    {
-      "identity" : "swift-crypto",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-crypto.git",
-      "state" : {
-        "revision" : "81bee98e706aee68d39ed5996db069ef2b313d62",
-        "version" : "3.7.1"
       }
     },
     {

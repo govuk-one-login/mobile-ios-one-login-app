@@ -8,7 +8,7 @@ import UIKit
 extension TabbedViewSectionModel {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
-    static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: AnalyticsService) -> Self {
+    static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: OneLoginAnalyticsService) -> Self {
         var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: "app_settingsSignInDetailsFootnote",
@@ -27,7 +27,7 @@ extension TabbedViewSectionModel {
         }])
     }
     
-    static func help(urlOpener: URLOpener, analyticsService: AnalyticsService) -> Self {
+    static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
         var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
@@ -59,7 +59,7 @@ extension TabbedViewSectionModel {
                                tabModels: [.init(cellTitle: "app_settingsAnalyticsToggle")])
     }
     
-    static func notices(urlOpener: URLOpener, analyticsService: AnalyticsService) -> Self {
+    static func notices(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
         var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
@@ -85,7 +85,7 @@ extension TabbedViewSectionModel {
         }])
     }
     
-    static func signOutSection(analyticsService: AnalyticsService, action: @escaping () -> Void) -> Self {
+    static func signOutSection(analyticsService: OneLoginAnalyticsService, action: @escaping () -> Void) -> Self {
         var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,

@@ -1,7 +1,8 @@
 import Logging
+@testable import OneLogin
 import XCTest
 
-final class MockAnalyticsService: AnalyticsService {
+final class MockAnalyticsService: OneLoginAnalyticsService {
     var additionalParameters = [String: Any]()
     
     private(set) var screensVisited = [String]()
@@ -11,6 +12,11 @@ final class MockAnalyticsService: AnalyticsService {
     private(set) var crashesLogged = [NSError]()
     
     var hasAcceptedAnalytics: Bool?
+    
+    func addingAdditionalParameters(_ additionalParameters: [String: Any]) -> Self {
+        self.additionalParameters = additionalParameters
+        return self
+    }
     
     func trackScreen(_ screen: LoggableScreen, title: String?) {
         screensVisited.append(screen.name)
@@ -27,7 +33,7 @@ final class MockAnalyticsService: AnalyticsService {
         screenParamsLogged = parameters
     }
     
-    func trackScreen(_ screen: LoggableScreenV2, parameters: [String: Any]) {
+    func trackScreen(_ screen: any LoggableScreenV2, parameters: [String: Any]) {
         screensVisited.append(screen.name)
         
         guard let parameters = parameters as? [String: String] else {

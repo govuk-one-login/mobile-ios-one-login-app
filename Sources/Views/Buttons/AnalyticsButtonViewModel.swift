@@ -4,11 +4,11 @@ import Logging
 import UIKit
 
 struct AnalyticsButtonViewModel: ColoredButtonViewModel {
-    let accessibilityHint: GDSLocalisedString?
     let title: GDSLocalisedString
     let icon: ButtonIconViewModel?
     let backgroundColor: UIColor
-    var shouldLoadOnTap: Bool
+    let shouldLoadOnTap: Bool
+    let accessibilityHint: GDSLocalisedString?
     let action: (() -> Void)
     
     init(titleKey: String,
@@ -16,8 +16,8 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
          icon: ButtonIconViewModel? = nil,
          backgroundColor: UIColor = .gdsGreen,
          shouldLoadOnTap: Bool = false,
-         analyticsService: AnalyticsService,
          accessibilityHint: GDSLocalisedString? = nil,
+         analyticsService: OneLoginAnalyticsService,
          action: @escaping () -> Void) {
         let event = ButtonEvent(textKey: titleKey,
                                 variableKeys: titleStringVariableKeys)
@@ -35,7 +35,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
          icon: ButtonIconViewModel? = nil,
          backgroundColor: UIColor = .gdsGreen,
          shouldLoadOnTap: Bool = false,
-         analyticsService: AnalyticsService,
+         analyticsService: OneLoginAnalyticsService,
          analyticsEvent: Event,
          accessibilityHint: GDSLocalisedString? = nil,
          action: @escaping () -> Void) {
@@ -54,7 +54,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
                  icon: ButtonIconViewModel? = nil,
                  backgroundColor: UIColor = .gdsGreen,
                  shouldLoadOnTap: Bool = false,
-                 analyticsService: AnalyticsService,
+                 analyticsService: OneLoginAnalyticsService,
                  analyticsEvent: Event,
                  accessibilityHint: GDSLocalisedString? = nil,
                  action: @escaping () -> Void) {

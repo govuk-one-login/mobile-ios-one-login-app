@@ -1,7 +1,7 @@
 import GDSAnalytics
 import Logging
 
-enum HomeAnalyticsScreen: String, ScreenType {
+enum HomeAnalyticsScreen: String, OneLoginScreenType {
     case homeScreen
 }
 

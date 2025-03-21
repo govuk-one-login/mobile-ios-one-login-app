@@ -1,7 +1,32 @@
 import GDSAnalytics
 import Logging
+import Wallet
 
-typealias ScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
+typealias OneLoginScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
+
+extension EventName: @retroactive LoggableEvent { }
+
+extension ScreenView: @retroactive LoggableScreenV2
+where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
+    public var name: String {
+        screen.name
+    }
+
+    public var type: Screen {
+        self.screen
+    }
+}
+
+extension ErrorScreenView: @retroactive LoggableScreenV2
+where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
+    public var name: String {
+        screen.name
+    }
+
+    public var type: Screen {
+        screen
+    }
+}
 
 enum AppTaxonomy: String {
     case system = "app system"
@@ -18,8 +43,7 @@ extension AnalyticsService {
                  parameters: event.parameters)
     }
     
-    public func trackScreen<Screen>(_ screen: Screen)
-    where Screen: ScreenViewProtocol & LoggableScreenV2 {
+    public func trackScreen<Screen: ScreenViewProtocol & LoggableScreenV2>(_ screen: Screen) {
         trackScreen(screen,
                     parameters: screen.parameters)
     }

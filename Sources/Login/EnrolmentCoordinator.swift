@@ -9,11 +9,11 @@ final class EnrolmentCoordinator: NSObject,
                                   NavigationCoordinator {
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
-    private let analyticsService: AnalyticsService
+    private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     
     init(root: UINavigationController,
-         analyticsService: AnalyticsService,
+         analyticsService: OneLoginAnalyticsService,
          sessionManager: SessionManager) {
         self.root = root
         self.analyticsService = analyticsService

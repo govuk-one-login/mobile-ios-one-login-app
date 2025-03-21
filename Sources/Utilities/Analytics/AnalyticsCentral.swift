@@ -1,7 +1,7 @@
 import Logging
 
 protocol AnalyticsCentral: AnyObject {
-    var analyticsService: AnalyticsService { get set }
+    var analyticsService: OneLoginAnalyticsService { get set }
     var analyticsPreferenceStore: AnalyticsPreferenceStore { get set }
 }
 

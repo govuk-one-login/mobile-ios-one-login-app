@@ -5,7 +5,7 @@ import UIKit
 
 @MainActor
 protocol SceneLifecycle: AnyObject {
-    var analyticsService: AnalyticsService { get }
+    var analyticsService: OneLoginAnalyticsService { get }
 }
 
 extension SceneLifecycle {

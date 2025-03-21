@@ -1,5 +1,6 @@
 import Coordination
 import CRIOrchestrator
+import GAnalytics
 import GDSAnalytics
 import GDSCommon
 import Logging
@@ -15,10 +16,10 @@ final class HomeCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     
-    private var analyticsService: AnalyticsService
+    private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient) {
         self.analyticsService = analyticsService
         self.networkClient = networkClient
@@ -29,7 +30,8 @@ final class HomeCoordinator: NSObject,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
         let criOrchestrator = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: networkClient)
+                                              networkClient: networkClient,
+                                              criURLs: OneLoginCRIURLs())
         let hc = HomeViewController(analyticsService: analyticsService,
                                     networkClient: networkClient,
                                     criOrchestrator: criOrchestrator)

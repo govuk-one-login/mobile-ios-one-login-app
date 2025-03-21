@@ -14,19 +14,19 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
     let title: GDSLocalisedString = "app_updateAppTitle"
     let body: GDSLocalisedString? = "app_updateAppBody"
     let primaryButtonViewModel: ButtonViewModel
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
 
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
         var tempAnalyticsService = analyticsService
         tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
         self.analyticsService = tempAnalyticsService
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
-                                                               analyticsService: analyticsService,
-                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp")) {
+                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp"),
+                                                               analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.appStoreURL)
         }
     }

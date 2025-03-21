@@ -123,6 +123,7 @@
 		C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84E8F602CFF1DF500639098 /* AppIntegrityJWTTests.swift */; };
 		C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */; };
 		C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
+		C851C0FF2D833A8B00FC8CA8 /* SDKConformances.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851C0FE2D833A8200FC8CA8 /* SDKConformances.swift */; };
 		C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */; };
 		C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */; };
 		C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8520C212AE2B642006790C1 /* TokenResponse.json */; };
@@ -385,6 +386,7 @@
 		C84E8F602CFF1DF500639098 /* AppIntegrityJWTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityJWTTests.swift; sourceTree = "<group>"; };
 		C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabAnalytics.swift; sourceTree = "<group>"; };
 		C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabAnalytics.swift; sourceTree = "<group>"; };
+		C851C0FE2D833A8200FC8CA8 /* SDKConformances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKConformances.swift; sourceTree = "<group>"; };
 		C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycle.swift; sourceTree = "<group>"; };
 		C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLifecycleTests.swift; sourceTree = "<group>"; };
 		C8520C212AE2B642006790C1 /* TokenResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponse.json; sourceTree = "<group>"; };
@@ -851,6 +853,7 @@
 				7C7A763F2C945B0100EE85CB /* Notifications */,
 				7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */,
 				7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */,
+				C851C0FE2D833A8200FC8CA8 /* SDKConformances.swift */,
 				C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */,
 			);
 			path = Extensions;
@@ -1950,6 +1953,7 @@
 				C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
+				C851C0FF2D833A8B00FC8CA8 /* SDKConformances.swift in Sources */,
 				C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */,
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
 				7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */,
@@ -3031,7 +3035,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.0;
+				minimumVersion = 6.0.0;
 			};
 		};
 		AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
@@ -3039,7 +3043,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 10.0.0;
 			};
 		};
 		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
@@ -3071,7 +3075,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 4.0.0;
 			};
 		};
 		C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {

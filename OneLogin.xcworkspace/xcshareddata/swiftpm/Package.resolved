@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "d75188fc655f9eb38a195c94aaba8f0546983f21",
-        "version" : "4.4.0"
+        "revision" : "7e16013b79505633d23c707af2151e68264445d6",
+        "version" : "6.1.1"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "f8aab4d8eaccb5e90c2ff2e811ead84ac5da5d04",
-        "version" : "2.0.1"
+        "revision" : "35404e8468cf85e80ea7e16c42f2c58b1375dfbf",
+        "version" : "4.1.0"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
-        "revision" : "86e952046f226bccc198572ec598e40f13117d11",
-        "version" : "5.0.0"
+        "revision" : "0ae8f1501e8a3a2cfba5a2b161b06be5944a931c",
+        "version" : "10.3.0"
       }
     },
     {
@@ -221,7 +221,7 @@
       "kind" : "registry",
       "location" : "",
       "state" : {
-        "version" : "4.109.1"
+        "version" : "4.111.0"
       }
     },
     {
@@ -229,8 +229,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "85eeca41654cc9070ad81a21a4b1d153ad467c33",
-        "version" : "14.13.1"
+        "revision" : "15493076ad9fef22c16cc64cbfbf9e5b65c385f9",
+        "version" : "20.1.0"
       }
     },
     {
@@ -238,8 +238,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "revision" : "a3abcdf95a3176f5ad990239920aad4ef86e00de",
-        "version" : "10.54.2"
+        "revision" : "bae6c4be7df169fdb047d0ad63f902c1e2665e83",
+        "version" : "20.0.1"
       }
     },
     {
@@ -258,6 +258,15 @@
       "state" : {
         "revision" : "edb6ed4919f7756157fe02f2552b7e3850a538e5",
         "version" : "1.28.1"
+      }
+    },
+    {
+      "identity" : "swiftlintplugins",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
+      "state" : {
+        "revision" : "7a3d77f3dd9f91d5cea138e52c20cfceabf352de",
+        "version" : "0.58.2"
       }
     }
   ],

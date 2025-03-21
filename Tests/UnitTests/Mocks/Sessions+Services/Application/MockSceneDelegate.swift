@@ -4,10 +4,10 @@ import UIKit
 
 class MockSceneDelegate: SceneLifecycle {
     var coordinator: TabManagerCoordinator?
-    var analyticsService: AnalyticsService
+    var analyticsService: OneLoginAnalyticsService
     
     init(coordinator: TabManagerCoordinator?,
-         analyticsService: AnalyticsService) {
+         analyticsService: OneLoginAnalyticsService) {
         self.coordinator = coordinator
         self.analyticsService = analyticsService
     }

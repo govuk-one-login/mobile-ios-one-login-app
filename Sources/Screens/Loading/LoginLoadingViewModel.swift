@@ -4,12 +4,12 @@ import Logging
 
 struct LoginLoadingViewModel: GDSLoadingViewModel, BaseViewModel {
     let loadingLabelKey: GDSLocalisedString = "app_loadingBody"
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: OneLoginAnalyticsService) {
         self.analyticsService = analyticsService
     }
     

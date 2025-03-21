@@ -12,7 +12,7 @@ struct OneLoginTileViewModel: GDSContentTileViewModel,
     let secondaryButtonViewModel: ButtonViewModel
     let backgroundColour: UIColor? = .secondarySystemGroupedBackground
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          action: @escaping () -> Void) {
         let event = LinkEvent(textKey: "app_oneLoginCardLink",
                               linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
@@ -27,7 +27,7 @@ struct OneLoginTileViewModel: GDSContentTileViewModel,
 }
 
 extension GDSContentTileViewModel where Self == OneLoginTileViewModel {
-    static func oneLoginCard(analyticsService: AnalyticsService,
+    static func oneLoginCard(analyticsService: OneLoginAnalyticsService,
                              urlOpener: URLOpener) -> OneLoginTileViewModel {
         OneLoginTileViewModel(analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)

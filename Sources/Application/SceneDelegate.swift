@@ -10,7 +10,7 @@ final class SceneDelegate: UIResponder,
                            SceneLifecycle {
     private var rootCoordinator: QualifyingCoordinator?
     
-    lazy var analyticsService: AnalyticsService = GAnalytics()
+    lazy var analyticsService: OneLoginAnalyticsService = GAnalytics()
     private lazy var analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
                                                        analyticsPreferenceStore: UserDefaultsPreferenceStore())
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,

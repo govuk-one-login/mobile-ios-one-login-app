@@ -32,7 +32,7 @@ public final class AppEnvironment {
         isFeatureEnabled(for: .appCheckEnabled)
     }
     
-    static private func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
+    private static func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
         let providers: [FeatureFlagProvider] = [UserDefaults.standard, remoteReleaseFlags, remoteFeatureFlags, localFeatureFlags]
         return providers
             .lazy
@@ -40,14 +40,15 @@ public final class AppEnvironment {
             .first ?? false
     }
     
+    private static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
+        provider[key] as? T
+    }
+    
     static var remoteReleaseFlags = ReleaseFlags()
     static var remoteFeatureFlags = FeatureFlags()
     
     private static var localFeatureFlags: FlagManager {
-        guard let appConfiguration = appDictionary["Configuration"] as? [String: Any] else {
-            fatalError("Info.plist doesn't contain 'Configuration' as [String: Any]")
-        }
-        return FlagManager(flagFileName: appConfiguration["Feature Flag File"] as? String)
+        FlagManager(flagFileName: string(for: .featureFlagFile, in: .configuration))
     }
     
     static func updateFlags(releaseFlags: [String: Bool],
@@ -56,75 +57,47 @@ public final class AppEnvironment {
         remoteFeatureFlags.flags = featureFlags
     }
     
-    private static var appDictionary: [String: Any] {
-        guard let plist = Bundle.main.infoDictionary else {
-            fatalError("Cannot load Info.plist from App")
+    private static func infoPlistDictionary(name: PlistDictionaryKey) -> [String: String] {
+        guard let plist = Bundle.main.infoDictionary,
+              let appConfiguration = plist[name.rawValue] as? [String: String] else {
+            fatalError("Info.plist doesn't contain a dictionary named '\(name.rawValue)'")
         }
-        return plist
+        return appConfiguration
     }
     
-    static func value<T>(for key: String, provider: FeatureFlagProvider) -> T? {
-        provider[key] as? T
-    }
-    
-    private static func value<T>(for key: String) -> T {
-        guard let value = appDictionary[key] as? T else {
-            preconditionFailure("Value not found in Info.plist")
-        }
-        return value
-    }
-    
-    private static func string(for key: Key) -> String {
-        guard let string: String = value(for: key.rawValue) else {
-            preconditionFailure("Key not found in Info.plist")
+    private static func string(for key: PlistRowKey, in dictionary: PlistDictionaryKey) -> String {
+        guard let string = infoPlistDictionary(name: dictionary)[key.rawValue] else {
+            preconditionFailure("'\(key.rawValue)' not found in Info.plist dictionary '\(dictionary.rawValue)")
         }
         return string
     }
 }
 
-// MARK: - Mobile Back End Info Plist values as Type properties
+// MARK: - Helper properties
 
 extension AppEnvironment {
-    static var mobileBaseURLString: String {
-        string(for: .mobileBaseURL)
+    static var buildConfiguration: String {
+        string(for: .buildConfiguration, in: .configuration)
     }
     
-    static var mobileBaseURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        return components.url!
+    static var isLocaleWelsh: Bool {
+        UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy"
     }
     
-    static var mobileRedirect: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        components.path = "/redirect"
-        return components.url!
-    }
-    
-    static var walletCredentialIssuer: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "example-credential-issuer.\(mobileBaseURLString)"
-        return components.url!
-    }
-    
-    static var appInfoURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = mobileBaseURLString
-        components.path = "/appInfo"
-        return components.url!
+    static var localeString: String {
+        isLocaleWelsh ? "cy" : "en"
     }
 }
 
 // MARK: - STS Info Plist values as Type properties
 
 extension AppEnvironment {
+    static var stsClientID: String {
+        string(for: .stsClientID, in: .sts)
+    }
+    
     static var stsBaseURLString: String {
-        string(for: .stsBaseURL)
+        string(for: .stsBaseURL, in: .sts)
     }
     
     static var stsBaseURL: URL {
@@ -135,19 +108,13 @@ extension AppEnvironment {
     }
     
     static var stsAuthorize: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = stsBaseURLString
-        components.path = "/authorize"
-        return components.url!
+        stsBaseURL
+            .appendingPathComponent("authorize")
     }
     
     static var stsToken: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = stsBaseURLString
-        components.path = "/token"
-        return components.url!
+        stsBaseURL
+            .appendingPathComponent("token")
     }
     
     static var stsHelloWorld: URL {
@@ -159,10 +126,99 @@ extension AppEnvironment {
     }
     
     static var jwksURL: URL {
+        stsBaseURL
+            .appendingPathComponent(".well-known")
+            .appendingPathComponent("jwks.json")
+    }
+}
+
+// MARK: - Mobile Back End Info Plist values as Type properties
+
+extension AppEnvironment {
+    static var mobileBaseURLString: String {
+        string(for: .mobileBaseURL, in: .mobileBE)
+    }
+    
+    static var mobileBaseURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = stsBaseURLString
-        components.path = "/.well-known/jwks.json"
+        components.host = mobileBaseURLString
+        return components.url!
+    }
+    
+    static var mobileRedirect: URL {
+        mobileBaseURL
+            .appendingPathComponent("redirect")
+    }
+    
+    static var appInfoURL: URL {
+        mobileBaseURL
+            .appendingPathComponent("appInfo")
+    }
+    
+    static var txma: URL {
+        mobileBaseURL
+            .appendingPathComponent("txma-event")
+    }
+    
+    static var walletCredentialIssuer: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "example-credential-issuer.\(mobileBaseURLString)"
+        return components.url!
+    }
+}
+
+// MARK: - ID Check Info Plist values as Type properties
+
+extension AppEnvironment {
+    static var idCheckDomainURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .idCheckDomain, in: .idCheck)
+        return components.url!
+    }
+    
+    static var idCheckBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .idCheckBaseURL, in: .idCheck)
+        return components.url!
+    }
+    
+    static var idCheckAsyncBaseURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .idCheckAsyncBaseURL, in: .idCheck)
+        return components.url!
+    }
+    
+    static var idCheckHandoffURL: URL {
+        let url = idCheckDomainURL
+            .appendingPathComponent("dca")
+            .appendingPathComponent("app")
+            .appendingPathComponent("handoff")
+        
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        components.queryItems = [
+            .init(name: "device", value: "iphone")
+        ]
+        return components.url!
+    }
+    
+    static var readIDURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = string(for: .readIDURL, in: .idCheck)
+        components.path = "/odata/v1/ODataServlet"
+        return components.url!
+    }
+    
+    static var iProovURL: URL {
+        var components = URLComponents()
+        components.scheme = "wss"
+        components.host = string(for: .iProovURL, in: .idCheck)
+        components.path = "/ws"
         return components.url!
     }
 }
@@ -170,49 +226,56 @@ extension AppEnvironment {
 // MARK: - External Info Plist values as Type properties
 
 extension AppEnvironment {
-    static var externalBaseURLString: String {
-        string(for: .externalBaseURL)
-    }
-    
     static var govURLString: String {
-        string(for: .govURLString)
+        string(for: .govURL, in: .external)
     }
     
     static var yourServicesLink: String {
-        string(for: .yourServicesURL)
+        string(for: .yourServicesURL, in: .external)
+    }
+    
+    static var externalBaseURLString: String {
+        string(for: .externalBaseURL, in: .external)
     }
 }
 
 // MARK: - Settings Page URLs
     
 extension AppEnvironment {
-    
     static var manageAccountURL: URL {
         isLocaleWelsh ? manageAccountURLWelsh : manageAccountURLEnglish
     }
-
-    static var manageAccountURLEnglish: URL {
+    
+    static var govURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = govURLString
-        components.path = "/using-your-gov-uk-one-login"
         return components.url!
     }
-
-    private static var manageAccountURLWelsh: URL {
+    
+    static var govSupportURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = govURLString
-        components.path = "/defnyddio-eich-gov-uk-one-login"
+        components.host = string(for: .govSupportURL, in: .external)
         return components.url!
+    }
+    
+    static var manageAccountURLEnglish: URL {
+        govURL
+            .appendingPathComponent("using-your-gov-uk-one-login")
+    }
+
+    static var manageAccountURLWelsh: URL {
+        govURL
+            .appendingPathComponent("defnyddio-eich-gov-uk-one-login")
     }
     
     static var appHelpURL: URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = govURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/one-login/app-help"
+        components.query = "lng=\(localeString)"
         return components.url!
     }
     
@@ -220,8 +283,8 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = yourServicesLink
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/contact-gov-uk-one-login"
+        components.query = "lng=\(localeString)"
         return components.url!
     }
     
@@ -229,8 +292,8 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = externalBaseURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/privacy-notice"
+        components.query = "lng=\(localeString)"
         return components.url!
     }
     
@@ -238,21 +301,9 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = externalBaseURLString
-        components.query = "lng=\(isLocaleWelsh ? "cy" : "en")"
         components.path = "/accessibility-statement"
+        components.query = "lng=\(localeString)"
         return components.url!
-    }
-}
-
-// MARK: - Client ID as Strings
-
-extension AppEnvironment {
-    static var stsClientID: String {
-        return string(for: .stsClientID)
-    }
-    
-    static var isLocaleWelsh: Bool {
-        UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first?.prefix(2) == "cy"
     }
 }
 
@@ -262,7 +313,7 @@ extension AppEnvironment {
     static var appStoreURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = string(for: .appStoreURL)
+        components.host = string(for: .appStoreURL, in: .external)
         return components.url!
     }
     

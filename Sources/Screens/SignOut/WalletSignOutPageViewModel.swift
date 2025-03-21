@@ -9,12 +9,12 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     var childView = UIView()
     let buttonViewModel: any ButtonViewModel
     let secondaryButtonViewModel: (any ButtonViewModel)? = nil
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",

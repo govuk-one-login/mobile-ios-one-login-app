@@ -52,7 +52,8 @@ platform :ios do
       scheme: options[:scheme],
       configuration: options[:configuration],
       testplan: options[:testplan],
-      result_bundle: true
+      result_bundle: true,
+      xcargs: '-skipPackagePluginValidation'
     )
     
     sh(
@@ -152,7 +153,9 @@ platform :ios do
         configuration: options[:configuration],
         scheme: "OneLogin",
         output_name: "OneLogin",
-        export_method: "app-store"
+        export_method: "app-store",
+        export_xcargs: '-skipPackagePluginValidation',
+        xcargs: '-skipPackagePluginValidation'
       )
 
       begin

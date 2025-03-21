@@ -2,10 +2,10 @@ import Foundation
 import Logging
 
 final class AnalyticsCenter: AnalyticsCentral {
-    var analyticsService: AnalyticsService
+    var analyticsService: OneLoginAnalyticsService
     var analyticsPreferenceStore: AnalyticsPreferenceStore
     
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          analyticsPreferenceStore: AnalyticsPreferenceStore) {
         self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore

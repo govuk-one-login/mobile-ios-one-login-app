@@ -1,6 +1,7 @@
 import Coordination
 import GDSAnalytics
 import GDSCommon
+import HTTPLogging
 import Logging
 import Networking
 import UIKit
@@ -15,12 +16,12 @@ final class WalletCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     
-    private var analyticsService: AnalyticsService
+    private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let networkClient: NetworkClient
+    private let networkClient: NetworkClient & WalletNetworkClient
     
-    init(analyticsService: AnalyticsService,
-         networkClient: NetworkClient,
+    init(analyticsService: OneLoginAnalyticsService,
+         networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
         self.analyticsService = analyticsService
         self.networkClient = networkClient
@@ -31,11 +32,19 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
+        let walletServices = WalletServices(
+            networkClient: networkClient,
+            localAuthService: DummyLocalAuthService(),
+            txmaLogger: AuthorizedHTTPLogger(
+                url: AppEnvironment.txma,
+                networkClient: networkClient,
+                scope: "mobile.txma-event.write"
+            )
+        )
         WalletSDK.start(in: root,
-                        networkClient: networkClient,
-                        analyticsService: analyticsService,
-                        localAuthService: DummyLocalAuthService(),
-                        credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString)
+                        config: .oneLoginWalletConfig,
+                        services: walletServices,
+                        analyticsService: analyticsService)
     }
     
     func didBecomeSelected() {
@@ -45,7 +54,7 @@ final class WalletCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        WalletSDK.deeplink(with: url.absoluteString)
+        WalletSDK.deeplink(with: url)
     }
     
     func deleteWalletData() throws {

@@ -1,7 +1,7 @@
 import GDSAnalytics
 import Logging
 
-enum SettingsAnalyticsScreen: String, ScreenType {
+enum SettingsAnalyticsScreen: String, OneLoginScreenType {
     case settingsScreen
     case signOutScreenWithWallet
     case signOutScreenNoWallet

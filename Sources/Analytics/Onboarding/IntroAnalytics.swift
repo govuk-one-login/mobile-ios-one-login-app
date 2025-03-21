@@ -1,7 +1,7 @@
 import GDSAnalytics
 import Logging
 
-enum IntroAnalyticsScreen: String, ScreenType {
+enum IntroAnalyticsScreen: String, OneLoginScreenType {
     case welcome = "introWelcomeScreen"
     case splash = "splashScreen"
     case loginLoading = "loginloadingScreen"

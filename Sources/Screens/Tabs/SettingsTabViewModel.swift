@@ -20,7 +20,7 @@ struct SettingsTabViewModel: TabbedViewModel {
         .developer(action: openDeveloperMenu)
     ]}
     
-    let analyticsService: AnalyticsService
+    let analyticsService: OneLoginAnalyticsService
     private let urlOpener: URLOpener
     private let userProvider: UserProvider
     let openDeveloperMenu: () -> Void
@@ -30,7 +30,7 @@ struct SettingsTabViewModel: TabbedViewModel {
     let backButtonIsHidden: Bool = true
     
     @MainActor
-    init(analyticsService: AnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          userProvider: UserProvider,
          urlOpener: URLOpener = UIApplication.shared,
          openSignOutPage: @escaping () -> Void,
