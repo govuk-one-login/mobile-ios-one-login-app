@@ -198,7 +198,6 @@
 		C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1090A2BEE6C4500B21038 /* SettingsTabViewModel.swift */; };
 		C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EA2BBC05FA005015AF /* MockSceneDelegate.swift */; };
 		C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1232BB4805900722218 /* HomeCoordinator.swift */; };
-		C8ECA1272BB5891000722218 /* MockAnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */; };
 		C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA1292BB5957500722218 /* WalletCoordinator.swift */; };
 		C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */; };
 		C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */; };
@@ -458,7 +457,6 @@
 		C8E1090A2BEE6C4500B21038 /* SettingsTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabViewModel.swift; sourceTree = "<group>"; };
 		C8E6A3EA2BBC05FA005015AF /* MockSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSceneDelegate.swift; sourceTree = "<group>"; };
 		C8ECA1232BB4805900722218 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsCenter.swift; sourceTree = "<group>"; };
 		C8ECA1292BB5957500722218 /* WalletCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletCoordinator.swift; sourceTree = "<group>"; };
 		C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStorable+OneLogin.swift"; sourceTree = "<group>"; };
@@ -1430,7 +1428,6 @@
 			isa = PBXGroup;
 			children = (
 				C88958802C7E793200663299 /* LocalAuth */,
-				C8ECA1252BB588E500722218 /* MockAnalyticsCenter.swift */,
 				C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */,
 				21E04DFB2AE6BC5B004C6660 /* MockAnalyticsService.swift */,
 			);
@@ -2004,7 +2001,6 @@
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
-				C8ECA1272BB5891000722218 /* MockAnalyticsCenter.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,

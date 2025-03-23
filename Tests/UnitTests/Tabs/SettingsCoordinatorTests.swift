@@ -8,8 +8,7 @@ import XCTest
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: MockAnalyticsCenter!
+    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
@@ -19,13 +18,12 @@ final class SettingsCoordinatorTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreference =  MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                  analyticsPreferenceStore: mockAnalyticsPreference)
+        mockAnalyticsPreferenceStore =  MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         urlOpener = MockURLOpener()
-        sut = SettingsCoordinator(analyticsCenter: mockAnalyticsCenter,
+        sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
+                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                   sessionManager: mockSessionManager,
                                   networkClient: mockNetworkClient,
                                   urlOpener: urlOpener)
@@ -36,8 +34,7 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     override func tearDown() {
         mockAnalyticsService = nil
-        mockAnalyticsPreference = nil
-        mockAnalyticsCenter = nil
+        mockAnalyticsPreferenceStore = nil
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil
@@ -67,7 +64,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "app system")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     

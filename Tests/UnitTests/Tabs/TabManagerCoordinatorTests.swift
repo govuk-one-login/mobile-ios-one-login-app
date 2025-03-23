@@ -8,7 +8,6 @@ final class TabManagerCoordinatorTests: XCTestCase {
     var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var sut: TabManagerCoordinator!
     
@@ -19,11 +18,10 @@ final class TabManagerCoordinatorTests: XCTestCase {
         tabBarController = UITabBarController()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         sut = TabManagerCoordinator(root: tabBarController,
-                                    analyticsCenter: mockAnalyticsCenter,
+                                    analyticsService: mockAnalyticsService,
+                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     networkClient: NetworkClient(),
                                     sessionManager: mockSessionManager)
     }
@@ -32,7 +30,6 @@ final class TabManagerCoordinatorTests: XCTestCase {
         tabBarController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCenter = nil
         mockSessionManager = nil
         sut = nil
         
@@ -83,7 +80,7 @@ extension TabManagerCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], iconEvent.type.rawValue)
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], iconEvent.text)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.home.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "settings")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -103,7 +100,7 @@ extension TabManagerCoordinatorTests {
         let iconEvent = IconEvent(textKey: "wallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.wallet.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "settings")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -121,7 +118,7 @@ extension TabManagerCoordinatorTests {
         let iconEvent = IconEvent(textKey: "settings")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [iconEvent.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, iconEvent.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.settings.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "settings")
         XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
     }
     
@@ -133,8 +130,8 @@ extension TabManagerCoordinatorTests {
             notificationCenter: NotificationCenter.default
         )
         // GIVEN the app has an existing session
-        let settingsCoordinator = SettingsCoordinator(analyticsCenter: MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                                                           analyticsPreferenceStore: mockAnalyticsPreferenceStore),
+        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
+                                                      analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
                                                       urlOpener: MockURLOpener())
@@ -153,8 +150,8 @@ extension TabManagerCoordinatorTests {
         window.makeKeyAndVisible()
         // GIVEN the app has an existing session
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
-        let settingsCoordinator = SettingsCoordinator(analyticsCenter: MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                                                           analyticsPreferenceStore: mockAnalyticsPreferenceStore),
+        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
+                                                      analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
                                                       urlOpener: MockURLOpener())

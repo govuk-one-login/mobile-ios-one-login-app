@@ -7,7 +7,6 @@ import XCTest
 final class SceneLifecycleTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: MockAnalyticsCenter!
     var mockSessionManager: MockSessionManager!
     var mockTabManagerCoordinator: TabManagerCoordinator!
     var sut: MockSceneDelegate!
@@ -17,11 +16,10 @@ final class SceneLifecycleTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = MockAnalyticsCenter(analyticsService: mockAnalyticsService,
-                                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         mockTabManagerCoordinator = TabManagerCoordinator(root: UITabBarController(),
-                                                          analyticsCenter: mockAnalyticsCenter,
+                                                          analyticsService: mockAnalyticsService,
+                                                          analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                           networkClient: NetworkClient(),
                                                           sessionManager: mockSessionManager)
         sut = MockSceneDelegate(coordinator: mockTabManagerCoordinator,
@@ -31,7 +29,6 @@ final class SceneLifecycleTests: XCTestCase {
     override func tearDown() {
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCenter = nil
         mockSessionManager = nil
         mockTabManagerCoordinator = nil
         sut = nil

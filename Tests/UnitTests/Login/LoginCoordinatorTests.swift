@@ -9,7 +9,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
-    var mockAnalyticsCenter: AnalyticsCentral!
     var mockSessionManager: MockSessionManager!
     var mockNetworkMonitor: NetworkMonitoring!
     var mockAuthenticationService: MockAuthenticationService!
@@ -23,8 +22,6 @@ final class LoginCoordinatorTests: XCTestCase {
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
-        mockAnalyticsCenter = AnalyticsCenter(analyticsService: mockAnalyticsService,
-                                              analyticsPreferenceStore: mockAnalyticsPreferenceStore)
         mockSessionManager = MockSessionManager()
         mockNetworkMonitor = MockNetworkMonitor()
         mockAuthenticationService = MockAuthenticationService(sessionManager: mockSessionManager)
@@ -32,7 +29,8 @@ final class LoginCoordinatorTests: XCTestCase {
         appWindow.makeKeyAndVisible()
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
-                               analyticsCenter: mockAnalyticsCenter,
+                               analyticsService: mockAnalyticsService,
+                               analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
@@ -44,7 +42,6 @@ final class LoginCoordinatorTests: XCTestCase {
         navigationController = nil
         mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
-        mockAnalyticsCenter = nil
         mockSessionManager = nil
         mockNetworkMonitor = nil
         sut = nil
@@ -57,7 +54,8 @@ final class LoginCoordinatorTests: XCTestCase {
         mockSessionManager.isReturningUser = true
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
-                               analyticsCenter: mockAnalyticsCenter,
+                               analyticsService: mockAnalyticsService,
+                               analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,

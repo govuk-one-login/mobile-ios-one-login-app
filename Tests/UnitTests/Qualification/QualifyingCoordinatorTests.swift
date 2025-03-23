@@ -5,10 +5,11 @@ import Networking
 import XCTest
 
 final class QualifyingCoordinatorTests: XCTestCase {
+    private var qualifyingService: MockQualifyingService!
+    private var mockAnalyticsService: MockAnalyticsService!
+    private var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     private var sessionManager: MockSessionManager!
     private var networkClient: NetworkClient!
-    private var qualifyingService: MockQualifyingService!
-    private var analyticsCenter: MockAnalyticsCenter!
     private var window: UIWindow!
     
     private var sut: QualifyingCoordinator!
@@ -17,17 +18,16 @@ final class QualifyingCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        window = UIWindow()
         sessionManager = MockSessionManager()
+        mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         networkClient = NetworkClient()
         qualifyingService = MockQualifyingService()
-        analyticsCenter = MockAnalyticsCenter(
-            analyticsService: MockAnalyticsService(),
-            analyticsPreferenceStore: MockAnalyticsPreferenceStore()
-        )
-        window = UIWindow()
         sut = QualifyingCoordinator(appWindow: window,
-                                    analyticsCenter: analyticsCenter,
                                     appQualifyingService: qualifyingService,
+                                    analyticsService: mockAnalyticsService,
+                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     sessionManager: sessionManager,
                                     networkClient: networkClient)
     }
@@ -36,7 +36,6 @@ final class QualifyingCoordinatorTests: XCTestCase {
         sessionManager = nil
         networkClient = nil
         qualifyingService = nil
-        analyticsCenter = nil
         window = nil
         sut = nil
         
