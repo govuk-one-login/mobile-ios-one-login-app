@@ -2,23 +2,33 @@
 
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      # Check for updates to GitHub Actions every week
-      interval: "weekly"
-  - package-ecosystem: "bundler"
-    directory: "/"
+      interval: weekly
+      day: sunday
+    groups:
+      github-actions-versions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: bundler
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: sunday
     open-pull-requests-limit: 5
-  - package-ecosystem: "swift"
-    directory: "/OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm"
+
+  - package-ecosystem: swift
+    directory: /OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: sunday
     open-pull-requests-limit: 5
-  - package-ecosystem: "swift"
-    directory: "/OneLogin.xcworkspace/xcshareddata/swiftpm"
+
+  - package-ecosystem: swift
+    directory: /OneLogin.xcworkspace/xcshareddata/swiftpm
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: sunday
     open-pull-requests-limit: 5
