@@ -9,7 +9,6 @@ extension TabbedViewSectionModel {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
     static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: OneLoginAnalyticsService) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: "app_settingsSignInDetailsFootnote",
                                       tabModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
@@ -27,7 +26,6 @@ extension TabbedViewSectionModel {
     }
     
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_appGuidanceLink",
@@ -57,7 +55,6 @@ extension TabbedViewSectionModel {
     }
     
     static func notices(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_privacyNoticeLink2",
