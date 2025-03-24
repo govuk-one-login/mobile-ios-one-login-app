@@ -37,7 +37,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signInTitle".getWelshString(),
                        "GOV.UK One Login")
         XCTAssertEqual("app_signInBody".getWelshString(),
-                       "Mewngofnodwch gyda'r cyfeiriad e-bost rydych yn ei ddefnyddio ar gyfer eich GOV.UK One Login.")
+                       "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.")
         XCTAssertEqual("app_signInButton".getWelshString(),
                        "Mewngofnodi")
         XCTAssertEqual("app_extendedSignInButton".getWelshString(),

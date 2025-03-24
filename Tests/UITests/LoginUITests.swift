@@ -36,8 +36,8 @@ extension LoginUITests {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in with GOV.UK One Login")
         // Launch Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
@@ -51,8 +51,8 @@ extension LoginUITests {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in with GOV.UK One Login")
         // Launch Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
@@ -66,8 +66,8 @@ extension LoginUITests {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in with GOV.UK One Login")
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
@@ -83,8 +83,8 @@ extension LoginUITests {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in with GOV.UK One Login")
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
@@ -100,8 +100,8 @@ extension LoginUITests {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in with GOV.UK One Login")
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
@@ -121,8 +121,8 @@ extension LoginUITests {
         agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
-        XCTAssertEqual(sut.body.label, "Sign in with the email address you use for your GOV.UK One Login.")
-        XCTAssertEqual(sut.signInButton.label, "Sign in")
+        XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        XCTAssertEqual(sut.signInButton.label, "Sign in with GOV.UK One Login")
         // Login Modal
         let loginModal = sut.tapLoginButton()
         XCTAssertEqual(loginModal.title.label, "Welcome to the Auth Stub")
