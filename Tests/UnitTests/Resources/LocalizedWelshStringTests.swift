@@ -9,7 +9,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_cancelButton".getWelshString(),
                        "Canslo")
         XCTAssertEqual("app_tryAgainButton".getWelshString(),
-                       "Rhowch gynnig arall")
+                       "Ewch yn ôl i roi cynnig eto")
         XCTAssertEqual("app_continueButton".getWelshString(),
                        "Parhau")
         XCTAssertEqual("app_agreeButton".getWelshString(),
@@ -61,9 +61,9 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_networkConnectionErrorScreen_keys() throws {
         XCTAssertEqual("app_networkErrorTitle".getWelshString(),
-                       "Mae'n ymddangos nad ydych ar-lein")
+                       "Nid ydych wedi'ch cysylltu â'r rhyngrwyd")
         XCTAssertEqual("app_networkErrorBody".getWelshString(),
-                       "Nid yw GOV.UK One Login ar gael os nad ydych ar-lein. Ailgysylltwch â'r rhyngrwyd a rhoi cynnig arall.")
+                       "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio GOV.UK One Login.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.")
     }
     
     func test_genericErrorScreen_keys() throws {

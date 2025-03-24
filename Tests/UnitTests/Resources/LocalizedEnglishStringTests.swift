@@ -9,7 +9,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_cancelButton".getEnglishString(),
                        "Cancel")
         XCTAssertEqual("app_tryAgainButton".getEnglishString(),
-                       "Try again")
+                       "Go back and try again")
         XCTAssertEqual("app_continueButton".getEnglishString(),
                        "Continue")
         XCTAssertEqual("app_agreeButton".getEnglishString(),
@@ -61,9 +61,9 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_networkConnectionErrorScreen_keys() throws {
         XCTAssertEqual("app_networkErrorTitle".getEnglishString(),
-                       "You appear to be offline")
+                       "You are not connected to the internet")
         XCTAssertEqual("app_networkErrorBody".getEnglishString(),
-                       "GOV.UK One Login is not available offline. Reconnect to the internet and try again.")
+                       "You need to have an internet connection to use GOV.UK One Login.\n\nReconnect to the internet and try again.")
     }
     
     func test_genericErrorScreen_keys() throws {
