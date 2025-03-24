@@ -22,8 +22,8 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
     init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level_2: OLTaxonomyValue.system,
-            OLTaxonomyKey.level_3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
                                                                accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp"),

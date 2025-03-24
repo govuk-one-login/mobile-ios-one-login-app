@@ -24,8 +24,8 @@ final class WalletCoordinator: NSObject,
          networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level_2: OLTaxonomyValue.wallet,
-            OLTaxonomyKey.level_3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.wallet,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
         self.networkClient = networkClient
         self.sessionManager = sessionManager

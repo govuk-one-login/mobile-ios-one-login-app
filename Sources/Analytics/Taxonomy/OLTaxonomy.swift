@@ -1,6 +1,6 @@
 enum OLTaxonomyKey {
-    static let level_2 = "taxonomy_level2"
-    static let level_3 = "taxonomy_level3"
+    static let level2 = "taxonomy_level2"
+    static let level3 = "taxonomy_level3"
 }
 
 enum OLTaxonomyValue {

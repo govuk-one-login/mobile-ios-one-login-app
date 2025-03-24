@@ -19,8 +19,8 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel,
     
     init(analyticsService: OneLoginAnalyticsService) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level_2: OLTaxonomyValue.system,
-            OLTaxonomyKey.level_3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
     }
     
