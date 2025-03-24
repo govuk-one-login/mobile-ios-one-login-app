@@ -69,9 +69,9 @@
 
 
 // MARK: Generic error screen
-"app_somethingWentWrongErrorTitle" = "Aeth rhywbeth o'i le";
+"app_genericErrorPage" = "Mae'n ddrwg gennym, mae yna broblem";
 
-"app_somethingWentWrongErrorBody" = "Rhowch gynnig arall yn nes ymlaen.";
+"app_genericErrorPageBody" = "Rhowch gynnig arall yn nes ymlaen.";
 
 
 // MARK: Face ID enrolment screen
