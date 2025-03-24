@@ -48,8 +48,8 @@ extension WalletCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "wallet")
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "undefined")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level_2] as? String, OLTaxonomyValue.wallet)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level_3] as? String, OLTaxonomyValue.undefined)
     }
     
     func test_deleteWalletData() throws {

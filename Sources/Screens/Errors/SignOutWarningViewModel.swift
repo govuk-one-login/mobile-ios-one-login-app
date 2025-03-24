@@ -16,8 +16,8 @@ struct SignOutWarningViewModel: GDSErrorViewModelV2,
     init(analyticsService: OneLoginAnalyticsService,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            "taxonomy_level2": "login",
-            "taxonomy_level3": "reauth"
+            OLTaxonomyKey.level_2: OLTaxonomyValue.login,
+            OLTaxonomyKey.level_3: OLTaxonomyValue.reauth
         ])
         let event = LinkEvent(textKey: "app_extendedSignInButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,

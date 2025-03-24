@@ -36,8 +36,8 @@ struct SettingsTabViewModel: TabbedViewModel {
          openSignOutPage: @escaping () -> Void,
          openDeveloperMenu: @escaping () -> Void) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            "taxonomy_level2": "settings",
-            "taxonomy_level3": "undefined"
+            OLTaxonomyKey.level_2: OLTaxonomyValue.settings,
+            OLTaxonomyKey.level_3: OLTaxonomyValue.undefined
         ])
         self.userProvider = userProvider
         self.urlOpener = urlOpener

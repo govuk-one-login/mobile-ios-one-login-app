@@ -50,8 +50,8 @@ extension SignOutWarningViewModelTests {
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "reauth")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level_2] as? String, OLTaxonomyValue.login)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level_3] as? String, OLTaxonomyValue.reauth)
     }
 
     func test_didAppear() {
@@ -63,7 +63,7 @@ extension SignOutWarningViewModelTests {
                                 titleKey: sut.title.stringKey)
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, "login")
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, "reauth")
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level_2] as? String, OLTaxonomyValue.login)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level_3] as? String, OLTaxonomyValue.reauth)
     }
 }
