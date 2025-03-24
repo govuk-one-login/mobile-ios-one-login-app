@@ -1,5 +1,3 @@
-# Set update schedule for GitHub actions and other package managers
-
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -8,7 +6,7 @@ updates:
       interval: weekly
       day: sunday
     groups:
-      github-actions-versions:
+      github-actions:
         patterns:
           - "*"
 
@@ -17,18 +15,27 @@ updates:
     schedule:
       interval: weekly
       day: sunday
+    groups:
+      bundler-minor-versions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     open-pull-requests-limit: 5
 
   - package-ecosystem: swift
-    directory: /OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+    directories:
+      - /OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+      - /OneLogin.xcworkspace/xcshareddata/swiftpm
     schedule:
       interval: weekly
       day: sunday
-    open-pull-requests-limit: 5
-
-  - package-ecosystem: swift
-    directory: /OneLogin.xcworkspace/xcshareddata/swiftpm
-    schedule:
-      interval: weekly
-      day: sunday
+    groups:
+      swift-minor-versions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     open-pull-requests-limit: 5
