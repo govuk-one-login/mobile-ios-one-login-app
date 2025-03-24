@@ -67,9 +67,9 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
     
     func test_genericErrorScreen_keys() throws {
-        XCTAssertEqual("app_somethingWentWrongErrorTitle".getEnglishString(),
-                       "Something went wrong")
-        XCTAssertEqual("app_somethingWentWrongErrorBody".getEnglishString(),
+        XCTAssertEqual("app_genericErrorPage".getEnglishString(),
+                       "Sorry, there’s a problem")
+        XCTAssertEqual("app_genericErrorPageBody".getEnglishString(),
                        "Try again later.")
     }
     

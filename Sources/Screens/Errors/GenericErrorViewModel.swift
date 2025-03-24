@@ -6,8 +6,8 @@ struct GenericErrorViewModel: GDSErrorViewModelV2,
                               GDSErrorViewModelWithImage,
                               BaseViewModel {
     let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "app_somethingWentWrongErrorTitle"
-    let body: GDSLocalisedString = "app_somethingWentWrongErrorBody"
+    let title: GDSLocalisedString = "app_genericErrorPage"
+    let body: GDSLocalisedString = "app_genericErrorPageBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
@@ -21,10 +21,10 @@ struct GenericErrorViewModel: GDSErrorViewModelV2,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.errorDescription = errorDescription
-        let event = LinkEvent(textKey: "app_closeButton",
+        let event = LinkEvent(textKey: "app_tryAgainButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
                                                                analyticsService: analyticsService,
                                                                analyticsEvent: event) {
             action()

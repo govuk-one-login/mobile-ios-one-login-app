@@ -70,9 +70,9 @@
 
 
 // MARK: Generic error screen
-"app_somethingWentWrongErrorTitle" = "Something went wrong";
+"app_genericErrorPage" = "Sorry, there’s a problem";
 
-"app_somethingWentWrongErrorBody" = "Try again later.";
+"app_genericErrorPageBody" = "Try again later.";
 
 
 // MARK: Face ID enrolment screen

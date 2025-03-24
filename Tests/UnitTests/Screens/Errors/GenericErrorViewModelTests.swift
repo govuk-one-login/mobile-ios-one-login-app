@@ -38,8 +38,8 @@ extension GenericErrorViewModelTests {
           """)
     func test_page() {
         #expect(sut.image == "exclamationmark.circle")
-        #expect(sut.title.stringKey == "app_somethingWentWrongErrorTitle")
-        #expect(sut.body.stringKey == "app_somethingWentWrongErrorBody")
+        #expect(sut.title.stringKey == "app_genericErrorPage")
+        #expect(sut.body.stringKey == "app_genericErrorPageBody")
         #expect(sut.errorDescription == "error description")
         #expect(sut.rightBarButtonTitle == nil)
         #expect(sut.backButtonIsHidden)
@@ -51,13 +51,13 @@ extension GenericErrorViewModelTests {
             - logs the `Link` analytics event
           """)
     func test_button() {
-        #expect(sut.primaryButtonViewModel.title.stringKey == "app_closeButton")
+        #expect(sut.primaryButtonViewModel.title.stringKey == "app_tryAgainButton")
         #expect(!didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.primaryButtonViewModel.action()
         #expect(didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
-        let event = LinkEvent(textKey: "app_closeButton",
+        let event = LinkEvent(textKey: "app_tryAgainButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         #expect(mockAnalyticsService.eventsLogged == [event.name.name])
@@ -73,7 +73,7 @@ extension GenericErrorViewModelTests {
         #expect(mockAnalyticsService.screensVisited.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                      screen: ErrorAnalyticsScreen.generic,
-                                     titleKey: "app_somethingWentWrongErrorTitle",
+                                     titleKey: "app_genericErrorPage",
                                      reason: sut.errorDescription)
         #expect(mockAnalyticsService.screensVisited == [screen.name])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
