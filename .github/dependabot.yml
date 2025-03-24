@@ -1,24 +1,41 @@
-# Set update schedule for GitHub actions and other package managers
-
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      # Check for updates to GitHub Actions every week
-      interval: "weekly"
-  - package-ecosystem: "bundler"
-    directory: "/"
+      interval: weekly
+      day: sunday
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: bundler
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: sunday
+    groups:
+      bundler-minor-versions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     open-pull-requests-limit: 5
-  - package-ecosystem: "swift"
-    directory: "/OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm"
+
+  - package-ecosystem: swift
+    directories:
+      - /OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+      - /OneLogin.xcworkspace/xcshareddata/swiftpm
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-  - package-ecosystem: "swift"
-    directory: "/OneLogin.xcworkspace/xcshareddata/swiftpm"
-    schedule:
-      interval: "weekly"
+      interval: weekly
+      day: sunday
+    groups:
+      swift-minor-versions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     open-pull-requests-limit: 5
