@@ -77,7 +77,7 @@ extension GenericErrorViewModelTests {
                                      reason: sut.errorDescription)
         #expect(mockAnalyticsService.screensVisited == [screen.name])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
-        #expect(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String == AppTaxonomy.system.rawValue)
-        #expect(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String == AppTaxonomy.error.rawValue)
+        #expect(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String == OLTaxonomyValue.system)
+        #expect(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String == OLTaxonomyValue.error)
     }
 }

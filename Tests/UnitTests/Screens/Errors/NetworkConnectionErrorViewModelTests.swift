@@ -59,7 +59,7 @@ extension NetworkConnectionErrorViewModelTests {
                                      reason: "network connection error")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.system.rawValue)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, AppTaxonomy.error.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, OLTaxonomyValue.system)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, OLTaxonomyValue.error)
     }
 }

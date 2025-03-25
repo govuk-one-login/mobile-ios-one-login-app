@@ -74,7 +74,7 @@ extension FaceIDEnrolmentViewModelTests {
                                 titleKey: "app_enableFaceIDTitle")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, AppTaxonomy.login.rawValue)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, AppTaxonomy.biometrics.rawValue)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level2"] as? String, OLTaxonomyValue.login)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters["taxonomy_level3"] as? String, OLTaxonomyValue.biometrics)
     }
 }
