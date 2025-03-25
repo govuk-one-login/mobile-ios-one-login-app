@@ -21,7 +21,10 @@ final class HomeCoordinator: NSObject,
     
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.home,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.networkClient = networkClient
     }
     
@@ -39,7 +42,6 @@ final class HomeCoordinator: NSObject,
     }
     
     func didBecomeSelected() {
-        analyticsService.setAdditionalParameters(appTaxonomy: .home)
         let event = IconEvent(textKey: "app_homeTitle")
         analyticsService.logEvent(event)
     }

@@ -16,7 +16,8 @@ final class LoginCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     
-    private let analyticsCenter: AnalyticsCentral
+    private let analyticsService: OneLoginAnalyticsService
+    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
@@ -34,14 +35,16 @@ final class LoginCoordinator: NSObject,
     
     init(appWindow: UIWindow,
          root: UINavigationController,
-         analyticsCenter: AnalyticsCentral,
+         analyticsService: OneLoginAnalyticsService,
+         analyticsPreferenceStore: AnalyticsPreferenceStore,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          authService: AuthenticationService,
          isExpiredUser: Bool) {
         self.appWindow = appWindow
         self.root = root
-        self.analyticsCenter = analyticsCenter
+        self.analyticsService = analyticsService
+        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
@@ -56,12 +59,12 @@ final class LoginCoordinator: NSObject,
         let rootViewController: UIViewController
         
         if isExpiredUser {
-            let viewModel = SignOutWarningViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
             rootViewController = GDSErrorViewController(viewModel: viewModel)
         } else {
-            let viewModel = OneLoginIntroViewModel(analyticsService: analyticsCenter.analyticsService) { [unowned self] in
+            let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
             rootViewController = IntroViewController(viewModel: viewModel)
@@ -123,7 +126,7 @@ final class LoginCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         let loginLoadingScreen = GDSLoadingViewController(
             viewModel: LoginLoadingViewModel(
-                analyticsService: analyticsCenter.analyticsService
+                analyticsService: analyticsService
             )
         )
         root.pushViewController(loginLoadingScreen, animated: false)
@@ -135,15 +138,15 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        if analyticsCenter.analyticsPermissionsNotSet, root.topViewController is IntroViewController {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsCenter.analyticsPreferenceStore,
+        if analyticsPreferenceStore.hasAcceptedAnalytics == nil, root.topViewController is IntroViewController {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }
     }
         
     func launchEnrolmentCoordinator() {
         openChildInline(EnrolmentCoordinator(root: root,
-                                             analyticsService: analyticsCenter.analyticsService,
+                                             analyticsService: analyticsService,
                                              sessionManager: sessionManager))
     }
 }
@@ -160,7 +163,7 @@ extension LoginCoordinator {
     }
     
     private func showUnableToLoginErrorScreen(_ error: Error) {
-        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService,
                                                     errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
@@ -169,7 +172,7 @@ extension LoginCoordinator {
     }
     
     private func showNetworkConnectionErrorScreen(action: @escaping () -> Void) {
-        let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsCenter.analyticsService) {
+        let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
             action()
         }
         let networkErrorScreen = GDSErrorViewController(viewModel: viewModel)
@@ -177,7 +180,7 @@ extension LoginCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        let viewModel = GenericErrorViewModel(analyticsService: analyticsCenter.analyticsService,
+        let viewModel = GenericErrorViewModel(analyticsService: analyticsService,
                                               errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }

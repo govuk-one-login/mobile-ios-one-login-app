@@ -11,8 +11,7 @@ final class SceneDelegate: UIResponder,
     private var rootCoordinator: QualifyingCoordinator?
     
     lazy var analyticsService: OneLoginAnalyticsService = GAnalytics()
-    private lazy var analyticsCenter = AnalyticsCenter(analyticsService: analyticsService,
-                                                       analyticsPreferenceStore: UserDefaultsPreferenceStore())
+    private lazy var analyticsPreferenceStore = UserDefaultsPreferenceStore()
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
     private lazy var networkClient = NetworkClient()
@@ -28,7 +27,7 @@ final class SceneDelegate: UIResponder,
                 secureStoreManager,
                 WalletSessionData(),
                 WalletAvailabilityService(),
-                analyticsCenter,
+                analyticsPreferenceStore,
                 UserDefaults.standard
             ]
         )
@@ -46,8 +45,9 @@ final class SceneDelegate: UIResponder,
         
         rootCoordinator = QualifyingCoordinator(
             appWindow: UIWindow(windowScene: windowScene),
-            analyticsCenter: analyticsCenter,
             appQualifyingService: appQualifyingService,
+            analyticsService: analyticsService,
+            analyticsPreferenceStore: analyticsPreferenceStore,
             sessionManager: sessionManager,
             networkClient: networkClient
         )

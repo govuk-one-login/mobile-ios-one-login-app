@@ -23,7 +23,10 @@ final class WalletCoordinator: NSObject,
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.wallet,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
@@ -48,7 +51,6 @@ final class WalletCoordinator: NSObject,
     }
     
     func didBecomeSelected() {
-        analyticsService.setAdditionalParameters(appTaxonomy: .wallet)
         let event = IconEvent(textKey: "app_walletTitle")
         analyticsService.logEvent(event)
     }

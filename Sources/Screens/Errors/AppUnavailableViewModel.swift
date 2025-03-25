@@ -18,9 +18,10 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel,
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .system)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
     }
     
     func didAppear() {

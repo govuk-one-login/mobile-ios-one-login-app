@@ -9,7 +9,6 @@ extension TabbedViewSectionModel {
     static let linkDisclosureArrow: String = "arrow.up.right"
     
     static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: OneLoginAnalyticsService) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: "app_settingsSignInDetailsFootnote",
                                       tabModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
@@ -22,13 +21,11 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
                                   linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }
     
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_appGuidanceLink",
@@ -38,7 +35,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_appGuidanceLink",
                                   linkDomain: AppEnvironment.appHelpURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_contactLink",
@@ -48,7 +44,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_contactLink",
                                   linkDomain: AppEnvironment.contactURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }
@@ -60,7 +55,6 @@ extension TabbedViewSectionModel {
     }
     
     static func notices(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_privacyNoticeLink2",
@@ -70,7 +64,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_privacyNoticeLink2",
                                   linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         },
                                                   .init(cellTitle: "app_accessibilityStatement",
@@ -80,7 +73,6 @@ extension TabbedViewSectionModel {
             let event = LinkEvent(textKey: "app_accessibilityStatement",
                                   linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
                                   external: .false)
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }
@@ -93,7 +85,6 @@ extension TabbedViewSectionModel {
                                                         textColor: .gdsGreen) {
             action()
             let event = ButtonEvent(textKey: "app_signOutButton")
-            analyticsService.setAdditionalParameters(appTaxonomy: .settings)
             analyticsService.logEvent(event)
         }])
     }

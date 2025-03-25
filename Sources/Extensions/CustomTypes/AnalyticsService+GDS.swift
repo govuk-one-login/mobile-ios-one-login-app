@@ -4,8 +4,6 @@ import Wallet
 
 typealias OneLoginScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
 
-extension EventName: @retroactive LoggableEvent { }
-
 extension ScreenView: @retroactive LoggableScreenV2
 where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
     public var name: String {
@@ -28,14 +26,7 @@ where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
     }
 }
 
-enum AppTaxonomy: String {
-    case system = "app system"
-    case login
-    case home
-    case wallet
-    case settings
-    case reauth = "re auth"
-}
+extension EventName: @retroactive LoggableEvent { }
 
 extension AnalyticsService {
     public func logEvent(_ event: Event) {
@@ -47,19 +38,10 @@ extension AnalyticsService {
         trackScreen(screen,
                     parameters: screen.parameters)
     }
-    
-    mutating func setAdditionalParameters(appTaxonomy: AppTaxonomy) {
-        let (taxonomyLevel2, taxonomyLevel3) = {
-            switch appTaxonomy {
-            case .reauth:
-                (AppTaxonomy.login.rawValue, appTaxonomy.rawValue)
-            default:
-                (appTaxonomy.rawValue, "undefined")
-            }
-        }()
-        additionalParameters = additionalParameters.merging([
-            "taxonomy_level2": taxonomyLevel2,
-            "taxonomy_level3": taxonomyLevel3
-        ]) { $1 }
+}
+
+extension UserDefaultsPreferenceStore: SessionBoundData {
+    func delete() throws {
+        hasAcceptedAnalytics = nil
     }
 }
