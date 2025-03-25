@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:LocalAuthManagement">
+      location = "group:AppIntegrity">
    </FileRef>
    <FileRef
-      location = "group:AppIntegrity">
+      location = "group:LocalAuthenticationWrapper">
    </FileRef>
    <FileRef
       location = "group:MobilePlatformServices">

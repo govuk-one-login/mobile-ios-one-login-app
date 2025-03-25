@@ -1,4 +1,3 @@
-import GDSCommon
 import LocalAuthentication
 
 public protocol LocalAuthPromptRecorder {

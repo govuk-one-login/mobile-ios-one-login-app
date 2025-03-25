@@ -1733,6 +1733,7 @@
 				AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */,
 				AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */,
 				AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */,
+				C8EE69062D933EA7005D191C /* XCLocalSwiftPackageReference "LocalAuthenticationWrapper" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -3022,6 +3023,10 @@
 		7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = AppIntegrity;
+		};
+		C8EE69062D933EA7005D191C /* XCLocalSwiftPackageReference "LocalAuthenticationWrapper" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalAuthenticationWrapper;
 		};
 /* End XCLocalSwiftPackageReference section */
 
