@@ -19,9 +19,10 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV2,
     init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String,
          action: @escaping () -> Void) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .loginError)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.login,
+            OLTaxonomyKey.level3: OLTaxonomyValue.error
+        ])
         self.errorDescription = errorDescription
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
                                                                analyticsService: analyticsService) {

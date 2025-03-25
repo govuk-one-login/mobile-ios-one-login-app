@@ -24,9 +24,10 @@ struct FaceIDEnrolmentViewModel: GDSCentreAlignedViewModel,
     init(analyticsService: OneLoginAnalyticsService,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .biometrics)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.login,
+            OLTaxonomyKey.level3: OLTaxonomyValue.biometrics
+        ])
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableFaceIDButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()

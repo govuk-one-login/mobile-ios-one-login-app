@@ -11,4 +11,7 @@ enum OLTaxonomyValue {
     static let settings = "settings"
     static let reauth = "re auth"
     static let undefined = "undefined"
+    static let biometrics = "biometrics"
+    static let unlock = "unlock"
+    static let error = "error"
 }

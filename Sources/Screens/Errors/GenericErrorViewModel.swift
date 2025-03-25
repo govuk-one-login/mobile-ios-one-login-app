@@ -19,9 +19,10 @@ struct GenericErrorViewModel: GDSErrorViewModelV2,
     init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String,
          action: @escaping () -> Void) {
-        var tempAnalyticsService = analyticsService
-        tempAnalyticsService.setAdditionalParameters(appTaxonomy: .error)
-        self.analyticsService = tempAnalyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.error
+        ])
         self.errorDescription = errorDescription
         let event = LinkEvent(textKey: "app_tryAgainButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,
