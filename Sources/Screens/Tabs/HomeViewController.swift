@@ -10,6 +10,8 @@ final class HomeViewController: UITableViewController {
     private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     private let criOrchestrator: CRIOrchestrator
+    
+    private var idCheckCard: UIViewController?
 
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
@@ -32,9 +34,14 @@ final class HomeViewController: UITableViewController {
         title = navigationTitle.value
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
+        tableView.register(ContentTileCell.self, forCellReuseIdentifier: "ContentTileCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         if AppEnvironment.criOrchestratorEnabled {
             criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        }
+        
+        idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) { [unowned self] in
+            self.tableView.reloadData()
         }
     }
     
@@ -49,7 +56,8 @@ final class HomeViewController: UITableViewController {
 
 extension HomeViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        guard let idCheckCard else { return 1 }
+        return idCheckCard.view.isHidden ? 1 : 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,30 +67,36 @@ extension HomeViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = ContentTileCell()
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "ContentTileCell",
+                for: indexPath
+            ) as? ContentTileCell else {
+                preconditionFailure()
+            }
             cell.viewModel = .oneLoginCard(analyticsService: analyticsService,
                                            urlOpener: UIApplication.shared)
             return cell
         case 1:
-            let idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) {
-                tableView.reloadData()
+            guard let idCheckCard else {
+                preconditionFailure("")
             }
-            let tableViewCell = tableView.dequeueReusableCell(
+            let cell = tableView.dequeueReusableCell(
                 withIdentifier: "OneLoginHomeScreenCell",
                 for: indexPath
             )
             
-            tableViewCell.addSubview(idCheckCard.view)
-            tableViewCell.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                tableViewCell.topAnchor.constraint(equalTo: idCheckCard.view.topAnchor),
-                tableViewCell.bottomAnchor.constraint(equalTo: idCheckCard.view.bottomAnchor),
-                tableViewCell.leadingAnchor.constraint(equalTo: idCheckCard.view.leadingAnchor),
-                tableViewCell.trailingAnchor.constraint(equalTo: idCheckCard.view.trailingAnchor)
-            ])
-            tableViewCell.isHidden = !AppEnvironment.criOrchestratorEnabled
+            idCheckCard.view.translatesAutoresizingMaskIntoConstraints = false
+            cell.isHidden = !AppEnvironment.criOrchestratorEnabled || idCheckCard.view.isHidden
+            cell.contentView.addSubview(idCheckCard.view)
             
-            return tableViewCell
+            NSLayoutConstraint.activate([
+                idCheckCard.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                idCheckCard.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+                idCheckCard.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+                idCheckCard.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
+            ])
+
+            return cell
         default:
             return UITableViewCell()
         }
