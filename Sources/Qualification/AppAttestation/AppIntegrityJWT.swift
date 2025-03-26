@@ -7,7 +7,10 @@ enum AppIntegrityJWT {
     func callAsFunction() -> [String: Any] {
         switch self {
         case .headers:
-            ["alg": "ES256"]
+            [
+                "alg": "ES256",
+                "typ": "oauth-client-attestation-pop+jwt"
+            ]
         case .payload:
             [
                 "iss": AppEnvironment.stsClientID,

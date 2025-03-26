@@ -10,7 +10,8 @@ import Testing
     func initialiseJWTHeader() {
         let header = AppIntegrityJWT.headers()
 
-        #expect(header as? [String: String] == ["alg": "ES256"])
+        #expect(header as? [String: String] == ["alg": "ES256",
+                                                "typ": "oauth-client-attestation-pop+jwt"])
     }
      
      @Test("""
