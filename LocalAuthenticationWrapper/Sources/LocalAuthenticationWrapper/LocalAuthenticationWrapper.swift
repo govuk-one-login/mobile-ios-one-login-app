@@ -110,9 +110,9 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
             )
         if let error {
             switch error.code {
-            case LAError.Code.biometryLockout.rawValue,
-                LAError.Code.biometryNotEnrolled.rawValue,
-                LAError.Code.biometryNotAvailable.rawValue:
+            case LAError.biometryLockout.rawValue,
+                LAError.biometryNotEnrolled.rawValue,
+                LAError.biometryNotAvailable.rawValue:
                 throw LocalAuthenticationWrapperError.biometricsUnavailable
             default:
                 throw LocalAuthenticationWrapperError
