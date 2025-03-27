@@ -1,11 +1,11 @@
 import LocalAuthentication
 
-final public class LocalAuthenticationWrapper: LocalAuthWrap {
+public struct LocalAuthenticationWrapper: LocalAuthWrap {
     private let context: LocalAuthenticationContext
     private let localAuthPromptStore: LocalAuthPromptRecorder
     private let localAuthStrings: LocalAuthPromptStrings
     
-    public convenience init(
+    public init(
         localAuthStrings: LocalAuthPromptStrings
     ) {
         self.init(
@@ -70,7 +70,7 @@ final public class LocalAuthenticationWrapper: LocalAuthWrap {
         } else {
             0
         }
-        return supportedLevel >= requiredLevel.rawValue
+        return supportedLevel >= requiredLevel.tier
     }
     
     public func enrolLocalAuth() async throws -> Bool {

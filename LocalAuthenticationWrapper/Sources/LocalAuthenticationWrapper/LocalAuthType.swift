@@ -8,7 +8,7 @@ public enum LocalAuthType: Equatable {
         case faceID
     }
     
-    var rawValue: Int {
+    var tier: Int {
         switch self {
         case .none:
             0
