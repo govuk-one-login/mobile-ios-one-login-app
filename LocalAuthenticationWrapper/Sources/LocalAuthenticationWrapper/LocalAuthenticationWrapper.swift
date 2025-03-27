@@ -1,75 +1,71 @@
 import LocalAuthentication
 
-public protocol LocalAuthPromptRecorder {
-    var previouslyPrompted: Bool { get }
-    func recordPrompt()
-}
-
-enum LocalAuthManagerError: Error {
-    case noLocalAuthToEnrol
-}
-
-final class LocalAuthenticationWrapper: LocalAuthWrap {
+final public class LocalAuthenticationWrapper: LocalAuthWrap {
     private let context: LocalAuthenticationContext
-    private let localAuthStrings: LocalAuthPromptStrings
     private let localAuthPromptStore: LocalAuthPromptRecorder
+    private let localAuthStrings: LocalAuthPromptStrings
     
     public convenience init(
-        localAuthStrings: LocalAuthPromptStrings,
-        localAuthPromptStore: LocalAuthPromptRecorder
+        localAuthStrings: LocalAuthPromptStrings
     ) {
         self.init(
             context: LAContext(),
-            localAuthStrings: localAuthStrings,
-            localAuthPromptStore: localAuthPromptStore
+            localAuthPromptStore: UserDefaults.standard,
+            localAuthStrings: localAuthStrings
         )
     }
     
     init(
         context: LocalAuthenticationContext,
-        localAuthStrings: LocalAuthPromptStrings,
-        localAuthPromptStore: LocalAuthPromptRecorder
+        localAuthPromptStore: LocalAuthPromptRecorder,
+        localAuthStrings: LocalAuthPromptStrings
     ) {
         self.context = context
-        self.localAuthStrings = localAuthStrings
         self.localAuthPromptStore = localAuthPromptStore
+        self.localAuthStrings = localAuthStrings
     }
     
-    public var type: some LocalAuthType {
-        guard canOnlyUseBiometrics else {
-            return canUseAnyLocalAuth ? MyLocalAuthType.passcodeOnly : MyLocalAuthType.none
-        }
-        
-        switch context.biometryType {
-        case .faceID:
-            return MyLocalAuthType.faceID
-        case .touchID:
-            return MyLocalAuthType.touchID
-        case _ where canUseAnyLocalAuth:
-            return MyLocalAuthType.passcodeOnly
-        default:
-            return MyLocalAuthType.none
+    public var type: LocalAuthType {
+        get throws {
+            guard try canOnlyUseBiometrics else {
+                return try canUseAnyLocalAuth ? .passcodeOnly : .none
+            }
+            
+            switch context.biometryType {
+            case .faceID:
+                return .biometry(type: .faceID)
+            case .touchID:
+                return .biometry(type: .touchID)
+            case _ where try canUseAnyLocalAuth:
+                return .passcodeOnly
+            default:
+                return .none
+            }
         }
     }
     
     private var canOnlyUseBiometrics: Bool {
-        canUseLocalAuth(
-            type: .deviceOwnerAuthenticationWithBiometrics
-        )
+        get throws {
+            try canUseLocalAuth(
+                type: .deviceOwnerAuthenticationWithBiometrics
+            )
+        }
     }
     
     private var canUseAnyLocalAuth: Bool {
-        canUseLocalAuth(
-            type: .deviceOwnerAuthentication
-        )
+        get throws {
+            try canUseLocalAuth(
+                type: .deviceOwnerAuthentication
+            )
+        }
     }
     
     public func checkMinimumLevel(
-        _ requiredLevel: any LocalAuthType
-    ) -> Bool {
-        let supportedLevel = if canOnlyUseBiometrics {
-            type == .touchID ? 3 : 4
-        } else if canUseAnyLocalAuth {
+        _ requiredLevel: LocalAuthType
+    ) throws -> Bool {
+        let supportedLevel = if try canOnlyUseBiometrics {
+            2
+        } else if try canUseAnyLocalAuth {
             1
         } else {
             0
@@ -78,37 +74,52 @@ final class LocalAuthenticationWrapper: LocalAuthWrap {
     }
     
     public func enrolLocalAuth() async throws -> Bool {
-        guard type != .none else {
-            throw LocalAuthManagerError.noLocalAuthToEnrol
-        }
-        guard type == .faceID else {
-            // enrolment is not required unless biometric type is FaceID
-            // localAuthResult ? post notification : nil
+        guard try type == .biometry(type: .faceID) &&
+                !localAuthPromptStore.previouslyPrompted else {
+            // enrolment is not required unless biometry type is FaceID
+            // and user has not been previously prompted for permissions
             return true
         }
         do {
             localizeAuthPromptStrings()
             let localAuthResult = try await context
                 .evaluatePolicy(
-                    .deviceOwnerAuthenticationWithBiometrics,
+                    .deviceOwnerAuthentication,
                     localizedReason: localAuthStrings.subtitle
                 )
             localAuthPromptStore.recordPrompt()
-//            localAuthResult ? post notification : nil
             return localAuthResult
+        } catch LAError.appCancel,
+                LAError.userCancel,
+                LAError.systemCancel {
+            throw LocalAuthenticationWrapperError.cancelled
         } catch {
-            throw error
+            throw LocalAuthenticationWrapperError
+                .generic(description: error.localizedDescription)
         }
     }
     
     private func canUseLocalAuth(
         type policy: LAPolicy
-    ) -> Bool {
-        return context
+    ) throws -> Bool {
+        var error: NSError?
+        let localAuthOutcome = context
             .canEvaluatePolicy(
                 policy,
-                error: nil
+                error: &error
             )
+        if let error {
+            switch error.code {
+            case LAError.Code.biometryLockout.rawValue,
+                LAError.Code.biometryNotEnrolled.rawValue,
+                LAError.Code.biometryNotAvailable.rawValue:
+                throw LocalAuthenticationWrapperError.biometricsUnavailable
+            default:
+                throw LocalAuthenticationWrapperError
+                    .generic(description: error.localizedDescription)
+            }
+        }
+        return localAuthOutcome
     }
     
     private func localizeAuthPromptStrings() {

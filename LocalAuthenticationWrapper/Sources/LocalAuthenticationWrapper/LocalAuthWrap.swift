@@ -1,7 +1,6 @@
 public protocol LocalAuthWrap {
-    associatedtype LAType: LocalAuthType
-    var type: LAType { get }
+    var type: LocalAuthType { get throws }
     
-    func checkMinimumLevel(_ requiredLevel: any LocalAuthType) -> Bool
+    func checkMinimumLevel(_ requiredLevel: LocalAuthType) throws -> Bool
     func enrolLocalAuth() async throws -> Bool
 }

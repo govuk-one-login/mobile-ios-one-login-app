@@ -1,6 +1,6 @@
 import LocalAuthentication
 
-public protocol LocalAuthenticationContext: AnyObject {
+protocol LocalAuthenticationContext: AnyObject {
     var biometryType: LABiometryType { get }
 
     var localizedFallbackTitle: String? { get set }
