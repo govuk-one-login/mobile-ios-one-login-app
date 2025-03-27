@@ -2,74 +2,47 @@ import GDSCommon
 import LocalAuthentication
 import SecureStore
 
-protocol OneLoginLocalAuthType: RawRepresentable where RawValue == Int {
-    static var none: Self { get }
-    static var passcodeOnly: Self { get }
-    static var touchID: Self { get }
-    static var faceID: Self { get }
+enum LocalAuthenticationType {
+    case touchID
+    case faceID
+    case passcodeOnly
+    case none
 }
 
-protocol OneLoginLocalAuthenticationManager {
-    associatedtype LocalAuthType: OneLoginLocalAuthType
-    var type: LocalAuthType { get }
-    
-    func checkLevelSupported(_ requiredLevel: LocalAuthType) -> Bool
+protocol LocalAuthenticationManager {
+    var type: LocalAuthenticationType { get }
+
+    func canUseLocalAuth(type policy: LAPolicy) -> Bool
     func enrolFaceIDIfAvailable() async throws -> Bool
 }
 
-enum LocalAuthenticationType: Int, OneLoginLocalAuthType {
-    case none
-    case passcodeOnly
-    case touchID
-    case faceID
-}
-
-final class LALocalAuthenticationManager: OneLoginLocalAuthenticationManager {
+final class LALocalAuthenticationManager: LocalAuthenticationManager {
     private let context: LocalAuthenticationContext
-    
+
     init(context: LocalAuthenticationContext = LAContext()) {
         self.context = context
     }
     
-    var canOnlyUseBiometrics: Bool {
-        canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics)
-    }
-    
-    var canUseAnyLocalAuth: Bool {
-        canUseLocalAuth(type: .deviceOwnerAuthentication)
-    }
-    
-    var type: some OneLoginLocalAuthType {
-        guard canOnlyUseBiometrics else {
-            return canUseAnyLocalAuth ?
-            LocalAuthenticationType.passcodeOnly : LocalAuthenticationType.none
+    var type: LocalAuthenticationType {
+        guard canUseLocalAuth(type: .deviceOwnerAuthenticationWithBiometrics) else {
+            return canUseLocalAuth(type: .deviceOwnerAuthentication) ?
+                .passcodeOnly : .none
         }
-        
+
         switch context.biometryType {
         case .faceID:
-            return LocalAuthenticationType.faceID
+            return .faceID
         case .touchID:
-            return LocalAuthenticationType.touchID
-        case _ where canUseAnyLocalAuth:
-            return LocalAuthenticationType.passcodeOnly
+            return .touchID
+        case _ where context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil):
+            return .passcodeOnly
         default:
-            return LocalAuthenticationType.none
+            return .none
         }
     }
     
-    private func canUseLocalAuth(type policy: LAPolicy) -> Bool {
-        return context.canEvaluatePolicy(policy, error: nil)
-    }
-    
-    func checkLevelSupported(_ requiredLevel: some OneLoginLocalAuthType) -> Bool {
-        let supportedLevel = if canOnlyUseBiometrics {
-            2
-        } else if canUseAnyLocalAuth {
-            1
-        } else {
-            0
-        }
-        return supportedLevel >= requiredLevel.rawValue
+    func canUseLocalAuth(type policy: LAPolicy) -> Bool {
+        context.canEvaluatePolicy(policy, error: nil)
     }
     
     func enrolFaceIDIfAvailable() async throws -> Bool {
@@ -86,7 +59,7 @@ final class LALocalAuthenticationManager: OneLoginLocalAuthenticationManager {
                 ).value
             )
     }
-    
+
     private func localizeAuthPromptStrings() {
         context.localizedFallbackTitle = GDSLocalisedString(
             stringLiteral: "app_enterPasscodeButton"

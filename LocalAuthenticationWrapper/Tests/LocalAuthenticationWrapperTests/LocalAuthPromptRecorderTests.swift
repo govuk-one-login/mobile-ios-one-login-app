@@ -15,12 +15,12 @@ class LocalAuthPromptRecorderTests {
     }
     
     @Test
-    func example() {
+    func notPreviouslyPrompted() {
         #expect(!sut.previouslyPrompted)
     }
     
     @Test
-    func example2() {
+    func previouslyPrompted() {
         sut.recordPrompt()
         #expect(sut.previouslyPrompted)
     }
