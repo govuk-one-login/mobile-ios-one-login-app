@@ -1,5 +1,5 @@
-@testable import LocalAuthenticationWrapper
 import LocalAuthentication
+@testable import LocalAuthenticationWrapper
 
 final class MockLocalAuthContext: LocalAuthContext {
     var biometryType: LABiometryType = .none
@@ -12,7 +12,7 @@ final class MockLocalAuthContext: LocalAuthContext {
     
     var canEvaluatePolicyError: NSError?
     
-    var errorFromEvaluatePolicy: Error? = nil
+    var errorFromEvaluatePolicy: Error?
     var valueFromEvaluatePolicy = true
     
     init(

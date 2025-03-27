@@ -1,5 +1,5 @@
-@testable import LocalAuthenticationWrapper
 import Foundation
+@testable import LocalAuthenticationWrapper
 import Testing
 
 @Suite(.serialized)

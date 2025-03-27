@@ -1,5 +1,5 @@
-@testable import LocalAuthenticationWrapper
 import LocalAuthentication
+@testable import LocalAuthenticationWrapper
 import Testing
 
 struct LocalAuthenticationWrapperTests {
