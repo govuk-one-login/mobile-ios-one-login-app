@@ -13,7 +13,7 @@ struct LocalAuthenticationWrapperTests {
             localAuthContext: mockLocalAuthContext,
             localAuthPromptStore: mockAuthPromptStore,
             localAuthStrings: LocalAuthPromptStrings(
-                subtitle: "test_subtitle",
+                subtitle: "test_reason",
                 passcodeButton: "test_passcodeButton",
                 cancelButton: "test_cancelButton"
             )
@@ -90,5 +90,27 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = false
         #expect(try sut.checkMinimumLevel(.none))
+    }
+    
+    @Test("")
+    func enrolLocalAuthNotFaceID() async throws {
+        mockLocalAuthContext.biometryType = .touchID
+        #expect(try await sut.enrolLocalAuth())
+    }
+    
+    @Test("")
+    func enrolLocalAuthAlreadyPrompted() async throws {
+        mockLocalAuthContext.biometryType = .faceID
+        mockAuthPromptStore.recordPrompt()
+        #expect(try await sut.enrolLocalAuth())
+    }
+    
+    @Test("")
+    func enrolLocalAuth() async throws {
+        mockLocalAuthContext.biometryType = .faceID
+        _ = try await sut.enrolLocalAuth()
+        #expect(mockLocalAuthContext.localizedFallbackTitle == "test_passcodeButton")
+        #expect(mockLocalAuthContext.localizedCancelTitle == "test_cancelButton")
+        #expect(mockLocalAuthContext.localizedReason == "test_reason")
     }
 }

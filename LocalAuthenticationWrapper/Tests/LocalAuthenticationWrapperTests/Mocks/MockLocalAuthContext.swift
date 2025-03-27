@@ -5,6 +5,7 @@ final class MockLocalAuthContext: LocalAuthContext {
     var biometryType: LABiometryType = .none
     var localizedFallbackTitle: String?
     var localizedCancelTitle: String?
+    var localizedReason: String?
     
     var biometryPolicyOutcome = false
     var anyPolicyOutcome = false
@@ -17,7 +18,10 @@ final class MockLocalAuthContext: LocalAuthContext {
         self.localizedCancelTitle = localizedCancelTitle
     }
     
-    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
+    func canEvaluatePolicy(
+        _ policy: LAPolicy,
+        error: NSErrorPointer
+    ) -> Bool {
         switch policy {
         case .deviceOwnerAuthenticationWithBiometrics:
             biometryPolicyOutcome
@@ -28,7 +32,11 @@ final class MockLocalAuthContext: LocalAuthContext {
         }
     }
     
-    func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool {
-        true
+    func evaluatePolicy(
+        _ policy: LAPolicy,
+        localizedReason: String
+    ) async throws -> Bool {
+        self.localizedReason = localizedReason
+        return true
     }
 }
