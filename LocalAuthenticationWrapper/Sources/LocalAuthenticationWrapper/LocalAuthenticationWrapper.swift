@@ -1,7 +1,7 @@
 import LocalAuthentication
 
 public struct LocalAuthenticationWrapper: LocalAuthWrap {
-    private let context: LocalAuthenticationContext
+    private let localAuthContext: LocalAuthContext
     private let localAuthPromptStore: LocalAuthPromptRecorder
     private let localAuthStrings: LocalAuthPromptStrings
     
@@ -9,18 +9,18 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         localAuthStrings: LocalAuthPromptStrings
     ) {
         self.init(
-            context: LAContext(),
+            localAuthContext: LAContext(),
             localAuthPromptStore: UserDefaults.standard,
             localAuthStrings: localAuthStrings
         )
     }
     
     init(
-        context: LocalAuthenticationContext,
+        localAuthContext: LocalAuthContext,
         localAuthPromptStore: LocalAuthPromptRecorder,
         localAuthStrings: LocalAuthPromptStrings
     ) {
-        self.context = context
+        self.localAuthContext = localAuthContext
         self.localAuthPromptStore = localAuthPromptStore
         self.localAuthStrings = localAuthStrings
     }
@@ -31,7 +31,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
                 return try canUseAnyLocalAuth ? .passcodeOnly : .none
             }
             
-            switch context.biometryType {
+            switch localAuthContext.biometryType {
             case .faceID:
                 return .biometry(type: .faceID)
             case .touchID:
@@ -82,7 +82,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         }
         do {
             localizeAuthPromptStrings()
-            let localAuthResult = try await context
+            let localAuthResult = try await localAuthContext
                 .evaluatePolicy(
                     .deviceOwnerAuthentication,
                     localizedReason: localAuthStrings.subtitle
@@ -103,7 +103,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         type policy: LAPolicy
     ) throws -> Bool {
         var error: NSError?
-        let localAuthOutcome = context
+        let localAuthOutcome = localAuthContext
             .canEvaluatePolicy(
                 policy,
                 error: &error
@@ -123,7 +123,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
     }
     
     private func localizeAuthPromptStrings() {
-        context.localizedFallbackTitle = localAuthStrings.passcodeButton
-        context.localizedCancelTitle = localAuthStrings.cancelButton
+        localAuthContext.localizedFallbackTitle = localAuthStrings.passcodeButton
+        localAuthContext.localizedCancelTitle = localAuthStrings.cancelButton
     }
 }
