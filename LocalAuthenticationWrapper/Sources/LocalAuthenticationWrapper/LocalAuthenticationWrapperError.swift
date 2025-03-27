@@ -1,5 +1,4 @@
-public enum LocalAuthenticationWrapperError: Error {
+public enum LocalAuthenticationWrapperError: Error, Equatable {
     case biometricsUnavailable
     case cancelled
-    case generic(description: String)
 }

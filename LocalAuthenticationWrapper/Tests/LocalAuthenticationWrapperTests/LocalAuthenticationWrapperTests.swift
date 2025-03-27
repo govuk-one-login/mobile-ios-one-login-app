@@ -1,4 +1,5 @@
 @testable import LocalAuthenticationWrapper
+import LocalAuthentication
 import Testing
 
 struct LocalAuthenticationWrapperTests {
@@ -43,6 +44,37 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryType = .faceID
         mockLocalAuthContext.biometryPolicyOutcome = true
         #expect(try sut.type == .biometry(type: .faceID))
+    }
+    
+    @Test("")
+    func canUseLocalAuthBiometricError() throws {
+        mockLocalAuthContext.canEvaluatePolicyError = NSError(
+            domain: "LAErrorDomain",
+            code: LAError.biometryNotEnrolled.rawValue
+        )
+        
+        #expect(
+            throws: LocalAuthenticationWrapperError.biometricsUnavailable
+        ) {
+            try sut.type
+        }
+    }
+    
+    @Test("")
+    func canUseLocalAuthUnknownError() throws {
+        mockLocalAuthContext.canEvaluatePolicyError = NSError(
+            domain: "LAErrorDomain",
+            code: LAError.invalidContext.rawValue
+        )
+        
+        #expect(
+            throws: NSError(
+                domain: "LAErrorDomain",
+                code: LAError.invalidContext.rawValue
+            )
+        ) {
+            try sut.type
+        }
     }
     
     @Test("Check minimum level biometry faceID is true")
@@ -106,11 +138,54 @@ struct LocalAuthenticationWrapperTests {
     }
     
     @Test("")
-    func enrolLocalAuth() async throws {
+    func enrolLocalAuthStrings() async throws {
+        mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
         _ = try await sut.enrolLocalAuth()
         #expect(mockLocalAuthContext.localizedFallbackTitle == "test_passcodeButton")
         #expect(mockLocalAuthContext.localizedCancelTitle == "test_cancelButton")
         #expect(mockLocalAuthContext.localizedReason == "test_reason")
+    }
+    
+    @Test("")
+    func enrolLocalAuthPromptSet() async throws {
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        mockLocalAuthContext.biometryType = .faceID
+        _ = try await sut.enrolLocalAuth()
+        #expect(mockAuthPromptStore.previouslyPrompted == true)
+    }
+    
+    @Test("")
+    func enrolLocalAuthCancelError() async {
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        mockLocalAuthContext.biometryType = .faceID
+        mockLocalAuthContext.errorFromEvaluatePolicy = LAError(
+            _nsError: NSError(domain: "LAErrorDomain", code: LAError.userCancel.rawValue)
+        )
+        
+        await #expect(throws: LocalAuthenticationWrapperError.cancelled) {
+            try await sut.enrolLocalAuth()
+        }
+    }
+    
+    @Test("")
+    func enrolLocalAuthUnknownError() async {
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        mockLocalAuthContext.biometryType = .faceID
+        mockLocalAuthContext.errorFromEvaluatePolicy = LAError(
+            _nsError: NSError(
+                domain: "LAErrorDomain",
+                code: LAError.authenticationFailed.rawValue
+            )
+        )
+        
+        await #expect(
+            throws: NSError(
+                domain: "LAErrorDomain",
+                code: LAError.authenticationFailed.rawValue
+            )
+        ) {
+            try await sut.enrolLocalAuth()
+        }
     }
 }

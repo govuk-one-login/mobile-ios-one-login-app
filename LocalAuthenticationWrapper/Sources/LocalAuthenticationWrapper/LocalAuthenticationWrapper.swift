@@ -87,13 +87,15 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
                 )
             localAuthPromptStore.recordPrompt()
             return localAuthResult
-        } catch LAError.appCancel,
-                LAError.userCancel,
-                LAError.systemCancel {
-            throw LocalAuthenticationWrapperError.cancelled
-        } catch {
-            throw LocalAuthenticationWrapperError
-                .generic(description: error.localizedDescription)
+        } catch let error as NSError {
+            switch error.code {
+            case LAError.appCancel.rawValue,
+                LAError.userCancel.rawValue,
+                LAError.systemCancel.rawValue:
+                throw LocalAuthenticationWrapperError.cancelled
+            default:
+                throw error
+            }
         }
     }
     
@@ -113,8 +115,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
                 LAError.biometryNotAvailable.rawValue:
                 throw LocalAuthenticationWrapperError.biometricsUnavailable
             default:
-                throw LocalAuthenticationWrapperError
-                    .generic(description: error.localizedDescription)
+                throw error
             }
         }
         return localAuthOutcome

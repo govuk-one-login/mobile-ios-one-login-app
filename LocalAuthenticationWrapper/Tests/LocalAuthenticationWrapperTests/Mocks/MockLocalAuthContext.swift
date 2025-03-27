@@ -10,6 +10,11 @@ final class MockLocalAuthContext: LocalAuthContext {
     var biometryPolicyOutcome = false
     var anyPolicyOutcome = false
     
+    var canEvaluatePolicyError: NSError?
+    
+    var errorFromEvaluatePolicy: Error? = nil
+    var valueFromEvaluatePolicy = true
+    
     init(
         localizedFallbackTitle: String? = nil,
         localizedCancelTitle: String? = nil
@@ -22,13 +27,14 @@ final class MockLocalAuthContext: LocalAuthContext {
         _ policy: LAPolicy,
         error: NSErrorPointer
     ) -> Bool {
+        error?.pointee = canEvaluatePolicyError
         switch policy {
         case .deviceOwnerAuthenticationWithBiometrics:
-            biometryPolicyOutcome
+            return biometryPolicyOutcome
         case .deviceOwnerAuthentication:
-            anyPolicyOutcome
+            return anyPolicyOutcome
         @unknown default:
-            false
+            return false
         }
     }
     
@@ -37,6 +43,9 @@ final class MockLocalAuthContext: LocalAuthContext {
         localizedReason: String
     ) async throws -> Bool {
         self.localizedReason = localizedReason
-        return true
+        if let errorFromEvaluatePolicy {
+            throw errorFromEvaluatePolicy
+        }
+        return valueFromEvaluatePolicy
     }
 }
