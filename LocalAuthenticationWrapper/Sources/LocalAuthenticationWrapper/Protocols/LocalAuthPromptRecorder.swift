@@ -7,10 +7,7 @@ protocol LocalAuthPromptRecorder {
 
 extension UserDefaults: LocalAuthPromptRecorder {
     var previouslyPrompted: Bool {
-        guard let prompt = value(forKey: "localAuthPrompted") as? Bool else {
-            return false
-        }
-        return prompt
+        bool(forKey: "localAuthPrompted")
     }
     
     func recordPrompt() {
