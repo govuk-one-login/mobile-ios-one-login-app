@@ -32,12 +32,10 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
             }
             
             switch localAuthContext.biometryType {
-            case .faceID:
-                return .biometry(type: .faceID)
             case .touchID:
                 return .biometry(type: .touchID)
-            case _ where try canUseAnyLocalAuth:
-                return .passcodeOnly
+            case .faceID:
+                return .biometry(type: .faceID)
             default:
                 return .none
             }

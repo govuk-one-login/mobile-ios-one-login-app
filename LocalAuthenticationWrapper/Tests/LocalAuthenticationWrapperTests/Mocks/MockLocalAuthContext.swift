@@ -2,21 +2,33 @@
 import LocalAuthentication
 
 final class MockLocalAuthContext: LocalAuthContext {
-    let biometryType: LABiometryType
+    var biometryType: LABiometryType = .none
     var localizedFallbackTitle: String?
     var localizedCancelTitle: String?
     
-    init(biometryType: LABiometryType, localizedFallbackTitle: String? = nil, localizedCancelTitle: String? = nil) {
-        self.biometryType = biometryType
+    var biometryPolicyOutcome = false
+    var anyPolicyOutcome = false
+    
+    init(
+        localizedFallbackTitle: String? = nil,
+        localizedCancelTitle: String? = nil
+    ) {
         self.localizedFallbackTitle = localizedFallbackTitle
         self.localizedCancelTitle = localizedCancelTitle
     }
     
     func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
-        <#code#>
+        switch policy {
+        case .deviceOwnerAuthenticationWithBiometrics:
+            biometryPolicyOutcome
+        case .deviceOwnerAuthentication:
+            anyPolicyOutcome
+        @unknown default:
+            false
+        }
     }
     
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool {
-        <#code#>
+        true
     }
 }
