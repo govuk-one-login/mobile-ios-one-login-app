@@ -56,7 +56,7 @@ jobs:
         run: |
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
-          brew install sonar-scanner
+          brew install sonar-scanner rbenv ruby-build
           bundle install
 
           bundle exec fastlane test scheme:"OneLoginBuild" \
