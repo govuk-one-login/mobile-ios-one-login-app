@@ -29,7 +29,7 @@ struct LocalAuthenticationWrapperTests {
     @Test("Check that passcode is returned when available")
     func typePasscode() throws {
         mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try sut.type == .passcodeOnly)
+        #expect(try sut.type == .passcode)
     }
     
     @Test("Check that touchID is returned when available")
@@ -88,27 +88,6 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
         #expect(try !sut.checkMinimumLevel(.anyBiometrics))
-    }
-    
-    @Test("Check minimum level incorrect use error is thrown if faceID")
-    func checkMinimumLevelFaceIDTrue() throws {
-        mockLocalAuthContext.biometryPolicyOutcome = true
-        
-        #expect(
-            throws: LocalAuthTypeError.incorrectUse
-        ) {
-            try sut.checkMinimumLevel(.faceID)
-        }
-    }
-    
-    @Test("Check minimum level incorrect use error is thrown if touchID")
-    func checkMinimumLevelTouchIDTrue() throws {
-        mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(
-            throws: LocalAuthTypeError.incorrectUse
-        ) {
-            try sut.checkMinimumLevel(.touchID)
-        }
     }
     
     @Test("Check minimum level passcode is true")
