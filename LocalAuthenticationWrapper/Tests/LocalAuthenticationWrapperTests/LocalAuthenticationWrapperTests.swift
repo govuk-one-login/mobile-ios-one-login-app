@@ -111,38 +111,38 @@ struct LocalAuthenticationWrapperTests {
         #expect(try sut.checkMinimumLevel(.none))
     }
     
-    @Test("Check prompt for enrolment touchID returns true")
+    @Test("Check prompt for permissions touchID returns true")
     func enrolLocalAuthNotFaceID() async throws {
         mockLocalAuthContext.biometryType = .touchID
-        #expect(try await sut.promptForEnrolment())
+        #expect(try await sut.promptForPermissions())
     }
     
-    @Test("Check prompt for enrolment faceID but previously prompted returns true")
+    @Test("Check prompt for permissions faceID but previously prompted returns true")
     func enrolLocalAuthAlreadyPrompted() async throws {
         mockLocalAuthContext.biometryType = .faceID
         mockAuthPromptStore.recordPrompt()
-        #expect(try await sut.promptForEnrolment())
+        #expect(try await sut.promptForPermissions())
     }
     
-    @Test("Check prompt for enrolment faceID sets localized strings")
+    @Test("Check prompt for permissions faceID sets localized strings")
     func enrolLocalAuthStrings() async throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
-        _ = try await sut.promptForEnrolment()
+        _ = try await sut.promptForPermissions()
         #expect(mockLocalAuthContext.localizedFallbackTitle == "test_passcodeButton")
         #expect(mockLocalAuthContext.localizedCancelTitle == "test_cancelButton")
         #expect(mockLocalAuthContext.localizedReason == "test_reason")
     }
     
-    @Test("Check prompt for enrolment faceID records prompt")
+    @Test("Check prompt for permissions faceID records prompt")
     func enrolLocalAuthPromptSet() async throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
-        _ = try await sut.promptForEnrolment()
+        _ = try await sut.promptForPermissions()
         #expect(mockAuthPromptStore.previouslyPrompted == true)
     }
     
-    @Test("Check prompt for enrolment faceID cancel error")
+    @Test("Check prompt for permissions faceID cancel error")
     func enrolLocalAuthCancelError() async {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
@@ -151,11 +151,11 @@ struct LocalAuthenticationWrapperTests {
         )
         
         await #expect(throws: LocalAuthenticationWrapperError.cancelled) {
-            try await sut.promptForEnrolment()
+            try await sut.promptForPermissions()
         }
     }
     
-    @Test("Check prompt for enrolment faceID unknown error")
+    @Test("Check prompt for permissions faceID unknown error")
     func enrolLocalAuthUnknownError() async {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
@@ -172,7 +172,7 @@ struct LocalAuthenticationWrapperTests {
                 code: LAError.authenticationFailed.rawValue
             )
         ) {
-            try await sut.promptForEnrolment()
+            try await sut.promptForPermissions()
         }
     }
 }
