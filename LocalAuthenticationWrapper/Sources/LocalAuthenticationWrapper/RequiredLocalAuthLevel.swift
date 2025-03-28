@@ -1,4 +1,4 @@
-public enum RequiredLocalAuthType {
+public enum RequiredLocalAuthLevel {
     case none
     case passcodeOnly
     case anyBiometrics

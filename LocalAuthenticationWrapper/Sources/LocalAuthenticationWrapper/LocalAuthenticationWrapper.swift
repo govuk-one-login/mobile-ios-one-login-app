@@ -59,7 +59,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
     }
     
     public func checkMinimumLevel(
-        _ requiredLevel: RequiredLocalAuthType
+        _ requiredLevel: RequiredLocalAuthLevel
     ) throws -> Bool {
         let supportedLevel = if try canOnlyUseBiometrics {
             2
