@@ -68,7 +68,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         } else {
             0
         }
-        return try supportedLevel >= requiredLevel.tier
+        return supportedLevel >= requiredLevel.tier
     }
     
     public func enrolLocalAuth() async throws -> Bool {

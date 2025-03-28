@@ -4,15 +4,13 @@ public enum RequiredLocalAuthLevel {
     case anyBiometrics
     
     var tier: Int {
-        get throws {
-            switch self {
-            case .none:
-                0
-            case .passcodeOnly:
-                1
-            case .anyBiometrics:
-                2
-            }
+        switch self {
+        case .none:
+            0
+        case .passcodeOnly:
+            1
+        case .anyBiometrics:
+            2
         }
     }
 }
