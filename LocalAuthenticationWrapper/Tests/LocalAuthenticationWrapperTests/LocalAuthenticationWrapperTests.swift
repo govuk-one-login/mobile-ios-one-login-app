@@ -36,17 +36,17 @@ struct LocalAuthenticationWrapperTests {
     func typeTouchID() throws {
         mockLocalAuthContext.biometryType = .touchID
         mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.type == .biometry(type: .touchID))
+        #expect(try sut.type == .touchID)
     }
     
     @Test("Check that faceID is returned when available")
     func typeFaceID() throws {
         mockLocalAuthContext.biometryType = .faceID
         mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.type == .biometry(type: .faceID))
+        #expect(try sut.type == .faceID)
     }
     
-    @Test("")
+    @Test("Check that error is thrown from type when biometrics unavailable")
     func canUseLocalAuthBiometricError() throws {
         mockLocalAuthContext.canEvaluatePolicyError = NSError(
             domain: "LAErrorDomain",
@@ -60,7 +60,7 @@ struct LocalAuthenticationWrapperTests {
         }
     }
     
-    @Test("")
+    @Test("Check that error is thrown from type when unknown error")
     func canUseLocalAuthUnknownError() throws {
         mockLocalAuthContext.canEvaluatePolicyError = NSError(
             domain: "LAErrorDomain",
@@ -77,30 +77,43 @@ struct LocalAuthenticationWrapperTests {
         }
     }
     
-    @Test("Check minimum level biometry faceID is true")
-    func checkMinimumLevelFaceIDTrue() throws {
+    @Test("Check minimum level any biometrics is true")
+    func checkMinimumLevelAnyBiometricsTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.checkMinimumLevel(.biometry(type: .faceID)))
+        #expect(try sut.checkMinimumLevel(.anyBiometrics))
     }
     
-    @Test("Check minimum level biometry faceID is false")
+    @Test("Check minimum level any biometrics is false")
+    func checkMinimumLevelAnyBiometricsFalse() throws {
+        mockLocalAuthContext.biometryPolicyOutcome = false
+        mockLocalAuthContext.anyPolicyOutcome = true
+        #expect(try !sut.checkMinimumLevel(.anyBiometrics))
+    }
+    
+    @Test("Check minimum level faceID is true")
+    func checkMinimumLevelFaceIDTrue() throws {
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        #expect(try sut.checkMinimumLevel(.faceID))
+    }
+    
+    @Test("Check minimum level faceID is false")
     func checkMinimumLevelFaceIDFalse() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try !sut.checkMinimumLevel(.biometry(type: .faceID)))
+        #expect(try !sut.checkMinimumLevel(.faceID))
     }
     
-    @Test("Check minimum level biometry touchID is true")
+    @Test("Check minimum level touchID is true")
     func checkMinimumLevelTouchIDTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.checkMinimumLevel(.biometry(type: .touchID)))
+        #expect(try sut.checkMinimumLevel(.touchID))
     }
     
-    @Test("Check minimum level biometry touchID is false")
+    @Test("Check minimum level touchID is false")
     func checkMinimumLevelTouchIDFalse() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try !sut.checkMinimumLevel(.biometry(type: .touchID)))
+        #expect(try !sut.checkMinimumLevel(.touchID))
     }
     
     @Test("Check minimum level passcode is true")
@@ -124,20 +137,20 @@ struct LocalAuthenticationWrapperTests {
         #expect(try sut.checkMinimumLevel(.none))
     }
     
-    @Test("")
+    @Test("Check enrol local auth touchID returns true")
     func enrolLocalAuthNotFaceID() async throws {
         mockLocalAuthContext.biometryType = .touchID
         #expect(try await sut.enrolLocalAuth())
     }
     
-    @Test("")
+    @Test("Check enrol local auth faceID but previously prompted returns true")
     func enrolLocalAuthAlreadyPrompted() async throws {
         mockLocalAuthContext.biometryType = .faceID
         mockAuthPromptStore.recordPrompt()
         #expect(try await sut.enrolLocalAuth())
     }
     
-    @Test("")
+    @Test("Check enrol local auth faceID sets localized strings")
     func enrolLocalAuthStrings() async throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
@@ -147,7 +160,7 @@ struct LocalAuthenticationWrapperTests {
         #expect(mockLocalAuthContext.localizedReason == "test_reason")
     }
     
-    @Test("")
+    @Test("Check enrol local auth faceID records prompt")
     func enrolLocalAuthPromptSet() async throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
@@ -155,7 +168,7 @@ struct LocalAuthenticationWrapperTests {
         #expect(mockAuthPromptStore.previouslyPrompted == true)
     }
     
-    @Test("")
+    @Test("Check enrol local auth faceID cancel error")
     func enrolLocalAuthCancelError() async {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
@@ -168,7 +181,7 @@ struct LocalAuthenticationWrapperTests {
         }
     }
     
-    @Test("")
+    @Test("Check enrol local auth faceID unknown error")
     func enrolLocalAuthUnknownError() async {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID

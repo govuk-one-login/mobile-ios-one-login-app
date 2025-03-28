@@ -33,9 +33,9 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
             
             switch localAuthContext.biometryType {
             case .touchID:
-                return .biometry(type: .touchID)
+                return .touchID
             case .faceID:
-                return .biometry(type: .faceID)
+                return .faceID
             default:
                 return .none
             }
@@ -72,7 +72,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
     }
     
     public func enrolLocalAuth() async throws -> Bool {
-        guard try type == .biometry(type: .faceID) &&
+        guard try type == .faceID &&
                 !localAuthPromptStore.previouslyPrompted else {
             // enrolment is not required unless biometry type is FaceID
             // and user has not been previously prompted for permissions

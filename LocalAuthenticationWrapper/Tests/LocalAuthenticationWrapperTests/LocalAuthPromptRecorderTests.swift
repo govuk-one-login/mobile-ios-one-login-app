@@ -14,12 +14,12 @@ class LocalAuthPromptRecorderTests {
         UserDefaults.standard.removeObject(forKey: "localAuthPrompted")
     }
     
-    @Test
+    @Test("Check previously prompted is not true by default")
     func notPreviouslyPrompted() {
         #expect(!sut.previouslyPrompted)
     }
     
-    @Test
+    @Test("Check previously prompted is true if set")
     func previouslyPrompted() {
         sut.recordPrompt()
         #expect(sut.previouslyPrompted)

@@ -1,12 +1,9 @@
 public enum LocalAuthType: Equatable {
     case none
     case passcodeOnly
-    case biometry(type: BiometryType)
-    
-    public enum BiometryType {
-        case touchID
-        case faceID
-    }
+    case touchID
+    case faceID
+    case anyBiometrics
     
     var tier: Int {
         switch self {
@@ -14,7 +11,7 @@ public enum LocalAuthType: Equatable {
             0
         case .passcodeOnly:
             1
-        case .biometry:
+        case .touchID, .faceID, .anyBiometrics:
             2
         }
     }
