@@ -71,7 +71,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         return supportedLevel >= requiredLevel.tier
     }
     
-    public func enrolLocalAuth() async throws -> Bool {
+    public func promptForEnrolment() async throws -> Bool {
         guard try type == .faceID &&
                 !localAuthPromptStore.previouslyPrompted else {
             // enrolment is not required unless biometry type is FaceID
