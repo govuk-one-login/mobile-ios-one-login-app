@@ -77,38 +77,38 @@ struct LocalAuthenticationWrapperTests {
         }
     }
     
-    @Test("Check minimum level any biometrics is true")
+    @Test("Check level supported any biometrics is true")
     func checkMinimumLevelAnyBiometricsTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.checkMinimumLevel(.anyBiometrics))
+        #expect(try sut.checkLevelSupported(.anyBiometrics))
     }
     
-    @Test("Check minimum level any biometrics is false")
+    @Test("Check level supported any biometrics is false")
     func checkMinimumLevelAnyBiometricsFalse() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try !sut.checkMinimumLevel(.anyBiometrics))
+        #expect(try !sut.checkLevelSupported(.anyBiometrics))
     }
     
-    @Test("Check minimum level passcode only is true")
+    @Test("Check level supported passcode only is true")
     func checkMinimumLevelPasscodeTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try sut.checkMinimumLevel(.passcodeOnly))
+        #expect(try sut.checkLevelSupported(.passcodeOnly))
     }
     
-    @Test("Check minimum level passcode only is false")
+    @Test("Check level supported passcode only is false")
     func checkMinimumLevelPasscodeFalse() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = false
-        #expect(try !sut.checkMinimumLevel(.passcodeOnly))
+        #expect(try !sut.checkLevelSupported(.passcodeOnly))
     }
     
-    @Test("Check minimum level none is true")
+    @Test("Check level supported none is true")
     func checkMinimumLevelNoneTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = false
-        #expect(try sut.checkMinimumLevel(.none))
+        #expect(try sut.checkLevelSupported(.none))
     }
     
     @Test("Check prompt for permissions touchID returns true")
