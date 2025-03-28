@@ -15,14 +15,6 @@ final class MockLocalAuthContext: LocalAuthContext {
     var errorFromEvaluatePolicy: Error?
     var valueFromEvaluatePolicy = true
     
-    init(
-        localizedFallbackTitle: String? = nil,
-        localizedCancelTitle: String? = nil
-    ) {
-        self.localizedFallbackTitle = localizedFallbackTitle
-        self.localizedCancelTitle = localizedCancelTitle
-    }
-    
     func canEvaluatePolicy(
         _ policy: LAPolicy,
         error: NSErrorPointer
