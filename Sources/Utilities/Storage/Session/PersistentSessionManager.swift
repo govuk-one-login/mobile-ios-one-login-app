@@ -166,7 +166,7 @@ final class PersistentSessionManager: SessionManager {
             secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
-        unprotectedStore.set(tokenResponse.expiryDate,
+        unprotectedStore.set(Date.distantPast,
                              forKey: OLString.accessTokenExpiry)
         unprotectedStore.set(true, forKey: OLString.returningUser)
     }
