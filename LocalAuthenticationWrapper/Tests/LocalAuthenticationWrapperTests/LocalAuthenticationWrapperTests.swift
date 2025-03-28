@@ -49,7 +49,7 @@ struct LocalAuthenticationWrapperTests {
     @Test("Check that error is thrown from type when biometrics unavailable")
     func canUseLocalAuthBiometricError() throws {
         mockLocalAuthContext.canEvaluatePolicyError = NSError(
-            domain: "LAErrorDomain",
+            domain: LAErrorDomain,
             code: LAError.biometryNotEnrolled.rawValue
         )
         
@@ -63,13 +63,13 @@ struct LocalAuthenticationWrapperTests {
     @Test("Check that error is thrown from type when unknown error")
     func canUseLocalAuthUnknownError() throws {
         mockLocalAuthContext.canEvaluatePolicyError = NSError(
-            domain: "LAErrorDomain",
+            domain: LAErrorDomain,
             code: LAError.invalidContext.rawValue
         )
         
         #expect(
             throws: NSError(
-                domain: "LAErrorDomain",
+                domain: LAErrorDomain,
                 code: LAError.invalidContext.rawValue
             )
         ) {
@@ -90,14 +90,14 @@ struct LocalAuthenticationWrapperTests {
         #expect(try !sut.checkMinimumLevel(.anyBiometrics))
     }
     
-    @Test("Check minimum level passcode is true")
+    @Test("Check minimum level passcode only is true")
     func checkMinimumLevelPasscodeTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
         #expect(try sut.checkMinimumLevel(.passcodeOnly))
     }
     
-    @Test("Check minimum level passcode is false")
+    @Test("Check minimum level passcode only is false")
     func checkMinimumLevelPasscodeFalse() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = false
@@ -147,7 +147,7 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
         mockLocalAuthContext.errorFromEvaluatePolicy = LAError(
-            _nsError: NSError(domain: "LAErrorDomain", code: LAError.userCancel.rawValue)
+            _nsError: NSError(domain: LAErrorDomain, code: LAError.userCancel.rawValue)
         )
         
         await #expect(throws: LocalAuthenticationWrapperError.cancelled) {
@@ -161,14 +161,14 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryType = .faceID
         mockLocalAuthContext.errorFromEvaluatePolicy = LAError(
             _nsError: NSError(
-                domain: "LAErrorDomain",
+                domain: LAErrorDomain,
                 code: LAError.authenticationFailed.rawValue
             )
         )
         
         await #expect(
             throws: NSError(
-                domain: "LAErrorDomain",
+                domain: LAErrorDomain,
                 code: LAError.authenticationFailed.rawValue
             )
         ) {
