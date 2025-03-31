@@ -20,6 +20,13 @@
   "testTargets" : [
     {
       "target" : {
+        "containerPath" : "container:LocalAuthenticationWrapper",
+        "identifier" : "LocalAuthenticationWrapperTests",
+        "name" : "LocalAuthenticationWrapperTests"
+      }
+    },
+    {
+      "target" : {
         "containerPath" : "container:AppIntegrity",
         "identifier" : "AppIntegrityTests",
         "name" : "AppIntegrityTests"

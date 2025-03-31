@@ -67,8 +67,9 @@ jobs:
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
-          brew install sonar-scanner
 
+          brew update
+          brew install sonar-scanner
           bundle install
 
           bundle exec fastlane test scheme:"OneLoginBuild" \

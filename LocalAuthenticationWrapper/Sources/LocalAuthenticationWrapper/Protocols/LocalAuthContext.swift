@@ -1,7 +1,6 @@
-import GDSCommon
 import LocalAuthentication
 
-protocol LocalAuthenticationContext: AnyObject {
+protocol LocalAuthContext: AnyObject {
     var biometryType: LABiometryType { get }
 
     var localizedFallbackTitle: String? { get set }
@@ -11,4 +10,4 @@ protocol LocalAuthenticationContext: AnyObject {
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool
 }
 
-extension LAContext: LocalAuthenticationContext { }
+extension LAContext: LocalAuthContext { }

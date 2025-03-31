@@ -5,6 +5,9 @@
       location = "group:AppIntegrity">
    </FileRef>
    <FileRef
+      location = "group:LocalAuthenticationWrapper">
+   </FileRef>
+   <FileRef
       location = "group:MobilePlatformServices">
    </FileRef>
    <FileRef
