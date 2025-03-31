@@ -62,11 +62,11 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         _ requiredLevel: RequiredLocalAuthLevel
     ) throws -> Bool {
         let supportedLevel = if try canOnlyUseBiometrics {
-            2
+            LocalAuthTier.anyBiometricsOrPasscode.rawValue
         } else if try canUseAnyLocalAuth {
-            1
+            LocalAuthTier.passcodeOnly.rawValue
         } else {
-            0
+            LocalAuthTier.none.rawValue
         }
         return supportedLevel >= requiredLevel.tier
     }
