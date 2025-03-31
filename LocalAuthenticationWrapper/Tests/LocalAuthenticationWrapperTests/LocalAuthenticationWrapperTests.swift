@@ -80,14 +80,14 @@ struct LocalAuthenticationWrapperTests {
     @Test("Check level supported any biometrics is true")
     func checkMinimumLevelAnyBiometricsTrue() throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.checkLevelSupported(.anyBiometricsOrPasscode))
+        #expect(try sut.checkLevelSupported(.anyBiometricsAndPasscode))
     }
     
     @Test("Check level supported any biometrics is false")
     func checkMinimumLevelAnyBiometricsFalse() throws {
         mockLocalAuthContext.biometryPolicyOutcome = false
         mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try !sut.checkLevelSupported(.anyBiometricsOrPasscode))
+        #expect(try !sut.checkLevelSupported(.anyBiometricsAndPasscode))
     }
     
     @Test("Check level supported passcode only is true")

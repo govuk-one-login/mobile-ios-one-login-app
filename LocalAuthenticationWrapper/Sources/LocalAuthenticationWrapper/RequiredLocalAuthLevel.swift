@@ -1,7 +1,7 @@
 public enum RequiredLocalAuthLevel {
     case none
     case passcodeOnly
-    case anyBiometricsOrPasscode
+    case anyBiometricsAndPasscode
     
     var tier: Int {
         switch self {
@@ -9,8 +9,8 @@ public enum RequiredLocalAuthLevel {
             LocalAuthTier.none.rawValue
         case .passcodeOnly:
             LocalAuthTier.passcodeOnly.rawValue
-        case .anyBiometricsOrPasscode:
-            LocalAuthTier.anyBiometricsOrPasscode.rawValue
+        case .anyBiometricsAndPasscode:
+            LocalAuthTier.anyBiometricsAndPasscode.rawValue
         }
     }
 }
@@ -18,5 +18,5 @@ public enum RequiredLocalAuthLevel {
 enum LocalAuthTier: Int {
     case none
     case passcodeOnly
-    case anyBiometricsOrPasscode
+    case anyBiometricsAndPasscode
 }
