@@ -74,10 +74,10 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
     public func promptForPermission() async throws -> Bool {
         guard try type == .faceID &&
                 !localAuthPromptStore.previouslyPrompted else {
-            // enrolment is not required unless biometry type is FaceID
-            // and user has not been previously prompted for permissions
             return true
         }
+        // Enrolment is required if biometry type is FaceID
+        // and the user has not been previously prompted for permissions
         do {
             localizeAuthPromptStrings()
             let localAuthResult = try await localAuthContext
