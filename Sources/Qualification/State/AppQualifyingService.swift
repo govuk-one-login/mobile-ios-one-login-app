@@ -107,9 +107,8 @@ final class AppQualifyingService: QualifyingService {
                     try sessionManager.resumeSession()
                     userState = .loggedIn
                 }
-            } catch SecureStoreError.cantDecryptData {
-                // A SecureStoreError.cantDecryptData is thrown when the local auth prompt is cancelled/dismissed.
-                // We should look at renaming this error case within the secure store package.
+            } catch SecureStoreError.biometricsCancelled {
+                // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
                 //
                 // In this instance, the user would have the option to retry the local auth prompt
                 // As such, no additional action is required.
