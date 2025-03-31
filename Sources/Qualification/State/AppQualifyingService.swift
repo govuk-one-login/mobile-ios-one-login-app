@@ -117,7 +117,7 @@ final class AppQualifyingService: QualifyingService {
             } catch {
                 do {
                     analyticsService.logCrash(error)
-                    try sessionManager.clearAllSessionData()
+                    try await sessionManager.clearAllSessionData()
                 } catch {
                     userState = .failed(error)
                 }

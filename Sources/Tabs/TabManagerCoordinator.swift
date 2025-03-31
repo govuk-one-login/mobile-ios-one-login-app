@@ -97,18 +97,20 @@ final class TabManagerCoordinator: NSObject,
 extension TabManagerCoordinator: ParentCoordinator {
     func performChildCleanup(child: ChildCoordinator) {
         if child is SettingsCoordinator {
-            do {
-                #if DEBUG
-                if AppEnvironment.signoutErrorEnabled {
-                    throw SecureStoreError.cantDeleteKey
+            Task {
+                do {
+                    #if DEBUG
+                    if AppEnvironment.signoutErrorEnabled {
+                        throw SecureStoreError.cantDeleteKey
+                    }
+                    #endif
+                    try await sessionManager.clearAllSessionData()
+                } catch {
+                    let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
+                                                          error: error)
+                    let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
+                    root.present(signOutErrorScreen, animated: true)
                 }
-                #endif
-                try sessionManager.clearAllSessionData()
-            } catch {
-                let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
-                                                      error: error)
-                let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
-                root.present(signOutErrorScreen, animated: true)
             }
         }
     }

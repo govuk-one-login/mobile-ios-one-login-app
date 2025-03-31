@@ -320,7 +320,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])
     }
     
-    func testEndCurrentSession_clearsAllPersistedData() throws {
+    func testEndCurrentSession_clearsAllPersistedData() async throws {
         // GIVEN I have an expired session
         mockUnprotectedStore.savedData = [
             OLString.returningUser: true,
@@ -331,7 +331,7 @@ extension PersistentSessionManagerTests {
         ]
         sut.registerSessionBoundData([mockUnprotectedStore, mockEncryptedStore])
         // WHEN I clear all session data
-        try sut.clearAllSessionData()
+        try await sut.clearAllSessionData()
         // THEN my session data is deleted
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
         XCTAssertEqual(mockEncryptedStore.savedItems, [:])

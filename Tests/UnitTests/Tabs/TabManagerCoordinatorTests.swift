@@ -80,10 +80,10 @@ extension TabManagerCoordinatorTests {
                                                       urlOpener: MockURLOpener())
         // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
         sut.performChildCleanup(child: settingsCoordinator)
-        // THEN the session should not be cleared
-        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
         // THEN a logout notification is sent
         await fulfillment(of: [exp], timeout: 5)
+        // THEN the session should be cleared
+        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
     @MainActor
@@ -102,8 +102,8 @@ extension TabManagerCoordinatorTests {
         // but there was an error in signing out
         sut.performChildCleanup(child: settingsCoordinator)
         // THEN the sign out error screen should be presented
-        let errorVC = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)
-        XCTAssertTrue(errorVC.viewModel is SignOutErrorViewModel)
+        waitForTruth(self.sut.root.presentedViewController is GDSErrorViewController, timeout: 5)
+        XCTAssertTrue((try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)).viewModel is SignOutErrorViewModel)
         // THEN the session should not be cleared
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
     }

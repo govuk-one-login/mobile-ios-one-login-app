@@ -26,7 +26,7 @@ enum PersistentSessionError: Error, Equatable {
 }
 
 protocol SessionBoundData {
-    func delete() throws
+    func delete() async throws
 }
 
 final class PersistentSessionManager: SessionManager {
@@ -104,7 +104,7 @@ final class PersistentSessionManager: SessionManager {
             //
             // I need to delete my session & Wallet data before I can login
             do {
-                try clearAllSessionData()
+                try await clearAllSessionData()
             } catch {
                 throw PersistentSessionError.cannotDeleteData(error)
             }
@@ -203,9 +203,9 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    func clearAllSessionData() throws {
-        try sessionBoundData.forEach {
-            try $0.delete()
+    func clearAllSessionData() async throws {
+        for each in sessionBoundData {
+            try await each.delete()
         }
         endCurrentSession()
         
