@@ -47,7 +47,6 @@
 		<key>iProov URL</key>
 		<string>gds.rp.secure.iproov.me</string>
 	</dict>
-
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
