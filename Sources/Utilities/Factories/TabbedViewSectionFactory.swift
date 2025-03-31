@@ -78,7 +78,6 @@ extension TabbedViewSectionModel {
     }
     
     static func signOutSection(analyticsService: OneLoginAnalyticsService, action: @escaping () -> Void) -> Self {
-        var analyticsService = analyticsService
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_signOutButton",
