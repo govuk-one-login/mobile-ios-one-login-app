@@ -1,2 +1,5 @@
 // MARK: Face ID enrolment prompt
 "NSFaceIDUsageDescription" = "Your Face ID is not shared with GOV.UK One Login.";
+
+// MARK: ReadID NFC permission prompt
+"NFCReaderUsageDescription" = "This is required to scan the chip on your document";
