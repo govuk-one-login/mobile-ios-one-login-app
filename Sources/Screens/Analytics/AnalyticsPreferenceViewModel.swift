@@ -26,7 +26,8 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
         self.secondaryButtonViewModel = StandardButtonViewModel(titleKey: "app_doNotShareAnalytics") {
             secondaryButtonAction()
         }
-        self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink") {
+        self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink",
+                                                           accessibilityHint: "app_externalBrowser") {
             textButtonAction()
         }
     }

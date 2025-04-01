@@ -44,6 +44,7 @@ extension AnalyticsPreferenceViewModelTests {
         XCTAssertFalse(didCallPrimaryButtonAction)
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(didCallPrimaryButtonAction)
+        XCTAssertNil(sut.primaryButtonViewModel.accessibilityHint)
     }
 
     func test_secondaryButton_action() throws {
@@ -51,6 +52,7 @@ extension AnalyticsPreferenceViewModelTests {
         XCTAssertFalse(didCallSecondaryButtonAction)
         sut.secondaryButtonViewModel.action()
         XCTAssertTrue(didCallSecondaryButtonAction)
+        XCTAssertNil(sut.secondaryButtonViewModel.accessibilityHint)
     }
 
     func test_textButton_action() throws {
@@ -58,5 +60,6 @@ extension AnalyticsPreferenceViewModelTests {
         XCTAssertFalse(didCallTextButtonAction)
         sut.textButtonViewModel.action()
         XCTAssertTrue(didCallTextButtonAction)
+        XCTAssertEqual(sut.textButtonViewModel.accessibilityHint, "app_externalBrowser")
     }
 }
