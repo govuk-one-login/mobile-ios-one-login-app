@@ -58,10 +58,10 @@ final class EnrolmentCoordinator: NSObject,
             // Unit tests or running on device
             do {
                 try await sessionManager.saveSession()
+                completeEnrolment()
             } catch let error as SecureStoreError {
                 analyticsService.logCrash(error)
             }
-            completeEnrolment()
         }
     }
 
