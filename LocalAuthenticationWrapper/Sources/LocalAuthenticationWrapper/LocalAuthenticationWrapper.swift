@@ -83,7 +83,8 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
             let localAuthResult = try await localAuthContext
                 .evaluatePolicy(
                     .deviceOwnerAuthentication,
-                    localizedReason: localAuthStrings.subtitle
+                    localizedReason: try type == .faceID ?
+                    localAuthStrings.faceIdSubtitle : localAuthStrings.touchIdSubtitle
                 )
             localAuthPromptStore.recordPrompt()
             return localAuthResult

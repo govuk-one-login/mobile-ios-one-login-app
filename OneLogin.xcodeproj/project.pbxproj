@@ -153,6 +153,8 @@
 		C889587F2C7E4CBD00663299 /* LALocalAuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C889587E2C7E4CBD00663299 /* LALocalAuthenticationManager.swift */; };
 		C88958822C7E795200663299 /* MockLocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958812C7E795200663299 /* MockLocalAuthManager.swift */; };
 		C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958842C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift */; };
+		C88A02642D9D4267003E2AE7 /* OneLoginLocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02632D9D4262003E2AE7 /* OneLoginLocalAuthManager.swift */; };
+		C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */; };
 		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
 		C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */; };
 		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
@@ -417,6 +419,7 @@
 		C889587E2C7E4CBD00663299 /* LALocalAuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LALocalAuthenticationManager.swift; sourceTree = "<group>"; };
 		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
 		C88958842C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LALocalAuthenticationManagerTests.swift; sourceTree = "<group>"; };
+		C88A02632D9D4262003E2AE7 /* OneLoginLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginLocalAuthManager.swift; sourceTree = "<group>"; };
 		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
 		C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEnvironment+InternalTypes.swift"; sourceTree = "<group>"; };
@@ -509,6 +512,7 @@
 				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
+				C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */,
 				AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */,
 				AB90DC7C2D8831E000070B0F /* GDSCommon in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
@@ -1257,6 +1261,7 @@
 		C889587D2C7E4CA600663299 /* LocalAuth */ = {
 			isa = PBXGroup;
 			children = (
+				C88A02632D9D4262003E2AE7 /* OneLoginLocalAuthManager.swift */,
 				C889587E2C7E4CBD00663299 /* LALocalAuthenticationManager.swift */,
 				1E717D752B72959A00CCAF3E /* LocalAuthenticationContext.swift */,
 			);
@@ -1603,6 +1608,7 @@
 				AB7B56232D6CD9A100193241 /* Wallet */,
 				AB90DC7B2D8831E000070B0F /* GDSCommon */,
 				AB90DC7D2D8875EA00070B0F /* GDSAnalytics */,
+				C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -1898,6 +1904,7 @@
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
+				C88A02642D9D4267003E2AE7 /* OneLoginLocalAuthManager.swift in Sources */,
 				C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				7CD66F812C9070D8008513F4 /* AppInformationState.swift in Sources */,
@@ -3151,6 +3158,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C8BADD1E2B8638BA00385FE7 /* XCRemoteSwiftPackageReference "mobile-ios-secure-store" */;
 			productName = CryptoService;
+		};
+		C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LocalAuthenticationWrapper;
 		};
 		C8A13CA32AFBD07E00FCBD36 /* Authentication */ = {
 			isa = XCSwiftPackageProductDependency;
