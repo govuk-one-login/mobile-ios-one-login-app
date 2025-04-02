@@ -68,7 +68,7 @@ final class EnrolmentCoordinator: NSObject,
                     return
                 }
                 do {
-                    try await sessionManager.saveSession()
+                    try sessionManager.saveSession()
                     completeEnrolment()
                 } catch LocalAuthenticationWrapperError.cancelled {
                     return

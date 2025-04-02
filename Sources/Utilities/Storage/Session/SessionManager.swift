@@ -18,7 +18,7 @@ protocol SessionManager: UserProvider {
 
     var tokenProvider: TokenHolder { get }
 
-    var localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck { get }
+    var localAuthentication: LocalAuthenticationManager { get }
 
     /// Starts a new session from a remote login
     func startSession(
@@ -30,7 +30,7 @@ protocol SessionManager: UserProvider {
     func resumeSession() throws
 
     /// Saves session details by storing tokens in on-device storage
-    func saveSession() async throws
+    func saveSession() throws
 
     /// Ends the current session - removing and deleting session related data such as access and ID token
     func endCurrentSession()
