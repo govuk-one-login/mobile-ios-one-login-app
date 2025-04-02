@@ -1,8 +1,8 @@
 import Authentication
 import GDSAnalytics
 import Logging
-import UIKit
 import SecureStore
+import UIKit
 
 @MainActor
 final class WebAuthenticationService: AuthenticationService {

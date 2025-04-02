@@ -1,6 +1,7 @@
 import Authentication
 import GDSAnalytics
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 final class AuthenticationServiceTests: XCTestCase {
@@ -68,6 +69,20 @@ extension AuthenticationServiceTests {
             XCTAssertTrue(error == .accessDenied)
         }
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
+    }
+    
+    func test_secureStoreError() async {
+        mockSessionManager.errorFromStartSession = SecureStoreError.cantDecodeData
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? SecureStoreError else {
+                XCTFail("Error should be a SecureStoreError")
+                return
+            }
+            XCTAssertTrue(error == .cantDecodeData)
+            XCTAssertNotNil(mockAnalyticsService.crashesLogged)
+        }
     }
     
     @MainActor
