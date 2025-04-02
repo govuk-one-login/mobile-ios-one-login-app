@@ -142,14 +142,6 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        if !isReturningUser {
-            guard try await localAuthentication.enrolFaceIDIfAvailable() else {
-                // first time user fails FaceID scan
-                // so tokens should not be saved !
-                return
-            }
-        }
-        
         if !storeKeyService.hasLoginTokens {
             try secureStoreManager.refreshStore()
         }

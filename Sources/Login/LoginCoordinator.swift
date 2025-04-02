@@ -9,7 +9,6 @@ import UIKit
 
 final class LoginCoordinator: NSObject,
                               AnyCoordinator,
-                              ParentCoordinator,
                               NavigationCoordinator,
                               ChildCoordinator {
     private let appWindow: UIWindow
@@ -118,7 +117,7 @@ final class LoginCoordinator: NSObject,
     private func triggerAuthFlow() async throws {
         try await authService.startWebSession()
         guard sessionManager.isReturningUser else {
-            launchLocalAuthEnrolmentFlow()
+            launchEnrolmentCoordinator()
             return
         }
         finish()
@@ -145,13 +144,10 @@ final class LoginCoordinator: NSObject,
         }
     }
         
-    func launchLocalAuthEnrolmentFlow() {
-        OneLoginLocalAuthManager(
-            coordinator: self,
-            navigationController: root,
-            analyticsService: analyticsService,
-            sessionManager: sessionManager
-        ).startOneLoginEnrolmentFlow()
+    func launchEnrolmentCoordinator() {
+        openChildInline(EnrolmentCoordinator(root: root,
+                                             analyticsService: analyticsService,
+                                             sessionManager: sessionManager))
     }
 }
 
@@ -195,5 +191,16 @@ extension LoginCoordinator {
     private func returnFromErrorScreen() {
         root.popToRootViewController(animated: true)
         introViewController?.enableIntroButton()
+    }
+}
+
+extension LoginCoordinator: ParentCoordinator {
+    func didRegainFocus(fromChild child: ChildCoordinator?) {
+        switch child {
+        case is EnrolmentCoordinator:
+            finish()
+        default:
+            break
+        }
     }
 }
