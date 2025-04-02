@@ -91,7 +91,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var isValidEnrolment: Bool {
-        isEnrolling && tokenResponse?.expiryDate > .now
+        guard let tokenResponse else {
+            return false
+        }
+        return isEnrolling && tokenResponse.expiryDate > .now
     }
     
     private var isOneTimeUser: Bool {
