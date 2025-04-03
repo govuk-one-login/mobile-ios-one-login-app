@@ -36,12 +36,11 @@ final class HomeViewController: UITableViewController {
         navigationController?.navigationBar.sizeToFit()
         tableView.register(ContentTileCell.self, forCellReuseIdentifier: "ContentTileCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
-        if AppEnvironment.criOrchestratorEnabled {
-            criOrchestrator.continueIdentityCheckIfRequired(over: self)
-        }
-        
         idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) { [unowned self] in
             self.tableView.reloadData()
+        }
+        if AppEnvironment.criOrchestratorEnabled {
+            criOrchestrator.continueIdentityCheckIfRequired(over: self)
         }
     }
     
