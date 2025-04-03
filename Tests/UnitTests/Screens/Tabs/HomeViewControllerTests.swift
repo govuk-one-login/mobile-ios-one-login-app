@@ -8,7 +8,7 @@ import XCTest
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
-    var criOrchestrator: CRIOrchestrator!
+    var criOrchestrator: MockCRIOrchestrator!
     var sut: HomeViewController!
     
     override func setUp() {
@@ -18,9 +18,7 @@ final class HomeViewControllerTests: XCTestCase {
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         
-        criOrchestrator = CRIOrchestrator(analyticsService: mockAnalyticsService,
-                                          networkClient: mockNetworkClient,
-                                          criURLs: OneLoginCRIURLs())
+        criOrchestrator = MockCRIOrchestrator()
         sut = HomeViewController(analyticsService: mockAnalyticsService,
                                  networkClient: mockNetworkClient,
                                  criOrchestrator: criOrchestrator)
@@ -49,7 +47,7 @@ extension HomeViewControllerTests {
     }
     
     func test_numberOfSectionsWithIDCheck() {
-        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 2)
     }
 
     func test_numbeOfRowsInSection() {

@@ -9,13 +9,13 @@ final class HomeViewController: UITableViewController {
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
-    private let criOrchestrator: CRIOrchestrator
+    private let criOrchestrator: CRIOrchestration
     
     private var idCheckCard: UIViewController?
 
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
-         criOrchestrator: CRIOrchestrator) {
+         criOrchestrator: CRIOrchestration) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.home,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
@@ -102,3 +102,15 @@ extension HomeViewController {
         }
     }
 }
+
+@MainActor
+protocol CRIOrchestration {
+    func continueIdentityCheckIfRequired(over viewController: UIViewController)
+    
+    func getIDCheckCard(
+        viewController: UIViewController,
+        completion: @escaping () -> Void
+    ) -> UIViewController
+}
+
+extension CRIOrchestrator: CRIOrchestration { }
