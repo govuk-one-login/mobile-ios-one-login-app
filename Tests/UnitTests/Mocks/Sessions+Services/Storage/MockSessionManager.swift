@@ -24,6 +24,7 @@ final class MockSessionManager: SessionManager {
     var errorFromStartSession: Error?
     var errorFromResumeSession: Error?
     var errorFromClearAllSessionData: Error?
+    var errorFromSaveSession: Error?
 
     var localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck = MockLocalAuthManager()
 
@@ -55,6 +56,9 @@ final class MockSessionManager: SessionManager {
 
     func saveSession() async throws {
         didCallSaveSession = true
+        if let errorFromSaveSession {
+            throw errorFromSaveSession
+        }
     }
 
     func resumeSession() throws {
