@@ -1,6 +1,7 @@
 import Authentication
 import GDSCommon
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 final class EnrolmentCoordinatorTests: XCTestCase {
@@ -63,6 +64,25 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the no screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 0)
+        waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
+    }
+    
+    @MainActor
+    func test_secureStoreError_passcodeOnly() throws {
+        // Set save session error
+        mockSessionManager.errorFromSaveSession = SecureStoreError.cantDecryptData
+        // GIVEN the biometric authentication is enabled on the device
+        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
+        // AND the user has a valid session
+        try mockSessionManager.setupSession()
+        // GIVEN the local authentication's biometry type is optic id
+        mockLocalAuthManager.type = .passcodeOnly
+        
+        // WHEN the EnrolmentCoordinator is started
+        sut.start()
+        // THEN the no screen is shown
+        XCTAssertEqual(navigationController.viewControllers.count, 0)
+        XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
     }
 

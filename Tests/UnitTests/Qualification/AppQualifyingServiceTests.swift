@@ -188,12 +188,12 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .loggedIn)
     }
     
-    func test_resumeSession_cantDecryptData_error() {
+    func test_resumeSession_userCancelledBiometrics_error() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
-        sessionManager.errorFromResumeSession = SecureStoreError.cantDecryptData
+        sessionManager.errorFromResumeSession = SecureStoreError.biometricsCancelled
         sut.delegate = self
         sut.initiate()
         

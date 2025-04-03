@@ -2,6 +2,7 @@ import Coordination
 import GDSCommon
 import LocalAuthentication
 import Logging
+import SecureStore
 import UIKit
 
 final class EnrolmentCoordinator: NSObject,
@@ -55,8 +56,12 @@ final class EnrolmentCoordinator: NSObject,
                 }
             #endif
             // Unit tests or running on device
-            try await sessionManager.saveSession()
-            completeEnrolment()
+            do {
+                try await sessionManager.saveSession()
+                completeEnrolment()
+            } catch let error as SecureStoreError {
+                analyticsService.logCrash(error)
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 import Authentication
 import GDSAnalytics
 import Logging
+import SecureStore
 import UIKit
 
 @MainActor
@@ -29,6 +30,9 @@ final class WebAuthenticationService: AuthenticationService {
             throw error
         } catch let error as LoginError where error == .accessDenied {
             try await sessionManager.clearAllSessionData()
+            throw error
+        } catch let error as SecureStoreError {
+            analyticsService.logCrash(error)
             throw error
         }
     }
