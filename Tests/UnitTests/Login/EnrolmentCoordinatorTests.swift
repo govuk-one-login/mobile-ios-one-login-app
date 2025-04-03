@@ -69,7 +69,7 @@ extension EnrolmentCoordinatorTests {
     
     @MainActor
     func test_secureStoreError_passcodeOnly() throws {
-        //Set save session error
+        // Set save session error
         mockSessionManager.errorFromSaveSession = SecureStoreError.cantDecryptData
         // GIVEN the biometric authentication is enabled on the device
         mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
