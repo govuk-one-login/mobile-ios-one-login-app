@@ -8,7 +8,7 @@ import XCTest
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
-    var criOrchestrator: CRIOrchestrator!
+    var criOrchestrator: MockCRIOrchestrator!
     var sut: HomeViewController!
     
     override func setUp() {
@@ -18,9 +18,7 @@ final class HomeViewControllerTests: XCTestCase {
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         
-        criOrchestrator = CRIOrchestrator(analyticsService: mockAnalyticsService,
-                                          networkClient: mockNetworkClient,
-                                          criURLs: OneLoginCRIURLs())
+        criOrchestrator = MockCRIOrchestrator()
         sut = HomeViewController(analyticsService: mockAnalyticsService,
                                  networkClient: mockNetworkClient,
                                  criOrchestrator: criOrchestrator)
@@ -48,15 +46,29 @@ extension HomeViewControllerTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
     }
     
-    func test_numberOfSections() {
+    func test_numberOfSectionsWithIDCheck() {
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
+        )
+        UINavigationController().setViewControllers([sut], animated: false)
         XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 2)
     }
-
+    
+    func test_numberOfSectionsWithoutIDCheck() {
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: false]
+        )
+        UINavigationController().setViewControllers([sut], animated: false)
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+    }
+    
     func test_numbeOfRowsInSection() {
         XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 0), 1)
         XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 1), 1)
     }
-
+    
     func test_contentTileCell_viewModel() {
         let servicesTile = sut.tableView(
             sut.tableView,
@@ -75,9 +87,9 @@ extension HomeViewControllerTests {
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         )
-        XCTAssertFalse(servicesTile.isHidden)
+        waitForTruth(!servicesTile.isHidden, timeout: 5)
     }
-
+    
     func test_idCheckTileCell_isHidden() {
         UINavigationController().setViewControllers([sut], animated: false)
         let servicesTile = sut.tableView(
