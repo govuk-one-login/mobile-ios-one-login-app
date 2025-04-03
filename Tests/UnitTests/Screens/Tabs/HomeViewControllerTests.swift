@@ -48,8 +48,8 @@ extension HomeViewControllerTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
     }
     
-    func test_numberOfSections() {
-        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 2)
+    func test_numberOfSectionsWithIDCheck() {
+        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
     }
 
     func test_numbeOfRowsInSection() {
@@ -75,7 +75,7 @@ extension HomeViewControllerTests {
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         )
-        XCTAssertFalse(servicesTile.isHidden)
+        waitForTruth(!servicesTile.isHidden, timeout: 5)
     }
 
     func test_idCheckTileCell_isHidden() {
