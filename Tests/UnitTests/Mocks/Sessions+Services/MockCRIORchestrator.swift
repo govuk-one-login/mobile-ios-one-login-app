@@ -2,13 +2,14 @@
 import UIKit
 
 class MockCRIOrchestrator: CRIOrchestration {
+    private var hostingViewController: UIViewController = UIViewController()
+    
     func continueIdentityCheckIfRequired(over viewController: UIViewController) {
-        
+        hostingViewController.view.isHidden = false
     }
     
     func getIDCheckCard(viewController: UIViewController, completion: @escaping () -> Void) -> UIViewController {
-        let vc = UIViewController()
-        vc.view.isHidden = false
-        return vc
+        hostingViewController.view.isHidden = true
+        return hostingViewController
     }
 }
