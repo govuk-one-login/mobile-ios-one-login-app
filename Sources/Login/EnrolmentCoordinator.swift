@@ -61,8 +61,8 @@ final class EnrolmentCoordinator: NSObject,
             return
         }
         #endif
+        // Unit tests or running on device
         Task {
-            // Unit tests or running on device
             do {
                 guard try await localAuthContext.promptForPermission() else {
                     return

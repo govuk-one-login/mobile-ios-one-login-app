@@ -42,6 +42,26 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
         }
     }
     
+    public var canUseAnyLocalAuth: Bool {
+        get throws {
+            var error: NSError?
+            let localAuthOutcome = localAuthContext
+                .canEvaluatePolicy(
+                    .deviceOwnerAuthentication,
+                    error: &error
+                )
+            if let error {
+                switch error.code {
+                case LAError.passcodeNotSet.rawValue:
+                    return false
+                default:
+                    throw error
+                }
+            }
+            return localAuthOutcome
+        }
+    }
+    
     private var canOnlyUseBiometrics: Bool {
         get throws {
             var error: NSError?
@@ -55,26 +75,6 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
                 case LAError.biometryLockout.rawValue,
                     LAError.biometryNotEnrolled.rawValue,
                     LAError.biometryNotAvailable.rawValue:
-                    return false
-                default:
-                    throw error
-                }
-            }
-            return localAuthOutcome
-        }
-    }
-    
-    public var canUseAnyLocalAuth: Bool {
-        get throws {
-            var error: NSError?
-            let localAuthOutcome = localAuthContext
-                .canEvaluatePolicy(
-                    .deviceOwnerAuthentication,
-                    error: &error
-                )
-            if let error {
-                switch error.code {
-                case LAError.passcodeNotSet.rawValue:
                     return false
                 default:
                     throw error

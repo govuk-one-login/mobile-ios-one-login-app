@@ -1,7 +1,7 @@
 import LocalAuthentication
 import SecureStore
 
-final class MockLocalAuthManager: LocalAuthenticationManager, LocalAuthenticationContextStringCheck {
+final class MockLocalAuthManager: LocalAuthenticationManager, LocalAuthenticationContextStrings {
     var type: LocalAuthenticationType = .touchID
 
     var oneLoginContextStrings: LocalAuthenticationLocalizedStrings?

@@ -2,11 +2,11 @@ import GDSCommon
 import LocalAuthenticationWrapper
 import SecureStore
 
-protocol LocalAuthenticationContextStringCheck {
+protocol LocalAuthenticationContextStrings {
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? { get throws }
 }
 
-extension LocalAuthenticationWrapper: LocalAuthenticationContextStringCheck {
+extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? {
         get throws {
             LocalAuthenticationLocalizedStrings(

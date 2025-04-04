@@ -4,7 +4,7 @@ import SecureStore
 
 extension SecureStorable where Self == SecureStoreService {
     static func accessControlEncryptedStore(
-        localAuthManager: LocalAuthWrap & LocalAuthenticationContextStringCheck
+        localAuthManager: LocalAuthWrap & LocalAuthenticationContextStrings
     ) throws -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.oneLoginTokens,
