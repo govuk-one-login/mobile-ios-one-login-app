@@ -1,7 +1,8 @@
 import Authentication
 import Combine
 import CryptoService
-import LocalAuthentication
+import Foundation
+import LocalAuthenticationWrapper
 import Networking
 import SecureStore
 import TokenGeneration
@@ -10,7 +11,7 @@ final class PersistentSessionManager: SessionManager {
     private let secureStoreManager: SecureStoreManager
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
-    let localAuthentication: LocalAuthenticationManager
+    let localAuthentication: LocalAuthWrap
     
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
@@ -19,18 +20,17 @@ final class PersistentSessionManager: SessionManager {
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
-    convenience init(secureStoreManager: SecureStoreManager,
-                     localAuthentication: LocalAuthenticationManager) {
+    convenience init(secureStoreManager: SecureStoreManager) {
         self.init(
             secureStoreManager: secureStoreManager,
             unprotectedStore: UserDefaults.standard,
-            localAuthentication: localAuthentication
+            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
         )
     }
     
     init(secureStoreManager: SecureStoreManager,
          unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthenticationManager) {
+         localAuthentication: LocalAuthWrap) {
         self.secureStoreManager = secureStoreManager
         self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore)
         self.unprotectedStore = unprotectedStore
@@ -68,7 +68,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var hasNotRemovedLocalAuth: Bool {
-        localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
+        (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
     func startSession(

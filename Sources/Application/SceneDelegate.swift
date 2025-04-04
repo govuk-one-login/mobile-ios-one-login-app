@@ -16,22 +16,24 @@ final class SceneDelegate: UIResponder,
                                                                  sessionManager: sessionManager)
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
-        let localAuthentication = LALocalAuthenticationManager(context: LAContext())
-        let secureStoreManager = OneLoginSecureStoreManager(localAuthentication: localAuthentication)
-        let manager = PersistentSessionManager(secureStoreManager: secureStoreManager,
-                                               localAuthentication: localAuthentication)
-        networkClient.authorizationProvider = manager.tokenProvider
-        
-        manager.registerSessionBoundData(
-            [
-                secureStoreManager,
-                WalletSessionData(),
-                WalletAvailabilityService(),
-                analyticsPreferenceStore,
-                UserDefaults.standard
-            ]
-        )
-        return manager
+        do {
+            let secureStoreManager = try OneLoginSecureStoreManager()
+            let manager = PersistentSessionManager(secureStoreManager: secureStoreManager)
+            networkClient.authorizationProvider = manager.tokenProvider
+            
+            manager.registerSessionBoundData(
+                [
+                    secureStoreManager,
+                    WalletSessionData(),
+                    WalletAvailabilityService(),
+                    analyticsPreferenceStore,
+                    UserDefaults.standard
+                ]
+            )
+            return manager
+        } catch {
+            fatalError()
+        }
     }()
     
     func scene(_ scene: UIScene,

@@ -1,5 +1,6 @@
 import Authentication
 import Foundation
+import LocalAuthenticationWrapper
 import Networking
 import SecureStore
 
@@ -18,7 +19,7 @@ protocol SessionManager: UserProvider {
 
     var tokenProvider: TokenHolder { get }
 
-    var localAuthentication: LocalAuthenticationManager { get }
+    var localAuthentication: LocalAuthWrap { get }
 
     /// Starts a new session from a remote login
     func startSession(

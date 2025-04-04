@@ -44,17 +44,43 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
     
     private var canOnlyUseBiometrics: Bool {
         get throws {
-            try canUseLocalAuth(
-                type: .deviceOwnerAuthenticationWithBiometrics
-            )
+            var error: NSError?
+            let localAuthOutcome = localAuthContext
+                .canEvaluatePolicy(
+                    .deviceOwnerAuthenticationWithBiometrics,
+                    error: &error
+                )
+            if let error {
+                switch error.code {
+                case LAError.biometryLockout.rawValue,
+                    LAError.biometryNotEnrolled.rawValue,
+                    LAError.biometryNotAvailable.rawValue:
+                    return false
+                default:
+                    throw error
+                }
+            }
+            return localAuthOutcome
         }
     }
     
-    private var canUseAnyLocalAuth: Bool {
+    public var canUseAnyLocalAuth: Bool {
         get throws {
-            try canUseLocalAuth(
-                type: .deviceOwnerAuthentication
-            )
+            var error: NSError?
+            let localAuthOutcome = localAuthContext
+                .canEvaluatePolicy(
+                    .deviceOwnerAuthentication,
+                    error: &error
+                )
+            if let error {
+                switch error.code {
+                case LAError.passcodeNotSet.rawValue:
+                    return false
+                default:
+                    throw error
+                }
+            }
+            return localAuthOutcome
         }
     }
     
@@ -92,34 +118,13 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
             switch error.code {
             case LAError.appCancel.rawValue,
                 LAError.userCancel.rawValue,
-                LAError.systemCancel.rawValue:
+                LAError.systemCancel.rawValue,
+                LAError.userFallback.rawValue:
                 throw LocalAuthenticationWrapperError.cancelled
             default:
                 throw error
             }
         }
-    }
-    
-    private func canUseLocalAuth(
-        type policy: LAPolicy
-    ) throws -> Bool {
-        var error: NSError?
-        let localAuthOutcome = localAuthContext
-            .canEvaluatePolicy(
-                policy,
-                error: &error
-            )
-        if let error {
-            switch error.code {
-            case LAError.biometryLockout.rawValue,
-                LAError.biometryNotEnrolled.rawValue,
-                LAError.biometryNotAvailable.rawValue:
-                throw LocalAuthenticationWrapperError.biometricsUnavailable
-            default:
-                throw error
-            }
-        }
-        return localAuthOutcome
     }
     
     private func localizeAuthPromptStrings() {
