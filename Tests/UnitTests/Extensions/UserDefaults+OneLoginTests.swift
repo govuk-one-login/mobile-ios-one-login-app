@@ -21,9 +21,14 @@ struct UserDefaultsTests {
             123456789,
             forKey: OLString.accessTokenExpiry
         )
+        sut.set(
+            "123456789",
+            forKey: OLString.persistentSessionID
+        )
         try sut.delete()
         #expect(sut.object(forKey: "returningUser") == nil)
         #expect(sut.object(forKey: "accessTokenExpiry") == nil)
+        #expect(sut.object(forKey: "persistentSessionID") == nil)
     }
     
     @Test("Check that validAttestation is true if valid")
