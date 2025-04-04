@@ -10,7 +10,7 @@ extension SecureStorable where Self == SecureStoreService {
             id: OLString.oneLoginTokens,
             accessControlLevel: try localAuthManager.type == .passcode ?
                 .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
-            localAuthStrings: try localAuthManager.contextStrings
+            localAuthStrings: try localAuthManager.oneLoginStrings
         )
         return SecureStoreService(
             configuration: accessControlConfiguration
@@ -27,25 +27,3 @@ extension SecureStorable where Self == SecureStoreService {
 }
 
 extension SecureStoreService: SessionBoundData { }
-
-protocol LocalAuthenticationContextStringCheck {
-    var contextStrings: LocalAuthenticationLocalizedStrings? { get throws }
-}
-
-extension LocalAuthenticationWrapper: LocalAuthenticationContextStringCheck {
-    var contextStrings: LocalAuthenticationLocalizedStrings? {
-        get throws {
-            LocalAuthenticationLocalizedStrings(
-                localizedReason: GDSLocalisedString(
-                    stringLiteral: try type == .faceID ? "app_faceId_subtitle" : "app_touchId_subtitle"
-                ).value,
-                localisedFallbackTitle: GDSLocalisedString(
-                    stringLiteral: "app_enterPasscodeButton"
-                ).value,
-                localisedCancelTitle: GDSLocalisedString(
-                    stringLiteral: "app_cancelButton"
-                ).value
-            )
-        }
-    }
-}
