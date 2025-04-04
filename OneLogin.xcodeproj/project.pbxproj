@@ -869,10 +869,10 @@
 				C8DC472D2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift */,
 				ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */,
 				ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */,
+				C84040CC2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift */,
 				C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */,
 				C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */,
 				C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */,
-				C84040CC2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift */,
 			);
 			path = CustomTypes;
 			sourceTree = "<group>";
@@ -1932,6 +1932,7 @@
 				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
+				C84040CD2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift in Sources */,
 				C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
 				C8BEC2942BFFA8C800C9775A /* LoginLoadingViewModel.swift in Sources */,
@@ -1968,7 +1969,6 @@
 				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
-				C84040CD2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
 				D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */,
 				D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */,
@@ -2014,7 +2014,6 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
-				C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */,
 				C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
@@ -2025,6 +2024,7 @@
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,
 				C81273A22C07412100059825 /* MockAuthenticationProvider.swift in Sources */,
 				C825C02E2D5E291C00112918 /* MockAuthenticationService.swift in Sources */,
+				C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
 				7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */,
 				1E717D732B72937500CCAF3E /* MockLAContext.swift in Sources */,
