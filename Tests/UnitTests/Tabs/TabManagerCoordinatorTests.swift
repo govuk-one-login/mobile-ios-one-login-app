@@ -33,7 +33,10 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockSessionManager = nil
         sut = nil
         
-        UserDefaults.standard.removeObject(forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         
         super.tearDown()
     }
@@ -43,7 +46,10 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
-        UserDefaults.standard.removeObject(forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
+            featureFlags: [:]
+        )
         // AND the TabManagerCoordinator is started
         sut.start()
         // THEN the TabManagerCoordinator should have child coordinators
@@ -55,7 +61,10 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_start_performsSetUpWithWallet() {
         // WHEN the wallet feature flag is on
-        UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
+            featureFlags: [:]
+        )
         // AND the TabManagerCoordinator is started
         sut.start()
         // THEN the TabManagerCoordinator should have child coordinators
@@ -103,7 +112,7 @@ extension TabManagerCoordinatorTests {
         sut.performChildCleanup(child: settingsCoordinator)
         // THEN the sign out error screen should be presented
         waitForTruth(self.sut.root.presentedViewController is GDSErrorViewController, timeout: 5)
-        XCTAssertTrue((try XCTUnwrap(sut.root.presentedViewController as? GDSErrorViewController)).viewModel is SignOutErrorViewModel)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSErrorViewController)?.viewModel is SignOutErrorViewModel)
         // THEN the session should not be cleared
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
     }
@@ -111,7 +120,10 @@ extension TabManagerCoordinatorTests {
     @MainActor
     func test_handleUniversalLink() throws {
         // GIVEN the wallet feature flag is on
-        UserDefaults.standard.set(true, forKey: FeatureFlagsName.enableWalletVisibleToAll.rawValue)
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
+            featureFlags: [:]
+        )
         sut.start()
         // WHEN the handleUniversalLink receives a deeplink
         let deeplink = try XCTUnwrap(URL(string: "google.co.uk/wallet"))
