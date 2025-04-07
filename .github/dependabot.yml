@@ -26,7 +26,9 @@ updates:
 
   - package-ecosystem: swift
     directories:
-      - /OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+      - /AppIntegrity
+      - /LocalAuthenticationWrapper
+      - /MobilePlatformServices
       - /OneLogin.xcworkspace/xcshareddata/swiftpm
     schedule:
       interval: weekly
