@@ -1,29 +1,29 @@
-import LocalAuthentication
+import LocalAuthenticationWrapper
+@testable import OneLogin
 import SecureStore
 
-final class MockLocalAuthManager: LocalAuthenticationManager, LocalAuthenticationContextStrings {
-    var type: LocalAuthenticationType = .touchID
-
-    var oneLoginContextStrings: LocalAuthenticationLocalizedStrings?
+final class MockLocalAuthManager: LocalAuthWrap, LocalAuthenticationContextStrings {
+    var type: LocalAuthType = .touchID
     
-    var LABiometricsIsEnabledOnTheDevice = false
-    var LAlocalAuthIsEnabledOnTheDevice = false
+    var oneLoginStrings: LocalAuthenticationLocalizedStrings?
+    
+    var localAuthIsEnabledOnTheDevice = false
     var errorFromEnrolLocalAuth: Error?
     var userDidConsentToFaceID = true
-
+    
     var didCallEnrolFaceIDIfAvailable = false
-
-    func canUseLocalAuth(type policy: LAPolicy) -> Bool {
-        if policy == .deviceOwnerAuthenticationWithBiometrics {
-            return LABiometricsIsEnabledOnTheDevice
-        } else {
-            return LAlocalAuthIsEnabledOnTheDevice
-        }
+    
+    var canUseAnyLocalAuth: Bool {
+        return localAuthIsEnabledOnTheDevice
     }
     
-    func enrolFaceIDIfAvailable() async throws -> Bool {
+    func checkLevelSupported(_ requiredLevel: RequiredLocalAuthLevel) throws -> Bool {
+        return true
+    }
+    
+    func promptForPermission() async throws -> Bool {
         didCallEnrolFaceIDIfAvailable = true
-
+        
         if let errorFromEnrolLocalAuth {
             throw errorFromEnrolLocalAuth
         }

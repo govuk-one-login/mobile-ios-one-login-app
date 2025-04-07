@@ -14,7 +14,7 @@ struct LocalAuthenticationWrapperTests {
             localAuthContext: mockLocalAuthContext,
             localAuthPromptStore: mockAuthPromptStore,
             localAuthStrings: LocalAuthPromptStrings(
-                subtitle: "test_reason",
+                subtitle: "test_faceId_reason",
                 passcodeButton: "test_passcodeButton",
                 cancelButton: "test_cancelButton"
             )
@@ -44,20 +44,6 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryType = .faceID
         mockLocalAuthContext.biometryPolicyOutcome = true
         #expect(try sut.type == .faceID)
-    }
-    
-    @Test("Check that error is thrown from type when biometrics unavailable")
-    func canUseLocalAuthBiometricError() throws {
-        mockLocalAuthContext.canEvaluatePolicyError = NSError(
-            domain: LAErrorDomain,
-            code: LAError.biometryNotEnrolled.rawValue
-        )
-        
-        #expect(
-            throws: LocalAuthenticationWrapperError.biometricsUnavailable
-        ) {
-            try sut.type
-        }
     }
     
     @Test("Check that error is thrown from type when unknown error")
@@ -125,13 +111,13 @@ struct LocalAuthenticationWrapperTests {
     }
     
     @Test("Check prompt for permission faceID sets localized strings")
-    func enrolLocalAuthStrings() async throws {
+    func enrolLocalAuthStrings_faceId() async throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
         _ = try await sut.promptForPermission()
         #expect(mockLocalAuthContext.localizedFallbackTitle == "test_passcodeButton")
         #expect(mockLocalAuthContext.localizedCancelTitle == "test_cancelButton")
-        #expect(mockLocalAuthContext.localizedReason == "test_reason")
+        #expect(mockLocalAuthContext.localizedReason == "test_faceId_reason")
     }
     
     @Test("Check prompt for permission faceID records prompt")

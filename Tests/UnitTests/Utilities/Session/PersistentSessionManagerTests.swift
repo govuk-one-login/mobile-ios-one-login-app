@@ -93,19 +93,19 @@ extension PersistentSessionManagerTests {
     }
     
     func test_hasNotRemovedLocalAuth() throws {
-        mockLocalAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         XCTAssertTrue(hasNotRemovedLocalAuth)
     }
     
     func test_hasRemovedLocalAuth() throws {
-        mockLocalAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         XCTAssertFalse(hasNotRemovedLocalAuth)
     }
     
     func test_hasRemovedLocalAuth_inverse() throws {
-        mockLocalAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.set(false, forKey: OLString.returningUser)
         XCTAssertFalse(hasNotRemovedLocalAuth)
     }
@@ -237,9 +237,7 @@ extension PersistentSessionManagerTests {
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
-        try await sut.saveSession()
-        // THEN the user is asked to consent to biometrics if available
-        XCTAssertTrue(mockLocalAuthentication.didCallEnrolFaceIDIfAvailable)
+        try sut.saveSession()
         // THEN the secure store manager is refreshed
         XCTAssertTrue(mockSecureStoreManager.didCallRefreshStore)
         // THEN my session data is updated in the store
@@ -255,29 +253,11 @@ extension PersistentSessionManagerTests {
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
-        try await sut.saveSession()
-        // THEN the user is asked to consent to biometrics if available
-        XCTAssertTrue(mockLocalAuthentication.didCallEnrolFaceIDIfAvailable)
-        // THEN the secure store manager is not refreshed
+        try sut.saveSession()        // THEN the secure store manager is not refreshed
         XCTAssertFalse(mockSecureStoreManager.didCallRefreshStore)
         // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
-    }
-    
-    func test_saveSession_doesNotSaveDataWhenDeclinesPermissionForFaceID() async throws {
-        // GIVEN I am a new user
-        mockUnprotectedStore.savedData = [OLString.returningUser: false]
-        // AND I decline consent for Face ID
-        mockLocalAuthentication.userDidConsentToFaceID = false
-        // AND I have logged in
-        let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
-        // WHEN I attempt to save my session
-        try await sut.saveSession()
-        // THEN my session data is not stored
-        XCTAssertEqual(mockEncryptedStore.savedItems, [:])
-        XCTAssertEqual(mockUnprotectedStore.savedData.count, 1)
     }
     
     func testResumeSession_restoresUserAndAccessToken() throws {
@@ -289,7 +269,7 @@ extension PersistentSessionManagerTests {
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
-        mockLocalAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         // WHEN I return to the app and authenticate successfully
         try sut.resumeSession()
         // THEN my session data is re-populated
@@ -308,7 +288,7 @@ extension PersistentSessionManagerTests {
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
-        mockLocalAuthentication.LAlocalAuthIsEnabledOnTheDevice = true
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         
         try sut.resumeSession()
         // WHEN I end the session
@@ -359,7 +339,7 @@ extension PersistentSessionManagerTests {
         let date = Date.distantFuture
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
         // WHEN remove my passcode
-        mockLocalAuthentication.LAlocalAuthIsEnabledOnTheDevice = false
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         // AND I try to resume a session
         XCTAssertThrowsError(try sut.resumeSession()) { error in
             // THEN an error is thrown
@@ -373,7 +353,7 @@ extension PersistentSessionManagerTests {
 
 extension PersistentSessionManagerTests {
     var hasNotRemovedLocalAuth: Bool {
-        mockLocalAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && sut.isReturningUser
+        mockLocalAuthentication.canUseAnyLocalAuth && sut.isReturningUser
     }
 }
 

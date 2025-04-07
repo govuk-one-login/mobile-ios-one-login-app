@@ -1,33 +1,45 @@
-import LocalAuthentication
+import LocalAuthenticationWrapper
 @testable import OneLogin
 import SecureStore
 
-final class MockLAContext: LocalAuthenticationContext {
-    var biometryType: LABiometryType = .touchID
-
-    var localizedFallbackTitle: String?
-    var localizedCancelTitle: String?
+final class MockLocalAuthWrapper: LocalAuthWrap {
+    var type: LocalAuthType = .faceID
     
-    var didCallEvaluatePolicy = false
-
-    var biometricsIsEnabledOnTheDevice = false
-    var localAuthIsEnabledOnTheDevice = false
-    var errorFromEvaluatePolicy: Error?
-    var userConsentedToBiometrics = true
+    var canUseAnyLocalAuth: Bool = false
     
-    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
-        if policy == .deviceOwnerAuthenticationWithBiometrics {
-            return biometricsIsEnabledOnTheDevice
-        } else {
-            return localAuthIsEnabledOnTheDevice
-        }
+    func checkLevelSupported(_ requiredLevel: RequiredLocalAuthLevel) throws -> Bool {
+        return true
     }
     
-    func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool {
-        didCallEvaluatePolicy = true
-        if let errorFromEvaluatePolicy {
-            throw errorFromEvaluatePolicy
-        }
-        return userConsentedToBiometrics
+    func promptForPermission() async throws -> Bool {
+        return true
     }
+//    
+//    var biometryType: LABiometryType = .touchID
+//
+//    var localizedFallbackTitle: String?
+//    var localizedCancelTitle: String?
+//    
+//    var didCallEvaluatePolicy = false
+//
+//    var biometricsIsEnabledOnTheDevice = false
+//    var localAuthIsEnabledOnTheDevice = false
+//    var errorFromEvaluatePolicy: Error?
+//    var userConsentedToBiometrics = true
+//    
+//    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
+//        if policy == .deviceOwnerAuthenticationWithBiometrics {
+//            return biometricsIsEnabledOnTheDevice
+//        } else {
+//            return localAuthIsEnabledOnTheDevice
+//        }
+//    }
+//    
+//    func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool {
+//        didCallEvaluatePolicy = true
+//        if let errorFromEvaluatePolicy {
+//            throw errorFromEvaluatePolicy
+//        }
+//        return userConsentedToBiometrics
+//    }
 }

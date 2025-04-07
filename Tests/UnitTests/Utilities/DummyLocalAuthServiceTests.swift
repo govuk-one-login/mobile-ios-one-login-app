@@ -2,18 +2,18 @@
 import XCTest
 
 final class DummyLocalAuthServiceTests: XCTestCase {
-    var mockLAContext: MockLAContext!
+    var localAuthentication: MockLocalAuthManager!
     var sut: DummyLocalAuthService!
     
     override func setUp() {
         super.setUp()
         
-        mockLAContext = MockLAContext()
-        sut = DummyLocalAuthService(context: mockLAContext)
+        localAuthentication = MockLocalAuthManager()
+        sut = DummyLocalAuthService(localAuthentication: localAuthentication)
     }
     
     override func tearDown() {
-        mockLAContext = nil
+        localAuthentication = nil
         sut = nil
         
         super.tearDown()
@@ -22,33 +22,30 @@ final class DummyLocalAuthServiceTests: XCTestCase {
 
 extension DummyLocalAuthServiceTests {
     func test_faceID() {
-        mockLAContext.biometryType = .faceID
-        mockLAContext.localAuthIsEnabledOnTheDevice = true
+        localAuthentication.type = .faceID
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
             XCTAssertEqual(authType, .face)
         }
     }
     
     func test_touchID() {
-        mockLAContext.biometryType = .touchID
-        mockLAContext.localAuthIsEnabledOnTheDevice = true
+        localAuthentication.type = .touchID
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
             XCTAssertEqual(authType, .touch)
         }
     }
     
-    func test_none() {
-        mockLAContext.localAuthIsEnabledOnTheDevice = false
+    func test_passcode() {
+        localAuthentication.type = .passcode
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .none)
+            XCTAssertEqual(authType, .passcode)
         }
     }
     
-    func test_passcode() {
-        mockLAContext.biometryType = .none
-        mockLAContext.localAuthIsEnabledOnTheDevice = true
+    func test_none() {
+        localAuthentication.type = .none
         sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .passcode)
+            XCTAssertEqual(authType, .none)
         }
     }
 }

@@ -1,5 +1,6 @@
 import Authentication
 import GDSCommon
+import LocalAuthenticationWrapper
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -25,6 +26,7 @@ final class EnrolmentCoordinatorTests: XCTestCase {
 
         sut = EnrolmentCoordinator(root: navigationController,
                                    analyticsService: mockAnalyticsService,
+                                   localAuthContext: mockLocalAuthManager,
                                    sessionManager: mockSessionManager)
     }
     
@@ -53,45 +55,38 @@ extension EnrolmentCoordinatorTests {
     }
     
     @MainActor
-    func test_start_deviceLocalAuthSet_passcodeOnly() throws {
-        // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
-        // GIVEN the local authentication's biometry type is optic id
-        mockLocalAuthManager.type = .passcodeOnly
+    func test_start_deviceLocalAuthSet_passcodeOnly() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .enrolmentComplete,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
+        // GIVEN the local authentication's biometry type is passcode
+        mockLocalAuthManager.type = .passcode
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the no screen is shown
+        await fulfillment(of: [exp], timeout: 5)
         XCTAssertEqual(navigationController.viewControllers.count, 0)
-        waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
     }
     
     @MainActor
     func test_secureStoreError_passcodeOnly() throws {
         // Set save session error
-        mockSessionManager.errorFromSaveSession = SecureStoreError.cantDecryptData
-        // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
-        // GIVEN the local authentication's biometry type is optic id
-        mockLocalAuthManager.type = .passcodeOnly
-        
+        mockSessionManager.errorFromSaveSession = LocalAuthenticationWrapperError.biometricsUnavailable
+        // GIVEN the local authentication's biometry type is passcode
+        mockLocalAuthManager.type = .passcode
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the no screen is shown
-        XCTAssertEqual(navigationController.viewControllers.count, 0)
-        XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
+        XCTAssertEqual(mockAnalyticsService.crashesLogged, [LocalAuthenticationWrapperError.biometricsUnavailable as NSError])
     }
 
     @MainActor
     func test_start_deviceLocalAuthSet_touchID() throws {
-        // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
+        // GIVEN the local authentication's biometry type is passcode
+        mockLocalAuthManager.type = .touchID
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the 'touch id information' screen is shown
@@ -102,10 +97,6 @@ extension EnrolmentCoordinatorTests {
     
     @MainActor
     func test_start_deviceLocalAuthSet_faceID() throws {
-        // GIVEN the biometric authentication is enabled on the device
-        mockLocalAuthManager.LABiometricsIsEnabledOnTheDevice = true
-        // AND the user has a valid session
-        try mockSessionManager.setupSession()
         // GIVEN the local authentication's biometry type is face id
         mockLocalAuthManager.type = .faceID
         // WHEN the EnrolmentCoordinator is started

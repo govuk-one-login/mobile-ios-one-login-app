@@ -19,8 +19,8 @@ final class OneLoginSecureStoreManagerTests {
         )
     }
     
-    func convenienceInit() {
-        sut = OneLoginSecureStoreManager(
+    func convenienceInit() throws {
+        sut = try OneLoginSecureStoreManager(
             localAuthentication: mockLocalAuthentication
         )
     }
@@ -28,8 +28,8 @@ final class OneLoginSecureStoreManagerTests {
 
 extension OneLoginSecureStoreManagerTests {
     @Test("Ensure convenience initialiser creates instances of SecureStoreService")
-    func convenienceInitialiser() {
-        convenienceInit()
+    func convenienceInitialiser() throws {
+        try convenienceInit()
         #expect(sut.accessControlEncryptedStore is SecureStoreService)
         #expect(sut.encryptedStore is SecureStoreService)
     }

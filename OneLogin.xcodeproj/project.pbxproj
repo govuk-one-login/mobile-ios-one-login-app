@@ -151,7 +151,6 @@
 		C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
-		C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958842C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift */; };
 		C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */; };
 		C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */; };
 		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
@@ -416,7 +415,6 @@
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
-		C88958842C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LALocalAuthenticationManagerTests.swift; sourceTree = "<group>"; };
 		C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthPromptStrings+OneLogin.swift"; sourceTree = "<group>"; };
 		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
@@ -1019,7 +1017,6 @@
 				7C81ADD42C78A8F500A73010 /* Session */,
 				C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
-				C88958842C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift */,
 				C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */,
 				4193D2E42C89F48800073EB8 /* SecureTokenStoreTests.swift */,
 				C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */,
@@ -2014,7 +2011,6 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
-				C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,

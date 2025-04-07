@@ -51,10 +51,4 @@ extension WalletCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.wallet)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
     }
-    
-    func test_deleteWalletData() throws {
-        // WHEN the deleteWalletData method is called
-        // THEN no error should be thrown
-        XCTAssertNoThrow(try sut.deleteWalletData())
-    }
 }

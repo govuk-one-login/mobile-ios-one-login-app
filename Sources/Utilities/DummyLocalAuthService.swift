@@ -7,24 +7,24 @@ import Wallet
 //
 
 final class DummyLocalAuthService: LocalAuthService {
-    let context: LocalAuthWrap
+    let localAuthentication: LocalAuthWrap
 
-    init() {
-        self.context = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
+    init(localAuthentication: LocalAuthWrap = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
+        self.localAuthentication = localAuthentication
     }
     
     func evaluateLocalAuth(navigationController: UINavigationController,
                            completion: @escaping (AuthType) -> Void) {
         do {
-            switch try context.type {
-            case .none:
-                completion(.none)
-            case .passcode:
-                completion(.passcode)
-            case .touchID:
-                completion(.touch)
+            switch try localAuthentication.type {
             case .faceID:
                 completion(.face)
+            case .touchID:
+                completion(.touch)
+            case .passcode:
+                completion(.passcode)
+            case .none:
+                completion(.none)
             }
         } catch {
             fatalError()
