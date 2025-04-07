@@ -9,78 +9,56 @@ final class EnrolmentCoordinator: NSObject,
     let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: OneLoginAnalyticsService
-    private let localAuthContext: LocalAuthWrap
     private let sessionManager: SessionManager
+    private let localAuthContext: LocalAuthWrap
     
-    init(root: UINavigationController,
-         analyticsService: OneLoginAnalyticsService,
-         localAuthContext: LocalAuthWrap = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
-         sessionManager: SessionManager) {
+    private lazy var localAuthManager = {
+        OneLoginLocalAuthManager(
+            localAuthContext: localAuthContext,
+            sessionManager: sessionManager,
+            analyticsService: analyticsService,
+            coordinator: self
+        )
+    }()
+    
+    init(
+        root: UINavigationController,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        localAuthContext: LocalAuthWrap = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
+    ) {
         self.root = root
         self.analyticsService = analyticsService
-        self.localAuthContext = localAuthContext
         self.sessionManager = sessionManager
+        self.localAuthContext = localAuthContext
     }
     
     func start() {
         do {
-            switch try localAuthContext.type {
+            switch try localAuthManager.localAuthContext.type {
             case .touchID:
                 let viewModel = TouchIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
-                    saveSession()
+                    localAuthManager.saveSession()
                 } secondaryButtonAction: { [unowned self] in
-                    completeEnrolment()
+                    localAuthManager.completeEnrolment()
                 }
                 let touchIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
                 root.pushViewController(touchIDEnrolmentScreen, animated: true)
             case .faceID:
                 let viewModel = FaceIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
-                    saveSession()
+                    localAuthManager.saveSession()
                 } secondaryButtonAction: { [unowned self] in
-                    completeEnrolment()
+                    localAuthManager.completeEnrolment()
                 }
                 let faceIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
                 root.pushViewController(faceIDEnrolmentScreen, animated: true)
             case .passcode:
-                saveSession()
+                localAuthManager.saveSession()
             case .none:
-                completeEnrolment()
+                localAuthManager.completeEnrolment()
             }
-        } catch LocalAuthenticationWrapperError.biometricsUnavailable {
-            completeEnrolment()
         } catch {
             preconditionFailure()
         }
-    }
-    
-    private func saveSession() {
-        #if targetEnvironment(simulator)
-        if sessionManager is PersistentSessionManager {
-            // UI tests or running on simulator
-            completeEnrolment()
-            return
-        }
-        #endif
-        // Unit tests or running on device
-        Task {
-            do {
-                guard try await localAuthContext.promptForPermission() else {
-                    return
-                }
-                do {
-                    try sessionManager.saveSession()
-                    completeEnrolment()
-                } catch LocalAuthenticationWrapperError.cancelled {
-                    return
-                } catch {
-                    analyticsService.logCrash(error)
-                }
-            }
-        }
-    }
-    
-    private func completeEnrolment() {
-        NotificationCenter.default.post(name: .enrolmentComplete)
-        finish()
     }
 }

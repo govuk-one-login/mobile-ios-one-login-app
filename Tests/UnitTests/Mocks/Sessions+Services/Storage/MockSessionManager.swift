@@ -56,14 +56,18 @@ final class MockSessionManager: SessionManager {
     }
 
     func saveSession() throws {
-        didCallSaveSession = true
+        defer {
+            didCallSaveSession = true
+        }
         if let errorFromSaveSession {
             throw errorFromSaveSession
         }
     }
 
     func resumeSession() throws {
-        didCallResumeSession = true
+        defer {
+            didCallResumeSession = true
+        }
         if let errorFromResumeSession {
             throw errorFromResumeSession
         }
@@ -74,7 +78,9 @@ final class MockSessionManager: SessionManager {
     }
     
     func clearAllSessionData() throws {
-        didCallClearAllSessionData = true
+        defer {
+            didCallClearAllSessionData = true
+        }
         if let errorFromClearAllSessionData {
             throw errorFromClearAllSessionData
         }

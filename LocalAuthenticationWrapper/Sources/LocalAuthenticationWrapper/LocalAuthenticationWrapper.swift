@@ -117,8 +117,7 @@ public struct LocalAuthenticationWrapper: LocalAuthWrap {
             switch error.code {
             case LAError.appCancel.rawValue,
                 LAError.userCancel.rawValue,
-                LAError.systemCancel.rawValue,
-                LAError.userFallback.rawValue:
+                LAError.systemCancel.rawValue:
                 throw LocalAuthenticationWrapperError.cancelled
             default:
                 throw error

@@ -1,4 +1,3 @@
-import Authentication
 import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
@@ -6,11 +5,11 @@ import SecureStore
 import XCTest
 
 final class EnrolmentCoordinatorTests: XCTestCase {
-    var navigationController: UINavigationController!
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockSessionManager: MockSessionManager!
-    var mockLocalAuthManager: MockLocalAuthManager!
-    var sut: EnrolmentCoordinator!
+    private var navigationController: UINavigationController!
+    private var mockAnalyticsService: MockAnalyticsService!
+    private var mockSessionManager: MockSessionManager!
+    private var mockLocalAuthManager: MockLocalAuthManager!
+    private var sut: EnrolmentCoordinator!
     
     @MainActor
     override func setUpWithError() throws {
@@ -26,31 +25,38 @@ final class EnrolmentCoordinatorTests: XCTestCase {
 
         sut = EnrolmentCoordinator(root: navigationController,
                                    analyticsService: mockAnalyticsService,
-                                   localAuthContext: mockLocalAuthManager,
-                                   sessionManager: mockSessionManager)
+                                   sessionManager: mockSessionManager,
+                                   localAuthContext: mockLocalAuthManager)
     }
     
     override func tearDown() {
         navigationController = nil
         mockAnalyticsService = nil
         mockSessionManager = nil
-        mockLocalAuthManager = nil
         sut = nil
         
         super.tearDown()
+    }
+    
+    enum MockError: Error {
+        case generic
     }
 }
 
 extension EnrolmentCoordinatorTests {
     @MainActor
-    func test_start_deviceLocalAuthSet_none() throws {
-        // GIVEN the user has a valid session
-        try mockSessionManager.setupSession()
+    func test_start_deviceLocalAuthSet_none() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .enrolmentComplete,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
         // GIVEN the local authentication's biometry type is optic id
         mockLocalAuthManager.type = .none
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the no additional screen is shown
+        await fulfillment(of: [exp], timeout: 5)
         XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
     
@@ -73,14 +79,14 @@ extension EnrolmentCoordinatorTests {
     @MainActor
     func test_secureStoreError_passcodeOnly() throws {
         // Set save session error
-        mockSessionManager.errorFromSaveSession = LocalAuthenticationWrapperError.biometricsUnavailable
+        mockSessionManager.errorFromSaveSession = MockError.generic
         // GIVEN the local authentication's biometry type is passcode
         mockLocalAuthManager.type = .passcode
         // WHEN the EnrolmentCoordinator is started
         sut.start()
         // THEN the no screen is shown
         waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
-        XCTAssertEqual(mockAnalyticsService.crashesLogged, [LocalAuthenticationWrapperError.biometricsUnavailable as NSError])
+        XCTAssertEqual(mockAnalyticsService.crashesLogged, [MockError.generic as NSError])
     }
 
     @MainActor

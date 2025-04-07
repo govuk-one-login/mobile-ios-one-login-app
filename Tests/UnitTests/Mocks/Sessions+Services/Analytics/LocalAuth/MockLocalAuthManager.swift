@@ -22,7 +22,9 @@ final class MockLocalAuthManager: LocalAuthWrap, LocalAuthenticationContextStrin
     }
     
     func promptForPermission() async throws -> Bool {
-        didCallEnrolFaceIDIfAvailable = true
+        defer {
+            didCallEnrolFaceIDIfAvailable = true
+        }
         
         if let errorFromEnrolLocalAuth {
             throw errorFromEnrolLocalAuth
