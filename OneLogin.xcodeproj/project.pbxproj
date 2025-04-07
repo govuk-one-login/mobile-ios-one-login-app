@@ -994,12 +994,12 @@
 		C8520C282AE2C1AD006790C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C8F092E32DA4650C0046F6EA /* OneLoginLocalAuthManager.swift */,
 				C8BADD342B88CBD200385FE7 /* Factories */,
 				D0BE243F2BEBAEB600759529 /* JWT */,
 				C8BADD322B88CBB200385FE7 /* Network */,
 				C8BADD332B88CBBA00385FE7 /* Storage */,
 				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
+				C8F092E32DA4650C0046F6EA /* OneLoginLocalAuthManager.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 			);
 			path = Utilities;
@@ -1019,10 +1019,10 @@
 		C85966462AEC31AE006DF61D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C8F092E52DA472A20046F6EA /* OneLoginLocalAuthManagerTests.swift */,
 				7C81ADD42C78A8F500A73010 /* Session */,
 				C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
+				C8F092E52DA472A20046F6EA /* OneLoginLocalAuthManagerTests.swift */,
 				C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */,
 				4193D2E42C89F48800073EB8 /* SecureTokenStoreTests.swift */,
 				C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */,
@@ -1943,13 +1943,13 @@
 				D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
-				C8F092E42DA465110046F6EA /* OneLoginLocalAuthManager.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
+				C8F092E42DA465110046F6EA /* OneLoginLocalAuthManager.swift in Sources */,
 				C836FDD32D64837E00F8AC37 /* OneLoginSecureStoreManager.swift in Sources */,
 				AB51B3752D771E9500348FB6 /* OneLoginTileViewModel.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
@@ -2040,7 +2040,6 @@
 				C836FDD52D64DE6900F8AC37 /* MockSecureStoreManager.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
 				41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */,
-				C8F092E62DA472AB0046F6EA /* OneLoginLocalAuthManagerTests.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				D0275CC12C00951600AF9A50 /* MockTokenVerifier.swift in Sources */,
@@ -2051,6 +2050,7 @@
 				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
 				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
+				C8F092E62DA472AB0046F6EA /* OneLoginLocalAuthManagerTests.swift in Sources */,
 				C836FDDC2D6619B000F8AC37 /* OneLoginSecureStoreManagerTests.swift in Sources */,
 				AB51B3772D78824F00348FB6 /* OneLoginTileViewModelTests.swift in Sources */,
 				7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */,
