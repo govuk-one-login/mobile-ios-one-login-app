@@ -3,7 +3,6 @@ import Combine
 import Foundation
 import LocalAuthenticationWrapper
 @testable import OneLogin
-import SecureStore
 
 final class MockSessionManager: SessionManager {
     var expiryDate: Date?

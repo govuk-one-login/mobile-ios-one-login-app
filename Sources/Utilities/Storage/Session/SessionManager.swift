@@ -1,8 +1,6 @@
 import Authentication
 import Foundation
 import LocalAuthenticationWrapper
-import Networking
-import SecureStore
 
 enum UserState {
     case authenticated
