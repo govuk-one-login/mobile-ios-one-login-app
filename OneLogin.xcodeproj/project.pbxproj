@@ -1266,9 +1266,9 @@
 		C88958832C7E8A1100663299 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
 				C825C02D2D5E291500112918 /* MockAuthenticationService.swift */,
 				21FA1C4B2AE183A50052136E /* MockLoginSession.swift */,
-				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -1402,8 +1402,8 @@
 				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
 				C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */,
 				C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */,
-				C8BADD2E2B889CB900385FE7 /* MockSessionManager.swift */,
 				41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */,
+				C8BADD2E2B889CB900385FE7 /* MockSessionManager.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1945,8 +1945,8 @@
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
-				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C8F092E42DA465110046F6EA /* OneLoginEnrolmentManager.swift in Sources */,
+				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C836FDD32D64837E00F8AC37 /* OneLoginSecureStoreManager.swift in Sources */,
 				AB51B3752D771E9500348FB6 /* OneLoginTileViewModel.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
@@ -2045,8 +2045,8 @@
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
 				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
-				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
 				C8F092E62DA472AB0046F6EA /* OneLoginEnrolmentManagerTests.swift in Sources */,
+				21FA1C502AE18C8B0052136E /* OneLoginIntroViewModelTests.swift in Sources */,
 				C836FDDC2D6619B000F8AC37 /* OneLoginSecureStoreManagerTests.swift in Sources */,
 				AB51B3772D78824F00348FB6 /* OneLoginTileViewModelTests.swift in Sources */,
 				7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */,
