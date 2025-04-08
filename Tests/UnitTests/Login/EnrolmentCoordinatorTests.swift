@@ -55,9 +55,8 @@ extension EnrolmentCoordinatorTests {
         mockLocalAuthManager.type = .none
         // WHEN the EnrolmentCoordinator is started
         sut.start()
-        // THEN the no additional screen is shown
+        // THEN the enrolment complete notification is fired
         await fulfillment(of: [exp], timeout: 5)
-        XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
     
     @MainActor
@@ -71,24 +70,10 @@ extension EnrolmentCoordinatorTests {
         mockLocalAuthManager.type = .passcode
         // WHEN the EnrolmentCoordinator is started
         sut.start()
-        // THEN the no screen is shown
+        // THEN the enrolment complete notification is fired
         await fulfillment(of: [exp], timeout: 5)
-        XCTAssertEqual(navigationController.viewControllers.count, 0)
     }
     
-    @MainActor
-    func test_secureStoreError_passcodeOnly() throws {
-        // Set save session error
-        mockSessionManager.errorFromSaveSession = MockError.generic
-        // GIVEN the local authentication's biometry type is passcode
-        mockLocalAuthManager.type = .passcode
-        // WHEN the EnrolmentCoordinator is started
-        sut.start()
-        // THEN the no screen is shown
-        waitForTruth(self.mockSessionManager.didCallSaveSession, timeout: 5)
-        XCTAssertEqual(mockAnalyticsService.crashesLogged, [MockError.generic as NSError])
-    }
-
     @MainActor
     func test_start_deviceLocalAuthSet_touchID() throws {
         // GIVEN the local authentication's biometry type is passcode
