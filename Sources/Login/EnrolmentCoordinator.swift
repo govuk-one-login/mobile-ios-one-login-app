@@ -33,7 +33,7 @@ final class EnrolmentCoordinator: NSObject,
     
     func start() {
         do {
-            switch try localAuthManager.localAuthContext.type {
+            switch try localAuthContext.type {
             case .touchID:
                 let viewModel = TouchIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
                     localAuthManager.saveSession()

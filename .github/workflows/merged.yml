@@ -68,7 +68,6 @@ jobs:
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
 
-          brew update
           brew install sonar-scanner
           bundle install
 
