@@ -12,14 +12,12 @@ final class EnrolmentCoordinator: NSObject,
     private let sessionManager: SessionManager
     private let localAuthContext: LocalAuthWrap
     
-    private lazy var localAuthManager = {
-        OneLoginLocalAuthManager(
-            localAuthContext: localAuthContext,
-            sessionManager: sessionManager,
-            analyticsService: analyticsService,
-            coordinator: self
-        )
-    }()
+    private lazy var localAuthManager = OneLoginEnrolmentManager(
+        localAuthContext: localAuthContext,
+        sessionManager: sessionManager,
+        analyticsService: analyticsService,
+        coordinator: self
+    )
     
     init(
         root: UINavigationController,

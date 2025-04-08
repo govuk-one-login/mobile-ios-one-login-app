@@ -3,12 +3,12 @@ import LocalAuthenticationWrapper
 @testable import OneLogin
 import XCTest
 
-final class OneLoginLocalAuthManagerTests: XCTestCase {
+final class OneLoginEnrolmentManagerTests: XCTestCase {
     private var mockLocalAuthContext: MockLocalAuthManager!
     private var mockSessionManager: MockSessionManager!
     private var mockAnalyticsService: MockAnalyticsService!
     private var coordinator: ChildCoordinator!
-    private var sut: OneLoginLocalAuthManager!
+    private var sut: OneLoginEnrolmentManager!
     
     @MainActor
     override func setUp() {
@@ -20,7 +20,7 @@ final class OneLoginLocalAuthManagerTests: XCTestCase {
             analyticsService: mockAnalyticsService,
             sessionManager: mockSessionManager
         )
-        sut = OneLoginLocalAuthManager(
+        sut = OneLoginEnrolmentManager(
             localAuthContext: mockLocalAuthContext,
             sessionManager: mockSessionManager,
             analyticsService: mockAnalyticsService,
@@ -41,7 +41,7 @@ final class OneLoginLocalAuthManagerTests: XCTestCase {
     }
 }
 
-extension OneLoginLocalAuthManagerTests {
+extension OneLoginEnrolmentManagerTests {
     @MainActor
     func test_saveSession_succeeds() async {
         let exp = XCTNSNotificationExpectation(

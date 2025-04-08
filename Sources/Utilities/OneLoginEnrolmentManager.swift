@@ -3,7 +3,7 @@ import Foundation
 import LocalAuthenticationWrapper
 
 @MainActor
-struct OneLoginLocalAuthManager {
+struct OneLoginEnrolmentManager {
     let localAuthContext: LocalAuthWrap
     private let sessionManager: SessionManager
     private let analyticsService: OneLoginAnalyticsService

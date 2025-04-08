@@ -14,7 +14,7 @@ struct LocalAuthenticationWrapperTests {
             localAuthContext: mockLocalAuthContext,
             localAuthPromptStore: mockAuthPromptStore,
             localAuthStrings: LocalAuthPromptStrings(
-                subtitle: "test_faceId_reason",
+                subtitle: "test_reason",
                 passcodeButton: "test_passcodeButton",
                 cancelButton: "test_cancelButton"
             )
@@ -111,13 +111,13 @@ struct LocalAuthenticationWrapperTests {
     }
     
     @Test("Check prompt for permission faceID sets localized strings")
-    func enrolLocalAuthStrings_faceId() async throws {
+    func enrolLocalAuthStrings() async throws {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
         _ = try await sut.promptForPermission()
         #expect(mockLocalAuthContext.localizedFallbackTitle == "test_passcodeButton")
         #expect(mockLocalAuthContext.localizedCancelTitle == "test_cancelButton")
-        #expect(mockLocalAuthContext.localizedReason == "test_faceId_reason")
+        #expect(mockLocalAuthContext.localizedReason == "test_reason")
     }
     
     @Test("Check prompt for permission faceID records prompt")
