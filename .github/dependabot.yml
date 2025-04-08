@@ -23,19 +23,3 @@ updates:
           - minor
           - patch
     open-pull-requests-limit: 5
-
-  - package-ecosystem: swift
-    directories:
-      - /OneLogin.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
-      - /OneLogin.xcworkspace/xcshareddata/swiftpm
-    schedule:
-      interval: weekly
-      day: sunday
-    groups:
-      swift-minor-versions:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
-    open-pull-requests-limit: 5
