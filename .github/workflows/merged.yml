@@ -76,7 +76,7 @@ jobs:
             testplan:OneLoginUnit \
             workspace:${{github.workspace}} \
             sonar_token:${{secrets.SONAR_TOKEN}}
-            
+
   test_integration_config:
     needs: run_swiftlint
     name: Run Integration Configuration Tests

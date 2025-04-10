@@ -14,7 +14,7 @@ ID_CHECK_BASE_URL = api-backend-api.$(ID_CHECK_DOMAIN)
 ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.integration.$(BASE_URL)
 READ_ID_URL = readid.$(ID_CHECK_DOMAIN)
 
-STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
+STS_CLIENT_ID = 3Do0FOcrpsXe-mMklRruPUWmjr8
 
 FEATURE_FLAG_FILE = FeatureFlagsIntegration
 
