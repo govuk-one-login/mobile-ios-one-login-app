@@ -3,14 +3,15 @@ import Networking
 
 public protocol AppInformationProvider {
     func fetchAppInfo() async throws -> App
+    func loadFromDefaults() async throws -> App
     var currentVersion: Version { get }
 }
 
 public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
     private let baseURL: URL
-    private let infoCache: NSCache<NSString, App> = NSCache()
-
+    private let defaults: UserDefaults = .standard
+    
     /// Initialise a new `AppInformationService`
     ///
     /// - Parameter baseURL: the host of the AppInformationService API
@@ -30,21 +31,24 @@ public final class AppInformationService: AppInformationProvider {
     }
     
     public func fetchAppInfo() async throws -> App {
-        if let cachedData = infoCache[baseURL] {
-            return cachedData
-        } else {
-
-            var request = URLRequest(url: baseURL)
-            request.httpMethod = "GET"
-            
-            let data = try await client.makeRequest(request)
-            let appInfo = try parseResult(data).appList.iOS
+        var request = URLRequest(url: baseURL)
+        request.httpMethod = "GET"
         
-            infoCache[baseURL] = appInfo
-            _ = infoCache[baseURL]
-
-            return appInfo
+        let data = try await client.makeRequest(request)
+        defaults.set(data, forKey: "appInfoResponse")
+        let appInfo = try parseResult(data).appList.iOS
+        
+        
+        return appInfo
+    }
+    
+    public func loadFromDefaults() async throws -> App {
+        guard let cachedResponse = defaults.data(forKey: "appInfoResponse") else {
+            return try await fetchAppInfo()
         }
+        
+        let appInfo = try parseResult(cachedResponse).appList.iOS
+        return appInfo
     }
     
     private func parseResult(_ dataArray: Data) throws -> AppInfoResponse {

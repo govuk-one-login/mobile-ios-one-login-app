@@ -1,7 +1,7 @@
 import Foundation
 import Networking
 
-public class App: Decodable {
+public struct App: Decodable {
     public let minimumVersion: Version
     public let allowAppUsage: Bool
     public let releaseFlags: [String: Bool]
@@ -24,7 +24,7 @@ public class App: Decodable {
         case featureFlags
     }
 
-    required public init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.minimumVersion = try container.decode(Version.self, forKey: .minimumVersion)
         self.allowAppUsage = try container.decodeIfPresent(Bool.self, forKey: .allowAppUsage) ?? true

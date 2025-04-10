@@ -57,7 +57,7 @@ final class AppQualifyingService: QualifyingService {
     
     private func qualifyAppVersion() async {
         do {
-            let appInfo = try await updateService.fetchAppInfo()
+            let appInfo = try await updateService.loadFromDefaults()
             AppEnvironment.updateFlags(
                 releaseFlags: appInfo.releaseFlags,
                 featureFlags: appInfo.featureFlags
