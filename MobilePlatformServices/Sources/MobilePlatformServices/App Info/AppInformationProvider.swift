@@ -35,15 +35,14 @@ public final class AppInformationService: AppInformationProvider {
         request.httpMethod = "GET"
         
         let data = try await client.makeRequest(request)
-        defaults.set(data, forKey: "appInfoResponse")
+        defaults.set(data, forKey: baseURL.absoluteString)
         let appInfo = try parseResult(data).appList.iOS
-        
-        
+
         return appInfo
     }
     
     public func loadFromDefaults() async throws -> App {
-        guard let cachedResponse = defaults.data(forKey: "appInfoResponse") else {
+        guard let cachedResponse = defaults.data(forKey: baseURL.absoluteString) else {
             return try await fetchAppInfo()
         }
         

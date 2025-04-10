@@ -24,6 +24,7 @@ final class AppQualifyingService: QualifyingService {
         didSet {
             if appInfoState == .offline {
                 // Query cache?
+//                updateService.loadFromDefaults()
             }
             Task {
                 await delegate?.didChangeAppInfoState(state: appInfoState)
@@ -57,7 +58,7 @@ final class AppQualifyingService: QualifyingService {
     
     private func qualifyAppVersion() async {
         do {
-            let appInfo = try await updateService.loadFromDefaults()
+            let appInfo = try await updateService.fetchAppInfo()
             AppEnvironment.updateFlags(
                 releaseFlags: appInfo.releaseFlags,
                 featureFlags: appInfo.featureFlags
