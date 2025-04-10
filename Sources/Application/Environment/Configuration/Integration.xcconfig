@@ -1,0 +1,21 @@
+PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.integration
+
+INFOPLIST_KEY_CFBundleDisplayName = One Login - Integration
+INFOPLIST_KEY_NSCameraUsageDescription = The app will only access your phone’s rear camera to scan the QR code.
+
+BASE_URL = account.gov.uk
+STS_BASE_URL = token.integration.$(BASE_URL)
+MOBILE_BE_BASE_URL = mobile.integration.$(BASE_URL)
+EXTERNAL_BASE_URL = signin.integration.$(BASE_URL)
+GOV_SUPPORT_URL = home.integration.$(BASE_URL)
+
+ID_CHECK_DOMAIN = review-b.integration.$(BASE_URL)
+ID_CHECK_BASE_URL = api-backend-api.$(ID_CHECK_DOMAIN)
+ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.integration.$(BASE_URL)
+READ_ID_URL = readid.$(ID_CHECK_DOMAIN)
+
+STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
+
+FEATURE_FLAG_FILE = FeatureFlagsIntegration
+
+CODE_SIGN_ENTITLEMENTS = OneLoginIntegration.entitlements

@@ -1,0 +1,27 @@
+[
+    {
+        "name": "EnableSignoutError",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableClearWalletError",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleToAll",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleViaDeepLink",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableWalletVisibleIfExists",
+        "isEnabled": false
+    },
+    {
+        "name": "EnableCRIOrchestrator",
+        "isEnabled": false
+    }
+]
+
