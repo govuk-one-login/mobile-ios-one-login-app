@@ -9,6 +9,7 @@ public protocol AppInformationProvider {
 public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
     private let baseURL: URL
+    private let infoCache: NSCache<NSString, App> = NSCache()
 
     /// Initialise a new `AppInformationService`
     ///
@@ -29,13 +30,21 @@ public final class AppInformationService: AppInformationProvider {
     }
     
     public func fetchAppInfo() async throws -> App {
-        var request = URLRequest(url: baseURL)
-        request.httpMethod = "GET"
+        if let cachedData = infoCache[baseURL] {
+            return cachedData
+        } else {
+
+            var request = URLRequest(url: baseURL)
+            request.httpMethod = "GET"
+            
+            let data = try await client.makeRequest(request)
+            let appInfo = try parseResult(data).appList.iOS
         
-        let data = try await client.makeRequest(request)
-        let appInfo = try parseResult(data).appList.iOS
-        
-        return appInfo
+            infoCache[baseURL] = appInfo
+            _ = infoCache[baseURL]
+
+            return appInfo
+        }
     }
     
     private func parseResult(_ dataArray: Data) throws -> AppInfoResponse {
