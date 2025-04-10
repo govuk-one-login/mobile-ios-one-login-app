@@ -1841,7 +1841,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
-				C826A7262DA8164000832E65 /* OneLoginIntegration.xctestplan in Resources */,
 				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
 				C826A70B2DA812A100832E65 /* FeatureFlagsIntegration.json in Resources */,
@@ -1850,6 +1849,7 @@
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
+				C826A7262DA8164000832E65 /* OneLoginIntegration.xctestplan in Resources */,
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
