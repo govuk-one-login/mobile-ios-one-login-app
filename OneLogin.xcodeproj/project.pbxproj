@@ -750,9 +750,9 @@
 			children = (
 				7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */,
 				7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */,
+				C8F25A0E2DA80D0100E75F51 /* Integration.xcconfig */,
 				7C0CCED12C8A12F200F61C11 /* Release.xcconfig */,
 				7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */,
-				C8F25A0E2DA80D0100E75F51 /* Integration.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -1102,6 +1102,8 @@
 				41E1A90F2BE126910034B6C7 /* Networking */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
 				ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */,
+				C81273A12C07412100059825 /* MockAuthenticationProvider.swift */,
+				C825C02D2D5E291500112918 /* MockAuthenticationService.swift */,
 				C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */,
 				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 				D0275CC02C00951600AF9A50 /* MockTokenVerifier.swift */,
@@ -1171,8 +1173,8 @@
 		C86B706D2B8F5EF200F4C9BF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				C826A70C2DA812BE00832E65 /* IntegrationConfig */,
 				C803C2152B8F8865008DE774 /* BuildConfig */,
+				C826A70C2DA812BE00832E65 /* IntegrationConfig */,
 				C86B706F2B8F5F2D00F4C9BF /* StagingConfig */,
 			);
 			path = Firebase;
@@ -1361,8 +1363,8 @@
 		C8BA48F62AF3FFBF0028282D /* ConfigTests */ = {
 			isa = PBXGroup;
 			children = (
-				C826A71F2DA814DE00832E65 /* IntegrationConfig */,
 				C873B1DE2AF826D3002C39E8 /* BuildConfig */,
+				C826A71F2DA814DE00832E65 /* IntegrationConfig */,
 				C873B1E02AF826D3002C39E8 /* StagingConfig */,
 			);
 			path = ConfigTests;
@@ -1380,8 +1382,8 @@
 		C8BACAEE2B4DCBF400530419 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				C826A7072DA8122100832E65 /* IntegrationConfig */,
 				C8BACAF02B4DCC1700530419 /* BuildConfig */,
+				C826A7072DA8122100832E65 /* IntegrationConfig */,
 				C8BACAF12B4DCC1F00530419 /* StagingConfig */,
 			);
 			path = Settings;
@@ -1390,8 +1392,8 @@
 		C8BACAEF2B4DCC0B00530419 /* FeatureFlags */ = {
 			isa = PBXGroup;
 			children = (
-				C826A70A2DA8129400832E65 /* FeatureFlagsIntegration.json */,
 				C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */,
+				C826A70A2DA8129400832E65 /* FeatureFlagsIntegration.json */,
 				C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */,
 			);
 			path = FeatureFlags;
@@ -1506,9 +1508,9 @@
 		C8DA2C652D73DAC300EBBE3E /* Entitlements */ = {
 			isa = PBXGroup;
 			children = (
-				C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */,
 				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
 				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
+				C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */,
 				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
 				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
 			);
@@ -1838,16 +1840,16 @@
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
 				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
+				C826A70B2DA812A100832E65 /* FeatureFlagsIntegration.json in Resources */,
 				C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
-				C826A7092DA8123C00832E65 /* Settings.bundle in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
 				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
-				C826A70B2DA812A100832E65 /* FeatureFlagsIntegration.json in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
+				C826A7092DA8123C00832E65 /* Settings.bundle in Resources */,
 				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 			);
@@ -2108,6 +2110,7 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
+				C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
