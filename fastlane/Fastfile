@@ -115,7 +115,10 @@ platform :ios do
       profile_name = "One Login"
       app_identifier = "uk.gov.onelogin"
 
-      if options[:configuration] == "Staging" then
+      if options[:configuration] == "Integration" then
+        profile_name += " Integration"
+        app_identifier += ".integration"
+      elsif options[:configuration] == "Staging" then
         profile_name += " Staging"
         app_identifier += ".staging"
       elsif options[:configuration] == "Build" then
