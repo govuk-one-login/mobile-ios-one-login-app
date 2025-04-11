@@ -27,7 +27,7 @@ jobs:
         run: |
           ./scripts-configs/store-access-token.sh
           
-      - name: Export AppCheck Secret
+      - name: Import AppCheck Secret
         if: ${{ inputs.app_check == true }}
         run: |
           touch ../secrets.xcconfig

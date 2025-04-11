@@ -87,15 +87,16 @@ jobs:
 
   test_build_config:
     needs: run_swiftlint
-    name: Run Integration Configuration Tests
+    name: Run Build Configuration Tests
     uses: ./.github/workflows/config-test.yml
     with:
       configuration: "Build"
+      app_check: true
     secrets: inherit
 
   test_staging_config:
     needs: run_swiftlint
-    name: Run Integration Configuration Tests
+    name: Run Staging Configuration Tests
     uses: ./.github/workflows/config-test.yml
     with:
       configuration: "Staging"
@@ -115,14 +116,6 @@ jobs:
       configuration: "Integration"
     secrets: inherit
 
-  deploy_staging_app:
-    needs: [ test_staging_config, test_ui ]
-    name: Deploy App
-    uses: ./.github/workflows/deploy.yml
-    with:
-      configuration: "Staging"
-    secrets: inherit
-
   deploy_build_app:
     needs: [ test_build_config, test_ui ]
     name: Deploy App
@@ -130,4 +123,12 @@ jobs:
     with:
       configuration: "Build"
       app_check: true
+    secrets: inherit
+
+  deploy_staging_app:
+    needs: [ test_staging_config, test_ui ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Staging"
     secrets: inherit
