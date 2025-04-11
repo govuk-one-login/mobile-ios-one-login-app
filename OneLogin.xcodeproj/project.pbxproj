@@ -2114,7 +2114,6 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
-				C88958852C7F1E7000663299 /* LALocalAuthenticationManagerTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
