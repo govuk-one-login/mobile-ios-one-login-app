@@ -3,14 +3,17 @@ import Networking
 
 public protocol AppInformationProvider {
     func fetchAppInfo() async throws -> App
-    func loadFromDefaults() async throws -> App
     var currentVersion: Version { get }
+}
+
+public enum AppInfoError: Error {
+    case invalidResponse
 }
 
 public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
     private let baseURL: URL
-    private let defaults: UserDefaults = .standard
+    private let cache: UserDefaults
     
     /// Initialise a new `AppInformationService`
     ///
@@ -19,9 +22,10 @@ public final class AppInformationService: AppInformationProvider {
         self.init(client: .init(), baseURL: baseURL)
     }
     
-    init(client: NetworkClient, baseURL: URL) {
+    init(client: NetworkClient, baseURL: URL, cache: UserDefaults = .standard) {
         self.client = client
         self.baseURL = baseURL
+        self.cache = cache
     }
     
     public var currentVersion: Version {
@@ -34,16 +38,19 @@ public final class AppInformationService: AppInformationProvider {
         var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
         
-        let data = try await client.makeRequest(request)
-        defaults.set(data, forKey: baseURL.absoluteString)
-        let appInfo = try parseResult(data).appList.iOS
-
-        return appInfo
+        do {
+            let data = try await client.makeRequest(request)
+            cache.set(data, forKey: "appInfoResponse")
+            let appInfo = try parseResult(data).appList.iOS
+            return appInfo
+        } catch {
+            return try loadFromDefaults()
+        }
     }
     
-    public func loadFromDefaults() async throws -> App {
-        guard let cachedResponse = defaults.data(forKey: baseURL.absoluteString) else {
-            return try await fetchAppInfo()
+    private func loadFromDefaults() throws -> App {
+        guard let cachedResponse = cache.data(forKey: "appInfoResponse") else {
+            throw AppInfoError.invalidResponse
         }
         
         let appInfo = try parseResult(cachedResponse).appList.iOS
