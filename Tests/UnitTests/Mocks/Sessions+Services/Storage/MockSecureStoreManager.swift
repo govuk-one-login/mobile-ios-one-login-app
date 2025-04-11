@@ -5,13 +5,13 @@ import SecureStore
 class MockSecureStoreManager: SecureStoreManager {
     var accessControlEncryptedStore: SecureStorable
     var encryptedStore: SecureStorable
-    var localAuthentication: LocalAuthWrap & LocalAuthenticationContextStrings
+    var localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
     
     var didCallRefreshStore = false
     
     init(accessControlEncryptedStore: SecureStorable,
          encryptedStore: SecureStorable,
-         localAuthentication: LocalAuthWrap & LocalAuthenticationContextStrings) {
+         localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
         self.localAuthentication = localAuthentication

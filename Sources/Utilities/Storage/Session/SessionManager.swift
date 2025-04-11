@@ -17,7 +17,7 @@ protocol SessionManager: UserProvider {
 
     var tokenProvider: TokenHolder { get }
 
-    var localAuthentication: LocalAuthWrap { get }
+    var localAuthentication: LocalAuthManaging { get }
 
     /// Starts a new session from a remote login
     func startSession(

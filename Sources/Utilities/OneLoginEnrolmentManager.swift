@@ -4,13 +4,13 @@ import LocalAuthenticationWrapper
 
 @MainActor
 struct OneLoginEnrolmentManager {
-    let localAuthContext: LocalAuthWrap
+    let localAuthContext: LocalAuthManaging
     private let sessionManager: SessionManager
     private let analyticsService: OneLoginAnalyticsService
     private weak var coordinator: ChildCoordinator?
     
     init(
-        localAuthContext: LocalAuthWrap,
+        localAuthContext: LocalAuthManaging,
         sessionManager: SessionManager,
         analyticsService: OneLoginAnalyticsService,
         coordinator: ChildCoordinator?

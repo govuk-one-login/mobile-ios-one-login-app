@@ -10,7 +10,7 @@ final class EnrolmentCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let localAuthContext: LocalAuthWrap
+    private let localAuthContext: LocalAuthManaging
     
     private lazy var localAuthManager = OneLoginEnrolmentManager(
         localAuthContext: localAuthContext,
@@ -23,7 +23,7 @@ final class EnrolmentCoordinator: NSObject,
         root: UINavigationController,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager,
-        localAuthContext: LocalAuthWrap = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
+        localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
     ) {
         self.root = root
         self.analyticsService = analyticsService

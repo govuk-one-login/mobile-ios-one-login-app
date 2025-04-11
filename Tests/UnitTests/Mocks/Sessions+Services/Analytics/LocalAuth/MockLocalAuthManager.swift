@@ -2,7 +2,7 @@ import LocalAuthenticationWrapper
 @testable import OneLogin
 import SecureStore
 
-final class MockLocalAuthManager: LocalAuthWrap, LocalAuthenticationContextStrings {
+final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextStrings {
     var type: LocalAuthType = .touchID
     
     var oneLoginStrings: LocalAuthenticationLocalizedStrings?

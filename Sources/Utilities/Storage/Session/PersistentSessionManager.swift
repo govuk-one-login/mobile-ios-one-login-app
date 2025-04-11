@@ -7,7 +7,7 @@ final class PersistentSessionManager: SessionManager {
     private let secureStoreManager: SecureStoreManager
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
-    let localAuthentication: LocalAuthWrap
+    let localAuthentication: LocalAuthManaging
     
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
@@ -26,7 +26,7 @@ final class PersistentSessionManager: SessionManager {
     
     init(secureStoreManager: SecureStoreManager,
          unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthWrap) {
+         localAuthentication: LocalAuthManaging) {
         self.secureStoreManager = secureStoreManager
         self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore)
         self.unprotectedStore = unprotectedStore

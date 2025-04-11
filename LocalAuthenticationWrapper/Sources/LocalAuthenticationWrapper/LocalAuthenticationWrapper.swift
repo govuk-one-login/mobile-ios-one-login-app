@@ -1,6 +1,6 @@
 import LocalAuthentication
 
-public struct LocalAuthenticationWrapper: LocalAuthWrap {
+public struct LocalAuthenticationWrapper: LocalAuthManaging {
     private let localAuthContext: LocalAuthContext
     private let localAuthPromptStore: LocalAuthPromptRecorder
     private let localAuthStrings: LocalAuthPromptStrings

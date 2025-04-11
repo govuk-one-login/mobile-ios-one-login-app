@@ -4,17 +4,17 @@ import SecureStore
 protocol SecureStoreManager {
     var accessControlEncryptedStore: SecureStorable { get }
     var encryptedStore: SecureStorable { get }
-    var localAuthentication: LocalAuthWrap & LocalAuthenticationContextStrings { get }
+    var localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings { get }
     func refreshStore() throws
 }
 
 final class OneLoginSecureStoreManager: SecureStoreManager {
     private(set) var accessControlEncryptedStore: SecureStorable
     private(set) var encryptedStore: SecureStorable
-    let localAuthentication: LocalAuthWrap & LocalAuthenticationContextStrings
+    let localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
     
     convenience init(
-        localAuthentication: LocalAuthWrap & LocalAuthenticationContextStrings = LocalAuthenticationWrapper(
+        localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings = LocalAuthenticationWrapper(
             localAuthStrings: .oneLogin
         )
     ) throws {
@@ -30,7 +30,7 @@ final class OneLoginSecureStoreManager: SecureStoreManager {
     init(
         accessControlEncryptedStore: SecureStorable,
         encryptedStore: SecureStorable,
-        localAuthentication: LocalAuthWrap & LocalAuthenticationContextStrings
+        localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore

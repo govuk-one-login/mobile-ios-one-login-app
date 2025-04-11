@@ -7,9 +7,9 @@ import Wallet
 //
 
 final class DummyLocalAuthService: LocalAuthService {
-    let localAuthentication: LocalAuthWrap
+    let localAuthentication: LocalAuthManaging
 
-    init(localAuthentication: LocalAuthWrap = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
+    init(localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
         self.localAuthentication = localAuthentication
     }
     
