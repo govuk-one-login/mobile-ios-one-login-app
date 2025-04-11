@@ -1,39 +1,13 @@
 import Authentication
 import Combine
-import CryptoService
-import LocalAuthentication
-import Networking
-import SecureStore
-import TokenGeneration
-
-enum PersistentSessionError: Error, Equatable {
-    case noSessionExists
-    case userRemovedLocalAuth
-    case sessionMismatch
-    case cannotDeleteData(Error)
-    
-    static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
-        switch (lhs, rhs) {
-        case (.noSessionExists, .noSessionExists),
-            (.userRemovedLocalAuth, .userRemovedLocalAuth),
-            (.sessionMismatch, .sessionMismatch),
-            (.cannotDeleteData, .cannotDeleteData):
-            true
-        default:
-            false
-        }
-    }
-}
-
-protocol SessionBoundData {
-    func delete() async throws
-}
+import Foundation
+import LocalAuthenticationWrapper
 
 final class PersistentSessionManager: SessionManager {
     private let secureStoreManager: SecureStoreManager
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
-    let localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
+    let localAuthentication: LocalAuthManaging
     
     let tokenProvider: TokenHolder
     private var tokenResponse: TokenResponse?
@@ -42,18 +16,17 @@ final class PersistentSessionManager: SessionManager {
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
-    convenience init(secureStoreManager: SecureStoreManager,
-                     localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
+    convenience init(secureStoreManager: SecureStoreManager) {
         self.init(
             secureStoreManager: secureStoreManager,
             unprotectedStore: UserDefaults.standard,
-            localAuthentication: localAuthentication
+            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
         )
     }
     
     init(secureStoreManager: SecureStoreManager,
          unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
+         localAuthentication: LocalAuthManaging) {
         self.secureStoreManager = secureStoreManager
         self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore)
         self.unprotectedStore = unprotectedStore
@@ -91,7 +64,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var hasNotRemovedLocalAuth: Bool {
-        localAuthentication.canUseLocalAuth(type: .deviceOwnerAuthentication) && isReturningUser
+        (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
     func startSession(
@@ -131,23 +104,15 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        try await saveSession()
+        try saveSession()
         
         NotificationCenter.default.post(name: .enrolmentComplete)
     }
     
-    func saveSession() async throws {
+    func saveSession() throws {
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
             return
-        }
-        
-        if !isReturningUser {
-            guard try await localAuthentication.enrolFaceIDIfAvailable() else {
-                // first time user fails FaceID scan
-                // so tokens should not be saved !
-                return
-            }
         }
         
         if !storeKeyService.hasLoginTokens {
@@ -217,4 +182,27 @@ final class PersistentSessionManager: SessionManager {
     func registerSessionBoundData(_ data: [SessionBoundData]) {
         sessionBoundData = data
     }
+}
+
+enum PersistentSessionError: Error, Equatable {
+    case noSessionExists
+    case userRemovedLocalAuth
+    case sessionMismatch
+    case cannotDeleteData(Error)
+    
+    static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
+        switch (lhs, rhs) {
+        case (.noSessionExists, .noSessionExists),
+            (.userRemovedLocalAuth, .userRemovedLocalAuth),
+            (.sessionMismatch, .sessionMismatch),
+            (.cannotDeleteData, .cannotDeleteData):
+            true
+        default:
+            false
+        }
+    }
+}
+
+protocol SessionBoundData {
+    func delete() async throws
 }

@@ -1,20 +1,25 @@
+import LocalAuthenticationWrapper
 import SecureStore
 
 protocol SecureStoreManager {
     var accessControlEncryptedStore: SecureStorable { get }
     var encryptedStore: SecureStorable { get }
-    var localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck { get }
+    var localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings { get }
     func refreshStore() throws
 }
 
 final class OneLoginSecureStoreManager: SecureStoreManager {
     private(set) var accessControlEncryptedStore: SecureStorable
     private(set) var encryptedStore: SecureStorable
-    let localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck
+    let localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
     
-    convenience init(localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
+    convenience init(
+        localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings = LocalAuthenticationWrapper(
+            localAuthStrings: .oneLogin
+        )
+    ) throws {
         self.init(
-            accessControlEncryptedStore: .accessControlEncryptedStore(
+            accessControlEncryptedStore: try .accessControlEncryptedStore(
                 localAuthManager: localAuthentication
             ),
             encryptedStore: .encryptedStore(),
@@ -22,9 +27,11 @@ final class OneLoginSecureStoreManager: SecureStoreManager {
         )
     }
     
-    init(accessControlEncryptedStore: SecureStorable,
-         encryptedStore: SecureStorable,
-         localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck) {
+    init(
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
+        localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
+    ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
         self.localAuthentication = localAuthentication
@@ -34,7 +41,7 @@ final class OneLoginSecureStoreManager: SecureStoreManager {
         try accessControlEncryptedStore.delete()
         try encryptedStore.delete()
         
-        accessControlEncryptedStore = .accessControlEncryptedStore(
+        accessControlEncryptedStore = try .accessControlEncryptedStore(
             localAuthManager: localAuthentication
         )
         encryptedStore = .encryptedStore()

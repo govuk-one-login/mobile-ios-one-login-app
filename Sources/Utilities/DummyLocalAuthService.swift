@@ -1,4 +1,4 @@
-import LocalAuthentication
+import LocalAuthenticationWrapper
 import UIKit
 import Wallet
 
@@ -7,26 +7,27 @@ import Wallet
 //
 
 final class DummyLocalAuthService: LocalAuthService {
-    let context: LocalAuthenticationContext
+    let localAuthentication: LocalAuthManaging
 
-    init(context: LocalAuthenticationContext) {
-        self.context = context
-    }
-    
-    convenience init() {
-        self.init(context: LAContext())
+    init(localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
+        self.localAuthentication = localAuthentication
     }
     
     func evaluateLocalAuth(navigationController: UINavigationController,
                            completion: @escaping (AuthType) -> Void) {
-        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) && context.biometryType == .touchID {
-            completion(.touch)
-        } else if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) && context.biometryType == .faceID {
-            completion(.face)
-        } else if !context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: nil) {
-            completion(.none)
-        } else {
-            completion(.passcode)
+        do {
+            switch try localAuthentication.type {
+            case .faceID:
+                completion(.face)
+            case .touchID:
+                completion(.touch)
+            case .passcode:
+                completion(.passcode)
+            case .none:
+                completion(.none)
+            }
+        } catch {
+            fatalError()
         }
     }
 }

@@ -87,7 +87,7 @@ extension HomeViewControllerTests {
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         )
-        waitForTruth(!servicesTile.isHidden, timeout: 5)
+        XCTAssertFalse(servicesTile.isHidden)
     }
     
     func test_idCheckTileCell_isHidden() {

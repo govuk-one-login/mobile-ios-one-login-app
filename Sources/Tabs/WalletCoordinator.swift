@@ -58,13 +58,4 @@ final class WalletCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) {
         WalletSDK.deeplink(with: url)
     }
-    
-    func deleteWalletData() throws {
-        #if DEBUG
-        if AppEnvironment.clearWalletErrorEnabled {
-            throw TokenError.expired
-        }
-        #endif
-        try WalletSDK.deleteData()
-    }
 }

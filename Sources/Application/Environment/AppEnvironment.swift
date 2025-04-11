@@ -8,10 +8,6 @@ public final class AppEnvironment {
         isFeatureEnabled(for: .enableSignoutError)
     }
     
-    static var clearWalletErrorEnabled: Bool {
-        isFeatureEnabled(for: .enableClearWalletError)
-    }
-    
     static var walletVisibleViaDeepLink: Bool {
         isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
     }

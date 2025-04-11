@@ -1,8 +1,8 @@
 import Authentication
 import Combine
 import Foundation
+import LocalAuthenticationWrapper
 @testable import OneLogin
-import SecureStore
 
 final class MockSessionManager: SessionManager {
     var expiryDate: Date?
@@ -26,7 +26,7 @@ final class MockSessionManager: SessionManager {
     var errorFromClearAllSessionData: Error?
     var errorFromSaveSession: Error?
 
-    var localAuthentication: LocalAuthenticationManager & LocalAuthenticationContextStringCheck = MockLocalAuthManager()
+    var localAuthentication: LocalAuthManaging = MockLocalAuthManager()
 
     init(expiryDate: Date? = nil,
          sessionExists: Bool = false,
@@ -54,15 +54,19 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func saveSession() async throws {
-        didCallSaveSession = true
+    func saveSession() throws {
+        defer {
+            didCallSaveSession = true
+        }
         if let errorFromSaveSession {
             throw errorFromSaveSession
         }
     }
 
     func resumeSession() throws {
-        didCallResumeSession = true
+        defer {
+            didCallResumeSession = true
+        }
         if let errorFromResumeSession {
             throw errorFromResumeSession
         }
@@ -73,7 +77,9 @@ final class MockSessionManager: SessionManager {
     }
     
     func clearAllSessionData() throws {
-        didCallClearAllSessionData = true
+        defer {
+            didCallClearAllSessionData = true
+        }
         if let errorFromClearAllSessionData {
             throw errorFromClearAllSessionData
         }

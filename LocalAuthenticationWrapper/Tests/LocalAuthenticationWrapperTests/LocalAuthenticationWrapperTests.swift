@@ -21,45 +21,6 @@ struct LocalAuthenticationWrapperTests {
         )
     }
     
-    @Test("Check that none is returned when no authentication method is available")
-    func typeNone() throws {
-        #expect(try sut.type == .none)
-    }
-    
-    @Test("Check that passcode is returned when available")
-    func typePasscode() throws {
-        mockLocalAuthContext.anyPolicyOutcome = true
-        #expect(try sut.type == .passcode)
-    }
-    
-    @Test("Check that touchID is returned when available")
-    func typeTouchID() throws {
-        mockLocalAuthContext.biometryType = .touchID
-        mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.type == .touchID)
-    }
-    
-    @Test("Check that faceID is returned when available")
-    func typeFaceID() throws {
-        mockLocalAuthContext.biometryType = .faceID
-        mockLocalAuthContext.biometryPolicyOutcome = true
-        #expect(try sut.type == .faceID)
-    }
-    
-    @Test("Check that error is thrown from type when biometrics unavailable")
-    func canUseLocalAuthBiometricError() throws {
-        mockLocalAuthContext.canEvaluatePolicyError = NSError(
-            domain: LAErrorDomain,
-            code: LAError.biometryNotEnrolled.rawValue
-        )
-        
-        #expect(
-            throws: LocalAuthenticationWrapperError.biometricsUnavailable
-        ) {
-            try sut.type
-        }
-    }
-    
     @Test("Check that error is thrown from type when unknown error")
     func canUseLocalAuthUnknownError() throws {
         mockLocalAuthContext.canEvaluatePolicyError = NSError(
@@ -74,6 +35,58 @@ struct LocalAuthenticationWrapperTests {
             )
         ) {
             try sut.type
+        }
+    }
+    
+    @Test("Check that passcode is returned when available")
+    func typePasscode() throws {
+        mockLocalAuthContext.anyPolicyOutcome = true
+        #expect(try sut.type == .passcode)
+    }
+    
+    @Test("Check that none is returned when no authentication method is available")
+    func typeNone() throws {
+        #expect(try sut.type == .none)
+    }
+    
+    @Test("Check that touchID is returned when available")
+    func typeTouchID() throws {
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        mockLocalAuthContext.biometryType = .touchID
+        #expect(try sut.type == .touchID)
+    }
+    
+    @Test("Check that faceID is returned when available")
+    func typeFaceID() throws {
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        mockLocalAuthContext.biometryType = .faceID
+        #expect(try sut.type == .faceID)
+    }
+    
+    @Test("Check that canUseAnyLocalAuth passcodeNotSet error returns false")
+    func canUseAnyLocalAuthPasscodeNotSet() throws {
+        mockLocalAuthContext.canEvaluatePolicyError = NSError(
+            domain: LAErrorDomain,
+            code: LAError.passcodeNotSet.rawValue
+        )
+        
+        #expect(try !sut.canUseAnyLocalAuth)
+    }
+    
+    @Test("Check that canUseAnyLocalAuth unknown error throws")
+    func canUseAnyLocalAuthUnknownError() throws {
+        mockLocalAuthContext.canEvaluatePolicyError = NSError(
+            domain: LAErrorDomain,
+            code: LAError.authenticationFailed.rawValue
+        )
+        
+        #expect(
+            throws: NSError(
+                domain: LAErrorDomain,
+                code: LAError.authenticationFailed.rawValue
+            )
+        ) {
+            try sut.canUseAnyLocalAuth
         }
     }
     
@@ -147,7 +160,10 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryPolicyOutcome = true
         mockLocalAuthContext.biometryType = .faceID
         mockLocalAuthContext.errorFromEvaluatePolicy = LAError(
-            _nsError: NSError(domain: LAErrorDomain, code: LAError.userCancel.rawValue)
+            _nsError: NSError(
+                domain: LAErrorDomain,
+                code: LAError.userCancel.rawValue
+            )
         )
         
         await #expect(throws: LocalAuthenticationWrapperError.cancelled) {

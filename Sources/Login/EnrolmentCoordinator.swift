@@ -1,8 +1,6 @@
 import Coordination
 import GDSCommon
-import LocalAuthentication
-import Logging
-import SecureStore
+import LocalAuthenticationWrapper
 import UIKit
 
 final class EnrolmentCoordinator: NSObject,
@@ -12,61 +10,53 @@ final class EnrolmentCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
+    private let localAuthContext: LocalAuthManaging
     
-    init(root: UINavigationController,
-         analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager) {
+    private lazy var localAuthManager = OneLoginEnrolmentManager(
+        localAuthContext: localAuthContext,
+        sessionManager: sessionManager,
+        analyticsService: analyticsService,
+        coordinator: self
+    )
+    
+    init(
+        root: UINavigationController,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
+    ) {
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
+        self.localAuthContext = localAuthContext
     }
     
     func start() {
-        switch sessionManager.localAuthentication.type {
-        case .touchID:
-            let viewModel = TouchIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
-                saveSession()
-            } secondaryButtonAction: { [unowned self] in
-                completeEnrolment()
-            }
-            let touchIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
-            root.pushViewController(touchIDEnrolmentScreen, animated: true)
-        case .faceID:
-            let viewModel = FaceIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
-                saveSession()
-            } secondaryButtonAction: { [unowned self] in
-                completeEnrolment()
-            }
-            let faceIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
-            root.pushViewController(faceIDEnrolmentScreen, animated: true)
-        case .passcodeOnly:
-            saveSession()
-        case .none:
-            completeEnrolment()
-        }
-    }
-
-    private func saveSession() {
-        Task {
-            #if targetEnvironment(simulator)
-                if sessionManager is PersistentSessionManager {
-                    // UI tests or running on simulator
-                    completeEnrolment()
-                    return
+        do {
+            switch try localAuthContext.type {
+            case .touchID:
+                let viewModel = TouchIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
+                    localAuthManager.saveSession()
+                } secondaryButtonAction: { [unowned self] in
+                    localAuthManager.completeEnrolment()
                 }
-            #endif
-            // Unit tests or running on device
-            do {
-                try await sessionManager.saveSession()
-                completeEnrolment()
-            } catch let error as SecureStoreError {
-                analyticsService.logCrash(error)
+                let touchIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                root.pushViewController(touchIDEnrolmentScreen, animated: true)
+            case .faceID:
+                let viewModel = FaceIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
+                    localAuthManager.saveSession()
+                } secondaryButtonAction: { [unowned self] in
+                    localAuthManager.completeEnrolment()
+                }
+                let faceIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                root.pushViewController(faceIDEnrolmentScreen, animated: true)
+            case .passcode:
+                localAuthManager.saveSession()
+            case .none:
+                localAuthManager.completeEnrolment()
             }
+        } catch {
+            preconditionFailure()
         }
-    }
-
-    private func completeEnrolment() {
-        NotificationCenter.default.post(name: .enrolmentComplete)
-        finish()
     }
 }
