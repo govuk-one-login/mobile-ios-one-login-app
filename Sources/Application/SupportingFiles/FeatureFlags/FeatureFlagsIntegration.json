@@ -4,10 +4,6 @@
         "isEnabled": false
     },
     {
-        "name": "EnableClearWalletError",
-        "isEnabled": false
-    },
-    {
         "name": "EnableWalletVisibleToAll",
         "isEnabled": false
     },
