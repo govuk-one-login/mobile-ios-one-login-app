@@ -24,10 +24,10 @@ jobs:
 
       - name: Configure Private Repo Access
         env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
         run: |
           ./scripts-configs/store-access-token.sh
-          
+
       - name: Import AppCheck Secret
         if: ${{ inputs.app_check == true }}
         run: |

@@ -44,10 +44,10 @@ jobs:
 
       - name: Configure Private Repo Access
         env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
         run: |
           ./scripts-configs/store-access-token.sh
-          
+
       - name: Export AppCheck Secret
         run: |
           touch ../secrets.xcconfig
@@ -74,8 +74,8 @@ jobs:
           bundle exec fastlane test scheme:"OneLoginBuild" \
             configuration:"Debug" \
             testplan:OneLoginUnit \
-            workspace:${{github.workspace}} \
-            sonar_token:${{secrets.SONAR_TOKEN}}
+            workspace:${{ github.workspace }} \
+            sonar_token:${{ secrets.SONAR_TOKEN }}
 
   test_integration_config:
     needs: run_swiftlint
@@ -107,7 +107,7 @@ jobs:
     name: Deploy App
     uses: ./.github/workflows/ui-test.yml
     secrets: inherit
-    
+
   deploy_integration_app:
     needs: [ test_integration_config, test_ui ]
     name: Deploy App
