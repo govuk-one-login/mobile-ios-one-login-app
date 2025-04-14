@@ -20,10 +20,10 @@ jobs:
 
       - name: Configure Private Repo Access
         env:
-          GIT_TOKEN: ${{secrets.MODULE_FETCH_TOKEN}}
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
         run: |
           ./scripts-configs/store-access-token.sh
-          
+
       - name: Export AppCheck Secret
         env:
             APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
@@ -63,4 +63,3 @@ jobs:
           name: UITestArtifact
           path: ./fastlane/UITestArtifact.zip
           retention-days: 1
-

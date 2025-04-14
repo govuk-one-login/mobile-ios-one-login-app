@@ -7,7 +7,7 @@ on:
       app_check:
         required: false
         type: boolean
-    
+
 jobs:
   deploy_app:
     name: ${{ inputs.configuration }}
@@ -26,8 +26,8 @@ jobs:
           GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
         run: |
           ./scripts-configs/store-access-token.sh
-          
-      - name: Export AppCheck Secret
+
+      - name: Import AppCheck Secret
         if: ${{ inputs.app_check == true }}
         run: |
           touch ../secrets.xcconfig
