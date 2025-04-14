@@ -24,7 +24,6 @@ final class AppQualifyingService: QualifyingService {
         didSet {
             if appInfoState == .offline {
                 // Query cache?
-//                updateService.loadFromDefaults()
             }
             Task {
                 await delegate?.didChangeAppInfoState(state: appInfoState)

@@ -8,9 +8,27 @@ final class MockAppInformationService: AppInformationProvider {
     var currentVersion: Networking.Version = .init(.max, .max, .max)
     var allowAppUsage = true
     var didCallFetchAppInfo = false
-    var shouldReturnError = false
     
     var errorToThrow: Error?
+    var apps: Data = Data(
+    """
+        {
+          "apps": {
+            "iOS": {
+              "minimumVersion": "1.0.0",
+              "releaseFlags": {
+                "walletVisibleViaDeepLink": true,
+                "walletVisibleIfExists": true,
+                "walletVisibleToAll": false
+              },
+              "available": true,
+              "featureFlags": {
+                "appCheckEnabled": true
+              }
+            }
+          }
+        }
+    """.utf8)
 
     var releaseFlags: [String: Bool] = [:]
     var featureFlags: [String: Bool] = [:]
@@ -20,16 +38,13 @@ final class MockAppInformationService: AppInformationProvider {
             didCallFetchAppInfo = true
         }
         
-        if shouldReturnError {
-            guard let errorToThrow else {
-                throw URLError(.notConnectedToInternet)
-            }
+        if let errorToThrow {
             throw errorToThrow
         }
-        
-        return App(minimumVersion: .init(1, 2, 0),
-                   allowAppUsage: allowAppUsage,
-                   releaseFlags: releaseFlags,
-                   featureFlags: featureFlags)
+        guard let appInfo = try? JSONDecoder().decode(AppInfoResponse.self, from: apps) else {
+            throw AppInfoError.invalidResponse
+        }
+
+        return appInfo.appList.iOS
     }
 }
