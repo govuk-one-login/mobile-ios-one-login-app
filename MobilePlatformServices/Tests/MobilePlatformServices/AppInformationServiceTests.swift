@@ -110,4 +110,26 @@ extension AppInformationServiceTests {
         XCTAssertEqual(appInfo.releaseFlags, ["Feature1": true,
                                               "Feature2": false])
     }
+    
+    func test_fetchAppVersion_usesCachedInfo() async throws {
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
+        
+        let version = try await sut.fetchAppInfo().minimumVersion
+        XCTAssertNotNil(sut.cache)
+        XCTAssertEqual(version, Version(1, 0, 0))
+    }
+    
+    func test_fetchAppInfoError() async throws {
+        sut.cache.removeObject(forKey: "appInfoResponse")
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
+        do {
+            _ = try await sut.fetchAppInfo()
+        } catch let error as AppInfoError {
+            XCTAssertTrue(error == .invalidResponse)
+        }
+    }
 }
