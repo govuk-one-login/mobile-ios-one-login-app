@@ -56,6 +56,7 @@ final class AppInformationServiceTests: XCTestCase {
         MockURLProtocol.clear()
         client = nil
         sut = nil
+        mockCache = nil
         
         super.tearDown()
     }
@@ -118,17 +119,15 @@ extension AppInformationServiceTests {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 400))
         }
-        
         let appInfo = try await sut.fetchAppInfo()
         
-        XCTAssertNotNil(mockCache)
         XCTAssertEqual(appInfo.minimumVersion, Version(1, 0, 0))
     }
     
     func test_fetchAppVersion_updatesCache() async throws {
         // GIVEN there's already cached app info data
         mockCache.set(createMock(), forKey: "appInfoResponse")
-        let data = mockCache.data(forKey: "appInfoResponse") ?? Data("".utf8)
+        let data = try XCTUnwrap(mockCache.data(forKey: "appInfoResponse"))
         let appInfo = try? JSONDecoder().decode(AppInfoResponse.self, from: data)
         
         XCTAssertTrue(appInfo?.appList.iOS.minimumVersion == Version(1, 0, 0))
@@ -140,7 +139,7 @@ extension AppInformationServiceTests {
         }
         
         _ = try await sut.fetchAppInfo()
-        let newCachedData = mockCache.data(forKey: "appInfoResponse") ?? Data("".utf8)
+        let newCachedData = try XCTUnwrap(mockCache.data(forKey: "appInfoResponse"))
         let newAppInfo = try? JSONDecoder().decode(AppInfoResponse.self, from: newCachedData)
         
         // THEN the cached data will be updated
@@ -148,7 +147,6 @@ extension AppInformationServiceTests {
     }
     
     func test_fetchAppInfoError() async throws {
-        try mockCache.delete()
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 400))
         }

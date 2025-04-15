@@ -11,8 +11,4 @@ class MockAppInfoCache: DefaultsCache {
     func data(forKey key: String) -> Data? {
         savedData[key] as? Data
     }
-    
-    func delete() throws {
-        savedData = [:]
-    }
 }
