@@ -1,14 +1,21 @@
 import Foundation
 @testable import MobilePlatformServices
 
-class MockAppInfoCache: UserDefaults {
+protocol DefaultsStorable {
+    func set(_ value: Any?, forKey defaultName: String)
+    func data(forKey key: String) -> Data?
+}
+
+extension UserDefaults: DefaultsStorable { }
+
+class MockAppInfoCache: DefaultsStorable {
     var savedData = [String: Any]()
     
-    override func set(_ value: Any?, forKey defaultName: String) {
+    func set(_ value: Any?, forKey defaultName: String) {
         savedData[defaultName] = value
     }
     
-    override func data(forKey key: String) -> Data? {
+    func data(forKey key: String) -> Data? {
         savedData[key] as? Data
     }
     
