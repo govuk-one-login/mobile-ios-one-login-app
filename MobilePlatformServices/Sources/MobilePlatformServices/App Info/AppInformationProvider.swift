@@ -13,7 +13,7 @@ public enum AppInfoError: Error {
 public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
     private let baseURL: URL
-    private let cache: UserDefaults
+    private let cache: DefaultsCache
     
     /// Initialise a new `AppInformationService`
     ///
@@ -22,7 +22,7 @@ public final class AppInformationService: AppInformationProvider {
         self.init(client: .init(), baseURL: baseURL)
     }
     
-    init(client: NetworkClient, baseURL: URL, cache: UserDefaults = .standard) {
+    init(client: NetworkClient, baseURL: URL, cache: DefaultsCache = UserDefaults.standard) {
         self.client = client
         self.baseURL = baseURL
         self.cache = cache

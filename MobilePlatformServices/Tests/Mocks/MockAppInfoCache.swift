@@ -1,14 +1,7 @@
 import Foundation
 @testable import MobilePlatformServices
 
-protocol DefaultsStorable {
-    func set(_ value: Any?, forKey defaultName: String)
-    func data(forKey key: String) -> Data?
-}
-
-extension UserDefaults: DefaultsStorable { }
-
-class MockAppInfoCache: DefaultsStorable {
+class MockAppInfoCache: DefaultsCache {
     var savedData = [String: Any]()
     
     func set(_ value: Any?, forKey defaultName: String) {
