@@ -55,7 +55,6 @@ extension AppQualifyingServiceTests {
     
     func test_appUnavailable_setsStateCorrectly() {
         // GIVEN app usage is not allowed
-        appInformationProvider.errorToThrow = AppInfoError.invalidResponse
         appInformationProvider.allowAppUsage = false
 
         sut.delegate = self
@@ -86,7 +85,7 @@ extension AppQualifyingServiceTests {
     func test_upToDateApp_setsStateCorrectly() {
         let releaseFlags = ["TestFlag": true]
         appInformationProvider.releaseFlags = releaseFlags
-//        sut.delegate = self
+        sut.delegate = self
         sut.initiate()
 
         // THEN the qualified state is set
@@ -100,7 +99,7 @@ extension AppQualifyingServiceTests {
 
     func test_offlineApp_setsStateCorrectly() {
         // GIVEN the app is offline
-        appInformationProvider.errorToThrow = URLError(.notConnectedToInternet)
+        appInformationProvider.shouldReturnError = true
 
         sut.delegate = self
         sut.initiate()
@@ -114,6 +113,7 @@ extension AppQualifyingServiceTests {
 
     func test_errorThrown_setsStateCorrectly() {
         // GIVEN `appInfo` cannot be accessed
+        appInformationProvider.shouldReturnError = true
         appInformationProvider.errorToThrow = URLError(.timedOut)
 
         sut.delegate = self
@@ -122,6 +122,19 @@ extension AppQualifyingServiceTests {
         // THEN the error state is set
         waitForTruth(
             self.appState == .error,
+            timeout: 5
+        )
+    }
+    
+    func test_appInfoError_setsStateCorrectly() {
+        appInformationProvider.shouldReturnError = true
+        appInformationProvider.errorToThrow = AppInfoError.invalidResponse
+        
+        sut.delegate = self
+        sut.initiate()
+        
+        waitForTruth(
+            self.appState == .unavailable,
             timeout: 5
         )
     }
@@ -247,7 +260,7 @@ extension AppQualifyingServiceTests {
 // MARK: - Subscription Tests
 extension AppQualifyingServiceTests {
     func test_enrolmentComplete_changesUserState() {
-        appInformationProvider.errorToThrow = AppInfoError.invalidResponse
+        appInformationProvider.shouldReturnError = true
         sut.delegate = self
         sut.initiate()
 
@@ -256,7 +269,7 @@ extension AppQualifyingServiceTests {
     }
 
     func test_sessionExpiry_changesUserState() {
-        appInformationProvider.errorToThrow = AppInfoError.invalidResponse
+        appInformationProvider.shouldReturnError = true
         sut.delegate = self
         sut.initiate()
 
@@ -265,6 +278,7 @@ extension AppQualifyingServiceTests {
     }
 
     func test_logOut_changesUserState() {
+        appInformationProvider.shouldReturnError = true
         sut.delegate = self
         sut.initiate()
         
