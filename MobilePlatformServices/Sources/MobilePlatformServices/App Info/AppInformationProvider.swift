@@ -6,10 +6,15 @@ public protocol AppInformationProvider {
     var currentVersion: Version { get }
 }
 
+public enum AppInfoError: Error {
+    case invalidResponse
+}
+
 public final class AppInformationService: AppInformationProvider {
     private let client: NetworkClient
     private let baseURL: URL
-
+    private let cache: DefaultsCache
+    
     /// Initialise a new `AppInformationService`
     ///
     /// - Parameter baseURL: the host of the AppInformationService API
@@ -17,9 +22,10 @@ public final class AppInformationService: AppInformationProvider {
         self.init(client: .init(), baseURL: baseURL)
     }
     
-    init(client: NetworkClient, baseURL: URL) {
+    init(client: NetworkClient, baseURL: URL, cache: DefaultsCache = UserDefaults.standard) {
         self.client = client
         self.baseURL = baseURL
+        self.cache = cache
     }
     
     public var currentVersion: Version {
@@ -32,9 +38,22 @@ public final class AppInformationService: AppInformationProvider {
         var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
         
-        let data = try await client.makeRequest(request)
-        let appInfo = try parseResult(data).appList.iOS
+        do {
+            let data = try await client.makeRequest(request)
+            cache.set(data, forKey: "appInfoResponse")
+            let appInfo = try parseResult(data).appList.iOS
+            return appInfo
+        } catch {
+            return try loadFromDefaults()
+        }
+    }
+    
+    private func loadFromDefaults() throws -> App {
+        guard let cachedResponse = cache.data(forKey: "appInfoResponse") else {
+            throw AppInfoError.invalidResponse
+        }
         
+        let appInfo = try parseResult(cachedResponse).appList.iOS
         return appInfo
     }
     

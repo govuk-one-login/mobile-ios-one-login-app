@@ -1,3 +1,4 @@
+import MobilePlatformServices
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -98,7 +99,7 @@ extension AppQualifyingServiceTests {
 
     func test_offlineApp_setsStateCorrectly() {
         // GIVEN the app is offline
-        appInformationProvider.shouldReturnError = true
+        appInformationProvider.errorFromFetchAppInfo = URLError(.notConnectedToInternet)
 
         sut.delegate = self
         sut.initiate()
@@ -112,8 +113,7 @@ extension AppQualifyingServiceTests {
 
     func test_errorThrown_setsStateCorrectly() {
         // GIVEN `appInfo` cannot be accessed
-        appInformationProvider.shouldReturnError = true
-        appInformationProvider.errorToThrow = URLError(.timedOut)
+        appInformationProvider.errorFromFetchAppInfo = URLError(.timedOut)
 
         sut.delegate = self
         sut.initiate()
@@ -121,6 +121,18 @@ extension AppQualifyingServiceTests {
         // THEN the error state is set
         waitForTruth(
             self.appState == .error,
+            timeout: 5
+        )
+    }
+    
+    func test_appInfoError_setsStateCorrectly() {
+        appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
+        
+        sut.delegate = self
+        sut.initiate()
+        
+        waitForTruth(
+            self.appState == .unavailable,
             timeout: 5
         )
     }
@@ -246,7 +258,7 @@ extension AppQualifyingServiceTests {
 // MARK: - Subscription Tests
 extension AppQualifyingServiceTests {
     func test_enrolmentComplete_changesUserState() {
-        appInformationProvider.shouldReturnError = true
+        appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
         sut.initiate()
 
@@ -255,7 +267,7 @@ extension AppQualifyingServiceTests {
     }
 
     func test_sessionExpiry_changesUserState() {
-        appInformationProvider.shouldReturnError = true
+        appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
         sut.initiate()
 
@@ -264,7 +276,7 @@ extension AppQualifyingServiceTests {
     }
 
     func test_logOut_changesUserState() {
-        appInformationProvider.shouldReturnError = true
+        appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
         sut.initiate()
         

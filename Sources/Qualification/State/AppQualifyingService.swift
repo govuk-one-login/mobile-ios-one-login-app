@@ -74,6 +74,8 @@ final class AppQualifyingService: QualifyingService {
             }
             
             appInfoState = .qualified
+        } catch AppInfoError.invalidResponse {
+            appInfoState = .unavailable
         } catch URLError.notConnectedToInternet {
             appInfoState = .offline
         } catch {
