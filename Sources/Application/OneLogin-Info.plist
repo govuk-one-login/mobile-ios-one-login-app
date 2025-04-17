@@ -62,6 +62,8 @@
 		<string>A0000002471001</string>
 		<string>A00000045645444C2D3031</string>
 	</array>
+	<key>NFCReaderUsageDescription</key>
+	<string>This is required to scan the chip on your document</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
