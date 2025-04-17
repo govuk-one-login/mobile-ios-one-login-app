@@ -45,7 +45,7 @@
 		<key>Read ID URL</key>
 		<string>$(READ_ID_URL)</string>
 		<key>iProov URL</key>
-		<string>gds.rp.secure.iproov.me</string>
+		<string>$(IPROOV_URL)</string>
 	</dict>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
@@ -57,11 +57,11 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-    <key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
-    <array>
-        <string>A0000002471001</string>
-        <string>A00000045645444C2D3031</string>
-    </array>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<string>A0000002471001</string>
+		<string>A00000045645444C2D3031</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

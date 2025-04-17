@@ -12,7 +12,8 @@ GOV_SUPPORT_URL = home.staging.$(BASE_URL)
 ID_CHECK_DOMAIN = review-b.staging.$(BASE_URL)
 ID_CHECK_BASE_URL = api-backend-api.$(ID_CHECK_DOMAIN)
 ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.staging.$(BASE_URL)
-READ_ID_URL = readid.$(ID_CHECK_DOMAIN)
+READ_ID_URL = https:/$()/readid.$(ID_CHECK_DOMAIN)/odata/v1/ODataServlet/
+IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 
 STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
 

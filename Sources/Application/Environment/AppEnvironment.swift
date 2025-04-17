@@ -202,20 +202,12 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var readIDURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = string(for: .readIDURL, in: .idCheck)
-        components.path = "/odata/v1/ODataServlet"
-        return components.url!
+    static var readIDURLString: String {
+        string(for: .readIDURL, in: .idCheck)
     }
     
-    static var iProovURL: URL {
-        var components = URLComponents()
-        components.scheme = "wss"
-        components.host = string(for: .iProovURL, in: .idCheck)
-        components.path = "/ws"
-        return components.url!
+    static var iProovURLString: String {
+        string(for: .iProovURL, in: .idCheck)
     }
 }
 
