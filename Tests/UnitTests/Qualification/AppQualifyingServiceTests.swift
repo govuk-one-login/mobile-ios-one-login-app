@@ -97,20 +97,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(AppEnvironment.remoteReleaseFlags.flags, releaseFlags)
     }
 
-    func test_offlineApp_setsStateCorrectly() {
-        // GIVEN the app is offline
-        appInformationProvider.errorFromFetchAppInfo = URLError(.notConnectedToInternet)
-
-        sut.delegate = self
-        sut.initiate()
-
-        // THEN the offline state is set
-        waitForTruth(
-            self.appState == .offline,
-            timeout: 5
-        )
-    }
-
     func test_errorThrown_setsStateCorrectly() {
         // GIVEN `appInfo` cannot be accessed
         appInformationProvider.errorFromFetchAppInfo = URLError(.timedOut)
@@ -125,7 +111,21 @@ extension AppQualifyingServiceTests {
         )
     }
     
-    func test_appInfoError_setsStateCorrectly() {
+    func test_appInfoOfflineError_setsStateCorrectly() {
+        // GIVEN the app is offline
+        appInformationProvider.errorFromFetchAppInfo = AppInfoError.notConnectedToInternet
+
+        sut.delegate = self
+        sut.initiate()
+
+        // THEN the offline state is set
+        waitForTruth(
+            self.appState == .offline,
+            timeout: 5
+        )
+    }
+    
+    func test_appInfoInvalidError_setsStateCorrectly() {
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         
         sut.delegate = self

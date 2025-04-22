@@ -85,6 +85,30 @@ extension QualifyingCoordinatorTests {
         )
         XCTAssertTrue(vc.viewModel is UpdateAppViewModel)
     }
+    
+    @MainActor
+    func test_appOffline_displaysNetworkErrorScreen() throws {
+        // GIVEN I reopen the app
+        // AND I receive an offline result from `appInfo`
+        sut.didChangeAppInfoState(state: .offline)
+        // THEN I am shown the Network Error screen
+        let vc = try XCTUnwrap(
+            window.rootViewController as? GDSErrorViewController
+        )
+        XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+    }
+    
+    @MainActor
+    func test_networkError_buttonAction() throws {
+        sut.didChangeAppInfoState(state: .offline)
+        
+        let vc = try XCTUnwrap(
+            window.rootViewController as? GDSErrorViewController
+        )
+        _ = vc.viewModel.primaryButtonViewModel.action()
+        
+        XCTAssertTrue(qualifyingService.didCallInitiate)
+    }
 }
 
 // MARK: - User State updates
