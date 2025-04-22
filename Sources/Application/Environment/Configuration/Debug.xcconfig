@@ -23,4 +23,4 @@ STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ
 
 FEATURE_FLAG_FILE = FeatureFlagsBuild
 
-CODE_SIGN_ENTITLEMENTS = OneLoginBuild.entitlements
+CODE_SIGN_ENTITLEMENTS = OneLoginDebug.entitlements
