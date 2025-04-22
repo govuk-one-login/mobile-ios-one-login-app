@@ -4,15 +4,18 @@ INFOPLIST_KEY_CFBundleDisplayName = One Login - Integration
 INFOPLIST_KEY_NSCameraUsageDescription = The app will only access your phone’s rear camera to scan the QR code.
 
 BASE_URL = account.gov.uk
-STS_BASE_URL = token.integration.$(BASE_URL)
-MOBILE_BE_BASE_URL = mobile.integration.$(BASE_URL)
-EXTERNAL_BASE_URL = signin.integration.$(BASE_URL)
-GOV_SUPPORT_URL = home.integration.$(BASE_URL)
+ENVIRONMENT_BASE_URL = integration.$(BASE_URL)
 
-ID_CHECK_DOMAIN = review-b.integration.$(BASE_URL)
+STS_BASE_URL = token.$(ENVIRONMENT_BASE_URL)
+MOBILE_BE_BASE_URL = mobile.$(ENVIRONMENT_BASE_URL)
+EXTERNAL_BASE_URL = signin.$(ENVIRONMENT_BASE_URL)
+GOV_SUPPORT_URL = home.$(ENVIRONMENT_BASE_URL)
+
+ID_CHECK_DOMAIN = review-b.$(ENVIRONMENT_BASE_URL)
 ID_CHECK_BASE_URL = api-backend-api.$(ID_CHECK_DOMAIN)
-ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.integration.$(BASE_URL)
-READ_ID_URL = readid.$(ID_CHECK_DOMAIN)
+ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.$(ENVIRONMENT_BASE_URL)
+READ_ID_URL = https:/$()/readid-proxy.review-b-async.$(ENVIRONMENT_BASE_URL)/odata/v1/ODataServlet/
+IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 
 STS_CLIENT_ID = 3Do0FOcrpsXe-mMklRruPUWmjr8
 

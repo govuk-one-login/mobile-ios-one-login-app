@@ -29,6 +29,6 @@ struct OneLoginCRIURLs: CRIURLs {
     let baseURL: URL = AppEnvironment.idCheckBaseURL
     let domainURL: URL = AppEnvironment.idCheckDomainURL
     let govUKURL: URL = AppEnvironment.govURL
-    let readIDURLString: String = AppEnvironment.readIDURL.absoluteString
-    let iProovURLString: String = AppEnvironment.iProovURL.absoluteString
+    let readIDURLString: String = AppEnvironment.readIDURLString
+    let iProovURLString: String = AppEnvironment.iProovURLString
 }
