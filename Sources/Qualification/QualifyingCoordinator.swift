@@ -73,7 +73,7 @@ final class QualifyingCoordinator: NSObject,
             displayUnlockWindow()
         case .offline:
             let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
-                
+                self.appQualifyingService.initiate()
             }
             displayViewController(GDSErrorViewController(viewModel: viewModel))
         case .error:

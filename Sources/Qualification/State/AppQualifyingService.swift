@@ -5,6 +5,7 @@ import SecureStore
 
 protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
+    func initiate()
     func evaluateUser() async
 }
 
@@ -45,7 +46,7 @@ final class AppQualifyingService: QualifyingService {
         subscribe()
     }
     
-    func initiate() {
+    public func initiate() {
         Task {
             await qualifyAppVersion()
             await evaluateUser()

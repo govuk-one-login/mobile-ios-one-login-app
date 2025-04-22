@@ -45,14 +45,14 @@ public final class AppInformationService: AppInformationProvider {
             cache.set(data, forKey: "appInfoResponse")
             return appInfo
         } catch {
-            return try loadFromDefaults()
+            return try loadFromDefaults(appInfoError: error)
         }
     }
     
-    private func loadFromDefaults() throws -> App {
+    private func loadFromDefaults(appInfoError: Error) throws -> App {
         guard let cachedResponse = cache.data(forKey: "appInfoResponse") else {
-            let error = URLError.notConnectedToInternet
-            if error.rawValue == NSURLErrorNotConnectedToInternet {
+            if let error = appInfoError as? URLError,
+               error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
                 throw AppInfoError.notConnectedToInternet
             }
             throw AppInfoError.invalidResponse
