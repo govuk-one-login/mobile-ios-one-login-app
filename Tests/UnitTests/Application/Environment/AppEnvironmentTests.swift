@@ -40,7 +40,7 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.idCheckBaseURL.absoluteString, "https://api-backend-api.review-b.build.account.gov.uk")
         XCTAssertEqual(sut.idCheckAsyncBaseURL.absoluteString, "https://sessions.review-b-async.build.account.gov.uk")
         XCTAssertEqual(sut.idCheckHandoffURL.absoluteString, "https://review-b.build.account.gov.uk/dca/app/handoff?device=iphone")
-        XCTAssertEqual(sut.readIDURLString, "https://readid.review-b.build.account.gov.uk/odata/v1/ODataServlet/")
+        XCTAssertEqual(sut.readIDURLString, "https://readid-proxy.review-b-async.build.account.gov.uk/odata/v1/ODataServlet/")
         XCTAssertEqual(sut.iProovURLString, "wss://gds.rp.secure.iproov.me/ws")
         
         // External
