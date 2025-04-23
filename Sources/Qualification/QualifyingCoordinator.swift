@@ -72,8 +72,10 @@ final class QualifyingCoordinator: NSObject,
         case .notChecked:
             displayUnlockWindow()
         case .offline:
-            // TODO: DCMAW-9866 | display error screen for app offline and no cached data
-            return
+            let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
+                appQualifyingService.initiate()
+            }
+            displayViewController(GDSErrorViewController(viewModel: viewModel))
         case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return

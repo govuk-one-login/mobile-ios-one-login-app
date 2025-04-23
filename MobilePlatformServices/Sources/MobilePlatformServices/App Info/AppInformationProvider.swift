@@ -8,6 +8,7 @@ public protocol AppInformationProvider {
 
 public enum AppInfoError: Error {
     case invalidResponse
+    case notConnectedToInternet
 }
 
 public final class AppInformationService: AppInformationProvider {
@@ -40,16 +41,20 @@ public final class AppInformationService: AppInformationProvider {
         
         do {
             let data = try await client.makeRequest(request)
-            cache.set(data, forKey: "appInfoResponse")
             let appInfo = try parseResult(data).appList.iOS
+            cache.set(data, forKey: "appInfoResponse")
             return appInfo
         } catch {
-            return try loadFromDefaults()
+            return try loadFromDefaults(appInfoError: error)
         }
     }
     
-    private func loadFromDefaults() throws -> App {
+    private func loadFromDefaults(appInfoError: Error) throws -> App {
         guard let cachedResponse = cache.data(forKey: "appInfoResponse") else {
+            if let error = appInfoError as? URLError,
+               error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
+                throw AppInfoError.notConnectedToInternet
+            }
             throw AppInfoError.invalidResponse
         }
         

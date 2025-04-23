@@ -5,6 +5,7 @@ import SecureStore
 
 protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
+    func initiate()
     func evaluateUser() async
 }
 
@@ -22,9 +23,6 @@ final class AppQualifyingService: QualifyingService {
     
     private var appInfoState: AppInformationState = .notChecked {
         didSet {
-            if appInfoState == .offline {
-                // Query cache?
-            }
             Task {
                 await delegate?.didChangeAppInfoState(state: appInfoState)
             }
@@ -48,7 +46,7 @@ final class AppQualifyingService: QualifyingService {
         subscribe()
     }
     
-    func initiate() {
+    public func initiate() {
         Task {
             await qualifyAppVersion()
             await evaluateUser()
@@ -76,7 +74,7 @@ final class AppQualifyingService: QualifyingService {
             appInfoState = .qualified
         } catch AppInfoError.invalidResponse {
             appInfoState = .unavailable
-        } catch URLError.notConnectedToInternet {
+        } catch AppInfoError.notConnectedToInternet {
             appInfoState = .offline
         } catch {
             // This would account for all non-successful server responses & any other error
