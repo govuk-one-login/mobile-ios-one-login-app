@@ -78,7 +78,7 @@ extension HomeViewController {
         }
     }
     
-    func getOneLoginCard(indexPath: IndexPath) -> UITableViewCell {
+    private func getOneLoginCard(indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "ContentTileCell",
             for: indexPath
@@ -90,7 +90,7 @@ extension HomeViewController {
         return cell
     }
     
-    func getIDCheckCard(indexPath: IndexPath) -> UITableViewCell {
+    private func getIDCheckCard(indexPath: IndexPath) -> UITableViewCell {
         guard let idCheckCard else {
             preconditionFailure("")
         }
