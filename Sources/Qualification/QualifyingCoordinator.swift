@@ -72,8 +72,8 @@ final class QualifyingCoordinator: NSObject,
         case .notChecked:
             displayUnlockWindow()
         case .offline:
-            let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
-                self.appQualifyingService.initiate()
+            let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
+                appQualifyingService.initiate()
             }
             displayViewController(GDSErrorViewController(viewModel: viewModel))
         case .error:
