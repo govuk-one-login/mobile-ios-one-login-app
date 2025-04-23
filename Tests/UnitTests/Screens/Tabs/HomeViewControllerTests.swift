@@ -77,26 +77,34 @@ extension HomeViewControllerTests {
         XCTAssertTrue(servicesTile?.viewModel is OneLoginTileViewModel)
     }
     
-    func test_idCheckTileCell_isVisible() {
+    func test_idCheckTileCell_isDisplayed() {
         AppEnvironment.updateFlags(
             releaseFlags: [:],
             featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
         )
         UINavigationController().setViewControllers([sut], animated: false)
-        let servicesTile = sut.tableView(
+        let idCell = sut.tableView(
+            sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 0)
+        )
+        let oneLoginCell = sut.tableView(
             sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         )
-        XCTAssertFalse(servicesTile.isHidden)
+        XCTAssertFalse(idCell.isHidden)
+        XCTAssertTrue((idCell as? ContentTileCell) == nil)
+        XCTAssertFalse(oneLoginCell.isHidden)
+        XCTAssertTrue((oneLoginCell as? ContentTileCell) != nil)
     }
     
-    func test_idCheckTileCell_isHidden() {
+    func test_idCheckTileCell_isNotDisplayed() {
         UINavigationController().setViewControllers([sut], animated: false)
-        let servicesTile = sut.tableView(
+        let oneLoginCell = sut.tableView(
             sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 1)
+            cellForRowAt: IndexPath(row: 0, section: 0)
         )
-        XCTAssertTrue(servicesTile.isHidden)
+        XCTAssertFalse(oneLoginCell.isHidden)
+        XCTAssertTrue((oneLoginCell as? ContentTileCell) != nil)
     }
     
     func test_viewDidAppear() {
