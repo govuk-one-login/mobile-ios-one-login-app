@@ -66,39 +66,51 @@ extension HomeViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "ContentTileCell",
-                for: indexPath
-            ) as? ContentTileCell else {
-                preconditionFailure()
+            guard let idCheckCard else { return getOneLoginCard(indexPath: indexPath) }
+            if !idCheckCard.view.isHidden {
+                return getIDCheckCard(indexPath: indexPath)
             }
-            cell.viewModel = .oneLoginCard(analyticsService: analyticsService,
-                                           urlOpener: UIApplication.shared)
-            return cell
+            return getOneLoginCard(indexPath: indexPath)
         case 1:
-            guard let idCheckCard else {
-                preconditionFailure("")
-            }
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: "OneLoginHomeScreenCell",
-                for: indexPath
-            )
-            
-            idCheckCard.view.translatesAutoresizingMaskIntoConstraints = false
-            cell.isHidden = !AppEnvironment.criOrchestratorEnabled || idCheckCard.view.isHidden
-            cell.contentView.addSubview(idCheckCard.view)
-            
-            NSLayoutConstraint.activate([
-                idCheckCard.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                idCheckCard.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                idCheckCard.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                idCheckCard.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
-            ])
-
-            return cell
+            return getOneLoginCard(indexPath: indexPath)
         default:
             return UITableViewCell()
         }
+    }
+    
+    func getOneLoginCard(indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "ContentTileCell",
+            for: indexPath
+        ) as? ContentTileCell else {
+            preconditionFailure()
+        }
+        cell.viewModel = .oneLoginCard(analyticsService: analyticsService,
+                                       urlOpener: UIApplication.shared)
+        return cell
+    }
+    
+    func getIDCheckCard(indexPath: IndexPath) -> UITableViewCell {
+        guard let idCheckCard else {
+            preconditionFailure("")
+        }
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "OneLoginHomeScreenCell",
+            for: indexPath
+        )
+        
+        idCheckCard.view.translatesAutoresizingMaskIntoConstraints = false
+        cell.isHidden = !AppEnvironment.criOrchestratorEnabled || idCheckCard.view.isHidden
+        cell.contentView.addSubview(idCheckCard.view)
+        
+        NSLayoutConstraint.activate([
+            idCheckCard.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            idCheckCard.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            idCheckCard.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+            idCheckCard.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
+        ])
+
+        return cell
     }
 }
 
