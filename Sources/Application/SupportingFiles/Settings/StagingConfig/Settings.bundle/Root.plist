@@ -58,6 +58,22 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
+			<string>CryptoExportImportManager</string>
+			<key>File</key>
+			<string>CryptoExportImportManager</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Expression</string>
+			<key>File</key>
+			<string>Expression</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
 			<string>Firebase</string>
 			<key>File</key>
 			<string>Firebase</string>
@@ -85,6 +101,14 @@
 			<string>GoogleUtilities</string>
 			<key>File</key>
 			<string>GoogleUtilities</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>GPUImage2</string>
+			<key>File</key>
+			<string>GPUImage2</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -114,6 +138,14 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
+			<string>iProov</string>
+			<key>File</key>
+			<string>iProov</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
 			<string>JWTKit</string>
 			<key>File</key>
 			<string>Jwtkit</string>
@@ -126,7 +158,7 @@
 			<key>File</key>
 			<string>LevelDB</string>
 		</dict>
-			<dict>
+		<dict>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
@@ -141,6 +173,14 @@
 			<string>Promises</string>
 			<key>File</key>
 			<string>Promises</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Starscream</string>
+			<key>File</key>
+			<string>Starscream</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -157,6 +197,14 @@
 			<string>SwiftProtobuf</string>
 			<key>File</key>
 			<string>SwiftProtobuf</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>TrustKit</string>
+			<key>File</key>
+			<string>Trustkit</string>
 		</dict>
 	</array>
 </dict>
