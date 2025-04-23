@@ -186,6 +186,14 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
+			<string>Realm</string>
+			<key>File</key>
+			<string>Realm</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
 			<string>Starscream</string>
 			<key>File</key>
 			<string>Starscream</string>
