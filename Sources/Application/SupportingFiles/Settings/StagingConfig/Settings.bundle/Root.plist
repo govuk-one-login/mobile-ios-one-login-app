@@ -58,6 +58,14 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
+			<string>BigInt</string>
+			<key>File</key>
+			<string>BigInt</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
 			<string>CryptoExportImportManager</string>
 			<key>File</key>
 			<string>CryptoExportImportManager</string>
