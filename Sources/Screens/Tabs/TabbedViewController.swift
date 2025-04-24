@@ -11,6 +11,7 @@ final class TabbedViewController: BaseViewController {
     private let userProvider: UserProvider
     private var analyticsPreference: AnalyticsPreferenceStore
     private var cancellables = Set<AnyCancellable>()
+    var analyticsSwitch: UISwitch
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
@@ -18,6 +19,7 @@ final class TabbedViewController: BaseViewController {
         self.viewModel = viewModel
         self.userProvider = userProvider
         self.analyticsPreference = analyticsPreference
+        self.analyticsSwitch = UISwitch()
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
@@ -40,6 +42,8 @@ final class TabbedViewController: BaseViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
         guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
+        analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
+        analyticsSwitch.addTarget(self, action: #selector(updateAnalytics(_:)), for: .valueChanged)
         analyticsSwitch.setOn(analyticsAccepted, animated: true)
     }
     
@@ -61,15 +65,8 @@ final class TabbedViewController: BaseViewController {
         // temporary solution to stop app from freezing. Similar resolution here: https://stackoverflow.com/questions/74868322/tableview-freeze
         self.tableView.reloadRows(at: [.first], with: .none)
     }
-
-
-    @IBOutlet private var analyticsSwitch: UISwitch! {
-        didSet {
-            analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
-        }
-    }
     
-    @IBAction private func updateAnalytics(_ sender: UISwitch) {
+    @objc private func updateAnalytics(_ sender: UISwitch) {
         analyticsPreference.hasAcceptedAnalytics?.toggle()
     }
     
