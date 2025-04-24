@@ -204,3 +204,21 @@
 
 "app_appUnavailableBody" = "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.";
 
+
+// MARK: FaceID/ Touch ID Error Screen
+
+"app_localAuthManagerErrorTitle" = "Mae angen i chi ddiweddaru gosodiadau eich ffôn";
+
+"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.";
+
+"app_localAuthManagerErrorBody3" = "Mae angen i chi:";
+
+"app_localAuthManagerErrorNumberedList1FaceID" = "Fynd i Face ID & Passcode yng ngosodiadau eich ffôn.";
+
+"app_localAuthManagerErrorNumberedList1TouchID" = "Fynd i Touch ID & Passcode yng ngosodiadau eich ffôn.";
+
+"app_localAuthManagerErrorNumberedList2" = "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.";
+
+"app_localAuthManagerErrorNumberedList3" = "Dod yn ôl i barhau i ddefnyddio'ch GOV.UK Wallet.";
+
+"app_localAuthManagerErrorGoToSettingsButton" = "Ewch i osodiadau ffôn";
