@@ -30,7 +30,7 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         ]
     }
     
-    func didAppear() { }
+    func didAppear() { /* BaseViewModel compliance */ }
 
-    func didDismiss() { }
+    func didDismiss() { /* BaseViewModel compliance */ }
 }
