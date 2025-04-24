@@ -42,6 +42,7 @@ final class SettingsCoordinator: NSObject,
                                        tag: 2)
         let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
                                              userProvider: sessionManager,
+                                             urlOpener: urlOpener,
                                              openSignOutPage: openSignOutPage,
                                              openDeveloperMenu: openDeveloperMenu)
         let settingsViewController = TabbedViewController(viewModel: viewModel,
