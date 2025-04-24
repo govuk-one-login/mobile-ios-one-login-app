@@ -119,7 +119,7 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
     }
     
-    func test_updateAnalytics() throws {
+    func test_updateAnalytics_accepted() {
         mockAnalyticsPreference.hasAcceptedAnalytics = true
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
@@ -131,12 +131,12 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(mockAnalyticsPreference.hasAcceptedAnalytics, false)
     }
     
-    func test_updateAnalytics_off() throws {
+    func test_updateAnalytics_notAccepted() {
         mockAnalyticsPreference.hasAcceptedAnalytics = false
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
         
-        XCTAssertTrue(!sut.analyticsSwitch.isOn)
+        XCTAssertFalse(sut.analyticsSwitch.isOn)
         
         sut.analyticsSwitch.sendActions(for: .valueChanged)
         
