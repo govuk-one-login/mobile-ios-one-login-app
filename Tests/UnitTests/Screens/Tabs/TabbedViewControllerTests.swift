@@ -121,11 +121,26 @@ extension TabbedViewControllerTests {
     
     func test_updateAnalytics() throws {
         mockAnalyticsPreference.hasAcceptedAnalytics = true
-        XCTAssertTrue(try sut.analyticsSwitch.isOn)
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
         
-        try sut.analyticsSwitch.sendActions(for: .valueChanged)
+        XCTAssertTrue(sut.analyticsSwitch.isOn)
+        
+        sut.analyticsSwitch.sendActions(for: .valueChanged)
         
         XCTAssertEqual(mockAnalyticsPreference.hasAcceptedAnalytics, false)
+    }
+    
+    func test_updateAnalytics_off() throws {
+        mockAnalyticsPreference.hasAcceptedAnalytics = false
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        
+        XCTAssertTrue(!sut.analyticsSwitch.isOn)
+        
+        sut.analyticsSwitch.sendActions(for: .valueChanged)
+        
+        XCTAssertEqual(mockAnalyticsPreference.hasAcceptedAnalytics, true)
     }
     
     func test_manageAccount_eventAnalytics() throws {
@@ -231,12 +246,6 @@ extension TabbedViewController {
     var tabbedTableView: UITableView {
         get throws {
             try XCTUnwrap(view[child: "tabbed-view-table-view"])
-        }
-    }
-    
-    var analyticsSwitch: UISwitch {
-        get throws {
-            try XCTUnwrap(view[child: "tabbed-view-analytics-switch"])
         }
     }
 }
