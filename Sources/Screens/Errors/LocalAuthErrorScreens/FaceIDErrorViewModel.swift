@@ -22,7 +22,7 @@ struct FaceIDErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         let bodyParagraph = BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1"))
         self.bodyContent = [
             bodyParagraph,
-            ScreenBody()
+            NumberedListView()
         ]
     }
     
