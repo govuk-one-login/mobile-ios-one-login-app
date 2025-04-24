@@ -6,6 +6,7 @@ import XCTest
 final class SettingsTabViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
+    var mockUrlOpener: MockURLOpener!
     var sut: SettingsTabViewModel!
     
     var didOpenSignOutPage: Bool = false
@@ -16,8 +17,10 @@ final class SettingsTabViewModelTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
+        mockUrlOpener = MockURLOpener()
         sut = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                    userProvider: mockSessionManager,
+                                   urlOpener: mockUrlOpener,
                                    openSignOutPage: {
             self.didOpenSignOutPage = true
         },
@@ -28,6 +31,7 @@ final class SettingsTabViewModelTests: XCTestCase {
     
     override func tearDown() {
         mockAnalyticsService = nil
+        mockUrlOpener = nil
         sut = nil
         
         didOpenDeveloperMenu = false

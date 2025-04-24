@@ -9,6 +9,7 @@ final class TabbedViewControllerTests: XCTestCase {
     private var mockAnalyticsService: MockAnalyticsService!
     private var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
     private var mockSessionManager: MockSessionManager!
+    private var mockUrlOpener: MockURLOpener!
     private var viewModel: TabbedViewModel!
     private var sut: TabbedViewController!
     
@@ -21,8 +22,10 @@ final class TabbedViewControllerTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
+        mockUrlOpener = MockURLOpener()
         viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                          userProvider: mockSessionManager,
+                                         urlOpener: mockUrlOpener,
                                          openSignOutPage: { self.didTapRow = true },
                                          openDeveloperMenu: { })
         sut = TabbedViewController(viewModel: viewModel,
@@ -34,6 +37,7 @@ final class TabbedViewControllerTests: XCTestCase {
         mockAnalyticsService = nil
         mockAnalyticsPreference = nil
         mockSessionManager = nil
+        mockUrlOpener = nil
         viewModel = nil
         sut = nil
         
