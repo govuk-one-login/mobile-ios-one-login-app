@@ -16,7 +16,7 @@ struct NumberedListViewModel: ListViewModel {
         "app_localAuthManagerErrorNumberedList3"
     ]
     
-    static func determineLocalAuthString(localAuthContext: LAContext) -> GDSLocalisedString {
+    private static func determineLocalAuthString(localAuthContext: LAContext) -> GDSLocalisedString {
         localAuthContext.biometryType == .faceID ?
         GDSLocalisedString(stringLiteral: "app_localAuthManagerErrorNumberedList1FaceID",
                            attributes: [("Face ID & Passcode", [.font: UIFont.bodyBold])]) :

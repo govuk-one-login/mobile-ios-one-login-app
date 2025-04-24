@@ -210,6 +210,25 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_externalBrowser".getWelshString(), "Agor mewn porwr gwe")
         XCTAssertEqual("app_externalApp".getWelshString(), "Yn agor yn yr App Store")
     }
+    
+    func test_localAuthError_keys() throws {
+        XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
+                       "Mae angen i chi ddiweddaru gosodiadau eich ffôn")
+        XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
+                       "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.")
+        XCTAssertEqual("app_localAuthManagerErrorBody3".getWelshString(),
+                       "Mae angen i chi:")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getWelshString(),
+                       "Fynd i Face ID & Passcode yng ngosodiadau eich ffôn.")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList1TouchID".getWelshString(),
+                       "Fynd i Touch ID & Passcode yng ngosodiadau eich ffôn.")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getWelshString(),
+                       "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getWelshString(),
+                       "Dod yn ôl i barhau i ddefnyddio'ch GOV.UK Wallet.")
+        XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getWelshString(),
+                       "Ewch i osodiadau ffôn")
+    }
 }
 
 // swiftlint:enable line_length
