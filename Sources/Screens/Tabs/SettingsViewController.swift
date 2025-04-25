@@ -4,7 +4,7 @@ import GDSCommon
 import Logging
 import UIKit
 
-final class TabbedViewController: BaseViewController {
+final class SettingsViewController: BaseViewController {
     override var nibName: String? { "TabbedView" }
     
     private let viewModel: TabbedViewModel
@@ -80,7 +80,7 @@ final class TabbedViewController: BaseViewController {
     }
 }
 
-extension TabbedViewController: UITableViewDataSource {
+extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfRowsInSection(section)
     }
@@ -101,7 +101,7 @@ extension TabbedViewController: UITableViewDataSource {
     }
 }
 
-extension TabbedViewController: UITableViewDelegate {
+extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionHeader.identifier) as? TabbedViewSectionHeader
         headerView?.title = viewModel.sectionModels[section].sectionTitle

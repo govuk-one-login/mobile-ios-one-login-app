@@ -45,7 +45,7 @@ final class SettingsCoordinator: NSObject,
                                              urlOpener: urlOpener,
                                              openSignOutPage: openSignOutPage,
                                              openDeveloperMenu: openDeveloperMenu)
-        let settingsViewController = TabbedViewController(viewModel: viewModel,
+        let settingsViewController = SettingsViewController(viewModel: viewModel,
                                                           userProvider: sessionManager,
                                                           analyticsPreference: analyticsPreferenceStore)
         root.setViewControllers([settingsViewController], animated: true)

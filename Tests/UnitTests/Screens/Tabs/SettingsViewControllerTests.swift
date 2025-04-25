@@ -5,13 +5,13 @@ import Networking
 import XCTest
 
 @MainActor
-final class TabbedViewControllerTests: XCTestCase {
+final class SettingsViewControllerTests: XCTestCase {
     private var mockAnalyticsService: MockAnalyticsService!
     private var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
     private var mockSessionManager: MockSessionManager!
     private var mockUrlOpener: MockURLOpener!
     private var viewModel: TabbedViewModel!
-    private var sut: TabbedViewController!
+    private var sut: SettingsViewController!
     
     private var didTapRow = false
     private var didAppearCalled = false
@@ -28,7 +28,7 @@ final class TabbedViewControllerTests: XCTestCase {
                                          urlOpener: mockUrlOpener,
                                          openSignOutPage: { self.didTapRow = true },
                                          openDeveloperMenu: { })
-        sut = TabbedViewController(viewModel: viewModel,
+        sut = SettingsViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
                                    analyticsPreference: mockAnalyticsPreference)
     }
@@ -48,7 +48,7 @@ final class TabbedViewControllerTests: XCTestCase {
     }
 }
 
-extension TabbedViewControllerTests {
+extension SettingsViewControllerTests {
     func test_numberOfSections() {
         XCTAssertEqual(sut.numberOfSections(in: try sut.tabbedTableView), 6)
     }
@@ -242,7 +242,7 @@ extension TabbedViewControllerTests {
     }
 }
 
-extension TabbedViewController {
+extension SettingsViewController {
     var tabbedTableView: UITableView {
         get throws {
             try XCTUnwrap(view[child: "tabbed-view-table-view"])

@@ -226,13 +226,13 @@
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
 		D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */; };
-		D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */; };
+		D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */; };
 		D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B722BDA8DD100769CEA /* TabbedView.xib */; };
 		D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */; };
 		D08B0B7D2BDBF86100769CEA /* TabbedViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */; };
 		D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */; };
 		D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */; };
-		D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */; };
+		D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B842BDFA40A00769CEA /* SettingsViewControllerTests.swift */; };
 		D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B862BDFE2DA00769CEA /* TabbedViewSectionFooter.swift */; };
 		D08B0B8A2BDFEBA600769CEA /* TabbedViewSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */; };
 		D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */; };
@@ -503,13 +503,13 @@
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
 		D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
-		D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewController.swift; sourceTree = "<group>"; };
+		D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D08B0B722BDA8DD100769CEA /* TabbedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedView.xib; sourceTree = "<group>"; };
 		D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewModel.swift; sourceTree = "<group>"; };
 		D08B0B7C2BDBF86100769CEA /* TabbedViewSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionHeader.swift; sourceTree = "<group>"; };
 		D08B0B802BDC0D7100769CEA /* TabbedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedTableViewCell.swift; sourceTree = "<group>"; };
 		D08B0B822BDC0F4100769CEA /* TabbedViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewCellModel.swift; sourceTree = "<group>"; };
-		D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewControllerTests.swift; sourceTree = "<group>"; };
+		D08B0B842BDFA40A00769CEA /* SettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewControllerTests.swift; sourceTree = "<group>"; };
 		D08B0B862BDFE2DA00769CEA /* TabbedViewSectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionFooter.swift; sourceTree = "<group>"; };
 		D08B0B892BDFEBA600769CEA /* TabbedViewSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedViewSectionModel.swift; sourceTree = "<group>"; };
 		D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -1481,7 +1481,7 @@
 			children = (
 				413C58752BF261D300171C06 /* HomeViewControllerTests.swift */,
 				413C58772BF266A200171C06 /* SettingsTabViewModelTests.swift */,
-				D08B0B842BDFA40A00769CEA /* TabbedViewControllerTests.swift */,
+				D08B0B842BDFA40A00769CEA /* SettingsViewControllerTests.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -1592,7 +1592,7 @@
 				C80C58022CB0016E00021D4F /* HomeViewController.swift */,
 				C8E1090A2BEE6C4500B21038 /* SettingsTabViewModel.swift */,
 				D08B0B722BDA8DD100769CEA /* TabbedView.xib */,
-				D08B0B712BDA8DD100769CEA /* TabbedViewController.swift */,
+				D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */,
 				D08B0B752BDA95F600769CEA /* TabbedViewModel.swift */,
 			);
 			path = Tabs;
@@ -2064,7 +2064,7 @@
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
-				D08B0B732BDA8DD100769CEA /* TabbedViewController.swift in Sources */,
+				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
 				D08B0B872BDFE2DA00769CEA /* TabbedViewSectionFooter.swift in Sources */,
@@ -2156,7 +2156,7 @@
 				F1B680822CA452CD00A64971 /* SignOutPageViewModelTests.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
-				D08B0B852BDFA40A00769CEA /* TabbedViewControllerTests.swift in Sources */,
+				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */,
 				411D1FD32B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift in Sources */,
