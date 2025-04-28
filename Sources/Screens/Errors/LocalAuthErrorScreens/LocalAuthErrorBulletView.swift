@@ -8,7 +8,7 @@ struct LocalAuthErrorBulletView: ScreenBodyItem {
 
 struct LocalAuthErrorBulletViewModel: ListViewModel {
     let title: GDSLocalisedString? = "app_localAuthManagerErrorBody3"
-    let titleConfig: TitleConfig? = nil
+    let titleConfig: TitleConfig? = (font: .body, isHeader: false)
     let listItemStrings: [GDSLocalisedString] = [
         determineLocalAuthString(localAuthContext: LAContext()),
         GDSLocalisedString(stringLiteral: "app_localAuthManagerErrorNumberedList2",

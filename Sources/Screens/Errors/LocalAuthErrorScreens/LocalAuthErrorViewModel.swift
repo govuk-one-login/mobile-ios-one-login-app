@@ -4,7 +4,10 @@ import UIKit
 struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_localAuthManagerErrorTitle"
-    let bodyContent: [ScreenBodyItem]
+    let bodyContent: [ScreenBodyItem] = [
+        BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1")),
+        LocalAuthErrorBulletView()
+    ]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
     
@@ -23,11 +26,6 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
             }
             urlOpener.open(url: url)
         }]
-        
-        self.bodyContent = [
-            BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1")),
-            LocalAuthErrorBulletView()
-        ]
     }
     
     func didAppear() { /* BaseViewModel compliance */ }
