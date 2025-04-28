@@ -5,7 +5,7 @@ import UIKit
 
 @MainActor
 struct NumberedListViewTests {
-    let sut = NumberedListViewModel()
+    let sut = LocalAuthErrorBulletViewModel()
     let mockLocalAuth = MockLocalAuthManager()
 
     @Test

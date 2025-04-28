@@ -2,11 +2,11 @@ import GDSCommon
 import LocalAuthentication
 import UIKit
 
-struct NumberedListView: ScreenBodyItem {
-    var uiView: UIView = ListView(viewModel: NumberedListViewModel())
+struct LocalAuthErrorBulletView: ScreenBodyItem {
+    var uiView: UIView = ListView(viewModel: LocalAuthErrorBulletViewModel())
 }
 
-struct NumberedListViewModel: ListViewModel {
+struct LocalAuthErrorBulletViewModel: ListViewModel {
     var title: GDSLocalisedString? = "app_localAuthManagerErrorBody3"
     var titleConfig: TitleConfig?
     var listItemStrings: [GDSLocalisedString] = [
@@ -15,6 +15,7 @@ struct NumberedListViewModel: ListViewModel {
                            attributes: [("Turn Passcode On", [.font: UIFont.bodyBold])]),
         "app_localAuthManagerErrorNumberedList3"
     ]
+    let localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
     
     private static func determineLocalAuthString(localAuthContext: LAContext) -> GDSLocalisedString {
         localAuthContext.biometryType == .faceID ?

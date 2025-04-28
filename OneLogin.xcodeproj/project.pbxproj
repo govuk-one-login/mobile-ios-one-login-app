@@ -89,7 +89,7 @@
 		ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */; };
 		ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BF2CEF887E006D6C7A /* CryptoService */; };
 		ABD7A0C22CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */; };
-		ABFE5E302DB9A54D0093E86E /* NumberedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5E2F2DB9A5420093E86E /* NumberedListView.swift */; };
+		ABFE5E302DB9A54D0093E86E /* LocalAuthErrorBulletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorBulletView.swift */; };
 		ABFE5EF52DBA66500093E86E /* LocalAuthErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */; };
 		ABFE5EF72DBA7BEC0093E86E /* NumberedListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
@@ -372,7 +372,7 @@
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift"; sourceTree = "<group>"; };
 		ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JWTGenerator+ProofTokenGenerator.swift"; sourceTree = "<group>"; };
-		ABFE5E2F2DB9A5420093E86E /* NumberedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberedListView.swift; sourceTree = "<group>"; };
+		ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorBulletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorBulletView.swift; sourceTree = "<group>"; };
 		ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorViewModelTests.swift; sourceTree = "<group>"; };
 		ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberedListViewTests.swift; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
@@ -886,7 +886,7 @@
 			isa = PBXGroup;
 			children = (
 				AB24C1122DB948520080141C /* LocalAuthErrorViewModel.swift */,
-				ABFE5E2F2DB9A5420093E86E /* NumberedListView.swift */,
+				ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorBulletView.swift */,
 			);
 			path = LocalAuthErrorScreens;
 			sourceTree = "<group>";
@@ -894,8 +894,8 @@
 		ABFE5EF32DBA662B0093E86E /* LocalAuthErrorScreenTests */ = {
 			isa = PBXGroup;
 			children = (
-				ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */,
 				ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */,
+				ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */,
 			);
 			path = LocalAuthErrorScreenTests;
 			sourceTree = "<group>";
@@ -2068,7 +2068,7 @@
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
-				ABFE5E302DB9A54D0093E86E /* NumberedListView.swift in Sources */,
+				ABFE5E302DB9A54D0093E86E /* LocalAuthErrorBulletView.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
@@ -2130,9 +2130,7 @@
 				C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */,
 				C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */,
 				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
-				ABFE5EF72DBA7BEC0093E86E /* NumberedListViewTests.swift in Sources */,
 				C8BFE5EB2CB5818B00FA9A35 /* AppUnavailableViewModelTests.swift in Sources */,
-				ABFE5EF52DBA66500093E86E /* LocalAuthErrorViewModelTests.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* AuthenticationServiceTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
@@ -2144,6 +2142,7 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
+				ABFE5EF52DBA66500093E86E /* LocalAuthErrorViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
@@ -2172,6 +2171,7 @@
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,
 				C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
+				ABFE5EF72DBA7BEC0093E86E /* NumberedListViewTests.swift in Sources */,
 				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
 				C8F092E62DA472AB0046F6EA /* OneLoginEnrolmentManagerTests.swift in Sources */,

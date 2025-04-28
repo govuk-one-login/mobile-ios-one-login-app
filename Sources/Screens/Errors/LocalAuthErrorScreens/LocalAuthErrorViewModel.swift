@@ -26,7 +26,7 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         
         self.bodyContent = [
             BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1")),
-            NumberedListView()
+            LocalAuthErrorBulletView()
         ]
     }
     
