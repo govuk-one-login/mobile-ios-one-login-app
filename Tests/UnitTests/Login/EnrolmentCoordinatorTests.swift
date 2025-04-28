@@ -83,7 +83,7 @@ extension EnrolmentCoordinatorTests {
         // THEN the 'touch id information' screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 1)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
-        XCTAssertTrue(vc.viewModel is TouchIDEnrolmentViewModel)
+        XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
     
     @MainActor
@@ -95,6 +95,6 @@ extension EnrolmentCoordinatorTests {
         // THEN the 'face id information' screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 1)
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
-        XCTAssertTrue(vc.viewModel is FaceIDEnrolmentViewModel)
+        XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
 }

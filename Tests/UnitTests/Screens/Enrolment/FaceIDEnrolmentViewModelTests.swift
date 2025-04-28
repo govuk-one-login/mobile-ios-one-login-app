@@ -5,7 +5,7 @@ import XCTest
 @MainActor
 final class FaceIDEnrolmentViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: FaceIDEnrolmentViewModel!
+    var sut: BiometricsEnrolmentViewModel!
     
     var didCallPrimaryButtonAction = false
     var didCallSecondaryButtonAction = false
@@ -14,7 +14,7 @@ final class FaceIDEnrolmentViewModelTests: XCTestCase {
         super.setUp()
 
         mockAnalyticsService = MockAnalyticsService()
-        sut = FaceIDEnrolmentViewModel(analyticsService: mockAnalyticsService) {
+        sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService) {
             self.didCallPrimaryButtonAction = true
         } secondaryButtonAction: {
             self.didCallSecondaryButtonAction = true

@@ -3,6 +3,11 @@ import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
 
+public enum EnrolmentJourney {
+    case login
+    case wallet
+}
+
 final class EnrolmentCoordinator: NSObject,
                                   ChildCoordinator,
                                   NavigationCoordinator {
@@ -11,6 +16,7 @@ final class EnrolmentCoordinator: NSObject,
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let localAuthContext: LocalAuthManaging
+    private let enrolmenType: EnrolmentJourney
     
     private lazy var localAuthManager = OneLoginEnrolmentManager(
         localAuthContext: localAuthContext,
@@ -23,33 +29,30 @@ final class EnrolmentCoordinator: NSObject,
         root: UINavigationController,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager,
-        localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
+        localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
+        enrolmentType: EnrolmentJourney = .login
     ) {
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.localAuthContext = localAuthContext
+        self.enrolmenType = enrolmentType
     }
     
     func start() {
         do {
-            switch try localAuthContext.type {
-            case .touchID:
-                let viewModel = TouchIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
+            let biometricsType = try localAuthContext.type
+            switch biometricsType {
+            case .touchID, .faceID:
+                let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
+                                                             biometricsType: biometricsType,
+                                                             enrolmentJourney: enrolmenType) { [unowned self] in
                     localAuthManager.saveSession()
                 } secondaryButtonAction: { [unowned self] in
                     localAuthManager.completeEnrolment()
                 }
-                let touchIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
-                root.pushViewController(touchIDEnrolmentScreen, animated: true)
-            case .faceID:
-                let viewModel = FaceIDEnrolmentViewModel(analyticsService: analyticsService) { [unowned self] in
-                    localAuthManager.saveSession()
-                } secondaryButtonAction: { [unowned self] in
-                    localAuthManager.completeEnrolment()
-                }
-                let faceIDEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
-                root.pushViewController(faceIDEnrolmentScreen, animated: true)
+                let biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                root.pushViewController(biometricsEnrolmentScreen, animated: true)
             case .passcode:
                 localAuthManager.saveSession()
             case .none:
