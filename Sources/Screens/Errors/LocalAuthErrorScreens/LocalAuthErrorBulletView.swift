@@ -15,8 +15,7 @@ struct LocalAuthErrorBulletViewModel: ListViewModel {
                            attributes: [("Turn Passcode On", [.font: UIFont.bodyBold])]),
         "app_localAuthManagerErrorNumberedList3"
     ]
-    let localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
-    
+
     private static func determineLocalAuthString(localAuthContext: LAContext) -> GDSLocalisedString {
         localAuthContext.biometryType == .faceID ?
         GDSLocalisedString(stringLiteral: "app_localAuthManagerErrorNumberedList1FaceID",

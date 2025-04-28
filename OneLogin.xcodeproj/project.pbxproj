@@ -91,7 +91,7 @@
 		ABD7A0C22CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */; };
 		ABFE5E302DB9A54D0093E86E /* LocalAuthErrorBulletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorBulletView.swift */; };
 		ABFE5EF52DBA66500093E86E /* LocalAuthErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */; };
-		ABFE5EF72DBA7BEC0093E86E /* NumberedListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */; };
+		ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorBulletViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorBulletViewTests.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
 		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
@@ -374,7 +374,7 @@
 		ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JWTGenerator+ProofTokenGenerator.swift"; sourceTree = "<group>"; };
 		ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorBulletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorBulletView.swift; sourceTree = "<group>"; };
 		ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorViewModelTests.swift; sourceTree = "<group>"; };
-		ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberedListViewTests.swift; sourceTree = "<group>"; };
+		ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorBulletViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorBulletViewTests.swift; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -885,8 +885,8 @@
 		ABFE5E2E2DB9A52A0093E86E /* LocalAuthErrorScreens */ = {
 			isa = PBXGroup;
 			children = (
-				AB24C1122DB948520080141C /* LocalAuthErrorViewModel.swift */,
 				ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorBulletView.swift */,
+				AB24C1122DB948520080141C /* LocalAuthErrorViewModel.swift */,
 			);
 			path = LocalAuthErrorScreens;
 			sourceTree = "<group>";
@@ -895,7 +895,7 @@
 			isa = PBXGroup;
 			children = (
 				ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */,
-				ABFE5EF62DBA7BE50093E86E /* NumberedListViewTests.swift */,
+				ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorBulletViewTests.swift */,
 			);
 			path = LocalAuthErrorScreenTests;
 			sourceTree = "<group>";
@@ -2058,6 +2058,7 @@
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
 				C84040CD2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift in Sources */,
+				ABFE5E302DB9A54D0093E86E /* LocalAuthErrorBulletView.swift in Sources */,
 				AB24C1132DB94A5F0080141C /* LocalAuthErrorViewModel.swift in Sources */,
 				C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
@@ -2068,7 +2069,6 @@
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,
 				7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */,
-				ABFE5E302DB9A54D0093E86E /* LocalAuthErrorBulletView.swift in Sources */,
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
@@ -2171,7 +2171,7 @@
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,
 				C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
-				ABFE5EF72DBA7BEC0093E86E /* NumberedListViewTests.swift in Sources */,
+				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorBulletViewTests.swift in Sources */,
 				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
 				C8F092E62DA472AB0046F6EA /* OneLoginEnrolmentManagerTests.swift in Sources */,
