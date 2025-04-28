@@ -5,12 +5,13 @@ import Networking
 import XCTest
 
 @MainActor
-final class TabbedViewControllerTests: XCTestCase {
+final class SettingsViewControllerTests: XCTestCase {
     private var mockAnalyticsService: MockAnalyticsService!
     private var mockAnalyticsPreference: MockAnalyticsPreferenceStore!
     private var mockSessionManager: MockSessionManager!
+    private var mockUrlOpener: MockURLOpener!
     private var viewModel: TabbedViewModel!
-    private var sut: TabbedViewController!
+    private var sut: SettingsViewController!
     
     private var didTapRow = false
     private var didAppearCalled = false
@@ -21,11 +22,13 @@ final class TabbedViewControllerTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
+        mockUrlOpener = MockURLOpener()
         viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                          userProvider: mockSessionManager,
+                                         urlOpener: mockUrlOpener,
                                          openSignOutPage: { self.didTapRow = true },
                                          openDeveloperMenu: { })
-        sut = TabbedViewController(viewModel: viewModel,
+        sut = SettingsViewController(viewModel: viewModel,
                                    userProvider: mockSessionManager,
                                    analyticsPreference: mockAnalyticsPreference)
     }
@@ -34,6 +37,7 @@ final class TabbedViewControllerTests: XCTestCase {
         mockAnalyticsService = nil
         mockAnalyticsPreference = nil
         mockSessionManager = nil
+        mockUrlOpener = nil
         viewModel = nil
         sut = nil
         
@@ -44,7 +48,7 @@ final class TabbedViewControllerTests: XCTestCase {
     }
 }
 
-extension TabbedViewControllerTests {
+extension SettingsViewControllerTests {
     func test_numberOfSections() {
         XCTAssertEqual(sut.numberOfSections(in: try sut.tabbedTableView), 6)
     }
@@ -115,13 +119,28 @@ extension TabbedViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
     }
     
-    func test_updateAnalytics() throws {
+    func test_updateAnalytics_accepted() {
         mockAnalyticsPreference.hasAcceptedAnalytics = true
-        XCTAssertTrue(try sut.analyticsSwitch.isOn)
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
         
-        try sut.analyticsSwitch.sendActions(for: .valueChanged)
+        XCTAssertTrue(sut.analyticsSwitch.isOn)
+        
+        sut.analyticsSwitch.sendActions(for: .valueChanged)
         
         XCTAssertEqual(mockAnalyticsPreference.hasAcceptedAnalytics, false)
+    }
+    
+    func test_updateAnalytics_notAccepted() {
+        mockAnalyticsPreference.hasAcceptedAnalytics = false
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        
+        XCTAssertFalse(sut.analyticsSwitch.isOn)
+        
+        sut.analyticsSwitch.sendActions(for: .valueChanged)
+        
+        XCTAssertEqual(mockAnalyticsPreference.hasAcceptedAnalytics, true)
     }
     
     func test_manageAccount_eventAnalytics() throws {
@@ -223,16 +242,10 @@ extension TabbedViewControllerTests {
     }
 }
 
-extension TabbedViewController {
+extension SettingsViewController {
     var tabbedTableView: UITableView {
         get throws {
             try XCTUnwrap(view[child: "tabbed-view-table-view"])
-        }
-    }
-    
-    var analyticsSwitch: UISwitch {
-        get throws {
-            try XCTUnwrap(view[child: "tabbed-view-analytics-switch"])
         }
     }
 }

@@ -32,7 +32,7 @@ struct SettingsTabViewModel: TabbedViewModel {
     @MainActor
     init(analyticsService: OneLoginAnalyticsService,
          userProvider: UserProvider,
-         urlOpener: URLOpener = UIApplication.shared,
+         urlOpener: URLOpener,
          openSignOutPage: @escaping () -> Void,
          openDeveloperMenu: @escaping () -> Void) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
