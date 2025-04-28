@@ -1,13 +1,11 @@
 import GDSCommon
+import LocalAuthenticationWrapper
 import UIKit
 
 struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_localAuthManagerErrorTitle"
-    let bodyContent: [ScreenBodyItem] = [
-        BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1")),
-        LocalAuthErrorBulletView()
-    ]
+    let bodyContent: [ScreenBodyItem]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
     
@@ -15,7 +13,8 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let backButtonIsHidden: Bool = true
 
     init(urlOpener: URLOpener = UIApplication.shared,
-         analyticsService: OneLoginAnalyticsService) {
+         analyticsService: OneLoginAnalyticsService,
+         localAuthType: LocalAuthType) {
         self.analyticsService = analyticsService
         
         self.buttonViewModels = [
@@ -26,6 +25,11 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
             }
             urlOpener.open(url: url)
         }]
+        
+        self.bodyContent = [
+            BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1")),
+            LocalAuthErrorBulletView(localAuthType: localAuthType)
+        ]
     }
     
     func didAppear() { /* BaseViewModel compliance */ }

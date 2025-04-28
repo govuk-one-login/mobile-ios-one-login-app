@@ -7,11 +7,13 @@ import UIKit
 struct LocalAuthErrorViewModelTests {
     let sut: LocalAuthErrorViewModel
     let mockAnalyticsService = MockAnalyticsService()
+    let mockLocalAuthService = MockLocalAuthManager()
     let urlOpener = MockURLOpener()
 
     init() {
         sut = LocalAuthErrorViewModel(urlOpener: urlOpener,
-                                      analyticsService: mockAnalyticsService)
+                                      analyticsService: mockAnalyticsService,
+                                      localAuthType: mockLocalAuthService.type)
     }
 }
 
