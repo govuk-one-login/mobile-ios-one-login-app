@@ -75,20 +75,32 @@
 "app_genericErrorPageBody" = "Try again later.";
 
 
-// MARK: Face ID enrolment screen
-"app_enableFaceIDTitle" = "Unlock the app with Face ID";
+// MARK: Biometrics Login enrolment screen
+"app_enableLoginBiometricsTitle" = "Unlock the app with %@";
 
 "app_enableFaceIDBody" = "You can use Face ID to unlock the app within 30 minutes of signing in with GOV.UK One Login.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.";
 
-"app_enableFaceIDButton" = "Allow Face ID";
-
-
-// MARK: Touch ID enrolment screen
-"app_enableTouchIDTitle" = "Unlock the app with Touch ID";
-
 "app_enableTouchIDBody" = "You can use your fingerprint to unlock the app within 30 minutes of signing in with GOV.UK One Login.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
 
-"app_enableTouchIDEnableButton" = "Allow Touch ID";
+"app_enableBiometricsButton" = "Allow %@";
+
+
+// MARK: Biometrics Wallet enrolment screen
+"app_FaceID" = "Face ID";
+
+"app_TouchID" = "Touch ID";
+
+"app_enableBiometricsTitle" = "Allow %@";
+
+"app_enableBiometricsBody1" = "Use %@ to:";
+
+"app_enableBiometricsBullet1" = "unlock the app within 30 minutes of signing in with GOV.UK One Login";
+
+"app_enableBiometricsBullet2" = "view and add documents";
+
+"app_enableBiometricsBody2" = "If you allow %@, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.";
+
+"app_enableBiometricsBody3" = "You can turn off Face ID for this app anytime in your phone settings.";
 
 
 // MARK: Unlock screen

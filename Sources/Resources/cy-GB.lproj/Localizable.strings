@@ -74,20 +74,31 @@
 "app_genericErrorPageBody" = "Rhowch gynnig arall yn nes ymlaen.";
 
 
-// MARK: Face ID enrolment screen
-"app_enableFaceIDTitle" = "Datgloi'r ap gyda Face ID";
+// MARK: Biometrics Login enrolment screen
+"app_enableLoginBiometricsTitle" = "Datgloi'r ap gyda %@";
 
 "app_enableFaceIDBody" = "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableFaceIDButton" = "Caniatáu Face ID";
-
-
-// MARK: Touch ID enrolment screen
-"app_enableTouchIDTitle" = "Datgloi'r ap gyda Touch ID";
-
 "app_enableTouchIDBody" = "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableTouchIDEnableButton" = "Caniatáu Touch ID";
+"app_enableBiometricsButton" = "Caniatáu %@";
+
+// MARK: Biometrics enrolment screen
+"app_FaceID" = "Face ID";
+
+"app_TouchID" = "Touch ID";
+
+"app_enableBiometricsTitle" = "Caniatáu %@";
+
+"app_enableBiometricsBody1" = "Defnyddiwch %@ i:";
+
+"app_enableBiometricsBullet1" = "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda GOV.UK One Login";
+
+"app_enableBiometricsBullet2" = "gweld ac ychwanegu dogfennau";
+
+"app_enableBiometricsBody2" = "Os ydych yn caniatáu %@, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
+
+"app_enableBiometricsBody3" = "Gallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.";
 
 
 // MARK: Unlock screen
