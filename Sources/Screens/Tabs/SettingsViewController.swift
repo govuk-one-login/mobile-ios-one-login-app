@@ -11,7 +11,7 @@ final class SettingsViewController: BaseViewController {
     private let userProvider: UserProvider
     private var analyticsPreference: AnalyticsPreferenceStore
     private var cancellables = Set<AnyCancellable>()
-    var analyticsSwitch: UISwitch
+    let analyticsSwitch: UISwitch = UISwitch()
 
     init(viewModel: TabbedViewModel,
          userProvider: UserProvider,
@@ -19,7 +19,6 @@ final class SettingsViewController: BaseViewController {
         self.viewModel = viewModel
         self.userProvider = userProvider
         self.analyticsPreference = analyticsPreference
-        self.analyticsSwitch = UISwitch()
         super.init(viewModel: viewModel,
                    nibName: "TabbedView",
                    bundle: nil)
