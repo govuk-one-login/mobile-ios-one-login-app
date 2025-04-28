@@ -28,7 +28,10 @@ extension DataDeletedWarningViewModelTests {
     func test_pageNoWallet() {
         
         AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
+            releaseFlags: [
+                FeatureFlagsName.enableWalletVisibleViaDeepLink.rawValue: false,
+                FeatureFlagsName.enableWalletVisibleIfExists.rawValue: false
+            ],
             featureFlags: [:]
         )
         
