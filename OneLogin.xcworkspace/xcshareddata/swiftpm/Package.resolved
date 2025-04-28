@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "revision" : "c74634a9e4edfac46a15222f47e071786b72fe38",
-        "version" : "2.11.0"
+        "revision" : "92eac8e752488428f286831af522590ee83f5b51",
+        "version" : "2.11.3"
       }
     },
     {
