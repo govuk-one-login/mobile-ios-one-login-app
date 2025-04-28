@@ -3,17 +3,17 @@ import GDSCommon
 import Logging
 import UIKit
 
-struct TouchIDEnrolmentViewModel: GDSCentreAlignedViewModel,
-                                  GDSCentreAlignedViewModelWithImage,
-                                  GDSCentreAlignedViewModelWithPrimaryButton,
-                                  GDSCentreAlignedViewModelWithSecondaryButton,
-                                  BaseViewModel {
-    let image: String = "touchid"
+struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
+                                 GDSCentreAlignedViewModelWithImage,
+                                 GDSCentreAlignedViewModelWithPrimaryButton,
+                                 GDSCentreAlignedViewModelWithSecondaryButton,
+                                 BaseViewModel {
+    let image: String = "faceid"
     let imageWeight: UIFont.Weight? = .thin
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 64
-    let title: GDSLocalisedString = "app_enableTouchIDTitle"
-    let body: GDSLocalisedString? = "app_enableTouchIDBody"
+    let title: GDSLocalisedString = "app_enableFaceIDTitle"
+    let body: GDSLocalisedString? = "app_enableFaceIDBody"
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel
     let analyticsService: OneLoginAnalyticsService
@@ -25,7 +25,7 @@ struct TouchIDEnrolmentViewModel: GDSCentreAlignedViewModel,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableTouchIDEnableButton",
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableFaceIDButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
@@ -36,8 +36,8 @@ struct TouchIDEnrolmentViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue,
-                                screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrolment,
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue,
+                                screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrolment,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }

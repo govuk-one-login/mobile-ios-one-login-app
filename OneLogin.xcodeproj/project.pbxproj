@@ -36,10 +36,9 @@
 		41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
-		41C8E42C2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */; };
+		41C8E42C2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift */; };
 		41C8E42F2B72920F0063B8A3 /* FaceIDEnrolmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42D2B7291F80063B8A3 /* FaceIDEnrolmentViewModelTests.swift */; };
 		41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4302B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift */; };
-		41C8E4332B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */; };
 		41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */; };
 		41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */; };
 		41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */; };
@@ -323,10 +322,9 @@
 		41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecureTokenStore.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
-		41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrolmentViewModel.swift; sourceTree = "<group>"; };
+		41C8E42B2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsEnrolmentViewModel.swift; sourceTree = "<group>"; };
 		41C8E42D2B7291F80063B8A3 /* FaceIDEnrolmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrolmentViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E4302B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricEnrolmentAnalytics.swift; sourceTree = "<group>"; };
-		41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrolmentViewModel.swift; sourceTree = "<group>"; };
 		41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAppViewModel.swift; sourceTree = "<group>"; };
 		41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAppViewModelTests.swift; sourceTree = "<group>"; };
 		41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModelTests.swift; sourceTree = "<group>"; };
@@ -1207,8 +1205,7 @@
 		C87829932CB56EA100CB10C5 /* Enrolment */ = {
 			isa = PBXGroup;
 			children = (
-				41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */,
-				41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */,
+				41C8E42B2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift */,
 			);
 			path = Enrolment;
 			sourceTree = "<group>";
@@ -2013,7 +2010,7 @@
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
-				41C8E42C2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift in Sources */,
+				41C8E42C2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
@@ -2073,7 +2070,6 @@
 				C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
-				41C8E4332B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
