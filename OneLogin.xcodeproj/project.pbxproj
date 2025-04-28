@@ -894,8 +894,8 @@
 		ABFE5EF32DBA662B0093E86E /* LocalAuthErrorScreenTests */ = {
 			isa = PBXGroup;
 			children = (
-				ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */,
 				ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorBulletViewTests.swift */,
+				ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */,
 			);
 			path = LocalAuthErrorScreenTests;
 			sourceTree = "<group>";
@@ -2142,6 +2142,7 @@
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
+				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorBulletViewTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthErrorViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
@@ -2171,7 +2172,6 @@
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,
 				C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,
-				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorBulletViewTests.swift in Sources */,
 				C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */,
 				C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */,
 				C8F092E62DA472AB0046F6EA /* OneLoginEnrolmentManagerTests.swift in Sources */,

@@ -3,13 +3,13 @@ import LocalAuthentication
 import UIKit
 
 struct LocalAuthErrorBulletView: ScreenBodyItem {
-    var uiView: UIView = ListView(viewModel: LocalAuthErrorBulletViewModel())
+    let uiView: UIView = ListView(viewModel: LocalAuthErrorBulletViewModel())
 }
 
 struct LocalAuthErrorBulletViewModel: ListViewModel {
-    var title: GDSLocalisedString? = "app_localAuthManagerErrorBody3"
-    var titleConfig: TitleConfig?
-    var listItemStrings: [GDSLocalisedString] = [
+    let title: GDSLocalisedString? = "app_localAuthManagerErrorBody3"
+    let titleConfig: TitleConfig? = nil
+    let listItemStrings: [GDSLocalisedString] = [
         determineLocalAuthString(localAuthContext: LAContext()),
         GDSLocalisedString(stringLiteral: "app_localAuthManagerErrorNumberedList2",
                            attributes: [("Turn Passcode On", [.font: UIFont.bodyBold])]),

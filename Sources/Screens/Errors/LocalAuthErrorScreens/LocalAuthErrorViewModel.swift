@@ -3,13 +3,13 @@ import UIKit
 
 struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
-    var title: GDSLocalisedString = "app_localAuthManagerErrorTitle"
-    var bodyContent: [ScreenBodyItem]
-    var buttonViewModels: [ButtonViewModel]
-    var image: ErrorScreenImage = .error
+    let title: GDSLocalisedString = "app_localAuthManagerErrorTitle"
+    let bodyContent: [ScreenBodyItem]
+    let buttonViewModels: [ButtonViewModel]
+    let image: ErrorScreenImage = .error
     
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
-    var backButtonIsHidden: Bool = true
+    let backButtonIsHidden: Bool = true
 
     init(urlOpener: URLOpener = UIApplication.shared,
          analyticsService: OneLoginAnalyticsService) {
