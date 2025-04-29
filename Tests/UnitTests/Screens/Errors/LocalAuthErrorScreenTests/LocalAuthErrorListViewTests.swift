@@ -4,12 +4,12 @@ import Testing
 import UIKit
 
 @MainActor
-struct LocalAuthErrorBulletViewModelTests {
-    let sut: LocalAuthErrorBulletViewModel!
+struct LocalAuthErrorListViewModelTests {
+    let sut: LocalAuthErrorListViewModel!
     let mockLocalAuth = MockLocalAuthManager()
 
     init() {
-        sut = LocalAuthErrorBulletViewModel(localAuthType: mockLocalAuth.type)
+        sut = LocalAuthErrorListViewModel(localAuthType: mockLocalAuth.type)
     }
 
     @Test
