@@ -153,6 +153,9 @@
 		C873B1E52AF82706002C39E8 /* BuildAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1DF2AF826D3002C39E8 /* BuildAppEnvironmentTests.swift */; };
 		C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
+		C87B3D4F2DC1391A00E4EFD2 /* FeatureFlagsBuild.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */; };
+		C87B3D502DC1391A00E4EFD2 /* FeatureFlagsIntegration.json in Resources */ = {isa = PBXBuildFile; fileRef = C826A70A2DA8129400832E65 /* FeatureFlagsIntegration.json */; };
+		C87B3D512DC1391A00E4EFD2 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */; };
 		C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */; };
@@ -330,10 +333,10 @@
 		41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkMonitor.swift; sourceTree = "<group>"; };
 		41E1A9142BE128610034B6C7 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericErrorViewModel.swift; sourceTree = "<group>"; };
-		7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Build.xcconfig; sourceTree = "<group>"; };
-		7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
-		7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		7C0CCED12C8A12F200F61C11 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		7C0CCECE2C8A12C000F61C11 /* OneLoginBuild.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLoginBuild.xcconfig; sourceTree = "<group>"; };
+		7C0CCECF2C8A12D000F61C11 /* OneLoginStaging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLoginStaging.xcconfig; sourceTree = "<group>"; };
+		7C0CCED02C8A12DF00F61C11 /* OneLoginDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLoginDebug.xcconfig; sourceTree = "<group>"; };
+		7C0CCED12C8A12F200F61C11 /* OneLogin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLogin.xcconfig; sourceTree = "<group>"; };
 		7C47BE152C7883B800DCE5D2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDTokenUserRepresentation.swift; sourceTree = "<group>"; };
 		7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+OneLogin.swift"; sourceTree = "<group>"; };
@@ -487,7 +490,7 @@
 		C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		C8F092E32DA4650C0046F6EA /* OneLoginEnrolmentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginEnrolmentManager.swift; sourceTree = "<group>"; };
 		C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginEnrolmentManagerTests.swift; sourceTree = "<group>"; };
-		C8F25A0E2DA80D0100E75F51 /* Integration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Integration.xcconfig; sourceTree = "<group>"; };
+		C8F25A0E2DA80D0100E75F51 /* OneLoginIntegration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLoginIntegration.xcconfig; sourceTree = "<group>"; };
 		C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginIntegration.entitlements; sourceTree = "<group>"; };
 		C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStorable+OneLogin.swift"; sourceTree = "<group>"; };
 		D01A72762BE29B51004333F8 /* SettingsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -752,11 +755,11 @@
 		7C0CCECD2C8A12A500F61C11 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */,
-				7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */,
-				C8F25A0E2DA80D0100E75F51 /* Integration.xcconfig */,
-				7C0CCED12C8A12F200F61C11 /* Release.xcconfig */,
-				7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */,
+				7C0CCECE2C8A12C000F61C11 /* OneLoginBuild.xcconfig */,
+				7C0CCED02C8A12DF00F61C11 /* OneLoginDebug.xcconfig */,
+				C8F25A0E2DA80D0100E75F51 /* OneLoginIntegration.xcconfig */,
+				7C0CCED12C8A12F200F61C11 /* OneLogin.xcconfig */,
+				7C0CCECF2C8A12D000F61C11 /* OneLoginStaging.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -1858,6 +1861,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87B3D4F2DC1391A00E4EFD2 /* FeatureFlagsBuild.json in Resources */,
+				C87B3D502DC1391A00E4EFD2 /* FeatureFlagsIntegration.json in Resources */,
+				C87B3D512DC1391A00E4EFD2 /* FeatureFlagsStaging.json in Resources */,
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
@@ -2426,7 +2432,7 @@
 		};
 		219602122A976305008F3427 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C0CCED02C8A12DF00F61C11 /* Debug.xcconfig */;
+			baseConfigurationReference = 7C0CCED02C8A12DF00F61C11 /* OneLoginDebug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2459,7 +2465,7 @@
 		};
 		219602132A976305008F3427 /* Build */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C0CCECE2C8A12C000F61C11 /* Build.xcconfig */;
+			baseConfigurationReference = 7C0CCECE2C8A12C000F61C11 /* OneLoginBuild.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2745,7 +2751,7 @@
 		};
 		7CCCDF6F2CD14ECF005CD01F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C0CCED12C8A12F200F61C11 /* Release.xcconfig */;
+			baseConfigurationReference = 7C0CCED12C8A12F200F61C11 /* OneLogin.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2933,7 +2939,7 @@
 		};
 		7CCCDF7B2CD14EED005CD01F /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C0CCECF2C8A12D000F61C11 /* Staging.xcconfig */;
+			baseConfigurationReference = 7C0CCECF2C8A12D000F61C11 /* OneLoginStaging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -3228,7 +3234,7 @@
 		};
 		C8F25A092DA80CD000E75F51 /* Integration */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8F25A0E2DA80D0100E75F51 /* Integration.xcconfig */;
+			baseConfigurationReference = C8F25A0E2DA80D0100E75F51 /* OneLoginIntegration.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
