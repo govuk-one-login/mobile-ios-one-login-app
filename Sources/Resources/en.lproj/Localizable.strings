@@ -98,9 +98,9 @@
 
 "app_enableBiometricsBullet2" = "view and add documents";
 
-"app_enableBiometricsBody2" = "If you allow %@, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.";
+"app_enableBiometricsFaceIDBody2" = "If you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone settings.";
 
-"app_enableBiometricsBody3" = "You can turn off Face ID for this app anytime in your phone settings.";
+"app_enableBiometricsTouchIDBody2" = "If you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
 
 
 // MARK: Unlock screen
