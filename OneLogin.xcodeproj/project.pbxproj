@@ -115,7 +115,6 @@
 		C826A7222DA8154600832E65 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C826A7232DA8154600832E65 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
 		C826A7242DA8154600832E65 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
-		C826A7262DA8164000832E65 /* OneLoginIntegration.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C826A7252DA8164000832E65 /* OneLoginIntegration.xctestplan */; };
 		C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* OLStringTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83014B32CA19B2200799A32 /* MockWalletError.swift */; };
@@ -150,9 +149,6 @@
 		C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */; };
 		C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */; };
 		C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */; };
-		C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */; };
-		C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */; };
-		C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */; };
 		C873B1E42AF82700002C39E8 /* StagingAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1E12AF826D3002C39E8 /* StagingAppEnvironmentTests.swift */; };
 		C873B1E52AF82706002C39E8 /* BuildAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1DF2AF826D3002C39E8 /* BuildAppEnvironmentTests.swift */; };
 		C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */; };
@@ -1867,10 +1863,6 @@
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
-				C873B1D82AF82403002C39E8 /* OneLoginBuild.xctestplan in Resources */,
-				C826A7262DA8164000832E65 /* OneLoginIntegration.xctestplan in Resources */,
-				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
-				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
 				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
