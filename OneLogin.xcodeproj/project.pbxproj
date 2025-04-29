@@ -110,7 +110,6 @@
 		C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */; };
 		C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */; };
 		C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C825C02B2D5E281C00112918 /* AuthenticationService.swift */; };
-		C826A70B2DA812A100832E65 /* FeatureFlagsIntegration.json in Resources */ = {isa = PBXBuildFile; fileRef = C826A70A2DA8129400832E65 /* FeatureFlagsIntegration.json */; };
 		C826A7202DA814DE00832E65 /* IntegrationAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C826A71E2DA814DE00832E65 /* IntegrationAppEnvironmentTests.swift */; };
 		C826A7212DA8154600832E65 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
 		C826A7222DA8154600832E65 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
@@ -181,8 +180,6 @@
 		C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B825C22B98C34A00336146 /* LoginCoordinator.swift */; };
 		C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2E2B889CB900385FE7 /* MockSessionManager.swift */; };
 		C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */; };
-		C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
-		C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */; };
 		C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
 		C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
 		C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */ = {isa = PBXBuildFile; productRef = C8BADD1F2B8638BA00385FE7 /* SecureStore */; };
@@ -1867,9 +1864,6 @@
 			files = (
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
-				C8BACAFA2B4DCCBD00530419 /* FeatureFlagsBuild.json in Resources */,
-				C826A70B2DA812A100832E65 /* FeatureFlagsIntegration.json in Resources */,
-				C8BACAF82B4DCCAC00530419 /* FeatureFlagsStaging.json in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,
