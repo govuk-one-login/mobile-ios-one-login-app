@@ -4,19 +4,19 @@
         "isEnabled": false
     },
     {
-        "name": "EnableWalletVisibleToAll",
+        "name": "walletVisibleViaDeepLink",
         "isEnabled": false
     },
     {
-        "name": "EnableWalletVisibleViaDeepLink",
+        "name": "walletVisibleIfExists",
         "isEnabled": false
     },
     {
-        "name": "EnableWalletVisibleIfExists",
+        "name": "walletVisibleToAll",
         "isEnabled": false
     },
     {
         "name": "EnableCRIOrchestrator",
-        "isEnabled": false
+        "isEnabled": true
     }
 ]
