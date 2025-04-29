@@ -895,12 +895,12 @@
 			path = LocalAuthErrorScreenTests;
 			sourceTree = "<group>";
 		};
-		C803C2152B8F8865008DE774 /* BuildConfig */ = {
+		C803C2152B8F8865008DE774 /* OneLoginBuildConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C8C7A3FB2CC25DED0037586F /* GoogleService-Info.plist */,
 			);
-			path = BuildConfig;
+			path = OneLoginBuildConfig;
 			sourceTree = "<group>";
 		};
 		C8098B942AEFF18C001517A0 /* Extensions */ = {
@@ -1002,20 +1002,20 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		C826A7072DA8122100832E65 /* IntegrationConfig */ = {
+		C826A7072DA8122100832E65 /* OneLoginIntegrationConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C826A7082DA8123C00832E65 /* Settings.bundle */,
 			);
-			path = IntegrationConfig;
+			path = OneLoginIntegrationConfig;
 			sourceTree = "<group>";
 		};
-		C826A70C2DA812BE00832E65 /* IntegrationConfig */ = {
+		C826A70C2DA812BE00832E65 /* OneLoginIntegrationConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C826A70D2DA812CB00832E65 /* GoogleService-Info.plist */,
 			);
-			path = IntegrationConfig;
+			path = OneLoginIntegrationConfig;
 			sourceTree = "<group>";
 		};
 		C826A71F2DA814DE00832E65 /* IntegrationConfig */ = {
@@ -1196,19 +1196,19 @@
 		C86B706D2B8F5EF200F4C9BF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				C803C2152B8F8865008DE774 /* BuildConfig */,
-				C826A70C2DA812BE00832E65 /* IntegrationConfig */,
-				C86B706F2B8F5F2D00F4C9BF /* StagingConfig */,
+				C803C2152B8F8865008DE774 /* OneLoginBuildConfig */,
+				C826A70C2DA812BE00832E65 /* OneLoginIntegrationConfig */,
+				C86B706F2B8F5F2D00F4C9BF /* OneLoginStagingConfig */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
 		};
-		C86B706F2B8F5F2D00F4C9BF /* StagingConfig */ = {
+		C86B706F2B8F5F2D00F4C9BF /* OneLoginStagingConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C8C7A3FD2CC25E0C0037586F /* GoogleService-Info.plist */,
 			);
-			path = StagingConfig;
+			path = OneLoginStagingConfig;
 			sourceTree = "<group>";
 		};
 		C873B1DE2AF826D3002C39E8 /* BuildConfig */ = {
@@ -1405,9 +1405,9 @@
 		C8BACAEE2B4DCBF400530419 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				C8BACAF02B4DCC1700530419 /* BuildConfig */,
-				C826A7072DA8122100832E65 /* IntegrationConfig */,
-				C8BACAF12B4DCC1F00530419 /* StagingConfig */,
+				C8BACAF02B4DCC1700530419 /* OneLoginBuildConfig */,
+				C826A7072DA8122100832E65 /* OneLoginIntegrationConfig */,
+				C8BACAF12B4DCC1F00530419 /* OneLoginStagingConfig */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1422,20 +1422,20 @@
 			path = FeatureFlags;
 			sourceTree = "<group>";
 		};
-		C8BACAF02B4DCC1700530419 /* BuildConfig */ = {
+		C8BACAF02B4DCC1700530419 /* OneLoginBuildConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C8BACAF22B4DCC2D00530419 /* Settings.bundle */,
 			);
-			path = BuildConfig;
+			path = OneLoginBuildConfig;
 			sourceTree = "<group>";
 		};
-		C8BACAF12B4DCC1F00530419 /* StagingConfig */ = {
+		C8BACAF12B4DCC1F00530419 /* OneLoginStagingConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C8BACAF42B4DCC3D00530419 /* Settings.bundle */,
 			);
-			path = StagingConfig;
+			path = OneLoginStagingConfig;
 			sourceTree = "<group>";
 		};
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
@@ -1976,7 +1976,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to staging, integration and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_INTEGRATION=${PROJECT_DIR}/Sources/Application/Firebase/IntegrationConfig/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_STAGING=${PROJECT_DIR}/Sources/Application/Firebase/StagingConfig/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_BUILD=${PROJECT_DIR}/Sources/Application/Firebase/BuildConfig/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the integration version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_INTEGRATION}\"\nif [ ! -f $GOOGLESERVICE_INFO_INTEGRATION ]\nthen\n    echo \"No Integration GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the staging version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_STAGING}\"\nif [ ! -f $GOOGLESERVICE_INFO_STAGING ]\nthen\n    echo \"No Staging GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the build version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_BUILD}\"\nif [ ! -f $GOOGLESERVICE_INFO_BUILD ]\nthen\n    echo \"No Build GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the GoogleService-Info.plist for builds\nif [ \"${CONFIGURATION}\" = \"Integration\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_INTEGRATION}\"\n    cp \"${GOOGLESERVICE_INFO_INTEGRATION}\" \"${PLIST_DESTINATION}\"\nelif [ \"${CONFIGURATION}\" = \"Staging\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_STAGING}\"\n    cp \"${GOOGLESERVICE_INFO_STAGING}\" \"${PLIST_DESTINATION}\"\nelif [ \"${CONFIGURATION}\" = \"Debug\" ] || [ \"${CONFIGURATION}\" = \"Build\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_BUILD}\"\n    cp \"${GOOGLESERVICE_INFO_BUILD}\" \"${PLIST_DESTINATION}\"\nfi\n";
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to staging, integration and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_BUILD=${PROJECT_DIR}/Sources/Application/Firebase/OneLoginBuildConfig/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_INTEGRATION=${PROJECT_DIR}/Sources/Application/Firebase/OneLoginIntegrationConfig/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_STAGING=${PROJECT_DIR}/Sources/Application/Firebase/OneLoginStagingConfig/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the build version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_BUILD}\"\nif [ ! -f $GOOGLESERVICE_INFO_BUILD ]\nthen\n    echo \"No Build GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the integration version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_INTEGRATION}\"\nif [ ! -f $GOOGLESERVICE_INFO_INTEGRATION ]\nthen\n    echo \"No Integration GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the staging version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_STAGING}\"\nif [ ! -f $GOOGLESERVICE_INFO_STAGING ]\nthen\n    echo \"No Staging GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the GoogleService-Info.plist for builds\nif [ \"${CONFIGURATION}\" = \"Build\" ] || [ \"${CONFIGURATION}\" = \"Debug\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_BUILD}\"\n    cp \"${GOOGLESERVICE_INFO_BUILD}\" \"${PLIST_DESTINATION}\"\nelif [ \"${CONFIGURATION}\" = \"Integration\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_INTEGRATION}\"\n    cp \"${GOOGLESERVICE_INFO_INTEGRATION}\" \"${PLIST_DESTINATION}\"\nelif [ \"${CONFIGURATION}\" = \"Staging\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_STAGING}\"\n    cp \"${GOOGLESERVICE_INFO_STAGING}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
 		C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1995,7 +1995,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n\nif [ \"${CONFIGURATION}\" = \"Integration\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/IntegrationConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsIntegration.json\"\nelif [ \"${CONFIGURATION}\" = \"Staging\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/StagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nelif [ \"${CONFIGURATION}\" = \"Debug\" ] || [ \"${CONFIGURATION}\" = \"Build\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/BuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nfi\n";
+			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n\nif [ \"${CONFIGURATION}\" = \"Debug\" ] || [ \"${CONFIGURATION}\" = \"Build\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginBuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nelif [ \"${CONFIGURATION}\" = \"Integration\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginIntegrationConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsIntegration.json\"\nelif [ \"${CONFIGURATION}\" = \"Staging\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginStagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
