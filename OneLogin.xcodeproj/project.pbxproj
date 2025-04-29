@@ -1535,10 +1535,10 @@
 		C8DA2C652D73DAC300EBBE3E /* Entitlements */ = {
 			isa = PBXGroup;
 			children = (
+				7CCCDF802CD150FF005CD01F /* OneLogin.entitlements */,
 				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
 				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
 				C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */,
-				7CCCDF802CD150FF005CD01F /* OneLogin.entitlements */,
 				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
 			);
 			path = Entitlements;
