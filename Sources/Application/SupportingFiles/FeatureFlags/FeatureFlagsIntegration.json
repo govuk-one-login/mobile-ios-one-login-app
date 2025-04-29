@@ -1,9 +1,5 @@
 [
     {
-        "name": "EnableSignoutError",
-        "isEnabled": false
-    },
-    {
         "name": "walletVisibleViaDeepLink",
         "isEnabled": false
     },
@@ -16,7 +12,7 @@
         "isEnabled": false
     },
     {
-        "name": "EnableCRIOrchestrator",
+        "name": "enableCRIOrchestrator",
         "isEnabled": true
     }
 ]

@@ -110,7 +110,6 @@
 		C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */; };
 		C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */; };
 		C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C825C02B2D5E281C00112918 /* AuthenticationService.swift */; };
-		C826A7092DA8123C00832E65 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C826A7082DA8123C00832E65 /* Settings.bundle */; };
 		C826A70B2DA812A100832E65 /* FeatureFlagsIntegration.json in Resources */ = {isa = PBXBuildFile; fileRef = C826A70A2DA8129400832E65 /* FeatureFlagsIntegration.json */; };
 		C826A7202DA814DE00832E65 /* IntegrationAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C826A71E2DA814DE00832E65 /* IntegrationAppEnvironmentTests.swift */; };
 		C826A7212DA8154600832E65 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
@@ -1879,7 +1878,6 @@
 				C873B1D92AF82403002C39E8 /* OneLoginStaging.xctestplan in Resources */,
 				C873B1DA2AF82403002C39E8 /* OneLoginUnit.xctestplan in Resources */,
 				C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */,
-				C826A7092DA8123C00832E65 /* Settings.bundle in Resources */,
 				D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */,
 				414D98052B8DF0F100E267EF /* UnlockScreen.xib in Resources */,
 			);
