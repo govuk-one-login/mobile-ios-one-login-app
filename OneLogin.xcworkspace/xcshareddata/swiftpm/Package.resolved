@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "revision" : "28ab01aefc1ed9fbd2dd13bb58e707b44851734c",
-        "version" : "2.9.0"
+        "revision" : "a65509bce10329cfc01ec8b9bc6545d55e05de3f",
+        "version" : "2.11.4"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
-        "revision" : "92dbb351515d101ec938f7838c7ecc6214c101e0",
-        "version" : "10.9.0"
+        "revision" : "0196da1b28127bad294761e7018d5aa2806c8576",
+        "version" : "10.21.0"
       }
     },
     {
