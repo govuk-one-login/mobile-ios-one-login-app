@@ -86,8 +86,14 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        let id = isFaceID ? BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue : BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
-        let screenID = isFaceID ? BiometricEnrolmentAnalyticsScreen.faceIDEnrolment : BiometricEnrolmentAnalyticsScreen.touchIDEnrolment
+        let id = isFaceID ?
+        BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
+        BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
+       
+        let screenID = isFaceID ?
+        BiometricEnrolmentAnalyticsScreen.faceIDEnrolment :
+        BiometricEnrolmentAnalyticsScreen.touchIDEnrolment
+       
         let screen = ScreenView(id: id,
                                 screen: screenID,
                                 titleKey: title.stringKey)
