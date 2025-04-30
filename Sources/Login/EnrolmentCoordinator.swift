@@ -16,7 +16,7 @@ final class EnrolmentCoordinator: NSObject,
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let localAuthContext: LocalAuthManaging
-    private let enrolmenJourney: EnrolmentJourney
+    private let enrolmentJourney: EnrolmentJourney
     
     private lazy var localAuthManager = OneLoginEnrolmentManager(
         localAuthContext: localAuthContext,
@@ -30,13 +30,13 @@ final class EnrolmentCoordinator: NSObject,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager,
         localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
-        enrolmenJourney: EnrolmentJourney = .login
+        enrolmentJourney: EnrolmentJourney = .login
     ) {
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.localAuthContext = localAuthContext
-        self.enrolmenJourney = enrolmenJourney
+        self.enrolmentJourney = enrolmentJourney
     }
     
     func start() {
@@ -46,7 +46,7 @@ final class EnrolmentCoordinator: NSObject,
             case .touchID, .faceID:
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
                                                              biometricsType: biometricsType,
-                                                             enrolmentJourney: enrolmenJourney) { [unowned self] in
+                                                             enrolmentJourney: enrolmentJourney) { [unowned self] in
                     localAuthManager.saveSession()
                 } secondaryButtonAction: { [unowned self] in
                     localAuthManager.completeEnrolment()
