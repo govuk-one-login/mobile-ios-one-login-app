@@ -40,8 +40,8 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     }
     
     func didAppear() {
-        var id: String
-        var screen: ErrorAnalyticsScreen
+        let id: String
+        let screen: ErrorAnalyticsScreen
         
         if localAuthType == .faceID {
             id = ErrorAnalyticsScreenID.updateFaceID.rawValue
