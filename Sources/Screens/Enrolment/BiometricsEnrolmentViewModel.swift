@@ -35,8 +35,8 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
         self.isFaceID = biometricsType == .faceID
         self.biometricsTypeString = isFaceID ? "app_FaceID" : "app_TouchID"
         self.image = isFaceID ? "faceid" : "touchid"
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: GDSLocalisedString(stringKey: "app_enableBiometricsButton",
-                                                                                            biometricsTypeString).value,
+        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableBiometricsButton",
+                                                               biometricsTypeString,
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
