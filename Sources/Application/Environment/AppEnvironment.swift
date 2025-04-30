@@ -4,10 +4,6 @@ import MobilePlatformServices
 public final class AppEnvironment {
     // MARK: - Feature Flags
     
-    static var signoutErrorEnabled: Bool {
-        isFeatureEnabled(for: .enableSignoutError)
-    }
-    
     static var walletVisibleViaDeepLink: Bool {
         isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
     }
