@@ -96,10 +96,6 @@
 
 "app_enableBiometricsBullet2" = "gweld ac ychwanegu dogfennau";
 
-"app_enableBiometricsBody2" = "Os ydych yn caniatáu %@, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
-
-"app_enableBiometricsBody3" = "Gallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.";
-
 "app_enableBiometricsFaceIDBody2" = "Os ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.";
 
 "app_enableBiometricsTouchIDBody2" = "Os ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
