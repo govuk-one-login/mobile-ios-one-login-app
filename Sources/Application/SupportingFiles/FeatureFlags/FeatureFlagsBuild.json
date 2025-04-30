@@ -1,22 +1,18 @@
 [
     {
-        "name": "EnableSignoutError",
+        "name": "walletVisibleViaDeepLink",
+        "isEnabled": true
+    },
+    {
+        "name": "walletVisibleIfExists",
+        "isEnabled": true
+    },
+    {
+        "name": "walletVisibleToAll",
         "isEnabled": false
     },
     {
-        "name": "EnableWalletVisibleToAll",
-        "isEnabled": false
-    },
-    {
-        "name": "EnableWalletVisibleViaDeepLink",
-        "isEnabled": false
-    },
-    {
-        "name": "EnableWalletVisibleIfExists",
-        "isEnabled": false
-    },
-    {
-        "name": "EnableCRIOrchestrator",
+        "name": "enableCRIOrchestrator",
         "isEnabled": false
     }
 ]

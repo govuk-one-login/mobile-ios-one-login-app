@@ -9,9 +9,10 @@ final class AppEnvironmentTests: XCTestCase {
         let sut = AppEnvironment.self
         
         // Feature Flags
+        XCTAssertTrue(sut.walletVisibleViaDeepLink)
+        XCTAssertTrue(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleToAll)
-        XCTAssertFalse(sut.walletVisibleIfExists)
-        XCTAssertFalse(sut.walletVisibleViaDeepLink)
+        XCTAssertFalse(sut.criOrchestratorEnabled)
         
         // Helpers
         XCTAssertEqual(sut.buildConfiguration, "Debug")

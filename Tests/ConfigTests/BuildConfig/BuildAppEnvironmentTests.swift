@@ -8,9 +8,9 @@ final class BuildAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Build")
         
         // Feature Flags
+        XCTAssertTrue(sut.walletVisibleViaDeepLink)
+        XCTAssertTrue(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleToAll)
-        XCTAssertFalse(sut.walletVisibleIfExists)
-        XCTAssertFalse(sut.walletVisibleViaDeepLink)
         XCTAssertFalse(sut.criOrchestratorEnabled)
         
         // Helpers

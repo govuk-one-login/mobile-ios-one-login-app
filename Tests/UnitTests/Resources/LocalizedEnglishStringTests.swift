@@ -225,6 +225,25 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_externalBrowser".getEnglishString(), "Opens in web browser")
         XCTAssertEqual("app_externalApp".getEnglishString(), "Opens in App Store")
     }
+    
+    func test_localAuthError_keys() throws {
+        XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
+                       "You need to update your phone settings")
+        XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
+                       "To add documents to your GOV.UK Wallet, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.")
+        XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
+                       "You need to:")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString(),
+                       "Go to Face ID & Passcode in your phone settings.")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList1TouchID".getEnglishString(),
+                       "Go to Touch ID & Passcode in your phone settings.")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getEnglishString(),
+                       "Tap Turn Passcode On and follow the instructions.")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getEnglishString(),
+                       "Come back to continue using your GOV.UK Wallet.")
+        XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getEnglishString(),
+                       "Go to phone settings")
+    }
 }
 
 // swiftlint:enable line_length

@@ -8,10 +8,10 @@ final class IntegrationAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Integration")
         
         // Feature Flags
-        XCTAssertFalse(sut.walletVisibleToAll)
-        XCTAssertFalse(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleViaDeepLink)
-        XCTAssertFalse(sut.criOrchestratorEnabled)
+        XCTAssertFalse(sut.walletVisibleIfExists)
+        XCTAssertFalse(sut.walletVisibleToAll)
+        XCTAssertTrue(sut.criOrchestratorEnabled)
         
         // Helpers
         XCTAssertEqual(sut.buildConfiguration, "Integration")

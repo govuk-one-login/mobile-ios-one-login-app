@@ -99,11 +99,6 @@ extension TabManagerCoordinator: ParentCoordinator {
         if child is SettingsCoordinator {
             Task {
                 do {
-                    #if DEBUG
-                    if AppEnvironment.signoutErrorEnabled {
-                        throw SecureStoreError.cantDeleteKey
-                    }
-                    #endif
                     try await sessionManager.clearAllSessionData()
                 } catch {
                     let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,

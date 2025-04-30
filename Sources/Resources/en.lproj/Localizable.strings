@@ -218,3 +218,22 @@
 "app_appUnavailableTitle" = "Sorry, the app is unavailable";
 
 "app_appUnavailableBody" = "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.";
+
+
+// MARK: FaceID/ Touch ID Error Screen
+
+"app_localAuthManagerErrorTitle" = "You need to update your phone settings";
+
+"app_localAuthManagerErrorBody1" = "To add documents to your GOV.UK Wallet, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.";
+
+"app_localAuthManagerErrorBody3" = "You need to:";
+
+"app_localAuthManagerErrorNumberedList1FaceID" = "Go to Face ID & Passcode in your phone settings.";
+
+"app_localAuthManagerErrorNumberedList1TouchID" = "Go to Touch ID & Passcode in your phone settings.";
+
+"app_localAuthManagerErrorNumberedList2" = "Tap Turn Passcode On and follow the instructions.";
+
+"app_localAuthManagerErrorNumberedList3" = "Come back to continue using your GOV.UK Wallet.";
+
+"app_localAuthManagerErrorGoToSettingsButton" = "Go to phone settings";

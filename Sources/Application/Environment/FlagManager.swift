@@ -6,11 +6,10 @@ public enum FeatureFlagsName: String {
     /// case enableFeatureFlag = "EnableFeatureFlag"
     /// ```
     
-    case enableSignoutError = "EnableSignoutError"
-    case enableWalletVisibleViaDeepLink = "EnableWalletVisibleViaDeepLink"
-    case enableWalletVisibleIfExists = "EnableWalletVisibleIfExists"
-    case enableWalletVisibleToAll = "EnableWalletVisibleToAll"
-    case enableCRIOrchestrator = "EnableCRIOrchestrator"
+    case enableWalletVisibleViaDeepLink = "walletVisibleViaDeepLink"
+    case enableWalletVisibleIfExists = "walletVisibleIfExists"
+    case enableWalletVisibleToAll = "walletVisibleToAll"
+    case enableCRIOrchestrator = "enableCRIOrchestrator"
     case appCheckEnabled = "appCheckEnabled"
 }
 

@@ -8,10 +8,10 @@ final class StagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Staging")
         
         // Feature Flags
+        XCTAssertTrue(sut.walletVisibleViaDeepLink)
+        XCTAssertTrue(sut.walletVisibleIfExists)
         XCTAssertFalse(sut.walletVisibleToAll)
-        XCTAssertFalse(sut.walletVisibleIfExists)
-        XCTAssertFalse(sut.walletVisibleViaDeepLink)
-        XCTAssertFalse(sut.criOrchestratorEnabled)
+        XCTAssertTrue(sut.criOrchestratorEnabled)
         
         // Helpers
         XCTAssertEqual(sut.buildConfiguration, "Staging")

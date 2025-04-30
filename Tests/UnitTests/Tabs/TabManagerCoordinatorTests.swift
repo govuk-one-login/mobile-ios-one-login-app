@@ -47,7 +47,10 @@ extension TabManagerCoordinatorTests {
     func test_start_performsSetUpWithoutWallet() {
         // WHEN the Wallet the Feature Flag is off
         AppEnvironment.updateFlags(
-            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: false],
+            releaseFlags: [
+                FeatureFlagsName.enableWalletVisibleViaDeepLink.rawValue: false,
+                FeatureFlagsName.enableWalletVisibleIfExists.rawValue: false
+            ],
             featureFlags: [:]
         )
         // AND the TabManagerCoordinator is started
