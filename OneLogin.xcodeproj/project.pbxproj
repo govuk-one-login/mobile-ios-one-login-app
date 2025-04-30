@@ -21,7 +21,6 @@
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */; };
-		411D1FD32B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D1FD22B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift */; };
 		41279DD52BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift */; };
 		41279DD72BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift */; };
 		413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58752BF261D300171C06 /* HomeViewControllerTests.swift */; };
@@ -36,10 +35,9 @@
 		41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */; };
 		41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */; };
 		41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */; };
-		41C8E42C2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */; };
-		41C8E42F2B72920F0063B8A3 /* FaceIDEnrolmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42D2B7291F80063B8A3 /* FaceIDEnrolmentViewModelTests.swift */; };
+		41C8E42C2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42B2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift */; };
+		41C8E42F2B72920F0063B8A3 /* BiometricsEnrolmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E42D2B7291F80063B8A3 /* BiometricsEnrolmentViewModelTests.swift */; };
 		41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4302B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift */; };
-		41C8E4332B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */; };
 		41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */; };
 		41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */; };
 		41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */; };
@@ -306,7 +304,6 @@
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 		410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
-		411D1FD22B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrolmentViewModelTests.swift; sourceTree = "<group>"; };
 		41279DD42BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSignOutPageViewModel.swift; sourceTree = "<group>"; };
 		41279DD62BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSignOutPageViewModelTests.swift; sourceTree = "<group>"; };
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
@@ -322,10 +319,9 @@
 		41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecureTokenStore.swift; sourceTree = "<group>"; };
 		41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModel.swift; sourceTree = "<group>"; };
 		41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorViewModelTests.swift; sourceTree = "<group>"; };
-		41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrolmentViewModel.swift; sourceTree = "<group>"; };
-		41C8E42D2B7291F80063B8A3 /* FaceIDEnrolmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIDEnrolmentViewModelTests.swift; sourceTree = "<group>"; };
+		41C8E42B2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsEnrolmentViewModel.swift; sourceTree = "<group>"; };
+		41C8E42D2B7291F80063B8A3 /* BiometricsEnrolmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsEnrolmentViewModelTests.swift; sourceTree = "<group>"; };
 		41C8E4302B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricEnrolmentAnalytics.swift; sourceTree = "<group>"; };
-		41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDEnrolmentViewModel.swift; sourceTree = "<group>"; };
 		41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAppViewModel.swift; sourceTree = "<group>"; };
 		41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAppViewModelTests.swift; sourceTree = "<group>"; };
 		41D469742B9758A5008705CD /* UnlockScreenViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewModelTests.swift; sourceTree = "<group>"; };
@@ -1230,8 +1226,7 @@
 		C87829932CB56EA100CB10C5 /* Enrolment */ = {
 			isa = PBXGroup;
 			children = (
-				41C8E42B2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift */,
-				41C8E4322B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift */,
+				41C8E42B2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift */,
 			);
 			path = Enrolment;
 			sourceTree = "<group>";
@@ -1280,8 +1275,7 @@
 		C87829992CB570C000CB10C5 /* Enrolment */ = {
 			isa = PBXGroup;
 			children = (
-				41C8E42D2B7291F80063B8A3 /* FaceIDEnrolmentViewModelTests.swift */,
-				411D1FD22B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift */,
+				41C8E42D2B7291F80063B8A3 /* BiometricsEnrolmentViewModelTests.swift */,
 			);
 			path = Enrolment;
 			sourceTree = "<group>";
@@ -2019,6 +2013,7 @@
 				7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */,
 				C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */,
+				41C8E42C2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift in Sources */,
 				C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */,
 				ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */,
 				C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */,
@@ -2031,7 +2026,6 @@
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
-				41C8E42C2B7252A70063B8A3 /* FaceIDEnrolmentViewModel.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
@@ -2093,7 +2087,6 @@
 				C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
-				41C8E4332B73AA600063B8A3 /* TouchIDEnrolmentViewModel.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* UnableToLoginErrorViewModel.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
@@ -2122,12 +2115,12 @@
 				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
 				C8BFE5EB2CB5818B00FA9A35 /* AppUnavailableViewModelTests.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* AuthenticationServiceTests.swift in Sources */,
+				41C8E42F2B72920F0063B8A3 /* BiometricsEnrolmentViewModelTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
-				41C8E42F2B72920F0063B8A3 /* FaceIDEnrolmentViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
@@ -2181,7 +2174,6 @@
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */,
-				411D1FD32B73CA74002393D1 /* TouchIDEnrolmentViewModelTests.swift in Sources */,
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				410464F62B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift in Sources */,
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,

@@ -74,21 +74,36 @@ final class LocalizedWelshStringTests: XCTestCase {
     }
     
     func test_faceIDEnrolmentScreen_keys() throws {
-        XCTAssertEqual("app_enableFaceIDTitle".getWelshString(),
-                       "Datgloi'r ap gyda Face ID")
+        XCTAssertEqual("app_FaceID".getWelshString(),
+                       "Face ID")
         XCTAssertEqual("app_enableFaceIDBody".getWelshString(),
                        "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
-        XCTAssertEqual("app_enableFaceIDButton".getWelshString(),
-                       "Caniatáu Face ID")
+        XCTAssertEqual("app_enableBiometricsFaceIDBody2".getWelshString(),
+                       "Os ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
     }
     
     func test_touchIDEnrolmentScreen_keys() throws {
-        XCTAssertEqual("app_enableTouchIDTitle".getWelshString(),
-                       "Datgloi'r ap gyda Touch ID")
+        XCTAssertEqual("app_TouchID".getWelshString(),
+                       "Touch ID")
         XCTAssertEqual("app_enableTouchIDBody".getWelshString(),
                        "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
-        XCTAssertEqual("app_enableTouchIDEnableButton".getWelshString(),
-                       "Caniatáu Touch ID")
+        XCTAssertEqual("app_enableBiometricsTouchIDBody2".getWelshString(),
+                       "Os ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
+    }
+    
+    func test_biometricsEnrolmentScreen_commonKeys() throws {
+        XCTAssertEqual("app_enableLoginBiometricsTitle".getWelshString(),
+                       "Datgloi'r ap gyda %@")
+        XCTAssertEqual("app_enableBiometricsButton".getWelshString(),
+                       "Caniatáu %@")
+        XCTAssertEqual("app_enableBiometricsTitle".getWelshString(),
+                       "Caniatáu %@")
+        XCTAssertEqual("app_enableBiometricsBody1".getWelshString(),
+                       "Defnyddiwch %@ i:")
+        XCTAssertEqual("app_enableBiometricsBullet1".getWelshString(),
+                       "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda GOV.UK One Login")
+        XCTAssertEqual("app_enableBiometricsBullet2".getWelshString(),
+                       "gweld ac ychwanegu dogfennau")
     }
     
     func test_unlockScreenKeys() {
