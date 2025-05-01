@@ -1,3 +1,4 @@
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -35,10 +36,9 @@ extension DataDeletedWarningViewModelTests {
             featureFlags: [:]
         )
         
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_dataDeletionWarningTitle")
-        XCTAssertEqual(sut.body, "app_dataDeletionWarningBodyNoWallet")
-        XCTAssertNil(sut.secondaryButtonViewModel)
+        XCTAssertEqual(sut.bodyContent.count, 1)
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
@@ -50,18 +50,17 @@ extension DataDeletedWarningViewModelTests {
             featureFlags: [:]
         )
         
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_dataDeletionWarningTitle")
-        XCTAssertEqual(sut.body, "app_dataDeletionWarningBody")
-        XCTAssertNil(sut.secondaryButtonViewModel)
+        XCTAssertEqual(sut.bodyContent.count, 1)
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
     func test_button() {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_signInButton")
+        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_signInButton")
         XCTAssertFalse(didCallButtonAction)
-        sut.primaryButtonViewModel.action()
+        sut.buttonViewModels[0].action()
         XCTAssertTrue(didCallButtonAction)
     }
 }

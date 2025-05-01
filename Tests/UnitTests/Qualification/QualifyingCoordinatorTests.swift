@@ -93,7 +93,7 @@ extension QualifyingCoordinatorTests {
         sut.didChangeAppInfoState(state: .offline)
         // THEN I am shown the Network Error screen
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorViewController
+            window.rootViewController as? GDSErrorScreen
         )
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
     }
@@ -103,9 +103,9 @@ extension QualifyingCoordinatorTests {
         sut.didChangeAppInfoState(state: .offline)
         
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorViewController
+            window.rootViewController as? GDSErrorScreen
         )
-        _ = vc.viewModel.primaryButtonViewModel.action()
+        _ = vc.viewModel.buttonViewModels[0].action()
         
         XCTAssertTrue(qualifyingService.didCallInitiate)
     }
@@ -163,7 +163,7 @@ extension QualifyingCoordinatorTests {
         sut.didChangeUserState(state: .failed(MockLoginError.failed))
         // THEN I am shown the Login Error screen
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorViewController
+            window.rootViewController as? GDSErrorScreen
         )
         let viewModel = try XCTUnwrap(vc.viewModel as? UnableToLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")
