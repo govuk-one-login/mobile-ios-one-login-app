@@ -11,4 +11,5 @@ enum OLTaxonomyValue {
     static let settings = "settings"
     static let reauth = "re auth"
     static let undefined = "undefined"
+    static let onboarding = "onboarding"
 }

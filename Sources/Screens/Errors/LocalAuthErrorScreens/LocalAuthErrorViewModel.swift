@@ -1,3 +1,4 @@
+import GDSAnalytics
 import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
@@ -8,6 +9,7 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let bodyContent: [ScreenBodyItem]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
+    let localAuthType: LocalAuthType
     
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
@@ -15,16 +17,21 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     init(urlOpener: URLOpener = UIApplication.shared,
          analyticsService: OneLoginAnalyticsService,
          localAuthType: LocalAuthType) {
-        self.analyticsService = analyticsService
+        self.localAuthType = localAuthType
+        
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.onboarding
+        ])
         
         self.buttonViewModels = [
             AnalyticsButtonViewModel(titleKey: "app_localAuthManagerErrorGoToSettingsButton",
                                      analyticsService: analyticsService) {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
-            urlOpener.open(url: url)
-        }]
+                                         guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                                             return
+                                         }
+                                         urlOpener.open(url: url)
+                                     }
+        ]
         
         self.bodyContent = [
             BodyTextViewModel(text: GDSLocalisedString("app_localAuthManagerErrorBody1")),
@@ -32,7 +39,26 @@ struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         ]
     }
     
-    func didAppear() { /* BaseViewModel compliance */ }
-
-    func didDismiss() { /* BaseViewModel compliance */ }
+    func didAppear() {
+        let id: String
+        let screen: ErrorAnalyticsScreen
+        
+        if localAuthType == .faceID {
+            id = ErrorAnalyticsScreenID.updateFaceID.rawValue
+            screen = ErrorAnalyticsScreen.updateFaceID
+        } else {
+            id = ErrorAnalyticsScreenID.updateTouchID.rawValue
+            screen = ErrorAnalyticsScreen.updateTouchID
+        }
+        
+        let screenView = ErrorScreenView(id: id,
+                                         screen: screen,
+                                         titleKey: title.stringKey)
+        analyticsService.trackScreen(screenView)
+    }
+    
+    func didDismiss() {
+        let event = IconEvent(textKey: "back - system")
+        analyticsService.logEvent(event)
+    }
 }
