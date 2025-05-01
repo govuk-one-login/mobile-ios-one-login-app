@@ -2,14 +2,14 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct SignOutWarningViewModel: GDSErrorViewModelV2,
+struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
+                                GDSCentreAlignedViewModelWithPrimaryButton,
                                 BaseViewModel {
-    let title: GDSLocalisedString = "app_signOutWarningTitle"
-    let body: GDSLocalisedString = "app_signOutWarningBody"
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
-
+    let title: GDSLocalisedString = "app_signOutWarningTitle"
+    let body: GDSLocalisedString? = "app_signOutWarningBody"
+    let primaryButtonViewModel: ButtonViewModel
+    
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     

@@ -62,7 +62,7 @@ final class LoginCoordinator: NSObject,
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = GDSErrorViewController(viewModel: viewModel)
+            rootViewController = GDSInformationViewController(viewModel: viewModel)
         } else {
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
