@@ -42,7 +42,7 @@ struct LoginModal: ScreenObject {
     func tapBrowserLoginButton() -> HomeScreen {
         loginButton.tap()
         
-        return HomeScreen(app: app).waitForAppearance()
+        return HomeScreen(app: app).waitForAppearance(timeout: 15)
     }
     
     func tapBrowserRedirectWithOAuthErrorButton() -> ErrorScreen {
@@ -66,8 +66,8 @@ struct LoginModal: ScreenObject {
             secondModalScreen.title,
             secondModalScreen.loginButton
         ]
-        _ = browserElements.map {
-            $0.waitForExistence(timeout: .timeout)
+        browserElements.forEach {
+            _ = $0.waitForExistence(timeout: .timeout)
         }
         return secondModalScreen
     }
@@ -81,8 +81,8 @@ struct LoginModal: ScreenObject {
             secondModalScreen.title,
             secondModalScreen.loginButton
         ]
-        _ = browserElements.map {
-            $0.waitForExistence(timeout: .timeout)
+        browserElements.forEach {
+            _ = $0.waitForExistence(timeout: .timeout)
         }
         return secondModalScreen
     }

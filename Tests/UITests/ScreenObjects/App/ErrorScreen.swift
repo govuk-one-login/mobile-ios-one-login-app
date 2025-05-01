@@ -8,15 +8,11 @@ struct ErrorScreen: ScreenObject {
     }
     
     var title: XCUIElement {
-        app.staticTexts["error-title"]
-    }
-    
-    var body: XCUIElement {
-        app.staticTexts["error-body"]
+        app.staticTexts["error-screen-title"]
     }
     
     var closeButton: XCUIElement {
-        app.buttons["error-primary-button"]
+        app.buttons["error-screen-button-0"]
     }
     
     func tapCloseButton() {
