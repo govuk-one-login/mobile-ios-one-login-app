@@ -32,7 +32,6 @@ extension SignOutWarningViewModelTests {
     func test_page() {
         XCTAssertEqual(sut.title.stringKey, "app_signOutWarningTitle")
         XCTAssertEqual(sut.body, "app_signOutWarningBody")
-        XCTAssertNil(sut.secondaryButtonViewModel)
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }

@@ -31,16 +31,16 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
 
 extension UnableToLoginErrorViewModelTests {
     func test_page() {
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_signInErrorTitle")
-        XCTAssertEqual(sut.body.stringKey, "app_signInErrorBody")
+        XCTAssertEqual(sut.bodyContent.count, 1)
     }
     
     func test_button() {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_closeButton")
+        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_closeButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.primaryButtonViewModel.action()
+        sut.buttonViewModels[0].action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "app_closeButton")

@@ -1,4 +1,5 @@
 import GDSAnalytics
+import GDSCommon
 @testable import OneLogin
 import XCTest
 
@@ -26,17 +27,16 @@ final class SignOutErrorViewModelTests: XCTestCase {
 
 extension SignOutErrorViewModelTests {
     func test_page() {
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
-        XCTAssertEqual(sut.body, "app_signOutErrorBody")
+        XCTAssertEqual(sut.bodyContent.count, 1)
         XCTAssertTrue(sut.error as? MockWalletError == .cantDelete)
-        XCTAssertNil(sut.secondaryButtonViewModel)
         XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
     func test_button() {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_exitButton")
+        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_exitButton")
     }
     
     func test_didAppear() {

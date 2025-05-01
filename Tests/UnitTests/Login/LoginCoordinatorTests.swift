@@ -85,10 +85,10 @@ extension LoginCoordinatorTests {
         sut.start()
         // THEN the user sees the session expired screen
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let screen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSInformationViewController
+        let screen = try XCTUnwrap(sut.root.topViewController as? GDSInformationViewController)
         // THEN the visible view controller's view model should be the SignOutWarningViewModel
-        XCTAssertTrue(screen.viewModelV2 is SignOutWarningViewModel)
+        XCTAssertTrue(screen.viewModel is SignOutWarningViewModel)
     }
     
     @MainActor
@@ -105,8 +105,8 @@ extension LoginCoordinatorTests {
         mockNetworkMonitor.isConnected = false
         // WHEN the LoginCoordinator's authenticate method is called
         sut.authenticate()
-        // THEN the visible view controller should be the GDSErrorViewController
-        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
@@ -126,8 +126,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the DataDeletedWarningViewModel
         XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
     }
@@ -139,8 +139,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -152,8 +152,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
     }
@@ -165,8 +165,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -178,8 +178,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -191,8 +191,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -204,8 +204,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -217,8 +217,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
     }
@@ -230,8 +230,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -243,8 +243,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
     }
@@ -256,8 +256,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the GenericErrorViewModel
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
     }
@@ -269,8 +269,8 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the GenericErrorViewModel
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
     }
@@ -281,8 +281,8 @@ extension LoginCoordinatorTests {
         let callbackURL = try XCTUnwrap(URL(string: "https://www.test.com"))
         // WHEN the LoginCoordinator's handleUniversalLink method is called
         sut.handleUniversalLink(callbackURL)
-        // THEN the visible view controller should be the GDSErrorViewController
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorViewController)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the GenericErrorViewModel
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
     }

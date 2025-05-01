@@ -37,9 +37,9 @@ extension GenericErrorViewModelTests {
           Check that the label contents are assigned correctly by the initialiser
           """)
     func test_page() {
-        #expect(sut.image == "exclamationmark.circle")
+        #expect(sut.image == .error)
         #expect(sut.title.stringKey == "app_genericErrorPage")
-        #expect(sut.body.stringKey == "app_genericErrorPageBody")
+        #expect(sut.bodyContent.count == 1)
         #expect(sut.errorDescription == "error description")
         #expect(sut.rightBarButtonTitle == nil)
         #expect(sut.backButtonIsHidden)
@@ -51,10 +51,10 @@ extension GenericErrorViewModelTests {
             - logs the `Link` analytics event
           """)
     func test_button() {
-        #expect(sut.primaryButtonViewModel.title.stringKey == "app_tryAgainButton")
+        #expect(sut.buttonViewModels[0].title.stringKey == "app_tryAgainButton")
         #expect(!didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
-        sut.primaryButtonViewModel.action()
+        sut.buttonViewModels[0].action()
         #expect(didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_tryAgainButton",

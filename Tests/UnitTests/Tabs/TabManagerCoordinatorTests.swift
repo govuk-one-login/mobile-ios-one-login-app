@@ -114,8 +114,8 @@ extension TabManagerCoordinatorTests {
         // but there was an error in signing out
         sut.performChildCleanup(child: settingsCoordinator)
         // THEN the sign out error screen should be presented
-        waitForTruth(self.sut.root.presentedViewController is GDSErrorViewController, timeout: 5)
-        XCTAssertTrue((sut.root.presentedViewController as? GDSErrorViewController)?.viewModel is SignOutErrorViewModel)
+        waitForTruth(self.sut.root.presentedViewController is GDSErrorScreen, timeout: 5)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is SignOutErrorViewModel)
         // THEN the session should not be cleared
         XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
     }

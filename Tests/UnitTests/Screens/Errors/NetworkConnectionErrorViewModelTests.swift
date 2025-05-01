@@ -30,18 +30,18 @@ final class NetworkConnectionErrorViewModelTests: XCTestCase {
 
 extension NetworkConnectionErrorViewModelTests {
     func test_page() {
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
+        XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_networkErrorTitle")
-        XCTAssertEqual(sut.body.stringKey, "app_networkErrorBody")
+        XCTAssertEqual(sut.bodyContent.count, 1)
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
     func test_button() {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_tryAgainButton")
+        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_tryAgainButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.primaryButtonViewModel.action()
+        sut.buttonViewModels[0].action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = ButtonEvent(textKey: "app_tryAgainButton")

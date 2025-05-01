@@ -2,16 +2,14 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct SignOutErrorViewModel: GDSErrorViewModelV2,
-                              GDSErrorViewModelWithImage,
+struct SignOutErrorViewModel: GDSErrorViewModelV3,
                               BaseViewModel {
-    let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "app_signOutErrorTitle"
-    let body: GDSLocalisedString = "app_signOutErrorBody"
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
     let error: Error
+    let title: GDSLocalisedString = "app_signOutErrorTitle"
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_signOutErrorBody")]
+    let buttonViewModels: [ButtonViewModel]
+    let image: ErrorScreenImage = .error
     
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
@@ -20,10 +18,12 @@ struct SignOutErrorViewModel: GDSErrorViewModelV2,
          error: Error) {
         self.analyticsService = analyticsService
         self.error = error
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_exitButton",
-                                                               analyticsService: analyticsService) {
-            fatalError("We were unable to sign the user out, they've been given guidance to delete the app")
-        }
+        self.buttonViewModels = [
+            AnalyticsButtonViewModel(titleKey: "app_exitButton",
+                                     analyticsService: analyticsService) {
+                                         fatalError("We were unable to sign the user out, they've been given guidance to delete the app")
+                                     }
+        ]
     }
     
     func didAppear() {
