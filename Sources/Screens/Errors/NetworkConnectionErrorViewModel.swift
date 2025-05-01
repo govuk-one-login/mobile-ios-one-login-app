@@ -2,25 +2,25 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct NetworkConnectionErrorViewModel: GDSErrorViewModelV2,
-                                        GDSErrorViewModelWithImage,
+struct NetworkConnectionErrorViewModel: GDSErrorViewModelV3,
                                         BaseViewModel {
-    let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "app_networkErrorTitle"
-    let body: GDSLocalisedString = "app_networkErrorBody"
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
+    let title: GDSLocalisedString = "app_networkErrorTitle"
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_networkErrorBody")]
+    let buttonViewModels: [ButtonViewModel]
+    let image: ErrorScreenImage = .error
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService, action: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
-                                                               analyticsService: analyticsService) {
-            action()
-        }
+        self.buttonViewModels = [
+            AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
+                                     analyticsService: analyticsService) {
+                                         action()
+                                     }
+        ]
     }
     
     func didAppear() {

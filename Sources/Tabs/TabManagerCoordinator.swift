@@ -103,7 +103,7 @@ extension TabManagerCoordinator: ParentCoordinator {
                 } catch {
                     let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
                                                           error: error)
-                    let signOutErrorScreen = GDSErrorViewController(viewModel: viewModel)
+                    let signOutErrorScreen = GDSErrorScreen(viewModel: viewModel)
                     root.present(signOutErrorScreen, animated: true)
                 }
             }

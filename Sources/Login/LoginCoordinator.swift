@@ -158,7 +158,7 @@ extension LoginCoordinator {
             start()
             launchOnboardingCoordinator()
         }
-        let vc = GDSErrorViewController(viewModel: viewModel)
+        let vc = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)
     }
     
@@ -167,7 +167,7 @@ extension LoginCoordinator {
                                                     errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
-        let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
+        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }
     
@@ -175,7 +175,7 @@ extension LoginCoordinator {
         let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
             action()
         }
-        let networkErrorScreen = GDSErrorViewController(viewModel: viewModel)
+        let networkErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(networkErrorScreen, animated: true)
     }
     
@@ -184,7 +184,7 @@ extension LoginCoordinator {
                                               errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
-        let genericErrorScreen = GDSErrorViewController(viewModel: viewModel)
+        let genericErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(genericErrorScreen, animated: true)
     }
     

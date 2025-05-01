@@ -2,16 +2,14 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct UnableToLoginErrorViewModel: GDSErrorViewModelV2,
-                                    GDSErrorViewModelWithImage,
+struct UnableToLoginErrorViewModel: GDSErrorViewModelV3,
                                     BaseViewModel {
-    let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "app_signInErrorTitle"
-    let body: GDSLocalisedString = "app_signInErrorBody"
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
     let errorDescription: String
+    let title: GDSLocalisedString = "app_signInErrorTitle"
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_signInErrorBody")]
+    let buttonViewModels: [ButtonViewModel]
+    let image: ErrorScreenImage = .error
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
@@ -21,10 +19,12 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV2,
          action: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.errorDescription = errorDescription
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_closeButton",
-                                                               analyticsService: analyticsService) {
-            action()
-        }
+        self.buttonViewModels = [
+            AnalyticsButtonViewModel(titleKey: "app_closeButton",
+                                     analyticsService: analyticsService) {
+                                         action()
+                                     }
+        ]
     }
     
     func didAppear() {

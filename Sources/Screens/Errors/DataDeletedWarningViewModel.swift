@@ -2,30 +2,29 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct DataDeletedWarningViewModel: GDSErrorViewModelV2,
-                                    GDSErrorViewModelWithImage,
+struct DataDeletedWarningViewModel: GDSErrorViewModelV3,
                                     BaseViewModel {
-    let image: String = "exclamationmark.circle"
     let title: GDSLocalisedString = "app_dataDeletionWarningTitle"
-    
-    var body: GDSLocalisedString {
+    var bodyContent: [ScreenBodyItem] {
         if WalletAvailabilityService.shouldShowFeature {
-            GDSLocalisedString(stringLiteral: "app_dataDeletionWarningBody")
+            [BodyTextViewModel(text: "app_dataDeletionWarningBody")]
         } else {
-            GDSLocalisedString(stringLiteral: "app_dataDeletionWarningBodyNoWallet")
+            [BodyTextViewModel(text: "app_dataDeletionWarningBodyNoWallet")]
         }
+        
     }
-    
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
+    let buttonViewModels: [ButtonViewModel]
+    let image: ErrorScreenImage = .error
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
     init(action: @escaping () -> Void) {
-        self.primaryButtonViewModel = StandardButtonViewModel(titleKey: "app_signInButton") {
-            action()
-        }
+        self.buttonViewModels = [
+            StandardButtonViewModel(titleKey: "app_signInButton") {
+                action()
+            }
+        ]
     }
     
     func didAppear() { /* BaseViewModel compliance */ }

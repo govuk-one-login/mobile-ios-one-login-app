@@ -2,16 +2,14 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct GenericErrorViewModel: GDSErrorViewModelV2,
-                              GDSErrorViewModelWithImage,
+struct GenericErrorViewModel: GDSErrorViewModelV3,
                               BaseViewModel {
-    let image: String = "exclamationmark.circle"
-    let title: GDSLocalisedString = "app_genericErrorPage"
-    let body: GDSLocalisedString = "app_genericErrorPageBody"
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
     let errorDescription: String
+    let title: GDSLocalisedString = "app_genericErrorPage"
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_genericErrorPageBody")]
+    let buttonViewModels: [ButtonViewModel]
+    let image: ErrorScreenImage = .error
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
@@ -24,11 +22,13 @@ struct GenericErrorViewModel: GDSErrorViewModelV2,
         let event = LinkEvent(textKey: "app_tryAgainButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
-                                                               analyticsService: analyticsService,
-                                                               analyticsEvent: event) {
-            action()
-        }
+        self.buttonViewModels = [
+            AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
+                                     analyticsService: analyticsService,
+                                     analyticsEvent: event) {
+                                         action()
+                                     }
+        ]
     }
     
     func didAppear() {

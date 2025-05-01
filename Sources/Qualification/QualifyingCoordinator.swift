@@ -75,7 +75,7 @@ final class QualifyingCoordinator: NSObject,
             let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
                 appQualifyingService.initiate()
             }
-            displayViewController(GDSErrorViewController(viewModel: viewModel))
+            displayViewController(GDSErrorScreen(viewModel: viewModel))
         case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return
@@ -107,7 +107,7 @@ final class QualifyingCoordinator: NSObject,
                 analyticsService.logCrash(error)
                 fatalError("We were unable to resume the session, there's not much we can do to help the user")
             }
-            let unableToLoginErrorScreen = GDSErrorViewController(viewModel: viewModel)
+            let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
         }
     }
