@@ -8,6 +8,6 @@ struct HomeScreen: ScreenObject {
     }
     
     var title: XCUIElement {
-        return app.navigationBars.staticTexts.firstMatch
+        app.navigationBars.staticTexts.firstMatch
     }
 }
