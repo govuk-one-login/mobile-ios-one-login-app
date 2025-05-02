@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="crownLogo" translatesAutoresizingMaskIntoConstraints="NO" id="WZ0-NI-q8T">
-                                <rect key="frame" x="168.66666666666666" y="572" width="56" height="53"/>
+                                <rect key="frame" x="168.66666666666666" y="580.66666666666663" width="56" height="53"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="56" id="Zip-7x-9CM"/>
                                     <constraint firstAttribute="height" constant="53" id="e06-VZ-upd"/>
@@ -35,8 +35,8 @@
                         <color key="backgroundColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.2470588088" green="0.46274507050000002" blue="0.75686275960000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="WZ0-NI-q8T" firstAttribute="top" secondItem="0z8-sY-Vzk" secondAttribute="bottom" constant="100" id="BEM-Rc-ddD"/>
                             <constraint firstItem="WZ0-NI-q8T" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Ngi-Tv-Reh"/>
+                            <constraint firstItem="WZ0-NI-q8T" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="1.425" id="P5m-Af-vQz"/>
                             <constraint firstItem="0z8-sY-Vzk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="YtV-Se-KCW"/>
                             <constraint firstItem="0z8-sY-Vzk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="bKS-n5-LDc"/>
                         </constraints>

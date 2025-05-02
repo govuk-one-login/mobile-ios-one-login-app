@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -32,7 +32,7 @@
                     </constraints>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="crownLogo" translatesAutoresizingMaskIntoConstraints="NO" id="pcm-Ag-5pl">
-                    <rect key="frame" x="168.66666666666666" y="572" width="56" height="53"/>
+                    <rect key="frame" x="168.66666666666666" y="580.66666666666663" width="56" height="53"/>
                     <color key="backgroundColor" red="0.24889767169999999" green="0.46515023709999997" blue="0.75415229800000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="53" id="ov1-lW-FTV"/>
@@ -40,7 +40,7 @@
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="hux-3o-9se" userLabel="Stack View_button">
-                    <rect key="frame" x="0.0" y="735.66666666666663" width="393" height="68.333333333333371"/>
+                    <rect key="frame" x="0.0" y="699.66666666666663" width="393" height="68.333333333333371"/>
                     <subviews>
                         <stackView opaque="NO" tag="1000" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="zZ2-mS-JEI" userLabel="Stack View_loading">
                             <rect key="frame" x="16" y="8.0000000000000036" width="361" height="52.333333333333343"/>
@@ -61,7 +61,7 @@
                     <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
                 </stackView>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="500" verticalHuggingPriority="500" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="358" placeholderIntrinsicHeight="44" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Fh-u8-d7f">
-                    <rect key="frame" x="0.0" y="760" width="393" height="44"/>
+                    <rect key="frame" x="0.0" y="724" width="393" height="44"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" title="Unlock">
@@ -76,16 +76,16 @@
             <color key="backgroundColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" red="0.14910051229999999" green="0.47218555210000002" blue="0.77661752699999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="1Fh-u8-d7f" secondAttribute="bottom" constant="48" id="1qV-qg-UKI"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="1Fh-u8-d7f" secondAttribute="bottom" constant="16" id="1qV-qg-UKI"/>
                 <constraint firstItem="IkX-pG-xN8" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4iD-ye-exj"/>
                 <constraint firstItem="1Fh-u8-d7f" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="JKR-ai-4X7"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hux-3o-9se" secondAttribute="trailing" id="Jym-c9-BhQ"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1Fh-u8-d7f" secondAttribute="trailing" id="LJH-Dp-u4x"/>
-                <constraint firstItem="pcm-Ag-5pl" firstAttribute="top" secondItem="IkX-pG-xN8" secondAttribute="bottom" constant="100" id="LYF-cM-tTA"/>
                 <constraint firstItem="pcm-Ag-5pl" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="h85-5j-hKj"/>
                 <constraint firstItem="hux-3o-9se" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jtm-Uu-lq7"/>
                 <constraint firstItem="1Fh-u8-d7f" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="k8c-co-AMT"/>
-                <constraint firstAttribute="bottom" secondItem="hux-3o-9se" secondAttribute="bottom" constant="48" id="ohR-cV-Egf"/>
+                <constraint firstItem="pcm-Ag-5pl" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="1.425" id="oUM-CS-QFj"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hux-3o-9se" secondAttribute="bottom" constant="16" id="ohR-cV-Egf"/>
                 <constraint firstItem="IkX-pG-xN8" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qf0-HV-M9H"/>
             </constraints>
             <point key="canvasLocation" x="130.53435114503816" y="-11.267605633802818"/>
