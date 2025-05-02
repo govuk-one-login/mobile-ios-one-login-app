@@ -32,7 +32,7 @@ struct WelcomeScreen: ScreenObject {
             loginModal.fourHundredResponseErrorButton,
             loginModal.fiveHundredResponseErrorButton
         ]
-        browserElements.map {
+        browserElements.forEach {
             _ = $0.waitForExistence(timeout: .timeout)
         }
         return loginModal

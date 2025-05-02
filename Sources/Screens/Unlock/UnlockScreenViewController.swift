@@ -5,7 +5,7 @@ class UnlockScreenViewController: BaseViewController {
     override var nibName: String? { "UnlockScreen" }
     
     let viewModel: UnlockScreenViewModel
-
+    
     init(viewModel: UnlockScreenViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "UnlockScreen", bundle: .main)
@@ -30,30 +30,28 @@ class UnlockScreenViewController: BaseViewController {
             loadingSpinner.accessibilityIdentifier = "unlock-screen-loading-spinner"
         }
     }
-
+    
     @IBOutlet private var loadingLabel: UILabel! {
         didSet {
             loadingLabel.text = "Loading"
             loadingLabel.accessibilityIdentifier = "unlock-screen-loading-label"
         }
     }
-
+    
     @IBAction private func unlockScreenButton(_ sender: Any) {
         viewModel.primaryButtonViewModel.action()
     }
-
+    
     @IBOutlet private var loadingStackView: UIStackView! {
         didSet {
             loadingStackView.accessibilityIdentifier = "unlock-screen-loading-stack-view"
         }
     }
-
+    
     var isLoading: Bool = true {
         didSet {
-            Task { @MainActor in
-                loadingStackView.isHidden = !isLoading
-                unlockButton.isHidden = isLoading
-            }
+            loadingStackView.isHidden = !isLoading
+            unlockButton.isHidden = isLoading
         }
     }
 }

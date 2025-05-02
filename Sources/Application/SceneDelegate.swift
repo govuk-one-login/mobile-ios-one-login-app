@@ -69,6 +69,7 @@ final class SceneDelegate: UIResponder,
     
     func sceneDidEnterBackground(_ scene: UIScene) {
         rootCoordinator?.displayUnlockWindow()
+        rootCoordinator?.unlockViewController.isLoading = true
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
