@@ -52,7 +52,7 @@ extension HomeViewControllerTests {
             featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
         )
         UINavigationController().setViewControllers([sut], animated: false)
-        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 2)
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
     }
     
     func test_numberOfSectionsWithoutIDCheck() {
@@ -61,34 +61,34 @@ extension HomeViewControllerTests {
             featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: false]
         )
         UINavigationController().setViewControllers([sut], animated: false)
-        XCTAssertEqual(sut.numberOfSections(in: sut.tableView), 1)
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 1)
     }
     
     func test_numbeOfRowsInSection() {
-        XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 0), 1)
-        XCTAssertEqual(sut.tableView(sut.tableView, numberOfRowsInSection: 1), 1)
+        XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 0), 1)
+        XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 1), 1)
     }
     
-    func test_contentTileCell_viewModel() {
+    func test_contentTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
-            sut.tableView,
+            try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is OneLoginTileViewModel)
     }
     
-    func test_idCheckTileCell_isDisplayed() {
+    func test_idCheckTileCell_isDisplayed() throws {
         AppEnvironment.updateFlags(
             releaseFlags: [:],
             featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
         )
         UINavigationController().setViewControllers([sut], animated: false)
         let idCell = sut.tableView(
-            sut.tableView,
+            try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         )
         let oneLoginCell = sut.tableView(
-            sut.tableView,
+            try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         )
         XCTAssertFalse(idCell.isHidden)
@@ -97,10 +97,10 @@ extension HomeViewControllerTests {
         XCTAssertTrue((oneLoginCell as? ContentTileCell) != nil)
     }
     
-    func test_idCheckTileCell_isNotDisplayed() {
+    func test_idCheckTileCell_isNotDisplayed() throws {
         UINavigationController().setViewControllers([sut], animated: false)
         let oneLoginCell = sut.tableView(
-            sut.tableView,
+            try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         )
         XCTAssertFalse(oneLoginCell.isHidden)
@@ -119,5 +119,23 @@ extension HomeViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.home)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+    }
+    
+    func test_header_Image() {
+        XCTAssertTrue(try sut.headerImage.isAccessibilityElement)
+    }
+}
+
+extension HomeViewController {
+    var tableView: UITableView {
+        get throws {
+            try XCTUnwrap(view[child: "home-table-view"])
+        }
+    }
+    
+    var headerImage: UIImageView {
+        get throws {
+            try XCTUnwrap(view[child: "home-header-image"])
+        }
     }
 }
