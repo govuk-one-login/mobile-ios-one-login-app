@@ -33,7 +33,7 @@ final class HomeViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBOutlet weak var headerImage: UIImageView! {
+    @IBOutlet private var headerImage: UIImageView! {
         didSet {
             headerImage.isAccessibilityElement = true
             headerImage.accessibilityIdentifier = "home-header-image"
