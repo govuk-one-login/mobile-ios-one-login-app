@@ -1428,8 +1428,8 @@
 		C8BACAEE2B4DCBF400530419 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				C83B66992DCA3FD70037F312 /* OneLoginConfig */,
 				C8BACAF02B4DCC1700530419 /* OneLoginBuildConfig */,
+				C83B66992DCA3FD70037F312 /* OneLoginConfig */,
 				C826A7072DA8122100832E65 /* OneLoginIntegrationConfig */,
 				C8BACAF12B4DCC1F00530419 /* OneLoginStagingConfig */,
 			);
