@@ -403,6 +403,8 @@
 		C836FDD22D64837700F8AC37 /* OneLoginSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginSecureStoreManager.swift; sourceTree = "<group>"; };
 		C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecureStoreManager.swift; sourceTree = "<group>"; };
 		C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginSecureStoreManagerTests.swift; sourceTree = "<group>"; };
+		C83B66982DCA3F5A0037F312 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C83B669A2DCA3FF50037F312 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
 		C84040CC2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthenticationWrapper+OneLogin.swift"; sourceTree = "<group>"; };
 		C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OneLogin.swift"; sourceTree = "<group>"; };
@@ -1032,6 +1034,22 @@
 			path = IntegrationConfig;
 			sourceTree = "<group>";
 		};
+		C83B66972DCA3F280037F312 /* OneLoginConfig */ = {
+			isa = PBXGroup;
+			children = (
+				C83B66982DCA3F5A0037F312 /* GoogleService-Info.plist */,
+			);
+			path = OneLoginConfig;
+			sourceTree = "<group>";
+		};
+		C83B66992DCA3FD70037F312 /* OneLogin */ = {
+			isa = PBXGroup;
+			children = (
+				C83B669A2DCA3FF50037F312 /* Settings.bundle */,
+			);
+			path = OneLogin;
+			sourceTree = "<group>";
+		};
 		C84302652D9167660002B4B1 /* Taxonomy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1202,6 +1220,7 @@
 		C86B706D2B8F5EF200F4C9BF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				C83B66972DCA3F280037F312 /* OneLoginConfig */,
 				C803C2152B8F8865008DE774 /* OneLoginBuildConfig */,
 				C826A70C2DA812BE00832E65 /* OneLoginIntegrationConfig */,
 				C86B706F2B8F5F2D00F4C9BF /* OneLoginStagingConfig */,
@@ -1409,6 +1428,7 @@
 		C8BACAEE2B4DCBF400530419 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C83B66992DCA3FD70037F312 /* OneLogin */,
 				C8BACAF02B4DCC1700530419 /* OneLoginBuildConfig */,
 				C826A7072DA8122100832E65 /* OneLoginIntegrationConfig */,
 				C8BACAF12B4DCC1F00530419 /* OneLoginStagingConfig */,
