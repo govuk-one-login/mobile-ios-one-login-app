@@ -1220,8 +1220,8 @@
 		C86B706D2B8F5EF200F4C9BF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				C83B66972DCA3F280037F312 /* OneLoginConfig */,
 				C803C2152B8F8865008DE774 /* OneLoginBuildConfig */,
+				C83B66972DCA3F280037F312 /* OneLoginConfig */,
 				C826A70C2DA812BE00832E65 /* OneLoginIntegrationConfig */,
 				C86B706F2B8F5F2D00F4C9BF /* OneLoginStagingConfig */,
 			);
