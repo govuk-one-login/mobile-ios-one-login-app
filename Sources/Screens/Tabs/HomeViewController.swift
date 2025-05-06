@@ -37,6 +37,8 @@ final class HomeViewController: BaseViewController {
         didSet {
             headerImage.isAccessibilityElement = true
             headerImage.accessibilityIdentifier = "home-header-image"
+            headerImage.accessibilityTraits = .header
+            headerImage.accessibilityHint = "GOV.UK One Login"
         }
     }
     
