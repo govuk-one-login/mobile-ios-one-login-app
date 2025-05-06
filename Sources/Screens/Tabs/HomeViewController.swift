@@ -6,7 +6,7 @@ import Networking
 import UIKit
 
 final class HomeViewController: BaseViewController {
-    override var nibName: String? { "HomeViewController" }
+    override var nibName: String? { "HomeView" }
     
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
