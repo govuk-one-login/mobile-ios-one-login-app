@@ -42,7 +42,9 @@ final class SettingsViewController: BaseViewController {
         navigationController?.navigationBar.sizeToFit()
         guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
         analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
-        analyticsSwitch.addTarget(self, action: #selector(updateAnalytics(_:)), for: .valueChanged)
+        analyticsSwitch.addTarget(self,
+                                  action: #selector(updateAnalytics(_:)),
+                                  for: .valueChanged)
         analyticsSwitch.setOn(analyticsAccepted, animated: true)
     }
     
