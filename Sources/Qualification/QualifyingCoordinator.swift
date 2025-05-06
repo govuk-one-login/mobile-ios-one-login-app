@@ -37,7 +37,7 @@ final class QualifyingCoordinator: NSObject,
         childCoordinators.firstInstanceOf(TabManagerCoordinator.self)
     }
     
-    private lazy var unlockViewController = {
+    lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
             Task {
                 await appQualifyingService.evaluateUser()
