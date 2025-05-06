@@ -25,7 +25,7 @@ class UnlockScreenViewController: BaseViewController {
         }
     }
     
-    @IBOutlet weak var oneLoginLogo: UIImageView! {
+    @IBOutlet private var oneLoginLogo: UIImageView! {
         didSet {
             oneLoginLogo.isAccessibilityElement = true
             oneLoginLogo.accessibilityIdentifier = "unlock-screen-one-login-logo"
