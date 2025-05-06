@@ -25,6 +25,15 @@ class UnlockScreenViewController: BaseViewController {
         }
     }
     
+    @IBOutlet private var oneLoginLogo: UIImageView! {
+        didSet {
+            oneLoginLogo.isAccessibilityElement = true
+            oneLoginLogo.accessibilityIdentifier = "unlock-screen-one-login-logo"
+            oneLoginLogo.accessibilityTraits = .none
+            oneLoginLogo.accessibilityHint = "GOV.UK One Login logo"
+        }
+    }
+    
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView! {
         didSet {
             loadingSpinner.accessibilityIdentifier = "unlock-screen-loading-spinner"

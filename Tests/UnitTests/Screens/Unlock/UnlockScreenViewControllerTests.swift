@@ -48,6 +48,11 @@ extension UnlockScreenViewControllerTests {
         try sut.unlockButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didPressButton)
     }
+    
+    func test_logo() {
+        XCTAssertTrue(try sut.oneLoginLogo.isAccessibilityElement)
+        XCTAssertEqual(try sut.oneLoginLogo.accessibilityHint, "GOV.UK One Login logo")
+    }
 }
 
 extension UnlockScreenViewController {
@@ -66,6 +71,12 @@ extension UnlockScreenViewController {
     var loadingSpinner: UIActivityIndicatorView {
         get throws {
             try XCTUnwrap(view[child: "unlock-screen-loading-spinner"])
+        }
+    }
+    
+    var oneLoginLogo: UIImageView {
+        get throws {
+            try XCTUnwrap(view[child: "unlock-screen-one-login-logo"])
         }
     }
 }

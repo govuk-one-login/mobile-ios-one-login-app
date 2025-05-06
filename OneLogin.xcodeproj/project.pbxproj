@@ -90,6 +90,7 @@
 		ABFE5E302DB9A54D0093E86E /* LocalAuthErrorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorListView.swift */; };
 		ABFE5EF52DBA66500093E86E /* LocalAuthErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */; };
 		ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorListViewTests.swift */; };
+		C388D2612DC8E928007C9902 /* HomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C388D2602DC8E928007C9902 /* HomeView.xib */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
 		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
@@ -366,6 +367,7 @@
 		ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorListView.swift; sourceTree = "<group>"; };
 		ABFE5EF42DBA663F0093E86E /* LocalAuthErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorViewModelTests.swift; sourceTree = "<group>"; };
 		ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorListViewTests.swift; sourceTree = "<group>"; };
+		C388D2602DC8E928007C9902 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -1607,6 +1609,7 @@
 			isa = PBXGroup;
 			children = (
 				C80C58022CB0016E00021D4F /* HomeViewController.swift */,
+				C388D2602DC8E928007C9902 /* HomeView.xib */,
 				C8E1090A2BEE6C4500B21038 /* SettingsTabViewModel.swift */,
 				D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */,
 				D08B0B722BDA8DD100769CEA /* TabbedView.xib */,
@@ -1860,6 +1863,7 @@
 				C87B3D4F2DC1391A00E4EFD2 /* FeatureFlagsBuild.json in Resources */,
 				C87B3D502DC1391A00E4EFD2 /* FeatureFlagsIntegration.json in Resources */,
 				C87B3D512DC1391A00E4EFD2 /* FeatureFlagsStaging.json in Resources */,
+				C388D2612DC8E928007C9902 /* HomeView.xib in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
 				1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */,

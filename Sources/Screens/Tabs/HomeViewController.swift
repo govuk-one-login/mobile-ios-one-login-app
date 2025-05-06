@@ -5,7 +5,9 @@ import Logging
 import Networking
 import UIKit
 
-final class HomeViewController: UITableViewController {
+final class HomeViewController: BaseViewController {
+    override var nibName: String? { "HomeView" }
+    
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
@@ -22,26 +24,47 @@ final class HomeViewController: UITableViewController {
         ])
         self.networkClient = networkClient
         self.criOrchestrator = criOrchestrator
-        super.init(style: .insetGrouped)
+        super.init(viewModel: nil,
+                   nibName: "HomeView",
+                   bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @IBOutlet private var headerImage: UIImageView! {
+        didSet {
+            headerImage.isAccessibilityElement = true
+            headerImage.accessibilityIdentifier = "home-header-image"
+            headerImage.accessibilityTraits = .header
+            headerImage.accessibilityHint = "GOV.UK One Login"
+        }
+    }
+    
+    @IBOutlet private var tableView: UITableView! {
+        didSet {
+            tableView.accessibilityIdentifier = "home-table-view"
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = navigationTitle.value
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.sizeToFit()
         tableView.register(ContentTileCell.self, forCellReuseIdentifier: "ContentTileCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
+        tableView.delegate = self
+        tableView.dataSource = self
         idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) { [unowned self] in
             self.tableView.reloadData()
         }
         if AppEnvironment.criOrchestratorEnabled {
             criOrchestrator.continueIdentityCheckIfRequired(over: self)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,17 +76,17 @@ final class HomeViewController: UITableViewController {
     }
 }
 
-extension HomeViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
         guard let idCheckCard else { return 1 }
         return idCheckCard.view.isHidden ? 1 : 2
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
             guard let idCheckCard else { return getOneLoginCard(indexPath: indexPath) }
