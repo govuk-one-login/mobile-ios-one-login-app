@@ -1042,12 +1042,12 @@
 			path = OneLoginConfig;
 			sourceTree = "<group>";
 		};
-		C83B66992DCA3FD70037F312 /* OneLogin */ = {
+		C83B66992DCA3FD70037F312 /* OneLoginConfig */ = {
 			isa = PBXGroup;
 			children = (
 				C83B669A2DCA3FF50037F312 /* Settings.bundle */,
 			);
-			path = OneLogin;
+			path = OneLoginConfig;
 			sourceTree = "<group>";
 		};
 		C84302652D9167660002B4B1 /* Taxonomy */ = {
@@ -1428,7 +1428,7 @@
 		C8BACAEE2B4DCBF400530419 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				C83B66992DCA3FD70037F312 /* OneLogin */,
+				C83B66992DCA3FD70037F312 /* OneLoginConfig */,
 				C8BACAF02B4DCC1700530419 /* OneLoginBuildConfig */,
 				C826A7072DA8122100832E65 /* OneLoginIntegrationConfig */,
 				C8BACAF12B4DCC1F00530419 /* OneLoginStagingConfig */,

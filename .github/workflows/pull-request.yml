@@ -10,69 +10,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Run Unit Tests and Send Coverage Report
-    runs-on: macos-15
-
-    steps:
-      - name: Add Path Globally
-        run: echo "/usr/local/bin" >> $GITHUB_PATH
-
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
-        with:
-          lfs: 'true'
-          fetch-depth: 0
-
-      - name: Lint
-        run: |
-          brew install swiftlint
-          swiftlint --strict
-
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
-        run: |
-          ./scripts-configs/store-access-token.sh
-
-      - name: Export AppCheck Secret
-        run: |
-          touch ../secrets.xcconfig
-
-      - name: Login to AWS CodeArtifact
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
-        run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.2.app
-
-      - name: Build App, Run Unit Tests and Send Coverage Report for Branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
-        run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-
-          brew install sonar-scanner
-          bundle install
-
-          bundle exec fastlane test scheme:"OneLoginBuild" \
-            configuration:"Debug" \
-            testplan:OneLoginUnit \
-            workspace:${{ github.workspace }} \
-            sonar_token:${{ secrets.SONAR_TOKEN }} \
-            source_branch:${{ github.head_ref }} \
-            target_branch:${{ github.base_ref }} \
-            pr_number:$pull_number
-
-      # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
-        # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  run_unit_tests:
+    name: Run Unit Tests for PR
+    uses: ./.github/workflows/unit-test.yml
+    with:
+      lint: true
+    secrets: inherit

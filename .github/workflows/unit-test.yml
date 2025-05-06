@@ -1,17 +1,15 @@
 on:
   workflow_call:
     inputs:
-      configuration:
-        required: true
-        type: string
-      app_check:
+      lint:
         required: false
         type: boolean
 
 jobs:
-  test_config:
-    name: Run ${{ inputs.configuration }} Configuration Tests
+  unit_test:
+    name: Run Unit Tests and Send Coverage Report
     runs-on: macos-15
+
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -22,6 +20,12 @@ jobs:
           lfs: 'true'
           fetch-depth: 0
 
+      - name: Lint
+        if: ${{ inputs.lint == true }}
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+
       - name: Configure Private Repo Access
         env:
           GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
@@ -29,7 +33,6 @@ jobs:
           ./scripts-configs/store-access-token.sh
 
       - name: Import AppCheck Secret
-        if: ${{ inputs.app_check == true }}
         run: |
           touch ../secrets.xcconfig
 
@@ -40,7 +43,7 @@ jobs:
         run: |
           ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.2.app
 
-      - name: Build App, Run Build Configuration Tests
+      - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
@@ -48,8 +51,25 @@ jobs:
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
+          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+
+          brew install sonar-scanner
           bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLogin${{ inputs.configuration }}" \
-            configuration:"${{ inputs.configuration }}" \
-            testplan:OneLogin${{ inputs.configuration }}
+          bundle exec fastlane test scheme:"OneLoginBuild" \
+            configuration:"Debug" \
+            testplan:OneLoginUnit \
+            workspace:${{ github.workspace }} \
+            sonar_token:${{ secrets.SONAR_TOKEN }} \
+            source_branch:${{ github.head_ref }} \
+            target_branch:${{ github.base_ref }} \
+            pr_number:$pull_number
+
+      # Check the Quality Gate status.
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+        # Force to fail step after specific time.
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

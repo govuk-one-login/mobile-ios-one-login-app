@@ -1,0 +1,41 @@
+name: iOS Deploy - main
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test_integration_config:
+    name: Run Integration Configuration Tests
+    uses: ./.github/workflows/config-test.yml
+    with:
+      configuration: "Integration"
+    secrets: inherit
+
+  test_release_config:
+    name: Run Release Configuration Tests
+    uses: ./.github/workflows/config-test.yml
+    with:
+      configuration: "Release"
+    secrets: inherit
+
+  deploy_integration_app:
+    needs: [ test_integration_config ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Integration"
+    secrets: inherit
+
+  deploy_release_app:
+    needs: [ test_release_config ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Release"
+    secrets: inherit
