@@ -25,7 +25,7 @@ final class HomeViewController: BaseViewController {
         self.networkClient = networkClient
         self.criOrchestrator = criOrchestrator
         super.init(viewModel: nil,
-                   nibName: "HomeViewController",
+                   nibName: "HomeView",
                    bundle: nil)
     }
     
