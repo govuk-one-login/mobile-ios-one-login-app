@@ -945,9 +945,9 @@
 		C80B871C2B029E7C0087C6D5 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				C8F493062DCABD35003EC99F /* LoadingScreen.swift */,
 				41A0BD092B272118009AE51F /* ErrorScreen.swift */,
 				D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */,
+				C8F493062DCABD35003EC99F /* LoadingScreen.swift */,
 				C80B871E2B029EAB0087C6D5 /* LoginModal.swift */,
 				1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */,
 				C80B87202B029EBB0087C6D5 /* WelcomeScreen.swift */,
@@ -1611,8 +1611,8 @@
 		D08B0B5D2BD95C4900769CEA /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				C80C58022CB0016E00021D4F /* HomeViewController.swift */,
 				C388D2602DC8E928007C9902 /* HomeView.xib */,
+				C80C58022CB0016E00021D4F /* HomeViewController.swift */,
 				C8E1090A2BEE6C4500B21038 /* SettingsTabViewModel.swift */,
 				D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */,
 				D08B0B722BDA8DD100769CEA /* TabbedView.xib */,
@@ -2200,9 +2200,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8F493072DCABD3B003EC99F /* LoadingScreen.swift in Sources */,
 				41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */,
 				D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */,
+				C8F493072DCABD3B003EC99F /* LoadingScreen.swift in Sources */,
 				C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */,
 				1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */,
 				C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */,
