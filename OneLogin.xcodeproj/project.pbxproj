@@ -210,6 +210,7 @@
 		C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */; };
 		C8F092E42DA465110046F6EA /* OneLoginEnrolmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F092E32DA4650C0046F6EA /* OneLoginEnrolmentManager.swift */; };
 		C8F092E62DA472AB0046F6EA /* OneLoginEnrolmentManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */; };
+		C8F493072DCABD3B003EC99F /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F493062DCABD35003EC99F /* LoadingScreen.swift */; };
 		C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */; };
 		D01A72772BE29B51004333F8 /* SettingsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* SettingsCoordinatorTests.swift */; };
 		D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
@@ -490,6 +491,7 @@
 		C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginEnrolmentManagerTests.swift; sourceTree = "<group>"; };
 		C8F25A0E2DA80D0100E75F51 /* OneLoginIntegration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLoginIntegration.xcconfig; sourceTree = "<group>"; };
 		C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginIntegration.entitlements; sourceTree = "<group>"; };
+		C8F493062DCABD35003EC99F /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStorable+OneLogin.swift"; sourceTree = "<group>"; };
 		D01A72762BE29B51004333F8 /* SettingsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorTests.swift; sourceTree = "<group>"; };
 		D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
@@ -943,6 +945,7 @@
 		C80B871C2B029E7C0087C6D5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				C8F493062DCABD35003EC99F /* LoadingScreen.swift */,
 				41A0BD092B272118009AE51F /* ErrorScreen.swift */,
 				D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */,
 				C80B871E2B029EAB0087C6D5 /* LoginModal.swift */,
@@ -2197,6 +2200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8F493072DCABD3B003EC99F /* LoadingScreen.swift in Sources */,
 				41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */,
 				D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */,
 				C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */,

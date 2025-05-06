@@ -7,7 +7,7 @@ struct HomeScreen: ScreenObject {
         app.firstMatch
     }
     
-    var title: XCUIElement {
-        app.navigationBars.staticTexts.firstMatch
+    var titleImage: XCUIElement {
+        app.images.firstMatch
     }
 }
