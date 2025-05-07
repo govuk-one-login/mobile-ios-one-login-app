@@ -46,7 +46,7 @@ extension LoginUITests {
         let loadingScreen = loginModal.tapBrowserLoginButton()
         XCTAssertEqual(loadingScreen.title.label, "Loading")
         let homeScreen = loadingScreen.waitForHomeScreen()
-        XCTAssertEqual(homeScreen.titleImage.label, "oneLoginLogo")
+        XCTAssertEqual(homeScreen.titleImage.label, "home")
     }
     
     func test_loginCancelPath() throws {
