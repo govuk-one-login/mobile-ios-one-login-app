@@ -122,6 +122,11 @@
 		C836FDD32D64837E00F8AC37 /* OneLoginSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FDD22D64837700F8AC37 /* OneLoginSecureStoreManager.swift */; };
 		C836FDD52D64DE6900F8AC37 /* MockSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */; };
 		C836FDDC2D6619B000F8AC37 /* OneLoginSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */; };
+		C83E06D42DCC09D0007FDE0D /* OneLoginAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A842292DCBCD31002E73C2 /* OneLoginAppEnvironmentTests.swift */; };
+		C83E06D52DCC0A1A007FDE0D /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
+		C83E06D62DCC0A34007FDE0D /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
+		C83E06D72DCC0A3D007FDE0D /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFE2B4DE1C300530419 /* Flag.swift */; };
+		C83E06D82DCC0A41007FDE0D /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
 		C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */; };
 		C84040CD2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84040CC2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift */; };
 		C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */; };
@@ -167,7 +172,6 @@
 		C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */; };
 		C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAC2AFBD0CC00FCBD36 /* Logging */; };
 		C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAF2AFBD0F100FCBD36 /* Coordination */; };
-		C8A8422A2DCBCD3D002E73C2 /* OneLoginAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A842292DCBCD31002E73C2 /* OneLoginAppEnvironmentTests.swift */; };
 		C8A94C492D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
 		C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
 		C8A94C4B2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
@@ -279,6 +283,13 @@
 			remoteInfo = OneLogin;
 		};
 		C826A7162DA814B100832E65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 219601DF2A976302008F3427 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 219601E62A976302008F3427;
+			remoteInfo = OneLogin;
+		};
+		C83E06CC2DCC0944007FDE0D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 219601DF2A976302008F3427 /* Project object */;
 			proxyType = 1;
@@ -397,7 +408,7 @@
 		C826A70D2DA812CB00832E65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C826A7122DA814B100832E65 /* OneLoginIntegrationConfigTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginIntegrationConfigTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C826A71E2DA814DE00832E65 /* OneLoginIntegrationAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntegrationAppEnvironmentTests.swift; sourceTree = "<group>"; };
-		C826A7252DA8164000832E65 /* OneLoginIntegration.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginIntegration.xctestplan; sourceTree = "<group>"; };
+		C826A7252DA8164000832E65 /* OneLoginIntegrationConfig.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginIntegrationConfig.xctestplan; sourceTree = "<group>"; };
 		C82B64512BA47D59000C9524 /* OLStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLStringTests.swift; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C83014B32CA19B2200799A32 /* MockWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletError.swift; sourceTree = "<group>"; };
@@ -406,6 +417,8 @@
 		C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginSecureStoreManagerTests.swift; sourceTree = "<group>"; };
 		C83B66982DCA3F5A0037F312 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C83B669A2DCA3FF50037F312 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		C83E06C32DCC090A007FDE0D /* OneLoginConfig.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginConfig.xctestplan; sourceTree = "<group>"; };
+		C83E06C82DCC0944007FDE0D /* OneLoginConfigTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginConfigTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
 		C84040CC2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthenticationWrapper+OneLogin.swift"; sourceTree = "<group>"; };
 		C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OneLogin.swift"; sourceTree = "<group>"; };
@@ -435,8 +448,8 @@
 		C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalButtonIconViewModel.swift; sourceTree = "<group>"; };
 		C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPreferenceViewModel.swift; sourceTree = "<group>"; };
 		C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewControllerTests.swift; sourceTree = "<group>"; };
-		C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginBuild.xctestplan; sourceTree = "<group>"; };
-		C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginStaging.xctestplan; sourceTree = "<group>"; };
+		C873B1D52AF82403002C39E8 /* OneLoginBuildConfig.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginBuildConfig.xctestplan; sourceTree = "<group>"; };
+		C873B1D62AF82403002C39E8 /* OneLoginStagingConfig.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginStagingConfig.xctestplan; sourceTree = "<group>"; };
 		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
 		C873B1DF2AF826D3002C39E8 /* OneLoginBuildAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneLoginBuildAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C873B1E12AF826D3002C39E8 /* OneLoginStagingAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneLoginStagingAppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -593,6 +606,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C83E06C52DCC0944007FDE0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -615,6 +635,7 @@
 				25537C3D2AF2B2600059DCD2 /* OneLoginStagingConfigTests.xctest */,
 				25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */,
 				C826A7122DA814B100832E65 /* OneLoginIntegrationConfigTests.xctest */,
+				C83E06C82DCC0944007FDE0D /* OneLoginConfigTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1614,11 +1635,12 @@
 		C8E6C7662AF8223B008C19C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
-				C873B1D52AF82403002C39E8 /* OneLoginBuild.xctestplan */,
-				C826A7252DA8164000832E65 /* OneLoginIntegration.xctestplan */,
-				C873B1D62AF82403002C39E8 /* OneLoginStaging.xctestplan */,
+				C873B1D52AF82403002C39E8 /* OneLoginBuildConfig.xctestplan */,
+				C826A7252DA8164000832E65 /* OneLoginIntegrationConfig.xctestplan */,
+				C873B1D62AF82403002C39E8 /* OneLoginStagingConfig.xctestplan */,
 				C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
+				C83E06C32DCC090A007FDE0D /* OneLoginConfig.xctestplan */,
 			);
 			path = TestPlans;
 			sourceTree = "<group>";
@@ -1820,6 +1842,26 @@
 			productReference = C826A7122DA814B100832E65 /* OneLoginIntegrationConfigTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C83E06C72DCC0944007FDE0D /* OneLoginConfigTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C83E06CE2DCC0944007FDE0D /* Build configuration list for PBXNativeTarget "OneLoginConfigTests" */;
+			buildPhases = (
+				C83E06C42DCC0944007FDE0D /* Sources */,
+				C83E06C52DCC0944007FDE0D /* Frameworks */,
+				C83E06C62DCC0944007FDE0D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C83E06CD2DCC0944007FDE0D /* PBXTargetDependency */,
+			);
+			name = OneLoginConfigTests;
+			packageProductDependencies = (
+			);
+			productName = OneLoginConfigTests;
+			productReference = C83E06C82DCC0944007FDE0D /* OneLoginConfigTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1827,7 +1869,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					219601E62A976302008F3427 = {
@@ -1851,6 +1893,10 @@
 					};
 					C826A7112DA814B100832E65 = {
 						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 219601E62A976302008F3427;
+					};
+					C83E06C72DCC0944007FDE0D = {
+						CreatedOnToolsVersion = 16.3;
 						TestTargetID = 219601E62A976302008F3427;
 					};
 				};
@@ -1885,6 +1931,7 @@
 			targets = (
 				219601E62A976302008F3427 /* OneLogin */,
 				219601FC2A976305008F3427 /* OneLoginUnitTests */,
+				C83E06C72DCC0944007FDE0D /* OneLoginConfigTests */,
 				C826A7112DA814B100832E65 /* OneLoginIntegrationConfigTests */,
 				25537C3C2AF2B2600059DCD2 /* OneLoginStagingConfigTests */,
 				25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */,
@@ -1944,6 +1991,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C826A7102DA814B100832E65 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C83E06C62DCC0944007FDE0D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2272,7 +2326,6 @@
 				7CE1BA062CD2946D00689F99 /* AppEnvironment.swift in Sources */,
 				7CE1BA052CD2946D00689F99 /* Flag.swift in Sources */,
 				7CE1BA072CD2946D00689F99 /* FlagManager.swift in Sources */,
-				C8A8422A2DCBCD3D002E73C2 /* OneLoginAppEnvironmentTests.swift in Sources */,
 				C873B1E52AF82706002C39E8 /* OneLoginBuildAppEnvironmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2286,6 +2339,18 @@
 				C826A7232DA8154600832E65 /* Flag.swift in Sources */,
 				C826A7242DA8154600832E65 /* FlagManager.swift in Sources */,
 				C826A7202DA814DE00832E65 /* OneLoginIntegrationAppEnvironmentTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C83E06C42DCC0944007FDE0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C83E06D62DCC0A34007FDE0D /* AppEnvironment+InternalTypes.swift in Sources */,
+				C83E06D42DCC09D0007FDE0D /* OneLoginAppEnvironmentTests.swift in Sources */,
+				C83E06D82DCC0A41007FDE0D /* FlagManager.swift in Sources */,
+				C83E06D52DCC0A1A007FDE0D /* AppEnvironment.swift in Sources */,
+				C83E06D72DCC0A3D007FDE0D /* Flag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2316,6 +2381,11 @@
 			isa = PBXTargetDependency;
 			target = 219601E62A976302008F3427 /* OneLogin */;
 			targetProxy = C826A7162DA814B100832E65 /* PBXContainerItemProxy */;
+		};
+		C83E06CD2DCC0944007FDE0D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 219601E62A976302008F3427 /* OneLogin */;
+			targetProxy = C83E06CC2DCC0944007FDE0D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2589,6 +2659,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2610,6 +2681,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2635,7 +2707,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-stagingAppTests.OneLoginStagingTests";
@@ -2662,7 +2734,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-stagingAppTests.OneLoginStagingTests";
@@ -2688,7 +2760,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-buildAppTests.OneLoginBuildTests";
@@ -2715,7 +2787,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-buildAppTests.OneLoginBuildTests";
@@ -2856,7 +2928,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-stagingAppTests.OneLoginStagingTests";
@@ -2882,7 +2954,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-buildAppTests.OneLoginBuildTests";
@@ -2904,6 +2976,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3044,7 +3117,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-stagingAppTests.OneLoginStagingTests";
@@ -3070,7 +3143,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-buildAppTests.OneLoginBuildTests";
@@ -3092,6 +3165,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3117,11 +3191,15 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests.OneLoginIntegrationConfigTests.OneLoginIntegrationConfigTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -3139,11 +3217,15 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests.OneLoginIntegrationConfigTests.OneLoginIntegrationConfigTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3160,11 +3242,15 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests.OneLoginIntegrationConfigTests.OneLoginIntegrationConfigTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3181,11 +3267,15 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests.OneLoginIntegrationConfigTests.OneLoginIntegrationConfigTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3202,11 +3292,147 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests.OneLoginIntegrationConfigTests.OneLoginIntegrationConfigTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Integration;
+		};
+		C83E06CF2DCC0944007FDE0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OneLoginConfigTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Debug;
+		};
+		C83E06D02DCC0944007FDE0D /* Build */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OneLoginConfigTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Build;
+		};
+		C83E06D12DCC0944007FDE0D /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OneLoginConfigTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Staging;
+		};
+		C83E06D22DCC0944007FDE0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OneLoginConfigTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = Release;
+		};
+		C83E06D32DCC0944007FDE0D /* Integration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OneLoginConfigTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3339,7 +3565,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-stagingAppTests.OneLoginStagingTests";
@@ -3365,7 +3591,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-buildAppTests.OneLoginBuildTests";
@@ -3387,6 +3613,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3485,6 +3712,18 @@
 				C826A71B2DA814B100832E65 /* Staging */,
 				C826A71C2DA814B100832E65 /* Release */,
 				C826A71D2DA814B100832E65 /* Integration */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C83E06CE2DCC0944007FDE0D /* Build configuration list for PBXNativeTarget "OneLoginConfigTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C83E06CF2DCC0944007FDE0D /* Debug */,
+				C83E06D02DCC0944007FDE0D /* Build */,
+				C83E06D12DCC0944007FDE0D /* Staging */,
+				C83E06D22DCC0944007FDE0D /* Release */,
+				C83E06D32DCC0944007FDE0D /* Integration */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
