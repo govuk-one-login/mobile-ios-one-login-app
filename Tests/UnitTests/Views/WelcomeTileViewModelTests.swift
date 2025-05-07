@@ -4,9 +4,9 @@ import GDSCommon
 import XCTest
 
 @MainActor
-final class OneLoginTileViewModelTests: XCTestCase {
+final class WelcomeTileViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: OneLoginTileViewModel!
+    var sut: WelcomeTileViewModel!
     
     var didCallButtonAction = false
     
@@ -14,7 +14,7 @@ final class OneLoginTileViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = OneLoginTileViewModel(analyticsService: mockAnalyticsService) {
+        sut = WelcomeTileViewModel(analyticsService: mockAnalyticsService) {
             self.didCallButtonAction = true
         }
     }
@@ -29,7 +29,7 @@ final class OneLoginTileViewModelTests: XCTestCase {
     }
 }
 
-extension OneLoginTileViewModelTests {
+extension WelcomeTileViewModelTests {
     func test_view_contents() throws {
         XCTAssertEqual(sut.title.value, "Using your GOV.UK One Login")
         XCTAssertEqual(sut.body.value, "Sign in to your GOV.UK One Login and read about the services you can use with it.")
@@ -56,7 +56,7 @@ extension OneLoginTileViewModelTests {
     
     func test_oneLogin_viewModel() {
         let mockURLOpener = MockURLOpener()
-        let oneLoginTileViewModel: OneLoginTileViewModel = .oneLoginCard(analyticsService: mockAnalyticsService,
+        let oneLoginTileViewModel: WelcomeTileViewModel = .oneLoginCard(analyticsService: mockAnalyticsService,
                                                                          urlOpener: mockURLOpener)
         oneLoginTileViewModel.secondaryButtonViewModel.action()
         XCTAssertTrue(mockURLOpener.didOpenURL)
