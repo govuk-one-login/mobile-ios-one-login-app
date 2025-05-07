@@ -42,12 +42,12 @@ final class WalletCoordinator: NSObject,
                 url: AppEnvironment.txma,
                 networkClient: networkClient,
                 scope: "mobile.txma-event.write"
-            )
+            ),
+            analyticsService: analyticsService
         )
         WalletSDK.start(in: root,
                         config: .oneLoginWalletConfig,
-                        services: walletServices,
-                        analyticsService: analyticsService)
+                        services: walletServices)
     }
     
     func didBecomeSelected() {
