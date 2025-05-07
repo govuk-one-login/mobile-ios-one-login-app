@@ -31,6 +31,7 @@ final class SettingsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
+        view.backgroundColor = .systemBackground
         configureTableView()
         
         updateEmail()
@@ -40,7 +41,6 @@ final class SettingsViewController: BaseViewController {
     override func viewIsAppearing(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.sizeToFit()
-        view.backgroundColor = .systemBackground
         guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
         analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
         analyticsSwitch.addTarget(self,
