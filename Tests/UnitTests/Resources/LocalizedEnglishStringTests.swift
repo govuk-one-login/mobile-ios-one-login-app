@@ -205,13 +205,15 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Update GOV.UK One Login app")
     }
     
-    func test_oneLoginTile() {
-        XCTAssertEqual("app_oneLoginCardTitle".getEnglishString(),
-                       "Using your GOV.UK One Login")
-        XCTAssertEqual("app_oneLoginCardBody".getEnglishString(),
-                       "Sign in to your GOV.UK One Login and read about the services you can use with it.")
-        XCTAssertEqual("app_oneLoginCardLink".getEnglishString(),
-                       "Go to the GOV.UK website")
+    func test_homeTileKeys() {
+        XCTAssertEqual("app_welcomeTileHeader".getEnglishString(),
+                       "Welcome")
+        XCTAssertEqual("app_welcomeTileBody1".getEnglishString(),
+                       "You can use this app to prove your identity to access some government services.")
+        XCTAssertEqual("app_appPurposeTileHeader".getEnglishString(),
+                       "How to prove your identity")
+        XCTAssertEqual("app_appPurposeTileBody1".getEnglishString(),
+                       "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
     }
     
     func test_appUnavailablePageKeys() {
