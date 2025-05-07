@@ -6,6 +6,7 @@ final class StagingAppEnvironmentTests: XCTestCase {
         
         XCTAssertEqual(Bundle.main.bundleIdentifier, "uk.gov.onelogin.staging")
         XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Staging")
+        XCTAssertEqual(Bundle.main.infoDictionary?["MinimumOSVersion"] as? String, "15.0")
         
         // Feature Flags
         XCTAssertTrue(sut.walletVisibleViaDeepLink)

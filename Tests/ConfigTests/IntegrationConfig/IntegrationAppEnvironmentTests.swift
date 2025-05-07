@@ -6,6 +6,7 @@ final class IntegrationAppEnvironmentTests: XCTestCase {
         
         XCTAssertEqual(Bundle.main.bundleIdentifier, "uk.gov.onelogin.integration")
         XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Integration")
+        XCTAssertEqual(Bundle.main.infoDictionary?["MinimumOSVersion"] as? String, "15.0")
         
         // Feature Flags
         XCTAssertFalse(sut.walletVisibleViaDeepLink)
