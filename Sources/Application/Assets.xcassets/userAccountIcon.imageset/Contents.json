@@ -1,17 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "icon_person_light_mode.svg",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "icon_person_dark_mode.svg",
+      "filename" : "Settings icon.svg",
       "idiom" : "universal"
     }
   ],
