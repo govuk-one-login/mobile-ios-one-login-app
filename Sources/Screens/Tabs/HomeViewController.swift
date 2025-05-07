@@ -56,7 +56,9 @@ final class HomeViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
         idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) { [unowned self] in
-            self.tableView.reloadData()
+            self.tableView.performBatchUpdates( {
+                tableView.insertSections(IndexSet(integer: 0), with: .fade)
+            })
         }
         if AppEnvironment.criOrchestratorEnabled {
             criOrchestrator.continueIdentityCheckIfRequired(over: self)
