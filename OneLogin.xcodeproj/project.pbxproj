@@ -1636,11 +1636,11 @@
 			isa = PBXGroup;
 			children = (
 				C873B1D52AF82403002C39E8 /* OneLoginBuildConfig.xctestplan */,
+				C83E06C32DCC090A007FDE0D /* OneLoginConfig.xctestplan */,
 				C826A7252DA8164000832E65 /* OneLoginIntegrationConfig.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStagingConfig.xctestplan */,
 				C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
-				C83E06C32DCC090A007FDE0D /* OneLoginConfig.xctestplan */,
 			);
 			path = TestPlans;
 			sourceTree = "<group>";
@@ -2347,10 +2347,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C83E06D62DCC0A34007FDE0D /* AppEnvironment+InternalTypes.swift in Sources */,
-				C83E06D42DCC09D0007FDE0D /* OneLoginAppEnvironmentTests.swift in Sources */,
-				C83E06D82DCC0A41007FDE0D /* FlagManager.swift in Sources */,
 				C83E06D52DCC0A1A007FDE0D /* AppEnvironment.swift in Sources */,
 				C83E06D72DCC0A3D007FDE0D /* Flag.swift in Sources */,
+				C83E06D82DCC0A41007FDE0D /* FlagManager.swift in Sources */,
+				C83E06D42DCC09D0007FDE0D /* OneLoginAppEnvironmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
