@@ -12,6 +12,7 @@ final class HomeViewController: BaseViewController {
     private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     private let criOrchestrator: CRIOrchestration
+    let spaceBetweenSections: CGFloat = 16
     
     private var idCheckCard: UIViewController?
 
@@ -78,38 +79,67 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let idCheckCard else { return 1 }
-        return idCheckCard.view.isHidden ? 1 : 2
+        guard let idCheckCard else { return 2 }
+        return idCheckCard.view.isHidden ? 2 : 3
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section{
+        case 0: return spaceBetweenSections
+        default: return spaceBetweenSections / 2
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return spaceBetweenSections / 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let idCheckCard else { return getOneLoginCard(indexPath: indexPath) }
+            guard let idCheckCard else { return getWelcomeCard(indexPath: indexPath) }
             if !idCheckCard.view.isHidden {
                 return getIDCheckCard(indexPath: indexPath)
             }
-            return getOneLoginCard(indexPath: indexPath)
+            return getWelcomeCard(indexPath: indexPath)
         case 1:
-            return getOneLoginCard(indexPath: indexPath)
+            guard let idCheckCard else { return getPurposeCard(indexPath: indexPath) }
+            if !idCheckCard.view.isHidden {
+                return getWelcomeCard(indexPath: indexPath)
+            }
+            return getPurposeCard(indexPath: indexPath)
+        case 2:
+            return getPurposeCard(indexPath: indexPath)
         default:
             return UITableViewCell()
         }
     }
     
-    private func getOneLoginCard(indexPath: IndexPath) -> UITableViewCell {
+    private func getWelcomeCard(indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "ContentTileCell",
             for: indexPath
         ) as? ContentTileCell else {
             preconditionFailure()
         }
-        cell.viewModel = .oneLoginCard(analyticsService: analyticsService,
-                                       urlOpener: UIApplication.shared)
+        cell.viewModel = WelcomeTileViewModel()
+        
+        return cell
+    }
+    
+    private func getPurposeCard(indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "ContentTileCell",
+            for: indexPath
+        ) as? ContentTileCell else {
+            preconditionFailure()
+        }
+        cell.viewModel = PurposeTileViewModel()
+
         return cell
     }
     
