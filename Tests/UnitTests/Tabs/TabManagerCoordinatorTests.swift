@@ -49,7 +49,8 @@ extension TabManagerCoordinatorTests {
         AppEnvironment.updateFlags(
             releaseFlags: [
                 FeatureFlagsName.enableWalletVisibleViaDeepLink.rawValue: false,
-                FeatureFlagsName.enableWalletVisibleIfExists.rawValue: false
+                FeatureFlagsName.enableWalletVisibleIfExists.rawValue: false,
+                FeatureFlagsName.enableWalletVisibleToAll.rawValue: false
             ],
             featureFlags: [:]
         )
