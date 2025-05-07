@@ -11,7 +11,7 @@ final class AppEnvironmentTests: XCTestCase {
         // Feature Flags
         XCTAssertTrue(sut.walletVisibleViaDeepLink)
         XCTAssertTrue(sut.walletVisibleIfExists)
-        XCTAssertFalse(sut.walletVisibleToAll)
+        XCTAssertTrue(sut.walletVisibleToAll)
         XCTAssertFalse(sut.criOrchestratorEnabled)
         
         // Helpers
