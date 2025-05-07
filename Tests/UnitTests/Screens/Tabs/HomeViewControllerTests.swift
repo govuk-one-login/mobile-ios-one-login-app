@@ -52,7 +52,7 @@ extension HomeViewControllerTests {
             featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
         )
         UINavigationController().setViewControllers([sut], animated: false)
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
     }
     
     func test_numberOfSectionsWithoutIDCheck() {
@@ -61,20 +61,29 @@ extension HomeViewControllerTests {
             featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: false]
         )
         UINavigationController().setViewControllers([sut], animated: false)
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 1)
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
     }
     
     func test_numbeOfRowsInSection() {
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 0), 1)
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 1), 1)
+        XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 2), 1)
     }
     
-    func test_contentTileCell_viewModel() throws {
+    func test_welcomeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
-        XCTAssertTrue(servicesTile?.viewModel is OneLoginTileViewModel)
+        XCTAssertTrue(servicesTile?.viewModel is WelcomeTileViewModel)
+    }
+    
+    func test_purposeTileCell_viewModel() throws {
+        let servicesTile = sut.tableView(
+            try sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        ) as? ContentTileCell
+        XCTAssertTrue(servicesTile?.viewModel is PurposeTileViewModel)
     }
     
     func test_idCheckTileCell_isDisplayed() throws {
@@ -87,24 +96,36 @@ extension HomeViewControllerTests {
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         )
-        let oneLoginCell = sut.tableView(
+        let welcomeCell = sut.tableView(
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         )
+        let purposeCell = sut.tableView(
+            try sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 2)
+        )
         XCTAssertFalse(idCell.isHidden)
         XCTAssertTrue((idCell as? ContentTileCell) == nil)
-        XCTAssertFalse(oneLoginCell.isHidden)
-        XCTAssertTrue((oneLoginCell as? ContentTileCell) != nil)
+        XCTAssertFalse(welcomeCell.isHidden)
+        XCTAssertTrue((welcomeCell as? ContentTileCell) != nil)
+        XCTAssertFalse(purposeCell.isHidden)
+        XCTAssertTrue((purposeCell as? ContentTileCell) != nil)
     }
     
     func test_idCheckTileCell_isNotDisplayed() throws {
         UINavigationController().setViewControllers([sut], animated: false)
-        let oneLoginCell = sut.tableView(
+        let welcomeCell = sut.tableView(
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         )
-        XCTAssertFalse(oneLoginCell.isHidden)
-        XCTAssertTrue((oneLoginCell as? ContentTileCell) != nil)
+        XCTAssertFalse(welcomeCell.isHidden)
+        XCTAssertTrue((welcomeCell as? ContentTileCell) != nil)
+        let purposeCell = sut.tableView(
+            try sut.tableView,
+            cellForRowAt: IndexPath(row: 0, section: 1)
+        )
+        XCTAssertFalse(purposeCell.isHidden)
+        XCTAssertTrue((purposeCell as? ContentTileCell) != nil)
     }
     
     func test_viewDidAppear() {
