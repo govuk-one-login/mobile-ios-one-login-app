@@ -1419,8 +1419,8 @@
 		C8BA48F62AF3FFBF0028282D /* ConfigTests */ = {
 			isa = PBXGroup;
 			children = (
-				C8A842282DCBCD26002E73C2 /* OneLoginConfig */,
 				C873B1DE2AF826D3002C39E8 /* OneLoginBuildConfig */,
+				C8A842282DCBCD26002E73C2 /* OneLoginConfig */,
 				C826A71F2DA814DE00832E65 /* OneLoginIntegrationConfig */,
 				C873B1E02AF826D3002C39E8 /* OneLoginStagingConfig */,
 			);
@@ -2270,10 +2270,10 @@
 			files = (
 				C8A94C4B2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				7CE1BA062CD2946D00689F99 /* AppEnvironment.swift in Sources */,
-				C8A8422A2DCBCD3D002E73C2 /* OneLoginAppEnvironmentTests.swift in Sources */,
-				C873B1E52AF82706002C39E8 /* OneLoginBuildAppEnvironmentTests.swift in Sources */,
 				7CE1BA052CD2946D00689F99 /* Flag.swift in Sources */,
 				7CE1BA072CD2946D00689F99 /* FlagManager.swift in Sources */,
+				C8A8422A2DCBCD3D002E73C2 /* OneLoginAppEnvironmentTests.swift in Sources */,
+				C873B1E52AF82706002C39E8 /* OneLoginBuildAppEnvironmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
