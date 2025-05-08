@@ -17,7 +17,7 @@ ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.$(ENVIRONMENT_BASE_URL)
 READ_ID_URL = https:/$()/readid-proxy.review-b-async.$(ENVIRONMENT_BASE_URL)/odata/v1/ODataServlet/
 IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 
-STS_CLIENT_ID =
+STS_CLIENT_ID = jHwDQGcnjorxfUtBvGwrGMjYrmQ
 
 FEATURE_FLAG_FILE = FeatureFlags
 

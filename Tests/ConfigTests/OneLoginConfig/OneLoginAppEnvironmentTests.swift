@@ -26,7 +26,7 @@ final class OneLoginAppEnvironmentTests: XCTestCase {
     
     func test_appEnvironment_stsURLs() {
         // STS
-        XCTAssertEqual(sut.stsClientID, "")
+        XCTAssertEqual(sut.stsClientID, "jHwDQGcnjorxfUtBvGwrGMjYrmQ")
         XCTAssertEqual(sut.stsBaseURLString, "token.account.gov.uk")
         XCTAssertEqual(sut.stsBaseURL.absoluteString, "https://token.account.gov.uk")
         XCTAssertEqual(sut.stsAuthorize.absoluteString, "https://token.account.gov.uk/authorize")
