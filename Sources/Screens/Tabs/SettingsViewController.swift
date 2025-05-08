@@ -31,6 +31,7 @@ final class SettingsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.navigationTitle.value
+        view.backgroundColor = .systemBackground
         configureTableView()
         
         updateEmail()

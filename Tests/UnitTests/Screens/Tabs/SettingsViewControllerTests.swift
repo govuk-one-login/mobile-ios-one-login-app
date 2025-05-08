@@ -57,6 +57,10 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(sut.tableView(try sut.tabbedTableView, numberOfRowsInSection: 0), 2)
     }
     
+    func test_navigationViewBackgroundColour() throws {
+        XCTAssertEqual(sut.view.backgroundColor, .systemBackground)
+    }
+    
     func test_rowSelected() throws {
         XCTAssertFalse(didTapRow)
         let indexPath = IndexPath(row: 0, section: 4)
