@@ -88,7 +88,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section{
+        switch section {
         case 0: return spaceBetweenSections
         default: return spaceBetweenSections / 2
         }
