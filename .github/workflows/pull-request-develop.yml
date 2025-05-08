@@ -17,7 +17,7 @@ concurrency:
 jobs:
   run_unit_tests:
     name: Run Unit Tests for PR
-    uses: ./.github/workflows/composite-actions/unit-test.yml
+    uses: ./.github/workflows/unit-test.yml
     with:
       lint: true
     secrets: inherit

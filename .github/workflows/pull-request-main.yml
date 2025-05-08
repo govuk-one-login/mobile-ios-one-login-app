@@ -17,21 +17,21 @@ concurrency:
 jobs:
   run_unit_tests:
     name: Run Unit Tests for PR
-    uses: ./.github/workflows/composite-actions/unit-test.yml
+    uses: ./.github/workflows/unit-test.yml
     with:
       lint: true
     secrets: inherit
 
   test_integration_config:
     name: Run Config Tests
-    uses: ./.github/workflows/composite-actions/config-test.yml
+    uses: ./.github/workflows/config-test.yml
     with:
       configuration: "Integration"
     secrets: inherit
 
   test_release_config:
     name: Run Config Tests
-    uses: ./.github/workflows/composite-actions/config-test.yml
+    uses: ./.github/workflows/config-test.yml
     with:
       configuration: "Release"
     secrets: inherit

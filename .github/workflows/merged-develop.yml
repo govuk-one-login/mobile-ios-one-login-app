@@ -12,12 +12,12 @@ permissions:
 jobs:
   run_unit_tests:
     name: Run Unit Tests for develop branch
-    uses: ./.github/workflows/composite-actions/unit-test.yml
+    uses: ./.github/workflows/unit-test.yml
     secrets: inherit
 
   test_build_config:
     name: Run Deployment Tests
-    uses: ./.github/workflows/composite-actions/config-test.yml
+    uses: ./.github/workflows/config-test.yml
     with:
       configuration: "Build"
       app_check: true
@@ -25,20 +25,20 @@ jobs:
 
   test_staging_config:
     name: Run Deployment Tests
-    uses: ./.github/workflows/composite-actions/config-test.yml
+    uses: ./.github/workflows/config-test.yml
     with:
       configuration: "Staging"
     secrets: inherit
 
   test_ui:
     name: Run Deployment Tests
-    uses: ./.github/workflows/composite-actions/ui-test.yml
+    uses: ./.github/workflows/ui-test.yml
     secrets: inherit
 
   deploy_build_app:
     needs: [ test_build_config, test_ui ]
     name: Deploy App
-    uses: ./.github/workflows/composite-actions/deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       configuration: "Build"
       app_check: true
@@ -47,7 +47,7 @@ jobs:
   deploy_staging_app:
     needs: [ test_staging_config, test_ui ]
     name: Deploy App
-    uses: ./.github/workflows/composite-actions/deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       configuration: "Staging"
     secrets: inherit

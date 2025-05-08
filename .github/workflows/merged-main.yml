@@ -12,14 +12,14 @@ permissions:
 jobs:
   deploy_integration_app:
     name: Deploy App
-    uses: ./.github/workflows/composite-actions/deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       configuration: "Integration"
     secrets: inherit
 
   deploy_release_app:
     name: Deploy App
-    uses: ./.github/workflows/composite-actions/deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       configuration: "Release"
     secrets: inherit

@@ -6,7 +6,7 @@ on:
 jobs:
   test_ui:
     name: Manual Action
-    uses: ./.github/workflows/composite-actions/ui-test.yml
+    uses: ./.github/workflows/ui-test.yml
     with:
       test_branch: '${{ github.ref_name }}'
     secrets: inherit
