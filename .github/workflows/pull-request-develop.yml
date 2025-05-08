@@ -1,0 +1,23 @@
+name: iOS Pull Request - develop
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run_unit_tests:
+    name: Run Unit Tests for PR
+    uses: ./.github/workflows/composite-actions/unit-test.yml
+    with:
+      lint: true
+    secrets: inherit

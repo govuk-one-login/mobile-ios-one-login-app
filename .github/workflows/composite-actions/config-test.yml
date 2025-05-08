@@ -10,7 +10,7 @@ on:
 
 jobs:
   test_config:
-    name: Run ${{ inputs.configuration }} Configuration Tests
+    name: ${{ inputs.configuration }} Config Tests
     runs-on: macos-15
     steps:
       - name: Add Path Globally
