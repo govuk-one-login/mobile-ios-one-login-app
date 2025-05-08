@@ -116,12 +116,15 @@ platform :ios do
       app_identifier = "uk.gov.onelogin"
 
       if options[:configuration] == "Integration" then
+	add_badge(custom: "./scripts-configs/banner-assets/Integration.png")
         profile_name += " Integration"
         app_identifier += ".integration"
       elsif options[:configuration] == "Staging" then
+	add_badge(custom: "./scripts-configs/banner-assets/Staging.png")
         profile_name += " Staging"
         app_identifier += ".staging"
       elsif options[:configuration] == "Build" then
+	add_badge(custom: "./scripts-configs/banner-assets/Build.png")
         profile_name += " Build"
         app_identifier += ".build"
       end
