@@ -55,6 +55,7 @@ jobs:
           parse-json-secrets: true
 
       - name: Install required app dependencies
+        if: ${{ inputs.configuration != "Release" }}
         run: |
           brew install imagemagick
 

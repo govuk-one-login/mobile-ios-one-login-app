@@ -1932,9 +1932,9 @@
 				219601E62A976302008F3427 /* OneLogin */,
 				219601FC2A976305008F3427 /* OneLoginUnitTests */,
 				C83E06C72DCC0944007FDE0D /* OneLoginConfigTests */,
+				25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */,
 				C826A7112DA814B100832E65 /* OneLoginIntegrationConfigTests */,
 				25537C3C2AF2B2600059DCD2 /* OneLoginStagingConfigTests */,
-				25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */,
 				219602062A976305008F3427 /* OneLoginUITests */,
 			);
 		};
