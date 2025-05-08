@@ -205,14 +205,16 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Diweddaru Ap GOV.UK One Login")
     }
     
-    func test_oneLoginTileKeys() {
-            XCTAssertEqual("app_oneLoginCardTitle".getWelshString(),
-                           "Using your GOV.UK One Login")
-            XCTAssertEqual("app_oneLoginCardBody".getWelshString(),
-                           "Sign in to your GOV.UK One Login and read about the services you can use with it.")
-            XCTAssertEqual("app_oneLoginCardLink".getWelshString(),
-                           "Go to the GOV.UK website")
-        }
+    func test_homeTileKeys() {
+        XCTAssertEqual("app_welcomeTileHeader".getWelshString(),
+                       "Croeso")
+        XCTAssertEqual("app_welcomeTileBody1".getWelshString(),
+                       "Gallwch ddefnyddio'r ap hwn i brofi eich hunaniaeth i gael mynediad at rai gwasanaethau'r llywodraeth.")
+        XCTAssertEqual("app_appPurposeTileHeader".getWelshString(),
+                       "Sut i brofi eich hunaniaeth")
+        XCTAssertEqual("app_appPurposeTileBody1".getWelshString(),
+                       "Os oes angen i chi brofi eich hunaniaeth gyda GOV.UK One Login i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.")
+    }
     
     func test_appUnavailablePageKeys() {
         XCTAssertEqual("app_appUnavailableTitle".getWelshString(),
