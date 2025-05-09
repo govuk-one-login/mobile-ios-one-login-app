@@ -36,19 +36,6 @@
             reference = "container:Tests/TestPlans/OneLoginUnit.xctestplan">
          </TestPlanReference>
       </TestPlans>
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C83E06C72DCC0944007FDE0D"
-               BuildableName = "OneLoginConfigTests.xctest"
-               BlueprintName = "OneLoginConfigTests"
-               ReferencedContainer = "container:OneLogin.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Staging"
