@@ -28,7 +28,7 @@ jobs:
           ./scripts-configs/store-access-token.sh
 
       - name: Import AppCheck Secret
-        if: ${{ inputs.app_check == true }}
+        if: inputs.app_check == true
         run: |
           touch ../secrets.xcconfig
 
@@ -55,7 +55,7 @@ jobs:
           parse-json-secrets: true
 
       - name: Install required app dependencies
-        if: ${{ inputs.configuration != "Release" }}
+        if: inputs.configuration != "Release"
         run: |
           brew install imagemagick
 

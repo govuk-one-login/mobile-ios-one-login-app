@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Lint
-        if: ${{ inputs.lint == true }}
+        if: inputs.lint == true
         run: |
           brew install swiftlint
           swiftlint --strict
