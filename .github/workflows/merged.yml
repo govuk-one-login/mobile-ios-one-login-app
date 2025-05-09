@@ -1,9 +1,10 @@
-name: iOS Deploy - develop
+name: iOS Deploy
 
 on:
   push:
     branches:
       - develop
+      - release/*
 
 permissions:
   id-token: write
@@ -11,6 +12,7 @@ permissions:
 
 jobs:
   run_unit_tests:
+    if: github.ref_name == "develop"
     name: Run Unit Tests for develop branch
     uses: ./.github/workflows/unit-test.yml
     secrets: inherit

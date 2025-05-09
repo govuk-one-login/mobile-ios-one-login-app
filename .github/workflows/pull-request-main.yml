@@ -15,13 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  run_unit_tests:
-    name: Run Unit Tests for PR
-    uses: ./.github/workflows/unit-test.yml
-    with:
-      lint: true
-    secrets: inherit
-
   test_integration_config:
     name: Run Config Tests
     uses: ./.github/workflows/config-test.yml

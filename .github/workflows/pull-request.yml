@@ -1,4 +1,4 @@
-name: iOS Pull Request - develop
+name: iOS Pull Request
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - ready_for_review
     branches:
       - develop
+      - release/*
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
