@@ -11,6 +11,10 @@ class UnlockScreenViewController: BaseViewController {
         super.init(viewModel: viewModel, nibName: "UnlockScreen", bundle: .main)
     }
     
+    override func viewDidLoad() {
+        view.accessibilityViewIsModal = true
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
