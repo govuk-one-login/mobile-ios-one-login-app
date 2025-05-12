@@ -32,6 +32,20 @@ jobs:
       configuration: "Staging"
     secrets: inherit
 
+  test_integration_config:
+    name: Run Config Tests
+    uses: ./.github/workflows/config-test.yml
+    with:
+      configuration: "Integration"
+    secrets: inherit
+
+  test_release_config:
+    name: Run Config Tests
+    uses: ./.github/workflows/config-test.yml
+    with:
+      configuration: "Release"
+    secrets: inherit
+
   test_ui:
     name: Run Deployment Tests
     uses: ./.github/workflows/ui-test.yml
@@ -52,4 +66,20 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       configuration: "Staging"
+    secrets: inherit
+
+  deploy_integration_app:
+    needs: [ test_integration_config, test_ui ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Integration"
+    secrets: inherit
+
+  deploy_release_app:
+    needs: [ test_release_config, test_ui ]
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Release"
     secrets: inherit
