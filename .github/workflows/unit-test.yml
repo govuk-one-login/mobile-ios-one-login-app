@@ -59,7 +59,7 @@ jobs:
           brew install sonar-scanner
           bundle install
 
-          if [ ${{ inputs.pr }} = true ]
+          if [ ${{ inputs.pr }} ]
           then
             bundle exec fastlane test scheme:"OneLoginBuild" \
               configuration:"Debug" \
