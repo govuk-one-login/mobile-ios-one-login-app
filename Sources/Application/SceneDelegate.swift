@@ -79,6 +79,6 @@ final class SceneDelegate: UIResponder,
     private func setUpBasicUI() {
         UITabBar.appearance().tintColor = .gdsGreen
         UITabBar.appearance().backgroundColor = .systemBackground
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .gdsGreen
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .accent
     }
 }
