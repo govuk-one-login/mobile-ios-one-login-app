@@ -784,10 +784,10 @@
 		7C0CCECD2C8A12A500F61C11 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				7C0CCED12C8A12F200F61C11 /* OneLoginRelease.xcconfig */,
 				7C0CCECE2C8A12C000F61C11 /* OneLoginBuild.xcconfig */,
 				7C0CCED02C8A12DF00F61C11 /* OneLoginDebug.xcconfig */,
 				C8F25A0E2DA80D0100E75F51 /* OneLoginIntegration.xcconfig */,
+				7C0CCED12C8A12F200F61C11 /* OneLoginRelease.xcconfig */,
 				7C0CCECF2C8A12D000F61C11 /* OneLoginStaging.xcconfig */,
 			);
 			path = Configuration;
@@ -1244,8 +1244,8 @@
 			isa = PBXGroup;
 			children = (
 				C803C2152B8F8865008DE774 /* OneLoginBuildConfig */,
-				C83B66972DCA3F280037F312 /* OneLoginReleaseConfig */,
 				C826A70C2DA812BE00832E65 /* OneLoginIntegrationConfig */,
+				C83B66972DCA3F280037F312 /* OneLoginReleaseConfig */,
 				C86B706F2B8F5F2D00F4C9BF /* OneLoginStagingConfig */,
 			);
 			path = Firebase;
@@ -1441,8 +1441,8 @@
 			isa = PBXGroup;
 			children = (
 				C873B1DE2AF826D3002C39E8 /* OneLoginBuildConfig */,
-				C8A842282DCBCD26002E73C2 /* OneLoginReleaseConfig */,
 				C826A71F2DA814DE00832E65 /* OneLoginIntegrationConfig */,
+				C8A842282DCBCD26002E73C2 /* OneLoginReleaseConfig */,
 				C873B1E02AF826D3002C39E8 /* OneLoginStagingConfig */,
 			);
 			path = ConfigTests;
@@ -1461,8 +1461,8 @@
 			isa = PBXGroup;
 			children = (
 				C8BACAF02B4DCC1700530419 /* OneLoginBuildConfig */,
-				C83B66992DCA3FD70037F312 /* OneLoginReleaseConfig */,
 				C826A7072DA8122100832E65 /* OneLoginIntegrationConfig */,
+				C83B66992DCA3FD70037F312 /* OneLoginReleaseConfig */,
 				C8BACAF12B4DCC1F00530419 /* OneLoginStagingConfig */,
 			);
 			path = Settings;
@@ -1588,10 +1588,10 @@
 		C8DA2C652D73DAC300EBBE3E /* Entitlements */ = {
 			isa = PBXGroup;
 			children = (
-				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
 				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
 				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
 				C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */,
+				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
 				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
 			);
 			path = Entitlements;
@@ -1636,8 +1636,8 @@
 			isa = PBXGroup;
 			children = (
 				C873B1D52AF82403002C39E8 /* OneLoginBuildConfig.xctestplan */,
-				C83E06C32DCC090A007FDE0D /* OneLoginReleaseConfig.xctestplan */,
 				C826A7252DA8164000832E65 /* OneLoginIntegrationConfig.xctestplan */,
+				C83E06C32DCC090A007FDE0D /* OneLoginReleaseConfig.xctestplan */,
 				C873B1D62AF82403002C39E8 /* OneLoginStagingConfig.xctestplan */,
 				C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
