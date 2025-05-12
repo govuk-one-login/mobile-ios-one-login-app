@@ -19,4 +19,4 @@ IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 
 STS_CLIENT_ID = jHwDQGcnjorxfUtBvGwrGMjYrmQ
 
-CODE_SIGN_ENTITLEMENTS = OneLoginRelease.entitlements
+CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginRelease.entitlements

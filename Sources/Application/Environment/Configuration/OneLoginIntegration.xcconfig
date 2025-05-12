@@ -21,4 +21,4 @@ STS_CLIENT_ID = 3Do0FOcrpsXe-mMklRruPUWmjr8
 
 FEATURE_FLAG_FILE = FeatureFlagsIntegration
 
-CODE_SIGN_ENTITLEMENTS = OneLoginIntegration.entitlements
+CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginIntegration.entitlements

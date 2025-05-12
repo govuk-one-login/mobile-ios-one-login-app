@@ -21,4 +21,4 @@ STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
 
 FEATURE_FLAG_FILE = FeatureFlagsStaging
 
-CODE_SIGN_ENTITLEMENTS = OneLoginStaging.entitlements
+CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginStaging.entitlements
