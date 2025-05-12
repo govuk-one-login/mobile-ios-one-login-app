@@ -32,6 +32,9 @@
             reference = "container:Tests/TestPlans/OneLoginConfig.xctestplan"
             default = "YES">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/OneLoginUnit.xctestplan">
+         </TestPlanReference>
       </TestPlans>
    </TestAction>
    <LaunchAction
