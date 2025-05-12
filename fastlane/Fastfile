@@ -159,7 +159,7 @@ platform :ios do
 
       build_ios_app(
         configuration: options[:configuration],
-        scheme: "OneLogin",
+        scheme: "OneLoginRelease",
         output_name: "OneLogin",
         export_method: "app-store",
         export_xcargs: '-skipPackagePluginValidation',
