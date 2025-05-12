@@ -20,6 +20,5 @@ jobs:
     name: Run Unit Tests for PR
     uses: ./.github/workflows/unit-test.yml
     with:
-      lint: true
       pr: true
     secrets: inherit
