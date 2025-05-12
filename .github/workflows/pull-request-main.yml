@@ -1,0 +1,30 @@
+name: iOS Pull Request - main
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test_integration_config:
+    name: Run Config Tests
+    uses: ./.github/workflows/config-test.yml
+    with:
+      configuration: "Integration"
+    secrets: inherit
+
+  test_release_config:
+    name: Run Config Tests
+    uses: ./.github/workflows/config-test.yml
+    with:
+      configuration: "Release"
+    secrets: inherit

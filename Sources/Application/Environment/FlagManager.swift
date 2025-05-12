@@ -14,7 +14,7 @@ public enum FeatureFlagsName: String {
 }
 
 struct FlagManager {
-    private(set) var flagsFromFile = [String: Flaggable]()
+    private var flagsFromFile = [String: Flaggable]()
     
     /* Should be initialised once only: in AppEnvironment.swift */
     init(flagFileName: String?) {

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "9B6A3294-E9A4-443B-B09C-E42A8BB9F9DC",
+      "name" : "Release Configuration Test Plan Configuration",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "C83E06C72DCC0944007FDE0D",
+        "name" : "OneLoginConfigTests"
+      }
+    }
+  ],
+  "version" : 1
+}
