@@ -1,6 +1,6 @@
 import XCTest
 
-final class OneLoginAppEnvironmentTests: XCTestCase {
+final class OneLoginReleaseAppEnvironmentTests: XCTestCase {
     let sut = AppEnvironment.self
     
     func test_plistValues() {

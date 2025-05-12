@@ -2,8 +2,9 @@ on:
   workflow_call:
     inputs:
       configuration:
-        required: true
+        required: false
         type: string
+        default: 'Release'
       app_check:
         required: false
         type: boolean
@@ -55,7 +56,7 @@ jobs:
           parse-json-secrets: true
 
       - name: Install required app dependencies
-        if: inputs.configuration != "Release"
+        if: inputs.configuration != 'Release'
         run: |
           brew install imagemagick
 
