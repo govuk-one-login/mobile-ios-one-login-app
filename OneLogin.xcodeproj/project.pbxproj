@@ -159,9 +159,6 @@
 		C873B1E52AF82706002C39E8 /* OneLoginBuildAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1DF2AF826D3002C39E8 /* OneLoginBuildAppEnvironmentTests.swift */; };
 		C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */; };
 		C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */; };
-		C87B3D4F2DC1391A00E4EFD2 /* FeatureFlagsBuild.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF92B4DCCBD00530419 /* FeatureFlagsBuild.json */; };
-		C87B3D502DC1391A00E4EFD2 /* FeatureFlagsIntegration.json in Resources */ = {isa = PBXBuildFile; fileRef = C826A70A2DA8129400832E65 /* FeatureFlagsIntegration.json */; };
-		C87B3D512DC1391A00E4EFD2 /* FeatureFlagsStaging.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BACAF72B4DCCAC00530419 /* FeatureFlagsStaging.json */; };
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */; };
 		C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */; };
@@ -1947,9 +1944,6 @@
 			files = (
 				3BBF28F02A9F7D3200491BB1 /* Assets.xcassets in Resources */,
 				D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */,
-				C87B3D4F2DC1391A00E4EFD2 /* FeatureFlagsBuild.json in Resources */,
-				C87B3D502DC1391A00E4EFD2 /* FeatureFlagsIntegration.json in Resources */,
-				C87B3D512DC1391A00E4EFD2 /* FeatureFlagsStaging.json in Resources */,
 				C388D2612DC8E928007C9902 /* HomeView.xib in Resources */,
 				C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */,
 				3BBF28F12A9F7D3200491BB1 /* LaunchScreen.storyboard in Resources */,
@@ -2087,7 +2081,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n\nif [ \"${CONFIGURATION}\" = \"Build\" ] || [ \"${CONFIGURATION}\" = \"Debug\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginBuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nelif [ \"${CONFIGURATION}\" = \"Integration\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginIntegrationConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsIntegration.json\"\nelif [ \"${CONFIGURATION}\" = \"Staging\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginStagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nelif [ \"${CONFIGURATION}\" = \"Release\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginReleaseConfig/Settings.bundle\" \"$DESTINATION_DIR\"\nfi\n";
+			shellScript = "DESTINATION_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\nPLIST_LOCATION=\"${BUILT_PRODUCTS_DIR}/OneLogin.app/Settings.bundle/FeatureFlags.plist\"\n\nif [ \"${CONFIGURATION}\" = \"Build\" ] || [ \"${CONFIGURATION}\" = \"Debug\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginBuildConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    cp \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsBuild.json\"\nelif [ \"${CONFIGURATION}\" = \"Integration\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginIntegrationConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    cp \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsIntegration.json\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsIntegration.json\"\nelif [ \"${CONFIGURATION}\" = \"Staging\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginStagingConfig/Settings.bundle\" \"$DESTINATION_DIR\"\n    cp \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\" \"$DESTINATION_DIR\"\n    python3 \"${PROJECT_DIR}/scripts-configs/settings-generator.py\" \"$PLIST_LOCATION\" \"${PROJECT_DIR}/Sources/Application/SupportingFiles/FeatureFlags/FeatureFlagsStaging.json\"\nelif [ \"${CONFIGURATION}\" = \"Release\" ]\nthen\n    cp -r \"${PROJECT_DIR}/Sources/Application/SupportingFiles/Settings/OneLoginReleaseConfig/Settings.bundle\" \"$DESTINATION_DIR\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

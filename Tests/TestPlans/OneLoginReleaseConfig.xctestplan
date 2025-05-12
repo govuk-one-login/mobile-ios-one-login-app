@@ -16,7 +16,7 @@
       "target" : {
         "containerPath" : "container:OneLogin.xcodeproj",
         "identifier" : "C83E06C72DCC0944007FDE0D",
-        "name" : "OneLoginConfigTests"
+        "name" : "OneLoginReleaseConfigTests"
       }
     }
   ],
