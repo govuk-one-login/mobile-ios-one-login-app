@@ -25,6 +25,4 @@ jobs:
   test_release_config:
     name: Run Config Tests
     uses: ./.github/workflows/config-test.yml
-    with:
-      configuration: "Release"
     secrets: inherit

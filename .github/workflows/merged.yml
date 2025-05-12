@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   run_unit_tests:
-    if: github.ref_name == "develop"
+    if: github.ref_name == 'develop'
     name: Run Unit Tests for develop branch
     uses: ./.github/workflows/unit-test.yml
     secrets: inherit
@@ -42,8 +42,6 @@ jobs:
   test_release_config:
     name: Run Config Tests
     uses: ./.github/workflows/config-test.yml
-    with:
-      configuration: "Release"
     secrets: inherit
 
   test_ui:
@@ -80,6 +78,4 @@ jobs:
     needs: [ test_release_config, test_ui ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
-    with:
-      configuration: "Release"
     secrets: inherit

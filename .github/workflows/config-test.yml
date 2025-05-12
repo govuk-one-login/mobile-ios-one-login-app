@@ -2,8 +2,9 @@ on:
   workflow_call:
     inputs:
       configuration:
-        required: true
+        required: false
         type: string
+        default: 'Release'
       app_check:
         required: false
         type: boolean
@@ -52,4 +53,4 @@ jobs:
 
           bundle exec fastlane testWithoutCoverage scheme:"OneLogin${{ inputs.configuration }}" \
             configuration:"${{ inputs.configuration }}" \
-            testplan:OneLogin${{ inputs.configuration }}
+            testplan:OneLogin${{ inputs.configuration }}Config
