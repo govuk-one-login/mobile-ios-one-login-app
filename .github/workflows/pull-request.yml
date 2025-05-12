@@ -21,4 +21,5 @@ jobs:
     uses: ./.github/workflows/unit-test.yml
     with:
       lint: true
+      pr: true
     secrets: inherit

@@ -32,6 +32,12 @@ final class UnlockScreenViewControllerTests: XCTestCase {
 }
 
 extension UnlockScreenViewControllerTests {
+    func test_accessibilityState() {
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        XCTAssertTrue(sut.view.accessibilityViewIsModal)
+    }
+    
     func test_page() throws {
         XCTAssertEqual(try sut.loadingLabel.text, "Loading")
         XCTAssertEqual(try sut.loadingSpinner.style, .medium)

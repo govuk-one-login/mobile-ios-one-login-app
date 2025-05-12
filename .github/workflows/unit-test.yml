@@ -4,6 +4,9 @@ on:
       lint:
         required: false
         type: boolean
+      pr:
+        required: false
+        type: boolean
 
 jobs:
   unit_test:
@@ -56,14 +59,23 @@ jobs:
           brew install sonar-scanner
           bundle install
 
-          bundle exec fastlane test scheme:"OneLoginBuild" \
-            configuration:"Debug" \
-            testplan:OneLoginUnit \
-            workspace:${{ github.workspace }} \
-            sonar_token:${{ secrets.SONAR_TOKEN }} \
-            source_branch:${{ github.head_ref }} \
-            target_branch:${{ github.base_ref }} \
-            pr_number:$pull_number
+          if [ ${{ inputs.pr == true }} ];
+          then
+            bundle exec fastlane test scheme:"OneLoginBuild" \
+              configuration:"Debug" \
+              testplan:OneLoginUnit \
+              workspace:${{ github.workspace }} \
+              sonar_token:${{ secrets.SONAR_TOKEN }} \
+              source_branch:${{ github.head_ref }} \
+              target_branch:${{ github.base_ref }} \
+              pr_number:$pull_number
+          else
+            bundle exec fastlane test scheme:"OneLoginBuild" \
+              configuration:"Debug" \
+              testplan:OneLoginUnit \
+              workspace:${{ github.workspace }} \
+              sonar_token:${{ secrets.SONAR_TOKEN }}
+          fi
 
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
