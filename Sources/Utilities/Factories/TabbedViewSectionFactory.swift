@@ -81,7 +81,7 @@ extension TabbedViewSectionModel {
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "app_signOutButton",
-                                                        textColor: .gdsGreen) {
+                                                        textColor: .accent) {
             action()
             let event = ButtonEvent(textKey: "app_signOutButton")
             analyticsService.logEvent(event)
