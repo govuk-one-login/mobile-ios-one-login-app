@@ -187,7 +187,7 @@ fileprivate extension UILabel {
     }
     
     func showSuccessMessage(_ message: String) {
-        textColor = .gdsGreen
+        textColor = .accent
         isHidden = false
         text = message
     }
