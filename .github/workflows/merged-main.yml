@@ -20,6 +20,4 @@ jobs:
   deploy_release_app:
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
-    with:
-      configuration: "Release"
     secrets: inherit
