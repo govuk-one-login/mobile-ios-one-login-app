@@ -89,13 +89,9 @@ extension TabbedViewSectionModel {
     }
     
     static func developer(action: @escaping () -> Void) -> Self {
-        #if DEBUG
         return TabbedViewSectionModel(sectionTitle: "Developer Menu",
                                       sectionFooter: nil,
                                       tabModels: [.init(cellTitle: "Developer Menu",
                                                         action: action)])
-        #else
-        return TabbedViewSectionModel(tabModels: [])
-        #endif
     }
 }

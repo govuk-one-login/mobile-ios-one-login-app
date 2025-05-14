@@ -6,6 +6,7 @@ import UIKit
 @MainActor
 struct SettingsTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_settingsTitle"
+    #if DEBUG
     var sectionModels: [TabbedViewSectionModel] {[
         .manageDetails(urlOpener: urlOpener,
                        userEmail: userProvider.user.value?.email ?? "",
@@ -19,6 +20,20 @@ struct SettingsTabViewModel: TabbedViewModel {
                         action: openSignOutPage),
         .developer(action: openDeveloperMenu)
     ]}
+    #else
+    var sectionModels: [TabbedViewSectionModel] {[
+        .manageDetails(urlOpener: urlOpener,
+                       userEmail: userProvider.user.value?.email ?? "",
+                       analyticsService: analyticsService),
+        .help(urlOpener: urlOpener,
+              analyticsService: analyticsService),
+        .analyticsToggle(),
+        .notices(urlOpener: urlOpener,
+                 analyticsService: analyticsService),
+        .signOutSection(analyticsService: analyticsService,
+                        action: openSignOutPage)
+    ]}
+    #endif
     
     let analyticsService: OneLoginAnalyticsService
     private let urlOpener: URLOpener
