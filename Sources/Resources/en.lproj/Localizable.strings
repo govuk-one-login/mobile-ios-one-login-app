@@ -136,7 +136,7 @@
 
 "app_settingsAnalyticsToggle" = "Share app analytics";
 
-"app_settingsAnalyticsToggleFootnote" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice";
+"app_settingsAnalyticsToggleFootnote" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the GOV.UK One Login privacy notice.";
 
 "app_privacyNoticeLink2" = "GOV.UK One Login privacy notice";
 
