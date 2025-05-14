@@ -147,7 +147,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_settingsAnalyticsToggle".getEnglishString(),
                        "Share app analytics")
         XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getEnglishString(),
-                       "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the privacy notice")
+                       "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the GOV.UK One Login privacy notice.")
         XCTAssertEqual("app_accessibilityStatement".getEnglishString(),
                        "Accessibility statement")
     }

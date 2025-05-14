@@ -147,7 +147,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_settingsAnalyticsToggle".getWelshString(),
                        "Rhannu dadansoddeg yr ap")
         XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getWelshString(),
-                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd")
+                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.")
         XCTAssertEqual("app_accessibilityStatement".getWelshString(),
                        "Datganiad hygyrchedd")
     }
