@@ -14,6 +14,7 @@ final class JWTVerifierTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         
         networkClient = NetworkClient(configuration: configuration)
+        networkClient.authorizationProvider = MockAuthenticationProvider()
         sut = JWTVerifier(networkClient: networkClient)
     }
 

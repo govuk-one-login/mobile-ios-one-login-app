@@ -60,7 +60,7 @@ extension HomeViewControllerTests {
     func test_welcomeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 0)
+            cellForRowAt: IndexPath(row: 0, section: 1)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is WelcomeTileViewModel)
     }
@@ -68,7 +68,7 @@ extension HomeViewControllerTests {
     func test_purposeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 1)
+            cellForRowAt: IndexPath(row: 0, section: 2)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is PurposeTileViewModel)
     }
@@ -91,22 +91,6 @@ extension HomeViewControllerTests {
         XCTAssertTrue((idCell as? ContentTileCell) == nil)
         XCTAssertFalse(welcomeCell.isHidden)
         XCTAssertTrue((welcomeCell as? ContentTileCell) != nil)
-        XCTAssertFalse(purposeCell.isHidden)
-        XCTAssertTrue((purposeCell as? ContentTileCell) != nil)
-    }
-    
-    func test_idCheckTileCell_isNotDisplayed() throws {
-        UINavigationController().setViewControllers([sut], animated: false)
-        let welcomeCell = sut.tableView(
-            try sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 0)
-        )
-        XCTAssertFalse(welcomeCell.isHidden)
-        XCTAssertTrue((welcomeCell as? ContentTileCell) != nil)
-        let purposeCell = sut.tableView(
-            try sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 1)
-        )
         XCTAssertFalse(purposeCell.isHidden)
         XCTAssertTrue((purposeCell as? ContentTileCell) != nil)
     }

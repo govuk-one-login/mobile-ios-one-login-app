@@ -21,6 +21,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         mockAnalyticsPreferenceStore =  MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
+        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         urlOpener = MockURLOpener()
         sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                   analyticsPreferenceStore: mockAnalyticsPreferenceStore,

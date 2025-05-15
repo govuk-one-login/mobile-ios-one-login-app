@@ -141,8 +141,6 @@ extension AppQualifyingServiceTests {
 // MARK: - User State Evaluation
 extension AppQualifyingServiceTests {
     func test_oneTimeUser_userConfirmed() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sessionManager.isOneTimeUser = true
         sut.delegate = self
         sut.initiate()
@@ -156,8 +154,6 @@ extension AppQualifyingServiceTests {
     }
     
     func test_noExpiryDate_userUnconfirmed() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sut.delegate = self
         sut.initiate()
         
@@ -170,8 +166,6 @@ extension AppQualifyingServiceTests {
     }
     
     func test_sessionInvalid_userExpired() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sut.delegate = self
         sut.initiate()
@@ -185,8 +179,6 @@ extension AppQualifyingServiceTests {
     }
     
     func test_resumeSession_userConfirmed() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
         sut.delegate = self
@@ -201,8 +193,6 @@ extension AppQualifyingServiceTests {
     }
     
     func test_resumeSession_userCancelledBiometrics_error() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
         sessionManager.errorFromResumeSession = SecureStoreError.biometricsCancelled
@@ -218,8 +208,6 @@ extension AppQualifyingServiceTests {
     }
     
     func test_resumeSession_nonCantDecryptData_error() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
         sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
@@ -237,8 +225,6 @@ extension AppQualifyingServiceTests {
     }
     
     func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
-        let releaseFlags = ["TestFlag": true]
-        appInformationProvider.releaseFlags = releaseFlags
         sessionManager.expiryDate = .distantFuture
         sessionManager.isSessionValid = true
         sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults

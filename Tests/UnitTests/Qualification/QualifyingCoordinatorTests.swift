@@ -23,6 +23,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         networkClient = NetworkClient()
+        networkClient.authorizationProvider = MockAuthenticationProvider()
         qualifyingService = MockQualifyingService()
         sut = QualifyingCoordinator(appWindow: window,
                                     appQualifyingService: qualifyingService,
