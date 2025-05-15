@@ -46,8 +46,8 @@ final class SettingsCoordinator: NSObject,
                                              openSignOutPage: openSignOutPage,
                                              openDeveloperMenu: openDeveloperMenu)
         let settingsViewController = SettingsViewController(viewModel: viewModel,
-                                                          userProvider: sessionManager,
-                                                          analyticsPreference: analyticsPreferenceStore)
+                                                            userProvider: sessionManager,
+                                                            analyticsPreference: analyticsPreferenceStore)
         root.setViewControllers([settingsViewController], animated: true)
     }
     

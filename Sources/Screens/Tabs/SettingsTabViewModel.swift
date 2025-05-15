@@ -6,19 +6,24 @@ import UIKit
 @MainActor
 struct SettingsTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_settingsTitle"
-    var sectionModels: [TabbedViewSectionModel] {[
-        .manageDetails(urlOpener: urlOpener,
-                       userEmail: userProvider.user.value?.email ?? "",
-                       analyticsService: analyticsService),
-        .help(urlOpener: urlOpener,
-              analyticsService: analyticsService),
-        .analyticsToggle(),
-        .notices(urlOpener: urlOpener,
-                 analyticsService: analyticsService),
-        .signOutSection(analyticsService: analyticsService,
-                        action: openSignOutPage),
-        .developer(action: openDeveloperMenu)
-    ]}
+    var sectionModels: [TabbedViewSectionModel] {
+        var sections: [TabbedViewSectionModel] = [
+            .manageDetails(urlOpener: urlOpener,
+                           userEmail: userProvider.user.value?.email ?? "",
+                           analyticsService: analyticsService),
+            .help(urlOpener: urlOpener,
+                  analyticsService: analyticsService),
+            .analyticsToggle(),
+            .notices(urlOpener: urlOpener,
+                     analyticsService: analyticsService),
+            .signOutSection(analyticsService: analyticsService,
+                            action: openSignOutPage)
+        ]
+        #if DEBUG
+        sections.append(.developer(action: openDeveloperMenu))
+        #endif
+        return sections
+    }
     
     let analyticsService: OneLoginAnalyticsService
     private let urlOpener: URLOpener
