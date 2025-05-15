@@ -6,34 +6,7 @@ import UIKit
 @MainActor
 struct SettingsTabViewModel: TabbedViewModel {
     let navigationTitle: GDSLocalisedString = "app_settingsTitle"
-    #if DEBUG
-    var sectionModels: [TabbedViewSectionModel] {[
-        .manageDetails(urlOpener: urlOpener,
-                       userEmail: userProvider.user.value?.email ?? "",
-                       analyticsService: analyticsService),
-        .help(urlOpener: urlOpener,
-              analyticsService: analyticsService),
-        .analyticsToggle(),
-        .notices(urlOpener: urlOpener,
-                 analyticsService: analyticsService),
-        .signOutSection(analyticsService: analyticsService,
-                        action: openSignOutPage),
-        .developer(action: openDeveloperMenu)
-    ]}
-    #else
-    var sectionModels: [TabbedViewSectionModel] {[
-        .manageDetails(urlOpener: urlOpener,
-                       userEmail: userProvider.user.value?.email ?? "",
-                       analyticsService: analyticsService),
-        .help(urlOpener: urlOpener,
-              analyticsService: analyticsService),
-        .analyticsToggle(),
-        .notices(urlOpener: urlOpener,
-                 analyticsService: analyticsService),
-        .signOutSection(analyticsService: analyticsService,
-                        action: openSignOutPage)
-    ]}
-    #endif
+    var sectionModels: [TabbedViewSectionModel]
     
     let analyticsService: OneLoginAnalyticsService
     private let urlOpener: URLOpener
@@ -58,6 +31,22 @@ struct SettingsTabViewModel: TabbedViewModel {
         self.urlOpener = urlOpener
         self.openDeveloperMenu = openDeveloperMenu
         self.openSignOutPage = openSignOutPage
+        
+        self.sectionModels = [
+            .manageDetails(urlOpener: urlOpener,
+                           userEmail: userProvider.user.value?.email ?? "",
+                           analyticsService: analyticsService),
+            .help(urlOpener: urlOpener,
+                  analyticsService: analyticsService),
+            .analyticsToggle(),
+            .notices(urlOpener: urlOpener,
+                     analyticsService: analyticsService),
+            .signOutSection(analyticsService: analyticsService,
+                            action: openSignOutPage)
+        ]
+        #if DEBUG
+        self.sectionModels.append(TabbedViewSectionModel.developer(action: openDeveloperMenu))
+        #endif
     }
     
     func didAppear() {
