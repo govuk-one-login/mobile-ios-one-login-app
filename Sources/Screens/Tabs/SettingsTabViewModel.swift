@@ -45,7 +45,7 @@ struct SettingsTabViewModel: TabbedViewModel {
                             action: openSignOutPage)
         ]
         #if DEBUG
-        self.sectionModels.append(TabbedViewSectionModel.developer(action: openDeveloperMenu))
+        self.sectionModels.append(.developer(action: openDeveloperMenu))
         #endif
     }
     
