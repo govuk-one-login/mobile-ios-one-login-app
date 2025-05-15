@@ -10,9 +10,5 @@
     {
         "name": "walletVisibleToAll",
         "isEnabled": false
-    },
-    {
-        "name": "enableCRIOrchestrator",
-        "isEnabled": true
     }
 ]

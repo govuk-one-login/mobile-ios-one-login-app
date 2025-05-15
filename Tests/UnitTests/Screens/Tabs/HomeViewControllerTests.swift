@@ -47,21 +47,8 @@ extension HomeViewControllerTests {
     }
     
     func test_numberOfSectionsWithIDCheck() {
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
-        )
         UINavigationController().setViewControllers([sut], animated: false)
         XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
-    }
-    
-    func test_numberOfSectionsWithoutIDCheck() {
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: false]
-        )
-        UINavigationController().setViewControllers([sut], animated: false)
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
     }
     
     func test_numbeOfRowsInSection() {
@@ -87,10 +74,6 @@ extension HomeViewControllerTests {
     }
     
     func test_idCheckTileCell_isDisplayed() throws {
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [FeatureFlagsName.enableCRIOrchestrator.rawValue: true]
-        )
         UINavigationController().setViewControllers([sut], animated: false)
         let idCell = sut.tableView(
             try sut.tableView,
