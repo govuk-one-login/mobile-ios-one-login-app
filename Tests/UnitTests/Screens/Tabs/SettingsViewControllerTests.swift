@@ -23,7 +23,6 @@ final class SettingsViewControllerTests: XCTestCase {
         mockAnalyticsPreference = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         mockUrlOpener = MockURLOpener()
-        mockSessionManager.user.send(MockUser())
         viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                          userProvider: mockSessionManager,
                                          urlOpener: mockUrlOpener,
@@ -80,6 +79,17 @@ extension SettingsViewControllerTests {
     }
     
     func test_cellConfiguration() throws {
+        let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
+        let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
+        XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
+        XCTAssertEqual(cellConfig.textProperties.color, .label)
+        XCTAssertEqual(cellConfig.secondaryText, "")
+        XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
+        XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
+    }
+
+    func test_cellConfiguration_updateEmail() throws {
+        mockSessionManager.user.send(MockUser())
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
         let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
         XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
