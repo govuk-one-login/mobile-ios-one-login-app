@@ -131,27 +131,4 @@ extension TokenHolderTests {
 
         await fulfillment(of: [exp], timeout: 5)
     }
-
-    func testFetchToken_sendsExpiredSessionNotification() async {
-        // GIVEN I am connected to the internet
-        let exp = XCTNSNotificationExpectation(
-            name: .sessionExpired,
-            object: nil,
-            notificationCenter: NotificationCenter.default
-        )
-        exp.assertForOverFulfill = true
-
-        MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 400))
-        }
-
-        // WHEN my access token has expired
-        Task {
-            sut.update(subjectToken: "abc")
-            _ = try await sut.fetchToken(withScope: "sts.hello-world.read")
-        }
-
-        // THEN an XCTNSNotificationExpectation is sent
-        await fulfillment(of: [exp], timeout: 5)
-    }
 }

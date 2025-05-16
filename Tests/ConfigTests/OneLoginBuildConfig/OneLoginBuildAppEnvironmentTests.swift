@@ -14,7 +14,6 @@ final class OneLoginBuildAppEnvironmentTests: XCTestCase {
         XCTAssertTrue(sut.walletVisibleViaDeepLink)
         XCTAssertTrue(sut.walletVisibleIfExists)
         XCTAssertTrue(sut.walletVisibleToAll)
-        XCTAssertFalse(sut.criOrchestratorEnabled)
     }
     
     func test_appEnvironment_helpers() {

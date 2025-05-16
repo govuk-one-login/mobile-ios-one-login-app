@@ -14,6 +14,7 @@ final class HomeCoordinatorTests: XCTestCase {
 
         mockAnalyticsService = MockAnalyticsService()
         mockNetworkClient = NetworkClient()
+        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService,
                               networkClient: mockNetworkClient)
     }

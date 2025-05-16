@@ -9,7 +9,6 @@ public enum FeatureFlagsName: String {
     case enableWalletVisibleViaDeepLink = "walletVisibleViaDeepLink"
     case enableWalletVisibleIfExists = "walletVisibleIfExists"
     case enableWalletVisibleToAll = "walletVisibleToAll"
-    case enableCRIOrchestrator = "enableCRIOrchestrator"
     case appCheckEnabled = "appCheckEnabled"
 }
 

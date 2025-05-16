@@ -58,9 +58,7 @@ final class HomeViewController: BaseViewController {
         idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) { [unowned self] in
             tableView.insertSections(IndexSet(integer: 0), with: .fade)
         }
-        if AppEnvironment.criOrchestratorEnabled {
-            criOrchestrator.continueIdentityCheckIfRequired(over: self)
-        }
+        criOrchestrator.continueIdentityCheckIfRequired(over: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,7 +151,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         )
         
         idCheckCard.view.translatesAutoresizingMaskIntoConstraints = false
-        cell.isHidden = !AppEnvironment.criOrchestratorEnabled || idCheckCard.view.isHidden
+        cell.isHidden = idCheckCard.view.isHidden
         cell.contentView.addSubview(idCheckCard.view)
         
         NSLayoutConstraint.activate([
