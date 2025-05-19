@@ -96,7 +96,8 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
        
         let screen = ScreenView(id: id,
                                 screen: screenID,
-                                titleKey: title.stringKey)
+                                titleKey: title.stringKey,
+                                variableKeys: [biometricsTypeString])
         analyticsService.trackScreen(screen)
     }
     
