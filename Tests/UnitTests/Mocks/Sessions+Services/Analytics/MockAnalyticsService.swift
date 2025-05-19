@@ -18,10 +18,6 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         return self
     }
     
-    func trackScreen(_ screen: LoggableScreen, title: String?) {
-        screensVisited.append(screen.name)
-    }
-    
     func trackScreen(_ screen: LoggableScreen, parameters: [String: Any] = [:]) {
         screensVisited.append(screen.name)
         

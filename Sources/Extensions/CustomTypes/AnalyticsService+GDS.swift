@@ -2,23 +2,21 @@ import GDSAnalytics
 import Logging
 import Wallet
 
-typealias OneLoginScreenType = Logging.ScreenType & GDSAnalytics.ScreenType
+public typealias OneLoginScreenType = GDSAnalytics.ScreenType
 
-extension ScreenView: @retroactive LoggableScreenV2
-where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
+extension ScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginScreenType {
     public var name: String {
-        screen.name
+        title
     }
 
     public var type: Screen {
-        self.screen
+        screen
     }
 }
 
-extension ErrorScreenView: @retroactive LoggableScreenV2
-where Screen: GDSAnalytics.ScreenType & CustomStringConvertible {
+extension ErrorScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginScreenType {
     public var name: String {
-        screen.name
+        title
     }
 
     public var type: Screen {
