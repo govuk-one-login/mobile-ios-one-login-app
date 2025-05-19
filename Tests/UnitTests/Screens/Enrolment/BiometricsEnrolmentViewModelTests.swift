@@ -125,7 +125,7 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
-
+    
     func test_didAppear_faceID() {
         sut = makeSut()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
@@ -133,7 +133,8 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrolment,
-                                titleKey: "app_enableLoginBiometricsTitle")
+                                titleKey: "app_enableLoginBiometricsTitle",
+                                variableKeys: ["app_FaceID"])
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
@@ -145,7 +146,8 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrolment,
-                                titleKey: "app_enableLoginBiometricsTitle")
+                                titleKey: "app_enableLoginBiometricsTitle",
+                                variableKeys: ["app_TouchID"])
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
