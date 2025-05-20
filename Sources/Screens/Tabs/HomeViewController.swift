@@ -16,9 +16,9 @@ final class HomeViewController: BaseViewController {
     
     private var idCheckCard: UIViewController?
     
-    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: Void.self)
+    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
 
-    var stream: AsyncStream<Void> {
+    var stream: AsyncStream<CardStatus> {
         idCheckCardUpdateStream.stream
     }
 
@@ -70,8 +70,13 @@ final class HomeViewController: BaseViewController {
     
     func listenForCardUpdates() {
         Task {
-            for await _ in idCheckCardUpdateStream.stream {
-                tableView.insertSections(IndexSet(integer: 0), with: .fade)
+            for await status in idCheckCardUpdateStream.stream {
+                switch status {
+                case .hide:
+                    tableView.deleteSections(IndexSet(integer: 0), with: .fade)
+                case .show:
+                    tableView.insertSections(IndexSet(integer: 0), with: .fade)
+                }
             }
         }
     }
