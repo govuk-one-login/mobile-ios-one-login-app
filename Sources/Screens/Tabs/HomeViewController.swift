@@ -15,6 +15,12 @@ final class HomeViewController: BaseViewController {
     let spaceBetweenSections: CGFloat = 16
     
     private var idCheckCard: UIViewController?
+    
+    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: Void.self)
+
+    var stream: AsyncStream<Void> {
+        idCheckCardUpdateStream.stream
+    }
 
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
@@ -55,10 +61,19 @@ final class HomeViewController: BaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         tableView.delegate = self
         tableView.dataSource = self
-        idCheckCard = criOrchestrator.getIDCheckCard(viewController: self) { [unowned self] in
-            tableView.insertSections(IndexSet(integer: 0), with: .fade)
-        }
+        idCheckCard = criOrchestrator.getIDCheckCard(viewController: self,
+                                                     externalStream: idCheckCardUpdateStream)
         criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        
+        listenForCardUpdates()
+    }
+    
+    func listenForCardUpdates() {
+        Task {
+            for await _ in idCheckCardUpdateStream.stream {
+                tableView.insertSections(IndexSet(integer: 0), with: .fade)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,10 +183,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 @MainActor
 protocol CRIOrchestration {
     func continueIdentityCheckIfRequired(over viewController: UIViewController)
-    
+
     func getIDCheckCard(
         viewController: UIViewController,
-        completion: @escaping () -> Void
+        externalStream: IDCheckExternalStream
     ) -> UIViewController
 }
 
