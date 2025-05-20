@@ -5,6 +5,18 @@ import Logging
 import Networking
 import UIKit
 
+@MainActor
+protocol CRIOrchestration {
+    func continueIdentityCheckIfRequired(over viewController: UIViewController)
+
+    func getIDCheckCard(
+        viewController: UIViewController,
+        externalStream: IDCheckExternalStream
+    ) -> UIViewController
+}
+
+extension CRIOrchestrator: CRIOrchestration { }
+
 final class HomeViewController: BaseViewController {
     override var nibName: String? { "HomeView" }
     
@@ -15,12 +27,7 @@ final class HomeViewController: BaseViewController {
     let spaceBetweenSections: CGFloat = 16
     
     private var idCheckCard: UIViewController?
-    
-    let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
-
-    var stream: AsyncStream<CardStatus> {
-        idCheckCardUpdateStream.stream
-    }
+    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
 
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
@@ -61,11 +68,12 @@ final class HomeViewController: BaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         tableView.delegate = self
         tableView.dataSource = self
-        idCheckCard = criOrchestrator.getIDCheckCard(viewController: self,
-                                                     externalStream: idCheckCardUpdateStream)
-        criOrchestrator.continueIdentityCheckIfRequired(over: self)
-        
         listenForCardUpdates()
+        idCheckCard = criOrchestrator.getIDCheckCard(
+            viewController: self,
+            externalStream: idCheckCardUpdateStream
+        )
+        criOrchestrator.continueIdentityCheckIfRequired(over: self)
     }
     
     func listenForCardUpdates() {
@@ -165,6 +173,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         guard let idCheckCard else {
             preconditionFailure("")
         }
+        
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "OneLoginHomeScreenCell",
             for: indexPath
@@ -184,15 +193,3 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 }
-
-@MainActor
-protocol CRIOrchestration {
-    func continueIdentityCheckIfRequired(over viewController: UIViewController)
-
-    func getIDCheckCard(
-        viewController: UIViewController,
-        externalStream: IDCheckExternalStream
-    ) -> UIViewController
-}
-
-extension CRIOrchestrator: CRIOrchestration { }
