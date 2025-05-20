@@ -278,12 +278,13 @@ extension AppEnvironment {
     }
     
     static var accessibilityStatementURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = externalBaseURLString
-        components.path = "/accessibility-statement"
-        components.query = "lng=\(localeString)"
-        return components.url!
+        var url = govURL
+            .appendingPathComponent("one-login")
+            .appendingPathComponent("app-accessibility")
+        if isLocaleWelsh {
+            url = url.appendingPathComponent("cy")
+        }
+        return url
     }
 }
 
