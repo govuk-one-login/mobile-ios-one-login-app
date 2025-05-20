@@ -1,3 +1,4 @@
+@testable import CRIOrchestrator
 @testable import OneLogin
 import UIKit
 
@@ -8,7 +9,7 @@ class MockCRIOrchestrator: CRIOrchestration {
         hostingViewController.view.isHidden = false
     }
     
-    func getIDCheckCard(viewController: UIViewController, completion: @escaping () -> Void) -> UIViewController {
+    func getIDCheckCard(viewController: UIViewController, externalStream: IDCheckExternalStream) -> UIViewController {
         hostingViewController.view.isHidden = true
         return hostingViewController
     }

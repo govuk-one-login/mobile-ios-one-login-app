@@ -46,12 +46,25 @@ extension HomeViewControllerTests {
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
     }
     
+    func testStream() async throws {
+        var event: CardStatus?
+        
+        sut.idCheckCardUpdateStream.continuation.yield(.hide)
+
+        for await status in sut.idCheckCardUpdateStream.stream {
+            event = status
+            break
+        }
+
+        waitForTruth(event == .hide, timeout: 3)
+    }
+    
     func test_numberOfSectionsWithIDCheck() {
         UINavigationController().setViewControllers([sut], animated: false)
         XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
     }
     
-    func test_numbeOfRowsInSection() {
+    func test_numberOfRowsInSection() {
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 0), 1)
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 1), 1)
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 2), 1)

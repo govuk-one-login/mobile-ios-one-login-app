@@ -16,7 +16,7 @@ final class HomeViewController: BaseViewController {
     
     private var idCheckCard: UIViewController?
     
-    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
+    let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
 
     var stream: AsyncStream<CardStatus> {
         idCheckCardUpdateStream.stream
