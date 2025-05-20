@@ -10,10 +10,10 @@ final class BiometricsEnrolmentViewModelTests: XCTestCase {
     
     var didCallPrimaryButtonAction = false
     var didCallSecondaryButtonAction = false
-
+    
     override func setUp() {
         super.setUp()
-
+        
         mockAnalyticsService = MockAnalyticsService()
         sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
                                            biometricsType: .faceID,
@@ -23,14 +23,14 @@ final class BiometricsEnrolmentViewModelTests: XCTestCase {
             self.didCallSecondaryButtonAction = true
         }
     }
-
+    
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
         
         didCallPrimaryButtonAction = false
         didCallSecondaryButtonAction = false
-
+        
         super.tearDown()
     }
     
@@ -101,7 +101,7 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
-
+    
     func test_primaryButton() {
         sut = makeSut(biometricsType: .faceID, enrolmentJourney: .login)
         XCTAssertFalse(didCallPrimaryButtonAction)
@@ -113,7 +113,7 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
-
+    
     func test_secondaryButton() {
         XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_skipButton")
         XCTAssertFalse(didCallSecondaryButtonAction)
