@@ -2,8 +2,7 @@ import Foundation
 @testable import OneLogin
 import Testing
 
- struct AppIntegrityJWTTests {
-
+struct AppIntegrityJWTTests {
     @Test("""
           Initialise header from value
           """)

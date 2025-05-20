@@ -54,7 +54,7 @@ final class QualifyingCoordinator: NSObject,
          networkClient: NetworkClient) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
-        self.analyticsService = analyticsService.addingAdditionalParameters(.oneLoginDefaults)
+        self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkClient = networkClient
