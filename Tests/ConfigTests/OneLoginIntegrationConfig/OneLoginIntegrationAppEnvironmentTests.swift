@@ -71,7 +71,7 @@ final class OneLoginIntegrationAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.appHelpURL.absoluteString, "https://gov.uk/one-login/app-help?lng=en")
         XCTAssertEqual(sut.contactURL.absoluteString, "https://home.account.gov.uk/contact-gov-uk-one-login?lng=en")
         XCTAssertEqual(sut.privacyPolicyURL.absoluteString, "https://signin.integration.account.gov.uk/privacy-notice?lng=en")
-        XCTAssertEqual(sut.accessibilityStatementURL.absoluteString, "https://signin.integration.account.gov.uk/accessibility-statement?lng=en")
+        XCTAssertEqual(sut.accessibilityStatementURL.absoluteString, "https://gov.uk/one-login/app-accessibility")
     }
     
     func test_appEnvironment_appStoreURLs() {
