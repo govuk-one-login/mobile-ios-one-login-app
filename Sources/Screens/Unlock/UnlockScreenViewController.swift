@@ -31,10 +31,10 @@ class UnlockScreenViewController: BaseViewController {
     
     @IBOutlet private var oneLoginLogo: UIImageView! {
         didSet {
-            oneLoginLogo.isAccessibilityElement = true
+//            oneLoginLogo.isAccessibilityElement = true
             oneLoginLogo.accessibilityIdentifier = "unlock-screen-one-login-logo"
-            oneLoginLogo.accessibilityTraits = .none
-            oneLoginLogo.accessibilityHint = "GOV.UK One Login logo"
+//            oneLoginLogo.accessibilityTraits = .none
+//            oneLoginLogo.accessibilityHint = "GOV.UK One Login logo"
         }
     }
     

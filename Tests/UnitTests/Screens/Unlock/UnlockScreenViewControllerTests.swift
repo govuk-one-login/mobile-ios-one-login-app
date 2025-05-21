@@ -54,11 +54,6 @@ extension UnlockScreenViewControllerTests {
         try sut.unlockButton.sendActions(for: .touchUpInside)
         XCTAssertTrue(didPressButton)
     }
-    
-    func test_logo() {
-        XCTAssertTrue(try sut.oneLoginLogo.isAccessibilityElement)
-        XCTAssertEqual(try sut.oneLoginLogo.accessibilityHint, "GOV.UK One Login logo")
-    }
 }
 
 extension UnlockScreenViewController {
