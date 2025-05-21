@@ -3739,8 +3739,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
-				branch = "feature/initial-work-on-card-bug";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
 			};
 		};
 		AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
