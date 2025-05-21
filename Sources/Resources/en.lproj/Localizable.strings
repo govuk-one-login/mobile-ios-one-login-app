@@ -19,6 +19,8 @@
 
 "app_exitButton" = "Exit";
 
+"app_nameString" = "GOV.UK One Login";
+
 
 // MARK: Accessibility - voiceover additions
 
@@ -26,7 +28,7 @@
 
 "app_externalApp" = "Opens in App Store";
 
-"app_loadingLabel" = "Loading GOV.UK One Login";
+"app_loadingLabel" = "Loading %@";
 
 
 // MARK: Local Auth prompt (Face ID)

@@ -19,6 +19,8 @@
 
 "app_exitButton" = "Gadael";
 
+"app_nameString" = "GOV.UK One Login";
+
 
 // MARK: Accessibility - voiceover additions
 
@@ -26,7 +28,7 @@
 
 "app_externalApp" = "Yn agor yn yr App Store";
 
-"app_loadingLabel" = "Llwytho GOV.UK One Login";
+"app_loadingLabel" = "Llwytho %@";
 
 
 // MARK: Local Auth prompt (Face ID)
