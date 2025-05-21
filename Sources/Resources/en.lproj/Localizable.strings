@@ -26,6 +26,8 @@
 
 "app_externalApp" = "Opens in App Store";
 
+"app_loadingHint" = "Loading GOV.UK One Login";
+
 
 // MARK: Local Auth prompt (Face ID)
 "app_faceId_subtitle" = "Enter iPhone passcode";

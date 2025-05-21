@@ -6,6 +6,7 @@ import UIKit
 struct UnlockScreenViewModel: BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let primaryButtonViewModel: ButtonViewModel
+    let accessibilityLabel: GDSLocalisedString = GDSLocalisedString(stringKey: "app_loadingHint")
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true

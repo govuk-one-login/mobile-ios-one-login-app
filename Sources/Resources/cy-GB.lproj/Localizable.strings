@@ -19,11 +19,14 @@
 
 "app_exitButton" = "Gadael";
 
+
 // MARK: Accessibility - voiceover additions
 
 "app_externalBrowser" = "Agor mewn porwr gwe";
 
 "app_externalApp" = "Yn agor yn yr App Store";
+
+"app_loadingHint" = "Llwytho GOV.UK One Login";
 
 
 // MARK: Local Auth prompt (Face ID)
