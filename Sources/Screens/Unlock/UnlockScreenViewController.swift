@@ -45,7 +45,7 @@ class UnlockScreenViewController: BaseViewController {
         didSet {
             loadingLabel.text = "Loading"
             loadingLabel.accessibilityIdentifier = "unlock-screen-loading-label"
-            loadingLabel.accessibilityHint = viewModel.accessibilityLabel.value
+            loadingLabel.accessibilityLabel = viewModel.accessibilityLabel.value
         }
     }
     

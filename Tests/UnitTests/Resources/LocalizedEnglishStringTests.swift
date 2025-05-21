@@ -226,6 +226,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_accessibilityHintKeys() {
         XCTAssertEqual("app_externalBrowser".getEnglishString(), "Opens in web browser")
         XCTAssertEqual("app_externalApp".getEnglishString(), "Opens in App Store")
+        XCTAssertEqual("app_loadingLabel".getEnglishString(), "Loading GOV.UK One Login")
     }
     
     func test_localAuthError_keys() throws {

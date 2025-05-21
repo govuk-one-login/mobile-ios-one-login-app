@@ -40,7 +40,7 @@ extension UnlockScreenViewControllerTests {
     
     func test_page() throws {
         XCTAssertEqual(try sut.loadingLabel.text, "Loading")
-        XCTAssertEqual(try sut.loadingLabel.accessibilityHint, "Loading GOV.UK One Login")
+        XCTAssertEqual(try sut.loadingLabel.accessibilityLabel, "Loading GOV.UK One Login")
         XCTAssertEqual(try sut.loadingSpinner.style, .medium)
     }
     

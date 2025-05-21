@@ -226,6 +226,7 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_accessibilityHintKeys() {
         XCTAssertEqual("app_externalBrowser".getWelshString(), "Agor mewn porwr gwe")
         XCTAssertEqual("app_externalApp".getWelshString(), "Yn agor yn yr App Store")
+        XCTAssertEqual("app_loadingLabel".getWelshString(), "Llwytho GOV.UK One Login")
     }
     
     func test_localAuthError_keys() throws {
