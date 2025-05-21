@@ -8,7 +8,7 @@ import XCTest
 final class HomeViewControllerTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
-    var criOrchestrator: MockCRIOrchestrator!
+    var mockCRIOrchestrator: MockCRIOrchestrator!
     var sut: HomeViewController!
     
     override func setUp() {
@@ -18,40 +18,67 @@ final class HomeViewControllerTests: XCTestCase {
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         
-        criOrchestrator = MockCRIOrchestrator()
+        mockCRIOrchestrator = MockCRIOrchestrator()
         sut = HomeViewController(analyticsService: mockAnalyticsService,
                                  networkClient: mockNetworkClient,
-                                 criOrchestrator: criOrchestrator)
+                                 criOrchestrator: mockCRIOrchestrator)
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
         mockNetworkClient = nil
-        criOrchestrator = nil
+        mockCRIOrchestrator = nil
         sut = nil
-        
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [:]
-        )
         
         super.tearDown()
     }
 }
 
 extension HomeViewControllerTests {
+    func test_header_Image() {
+        XCTAssertTrue(try sut.headerImage.isAccessibilityElement)
+    }
+    
     func test_page() {
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
         XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
     }
     
+    func test_insertIDCheck() throws {
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
+        mockCRIOrchestrator.hostingViewController.view.isHidden = false
+        mockCRIOrchestrator.streamContinuation?.yield(.show)
+        let tableView = try sut.tableView
+        waitForTruth(
+            self.sut.numberOfSections(in: tableView) == 3,
+            timeout: 5
+        )
+    }
+    
+    func test_deleteIDCheck() throws {
+        mockCRIOrchestrator.idCheckJourney = true
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
+        mockCRIOrchestrator.hostingViewController.view.isHidden = true
+        mockCRIOrchestrator.streamContinuation?.yield(.hide)
+        let tableView = try sut.tableView
+        waitForTruth(
+            self.sut.numberOfSections(in: tableView) == 2,
+            timeout: 5
+        )
+    }
+    
+    func test_numberOfSections() {
+        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
+    }
+    
     func test_numberOfSectionsWithIDCheck() {
-        UINavigationController().setViewControllers([sut], animated: false)
+        mockCRIOrchestrator.idCheckJourney = true
         XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
     }
     
-    func test_numbeOfRowsInSection() {
+    func test_numberOfRowsInSection_IDCheck() {
+        mockCRIOrchestrator.idCheckJourney = true
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 0), 1)
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 1), 1)
         XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 2), 1)
@@ -60,7 +87,7 @@ extension HomeViewControllerTests {
     func test_welcomeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 1)
+            cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is WelcomeTileViewModel)
     }
@@ -68,13 +95,13 @@ extension HomeViewControllerTests {
     func test_purposeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 2)
+            cellForRowAt: IndexPath(row: 0, section: 1)
         ) as? ContentTileCell
         XCTAssertTrue(servicesTile?.viewModel is PurposeTileViewModel)
     }
     
     func test_idCheckTileCell_isDisplayed() throws {
-        UINavigationController().setViewControllers([sut], animated: false)
+        mockCRIOrchestrator.idCheckJourney = true
         let idCell = sut.tableView(
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
@@ -107,10 +134,6 @@ extension HomeViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.home)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
-    }
-    
-    func test_header_Image() {
-        XCTAssertTrue(try sut.headerImage.isAccessibilityElement)
     }
 }
 
