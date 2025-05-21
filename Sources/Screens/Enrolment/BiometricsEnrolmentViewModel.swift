@@ -88,15 +88,13 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        var id: String
-        
-        switch enrolmentJourney {
+        let id = switch enrolmentJourney {
         case .login:
-            id = isFaceID ?
+            isFaceID ?
             BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
             BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
         case .wallet:
-            id = isFaceID ?
+            isFaceID ?
             BiometricEnrolmentAnalyticsScreenID.faceIDWalletEnrolment.rawValue :
             BiometricEnrolmentAnalyticsScreenID.touchIDWalletEnrolment.rawValue
         }
