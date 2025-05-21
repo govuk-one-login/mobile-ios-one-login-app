@@ -40,8 +40,6 @@
 
 
 // MARK: Sign in screen
-"app_signInTitle" = "GOV.UK One Login";
-
 "app_signInBody" = "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.";
 
 "app_signInButton" = "Sign in";

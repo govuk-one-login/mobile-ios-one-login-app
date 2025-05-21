@@ -40,8 +40,6 @@
 
 
 // MARK: Sign in screen
-"app_signInTitle" = "GOV.UK One Login";
-
 "app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.";
 
 "app_signInButton" = "Mewngofnodi";

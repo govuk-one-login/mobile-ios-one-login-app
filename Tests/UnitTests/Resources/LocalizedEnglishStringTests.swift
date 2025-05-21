@@ -24,6 +24,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Enter passcode")
         XCTAssertEqual("app_exitButton".getEnglishString(),
                        "Exit")
+        XCTAssertEqual("app_nameString".getEnglishString(),
+                       "GOV.UK One Login")
     }
     
     func test_localAuthPrompt_keys() throws {
@@ -34,8 +36,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
     
     func test_signInScreen_keys() throws {
-        XCTAssertEqual("app_signInTitle".getEnglishString(),
-                       "GOV.UK One Login")
         XCTAssertEqual("app_signInBody".getEnglishString(),
                        "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
         XCTAssertEqual("app_signInButton".getEnglishString(),
@@ -226,7 +226,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_accessibilityHintKeys() {
         XCTAssertEqual("app_externalBrowser".getEnglishString(), "Opens in web browser")
         XCTAssertEqual("app_externalApp".getEnglishString(), "Opens in App Store")
-        XCTAssertEqual("app_loadingLabel".getEnglishString(), "Loading GOV.UK One Login")
+        XCTAssertEqual("app_loadingLabel".getEnglishString(), "Loading %@")
     }
     
     func test_localAuthError_keys() throws {
