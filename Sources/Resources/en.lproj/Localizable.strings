@@ -222,7 +222,7 @@
 "app_appUnavailableBody" = "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.";
 
 
-// MARK: FaceID/ Touch ID Error Screen
+// MARK: FaceID/ Touch ID Settings Error Screen
 
 "app_localAuthManagerErrorTitle" = "You need to update your phone settings";
 
@@ -239,3 +239,11 @@
 "app_localAuthManagerErrorNumberedList3" = "Come back to continue using your GOV.UK Wallet.";
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Go to phone settings";
+
+// MARK: FaceID/ Touch ID Biometrics Error Screen
+
+"app_localAuthManagerBiometricsErrorTitle" = "You need to allow %@";
+
+"app_localAuthManagerBiometricsFaceIDErrorBody" = "To add documents to your GOV.UK Wallet, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.";
+
+"app_localAuthManagerBiometricsTouchIDErrorBody" = "To add documents to your GOV.UK Wallet, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
