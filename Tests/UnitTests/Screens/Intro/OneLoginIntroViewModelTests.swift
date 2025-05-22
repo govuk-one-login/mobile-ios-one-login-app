@@ -31,7 +31,7 @@ final class OneLoginIntroViewModelTests: XCTestCase {
 extension OneLoginIntroViewModelTests {
     func test_page() {
         XCTAssertEqual(sut.image, UIImage(named: "badge"))
-        XCTAssertEqual(sut.title.stringKey, "app_signInTitle")
+        XCTAssertEqual(sut.title.stringKey, "app_nameString")
         XCTAssertEqual(sut.body.stringKey, "app_signInBody")
         
     }
@@ -56,7 +56,7 @@ extension OneLoginIntroViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
                                 screen: IntroAnalyticsScreen.welcome,
-                                titleKey: "app_signInTitle")
+                                titleKey: "app_nameString")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }

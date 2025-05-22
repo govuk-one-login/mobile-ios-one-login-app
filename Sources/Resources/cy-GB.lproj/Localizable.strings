@@ -19,11 +19,16 @@
 
 "app_exitButton" = "Gadael";
 
+"app_nameString" = "GOV.UK One Login";
+
+
 // MARK: Accessibility - voiceover additions
 
 "app_externalBrowser" = "Agor mewn porwr gwe";
 
 "app_externalApp" = "Yn agor yn yr App Store";
+
+"app_loadingLabel" = "Llwytho %@";
 
 
 // MARK: Local Auth prompt (Face ID)
@@ -35,8 +40,6 @@
 
 
 // MARK: Sign in screen
-"app_signInTitle" = "GOV.UK One Login";
-
 "app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.";
 
 "app_signInButton" = "Mewngofnodi";
