@@ -228,7 +228,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_externalApp".getWelshString(), "Yn agor yn yr App Store")
     }
     
-    func test_localAuthError_keys() throws {
+    func test_localAuthSettingsError_keys() throws {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
                        "Mae angen i chi ddiweddaru gosodiadau eich ffôn")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
@@ -245,6 +245,15 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Dod yn ôl i barhau i ddefnyddio'ch GOV.UK Wallet.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getWelshString(),
                        "Ewch i osodiadau ffôn")
+    }
+    
+    func test_localAuthBiometricsError_keys() throws {
+        XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getWelshString(),
+                       "Mae angen i chi ganiatáu %@")
+        XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getWelshString(),
+                       "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ganiatáu Face ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
+        XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getWelshString(),
+                       "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ganiatáu Touch ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
 }
 
