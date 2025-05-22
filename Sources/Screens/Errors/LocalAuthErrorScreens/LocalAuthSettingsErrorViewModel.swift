@@ -3,7 +3,7 @@ import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
 
-struct LocalAuthErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
+struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_localAuthManagerErrorTitle"
     let bodyContent: [ScreenBodyItem]

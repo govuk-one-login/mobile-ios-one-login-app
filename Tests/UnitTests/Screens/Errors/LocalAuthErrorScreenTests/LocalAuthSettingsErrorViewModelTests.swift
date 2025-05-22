@@ -4,20 +4,20 @@ import Testing
 import UIKit
 
 @MainActor
-struct LocalAuthErrorViewModelTests {
-    let sut: LocalAuthErrorViewModel
+struct LocalAuthSettingsErrorViewModelTests {
+    let sut: LocalAuthSettingsErrorViewModel
     let mockAnalyticsService = MockAnalyticsService()
     let mockLocalAuthService = MockLocalAuthManager()
     let urlOpener = MockURLOpener()
 
     init() {
-        sut = LocalAuthErrorViewModel(urlOpener: urlOpener,
+        sut = LocalAuthSettingsErrorViewModel(urlOpener: urlOpener,
                                       analyticsService: mockAnalyticsService,
                                       localAuthType: mockLocalAuthService.type)
     }
 }
 
-extension LocalAuthErrorViewModelTests {
+extension LocalAuthSettingsErrorViewModelTests {
     @Test
     func test_pageVariables() {
         #expect(sut.image == .error)
