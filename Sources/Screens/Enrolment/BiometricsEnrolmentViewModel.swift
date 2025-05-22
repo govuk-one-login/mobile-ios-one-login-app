@@ -20,6 +20,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     let secondaryButtonViewModel: ButtonViewModel
     let analyticsService: OneLoginAnalyticsService
     let isFaceID: Bool
+    let enrolmentJourney: EnrolmentJourney
     let biometricsTypeString: String
     var childView: UIView = UIView()
     
@@ -32,6 +33,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        self.enrolmentJourney = enrolmentJourney
         self.isFaceID = biometricsType == .faceID
         self.biometricsTypeString = isFaceID ? "app_FaceID" : "app_TouchID"
         self.image = isFaceID ? "faceid" : "touchid"
@@ -86,14 +88,21 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        let id = isFaceID ?
-        BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
-        BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
-       
+        let id = switch enrolmentJourney {
+        case .login:
+            isFaceID ?
+            BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
+            BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
+        case .wallet:
+            isFaceID ?
+            BiometricEnrolmentAnalyticsScreenID.faceIDWalletEnrolment.rawValue :
+            BiometricEnrolmentAnalyticsScreenID.touchIDWalletEnrolment.rawValue
+        }
+        
         let screenID = isFaceID ?
         BiometricEnrolmentAnalyticsScreen.faceIDEnrolment :
         BiometricEnrolmentAnalyticsScreen.touchIDEnrolment
-       
+        
         let screen = ScreenView(id: id,
                                 screen: screenID,
                                 titleKey: title.stringKey,
