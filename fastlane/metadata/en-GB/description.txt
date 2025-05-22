@@ -1,0 +1,44 @@
+You can use the GOV.UK One Login app to prove your identity to access some government services. It works by matching your face to your photo ID.
+
+Before you start
+
+You only need to get this app if you’re using a service on the GOV.UK website that asks you to prove your identity with GOV.UK One Login. You’ll be guided to this app when it is time to use it.
+
+What you need
+
+You can use any of the following types of photo ID:
+
+• UK passport
+• non-UK passport with a biometric chip
+• UK photocard driving licence
+• UK biometric residence permit (BRP)
+• UK biometric residence card (BRC)
+• UK Frontier Worker permit (FWP)
+
+You can use an expired BRP, BRC or FWP up to 18 months after its expiry date.
+
+You will also need:
+• a well-lit area where you can take a good quality photograph
+• an iPhone 7 or newer - or an iPhone 6s or newer if your photo ID is a driving licence
+• iOS 15 or higher
+
+How it works
+
+You'll need to sign in to the app with your GOV.UK One Login details. This links the app to the GOV.UK website so you can continue proving your identity.
+
+If your photo ID is a passport, BRP, BRC or FWP you will:
+• take a photo of your photo ID
+• scan the biometric chip in your photo ID using your phone
+• scan your face using your phone
+
+If your photo ID is a driving licence you will:
+• take a photo of your driving licence
+• scan your face using your phone
+
+What happens next
+
+This app is only for proving your identity. Once your information has been submitted in the app, you'll need to go back to the GOV.UK page you left open on your web browser, so you can finish proving your identity and access the service you were trying to use.
+
+Privacy and security
+
+Your personal information will not be saved either on the app or on your phone. We collect your data securely and delete it when it is no longer needed.
