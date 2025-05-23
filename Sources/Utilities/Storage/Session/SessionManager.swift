@@ -7,13 +7,20 @@ enum UserState {
     case notAuthenticated
 }
 
-protocol SessionManager: UserProvider {
-    var expiryDate: Date? { get }
+enum SessionState {
+    case nonePresent
+    case enrolling
+    case oneTime
+    case saved
+    case expired
+}
+
+protocol SessionManager: AnyObject, UserProvider {
+    var sessionState: SessionState { get }
     
-    var sessionExists: Bool { get }
-    var isSessionValid: Bool { get }
+    var expiryDate: Date? { get }
     var isReturningUser: Bool { get }
-    var isOneTimeUser: Bool { get }
+    var isEnrolling: Bool { get set }
 
     var tokenProvider: TokenHolder { get }
 
