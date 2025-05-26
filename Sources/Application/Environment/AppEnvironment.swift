@@ -222,9 +222,6 @@ extension AppEnvironment {
 // MARK: - Settings Page URLs
     
 extension AppEnvironment {
-    static var manageAccountURL: URL {
-        isLocaleWelsh ? manageAccountURLWelsh : manageAccountURLEnglish
-    }
     
     static var govURL: URL {
         var components = URLComponents()
@@ -240,14 +237,13 @@ extension AppEnvironment {
         return components.url!
     }
     
-    static var manageAccountURLEnglish: URL {
-        govURL
-            .appendingPathComponent("using-your-gov-uk-one-login")
-    }
-
-    static var manageAccountURLWelsh: URL {
-        govURL
-            .appendingPathComponent("defnyddio-eich-gov-uk-one-login")
+    static var manageAccountURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = yourServicesLink
+        components.path = "/security"
+        isLocaleWelsh ? components.query = "lng=\(localeString)" : nil
+        return components.url!
     }
     
     static var appHelpURL: URL {
