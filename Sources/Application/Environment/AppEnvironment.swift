@@ -271,9 +271,9 @@ extension AppEnvironment {
     static var privacyPolicyURL: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = externalBaseURLString
-        components.path = "/privacy-notice"
-        components.query = "lng=\(localeString)"
+        components.host = govURLString
+        components.path = "/government/publications/govuk-one-login-privacy-notice"
+        isLocaleWelsh ? components.path.append(".cy") : nil
         return components.url!
     }
     
