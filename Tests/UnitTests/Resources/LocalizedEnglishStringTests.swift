@@ -63,7 +63,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_networkErrorTitle".getEnglishString(),
                        "You are not connected to the internet")
         XCTAssertEqual("app_networkErrorBody".getEnglishString(),
-                       "You need to have an internet connection to use GOV.UK One Login.\n\nReconnect to the internet and try again.")
+                       "You need to have an internet connection to use %@.\n\nReconnect to the internet and try again.")
     }
     
     func test_genericErrorScreen_keys() throws {

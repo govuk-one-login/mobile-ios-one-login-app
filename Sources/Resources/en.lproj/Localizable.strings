@@ -68,7 +68,7 @@
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "You are not connected to the internet";
 
-"app_networkErrorBody" = "You need to have an internet connection to use GOV.UK One Login.\n\nReconnect to the internet and try again.";
+"app_networkErrorBody" = "You need to have an internet connection to use %@.\n\nReconnect to the internet and try again.";
 
 
 // MARK: Generic error screen

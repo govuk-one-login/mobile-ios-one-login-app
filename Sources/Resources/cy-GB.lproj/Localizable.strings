@@ -68,7 +68,7 @@
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "Nid ydych wedi'ch cysylltu â'r rhyngrwyd";
 
-"app_networkErrorBody" = "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio GOV.UK One Login.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.";
+"app_networkErrorBody" = "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio %@.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.";
 
 
 // MARK: Generic error screen

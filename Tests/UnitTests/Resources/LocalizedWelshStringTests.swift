@@ -63,7 +63,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_networkErrorTitle".getWelshString(),
                        "Nid ydych wedi'ch cysylltu â'r rhyngrwyd")
         XCTAssertEqual("app_networkErrorBody".getWelshString(),
-                       "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio GOV.UK One Login.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.")
+                       "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio %@.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.")
     }
     
     func test_genericErrorScreen_keys() throws {
