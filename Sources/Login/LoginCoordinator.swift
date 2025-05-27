@@ -33,6 +33,10 @@ final class LoginCoordinator: NSObject,
         root.viewControllers.first as? IntroViewController
     }
     
+    private var reauthViewController: GDSInformationViewController? {
+        root.viewControllers.first as? GDSInformationViewController
+    }
+    
     init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsService: OneLoginAnalyticsService,
@@ -97,6 +101,7 @@ final class LoginCoordinator: NSObject,
                 showUnableToLoginErrorScreen(error)
             } catch LoginError.userCancelled {
                 introViewController?.enableIntroButton()
+                reauthViewController?.resetPrimaryButton()
             } catch LoginError.network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
@@ -191,6 +196,7 @@ extension LoginCoordinator {
     private func returnFromErrorScreen() {
         root.popToRootViewController(animated: true)
         introViewController?.enableIntroButton()
+        reauthViewController?.resetPrimaryButton()
     }
 }
 

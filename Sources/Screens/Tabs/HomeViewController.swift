@@ -8,7 +8,7 @@ import UIKit
 @MainActor
 protocol CRIOrchestration {
     func continueIdentityCheckIfRequired(over viewController: UIViewController)
-
+    
     func getIDCheckCard(
         viewController: UIViewController,
         externalStream: IDCheckExternalStream
@@ -28,7 +28,7 @@ final class HomeViewController: BaseViewController {
     
     private var idCheckCard: UIViewController?
     private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
-
+    
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
          criOrchestrator: CRIOrchestration) {
@@ -108,7 +108,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         guard let idCheckCard else { return 2 }
         return idCheckCard.view.isHidden ? 2 : 3
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
@@ -127,17 +127,15 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let idCheckCard else { return getWelcomeCard(indexPath: indexPath) }
-            if !idCheckCard.view.isHidden {
-                return getIDCheckCard(indexPath: indexPath)
-            }
-            return getWelcomeCard(indexPath: indexPath)
-        case 1:
-            guard let idCheckCard else { return getPurposeCard(indexPath: indexPath) }
-            if !idCheckCard.view.isHidden {
+            guard let idCheckCard, !idCheckCard.view.isHidden else {
                 return getWelcomeCard(indexPath: indexPath)
             }
-            return getPurposeCard(indexPath: indexPath)
+            return getIDCheckCard(indexPath: indexPath)
+        case 1:
+            guard let idCheckCard, !idCheckCard.view.isHidden else {
+                return getPurposeCard(indexPath: indexPath)
+            }
+            return getWelcomeCard(indexPath: indexPath)
         case 2:
             return getPurposeCard(indexPath: indexPath)
         default:
@@ -165,7 +163,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             preconditionFailure()
         }
         cell.viewModel = PurposeTileViewModel()
-
+        
         return cell
     }
     
@@ -189,7 +187,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             idCheckCard.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
             idCheckCard.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
         ])
-
+        
         return cell
     }
 }

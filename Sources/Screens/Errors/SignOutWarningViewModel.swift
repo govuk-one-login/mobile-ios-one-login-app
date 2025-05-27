@@ -23,6 +23,7 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
+                                                               shouldLoadOnTap: true,
                                                                analyticsService: analyticsService,
                                                                analyticsEvent: event) {
             action()
