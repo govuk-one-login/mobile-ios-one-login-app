@@ -61,11 +61,9 @@ final class AppEnvironmentTests: XCTestCase {
     
     func test_appEnvironment_settingsURLs() {
         // Settings Page
-        XCTAssertEqual(sut.manageAccountURL.absoluteString, "https://gov.uk/using-your-gov-uk-one-login")
+        XCTAssertEqual(sut.manageAccountURL.absoluteString, "https://home.account.gov.uk/security")
         XCTAssertEqual(sut.govURL.absoluteString, "https://gov.uk")
         XCTAssertEqual(sut.govSupportURL.absoluteString, "https://home.build.account.gov.uk")
-        XCTAssertEqual(sut.manageAccountURLEnglish.absoluteString, "https://gov.uk/using-your-gov-uk-one-login")
-        XCTAssertEqual(sut.manageAccountURLWelsh.absoluteString, "https://gov.uk/defnyddio-eich-gov-uk-one-login")
         XCTAssertEqual(sut.appHelpURL.absoluteString, "https://gov.uk/guidance/proving-your-identity-with-the-govuk-one-login-app")
         XCTAssertEqual(sut.contactURL.absoluteString, "https://home.account.gov.uk/contact-gov-uk-one-login?lng=en")
         XCTAssertEqual(sut.privacyPolicyURL.absoluteString, "https://signin.build.account.gov.uk/privacy-notice?lng=en")
