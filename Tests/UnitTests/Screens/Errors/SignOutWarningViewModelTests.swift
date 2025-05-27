@@ -38,6 +38,7 @@ extension SignOutWarningViewModelTests {
     
     func test_button() {
         XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_extendedSignInButton")
+        XCTAssertEqual(sut.primaryButtonViewModel.title.variableKeys, ["app_nameString"])
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -45,6 +46,7 @@ extension SignOutWarningViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         
         let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])

@@ -37,11 +37,11 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_signInScreen_keys() throws {
         XCTAssertEqual("app_signInBody".getWelshString(),
-                       "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.")
+                       "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion %@.")
         XCTAssertEqual("app_signInButton".getWelshString(),
                        "Mewngofnodi")
         XCTAssertEqual("app_extendedSignInButton".getWelshString(),
-                       "Mewngofnodi gyda GOV.UK One Login")
+                       "Mewngofnodi gyda %@")
     }
     
     func test_analyticsScreen_keys() throws {

@@ -37,11 +37,11 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_signInScreen_keys() throws {
         XCTAssertEqual("app_signInBody".getEnglishString(),
-                       "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+                       "Prove your identity to access government services.\n\nYou’ll need to sign in with your %@ details.")
         XCTAssertEqual("app_signInButton".getEnglishString(),
                        "Sign in")
         XCTAssertEqual("app_extendedSignInButton".getEnglishString(),
-                       "Sign in with GOV.UK One Login")
+                       "Sign in with %@")
     }
     
     func test_analyticsScreen_keys() throws {

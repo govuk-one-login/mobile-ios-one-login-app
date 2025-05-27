@@ -20,9 +20,11 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
             OLTaxonomyKey.level3: OLTaxonomyValue.reauth
         ])
         let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
+                                                               "app_nameString",
                                                                shouldLoadOnTap: true,
                                                                analyticsService: analyticsService,
                                                                analyticsEvent: event) {

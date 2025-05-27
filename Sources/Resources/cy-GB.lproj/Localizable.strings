@@ -40,11 +40,11 @@
 
 
 // MARK: Sign in screen
-"app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.";
+"app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion %@.";
 
 "app_signInButton" = "Mewngofnodi";
 
-"app_extendedSignInButton" = "Mewngofnodi gyda GOV.UK One Login";
+"app_extendedSignInButton" = "Mewngofnodi gyda %@";
 
 
 // MARK: Analytics peference screen

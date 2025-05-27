@@ -40,11 +40,11 @@
 
 
 // MARK: Sign in screen
-"app_signInBody" = "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.";
+"app_signInBody" = "Prove your identity to access government services.\n\nYou’ll need to sign in with your %@ details.";
 
 "app_signInButton" = "Sign in";
 
-"app_extendedSignInButton" = "Sign in with GOV.UK One Login";
+"app_extendedSignInButton" = "Sign in with %@";
 
 
 // MARK: Analytics peference screen
