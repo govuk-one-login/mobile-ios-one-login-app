@@ -173,6 +173,14 @@ platform :ios do
           reject_build_waiting_for_review: false,
           submit_beta_review: true
         )
+        
+        if app_identifier == "uk.gov.onelogin" then
+          appstore(
+            force: true,
+            skip_screenshots: true,
+            skip_binary_upload: true
+          )
+        end
       rescue Spaceship::UnexpectedResponse => ex
         if ex.error_info['code'] != "You can't submit a build for testing if another build is already in review. Wait until your other build has been reviewed, and resubmit this build."
           raise ex
