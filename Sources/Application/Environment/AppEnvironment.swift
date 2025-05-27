@@ -250,8 +250,8 @@ extension AppEnvironment {
         var components = URLComponents()
         components.scheme = "https"
         components.host = govURLString
-        components.path = "/one-login/app-help"
-        components.query = "lng=\(localeString)"
+        components.path = "/guidance/proving-your-identity-with-the-govuk-one-login-app"
+        isLocaleWelsh ? components.path.append(".cy") : nil
         return components.url!
     }
     
