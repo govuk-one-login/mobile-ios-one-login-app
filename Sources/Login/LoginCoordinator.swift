@@ -29,14 +29,6 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    private var introViewController: IntroViewController? {
-        root.viewControllers.first as? IntroViewController
-    }
-    
-    private var reauthViewController: GDSInformationViewController? {
-        root.viewControllers.first as? GDSInformationViewController
-    }
-    
     init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsService: OneLoginAnalyticsService,
@@ -100,8 +92,7 @@ final class LoginCoordinator: NSObject,
             } catch PersistentSessionError.cannotDeleteData(let error) {
                 showUnableToLoginErrorScreen(error)
             } catch LoginError.userCancelled {
-                introViewController?.enableIntroButton()
-                reauthViewController?.resetPrimaryButton()
+                enableAuthButton()
             } catch LoginError.network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
@@ -195,8 +186,14 @@ extension LoginCoordinator {
     
     private func returnFromErrorScreen() {
         root.popToRootViewController(animated: true)
-        introViewController?.enableIntroButton()
-        reauthViewController?.resetPrimaryButton()
+        enableAuthButton()
+    }
+    
+    private func enableAuthButton() {
+        (root.viewControllers.first as? IntroViewController)?
+            .enableIntroButton()
+        (root.viewControllers.first as? GDSInformationViewController)?
+            .resetPrimaryButton()
     }
 }
 
