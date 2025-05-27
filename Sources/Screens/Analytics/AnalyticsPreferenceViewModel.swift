@@ -27,6 +27,7 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
             secondaryButtonAction()
         }
         self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink",
+                                                           titleStringVariableKeys: "app_nameString",
                                                            accessibilityHint: "app_externalBrowser") {
             textButtonAction()
         }

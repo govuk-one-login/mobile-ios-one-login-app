@@ -49,7 +49,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Helpu i wella'r ap drwy rannu dadansoddi")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
                        "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.")
-        XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Darllenwch fwy am hyn yn hysbysiad preifatrwydd GOV.UK One Login")
+        XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@")
     }
     
     func test_unableToLoginErrorScreen_keys() throws {

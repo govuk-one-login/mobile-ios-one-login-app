@@ -57,6 +57,7 @@ extension AnalyticsPreferenceViewModelTests {
 
     func test_textButton_action() throws {
         XCTAssertEqual(sut.textButtonViewModel.title.stringKey, "app_privacyNoticeLink")
+        XCTAssertEqual(sut.textButtonViewModel.title.variableKeys, ["app_nameString"])
         XCTAssertFalse(didCallTextButtonAction)
         sut.textButtonViewModel.action()
         XCTAssertTrue(didCallTextButtonAction)

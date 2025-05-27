@@ -52,7 +52,7 @@
 
 "acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
 
-"app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd GOV.UK One Login";
+"app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@";
 
 "app_shareAnalyticsButton" = "Rhannu dadansoddeg";
 

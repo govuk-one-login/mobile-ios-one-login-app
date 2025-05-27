@@ -49,7 +49,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Help improve the app by sharing analytics")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getEnglishString(),
                        "You can help the One Login team make improvements by sharing analytics about how you use the app.\n\nThese analytics are anonymous. They show us what is and is not working, and help make the app better.\n\nYou can stop sharing these analytics any time by changing your app settings.")
-        XCTAssertEqual("app_privacyNoticeLink".getEnglishString(), "Read more about this in the GOV.UK One Login privacy notice")
+        XCTAssertEqual("app_privacyNoticeLink".getEnglishString(), "Read more about this in the %@ privacy notice")
     }
     
     func test_unableToLoginErrorScreen_keys() throws {

@@ -52,7 +52,7 @@
 
 "acceptAnalyticsPreferences_body" = "You can help the One Login team make improvements by sharing analytics about how you use the app.\n\nThese analytics are anonymous. They show us what is and is not working, and help make the app better.\n\nYou can stop sharing these analytics any time by changing your app settings.";
 
-"app_privacyNoticeLink" = "Read more about this in the GOV.UK One Login privacy notice";
+"app_privacyNoticeLink" = "Read more about this in the %@ privacy notice";
 
 "app_shareAnalyticsButton" = "Share analytics";
 
