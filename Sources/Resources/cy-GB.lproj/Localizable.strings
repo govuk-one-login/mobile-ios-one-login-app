@@ -86,6 +86,7 @@
 
 "app_enableBiometricsButton" = "Caniatáu %@";
 
+
 // MARK: Biometrics enrolment screen
 "app_FaceID" = "Face ID";
 
@@ -95,7 +96,7 @@
 
 "app_enableBiometricsBody1" = "Defnyddiwch %@ i:";
 
-"app_enableBiometricsBullet1" = "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda GOV.UK One Login";
+"app_enableBiometricsBullet1" = "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda %@";
 
 "app_enableBiometricsBullet2" = "gweld ac ychwanegu dogfennau";
 

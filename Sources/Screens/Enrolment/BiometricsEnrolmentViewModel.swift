@@ -62,7 +62,8 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
         let bulletView: BulletView = BulletView(title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1",
                                                                           biometricsTypeString).value,
                                                 text: [
-                                                    GDSLocalisedString(stringLiteral: "app_enableBiometricsBullet1").value,
+                                                    GDSLocalisedString(stringKey: "app_enableBiometricsBullet1",
+                                                                       "app_nameString").value,
                                                     GDSLocalisedString(stringLiteral: "app_enableBiometricsBullet2").value
                                                 ],
                                                 titleFont: .body)

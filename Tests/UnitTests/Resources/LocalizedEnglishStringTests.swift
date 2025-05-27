@@ -101,7 +101,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_enableBiometricsBody1".getEnglishString(),
                        "Use %@ to:")
         XCTAssertEqual("app_enableBiometricsBullet1".getEnglishString(),
-                       "unlock the app within 30 minutes of signing in with GOV.UK One Login")
+                       "unlock the app within 30 minutes of signing in with %@")
         XCTAssertEqual("app_enableBiometricsBullet2".getEnglishString(),
                        "view and add documents")
     }

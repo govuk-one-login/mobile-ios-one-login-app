@@ -101,7 +101,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_enableBiometricsBody1".getWelshString(),
                        "Defnyddiwch %@ i:")
         XCTAssertEqual("app_enableBiometricsBullet1".getWelshString(),
-                       "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda GOV.UK One Login")
+                       "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda %@")
         XCTAssertEqual("app_enableBiometricsBullet2".getWelshString(),
                        "gweld ac ychwanegu dogfennau")
     }
