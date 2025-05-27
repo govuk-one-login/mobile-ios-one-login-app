@@ -80,9 +80,9 @@
 // MARK: Biometrics Login enrolment screen
 "app_enableLoginBiometricsTitle" = "Unlock the app with %@";
 
-"app_enableFaceIDBody" = "You can use Face ID to unlock the app within 30 minutes of signing in with GOV.UK One Login.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.";
+"app_enableFaceIDBody" = "You can use Face ID to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.";
 
-"app_enableTouchIDBody" = "You can use your fingerprint to unlock the app within 30 minutes of signing in with GOV.UK One Login.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
+"app_enableTouchIDBody" = "You can use your fingerprint to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
 
 "app_enableBiometricsButton" = "Allow %@";
 

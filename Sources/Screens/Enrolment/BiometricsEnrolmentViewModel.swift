@@ -52,7 +52,9 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
             self.childView = configureWalletEnrolmentView()
         } else {
             self.title = GDSLocalisedString(stringKey: "app_enableLoginBiometricsTitle", biometricsTypeString)
-            self.body = isFaceID ? "app_enableFaceIDBody" : "app_enableTouchIDBody"
+            self.body = isFaceID ?
+            GDSLocalisedString(stringKey: "app_enableFaceIDBody", "app_nameString") :
+            GDSLocalisedString(stringKey: "app_enableTouchIDBody", "app_nameString")
         }
     }
     
