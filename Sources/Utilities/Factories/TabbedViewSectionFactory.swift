@@ -19,7 +19,7 @@ extension TabbedViewSectionModel {
                                                         accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
             let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
-                                  linkDomain: AppEnvironment.manageAccountURLEnglish.absoluteString,
+                                  linkDomain: AppEnvironment.manageAccountURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
         }])
