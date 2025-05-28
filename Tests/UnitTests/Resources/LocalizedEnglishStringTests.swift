@@ -160,7 +160,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
                        "This means:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
-                       "any documents saved in your GOV.UK Wallet will be removed")
+                       "any documents saved in your %@ will be removed")
         XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
                        "if you’re using Face ID or Touch ID to unlock the app, this will be switched off")
         XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
@@ -189,11 +189,11 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_dataDeletionWarningTitle".getEnglishString(),
                        "Something went wrong")
         
+        XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
+                       "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your %@ have been removed and your app preferences have been reset.\n\nYou need to sign in again and set your preferences again to continue using the app. You’ll then be able to add documents to you %@.")
+        
         XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getEnglishString(),
                        "We could not confirm your sign in details.\n\nTo keep your information secure, your preference for using Touch ID or Face ID to unlock the app has been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")
-        
-        XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
-                       "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your GOV.UK Wallet have been removed and your app preferences have been reset.\n\nYou need to sign in again and set your preferences again to continue using the app. You’ll then be able to add documents to you GOV.UK Wallet.")
     }
 
     func test_updateAppPageKeys() {
@@ -233,7 +233,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
                        "You need to update your phone settings")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
-                       "To add documents to your GOV.UK Wallet, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.")
+                       "To add documents to your %@, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
                        "You need to:")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString(),
@@ -243,7 +243,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getEnglishString(),
                        "Tap Turn Passcode On and follow the instructions.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getEnglishString(),
-                       "Come back to continue using your GOV.UK Wallet.")
+                       "Come back to continue using your %@.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getEnglishString(),
                        "Go to phone settings")
     }

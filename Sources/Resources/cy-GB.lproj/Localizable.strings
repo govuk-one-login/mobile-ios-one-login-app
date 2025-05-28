@@ -21,6 +21,8 @@
 
 "app_nameString" = "GOV.UK One Login";
 
+"app_walletString" = "GOV.UK Wallet";
+
 
 // MARK: Accessibility - voiceover additions
 
@@ -154,7 +156,7 @@
 
 "app_signOutConfirmationBody2" = "Mae hyn yn golygu:";
 
-"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau a arbedir yn eich GOV.UK Wallet yn cael eu dileu";
+"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau a arbedir yn eich %@ yn cael eu dileu";
 
 "app_signOutConfirmationBullet2" = "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd";
 
@@ -191,17 +193,16 @@
 "app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap %@.\n\nMewngofnodwch eto i barhau.";
 
 
-// MARK: Data DeletionWarning screen
-// English title is same as generic but need a different key for welsh
+// MARK: Data Deletion Warning screen
 "app_dataDeletionWarningTitle" = "Mae rhywbeth wedi mynd o'i le";
 
 
-// MARK: Data DeletionWarning No Wallet screen
+// MARK: Data Deletion Warning No Wallet screen
 "app_dataDeletionWarningBodyNoWallet" = "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
 
 
-// MARK: Data DeletionWarning With Wallet screen
-"app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich GOV.UK Wallet wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich GOV.UK  Wallet.";
+// MARK: Data Deletion Warning With Wallet screen
+"app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich %@ wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich %@.";
 
 
 // MARK: Update App screen
@@ -232,7 +233,7 @@
 
 "app_localAuthManagerErrorTitle" = "Mae angen i chi ddiweddaru gosodiadau eich ffôn";
 
-"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.";
+"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau at eich %@, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.";
 
 "app_localAuthManagerErrorBody3" = "Mae angen i chi:";
 
@@ -242,6 +243,6 @@
 
 "app_localAuthManagerErrorNumberedList2" = "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.";
 
-"app_localAuthManagerErrorNumberedList3" = "Dod yn ôl i barhau i ddefnyddio'ch GOV.UK Wallet.";
+"app_localAuthManagerErrorNumberedList3" = "Dod yn ôl i barhau i ddefnyddio'ch %@.";
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Ewch i osodiadau ffôn";

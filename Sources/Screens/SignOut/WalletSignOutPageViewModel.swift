@@ -50,7 +50,8 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         
         let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
+                                                    GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
+                                                                       "app_walletString").value,
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
                                                 ])

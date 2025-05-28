@@ -43,7 +43,8 @@ extension WalletSignOutPageViewModelTests {
         let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
         let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
         let firstBulletText = try XCTUnwrap(firstBullet.text)
-        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value))
+        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
+                                                                  "app_walletString").value))
         let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
         let secondBulletText = try XCTUnwrap(secondBullet.text)
         XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value))

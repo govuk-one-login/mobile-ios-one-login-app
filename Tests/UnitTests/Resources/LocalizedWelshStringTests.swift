@@ -160,7 +160,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
                        "Mae hyn yn golygu:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
-                       "bydd unrhyw ddogfennau a arbedir yn eich GOV.UK Wallet yn cael eu dileu")
+                       "bydd unrhyw ddogfennau a arbedir yn eich %@ yn cael eu dileu")
         XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
                        "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd")
         XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
@@ -190,7 +190,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mae rhywbeth wedi mynd o'i le")
         
         XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
-                       "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich GOV.UK Wallet wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich GOV.UK  Wallet.")
+                       "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich %@ wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich %@.")
         
         XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getWelshString(),
                        "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")
@@ -233,7 +233,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
                        "Mae angen i chi ddiweddaru gosodiadau eich ffôn")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
-                       "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.")
+                       "I ychwanegu dogfennau at eich %@, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getWelshString(),
                        "Mae angen i chi:")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getWelshString(),
@@ -243,7 +243,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getWelshString(),
                        "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getWelshString(),
-                       "Dod yn ôl i barhau i ddefnyddio'ch GOV.UK Wallet.")
+                       "Dod yn ôl i barhau i ddefnyddio'ch %@.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getWelshString(),
                        "Ewch i osodiadau ffôn")
     }

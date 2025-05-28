@@ -21,5 +21,6 @@ struct LocalAuthErrorListViewModelTests {
         #expect(sut.listItemStrings[0].stringKey == "app_localAuthManagerErrorNumberedList1TouchID")
         #expect(sut.listItemStrings[1].stringKey == "app_localAuthManagerErrorNumberedList2")
         #expect(sut.listItemStrings[2].stringKey == "app_localAuthManagerErrorNumberedList3")
+        #expect(sut.listItemStrings[2].variableKeys == ["app_walletString"])
     }
 }
