@@ -207,9 +207,9 @@
 // MARK: Update App screen
 "app_updateAppTitle" = "You need to update your app";
 
-"app_updateAppBody" = "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.";
+"app_updateAppBody" = "You’re using an old version of the %@ app.\n\nUpdate your app to continue.";
 
-"app_updateAppButton" = "Update GOV.UK One Login app";
+"app_updateAppButton" = "Update %@ app";
 
 
 // MARK: Home Screen Cards content tiles

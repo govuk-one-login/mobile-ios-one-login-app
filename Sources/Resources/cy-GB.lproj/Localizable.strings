@@ -199,15 +199,17 @@
 // MARK: Data DeletionWarning No Wallet screen
 "app_dataDeletionWarningBodyNoWallet" = "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
 
+
 // MARK: Data DeletionWarning With Wallet screen
 "app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich GOV.UK Wallet wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich GOV.UK  Wallet.";
+
 
 // MARK: Update App screen
 "app_updateAppTitle" = "Mae angen i chi ddiweddaru eich ap";
 
-"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
+"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nDiweddarwch eich ap i barhau.";
 
-"app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
+"app_updateAppButton" = "Diweddaru Ap %@";
 
 
 // MARK: Home Screen Cards content tiles
