@@ -213,7 +213,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_appPurposeTileHeader".getWelshString(),
                        "Sut i brofi eich hunaniaeth")
         XCTAssertEqual("app_appPurposeTileBody1".getWelshString(),
-                       "Os oes angen i chi brofi eich hunaniaeth gyda GOV.UK One Login i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.")
+                       "Os oes angen i chi brofi eich hunaniaeth gyda %@ i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.")
     }
     
     func test_appUnavailablePageKeys() {

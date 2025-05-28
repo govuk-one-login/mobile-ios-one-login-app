@@ -213,7 +213,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appPurposeTileHeader".getEnglishString(),
                        "How to prove your identity")
         XCTAssertEqual("app_appPurposeTileBody1".getEnglishString(),
-                       "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
+                       "If you need to prove your identity with %@ to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
     }
     
     func test_appUnavailablePageKeys() {

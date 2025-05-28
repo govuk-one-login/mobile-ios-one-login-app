@@ -219,7 +219,7 @@
 
 "app_appPurposeTileHeader" = "How to prove your identity";
 
-"app_appPurposeTileBody1" = "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.";
+"app_appPurposeTileBody1" = "If you need to prove your identity with %@ to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.";
 
 
 // MARK: App Unavailable Screen
