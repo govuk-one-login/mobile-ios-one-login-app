@@ -127,19 +127,19 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_settingsTitle".getEnglishString(),
                        "Settings")
         XCTAssertEqual("app_settingsSignInDetailsTile".getEnglishString(),
-                       "Your GOV.UK One login")
+                       "Your %@")
         XCTAssertEqual("app_settingsSignInDetailsLink".getEnglishString(),
                        "Manage your sign in details")
         XCTAssertEqual("app_settingsSignInDetailsFootnote".getEnglishString(),
                        "You might need to sign in again to manage your GOV.UK One Login details.")
         XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
-                       "GOV.UK One Login privacy notice")
+                       "%@ privacy notice")
         XCTAssertEqual("app_settingsSubtitle1".getEnglishString(),
                        "Help and feedback")
         XCTAssertEqual("app_contactLink".getEnglishString(),
-                       "Contact GOV.UK One Login")
+                       "Contact %@")
         XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
-                       "Using the GOV.UK One Login app")
+                       "Using the %@ app")
         XCTAssertEqual("app_signOutButton".getEnglishString(),
                        "Sign out")
         XCTAssertEqual("app_settingsSubtitle2".getEnglishString(),
@@ -147,7 +147,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_settingsAnalyticsToggle".getEnglishString(),
                        "Share app analytics")
         XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getEnglishString(),
-                       "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the GOV.UK One Login privacy notice.")
+                       "You can share anonymous analytics about how you use the app to help the %@ team make improvements. Read more in the GOV.UK One Login privacy notice.")
         XCTAssertEqual("app_accessibilityStatement".getEnglishString(),
                        "Accessibility statement")
     }

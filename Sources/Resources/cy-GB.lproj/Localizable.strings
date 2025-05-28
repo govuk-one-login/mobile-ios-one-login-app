@@ -119,10 +119,10 @@
 "app_walletTitle" = "Waled";
 
 
-// MARK: Profile screen
+// MARK: Settings screen
 "app_settingsTitle" = "Gosodiadau";
 
-"app_settingsSignInDetailsTile" = "Eich GOV.UK One Login";
+"app_settingsSignInDetailsTile" = "Eich %@";
 
 "app_settingsSignInDetailsLink" = "Rheoli eich manylion mewngofnodi";
 
@@ -130,17 +130,17 @@
 
 "app_settingsSubtitle1" = "Help ac adborth";
 
-"app_appGuidanceLink" = "Defnyddio'r ap GOV.UK One Login";
+"app_appGuidanceLink" = "Defnyddio'r ap %@";
 
-"app_contactLink" = "Cysylltu GOV.UK One Login";
+"app_contactLink" = "Cysylltu %@";
 
 "app_settingsSubtitle2" = "Am yr ap";
 
 "app_settingsAnalyticsToggle" = "Rhannu dadansoddeg yr ap";
 
-"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.";
+"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.";
 
-"app_privacyNoticeLink2" = "Rhybudd Preifatrwydd GOV.UK One Login";
+"app_privacyNoticeLink2" = "Rhybudd Preifatrwydd %@";
 
 "app_accessibilityStatement" = "Datganiad hygyrchedd";
 

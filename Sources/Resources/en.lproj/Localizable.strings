@@ -122,7 +122,7 @@
 // MARK: Settings screen
 "app_settingsTitle" = "Settings";
 
-"app_settingsSignInDetailsTile" = "Your GOV.UK One login";
+"app_settingsSignInDetailsTile" = "Your %@";
 
 "app_settingsSignInDetailsLink" = "Manage your sign in details";
 
@@ -130,17 +130,17 @@
 
 "app_settingsSubtitle1" = "Help and feedback";
 
-"app_appGuidanceLink" = "Using the GOV.UK One Login app";
+"app_appGuidanceLink" = "Using the %@ app";
 
-"app_contactLink" = "Contact GOV.UK One Login";
+"app_contactLink" = "Contact %@";
 
 "app_settingsSubtitle2" = "About the app";
 
 "app_settingsAnalyticsToggle" = "Share app analytics";
 
-"app_settingsAnalyticsToggleFootnote" = "You can share anonymous analytics about how you use the app to help the GOV.UK One Login team make improvements. Read more in the GOV.UK One Login privacy notice.";
+"app_settingsAnalyticsToggleFootnote" = "You can share anonymous analytics about how you use the app to help the %@ team make improvements. Read more in the GOV.UK One Login privacy notice.";
 
-"app_privacyNoticeLink2" = "GOV.UK One Login privacy notice";
+"app_privacyNoticeLink2" = "%@ privacy notice";
 
 "app_accessibilityStatement" = "Accessibility statement";
 

@@ -81,7 +81,7 @@ extension SettingsViewControllerTests {
     func test_cellConfiguration() throws {
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
         let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
-        XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
+        XCTAssertEqual(cellConfig.text, "Your GOV.UK One Login")
         XCTAssertEqual(cellConfig.textProperties.color, .label)
         XCTAssertEqual(cellConfig.secondaryText, "")
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
@@ -92,7 +92,7 @@ extension SettingsViewControllerTests {
         mockSessionManager.user.send(MockUser())
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
         let cellConfig = try XCTUnwrap(cell.contentConfiguration as? UIListContentConfiguration)
-        XCTAssertEqual(cellConfig.text, "Your GOV.UK One login")
+        XCTAssertEqual(cellConfig.text, "Your GOV.UK One Login")
         XCTAssertEqual(cellConfig.textProperties.color, .label)
         XCTAssertEqual(cellConfig.secondaryText, "test@example.com")
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
@@ -155,6 +155,7 @@ extension SettingsViewControllerTests {
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
         let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.manageAccountURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
@@ -172,6 +173,7 @@ extension SettingsViewControllerTests {
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
         let event = LinkEvent(textKey: "app_appGuidanceLink",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.appHelpURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
@@ -189,6 +191,7 @@ extension SettingsViewControllerTests {
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
         let event = LinkEvent(textKey: "app_contactLink",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.contactURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
@@ -206,6 +209,7 @@ extension SettingsViewControllerTests {
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
         let event = LinkEvent(textKey: "app_privacyNoticeLink2",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)

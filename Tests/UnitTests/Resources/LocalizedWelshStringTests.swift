@@ -127,19 +127,19 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_settingsTitle".getWelshString(),
                        "Gosodiadau")
         XCTAssertEqual("app_settingsSignInDetailsTile".getWelshString(),
-                       "Eich GOV.UK One Login")
+                       "Eich %@")
         XCTAssertEqual("app_settingsSignInDetailsLink".getWelshString(),
                        "Rheoli eich manylion mewngofnodi")
         XCTAssertEqual("app_settingsSignInDetailsFootnote".getWelshString(),
                        "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.")
         XCTAssertEqual("app_privacyNoticeLink2".getWelshString(),
-                       "Rhybudd Preifatrwydd GOV.UK One Login")
+                       "Rhybudd Preifatrwydd %@")
         XCTAssertEqual("app_settingsSubtitle1".getWelshString(),
                        "Help ac adborth")
         XCTAssertEqual("app_contactLink".getWelshString(),
-                       "Cysylltu GOV.UK One Login")
+                       "Cysylltu %@")
         XCTAssertEqual("app_appGuidanceLink".getWelshString(),
-                       "Defnyddio'r ap GOV.UK One Login")
+                       "Defnyddio'r ap %@")
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
         XCTAssertEqual("app_settingsSubtitle2".getWelshString(),
@@ -147,7 +147,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_settingsAnalyticsToggle".getWelshString(),
                        "Rhannu dadansoddeg yr ap")
         XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getWelshString(),
-                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.")
+                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.")
         XCTAssertEqual("app_accessibilityStatement".getWelshString(),
                        "Datganiad hygyrchedd")
     }
