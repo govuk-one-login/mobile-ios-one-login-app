@@ -225,7 +225,7 @@
 // MARK: App Unavailable Screen
 "app_appUnavailableTitle" = "Sorry, the app is unavailable";
 
-"app_appUnavailableBody" = "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.";
+"app_appUnavailableBody" = "You cannot use the %@ app at the moment.\n\nTry again later.";
 
 
 // MARK: FaceID/ Touch ID Error Screen

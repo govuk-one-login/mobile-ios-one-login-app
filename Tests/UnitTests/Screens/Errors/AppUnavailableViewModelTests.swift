@@ -28,6 +28,7 @@ extension AppUnavailableViewModelTests {
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_appUnavailableTitle")
         XCTAssertEqual(sut.body?.stringKey, "app_appUnavailableBody")
+        XCTAssertEqual(sut.body?.variableKeys, ["app_nameString"])
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }

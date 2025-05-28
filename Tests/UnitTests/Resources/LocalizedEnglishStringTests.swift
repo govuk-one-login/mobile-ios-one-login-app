@@ -220,7 +220,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appUnavailableTitle".getEnglishString(),
                        "Sorry, the app is unavailable")
         XCTAssertEqual("app_appUnavailableBody".getEnglishString(),
-                       "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
+                       "You cannot use the %@ app at the moment.\n\nTry again later.")
     }
     
     func test_accessibilityHintKeys() {

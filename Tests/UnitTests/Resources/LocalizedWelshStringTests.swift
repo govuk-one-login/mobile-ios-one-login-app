@@ -220,7 +220,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_appUnavailableTitle".getWelshString(),
                        "Mae'n ddrwg gennym, nid yw'r ap ar gael")
         XCTAssertEqual("app_appUnavailableBody".getWelshString(),
-                       "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
+                       "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
     
     func test_accessibilityHintKeys() {
