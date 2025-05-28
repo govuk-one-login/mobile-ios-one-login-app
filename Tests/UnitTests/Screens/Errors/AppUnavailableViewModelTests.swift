@@ -27,8 +27,10 @@ extension AppUnavailableViewModelTests {
         XCTAssertEqual(sut.imageWeight, .regular)
         XCTAssertEqual(sut.image, "exclamationmark.circle")
         XCTAssertEqual(sut.title.stringKey, "app_appUnavailableTitle")
+        XCTAssertEqual(sut.title.value, "Sorry, the app is unavailable")
         XCTAssertEqual(sut.body?.stringKey, "app_appUnavailableBody")
         XCTAssertEqual(sut.body?.variableKeys, ["app_nameString"])
+        XCTAssertEqual(sut.body?.value, "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
