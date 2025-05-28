@@ -48,7 +48,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_acceptAnalyticsPreferences_title".getWelshString(),
                        "Helpu i wella'r ap drwy rannu dadansoddi")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
-                       "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.")
+                       "Gallwch helpu'r tîm %@ i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap %@ i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.")
         XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@")
     }
     
@@ -131,7 +131,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_settingsSignInDetailsLink".getWelshString(),
                        "Rheoli eich manylion mewngofnodi")
         XCTAssertEqual("app_settingsSignInDetailsFootnote".getWelshString(),
-                       "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.")
+                       "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion %@.")
         XCTAssertEqual("app_privacyNoticeLink2".getWelshString(),
                        "Rhybudd Preifatrwydd %@")
         XCTAssertEqual("app_settingsSubtitle1".getWelshString(),
@@ -147,7 +147,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_settingsAnalyticsToggle".getWelshString(),
                        "Rhannu dadansoddeg yr ap")
         XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getWelshString(),
-                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.")
+                       "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd %@.")
         XCTAssertEqual("app_accessibilityStatement".getWelshString(),
                        "Datganiad hygyrchedd")
     }
@@ -182,7 +182,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
                        "Mae angen i chi fewngofnodi eto")
         XCTAssertEqual("app_signOutWarningBody".getWelshString(),
-                       "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap GOV.UK  One Login.\n\nMewngofnodwch eto i barhau.")
+                       "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap %@.\n\nMewngofnodwch eto i barhau.")
     }
     
     func test_dataDeletedWarningPageKeys() {

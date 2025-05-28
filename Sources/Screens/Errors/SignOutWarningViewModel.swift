@@ -7,7 +7,8 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
                                 BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_signOutWarningTitle"
-    let body: GDSLocalisedString? = "app_signOutWarningBody"
+    let body: GDSLocalisedString? = GDSLocalisedString(stringKey: "app_signOutWarningBody",
+                                                       "app_nameString")
     let primaryButtonViewModel: ButtonViewModel
     
     let rightBarButtonTitle: GDSLocalisedString? = nil

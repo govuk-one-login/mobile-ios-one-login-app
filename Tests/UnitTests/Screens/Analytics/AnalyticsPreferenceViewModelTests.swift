@@ -36,6 +36,7 @@ extension AnalyticsPreferenceViewModelTests {
     func test_screen_contents() throws {
         XCTAssertEqual(sut.title.stringKey, "app_acceptAnalyticsPreferences_title")
         XCTAssertEqual(sut.body.stringKey, "acceptAnalyticsPreferences_body")
+        XCTAssertEqual(sut.body.variableKeys, ["app_nameString", "app_nameString"])
         XCTAssertEqual(sut.bodyTextColor, .label)
     }
 

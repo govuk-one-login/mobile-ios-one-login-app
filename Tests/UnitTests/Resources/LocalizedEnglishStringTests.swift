@@ -48,7 +48,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_acceptAnalyticsPreferences_title".getEnglishString(),
                        "Help improve the app by sharing analytics")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getEnglishString(),
-                       "You can help the One Login team make improvements by sharing analytics about how you use the app.\n\nThese analytics are anonymous. They show us what is and is not working, and help make the app better.\n\nYou can stop sharing these analytics any time by changing your app settings.")
+                       "You can help the %@ team make improvements by sharing analytics about how you use the app.\n\nThese analytics are anonymous. They show us what is and is not working, and help make the app better.\n\nYou can stop sharing these analytics any time by changing your app settings.")
         XCTAssertEqual("app_privacyNoticeLink".getEnglishString(), "Read more about this in the %@ privacy notice")
     }
     
@@ -131,7 +131,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_settingsSignInDetailsLink".getEnglishString(),
                        "Manage your sign in details")
         XCTAssertEqual("app_settingsSignInDetailsFootnote".getEnglishString(),
-                       "You might need to sign in again to manage your GOV.UK One Login details.")
+                       "You might need to sign in again to manage your %@ details.")
         XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
                        "%@ privacy notice")
         XCTAssertEqual("app_settingsSubtitle1".getEnglishString(),
@@ -147,7 +147,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_settingsAnalyticsToggle".getEnglishString(),
                        "Share app analytics")
         XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getEnglishString(),
-                       "You can share anonymous analytics about how you use the app to help the %@ team make improvements. Read more in the GOV.UK One Login privacy notice.")
+                       "You can share anonymous analytics about how you use the app to help the %@ team make improvements. Read more in the %@ privacy notice.")
         XCTAssertEqual("app_accessibilityStatement".getEnglishString(),
                        "Accessibility statement")
     }
@@ -182,7 +182,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutWarningTitle".getEnglishString(),
                        "You need to sign in again")
         XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
-                       "It’s been more than 30 minutes since you last signed in to the GOV.UK One Login app.\n\nSign in again to continue.")
+                       "It’s been more than 30 minutes since you last signed in to the %@ app.\n\nSign in again to continue.")
     }
     
     func test_dataDeletedWarningPageKeys() {

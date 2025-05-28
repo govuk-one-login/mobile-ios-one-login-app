@@ -10,7 +10,8 @@ extension TabbedViewSectionModel {
     
     static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: OneLoginAnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: nil,
-                                      sectionFooter: "app_settingsSignInDetailsFootnote",
+                                      sectionFooter: GDSLocalisedString(stringKey: "app_settingsSignInDetailsFootnote",
+                                                                        "app_nameString"),
                                       tabModels: [.init(cellTitle: GDSLocalisedString(stringKey: "app_settingsSignInDetailsTile",
                                                                                       "app_nameString"),
                                                         cellSubtitle: userEmail,
@@ -57,6 +58,7 @@ extension TabbedViewSectionModel {
     static func analyticsToggle() -> Self {
         TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle2",
                                sectionFooter: GDSLocalisedString(stringKey: "app_settingsAnalyticsToggleFootnote",
+                                                                 "app_nameString",
                                                                  "app_nameString"),
                                tabModels: [.init(cellTitle: "app_settingsAnalyticsToggle")])
     }

@@ -50,7 +50,7 @@
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
 
-"acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
+"acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm %@ i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap %@ i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
 
 "app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@";
 
@@ -126,7 +126,7 @@
 
 "app_settingsSignInDetailsLink" = "Rheoli eich manylion mewngofnodi";
 
-"app_settingsSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.";
+"app_settingsSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion %@.";
 
 "app_settingsSubtitle1" = "Help ac adborth";
 
@@ -138,7 +138,7 @@
 
 "app_settingsAnalyticsToggle" = "Rhannu dadansoddeg yr ap";
 
-"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.";
+"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd %@.";
 
 "app_privacyNoticeLink2" = "Rhybudd Preifatrwydd %@";
 
@@ -164,6 +164,7 @@
 
 "app_signOutAndDeleteAppDataButton" = "Mewngofnodi a dileu gwybodaeth";
 
+
 // Mark: Sign Out Confirmation screen no Wallet displayed
 "app_signOutConfirmationTitleNoWallet" = "Ydych chi'n siŵr eich bod eisiau allgofnodi?";
 
@@ -177,6 +178,7 @@
 
 "app_signOutAndDeletePreferences" = "Allgofnodi a dileu dewisiadau";
 
+
 // Mark: Sign Out Error screen
 "app_signOutErrorTitle" = "Roedd problem wrth eich allgofnodi";
 
@@ -186,11 +188,13 @@
 // Mark: Sign Out Warning screen
 "app_signOutWarningTitle" = "Mae angen i chi fewngofnodi eto";
 
-"app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap GOV.UK  One Login.\n\nMewngofnodwch eto i barhau.";
+"app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap %@.\n\nMewngofnodwch eto i barhau.";
+
 
 // MARK: Data DeletionWarning screen
 // English title is same as generic but need a different key for welsh
 "app_dataDeletionWarningTitle" = "Mae rhywbeth wedi mynd o'i le";
+
 
 // MARK: Data DeletionWarning No Wallet screen
 "app_dataDeletionWarningBodyNoWallet" = "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
