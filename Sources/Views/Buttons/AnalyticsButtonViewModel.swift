@@ -23,7 +23,9 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
                                 variableKeys: titleStringVariableKeys)
         self.init(titleKey: titleKey,
                   titleStringVariableKeys: titleStringVariableKeys,
+                  icon: icon,
                   backgroundColor: backgroundColor,
+                  shouldLoadOnTap: shouldLoadOnTap,
                   analyticsService: analyticsService,
                   analyticsEvent: event,
                   accessibilityHint: accessibilityHint,
@@ -43,6 +45,7 @@ struct AnalyticsButtonViewModel: ColoredButtonViewModel {
                   titleStringVariableKeys: titleStringVariableKeys,
                   icon: icon,
                   backgroundColor: backgroundColor,
+                  shouldLoadOnTap: shouldLoadOnTap,
                   analyticsService: analyticsService,
                   analyticsEvent: analyticsEvent,
                   accessibilityHint: accessibilityHint,
