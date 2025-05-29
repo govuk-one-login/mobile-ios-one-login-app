@@ -1549,9 +1549,9 @@
 		C8BFE5E12CB578E500FA9A35 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */,
 				C32436D02DCB906000CC3FCC /* PurposeTileViewModelTests.swift */,
 				AB51B3762D78824F00348FB6 /* WelcomeTileViewModelTests.swift */,
-				C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2217,9 +2217,9 @@
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
+				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
-				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */,
