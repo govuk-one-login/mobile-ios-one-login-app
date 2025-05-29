@@ -1,5 +1,4 @@
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.staging
-
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Staging
 
 BASE_URL = account.gov.uk
