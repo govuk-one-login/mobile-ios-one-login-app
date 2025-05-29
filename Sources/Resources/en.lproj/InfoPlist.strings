@@ -3,3 +3,6 @@
 
 // MARK: ReadID NFC permission prompt
 "NFCReaderUsageDescription" = "This is required to scan the chip on your document";
+
+// MARK: Camera usage permission prompt
+"NSCameraUsageDescription" = "The app will use your phone's front and rear cameras to prove your identity and scan QR codes.";

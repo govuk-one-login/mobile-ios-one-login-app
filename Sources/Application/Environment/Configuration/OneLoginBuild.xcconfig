@@ -3,7 +3,6 @@
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.build
 
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Build
-INFOPLIST_KEY_NSCameraUsageDescription = The app will use your phone's front and rear cameras to prove your identity and scan QR codes.
 
 BASE_URL = account.gov.uk
 ENVIRONMENT_BASE_URL = build.$(BASE_URL)
