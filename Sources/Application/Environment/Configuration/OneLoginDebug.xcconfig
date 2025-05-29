@@ -1,7 +1,6 @@
 #include "../secrets.xcconfig"
 
 PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin.build
-
 INFOPLIST_KEY_CFBundleDisplayName = One Login - Build
 
 BASE_URL = account.gov.uk

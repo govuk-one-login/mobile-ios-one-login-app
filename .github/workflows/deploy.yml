@@ -86,4 +86,5 @@ jobs:
           bundle exec fastlane prerelease configuration:${{ inputs.configuration }} \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
-            apikey_path:$APIKEY_PATH --verbose
+            apikey_path:$APIKEY_PATH --verbose \
+            build_increment:${{ vars.build_increment }}
