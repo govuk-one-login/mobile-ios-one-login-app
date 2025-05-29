@@ -25,7 +25,7 @@ final class TokenHolderTests: XCTestCase {
 }
 
 extension TokenHolderTests {
-    func testFetchToken_throwsErrorForMissingToken() async throws {
+    func test_fetchToken_throwsErrorForMissingToken() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
         exp.assertForOverFulfill = true
@@ -49,7 +49,7 @@ extension TokenHolderTests {
         await fulfillment(of: [exp], timeout: 5)
     }
 
-    func testFetchToken_makesTokenExchangeRequest() async throws {
+    func test_fetchToken_makesTokenExchangeRequest() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
         exp.assertForOverFulfill = true
@@ -93,7 +93,7 @@ extension TokenHolderTests {
         ])
     }
 
-    func testFetchToken_returnsExpectedToken() async throws {
+    func test_fetchToken_returnsExpectedToken() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
         exp.assertForOverFulfill = true

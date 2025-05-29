@@ -54,14 +54,14 @@ final class PersistentSessionManagerTests: XCTestCase {
 }
 
 extension PersistentSessionManagerTests {
-    func testInitialState() {
+    func test_initialState() {
         XCTAssertNil(sut.expiryDate)
         XCTAssertFalse(sut.sessionExists)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
     }
     
-    func testSessionExpiryDate() {
+    func test_sessionExpiryDate() {
         // GIVEN the unprotected store contains a session expiry date
         let date = Date()
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
@@ -69,7 +69,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.expiryDate, date)
     }
     
-    func testSessionIsValidWhenNotExpired() {
+    func test_sessionIsValidWhenNotExpired() {
         // GIVEN the unprotected store contains a session expiry date in the future
         let date = Date.distantFuture
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
@@ -77,7 +77,7 @@ extension PersistentSessionManagerTests {
         XCTAssertTrue(sut.isSessionValid)
     }
     
-    func testSessionIsInvalidWhenExpired() {
+    func test_sessionIsInvalidWhenExpired() {
         // GIVEN the unprotected store contains a session expiry date in the past
         let date = Date.distantPast
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
@@ -85,7 +85,7 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.isSessionValid)
     }
     
-    func testIsReturningUserPullsFromStore() {
+    func test_isReturningUserPullsFromStore() {
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         XCTAssertTrue(sut.isReturningUser)
     }
@@ -109,7 +109,7 @@ extension PersistentSessionManagerTests {
     }
     
     @MainActor
-    func testStartSession_logsTheUserIn() async throws {
+    func test_startSession_logsTheUserIn() async throws {
         // GIVEN I am not logged in
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
@@ -122,7 +122,7 @@ extension PersistentSessionManagerTests {
     }
     
     @MainActor
-    func testStartSession_logsTheUserIn_appIntegrity() async throws {
+    func test_startSession_logsTheUserIn_appIntegrity() async throws {
         AppEnvironment.updateFlags(
             releaseFlags: [:],
             featureFlags: [FeatureFlagsName.appCheckEnabled.rawValue: true]
@@ -184,7 +184,7 @@ extension PersistentSessionManagerTests {
         }
     }
     
-    func testStartSession_exposesUserAndAccessToken() async throws {
+    func test_startSession_exposesUserAndAccessToken() async throws {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
@@ -196,7 +196,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
     }
     
-    func testStartSession_skipsSavingTokensForNewUsers() async throws {
+    func test_startSession_skipsSavingTokensForNewUsers() async throws {
         // GIVEN I am not logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
@@ -206,7 +206,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
     }
     
-    func testStartSession_savesTokensForReturningUsers() async throws {
+    func test_startSession_savesTokensForReturningUsers() async throws {
         let exp = XCTNSNotificationExpectation(
             name: .enrolmentComplete,
             object: nil,
@@ -258,7 +258,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
-    func testResumeSession_restoresUserAndAccessToken() throws {
+    func test_resumeSession_restoresUserAndAccessToken() throws {
         let data = encodeKeys(idToken: MockJWKSResponse.idToken,
                               accessToken: MockJWKSResponse.idToken)
         // GIVEN I have tokens saved in secure store
@@ -277,7 +277,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWKSResponse.idToken)
     }
     
-    func testEndCurrentSession_clearsDataFromSession() throws {
+    func test_endCurrentSession_clearsDataFromSession() throws {
         let data = encodeKeys(idToken: MockJWKSResponse.idToken,
                               accessToken: MockJWKSResponse.idToken)
         // GIVEN I have tokens saved in secure store
@@ -298,7 +298,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])
     }
     
-    func testEndCurrentSession_clearsAllPersistedData() async throws {
+    func test_endCurrentSession_clearsAllPersistedData() async throws {
         // GIVEN I have an expired session
         mockUnprotectedStore.savedData = [
             OLString.returningUser: true,

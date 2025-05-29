@@ -44,7 +44,7 @@ final class AppQualifyingServiceTests: XCTestCase {
 
 // MARK: - App Info Requests
 extension AppQualifyingServiceTests {
-    func testAppInfoIsRequested() {
+    func test_appInfoIsRequested() {
         sut.initiate()
 
         waitForTruth(

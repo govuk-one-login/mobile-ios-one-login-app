@@ -277,9 +277,7 @@ extension AppEnvironment {
         var url = govURL
             .appendingPathComponent("one-login")
             .appendingPathComponent("app-accessibility")
-        if isLocaleWelsh {
-            url = url.appendingPathComponent("cy")
-        }
+        isLocaleWelsh ? url = url.appendingPathComponent("cy") : nil
         return url
     }
 }
