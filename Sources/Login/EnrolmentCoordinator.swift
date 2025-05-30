@@ -62,4 +62,8 @@ final class EnrolmentCoordinator: NSObject,
             preconditionFailure()
         }
     }
+    
+    func enableEnrolmentButton() {
+        (root.viewControllers.last as? GDSInformationViewController)?.resetPrimaryButton()
+    }
 }
