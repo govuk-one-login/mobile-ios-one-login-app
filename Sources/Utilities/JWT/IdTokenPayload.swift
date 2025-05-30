@@ -2,7 +2,6 @@ import Foundation
 import JWTKit
 
 struct IdTokenPayload: JWTPayload {
-
     let sub: SubjectClaim
     let aud: AudienceClaim
     let iss: IssuerClaim

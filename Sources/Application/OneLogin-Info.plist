@@ -62,8 +62,6 @@
 		<string>A0000002471001</string>
 		<string>A00000045645444C2D3031</string>
 	</array>
-	<key>NFCReaderUsageDescription</key>
-	<string>This is required to scan the chip on your document</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -81,5 +79,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NFCReaderUsageDescription</key>
+	<string>This is required to scan the chip on your document.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The app will use your phone&apos;s front and rear cameras to prove your identity and scan QR codes.</string>
 </dict>
 </plist>

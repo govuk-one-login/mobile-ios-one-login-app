@@ -21,13 +21,17 @@ final class DataDeletedWarningViewModelTests: XCTestCase {
         
         didCallButtonAction = false
         
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
+        
         super.tearDown()
     }
 }
 
 extension DataDeletedWarningViewModelTests {
     func test_pageNoWallet() {
-        
         AppEnvironment.updateFlags(
             releaseFlags: [
                 FeatureFlagsName.enableWalletVisibleViaDeepLink.rawValue: false,
@@ -44,7 +48,6 @@ extension DataDeletedWarningViewModelTests {
     }
     
     func test_pageWithWallet() {
-        
         AppEnvironment.updateFlags(
             releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
             featureFlags: [:]

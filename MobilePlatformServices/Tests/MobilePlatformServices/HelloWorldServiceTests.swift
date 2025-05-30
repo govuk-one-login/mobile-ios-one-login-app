@@ -34,7 +34,7 @@ final class HelloWorldServiceTests: XCTestCase {
 }
 
 extension HelloWorldServiceTests {
-    public func testRequestHelloWorld_makesNetworkCall() async throws {
+    public func test_requestHelloWorld_makesNetworkCall() async throws {
         MockURLProtocol.handler = {
             let data = Data("""
             Hello World - Tests
@@ -57,7 +57,7 @@ extension HelloWorldServiceTests {
         XCTAssertEqual(response, "Success: Hello World - Tests")
     }
 
-    public func testRequestHelloWorldWrongScope_makesNetworkCall() async throws {
+    public func test_requestHelloWorldWrongScope_makesNetworkCall() async throws {
         MockURLProtocol.handler = {
             let data = Data("""
 
@@ -78,7 +78,7 @@ extension HelloWorldServiceTests {
         XCTAssertEqual(request.url?.path, "/hello-world")
     }
 
-    public func testRequestHelloWorldWrongEndpoint_makesNetworkCall() async throws {
+    public func test_requestHelloWorldWrongEndpoint_makesNetworkCall() async throws {
         MockURLProtocol.handler = {
             let data = Data("""
 
