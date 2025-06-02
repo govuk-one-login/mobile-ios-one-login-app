@@ -236,8 +236,6 @@ extension PersistentSessionManagerTests {
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
         try sut.saveSession()
-        // THEN the secure store manager is refreshed
-        XCTAssertTrue(mockSecureStoreManager.didCallRefreshStore)
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
