@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: bundler
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    groups:
+      bundler-minor-versions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    open-pull-requests-limit: 5

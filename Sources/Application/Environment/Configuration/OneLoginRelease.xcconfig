@@ -1,0 +1,20 @@
+PRODUCT_BUNDLE_IDENTIFIER = uk.gov.onelogin
+INFOPLIST_KEY_CFBundleDisplayName = One Login
+
+BASE_URL = account.gov.uk
+ENVIRONMENT_BASE_URL = $(BASE_URL)
+
+STS_BASE_URL = token.$(ENVIRONMENT_BASE_URL)
+MOBILE_BE_BASE_URL = mobile.$(ENVIRONMENT_BASE_URL)
+EXTERNAL_BASE_URL = signin.$(ENVIRONMENT_BASE_URL)
+GOV_SUPPORT_URL = home.$(ENVIRONMENT_BASE_URL)
+
+ID_CHECK_DOMAIN = review-b.$(ENVIRONMENT_BASE_URL)
+ID_CHECK_BASE_URL = api-backend-api.$(ID_CHECK_DOMAIN)
+ID_CHECK_ASYNC_BASE_URL = sessions.review-b-async.$(ENVIRONMENT_BASE_URL)
+READ_ID_URL = https:/$()/readid-proxy.review-b-async.$(ENVIRONMENT_BASE_URL)/odata/v1/ODataServlet/
+IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
+
+STS_CLIENT_ID = jHwDQGcnjorxfUtBvGwrGMjYrmQ
+
+CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginRelease.entitlements

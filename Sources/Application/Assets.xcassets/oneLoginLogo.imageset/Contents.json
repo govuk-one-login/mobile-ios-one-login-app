@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "One Login Logo.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

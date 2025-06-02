@@ -1,0 +1,14 @@
+[
+    {
+        "name": "walletVisibleViaDeepLink",
+        "isEnabled": false
+    },
+    {
+        "name": "walletVisibleIfExists",
+        "isEnabled": false
+    },
+    {
+        "name": "walletVisibleToAll",
+        "isEnabled": false
+    }
+]

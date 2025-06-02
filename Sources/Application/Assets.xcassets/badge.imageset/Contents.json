@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "GOV.UK One Login app icon.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

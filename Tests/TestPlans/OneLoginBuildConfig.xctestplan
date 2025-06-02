@@ -1,0 +1,26 @@
+{
+  "configurations" : [
+    {
+      "id" : "E87000E7-0ED1-47F6-9485-B20304C54705",
+      "name" : "Build Configuration Test Plan Configuration",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "diagnosticCollectionPolicy" : "Always",
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "25537C4D2AF2B38E0059DCD2",
+        "name" : "OneLoginBuildConfigTests"
+      }
+    }
+  ],
+  "version" : 1
+}

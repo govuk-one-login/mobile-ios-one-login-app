@@ -2,9 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:OneLogin.xcodeproj">
+      location = "group:AppIntegrity">
    </FileRef>
    <FileRef
-      location = "group:OneLogin.xctestplan">
+      location = "group:LocalAuthenticationWrapper">
+   </FileRef>
+   <FileRef
+      location = "group:MobilePlatformServices">
+   </FileRef>
+   <FileRef
+      location = "group:OneLogin.xcodeproj">
    </FileRef>
 </Workspace>

@@ -1,0 +1,23 @@
+name: iOS Deploy - main
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy_integration_app:
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    with:
+      configuration: "Integration"
+    secrets: inherit
+
+  deploy_release_app:
+    name: Deploy App
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit

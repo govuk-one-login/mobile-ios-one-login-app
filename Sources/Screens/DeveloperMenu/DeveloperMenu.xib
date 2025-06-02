@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeveloperMenuViewController" customModule="OneLogin" customModuleProvider="target">
+            <connections>
+                <outlet property="deletePersistentSessionIDButton" destination="C0t-4e-n5V" id="P9c-kx-nIG"/>
+                <outlet property="errorPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
+                <outlet property="errorPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>
+                <outlet property="expireAccessTokenButton" destination="fiE-gu-qhs" id="Rbb-S3-Ral"/>
+                <outlet property="happyPathButton" destination="hG1-h3-EEW" id="8d8-K6-v5c"/>
+                <outlet property="happyPathResultLabel" destination="MDX-ro-LVP" id="CCs-KH-vlg"/>
+                <outlet property="unauthorizedPathButton" destination="j6G-Nm-scc" id="ZVO-Pb-cRK"/>
+                <outlet property="unauthorizedPathResultLabel" destination="sV8-Lr-k86" id="jgZ-IL-0vf"/>
+                <outlet property="view" destination="z4H-rf-NBX" id="F8f-s3-j9Y"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="z4H-rf-NBX">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gOd-1g-ftx">
+                    <rect key="frame" x="10" y="59" width="373" height="572"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="770-rc-5aQ">
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="49.666666666666664"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Developer Menu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F61-IJ-2jo">
+                                    <rect key="frame" x="0.0" y="8" width="373" height="33.666666666666664"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="0.0" bottom="8" trailing="0.0"/>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="770-rc-5aQ" secondAttribute="trailing" id="GH5-Ps-QIU"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="width" secondItem="gOd-1g-ftx" secondAttribute="width" id="T5r-FV-s6I"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="bottom" secondItem="aTZ-VK-v1o" secondAttribute="bottom" id="gUs-g7-lCW"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="leading" secondItem="gOd-1g-ftx" secondAttribute="leading" id="jwd-TL-VUV"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="top" secondItem="aTZ-VK-v1o" secondAttribute="top" id="ohU-SL-6ot"/>
+                        <constraint firstItem="770-rc-5aQ" firstAttribute="width" secondItem="aTZ-VK-v1o" secondAttribute="width" id="rOG-AZ-C7U"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="aTZ-VK-v1o"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="gIb-a0-woS"/>
+                </scrollView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="B2t-Tn-7OU" userLabel="Stack View_buttons">
+                    <rect key="frame" x="16" y="647" width="361" height="155"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="hG1-h3-EEW" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="0.0" width="361" height="0.0"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="happyPathButtonAction:" destination="-1" eventType="touchUpInside" id="brf-MF-5pg"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world happy" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MDX-ro-LVP">
+                            <rect key="frame" x="0.0" y="15" width="361" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OFa-dn-cnK" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="30" width="361" height="0.0"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="errorPathButtonAction:" destination="-1" eventType="touchUpInside" id="Fe7-R7-t2u"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world error" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiG-tG-gku">
+                            <rect key="frame" x="0.0" y="45" width="361" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="j6G-Nm-scc" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="60" width="361" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="unauthorizedPathButtonAction:" destination="-1" eventType="touchUpInside" id="PXN-zy-O2L"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello-world unauthorized" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sV8-Lr-k86">
+                            <rect key="frame" x="0.0" y="75" width="361" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="C0t-4e-n5V" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="90" width="361" height="15.666666666666671"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="deletePersistentSessionIDAction:" destination="-1" eventType="touchUpInside" id="ObN-cf-DcZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="fiE-gu-qhs" customClass="RoundedButton" customModule="GDSCommon">
+                            <rect key="frame" x="0.0" y="120.66666666666667" width="361" height="34.333333333333329"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="expireAccessTokenAction:" destination="-1" eventType="touchUpInside" id="UBI-iX-nRU"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="feM-xc-dbG"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="feM-xc-dbG" firstAttribute="trailing" secondItem="gOd-1g-ftx" secondAttribute="trailing" constant="10" id="0mr-2H-E64"/>
+                <constraint firstItem="gOd-1g-ftx" firstAttribute="leading" secondItem="feM-xc-dbG" secondAttribute="leading" constant="10" id="3M7-7K-r5h"/>
+                <constraint firstItem="gOd-1g-ftx" firstAttribute="top" secondItem="feM-xc-dbG" secondAttribute="top" id="HqE-CJ-STP"/>
+                <constraint firstItem="B2t-Tn-7OU" firstAttribute="leading" secondItem="feM-xc-dbG" secondAttribute="leading" constant="16" id="Nqo-tn-SAP"/>
+                <constraint firstItem="feM-xc-dbG" firstAttribute="trailing" secondItem="B2t-Tn-7OU" secondAttribute="trailing" constant="16" id="gnq-X3-gWZ"/>
+                <constraint firstItem="feM-xc-dbG" firstAttribute="bottom" secondItem="B2t-Tn-7OU" secondAttribute="bottom" constant="16" id="llk-aP-yVF"/>
+                <constraint firstItem="B2t-Tn-7OU" firstAttribute="top" secondItem="gOd-1g-ftx" secondAttribute="bottom" constant="16" id="mkW-6E-gjc"/>
+            </constraints>
+            <point key="canvasLocation" x="-947.32824427480909" y="44.366197183098592"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

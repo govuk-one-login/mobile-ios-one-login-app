@@ -16,134 +16,170 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
+xcode_select("/Applications/Xcode_16.2.app")
 
 platform :ios do
+  desc "Run Tests without Sonar Coverage"
+  lane :testWithoutCoverage do |options|
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone SE (3rd generation) (18.2)",
+      scheme: options[:scheme],
+      configuration: options[:configuration],
+      testplan: options[:testplan],
+      xcargs: '-skipPackagePluginValidation'
+    )
+  end
+
+  desc "Run Tests without Sonar Coverage"
+  lane :testWithoutCoverageForUITests do |options|
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone SE (3rd generation) (18.2)",
+      scheme: options[:scheme],
+      configuration: options[:configuration],
+      testplan: options[:testplan],
+      prelaunch_simulator: true,
+      result_bundle: true,
+      include_simulator_logs: true,
+      xcargs: '-skipPackagePluginValidation'
+    )
+  end
+
   desc "Run Tests and Output Code Coverage"
   lane :test do |options|
-
-    clear_derived_data
-      
     run_tests(
-      workspace: options[:workspaceFilename],
-      devices: ["iPhone 14", "iPhone SE (3rd generation)"],
-      result_bundle: true,
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone SE (3rd generation) (18.2)",
       scheme: options[:scheme],
-      testplan: options[:testplan]
+      configuration: options[:configuration],
+      testplan: options[:testplan],
+      result_bundle: true,
+      xcargs: '-skipPackagePluginValidation'
     )
     
-# workspace option here is referencing {{github.workspace}} which is the path for project root not to be confused with workspace filename
-
     sh(
-      "bash #{options[:workspace]}/scripts/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/OneLogin.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+      "bash #{options[:workspace]}/scripts-configs/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/#{options[:scheme]}.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
     
     if options.has_key?(:pr_number) then
       sonar(
-        project_version: "1.0",
-        project_language: "swift",
-        sonar_runner_args: "-Dsonar.projectBaseDir=#{options[:workspace]} -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.pullrequest.provider=github -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml",
         pull_request_branch: options[:source_branch],
         pull_request_base: options[:target_branch],
         pull_request_key: options[:pr_number],
+        project_version: "1.0",
+        project_language: "swift",
         sonar_login: options[:sonar_token],
         sonar_url: "https://sonarcloud.io",
+        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
       )
     else
       sonar(
+        pull_request_branch: options[:source_branch],
         project_version: "1.0",
         project_language: "swift",
-        sonar_runner_args: "-Dsonar.projectBaseDir=#{options[:workspace]} -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.pullrequest.provider=github -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml",
         sonar_login: options[:sonar_token],
         sonar_url: "https://sonarcloud.io",
+        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
       )
     end
   end
     
   desc "Push a new beta build to TestFlight"
   lane :prerelease do |options|
-    clear_derived_data
-
-    delete_keychain(name: "signing_temp")
-
     password = SecureRandom.hex
+    
+    begin
+      create_keychain(
+        name: "signing_temp",
+        password: password,
+        timeout: 1800,
+        unlock: true
+      )
 
-    create_keychain(
-      name: "signing_temp",
-      password: password,
-      unlock: true
-    )
+      import_certificate(
+        certificate_path: options[:certificate_path],
+        certificate_password: options[:certificate_password],
+        keychain_name: 'signing_temp',
+        keychain_password: password,
+        log_output: true
+      )
 
-    import_certificate(
-      certificate_path: options[:certificate_path],
-      certificate_password: options[:certificate_password],
-      keychain_name: 'signing_temp',
-      keychain_password: password,
-      log_output: true
-    )
+      app_store_connect_api_key(
+        key_id: "LK43S2LHBT",
+        issuer_id: "053ce927-96a7-4d15-8176-6c282fd0b594",
+        key_filepath: options[:apikey_path]
+      )
 
-    app_store_connect_api_key(
-      key_id: "LK43S2LHBT",
-      issuer_id: "053ce927-96a7-4d15-8176-6c282fd0b594",
-      key_filepath: options[:apikey_path]
-    )
+      project_name = "OneLogin.xcodeproj"
+      profile_name = "One Login"
+      app_identifier = "uk.gov.onelogin"
 
-    profile_name = options[:profileName]
-    app_identifier = "uk.gov.one-login"
+      if options[:configuration] == "Integration" then
+	add_badge(custom: "./scripts-configs/banner-assets/Integration.png")
+        profile_name += " Integration"
+        app_identifier += ".integration"
+      elsif options[:configuration] == "Staging" then
+	add_badge(custom: "./scripts-configs/banner-assets/Staging.png")
+        profile_name += " Staging"
+        app_identifier += ".staging"
+      elsif options[:configuration] == "Build" then
+	add_badge(custom: "./scripts-configs/banner-assets/Build.png")
+        profile_name += " Build"
+        app_identifier += ".build"
+      end
 
-    if options[:configuration] == "Staging" then
-      app_identifier += ".staging"
-      profile_name += " Staging"
-    elsif options[:configuration] == "Integration" then
-      profile_name += " Integration"
-      app_identifier += ".integration"
-    elsif options[:configuration] == "Build" then
-      profile_name += " Build"
-      app_identifier += ".build"
-    elsif options[:configuration] == "Dev" then
-      profile_name += " Dev"
-      app_identifier += ".dev"
+      get_provisioning_profile(
+        provisioning_name: profile_name,
+        app_identifier: app_identifier,
+        readonly: true
+      )
+
+      version = get_version_number(xcodeproj: project_name)
+
+      build_number = latest_testflight_build_number(
+        app_identifier: app_identifier,
+        version: version
+      ) + options[:build_increment].to_i
+
+      increment_build_number(
+        xcodeproj: project_name,
+        build_number: build_number
+      )
+
+      update_code_signing_settings(
+        use_automatic_signing: false,
+        path: project_name,
+        profile_name: profile_name,
+        targets: "OneLogin",
+        team_id: "N8W395F695",
+        build_configurations: options[:configuration],
+        code_sign_identity: "Apple Distribution"
+      )
+
+      build_ios_app(
+        configuration: options[:configuration],
+        scheme: "OneLoginRelease",
+        output_name: "OneLogin",
+        export_method: "app-store",
+        export_xcargs: '-skipPackagePluginValidation',
+        xcargs: '-skipPackagePluginValidation'
+      )
+
+      begin
+        upload_to_testflight(
+          distribute_external: false,
+          changelog: last_git_commit[:message],
+          reject_build_waiting_for_review: false,
+          submit_beta_review: true
+        )
+      rescue Spaceship::UnexpectedResponse => ex
+        if ex.error_info['code'] != "You can't submit a build for testing if another build is already in review. Wait until your other build has been reviewed, and resubmit this build."
+          raise ex
+        end
+      end
+    ensure
+      delete_keychain(name: "signing_temp")
     end
-
-    get_provisioning_profile(
-      provisioning_name: profile_name, 
-      app_identifier: app_identifier,
-      readonly: true
-    )
-
-    version = get_version_number(xcodeproj: options[:projectFileName])
-
-    build_number = latest_testflight_build_number(
-      app_identifier: app_identifier,
-      version: version
-    ) + 1
-
-    increment_build_number(
-      xcodeproj: options[:projectFileName], 
-      build_number: build_number
-    )
-
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: "OneLogin.xcodeproj",
-      profile_name: profile_name,
-      targets: "OneLogin",
-      team_id: "N8W395F695",
-      build_configurations: options[:configuration],
-      code_sign_identity: "Apple Distribution"
-    )
-
-    build_ios_app(
-      configuration: options[:configuration],
-      scheme: "OneLogin",
-      output_name: "OneLogin",
-      export_method: "app-store"
-    )
-
-    upload_to_testflight(
-      distribute_external: true,
-      changelog: last_git_commit[:message],
-      reject_build_waiting_for_review: false,
-      submit_beta_review: true
-    )
   end
 end

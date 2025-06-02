@@ -1,0 +1,51 @@
+{
+  "configurations" : [
+    {
+      "id" : "F89413B4-293E-4B64-AB79-BB4777D4BD64",
+      "name" : "Unit Test Plan Configuration",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "diagnosticCollectionPolicy" : "Always",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:OneLogin.xcodeproj",
+      "identifier" : "219601E62A976302008F3427",
+      "name" : "OneLogin"
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AppIntegrity",
+        "identifier" : "AppIntegrityTests",
+        "name" : "AppIntegrityTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:LocalAuthenticationWrapper",
+        "identifier" : "LocalAuthenticationWrapperTests",
+        "name" : "LocalAuthenticationWrapperTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:MobilePlatformServices",
+        "identifier" : "MobilePlatformServicesTests",
+        "name" : "MobilePlatformServicesTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:OneLogin.xcodeproj",
+        "identifier" : "219601FC2A976305008F3427",
+        "name" : "OneLoginUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

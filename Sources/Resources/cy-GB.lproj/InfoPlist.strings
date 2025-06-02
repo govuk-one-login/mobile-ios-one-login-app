@@ -1,0 +1,8 @@
+// MARK: Face ID enrolment prompt
+"NSFaceIDUsageDescription" = "Nid yw eich Face ID yn cael ei rannu gyda GOV.UK One Login.";
+
+// MARK: ReadID NFC permission prompt
+"NFCReaderUsageDescription" = "This is required to scan the chip on your document";
+
+// MARK: Camera usage permission prompt
+"NSCameraUsageDescription" = "Bydd yr ap yn defnyddio camerâu blaen a chefn eich ffôn i brofi eich hunaniaeth a sganio codau QR.";
