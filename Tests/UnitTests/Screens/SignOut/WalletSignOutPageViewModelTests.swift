@@ -58,7 +58,7 @@ extension WalletSignOutPageViewModelTests {
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
         XCTAssertEqual(try body2Label.font, .body)
-        XCTAssertEqual(try body3Label.text, "Next time you sign in, you’ll be able to add your documents to your GOV.UK  Wallet and set your preferences again.")
+        XCTAssertEqual(try body3Label.text, "Next time you sign in, you’ll be able to add your documents to your GOV.UK Wallet and set your preferences again.")
         XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body3Label.numberOfLines, 0)
         XCTAssertEqual(try body3Label.font, .body)

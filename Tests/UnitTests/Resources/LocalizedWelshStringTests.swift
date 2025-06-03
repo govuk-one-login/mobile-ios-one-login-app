@@ -166,7 +166,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
                        "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap")
         XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
-                       "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich GOV.UK Wallet a gosod eich dewisiadau eto.")
+                       "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich %@ a gosod eich dewisiadau eto.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
                        "Mewngofnodi a dileu gwybodaeth")
     }

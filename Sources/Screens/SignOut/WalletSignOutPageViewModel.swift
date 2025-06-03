@@ -59,7 +59,8 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         
         let body3Label = {
             let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
+            label.text = GDSLocalisedString(stringKey: "app_signOutConfirmationBody3",
+                                            "app_walletString").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body

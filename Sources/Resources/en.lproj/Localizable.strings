@@ -162,7 +162,7 @@
 
 "app_signOutConfirmationBullet3" = "you’ll stop sharing analytics about how you use the app";
 
-"app_signOutConfirmationBody3" = "Next time you sign in, you’ll be able to add your documents to your GOV.UK  Wallet and set your preferences again.";
+"app_signOutConfirmationBody3" = "Next time you sign in, you’ll be able to add your documents to your %@ and set your preferences again.";
 
 "app_signOutAndDeleteAppDataButton" = "Sign out and delete information";
 

@@ -166,7 +166,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
                        "you’ll stop sharing analytics about how you use the app")
         XCTAssertEqual("app_signOutConfirmationBody3".getEnglishString(),
-                       "Next time you sign in, you’ll be able to add your documents to your GOV.UK  Wallet and set your preferences again.")
+                       "Next time you sign in, you’ll be able to add your documents to your %@ and set your preferences again.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
                        "Sign out and delete information")
     }
