@@ -48,6 +48,25 @@ extension LocalAuthBiometricsErrorViewModelTests {
     }
     
     func test_didAppear() {
-        // TODO: DCMAW-12769 Implement analytics
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        sut.didAppear()
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.allowFaceID.rawValue,
+                                     screen: ErrorAnalyticsScreen.allowFaceID,
+                                     titleKey: "app_localAuthManagerBiometricsErrorTitle")
+        
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+    }
+    
+    func test_didDismiss() {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+
+        sut.didDismiss()
+        let event = IconEvent(textKey: "back - system")
+        
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
 }
