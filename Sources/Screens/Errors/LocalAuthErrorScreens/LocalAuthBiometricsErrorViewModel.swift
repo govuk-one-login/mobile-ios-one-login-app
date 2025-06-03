@@ -36,8 +36,25 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     }
     
     func didAppear() {
-        // TODO: DCMAW-12769 Implement analytics
+        let id: String
+        let screen: ErrorAnalyticsScreen
+        
+        if localAuthType == .faceID {
+            id = ErrorAnalyticsScreenID.allowFaceID.rawValue
+            screen = ErrorAnalyticsScreen.allowFaceID
+        } else {
+            id = ErrorAnalyticsScreenID.allowTouchID.rawValue
+            screen = ErrorAnalyticsScreen.allowTouchID
+        }
+        
+        let screenView = ErrorScreenView(id: id,
+                                         screen: screen,
+                                         titleKey: title.stringKey)
+        analyticsService.trackScreen(screenView)
     }
     
-    func didDismiss() { /* BaseViewModel compliance */ }
+    func didDismiss() {
+        let event = IconEvent(textKey: "back - system")
+        analyticsService.logEvent(event)
+    }
 }
