@@ -24,6 +24,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Rhowch god mynediad")
         XCTAssertEqual("app_exitButton".getWelshString(),
                        "Gadael")
+        XCTAssertEqual("app_nameString".getWelshString(),
+                       "GOV.UK One Login")
     }
     
     func test_localAuthPrompt_keys() throws {
@@ -34,8 +36,6 @@ final class LocalizedWelshStringTests: XCTestCase {
     }
     
     func test_signInScreen_keys() throws {
-        XCTAssertEqual("app_signInTitle".getWelshString(),
-                       "GOV.UK One Login")
         XCTAssertEqual("app_signInBody".getWelshString(),
                        "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.")
         XCTAssertEqual("app_signInButton".getWelshString(),
@@ -226,6 +226,7 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_accessibilityHintKeys() {
         XCTAssertEqual("app_externalBrowser".getWelshString(), "Agor mewn porwr gwe")
         XCTAssertEqual("app_externalApp".getWelshString(), "Yn agor yn yr App Store")
+        XCTAssertEqual("app_loadingLabel".getWelshString(), "Llwytho %@")
     }
     
     func test_localAuthSettingsError_keys() throws {

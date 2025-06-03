@@ -121,6 +121,7 @@
 		C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* OLStringTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83014B32CA19B2200799A32 /* MockWalletError.swift */; };
+		C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */; };
 		C836FDD32D64837E00F8AC37 /* OneLoginSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FDD22D64837700F8AC37 /* OneLoginSecureStoreManager.swift */; };
 		C836FDD52D64DE6900F8AC37 /* MockSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */; };
 		C836FDDC2D6619B000F8AC37 /* OneLoginSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */; };
@@ -413,6 +414,7 @@
 		C82B64512BA47D59000C9524 /* OLStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLStringTests.swift; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C83014B32CA19B2200799A32 /* MockWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletError.swift; sourceTree = "<group>"; };
+		C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalButtonIconViewModelTests.swift; sourceTree = "<group>"; };
 		C836FDD22D64837700F8AC37 /* OneLoginSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginSecureStoreManager.swift; sourceTree = "<group>"; };
 		C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecureStoreManager.swift; sourceTree = "<group>"; };
 		C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginSecureStoreManagerTests.swift; sourceTree = "<group>"; };
@@ -1553,6 +1555,7 @@
 		C8BFE5E12CB578E500FA9A35 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */,
 				C32436D02DCB906000CC3FCC /* PurposeTileViewModelTests.swift */,
 				AB51B3762D78824F00348FB6 /* WelcomeTileViewModelTests.swift */,
 			);
@@ -2221,6 +2224,7 @@
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
+				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
@@ -3748,7 +3752,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
+				minimumVersion = 8.1.1;
 			};
 		};
 		AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {

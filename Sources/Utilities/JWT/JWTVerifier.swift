@@ -3,7 +3,6 @@ import JWTKit
 import Networking
 
 final class JWTVerifier: TokenVerifier {
-    
     let networkClient: NetworkClient
     
     init(networkClient: NetworkClient = NetworkClient()) {
@@ -43,7 +42,7 @@ extension JWTVerifier {
     private func fetchJWKs() async throws -> JWKSInfo {
         var request = URLRequest(url: AppEnvironment.jwksURL)
         request.httpMethod = "GET"
-
+        
         do {
             let data = try await networkClient.makeRequest(request)
             let jwksInfo = try JSONDecoder().decode(JWKSInfo.self, from: data)
@@ -52,13 +51,13 @@ extension JWTVerifier {
             throw JWTVerifierError.unableToFetchJWKs
         }
     }
-
+    
     private func extractKIDFromTokenHeader(_ token: String) throws -> String? {
         let parts = try getPartsOfJWT(token)
         
         let payloadPaddingString = base64StringWithPadding(encodedString: parts[0])
         guard let payloadData = Data(base64Encoded: payloadPaddingString) else { return nil }
-            
+        
         let header = try JSONSerialization.jsonObject(with: payloadData, options: []) as? [String: Any]
         let kid = header?["kid"] as? String
         return kid

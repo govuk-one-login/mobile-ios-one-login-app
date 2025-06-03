@@ -8,6 +8,6 @@ enum JWTVerifierError: String, Error {
 
 extension JWTVerifierError: LocalizedError {
     public var errorDescription: String? {
-        return NSLocalizedString(self.rawValue, comment: "")
+        NSLocalizedString(rawValue, comment: "")
     }
 }

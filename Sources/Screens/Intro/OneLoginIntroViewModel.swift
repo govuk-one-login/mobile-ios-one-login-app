@@ -5,7 +5,7 @@ import UIKit
 
 struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     let image: UIImage = UIImage(named: "badge") ?? UIImage()
-    let title: GDSLocalisedString = "app_signInTitle"
+    let title: GDSLocalisedString = "app_nameString"
     let body: GDSLocalisedString = "app_signInBody"
     let introButtonViewModel: ButtonViewModel
     let analyticsService: OneLoginAnalyticsService

@@ -31,10 +31,7 @@ class UnlockScreenViewController: BaseViewController {
     
     @IBOutlet private var oneLoginLogo: UIImageView! {
         didSet {
-            oneLoginLogo.isAccessibilityElement = true
             oneLoginLogo.accessibilityIdentifier = "unlock-screen-one-login-logo"
-            oneLoginLogo.accessibilityTraits = .none
-            oneLoginLogo.accessibilityHint = "GOV.UK One Login logo"
         }
     }
     
@@ -48,6 +45,7 @@ class UnlockScreenViewController: BaseViewController {
         didSet {
             loadingLabel.text = "Loading"
             loadingLabel.accessibilityIdentifier = "unlock-screen-loading-label"
+            loadingLabel.accessibilityLabel = viewModel.accessibilityLabel.value
         }
     }
     

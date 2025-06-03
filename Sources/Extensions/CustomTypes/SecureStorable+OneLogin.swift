@@ -7,8 +7,7 @@ extension SecureStorable where Self == SecureStoreService {
     ) throws -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.oneLoginTokens,
-            accessControlLevel: try localAuthManager.type == .passcode ?
-                .anyBiometricsOrPasscode : .currentBiometricsOrPasscode,
+            accessControlLevel: .anyBiometricsOrPasscode,
             localAuthStrings: try localAuthManager.oneLoginStrings
         )
         return SecureStoreService(
