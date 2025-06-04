@@ -5,6 +5,16 @@ extension SecureStorable where Self == SecureStoreService {
     static func accessControlEncryptedStore(
         localAuthManager: LocalAuthManaging & LocalAuthenticationContextStrings
     ) throws -> SecureStoreService {
+        #if targetEnvironment(simulator)
+        let config = SecureStorageConfiguration(
+            id: OLString.oneLoginTokens,
+            accessControlLevel: .open,
+            localAuthStrings: try localAuthManager.oneLoginStrings
+        )
+        return SecureStoreService(
+            configuration: config
+        )
+        #else
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.oneLoginTokens,
             accessControlLevel: .anyBiometricsOrPasscode,
@@ -13,6 +23,7 @@ extension SecureStorable where Self == SecureStoreService {
         return SecureStoreService(
             configuration: accessControlConfiguration
         )
+        #endif
     }
     
     static func encryptedStore() -> SecureStoreService {
