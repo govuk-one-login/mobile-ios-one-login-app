@@ -32,18 +32,23 @@ extension OneLoginIntroViewModelTests {
     func test_page() {
         XCTAssertEqual(sut.image, UIImage(named: "badge"))
         XCTAssertEqual(sut.title.stringKey, "app_nameString")
+        XCTAssertEqual(sut.title.value, "GOV.UK One Login")
         XCTAssertEqual(sut.body.stringKey, "app_signInBody")
-        
+        XCTAssertEqual(sut.body.variableKeys, ["app_nameString"])
+        XCTAssertEqual(sut.body.value, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
     }
     
     func test_button() {
         XCTAssertEqual(sut.introButtonViewModel.title.stringKey, "app_extendedSignInButton")
+        XCTAssertEqual(sut.introButtonViewModel.title.variableKeys, ["app_nameString"])
+        XCTAssertEqual(sut.introButtonViewModel.title.value, "Sign in with GOV.UK One Login")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.introButtonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])

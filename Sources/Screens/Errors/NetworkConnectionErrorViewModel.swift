@@ -6,7 +6,8 @@ struct NetworkConnectionErrorViewModel: GDSErrorViewModelV3,
                                         BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_networkErrorTitle"
-    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_networkErrorBody")]
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: GDSLocalisedString(stringKey: "app_networkErrorBody",
+                                                                                    "app_nameString"))]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
     

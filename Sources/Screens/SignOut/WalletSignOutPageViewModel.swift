@@ -50,7 +50,8 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         
         let bulletView: BulletView = BulletView(title: nil,
                                                 text: [
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value,
+                                                    GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
+                                                                       "app_walletString").value,
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
                                                     GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
                                                 ])
@@ -58,7 +59,8 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         
         let body3Label = {
             let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value
+            label.text = GDSLocalisedString(stringKey: "app_signOutConfirmationBody3",
+                                            "app_walletString").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body

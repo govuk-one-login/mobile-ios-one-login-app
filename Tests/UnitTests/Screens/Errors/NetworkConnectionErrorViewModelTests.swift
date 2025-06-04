@@ -29,16 +29,20 @@ final class NetworkConnectionErrorViewModelTests: XCTestCase {
 }
 
 extension NetworkConnectionErrorViewModelTests {
-    func test_page() {
+    func test_page() throws {
         XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_networkErrorTitle")
+        XCTAssertEqual(sut.title.value, "You are not connected to the internet")
         XCTAssertEqual(sut.bodyContent.count, 1)
+        let bodyLabel = try XCTUnwrap(sut.bodyContent[0].uiView as? UILabel)
+        XCTAssertEqual(bodyLabel.text, "You need to have an internet connection to use GOV.UK One Login.\n\nReconnect to the internet and try again.")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
     func test_button() {
         XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_tryAgainButton")
+        XCTAssertEqual(sut.buttonViewModels[0].title.value, "Go back and try again")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.buttonViewModels[0].action()
