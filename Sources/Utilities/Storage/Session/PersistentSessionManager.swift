@@ -115,10 +115,6 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        if !storeKeyService.hasLoginTokens {
-            try secureStoreManager.refreshStore()
-        }
-        
         let tokens = StoredTokens(idToken: tokenResponse.idToken,
                                   accessToken: tokenResponse.accessToken)
         
