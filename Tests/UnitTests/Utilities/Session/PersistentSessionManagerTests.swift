@@ -58,6 +58,8 @@ extension PersistentSessionManagerTests {
         XCTAssertNil(sut.expiryDate)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
+        XCTAssertFalse(sut.isEnrolling)
+        XCTAssertEqual(sut.sessionState, .nonePresent)
     }
     
     func test_sessionExpiryDate() {
@@ -72,8 +74,9 @@ extension PersistentSessionManagerTests {
         // GIVEN the unprotected store contains a session expiry date in the future
         let date = Date.distantFuture
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
-        // THEN the session is not valid
+        // THEN the session is valid
         XCTAssertTrue(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .saved)
     }
     
     func test_sessionIsInvalidWhenExpired() {
@@ -82,6 +85,7 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
         // THEN the session is not valid
         XCTAssertFalse(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .expired)
     }
     
     func test_isReturningUserPullsFromStore() {
@@ -118,6 +122,7 @@ extension PersistentSessionManagerTests {
         // AND no persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertNil(configuration.persistentSessionId)
+        XCTAssertEqual(sut.sessionState, .oneTime)
     }
     
     @MainActor
