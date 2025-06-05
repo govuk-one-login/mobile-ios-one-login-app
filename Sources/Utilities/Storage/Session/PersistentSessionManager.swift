@@ -164,15 +164,17 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    func clearAllSessionData() async throws {
+    func clearAllSessionData(restartLoginFlow: Bool) async throws {
         for each in sessionBoundData {
             try await each.delete()
         }
         endCurrentSession()
         
-        NotificationCenter.default.post(
-            name: .didLogout
-        )
+        if restartLoginFlow {
+            NotificationCenter.default.post(
+                name: .didLogout
+            )
+        }
     }
     
     func registerSessionBoundData(_ data: [SessionBoundData]) {
