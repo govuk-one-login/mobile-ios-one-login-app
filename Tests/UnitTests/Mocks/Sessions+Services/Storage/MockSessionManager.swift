@@ -76,7 +76,7 @@ final class MockSessionManager: SessionManager {
         didCallEndCurrentSession = true
     }
     
-    func clearAllSessionData() throws {
+    func clearAllSessionData(restartLoginFlow: Bool = true) throws {
         defer {
             didCallClearAllSessionData = true
         }
