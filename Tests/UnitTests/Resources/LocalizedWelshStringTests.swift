@@ -174,7 +174,6 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_signOutSuccessfulPageKeys() {
         XCTAssertEqual("app_signedOutTitle".getWelshString(),
                        "Rydych wedi allfognodi")
-        //TODO: update
         XCTAssertEqual("app_signedOutBodyWithWallet".getWelshString(),
                        "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
         XCTAssertEqual("app_signedOutBodyNoWallet".getWelshString(),
