@@ -184,6 +184,7 @@
 // Mark: Sign Out Successful
 "app_signedOutTitle" = "Rydych wedi allfognodi";
 
+//TODO: update
 "app_signedOutBodyWithWallet" = "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
 
 "app_signedOutBodyNoWallet" = "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
