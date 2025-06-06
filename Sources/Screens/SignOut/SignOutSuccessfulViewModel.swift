@@ -28,7 +28,7 @@ struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel,
        
     }
     
-    func didAppear() {}
+    func didAppear() { /* BaseViewModel compliance */ }
     
-    func didDismiss() {}
+    func didDismiss() { /* BaseViewModel compliance */ }
 }
