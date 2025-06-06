@@ -61,4 +61,34 @@ extension SignOutSuccessfulViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
+    
+    func test_didAppear_noWallet() {
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        sut.didAppear()
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutSuccessfulScreenNoWallet.rawValue,
+                                screen: SettingsAnalyticsScreen.signOutSuccessfulScreenNoWallet,
+                                titleKey: "app_signedOutTitle")
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.signout)
+    }
+    
+    func test_didAppear_withWallet() {
+        sut = SignOutSuccessfulViewModel(analyticsService: mockAnalyticsService,
+                                         withWallet: true) {
+            self.didCallButtonAction = true
+        }
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        sut.didAppear()
+        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutSuccessfulScreenWithWallet.rawValue,
+                                screen: SettingsAnalyticsScreen.signOutSuccessfulScreenWithWallet,
+                                titleKey: "app_signedOutTitle")
+        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.signout)
+    }
 }
