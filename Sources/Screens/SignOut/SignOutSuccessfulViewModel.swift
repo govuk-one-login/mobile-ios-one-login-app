@@ -11,6 +11,7 @@ struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel,
     let primaryButtonViewModel: ButtonViewModel
     
     let analyticsService: OneLoginAnalyticsService
+    let withWallet: Bool
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
@@ -18,7 +19,11 @@ struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel,
     init(analyticsService: OneLoginAnalyticsService,
          withWallet: Bool = false,
          buttonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.settings,
+            OLTaxonomyKey.level3: OLTaxonomyValue.signout
+        ])
+        self.withWallet = withWallet
         self.body = withWallet ? "app_signedOutBodyWithWallet" : "app_signedOutBodyNoWallet"
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_continueButton",
                                                                shouldLoadOnTap: true,
@@ -28,7 +33,23 @@ struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel,
        
     }
     
-    func didAppear() { /* BaseViewModel compliance */ }
+    func didAppear() {
+        let id: String
+        let screen: SettingsAnalyticsScreen
+        
+        if withWallet {
+            id = SettingsAnalyticsScreenID.signOutSuccessfulScreenWithWallet.rawValue
+            screen = SettingsAnalyticsScreen.signOutSuccessfulScreenWithWallet
+        } else {
+            id =  SettingsAnalyticsScreenID.signOutSuccessfulScreenNoWallet.rawValue
+            screen = SettingsAnalyticsScreen.signOutSuccessfulScreenNoWallet
+        }
+        
+        let screenView = ScreenView(id: id,
+                                    screen: screen,
+                                    titleKey: title.stringKey)
+        analyticsService.trackScreen(screenView)
+    }
     
     func didDismiss() { /* BaseViewModel compliance */ }
 }
