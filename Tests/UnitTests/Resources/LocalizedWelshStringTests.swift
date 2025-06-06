@@ -175,7 +175,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signedOutTitle".getWelshString(),
                        "Rydych wedi allfognodi")
         XCTAssertEqual("app_signedOutBodyWithWallet".getWelshString(),
-                       "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
+                       "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
         XCTAssertEqual("app_signedOutBodyNoWallet".getWelshString(),
                        "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")
     }
