@@ -5,10 +5,10 @@ import LocalAuthenticationWrapper
 @testable import OneLogin
 
 final class MockSessionManager: SessionManager {
+    var sessionState: SessionState
+
     var expiryDate: Date?
-    var sessionExists: Bool
-    var isSessionValid: Bool
-    var isOneTimeUser: Bool
+    var isEnrolling: Bool
     var isReturningUser: Bool
 
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
@@ -29,17 +29,15 @@ final class MockSessionManager: SessionManager {
     var localAuthentication: LocalAuthManaging = MockLocalAuthManager()
 
     init(expiryDate: Date? = nil,
-         sessionExists: Bool = false,
-         isSessionValid: Bool = false,
+         isEnrolling: Bool = false,
          isReturningUser: Bool = false,
-         isOneTimeUser: Bool = false,
+         sessionState: SessionState = .nonePresent,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
-        self.sessionExists = sessionExists
-        self.isSessionValid = isSessionValid
+        self.isEnrolling = isEnrolling
         self.isReturningUser = isReturningUser
         self.tokenProvider = tokenProvider
-        self.isOneTimeUser = isOneTimeUser
+        self.sessionState = sessionState
     }
 
     func startSession(
@@ -93,6 +91,5 @@ final class MockSessionManager: SessionManager {
         user.send(MockUser())
         isReturningUser = returningUser
         expiryDate = expired ? .distantPast : .distantFuture
-        isSessionValid = !expired
     }
 }
