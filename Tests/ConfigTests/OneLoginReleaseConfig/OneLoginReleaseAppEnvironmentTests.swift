@@ -75,6 +75,6 @@ final class OneLoginReleaseAppEnvironmentTests: XCTestCase {
     func test_appEnvironment_appStoreURLs() {
         // App Store
         XCTAssertEqual(sut.appStoreURL.absoluteString, "https://apps.apple.com")
-        XCTAssertEqual(sut.appStore.absoluteString, "https://apps.apple.com/gb.app.uk.gov.digital-identity")
+        XCTAssertEqual(sut.appStore.absoluteString, "https://apps.apple.com/app/gov-uk-one-login/id6737119425")
     }
 }
