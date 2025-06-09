@@ -78,7 +78,7 @@ jobs:
       - name: SonarQube Quality Gate check
         if: inputs.pr
         id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@d304d050d930b02a896b0f85935344f023928496 # pin@v1.1.0
+        uses: sonarsource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # pin@v1.2.0
         # Force to fail step after specific time.
         timeout-minutes: 5
         env:
