@@ -181,6 +181,14 @@
 "app_signOutAndDeletePreferences" = "Sign out and delete preferences";
 
 
+// Mark: Sign Out Successful
+"app_signedOutTitle" = "You have signed out";
+
+"app_signedOutBodyWithWallet" = "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
+
+"app_signedOutBodyNoWallet" = "To keep your information secure, your app preferences have been reset.\n\nYou need to sign in and set your preferences again to continue using the app.";
+
+
 // Mark: Sign Out Error screen
 "app_signOutErrorTitle" = "There was a problem signing you out";
 

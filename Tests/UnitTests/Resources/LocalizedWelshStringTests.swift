@@ -171,6 +171,15 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mewngofnodi a dileu gwybodaeth")
     }
     
+    func test_signOutSuccessfulPageKeys() {
+        XCTAssertEqual("app_signedOutTitle".getWelshString(),
+                       "Rydych wedi allfognodi")
+        XCTAssertEqual("app_signedOutBodyWithWallet".getWelshString(),
+                       "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
+        XCTAssertEqual("app_signedOutBodyNoWallet".getWelshString(),
+                       "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")
+    }
+    
     func test_signOutErrorPageKeys() {
         XCTAssertEqual("app_signOutErrorTitle".getWelshString(),
                        "Roedd problem wrth eich allgofnodi")

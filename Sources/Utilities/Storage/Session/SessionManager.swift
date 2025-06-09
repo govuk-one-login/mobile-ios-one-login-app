@@ -35,5 +35,12 @@ protocol SessionManager: UserProvider {
     func endCurrentSession()
 
     /// Completely removes all user session data (including the persistent session and Wallet data) from the device
-    func clearAllSessionData() async throws
+    func clearAllSessionData(restartLoginFlow: Bool) async throws
+}
+
+extension SessionManager {
+    // provide default value
+    func clearAllSessionData(restartLoginFlow: Bool = true) async throws {
+        try await clearAllSessionData(restartLoginFlow: restartLoginFlow)
+    }
 }
