@@ -133,10 +133,6 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func saveSession() throws {
-        defer {
-            isEnrolling = false
-        }
-        
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
             return
