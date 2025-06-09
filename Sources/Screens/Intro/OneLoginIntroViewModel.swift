@@ -6,7 +6,8 @@ import UIKit
 struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     let image: UIImage = UIImage(named: "badge") ?? UIImage()
     let title: GDSLocalisedString = "app_nameString"
-    let body: GDSLocalisedString = "app_signInBody"
+    let body: GDSLocalisedString = GDSLocalisedString(stringKey: "app_signInBody",
+                                                      "app_nameString")
     let introButtonViewModel: ButtonViewModel
     let analyticsService: OneLoginAnalyticsService
     
@@ -17,9 +18,11 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
          signinAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         introButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
+                                                        "app_nameString",
                                                         analyticsService: analyticsService,
                                                         analyticsEvent: event) {
             signinAction()

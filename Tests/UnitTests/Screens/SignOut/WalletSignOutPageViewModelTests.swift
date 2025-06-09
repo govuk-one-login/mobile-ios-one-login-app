@@ -32,9 +32,10 @@ final class WalletSignOutPageViewModelTests: XCTestCase {
 extension WalletSignOutPageViewModelTests {
     func test_page() {
         XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
-        XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value)
+        XCTAssertEqual(sut.body, "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.")
         XCTAssertNil(sut.secondaryButtonViewModel)
-        XCTAssertEqual(sut.rightBarButtonTitle, GDSLocalisedString(stringLiteral: "app_cancelButton"))
+        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
+        XCTAssertEqual(sut.rightBarButtonTitle?.value, "Cancel")
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
@@ -43,21 +44,21 @@ extension WalletSignOutPageViewModelTests {
         let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
         let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
         let firstBulletText = try XCTUnwrap(firstBullet.text)
-        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1").value))
+        XCTAssertTrue(firstBulletText.contains("any documents saved in your GOV.UK Wallet will be removed"))
         let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
         let secondBulletText = try XCTUnwrap(secondBullet.text)
-        XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value))
+        XCTAssertTrue(secondBulletText.contains("if you’re using Face ID or Touch ID to unlock the app, this will be switched off"))
         let thirdBullet = try XCTUnwrap(bulletStack.subviews[2] as? UILabel)
         let thirdBulletText = try XCTUnwrap(thirdBullet.text)
-        XCTAssertTrue(thirdBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value))
+        XCTAssertTrue(thirdBulletText.contains("you’ll stop sharing analytics about how you use the app"))
     }
     
     func test_views() throws {
-        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value)
+        XCTAssertEqual(try body2Label.text, "This means:")
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
         XCTAssertEqual(try body2Label.font, .body)
-        XCTAssertEqual(try body3Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody3").value)
+        XCTAssertEqual(try body3Label.text, "Next time you sign in, you’ll be able to add your documents to your GOV.UK Wallet and set your preferences again.")
         XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body3Label.numberOfLines, 0)
         XCTAssertEqual(try body3Label.font, .body)

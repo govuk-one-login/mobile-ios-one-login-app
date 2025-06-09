@@ -10,7 +10,9 @@ typealias ModalInfoWithButtons = ModalInfoViewModel &
 
 struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
     let title: GDSLocalisedString = "app_acceptAnalyticsPreferences_title"
-    let body: GDSLocalisedString = "acceptAnalyticsPreferences_body"
+    let body: GDSLocalisedString = GDSLocalisedString(stringKey: "acceptAnalyticsPreferences_body",
+                                                      "app_nameString",
+                                                      "app_nameString")
     let bodyTextColor: UIColor = .label
     let primaryButtonViewModel: ButtonViewModel
     let secondaryButtonViewModel: ButtonViewModel
@@ -27,6 +29,7 @@ struct AnalyticsPreferenceViewModel: ModalInfoWithButtons {
             secondaryButtonAction()
         }
         self.textButtonViewModel = StandardButtonViewModel(titleKey: "app_privacyNoticeLink",
+                                                           titleStringVariableKeys: "app_nameString",
                                                            accessibilityHint: "app_externalBrowser") {
             textButtonAction()
         }

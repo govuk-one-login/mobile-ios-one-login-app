@@ -21,7 +21,9 @@ final class WelcomeTileViewModelTests: XCTestCase {
 
 extension WelcomeTileViewModelTests {
     func test_view_contents() {
+        XCTAssertEqual(sut.title.stringKey, "app_welcomeTileHeader")
         XCTAssertEqual(sut.title.value, "Welcome")
+        XCTAssertEqual(sut.body.stringKey, "app_welcomeTileBody1")
         XCTAssertEqual(sut.body.value, "You can use this app to prove your identity to access some government services.")
         XCTAssertFalse(sut.showSeparatorLine)
         XCTAssertEqual(sut.backgroundColour, .secondarySystemGroupedBackground)

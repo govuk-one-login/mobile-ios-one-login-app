@@ -294,9 +294,8 @@ extension AppEnvironment {
     
     static var appStore: URL {
         appStoreURL
-            .appendingPathComponent("gb")
-            .appendingPathExtension("app")
-            .appendingPathExtension("uk.gov.digital-identity")
-        // TODO: DCMAW-9819: Update to App ID
+            .appendingPathComponent("app")
+            .appendingPathComponent("gov-uk-one-login")
+            .appendingPathComponent("id6737119425")
     }
 }

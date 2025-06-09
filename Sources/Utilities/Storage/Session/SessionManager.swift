@@ -7,13 +7,20 @@ enum UserState {
     case notAuthenticated
 }
 
-protocol SessionManager: UserProvider {
-    var expiryDate: Date? { get }
+enum SessionState {
+    case nonePresent
+    case enrolling
+    case oneTime
+    case saved
+    case expired
+}
+
+protocol SessionManager: AnyObject, UserProvider {
+    var sessionState: SessionState { get }
     
-    var sessionExists: Bool { get }
-    var isSessionValid: Bool { get }
+    var expiryDate: Date? { get }
     var isReturningUser: Bool { get }
-    var isOneTimeUser: Bool { get }
+    var isEnrolling: Bool { get set }
 
     var tokenProvider: TokenHolder { get }
 
@@ -35,5 +42,12 @@ protocol SessionManager: UserProvider {
     func endCurrentSession()
 
     /// Completely removes all user session data (including the persistent session and Wallet data) from the device
-    func clearAllSessionData() async throws
+    func clearAllSessionData(restartLoginFlow: Bool) async throws
+}
+
+extension SessionManager {
+    // provide default value
+    func clearAllSessionData(restartLoginFlow: Bool = true) async throws {
+        try await clearAllSessionData(restartLoginFlow: restartLoginFlow)
+    }
 }

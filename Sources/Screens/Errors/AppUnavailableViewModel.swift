@@ -11,7 +11,8 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel,
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 100
     let title: GDSLocalisedString = "app_appUnavailableTitle"
-    let body: GDSLocalisedString? = "app_appUnavailableBody"
+    let body: GDSLocalisedString? = GDSLocalisedString(stringKey: "app_appUnavailableBody",
+                                                       "app_nameString")
     let analyticsService: OneLoginAnalyticsService
     
     let rightBarButtonTitle: GDSLocalisedString? = nil

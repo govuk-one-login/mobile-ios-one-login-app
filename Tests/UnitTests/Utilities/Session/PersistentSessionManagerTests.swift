@@ -56,9 +56,10 @@ final class PersistentSessionManagerTests: XCTestCase {
 extension PersistentSessionManagerTests {
     func test_initialState() {
         XCTAssertNil(sut.expiryDate)
-        XCTAssertFalse(sut.sessionExists)
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertFalse(sut.isReturningUser)
+        XCTAssertFalse(sut.isEnrolling)
+        XCTAssertEqual(sut.sessionState, .nonePresent)
     }
     
     func test_sessionExpiryDate() {
@@ -73,8 +74,9 @@ extension PersistentSessionManagerTests {
         // GIVEN the unprotected store contains a session expiry date in the future
         let date = Date.distantFuture
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
-        // THEN the session is not valid
+        // THEN the session is valid
         XCTAssertTrue(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .saved)
     }
     
     func test_sessionIsInvalidWhenExpired() {
@@ -83,6 +85,7 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
         // THEN the session is not valid
         XCTAssertFalse(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .expired)
     }
     
     func test_isReturningUserPullsFromStore() {
@@ -119,6 +122,7 @@ extension PersistentSessionManagerTests {
         // AND no persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertNil(configuration.persistentSessionId)
+        XCTAssertEqual(sut.sessionState, .oneTime)
     }
     
     @MainActor
@@ -236,8 +240,6 @@ extension PersistentSessionManagerTests {
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
         try sut.saveSession()
-        // THEN the secure store manager is refreshed
-        XCTAssertTrue(mockSecureStoreManager.didCallRefreshStore)
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)

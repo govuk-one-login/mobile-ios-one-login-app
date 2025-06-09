@@ -21,6 +21,8 @@
 
 "app_nameString" = "GOV.UK One Login";
 
+"app_walletString" = "GOV.UK Wallet";
+
 
 // MARK: Accessibility - voiceover additions
 
@@ -40,19 +42,19 @@
 
 
 // MARK: Sign in screen
-"app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion GOV.UK One Login.";
+"app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion %@.";
 
 "app_signInButton" = "Mewngofnodi";
 
-"app_extendedSignInButton" = "Mewngofnodi gyda GOV.UK One Login";
+"app_extendedSignInButton" = "Mewngofnodi gyda %@";
 
 
 // MARK: Analytics peference screen
 "app_acceptAnalyticsPreferences_title" = "Helpu i wella'r ap drwy rannu dadansoddi";
 
-"acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm GOV.UK One Login i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap GOV.UK One Login i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
+"acceptAnalyticsPreferences_body" = "Gallwch helpu'r tîm %@ i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap %@ i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.";
 
-"app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd GOV.UK One Login";
+"app_privacyNoticeLink" = "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@";
 
 "app_shareAnalyticsButton" = "Rhannu dadansoddeg";
 
@@ -68,7 +70,7 @@
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "Nid ydych wedi'ch cysylltu â'r rhyngrwyd";
 
-"app_networkErrorBody" = "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio GOV.UK One Login.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.";
+"app_networkErrorBody" = "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio %@.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.";
 
 
 // MARK: Generic error screen
@@ -80,11 +82,12 @@
 // MARK: Biometrics Login enrolment screen
 "app_enableLoginBiometricsTitle" = "Datgloi'r ap gyda %@";
 
-"app_enableFaceIDBody" = "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
+"app_enableFaceIDBody" = "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda %@.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
-"app_enableTouchIDBody" = "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda GOV.UK One Login.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
+"app_enableTouchIDBody" = "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda %@.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.";
 
 "app_enableBiometricsButton" = "Caniatáu %@";
+
 
 // MARK: Biometrics enrolment screen
 "app_FaceID" = "Face ID";
@@ -95,7 +98,7 @@
 
 "app_enableBiometricsBody1" = "Defnyddiwch %@ i:";
 
-"app_enableBiometricsBullet1" = "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda GOV.UK One Login";
+"app_enableBiometricsBullet1" = "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda %@";
 
 "app_enableBiometricsBullet2" = "gweld ac ychwanegu dogfennau";
 
@@ -118,28 +121,28 @@
 "app_walletTitle" = "Waled";
 
 
-// MARK: Profile screen
+// MARK: Settings screen
 "app_settingsTitle" = "Gosodiadau";
 
-"app_settingsSignInDetailsTile" = "Eich GOV.UK One Login";
+"app_settingsSignInDetailsTile" = "Eich %@";
 
 "app_settingsSignInDetailsLink" = "Rheoli eich manylion mewngofnodi";
 
-"app_settingsSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion GOV.UK One Login.";
+"app_settingsSignInDetailsFootnote" = "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion %@.";
 
 "app_settingsSubtitle1" = "Help ac adborth";
 
-"app_appGuidanceLink" = "Defnyddio'r ap GOV.UK One Login";
+"app_appGuidanceLink" = "Defnyddio'r ap %@";
 
-"app_contactLink" = "Cysylltu GOV.UK One Login";
+"app_contactLink" = "Cysylltu %@";
 
 "app_settingsSubtitle2" = "Am yr ap";
 
 "app_settingsAnalyticsToggle" = "Rhannu dadansoddeg yr ap";
 
-"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm GOV.UK One Login i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd GOV.UK One Login.";
+"app_settingsAnalyticsToggleFootnote" = "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd %@.";
 
-"app_privacyNoticeLink2" = "Rhybudd Preifatrwydd GOV.UK One Login";
+"app_privacyNoticeLink2" = "Rhybudd Preifatrwydd %@";
 
 "app_accessibilityStatement" = "Datganiad hygyrchedd";
 
@@ -153,15 +156,16 @@
 
 "app_signOutConfirmationBody2" = "Mae hyn yn golygu:";
 
-"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau a arbedir yn eich GOV.UK Wallet yn cael eu dileu";
+"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau a arbedir yn eich %@ yn cael eu dileu";
 
 "app_signOutConfirmationBullet2" = "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd";
 
 "app_signOutConfirmationBullet3" = "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap";
 
-"app_signOutConfirmationBody3" = "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich GOV.UK Wallet a gosod eich dewisiadau eto.";
+"app_signOutConfirmationBody3" = "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich %@ a gosod eich dewisiadau eto.";
 
 "app_signOutAndDeleteAppDataButton" = "Mewngofnodi a dileu gwybodaeth";
+
 
 // Mark: Sign Out Confirmation screen no Wallet displayed
 "app_signOutConfirmationTitleNoWallet" = "Ydych chi'n siŵr eich bod eisiau allgofnodi?";
@@ -176,6 +180,15 @@
 
 "app_signOutAndDeletePreferences" = "Allgofnodi a dileu dewisiadau";
 
+
+// Mark: Sign Out Successful
+"app_signedOutTitle" = "Rydych wedi allfognodi";
+
+"app_signedOutBodyWithWallet" = "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.";
+
+"app_signedOutBodyNoWallet" = "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
+
+
 // Mark: Sign Out Error screen
 "app_signOutErrorTitle" = "Roedd problem wrth eich allgofnodi";
 
@@ -185,24 +198,27 @@
 // Mark: Sign Out Warning screen
 "app_signOutWarningTitle" = "Mae angen i chi fewngofnodi eto";
 
-"app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap GOV.UK  One Login.\n\nMewngofnodwch eto i barhau.";
+"app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap %@.\n\nMewngofnodwch eto i barhau.";
 
-// MARK: Data DeletionWarning screen
-// English title is same as generic but need a different key for welsh
+
+// MARK: Data Deletion Warning screen
 "app_dataDeletionWarningTitle" = "Mae rhywbeth wedi mynd o'i le";
 
-// MARK: Data DeletionWarning No Wallet screen
+
+// MARK: Data Deletion Warning No Wallet screen
 "app_dataDeletionWarningBodyNoWallet" = "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
 
-// MARK: Data DeletionWarning With Wallet screen
-"app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich GOV.UK Wallet wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich GOV.UK  Wallet.";
+
+// MARK: Data Deletion Warning With Wallet screen
+"app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich %@ wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich %@.";
+
 
 // MARK: Update App screen
 "app_updateAppTitle" = "Mae angen i chi ddiweddaru eich ap";
 
-"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap GOV.UK One Login.\n\nDiweddarwch eich ap i barhau.";
+"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nDiweddarwch eich ap i barhau.";
 
-"app_updateAppButton" = "Diweddaru Ap GOV.UK One Login";
+"app_updateAppButton" = "Diweddaru Ap %@";
 
 
 // MARK: Home Screen Cards content tiles
@@ -212,20 +228,20 @@
 
 "app_appPurposeTileHeader" = "Sut i brofi eich hunaniaeth";
 
-"app_appPurposeTileBody1" = "Os oes angen i chi brofi eich hunaniaeth gyda GOV.UK One Login i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.";
+"app_appPurposeTileBody1" = "Os oes angen i chi brofi eich hunaniaeth gyda %@ i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.";
 
 
 // MARK: App Unavailable Screen
 "app_appUnavailableTitle" = "Mae'n ddrwg gennym, nid yw'r ap ar gael";
 
-"app_appUnavailableBody" = "Ni allwch ddefnyddio'r ap GOV.UK One Login ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.";
+"app_appUnavailableBody" = "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.";
 
 
 // MARK: FaceID/ Touch ID Error Screen
 
 "app_localAuthManagerErrorTitle" = "Mae angen i chi ddiweddaru gosodiadau eich ffôn";
 
-"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.";
+"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau at eich %@, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.";
 
 "app_localAuthManagerErrorBody3" = "Mae angen i chi:";
 
@@ -235,6 +251,6 @@
 
 "app_localAuthManagerErrorNumberedList2" = "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.";
 
-"app_localAuthManagerErrorNumberedList3" = "Dod yn ôl i barhau i ddefnyddio'ch GOV.UK Wallet.";
+"app_localAuthManagerErrorNumberedList3" = "Dod yn ôl i barhau i ddefnyddio'ch %@.";
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Ewch i osodiadau ffôn";

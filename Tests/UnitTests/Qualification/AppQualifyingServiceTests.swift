@@ -141,7 +141,7 @@ extension AppQualifyingServiceTests {
 // MARK: - User State Evaluation
 extension AppQualifyingServiceTests {
     func test_oneTimeUser_userConfirmed() {
-        sessionManager.isOneTimeUser = true
+        sessionManager.sessionState = .oneTime
         sut.delegate = self
         sut.initiate()
 
@@ -167,6 +167,7 @@ extension AppQualifyingServiceTests {
     
     func test_sessionInvalid_userExpired() {
         sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .expired
         sut.delegate = self
         sut.initiate()
         
@@ -180,7 +181,7 @@ extension AppQualifyingServiceTests {
     
     func test_resumeSession_userConfirmed() {
         sessionManager.expiryDate = .distantFuture
-        sessionManager.isSessionValid = true
+        sessionManager.sessionState = .saved
         sut.delegate = self
         sut.initiate()
         
@@ -194,7 +195,7 @@ extension AppQualifyingServiceTests {
     
     func test_resumeSession_userCancelledBiometrics_error() {
         sessionManager.expiryDate = .distantFuture
-        sessionManager.isSessionValid = true
+        sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreError.biometricsCancelled
         sut.delegate = self
         sut.initiate()
@@ -209,7 +210,7 @@ extension AppQualifyingServiceTests {
     
     func test_resumeSession_nonCantDecryptData_error() {
         sessionManager.expiryDate = .distantFuture
-        sessionManager.isSessionValid = true
+        sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         sut.delegate = self
         sut.initiate()
@@ -226,7 +227,7 @@ extension AppQualifyingServiceTests {
     
     func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
         sessionManager.expiryDate = .distantFuture
-        sessionManager.isSessionValid = true
+        sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
         sessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         sut.delegate = self
