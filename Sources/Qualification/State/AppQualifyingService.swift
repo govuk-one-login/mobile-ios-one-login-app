@@ -89,19 +89,14 @@ final class AppQualifyingService: QualifyingService {
             return
         }
         
-        if sessionManager.isOneTimeUser {
+        switch sessionManager.sessionState {
+        case .expired:
+            userState = .expired
+        case .enrolling, .nonePresent:
+            userState = .notLoggedIn
+        case .oneTime:
             userState = .loggedIn
-        } else {
-            guard sessionManager.expiryDate != nil else {
-                userState = .notLoggedIn
-                return
-            }
-            
-            guard sessionManager.isSessionValid else {
-                userState = .expired
-                return
-            }
-            
+        case .saved:
             do {
                 try await MainActor.run {
                     try sessionManager.resumeSession()

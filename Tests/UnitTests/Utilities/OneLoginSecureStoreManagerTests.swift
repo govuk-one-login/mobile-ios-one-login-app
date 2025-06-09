@@ -33,15 +33,4 @@ extension OneLoginSecureStoreManagerTests {
         #expect(sut.accessControlEncryptedStore is SecureStoreService)
         #expect(sut.encryptedStore is SecureStoreService)
     }
-    
-    @Test("Ensure delete replaces instances of SecureStorable")
-    func delete() throws {
-        #expect(sut.accessControlEncryptedStore is MockSecureStoreService)
-        #expect(sut.encryptedStore is MockSecureStoreService)
-        try sut.delete()
-        #expect(mockAccessControlEncryptedStore.didCallDeleteStore)
-        #expect(mockEncryptedStore.didCallDeleteStore)
-        #expect(sut.accessControlEncryptedStore is SecureStoreService)
-        #expect(sut.encryptedStore is SecureStoreService)
-    }
 }

@@ -10,8 +10,10 @@ extension TabbedViewSectionModel {
     
     static func manageDetails(urlOpener: URLOpener, userEmail: String, analyticsService: OneLoginAnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: nil,
-                                      sectionFooter: "app_settingsSignInDetailsFootnote",
-                                      tabModels: [.init(cellTitle: "app_settingsSignInDetailsTile",
+                                      sectionFooter: GDSLocalisedString(stringKey: "app_settingsSignInDetailsFootnote",
+                                                                        "app_nameString"),
+                                      tabModels: [.init(cellTitle: GDSLocalisedString(stringKey: "app_settingsSignInDetailsTile",
+                                                                                      "app_nameString"),
                                                         cellSubtitle: userEmail,
                                                         image: UIImage(named: "userAccountIcon")),
                                                   .init(cellTitle: "app_settingsSignInDetailsLink",
@@ -19,6 +21,7 @@ extension TabbedViewSectionModel {
                                                         accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.manageAccountURL)
             let event = LinkEvent(textKey: "app_settingsSignInDetailsTile",
+                                  variableKeys: "app_nameString",
                                   linkDomain: AppEnvironment.manageAccountURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
@@ -28,20 +31,24 @@ extension TabbedViewSectionModel {
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
-                                      tabModels: [.init(cellTitle: "app_appGuidanceLink",
+                                      tabModels: [.init(cellTitle: GDSLocalisedString(stringKey: "app_appGuidanceLink",
+                                                                                      "app_nameString"),
                                                         accessoryView: linkDisclosureArrow,
                                                         accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.appHelpURL)
             let event = LinkEvent(textKey: "app_appGuidanceLink",
+                                  variableKeys: "app_nameString",
                                   linkDomain: AppEnvironment.appHelpURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
         },
-                                                  .init(cellTitle: "app_contactLink",
+                                                  .init(cellTitle: GDSLocalisedString(stringKey: "app_contactLink",
+                                                                                      "app_nameString"),
                                                         accessoryView: linkDisclosureArrow,
                                                         accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.contactURL)
             let event = LinkEvent(textKey: "app_contactLink",
+                                  variableKeys: "app_nameString",
                                   linkDomain: AppEnvironment.contactURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
@@ -50,18 +57,22 @@ extension TabbedViewSectionModel {
     
     static func analyticsToggle() -> Self {
         TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle2",
-                               sectionFooter: "app_settingsAnalyticsToggleFootnote",
+                               sectionFooter: GDSLocalisedString(stringKey: "app_settingsAnalyticsToggleFootnote",
+                                                                 "app_nameString",
+                                                                 "app_nameString"),
                                tabModels: [.init(cellTitle: "app_settingsAnalyticsToggle")])
     }
     
     static func notices(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
-                                      tabModels: [.init(cellTitle: "app_privacyNoticeLink2",
+                                      tabModels: [.init(cellTitle: GDSLocalisedString(stringKey: "app_privacyNoticeLink2",
+                                                                                      "app_nameString"),
                                                         accessoryView: linkDisclosureArrow,
                                                         accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.privacyPolicyURL)
             let event = LinkEvent(textKey: "app_privacyNoticeLink2",
+                                  variableKeys: "app_nameString",
                                   linkDomain: AppEnvironment.privacyPolicyURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)

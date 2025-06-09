@@ -7,11 +7,13 @@ final class PersistentSessionManager: SessionManager {
     private let secureStoreManager: SecureStoreManager
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
+    
     let localAuthentication: LocalAuthManaging
-    
     let tokenProvider: TokenHolder
-    private var tokenResponse: TokenResponse?
     
+    var isEnrolling: Bool = false
+    
+    private var tokenResponse: TokenResponse?
     private var sessionBoundData = [SessionBoundData]()
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
@@ -35,16 +37,37 @@ final class PersistentSessionManager: SessionManager {
         self.tokenProvider = TokenHolder()
     }
     
-    private var persistentID: String? {
-        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
+    var sessionState: SessionState {
+        if isValidEnrolment {
+            return .enrolling
+        } else if isOneTimeUser {
+            return .oneTime
+        } else {
+            guard expiryDate != nil else {
+                return .nonePresent
+            }
+            
+            guard isSessionValid else {
+                return .expired
+            }
+            
+            return .saved
+        }
+    }
+    
+    private var isValidEnrolment: Bool {
+        guard let tokenResponse else {
+            return false
+        }
+        return isEnrolling && tokenResponse.expiryDate > .now
+    }
+    
+    private var isOneTimeUser: Bool {
+        tokenProvider.subjectToken != nil && !isReturningUser
     }
     
     var expiryDate: Date? {
         unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
-    }
-    
-    var sessionExists: Bool {
-        tokenProvider.subjectToken != nil
     }
     
     var isSessionValid: Bool {
@@ -59,8 +82,8 @@ final class PersistentSessionManager: SessionManager {
         ?? false
     }
     
-    var isOneTimeUser: Bool {
-        sessionExists && !isReturningUser
+    private var persistentID: String? {
+        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -115,10 +138,6 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        if !storeKeyService.hasLoginTokens {
-            try secureStoreManager.refreshStore()
-        }
-        
         let tokens = StoredTokens(idToken: tokenResponse.idToken,
                                   accessToken: tokenResponse.accessToken)
         
@@ -168,15 +187,17 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    func clearAllSessionData() async throws {
+    func clearAllSessionData(restartLoginFlow: Bool) async throws {
         for each in sessionBoundData {
             try await each.delete()
         }
         endCurrentSession()
         
-        NotificationCenter.default.post(
-            name: .didLogout
-        )
+        if restartLoginFlow {
+            NotificationCenter.default.post(
+                name: .didLogout
+            )
+        }
     }
     
     func registerSessionBoundData(_ data: [SessionBoundData]) {

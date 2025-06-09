@@ -39,6 +39,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
         self.image = isFaceID ? "faceid" : "touchid"
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableBiometricsButton",
                                                                biometricsTypeString,
+                                                               shouldLoadOnTap: true,
                                                                analyticsService: analyticsService) {
             primaryButtonAction()
         }
@@ -52,7 +53,9 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
             self.childView = configureWalletEnrolmentView()
         } else {
             self.title = GDSLocalisedString(stringKey: "app_enableLoginBiometricsTitle", biometricsTypeString)
-            self.body = isFaceID ? "app_enableFaceIDBody" : "app_enableTouchIDBody"
+            self.body = isFaceID ?
+            GDSLocalisedString(stringKey: "app_enableFaceIDBody", "app_nameString") :
+            GDSLocalisedString(stringKey: "app_enableTouchIDBody", "app_nameString")
         }
     }
     
@@ -60,7 +63,8 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
         let bulletView: BulletView = BulletView(title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1",
                                                                           biometricsTypeString).value,
                                                 text: [
-                                                    GDSLocalisedString(stringLiteral: "app_enableBiometricsBullet1").value,
+                                                    GDSLocalisedString(stringKey: "app_enableBiometricsBullet1",
+                                                                       "app_nameString").value,
                                                     GDSLocalisedString(stringLiteral: "app_enableBiometricsBullet2").value
                                                 ],
                                                 titleFont: .body)

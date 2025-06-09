@@ -37,6 +37,11 @@ final class EnrolmentCoordinator: NSObject,
         self.sessionManager = sessionManager
         self.localAuthContext = localAuthContext
         self.enrolmentJourney = enrolmentJourney
+        self.sessionManager.isEnrolling = true
+    }
+
+    deinit {
+        sessionManager.isEnrolling = false
     }
     
     func start() {
@@ -61,5 +66,9 @@ final class EnrolmentCoordinator: NSObject,
         } catch {
             preconditionFailure()
         }
+    }
+    
+    func enableEnrolmentButton() {
+        (root.viewControllers.last as? GDSInformationViewController)?.resetPrimaryButton()
     }
 }
