@@ -53,8 +53,7 @@ extension AuthenticationServiceTests {
         }
         let userCancelledEvent = ButtonEvent(textKey: "back")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [userCancelledEvent.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["text"], userCancelledEvent.parameters["text"])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged["type"], userCancelledEvent.parameters["type"])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, userCancelledEvent.parameters)
     }
     
     func test_loginError_accessDenied() async {
