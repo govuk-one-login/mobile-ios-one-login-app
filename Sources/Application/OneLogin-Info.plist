@@ -79,40 +79,40 @@
 			</array>
 		</dict>
 	</dict>
-    <key>NSAppTransportSecurity</key>
-        <dict>
-            <key>NSPinnedDomains</key>
-            <dict>
-                <key>api-backend-api.review-b.account.gov.uk</key>
-                <dict>
-                    <key>NSIncludesSubdomains</key>
-                    <true/>
-                    <key>NSPinnedCAIdentities</key>
-                    <array>
-                        <dict>
-                            <key>SPKI-SHA256-BASE64</key>
-                            <string>KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=</string>
-                        </dict>
-                        <dict>
-                            <key>SPKI-SHA256-BASE64</key>
-                            <string>++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=</string>
-                        </dict>
-                        <dict>
-                            <key>SPKI-SHA256-BASE64</key>
-                            <string>f0KW/FtqTjs108NpYj42SrGvOB2PpxIVM8nWxjPqJGE=</string>
-                        </dict>
-                        <dict>
-                            <key>SPKI-SHA256-BASE64</key>
-                            <string>NqvDJlas/GRcYbcWE8S/IceH9cq77kg0jVhZeAPXq8k=</string>
-                        </dict>
-                        <dict>
-                            <key>SPKI-SHA256-BASE64</key>
-                            <string>9+ze1cZgR9KO1kZrVDxA4HQ6voHRCSVNz4RdTCx4U8U=</string>
-                        </dict>
-                    </array>
-                </dict>
-            </dict>
-        </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSPinnedDomains</key>
+		<dict>
+			<key>account.gov.uk</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSPinnedCAIdentities</key>
+				<array>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>f0KW/FtqTjs108NpYj42SrGvOB2PpxIVM8nWxjPqJGE=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>NqvDJlas/GRcYbcWE8S/IceH9cq77kg0jVhZeAPXq8k=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>9+ze1cZgR9KO1kZrVDxA4HQ6voHRCSVNz4RdTCx4U8U=</string>
+					</dict>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 	<key>NFCReaderUsageDescription</key>
 	<string>This is required to scan the chip on your document.</string>
 	<key>NSCameraUsageDescription</key>
