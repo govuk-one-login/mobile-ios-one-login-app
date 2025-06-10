@@ -16,17 +16,12 @@ final class HomeCoordinator: NSObject,
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
     
-    private var idCheckAnalyticsService: OneLoginAnalyticsService
     private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient) {
-        self.idCheckAnalyticsService = analyticsService
-        self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.home,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
-        ])
+        self.analyticsService = analyticsService
         self.networkClient = networkClient
     }
     
@@ -34,7 +29,7 @@ final class HomeCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
                                        image: UIImage(systemName: "house"),
                                        tag: 0)
-        let criOrchestrator = CRIOrchestrator(analyticsService: idCheckAnalyticsService,
+        let criOrchestrator = CRIOrchestrator(analyticsService: analyticsService,
                                               networkClient: networkClient,
                                               criURLs: OneLoginCRIURLs())
         let hc = HomeViewController(analyticsService: analyticsService,
