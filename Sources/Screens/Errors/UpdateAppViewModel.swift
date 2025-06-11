@@ -28,14 +28,14 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
         ])
         let event = LinkEvent(textKey: "app_updateAppButton",
                               variableKeys: "app_nameString",
-                              linkDomain: AppEnvironment.appStoreURL.absoluteString,
+                              linkDomain: AppEnvironment.appStore.absoluteString,
                               external: .true)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
                                                                "app_nameString",
                                                                analyticsService: analyticsService,
                                                                analyticsEvent: event,
                                                                accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp")) {
-            urlOpener.open(url: AppEnvironment.appStoreURL)
+            urlOpener.open(url: AppEnvironment.appStore)
         }
     }
     

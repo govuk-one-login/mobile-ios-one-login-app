@@ -50,7 +50,7 @@ extension UpdateAppViewModelTests {
         
         let event = LinkEvent(textKey: "app_updateAppButton",
                               variableKeys: "app_nameString",
-                              linkDomain: AppEnvironment.appStoreURL.absoluteString,
+                              linkDomain: AppEnvironment.appStore.absoluteString,
                               external: .true)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
