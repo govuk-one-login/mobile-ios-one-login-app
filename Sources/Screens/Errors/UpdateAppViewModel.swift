@@ -26,10 +26,15 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
             OLTaxonomyKey.level2: OLTaxonomyValue.system,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
+        let event = LinkEvent(textKey: "app_updateAppButton",
+                              variableKeys: "app_nameString",
+                              linkDomain: AppEnvironment.appStoreURL.absoluteString,
+                              external: .true)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
                                                                "app_nameString",
-                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp"),
-                                                               analyticsService: analyticsService) {
+                                                               analyticsService: analyticsService,
+                                                               analyticsEvent: event,
+                                                               accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp")) {
             urlOpener.open(url: AppEnvironment.appStoreURL)
         }
     }
