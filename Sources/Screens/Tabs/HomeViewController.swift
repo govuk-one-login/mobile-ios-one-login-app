@@ -33,8 +33,7 @@ final class HomeViewController: BaseViewController {
          networkClient: NetworkClient,
          criOrchestrator: CRIOrchestration) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.home,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.home
         ])
         self.networkClient = networkClient
         self.criOrchestrator = criOrchestrator

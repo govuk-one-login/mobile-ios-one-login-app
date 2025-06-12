@@ -21,10 +21,7 @@ final class HomeCoordinator: NSObject,
     
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient) {
-        self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.home,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
-        ])
+        self.analyticsService = analyticsService
         self.networkClient = networkClient
     }
     
