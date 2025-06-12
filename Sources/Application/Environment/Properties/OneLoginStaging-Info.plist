@@ -83,22 +83,6 @@
 	<dict>
 		<key>NSPinnedDomains</key>
 		<dict>
-			<key>vvrc-credential-issuance-service-dbs-ag-vvrc-staging.apps.ocp1.azure.dso.digital.mod.uk</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSPinnedCAIdentities</key>
-				<array>
-					<dict>
-						<key>SPKI-SHA256-BASE64</key>
-						<string>CLcBxJ0axyguKJiapmJ5QQHO6hpXTbn7atGEto6ruSY=</string>
-					</dict>
-					<dict>
-						<key>SPKI-SHA256-BASE64</key>
-						<string>R3hcMOAGw0WFztuG2skTodoHp8IGid3Qg63Cn7YUYoM=</string>
-					</dict>
-				</array>
-			</dict>
 			<key>account.gov.uk</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
