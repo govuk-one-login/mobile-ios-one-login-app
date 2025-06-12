@@ -23,9 +23,7 @@ final class WalletCoordinator: NSObject,
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
-        self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.wallet
-        ])
+        self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
