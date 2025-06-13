@@ -6,28 +6,26 @@ import Wallet
 // NOTE: This type is only being used to build the Wallet implementation, this will be replaced with an actual local auth service
 //
 
-final class DummyLocalAuthService: LocalAuthService {
+final class DummyLocalAuthService: WalletLocalAuthService {
     let localAuthentication: LocalAuthManaging
 
     init(localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
         self.localAuthentication = localAuthentication
     }
     
-    func evaluateLocalAuth(navigationController: UINavigationController,
-                           completion: @escaping (AuthType) -> Void) {
+    func ensureLocalAuthEnrolled(_ minumumLevel: any WalletLocalAuthType) -> Bool {
+        isEnrolled(minumumLevel)
+    }
+    
+    func enrolLocalAuth(_ minimum: any WalletLocalAuthType, completion: @escaping () -> Void) {
+        completion()
+    }
+    
+    func isEnrolled(_ minimum: any WalletLocalAuthType) -> Bool {
         do {
-            switch try localAuthentication.type {
-            case .faceID:
-                completion(.face)
-            case .touchID:
-                completion(.touch)
-            case .passcode:
-                completion(.passcode)
-            case .none:
-                completion(.none)
-            }
+            return try localAuthentication.checkLevelSupported(.anyBiometricsAndPasscode)
         } catch {
-            fatalError()
+            return false
         }
     }
 }
