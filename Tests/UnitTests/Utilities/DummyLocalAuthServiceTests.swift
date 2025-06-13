@@ -1,5 +1,6 @@
 @testable import OneLogin
 import XCTest
+import Wallet
 
 final class DummyLocalAuthServiceTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
@@ -20,32 +21,18 @@ final class DummyLocalAuthServiceTests: XCTestCase {
     }
 }
 
+enum WalletMockLocalAuthType: WalletLocalAuthType {
+    case passcode
+    case biometrics
+    case none
+}
+
 extension DummyLocalAuthServiceTests {
-    func test_faceID() {
-        localAuthentication.type = .faceID
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .face)
-        }
+    func test_ensureLocalAuthEnrolled() {
+        XCTAssertTrue(sut.ensureLocalAuthEnrolled(WalletMockLocalAuthType.biometrics))
     }
     
-    func test_touchID() {
-        localAuthentication.type = .touchID
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .touch)
-        }
-    }
-    
-    func test_passcode() {
-        localAuthentication.type = .passcode
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .passcode)
-        }
-    }
-    
-    func test_none() {
-        localAuthentication.type = .none
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .none)
-        }
+    func test_isEnrolled() {
+        XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.biometrics))
     }
 }
