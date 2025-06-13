@@ -1,6 +1,6 @@
 @testable import OneLogin
-import XCTest
 import Wallet
+import XCTest
 
 final class DummyLocalAuthServiceTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
