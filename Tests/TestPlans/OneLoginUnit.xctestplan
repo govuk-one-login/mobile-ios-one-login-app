@@ -41,17 +41,10 @@
     },
     {
       "skippedTests" : [
-        "AppQualifyingServiceTests\/test_enrolmentComplete_changesUserState()",
-        "EnrolmentCoordinatorTests\/test_start_deviceLocalAuthSet_none()",
-        "EnrolmentCoordinatorTests\/test_start_deviceLocalAuthSet_passcodeOnly()",
         "LoginCoordinatorTests\/test_authenticate_launchAuthenticationService()",
         "LoginCoordinatorTests\/test_launchAuthenticationService()",
         "LoginCoordinatorTests\/test_launchEnrolmentCoordinator()",
         "OneLoginEnrolmentManagerTests\/test_saveSession_succeeds()",
-        "PersistentSessionManagerTests\/test_hasNotRemovedLocalAuth()",
-        "PersistentSessionManagerTests\/test_startSession_savesTokensForReturningUsers()",
-        "QualifyingCoordinatorTests\/test_confirmedUser_displaysMainView()",
-        "QualifyingCoordinatorTests\/test_handleUniversalLink_Wallet()",
         "TabManagerCoordinatorTests\/test_handleUniversalLink()",
         "TabManagerCoordinatorTests\/test_start_performsSetUpWithWallet()"
       ],

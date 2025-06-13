@@ -2,6 +2,7 @@
 import Wallet
 import XCTest
 
+@MainActor
 final class DummyLocalAuthServiceTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
     var sut: DummyLocalAuthService!
