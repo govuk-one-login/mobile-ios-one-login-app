@@ -40,60 +40,15 @@
       }
     },
     {
-      "skippedTests" : {
-        "suites" : [
-          {
-            "name" : "AppIntegrityJWTTests"
-          },
-          {
-            "name" : "ExternalButtonIconViewModelTests"
-          },
-          {
-            "name" : "GenericErrorViewModelTests"
-          },
-          {
-            "name" : "LocalAuthErrorListViewModelTests"
-          },
-          {
-            "name" : "LocalAuthErrorViewModelTests"
-          },
-          {
-            "name" : "UserDefaultsTests"
-          }
-        ],
-        "xctestClasses" : [
-          {
-            "name" : "AppQualifyingServiceTests"
-          },
-          {
-            "name" : "DeveloperMenuViewControllerTests"
-          },
-          {
-            "name" : "EnrolmentCoordinatorTests"
-          },
-          {
-            "name" : "HomeViewControllerTests"
-          },
-          {
-            "name" : "LoginCoordinatorTests"
-          },
-          {
-            "name" : "OneLoginEnrolmentManagerTests"
-          },
-          {
-            "name" : "PersistentSessionManagerTests"
-          },
-          {
-            "name" : "QualifyingCoordinatorTests"
-          },
-          {
-            "name" : "TabManagerCoordinatorTests"
-          },
-          {
-            "name" : "TokenHolderTests"
-          }
-        ]
-      },
+      "skippedTests" : [
+        "AppQualifyingServiceTests",
+        "EnrolmentCoordinatorTests",
+        "LoginCoordinatorTests",
+        "OneLoginEnrolmentManagerTests",
+        "PersistentSessionManagerTests",
+        "QualifyingCoordinatorTests",
+        "TabManagerCoordinatorTests"
+      ],
       "target" : {
         "containerPath" : "container:OneLogin.xcodeproj",
         "identifier" : "219601FC2A976305008F3427",
