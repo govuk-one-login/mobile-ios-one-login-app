@@ -41,10 +41,6 @@
     },
     {
       "skippedTests" : [
-        "LoginCoordinatorTests\/test_authenticate_launchAuthenticationService()",
-        "LoginCoordinatorTests\/test_launchAuthenticationService()",
-        "LoginCoordinatorTests\/test_launchEnrolmentCoordinator()",
-        "OneLoginEnrolmentManagerTests\/test_saveSession_succeeds()",
         "TabManagerCoordinatorTests\/test_handleUniversalLink()",
         "TabManagerCoordinatorTests\/test_start_performsSetUpWithWallet()"
       ],
