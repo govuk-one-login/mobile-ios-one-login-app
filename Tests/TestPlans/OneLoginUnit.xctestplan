@@ -45,9 +45,18 @@
         "EnrolmentCoordinatorTests",
         "LoginCoordinatorTests",
         "OneLoginEnrolmentManagerTests",
-        "PersistentSessionManagerTests",
+        "OneLoginEnrolmentManagerTests\/test_saveSession_fails()",
+        "OneLoginEnrolmentManagerTests\/test_saveSession_promptForPermission_cancelled()",
+        "OneLoginEnrolmentManagerTests\/test_saveSession_promptForPermission_fails()",
+        "OneLoginEnrolmentManagerTests\/test_saveSession_promptForPermission_false()",
+        "OneLoginEnrolmentManagerTests\/test_saveSession_succeeds()",
+        "PersistentSessionManagerTests\/test_hasNotRemovedLocalAuth()",
+        "PersistentSessionManagerTests\/test_startSession_savesTokensForReturningUsers()",
         "QualifyingCoordinatorTests",
-        "TabManagerCoordinatorTests"
+        "QualifyingCoordinatorTests\/test_failedUser_seesTheUnableToLoginScreen()",
+        "QualifyingCoordinatorTests\/test_handleUniversalLink_Wallet()",
+        "TabManagerCoordinatorTests\/test_handleUniversalLink()",
+        "TabManagerCoordinatorTests\/test_start_performsSetUpWithWallet()"
       ],
       "target" : {
         "containerPath" : "container:OneLogin.xcodeproj",
