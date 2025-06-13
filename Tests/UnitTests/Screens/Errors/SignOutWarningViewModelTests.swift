@@ -31,13 +31,18 @@ final class SignOutWarningViewModelTests: XCTestCase {
 extension SignOutWarningViewModelTests {
     func test_page() {
         XCTAssertEqual(sut.title.stringKey, "app_signOutWarningTitle")
-        XCTAssertEqual(sut.body, "app_signOutWarningBody")
+        XCTAssertEqual(sut.title.value, "You need to sign in again")
+        XCTAssertEqual(sut.body?.stringKey, "app_signOutWarningBody")
+        XCTAssertEqual(sut.body?.variableKeys, ["app_nameString"])
+        XCTAssertEqual(sut.body?.value, "It’s been more than 30 minutes since you last signed in to the GOV.UK One Login app.\n\nSign in again to continue.")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
     func test_button() {
         XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_extendedSignInButton")
+        XCTAssertEqual(sut.primaryButtonViewModel.title.variableKeys, ["app_nameString"])
+        XCTAssertEqual(sut.primaryButtonViewModel.title.value, "Sign in with GOV.UK One Login")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.primaryButtonViewModel.action()
@@ -45,6 +50,7 @@ extension SignOutWarningViewModelTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         
         let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])

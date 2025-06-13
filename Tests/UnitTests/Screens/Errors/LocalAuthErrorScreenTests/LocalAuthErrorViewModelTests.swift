@@ -1,4 +1,5 @@
 import GDSAnalytics
+import GDSCommon
 @testable import OneLogin
 import Testing
 import UIKit
@@ -19,12 +20,17 @@ struct LocalAuthErrorViewModelTests {
 
 extension LocalAuthErrorViewModelTests {
     @Test
-    func test_pageVariables() {
+    func test_pageVariables() throws {
         #expect(sut.image == .error)
         #expect(sut.title.stringKey == "app_localAuthManagerErrorTitle")
+        #expect(sut.title.value == "You need to update your phone settings")
         #expect(sut.bodyContent.count == 2)
+        let bodyLabel = try #require(sut.bodyContent[0].uiView as? UILabel)
+        // swiftlint:disable:next line_length
+        #expect(bodyLabel.text == "To add documents to your GOV.UK Wallet, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.")
         #expect(sut.buttonViewModels.count == 1)
         #expect(sut.buttonViewModels[0].title.stringKey == "app_localAuthManagerErrorGoToSettingsButton")
+        #expect(sut.buttonViewModels[0].title.value == "Go to phone settings")
         #expect(sut.rightBarButtonTitle != nil)
         #expect(sut.backButtonIsHidden)
     }

@@ -12,7 +12,8 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
     let imageColour: UIColor? = nil
     let imageHeightConstraint: CGFloat? = 100
     let title: GDSLocalisedString = "app_updateAppTitle"
-    let body: GDSLocalisedString? = "app_updateAppBody"
+    let body: GDSLocalisedString? = GDSLocalisedString(stringKey: "app_updateAppBody",
+                                                       "app_nameString")
     let primaryButtonViewModel: ButtonViewModel
     let analyticsService: OneLoginAnalyticsService
 
@@ -26,6 +27,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_updateAppButton",
+                                                               "app_nameString",
                                                                accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp"),
                                                                analyticsService: analyticsService) {
             urlOpener.open(url: AppEnvironment.appStoreURL)

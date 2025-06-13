@@ -7,7 +7,8 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
                                 BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_signOutWarningTitle"
-    let body: GDSLocalisedString? = "app_signOutWarningBody"
+    let body: GDSLocalisedString? = GDSLocalisedString(stringKey: "app_signOutWarningBody",
+                                                       "app_nameString")
     let primaryButtonViewModel: ButtonViewModel
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
@@ -20,9 +21,11 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
             OLTaxonomyKey.level3: OLTaxonomyValue.reauth
         ])
         let event = LinkEvent(textKey: "app_extendedSignInButton",
+                              variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
+                                                               "app_nameString",
                                                                shouldLoadOnTap: true,
                                                                analyticsService: analyticsService,
                                                                analyticsEvent: event) {

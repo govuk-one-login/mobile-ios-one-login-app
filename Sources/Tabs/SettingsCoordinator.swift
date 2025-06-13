@@ -70,14 +70,25 @@ final class SettingsCoordinator: NSObject,
         WalletAvailabilityService.hasAccessedBefore ?
         WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
+                showLoadingScreen()
                 finish()
             }
         }
         : SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
+                showLoadingScreen()
                 finish()
             }
         }
+    }
+    
+    private func showLoadingScreen() {
+        let loginLoadingScreen = GDSLoadingViewController(
+            viewModel: LoginLoadingViewModel(
+                analyticsService: analyticsService
+            )
+        )
+        root.pushViewController(loginLoadingScreen, animated: false)
     }
     
     func openDeveloperMenu() {

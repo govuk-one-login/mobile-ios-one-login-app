@@ -99,7 +99,16 @@ extension TabManagerCoordinator: ParentCoordinator {
         if child is SettingsCoordinator {
             Task {
                 do {
-                    try await sessionManager.clearAllSessionData()
+                    let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
+                    try await sessionManager.clearAllSessionData(restartLoginFlow: false)
+                    
+                    let viewModel = SignOutSuccessfulViewModel(analyticsService: analyticsService,
+                                                               withWallet: isWalletAccessed) {
+                        NotificationCenter.default.post(name: .didLogout)
+                    }
+                    let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
+                    signOutSuccessful.modalPresentationStyle = .fullScreen
+                    root.present(signOutSuccessful, animated: false)
                 } catch {
                     let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
                                                           error: error)

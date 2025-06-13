@@ -36,6 +36,7 @@ extension AnalyticsPreferenceViewModelTests {
     func test_screen_contents() throws {
         XCTAssertEqual(sut.title.stringKey, "app_acceptAnalyticsPreferences_title")
         XCTAssertEqual(sut.body.stringKey, "acceptAnalyticsPreferences_body")
+        XCTAssertEqual(sut.body.variableKeys, ["app_nameString", "app_nameString"])
         XCTAssertEqual(sut.bodyTextColor, .label)
     }
 
@@ -57,6 +58,7 @@ extension AnalyticsPreferenceViewModelTests {
 
     func test_textButton_action() throws {
         XCTAssertEqual(sut.textButtonViewModel.title.stringKey, "app_privacyNoticeLink")
+        XCTAssertEqual(sut.textButtonViewModel.title.variableKeys, ["app_nameString"])
         XCTAssertFalse(didCallTextButtonAction)
         sut.textButtonViewModel.action()
         XCTAssertTrue(didCallTextButtonAction)
