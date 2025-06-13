@@ -22,10 +22,6 @@ final class DummyLocalAuthService: WalletLocalAuthService {
     }
     
     func isEnrolled(_ minimum: any WalletLocalAuthType) -> Bool {
-        do {
-            return try localAuthentication.checkLevelSupported(.anyBiometricsAndPasscode)
-        } catch {
-            return false
-        }
+        return (try? localAuthentication.checkLevelSupported(.anyBiometricsAndPasscode)) ?? false
     }
 }

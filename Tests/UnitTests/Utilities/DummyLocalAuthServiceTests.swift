@@ -6,6 +6,8 @@ final class DummyLocalAuthServiceTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
     var sut: DummyLocalAuthService!
     
+    var didEnrol = false
+    
     override func setUp() {
         super.setUp()
         
@@ -32,7 +34,24 @@ extension DummyLocalAuthServiceTests {
         XCTAssertTrue(sut.ensureLocalAuthEnrolled(WalletMockLocalAuthType.biometrics))
     }
     
+    func test_enrolLocalAuth() {
+        XCTAssertFalse(didEnrol)
+        
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.didEnrol = true
+            }
+        )
+        
+        XCTAssertTrue(didEnrol)
+    }
+    
     func test_isEnrolled() {
         XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.biometrics))
+    }
+    
+    func test_isEnrolledFalse() {
+        XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.none))
     }
 }
