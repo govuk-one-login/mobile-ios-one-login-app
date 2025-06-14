@@ -3779,7 +3779,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
 			requirement = {
-				branch = "feat/kb/dcmaw-13783-lam-onboarding-only";
+				branch = "feat/rp/dcmaw-13783-lam-onboarding-only";
 				kind = branch;
 			};
 		};

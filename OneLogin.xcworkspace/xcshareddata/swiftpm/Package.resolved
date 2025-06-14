@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
-        "branch" : "feat/kb/dcmaw-13783-lam-onboarding-only",
-        "revision" : "0ae96534ad1a361467a5cea45397ce5befec3936"
+        "branch" : "feat/rp/dcmaw-13783-lam-onboarding-only",
+        "revision" : "649c4c3a15782b6257dcd2fcb60f2694b3d7c0b2"
       }
     },
     {
