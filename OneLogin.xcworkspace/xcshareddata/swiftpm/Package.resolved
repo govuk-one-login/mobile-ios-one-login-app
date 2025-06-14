@@ -204,7 +204,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-wallet-ios.git",
       "state" : {
         "branch" : "feat/rp/dcmaw-13783-lam-onboarding-only",
-        "revision" : "ac9834158426070a3391e5bae1653a0632d0308b"
+        "revision" : "373649c7facf5809a3cf0dc55eb92d753497ed9a"
       }
     },
     {
