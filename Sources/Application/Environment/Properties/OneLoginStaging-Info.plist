@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Configuration</key>
+	<dict>
+		<key>Build Configuration</key>
+		<string>$(CONFIGURATION)</string>
+		<key>Feature Flag File</key>
+		<string>$(FEATURE_FLAG_FILE)</string>
+	</dict>
+	<key>STS</key>
+	<dict>
+		<key>STS Base URL</key>
+		<string>$(STS_BASE_URL)</string>
+		<key>STS Client ID</key>
+		<string>$(STS_CLIENT_ID)</string>
+	</dict>
+	<key>Mobile BE</key>
+	<dict>
+		<key>Mobile BE Base URL</key>
+		<string>$(MOBILE_BE_BASE_URL)</string>
+	</dict>
+	<key>External</key>
+	<dict>
+		<key>External Base URL</key>
+		<string>$(EXTERNAL_BASE_URL)</string>
+		<key>Your Services URL</key>
+		<string>home.$(BASE_URL)</string>
+		<key>Gov URL</key>
+		<string>gov.uk</string>
+		<key>Gov Support URL</key>
+		<string>$(GOV_SUPPORT_URL)</string>
+		<key>App Store URL</key>
+		<string>apps.apple.com</string>
+	</dict>
+	<key>ID Check</key>
+	<dict>
+		<key>ID Check Domain</key>
+		<string>$(ID_CHECK_DOMAIN)</string>
+		<key>ID Check Base URL</key>
+		<string>$(ID_CHECK_BASE_URL)</string>
+		<key>ID Check Async Base URL</key>
+		<string>$(ID_CHECK_ASYNC_BASE_URL)</string>
+		<key>Read ID URL</key>
+		<string>$(READ_ID_URL)</string>
+		<key>iProov URL</key>
+		<string>$(IPROOV_URL)</string>
+	</dict>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED</key>
+	<false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<string>A0000002471001</string>
+		<string>A00000045645444C2D3031</string>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSPinnedDomains</key>
+		<dict>
+			<key>account.gov.uk</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSPinnedCAIdentities</key>
+				<array>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>f0KW/FtqTjs108NpYj42SrGvOB2PpxIVM8nWxjPqJGE=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>NqvDJlas/GRcYbcWE8S/IceH9cq77kg0jVhZeAPXq8k=</string>
+					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>9+ze1cZgR9KO1kZrVDxA4HQ6voHRCSVNz4RdTCx4U8U=</string>
+					</dict>
+				</array>
+			</dict>
+		</dict>
+	</dict>
+	<key>NFCReaderUsageDescription</key>
+	<string>This is required to scan the chip on your document.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The app will use your phone&apos;s front and rear cameras to prove your identity and scan QR codes.</string>
+</dict>
+</plist>

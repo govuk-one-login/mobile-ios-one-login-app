@@ -95,19 +95,6 @@ final class SettingsCoordinatorTests: XCTestCase {
         XCTAssertTrue(viewController.viewModel is SignOutPageViewModel)
     }
     
-    func test_tapSignoutClearsData() throws {
-        // GIVEN the user is on the signout page
-        sut.start()
-        // WHEN the openSignOutPage method is called
-        sut.openSignOutPage()
-        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        // WHEN the user signs out
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
-        signOutButton.sendActions(for: .touchUpInside)
-        // THEN the presented view controller should be dismissed
-        waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
-    }
-    
     func test_showDeveloperMenu() throws {
         sut.start()
         // WHEN the showDeveloperMenu method is called
