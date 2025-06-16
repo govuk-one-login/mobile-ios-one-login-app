@@ -37,12 +37,12 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
                                                              biometricsType: biometricsType,
                                                              enrolmentJourney: .wallet) { [unowned self] in
-                    localAuthManager.saveSession(isWalletEnrolment: true) {
+                    localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
                         self.biometricsEnrolmentScreen?.dismiss(animated: true)
                         completion()
                     }
                 } secondaryButtonAction: { [unowned self] in
-                    localAuthManager.completeEnrolment(isWalletEnrolment: true) {
+                    localAuthManager.completeEnrolment(isWalletEnrolment: true) { [unowned self] in
                         self.biometricsEnrolmentScreen?.dismiss(animated: true)
                         completion()
                     }

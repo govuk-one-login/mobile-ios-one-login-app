@@ -1,3 +1,4 @@
+import GDSCommon
 import Networking
 @testable import OneLogin
 import Wallet
@@ -5,34 +6,36 @@ import XCTest
 
 @MainActor
 final class LocalAuthServiceWalletTests: XCTestCase {
-    var localAuthentication: MockLocalAuthManager!
+    private var navigationController: UINavigationController!
+    var mockLocalAuthManager: MockLocalAuthManager!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
-    var sut: WalletLocalAuthService!
-    
-    var didEnrol = false
+    var sut: LocalAuthServiceWallet!
+    var walletCoordinator: WalletCoordinator!
     
     override func setUp() {
         super.setUp()
         
-        localAuthentication = MockLocalAuthManager()
+        mockLocalAuthManager = MockLocalAuthManager()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
-        sut = LocalAuthServiceWallet(walletCoordinator: WalletCoordinator(analyticsService: mockAnalyticsService,
-                                                                          networkClient: NetworkClient(),
-                                                                          sessionManager: mockSessionManager),
+        walletCoordinator =  WalletCoordinator(analyticsService: mockAnalyticsService,
+                                               networkClient: NetworkClient(),
+                                               sessionManager: mockSessionManager)
+        navigationController = walletCoordinator.root
+        sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
                                      analyticsService: mockAnalyticsService,
                                      sessionManager: mockSessionManager,
-                                     localAuthentication: localAuthentication)
+                                     localAuthentication: mockLocalAuthManager)
     }
     
     override func tearDown() {
+        navigationController = nil
         mockAnalyticsService = nil
         mockSessionManager = nil
-        localAuthentication = nil
+        mockLocalAuthManager = nil
+        walletCoordinator = nil
         sut = nil
-        
-        didEnrol = false
         
         super.tearDown()
     }
@@ -45,17 +48,15 @@ enum WalletMockLocalAuthType: WalletLocalAuthType {
 }
 
 extension LocalAuthServiceWalletTests {
-    func test_enrolLocalAuth() {
-        XCTAssertFalse(didEnrol)
+    func test_enrolLocalAuth() throws {
+        mockLocalAuthManager.type = .faceID
         
         sut.enrolLocalAuth(
             WalletMockLocalAuthType.biometrics,
-            completion: {
-                self.didEnrol = true
-            }
+            completion: {}
         )
         
-        XCTAssertTrue(didEnrol)
+        XCTAssertNotNil(sut.biometricsEnrolmentScreen)
     }
     
     func test_isEnrolled() {
