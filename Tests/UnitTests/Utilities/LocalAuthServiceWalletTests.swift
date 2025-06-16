@@ -12,13 +12,18 @@ final class LocalAuthServiceWalletTests: XCTestCase {
     var mockSessionManager: MockSessionManager!
     var sut: LocalAuthServiceWallet!
     var walletCoordinator: WalletCoordinator!
+    var isEnrolled: Bool!
     
-    override func setUp() {
+    override func setUpWithError() throws {
         super.setUp()
         
-        mockLocalAuthManager = MockLocalAuthManager()
-        mockAnalyticsService = MockAnalyticsService()
+        isEnrolled = false
         mockSessionManager = MockSessionManager()
+        mockLocalAuthManager = try XCTUnwrap(
+            mockSessionManager.localAuthentication as? MockLocalAuthManager
+        )
+        mockAnalyticsService = MockAnalyticsService()
+       
         walletCoordinator =  WalletCoordinator(analyticsService: mockAnalyticsService,
                                                networkClient: NetworkClient(),
                                                sessionManager: mockSessionManager)
@@ -35,6 +40,7 @@ final class LocalAuthServiceWalletTests: XCTestCase {
         mockSessionManager = nil
         mockLocalAuthManager = nil
         walletCoordinator = nil
+        isEnrolled = nil
         sut = nil
         
         super.tearDown()
@@ -48,7 +54,7 @@ enum WalletMockLocalAuthType: WalletLocalAuthType {
 }
 
 extension LocalAuthServiceWalletTests {
-    func test_enrolLocalAuth() throws {
+    func test_enrolLocalAuth() async throws {
         mockLocalAuthManager.type = .faceID
         
         sut.enrolLocalAuth(
@@ -57,6 +63,36 @@ extension LocalAuthServiceWalletTests {
         )
         
         XCTAssertNotNil(sut.biometricsEnrolmentScreen)
+    }
+    
+    func test_enrolLocalAuthPasscode() async throws {
+        let exp = XCTestExpectation(description: "callback reached")
+        
+        XCTAssertFalse(isEnrolled)
+        mockLocalAuthManager.type = .passcode
+    
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                exp.fulfill()
+            }
+        )
+
+        await fulfillment(of: [exp], timeout: 5)
+    }
+    
+    func test_enrolLocalAuthNone() throws {
+        XCTAssertFalse(isEnrolled)
+        mockLocalAuthManager.type = .none
+    
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.isEnrolled = true
+            }
+        )
+
+        XCTAssertTrue(isEnrolled)
     }
     
     func test_isEnrolled() {

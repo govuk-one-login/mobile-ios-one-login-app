@@ -49,9 +49,10 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 }
                 biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
                 walletCoodinator.root.modalPresentationStyle = .pageSheet
-                walletCoodinator.root.present(biometricsEnrolmentScreen ?? GDSInformationViewController(viewModel: viewModel), animated: true)
+                walletCoodinator.root.present(biometricsEnrolmentScreen ?? GDSInformationViewController(viewModel: viewModel),
+                                              animated: true)
             case .passcode:
-                localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
+                localAuthManager.saveSession(isWalletEnrolment: true) {
                     self.isPasscodeEnrolled = true
                     completion()
                 }
