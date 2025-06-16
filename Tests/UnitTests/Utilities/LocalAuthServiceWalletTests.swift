@@ -1,4 +1,6 @@
+import Coordination
 import GDSCommon
+import LocalAuthenticationWrapper
 import Networking
 @testable import OneLogin
 import Wallet
@@ -12,7 +14,8 @@ final class LocalAuthServiceWalletTests: XCTestCase {
     var mockSessionManager: MockSessionManager!
     var sut: LocalAuthServiceWallet!
     var walletCoordinator: WalletCoordinator!
-    var isEnrolled: Bool!
+    
+    var isEnrolled = false
     
     override func setUpWithError() throws {
         super.setUp()
@@ -31,7 +34,8 @@ final class LocalAuthServiceWalletTests: XCTestCase {
         sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
                                      analyticsService: mockAnalyticsService,
                                      sessionManager: mockSessionManager,
-                                     localAuthentication: mockLocalAuthManager)
+                                     localAuthentication: mockLocalAuthManager,
+                                     enrolmentManager: MockEnrolmentManager.self)
     }
     
     override func tearDown() {
@@ -40,8 +44,8 @@ final class LocalAuthServiceWalletTests: XCTestCase {
         mockSessionManager = nil
         mockLocalAuthManager = nil
         walletCoordinator = nil
-        isEnrolled = nil
         sut = nil
+        isEnrolled = false
         
         super.tearDown()
     }
@@ -51,6 +55,21 @@ enum WalletMockLocalAuthType: WalletLocalAuthType {
     case passcode
     case biometrics
     case none
+}
+
+struct MockEnrolmentManager: EnrolmentManager {
+    let localAuthContext: LocalAuthManaging
+    let sessionManager: SessionManager
+    let analyticsService: OneLoginAnalyticsService
+    weak var coordinator: ChildCoordinator?
+    
+    func saveSession(isWalletEnrolment: Bool, completion: (() -> Void)?) {
+        completion?()
+    }
+    
+    func completeEnrolment(isWalletEnrolment: Bool, completion: (() -> Void)?) {
+        completion?()
+    }
 }
 
 extension LocalAuthServiceWalletTests {
@@ -101,5 +120,43 @@ extension LocalAuthServiceWalletTests {
     
     func test_isEnrolledFalse() {
         XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.none))
+    }
+    
+    func test_primaryButtonAction() throws {
+        mockLocalAuthManager.type = .faceID
+        
+        XCTAssertFalse(isEnrolled)
+        
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.isEnrolled = true
+            }
+        )
+        
+        let screen = try XCTUnwrap(sut.biometricsEnrolmentScreen?.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        
+        screen.primaryButtonViewModel.action()
+        
+        XCTAssertTrue(isEnrolled)
+    }
+    
+    func test_secondaryButtonAction() throws {
+        mockLocalAuthManager.type = .faceID
+        
+        XCTAssertFalse(isEnrolled)
+        
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.isEnrolled = true
+            }
+        )
+        
+        let screen = try XCTUnwrap(sut.biometricsEnrolmentScreen?.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        
+        screen.secondaryButtonViewModel.action()
+        
+        XCTAssertTrue(isEnrolled)
     }
 }
