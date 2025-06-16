@@ -47,5 +47,13 @@ extension UpdateAppViewModelTests {
         XCTAssertFalse(urlOpener.didOpenURL)
         sut.primaryButtonViewModel.action()
         XCTAssertTrue(urlOpener.didOpenURL)
+        
+        let event = LinkEvent(textKey: "app_updateAppButton",
+                              variableKeys: "app_nameString",
+                              linkDomain: AppEnvironment.appStore.absoluteString,
+                              external: .true)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.system)
     }
 }
