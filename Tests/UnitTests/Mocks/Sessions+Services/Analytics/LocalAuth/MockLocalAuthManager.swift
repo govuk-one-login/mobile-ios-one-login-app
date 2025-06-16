@@ -31,4 +31,8 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
         }
         return userDidConsentToFaceID
     }
+    
+    func isEnrolled() -> Bool {
+        return true
+    }
 }

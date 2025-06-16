@@ -97,6 +97,10 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
         return supportedLevel >= requiredLevel.tier
     }
     
+    public func isEnrolled() -> Bool {
+        return localAuthPromptStore.previouslyPrompted
+    }
+    
     public func promptForPermission() async throws -> Bool {
         guard try type == .faceID &&
                 !localAuthPromptStore.previouslyPrompted else {
