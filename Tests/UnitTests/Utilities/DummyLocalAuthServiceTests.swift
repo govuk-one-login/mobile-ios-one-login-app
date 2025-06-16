@@ -1,9 +1,13 @@
 @testable import OneLogin
+import Wallet
 import XCTest
 
+@MainActor
 final class DummyLocalAuthServiceTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
     var sut: DummyLocalAuthService!
+    
+    var didEnrol = false
     
     override func setUp() {
         super.setUp()
@@ -16,36 +20,37 @@ final class DummyLocalAuthServiceTests: XCTestCase {
         localAuthentication = nil
         sut = nil
         
+        didEnrol = false
+        
         super.tearDown()
     }
 }
 
+enum WalletMockLocalAuthType: WalletLocalAuthType {
+    case passcode
+    case biometrics
+    case none
+}
+
 extension DummyLocalAuthServiceTests {
-    func test_faceID() {
-        localAuthentication.type = .faceID
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .face)
-        }
+    func test_enrolLocalAuth() {
+        XCTAssertFalse(didEnrol)
+        
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.didEnrol = true
+            }
+        )
+        
+        XCTAssertTrue(didEnrol)
     }
     
-    func test_touchID() {
-        localAuthentication.type = .touchID
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .touch)
-        }
+    func test_isEnrolled() {
+        XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.biometrics))
     }
     
-    func test_passcode() {
-        localAuthentication.type = .passcode
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .passcode)
-        }
-    }
-    
-    func test_none() {
-        localAuthentication.type = .none
-        sut.evaluateLocalAuth(navigationController: UINavigationController()) { authType in
-            XCTAssertEqual(authType, .none)
-        }
+    func test_isEnrolledFalse() {
+        XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.none))
     }
 }
