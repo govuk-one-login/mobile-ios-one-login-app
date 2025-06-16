@@ -5,7 +5,7 @@ import XCTest
 @MainActor
 final class DummyLocalAuthServiceTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
-    var sut: DummyLocalAuthService!
+    var sut: WalletLocalAuthService!
     
     var didEnrol = false
     
@@ -13,7 +13,7 @@ final class DummyLocalAuthServiceTests: XCTestCase {
         super.setUp()
         
         localAuthentication = MockLocalAuthManager()
-        sut = DummyLocalAuthService(localAuthentication: localAuthentication)
+        sut = WalletLocalAuthService(localAuthentication: localAuthentication)
     }
     
     override func tearDown() {

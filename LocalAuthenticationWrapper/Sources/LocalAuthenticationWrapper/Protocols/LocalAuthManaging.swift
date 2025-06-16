@@ -4,4 +4,5 @@ public protocol LocalAuthManaging {
     
     func checkLevelSupported(_ requiredLevel: RequiredLocalAuthLevel) throws -> Bool
     func promptForPermission() async throws -> Bool
+    func isEnrolled() -> Bool
 }
