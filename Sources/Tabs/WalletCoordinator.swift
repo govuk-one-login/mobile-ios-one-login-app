@@ -19,7 +19,12 @@ final class WalletCoordinator: NSObject,
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient & WalletNetworkClient
-    private var walletAuthService: LocalAuthServiceWallet?
+    
+    private lazy var walletAuthService = LocalAuthServiceWallet(
+        walletCoordinator: self,
+        analyticsService: analyticsService,
+        sessionManager: sessionManager
+    )
     
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient & WalletNetworkClient,
@@ -36,14 +41,9 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        walletAuthService = LocalAuthServiceWallet(walletCoordinator: self,
-                                                  analyticsService: analyticsService,
-                                                  sessionManager: sessionManager)
         let walletServices = WalletServices(
             networkClient: networkClient,
-            localAuthService: walletAuthService ?? LocalAuthServiceWallet(walletCoordinator: self,
-                                                                         analyticsService: analyticsService,
-                                                                         sessionManager: sessionManager),
+            localAuthService: walletAuthService,
             txmaLogger: AuthorizedHTTPLogger(
                 url: AppEnvironment.txma,
                 networkClient: networkClient,
@@ -66,6 +66,6 @@ final class WalletCoordinator: NSObject,
     }
     
     func userCancelledPasscode() {
-        walletAuthService?.userCancelled()
+        walletAuthService.userCancelled()
     }
 }
