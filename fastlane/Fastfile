@@ -135,7 +135,7 @@ platform :ios do
         readonly: true
       )
 
-      version = get_version_number(xcodeproj: project_name)
+      version = get_version_number(xcodeproj: project_name, configuration: options[:configuration])
 
       build_number = latest_testflight_build_number(
         app_identifier: app_identifier,
