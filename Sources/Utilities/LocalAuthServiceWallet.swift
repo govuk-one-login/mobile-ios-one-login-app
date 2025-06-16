@@ -12,21 +12,27 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     private var isPasscodeEnrolled = false
     var biometricsEnrolmentScreen: GDSInformationViewController?
     
-    private lazy var localAuthManager = OneLoginEnrolmentManager(
-        localAuthContext: localAuthentication,
-        sessionManager: sessionManager,
-        analyticsService: analyticsService,
-        coordinator: walletCoodinator
-    )
+    private var localAuthManager: EnrolmentManager
     
-    init(walletCoordinator: WalletCoordinator,
-         analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager,
-         localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
+    init(
+        walletCoordinator: WalletCoordinator,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(
+            localAuthStrings: .oneLogin
+        ),
+        enrolmentManager: EnrolmentManager.Type = OneLoginEnrolmentManager.self
+    ) {
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.localAuthentication = localAuthentication
         self.walletCoodinator = walletCoordinator
+        self.localAuthManager = enrolmentManager.init(
+            localAuthContext: localAuthentication,
+            sessionManager: sessionManager,
+            analyticsService: analyticsService,
+            coordinator: walletCoordinator
+        )
     }
     
     func enrolLocalAuth(_ minimum: any WalletLocalAuthType, completion: @escaping () -> Void) {
