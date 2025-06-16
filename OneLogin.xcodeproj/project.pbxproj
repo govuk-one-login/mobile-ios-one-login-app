@@ -137,7 +137,7 @@
 		C844943F2D9DEF0E003554E7 /* MockLocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958812C7E795200663299 /* MockLocalAuthManager.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
 		C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */; };
-		C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */; };
+		C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */; };
 		C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84E8F602CFF1DF500639098 /* AppIntegrityJWTTests.swift */; };
 		C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */; };
 		C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
@@ -432,7 +432,7 @@
 		C84302682D9167A60002B4B1 /* OLTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLTaxonomy.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWallet.swift; sourceTree = "<group>"; };
-		C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyLocalAuthServiceTests.swift; sourceTree = "<group>"; };
+		C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWalletTests.swift; sourceTree = "<group>"; };
 		C84E8F602CFF1DF500639098 /* AppIntegrityJWTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityJWTTests.swift; sourceTree = "<group>"; };
 		C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabAnalytics.swift; sourceTree = "<group>"; };
 		C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabAnalytics.swift; sourceTree = "<group>"; };
@@ -1163,7 +1163,7 @@
 			isa = PBXGroup;
 			children = (
 				7C81ADD42C78A8F500A73010 /* Session */,
-				C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */,
+				C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
 				C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */,
 				C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */,
@@ -2238,7 +2238,7 @@
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
-				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
+				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,

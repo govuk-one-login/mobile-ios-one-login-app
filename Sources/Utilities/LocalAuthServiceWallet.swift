@@ -19,7 +19,8 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
         coordinator: walletCoodinator
     )
     
-    init(walletCoordinator: WalletCoordinator, analyticsService: OneLoginAnalyticsService,
+    init(walletCoordinator: WalletCoordinator,
+         analyticsService: OneLoginAnalyticsService,
          sessionManager: SessionManager,
          localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)) {
         self.analyticsService = analyticsService

@@ -1,10 +1,13 @@
+import Networking
 @testable import OneLogin
 import Wallet
 import XCTest
 
 @MainActor
-final class DummyLocalAuthServiceTests: XCTestCase {
+final class LocalAuthServiceWalletTests: XCTestCase {
     var localAuthentication: MockLocalAuthManager!
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockSessionManager: MockSessionManager!
     var sut: WalletLocalAuthService!
     
     var didEnrol = false
@@ -13,10 +16,19 @@ final class DummyLocalAuthServiceTests: XCTestCase {
         super.setUp()
         
         localAuthentication = MockLocalAuthManager()
-        sut = WalletLocalAuthService(localAuthentication: localAuthentication)
+        mockAnalyticsService = MockAnalyticsService()
+        mockSessionManager = MockSessionManager()
+        sut = LocalAuthServiceWallet(walletCoordinator: WalletCoordinator(analyticsService: mockAnalyticsService,
+                                                                          networkClient: NetworkClient(),
+                                                                          sessionManager: mockSessionManager),
+                                     analyticsService: mockAnalyticsService,
+                                     sessionManager: mockSessionManager,
+                                     localAuthentication: localAuthentication)
     }
     
     override func tearDown() {
+        mockAnalyticsService = nil
+        mockSessionManager = nil
         localAuthentication = nil
         sut = nil
         
@@ -32,7 +44,7 @@ enum WalletMockLocalAuthType: WalletLocalAuthType {
     case none
 }
 
-extension DummyLocalAuthServiceTests {
+extension LocalAuthServiceWalletTests {
     func test_enrolLocalAuth() {
         XCTAssertFalse(didEnrol)
         
