@@ -20,6 +20,12 @@ final class WalletCoordinator: NSObject,
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient & WalletNetworkClient
     
+    private lazy var walletAuthService = LocalAuthServiceWallet(
+        walletCoordinator: self,
+        analyticsService: analyticsService,
+        sessionManager: sessionManager
+    )
+    
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
@@ -37,7 +43,7 @@ final class WalletCoordinator: NSObject,
                                        tag: 1)
         let walletServices = WalletServices(
             networkClient: networkClient,
-            localAuthService: DummyLocalAuthService(),
+            localAuthService: walletAuthService,
             txmaLogger: AuthorizedHTTPLogger(
                 url: AppEnvironment.txma,
                 networkClient: networkClient,
@@ -57,5 +63,9 @@ final class WalletCoordinator: NSObject,
     
     func handleUniversalLink(_ url: URL) {
         WalletSDK.deeplink(with: url)
+    }
+    
+    func userCancelledPasscode() {
+        walletAuthService.userCancelled()
     }
 }
