@@ -69,3 +69,9 @@ final class WalletCoordinator: NSObject,
         walletAuthService.userCancelled()
     }
 }
+
+extension WalletCoordinator: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        walletAuthService.userCancelled()
+    }
+}
