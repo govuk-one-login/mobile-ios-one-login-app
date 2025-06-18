@@ -27,8 +27,7 @@ final class SettingsCoordinator: NSObject,
          networkClient: NetworkClient,
          urlOpener: URLOpener) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.system,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.system
         ])
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager

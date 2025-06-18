@@ -120,7 +120,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_updateAnalytics_accepted() {
@@ -162,7 +162,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_helpCell_eventAnalytics() throws {
@@ -180,7 +180,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_contactCell_eventAnalytics() throws {
@@ -198,7 +198,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_privacyNoticeCell_eventAnalytics() throws {
@@ -216,7 +216,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_accessibilityCell_eventAnalytics() throws {
@@ -232,7 +232,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_signOut_eventAnalytics() throws {
@@ -246,7 +246,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
 }
 

@@ -7,7 +7,6 @@ enum OLTaxonomyValue {
     static let system = "app system"
     static let login = "login"
     static let home = "home"
-    static let wallet = "wallet"
     static let settings = "settings"
     static let reauth = "re auth"
     static let undefined = "undefined"
