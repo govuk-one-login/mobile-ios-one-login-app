@@ -9,6 +9,7 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let bodyContent: [ScreenBodyItem]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
+    let dismissAction: (() -> Void)?
     
     let localAuthType: LocalAuthType
     let biometricsTypeString: String
@@ -17,7 +18,8 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     
     init(analyticsService: OneLoginAnalyticsService,
          localAuthType: LocalAuthType,
-         action: @escaping () -> Void) {
+         action: @escaping () -> Void,
+         dismissAction: (() -> Void)? = nil) {
         self.analyticsService = analyticsService
         self.localAuthType = localAuthType
         self.biometricsTypeString = localAuthType == .faceID ? "app_FaceID" : "app_TouchID"
@@ -33,6 +35,7 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
                                          action()
                                      }
         ]
+        self.dismissAction = dismissAction
     }
     
     func didAppear() {
@@ -54,6 +57,7 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     }
     
     func didDismiss() {
+        dismissAction?()
         let event = IconEvent(textKey: "back - system")
         analyticsService.logEvent(event)
     }
