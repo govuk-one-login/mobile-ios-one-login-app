@@ -6,5 +6,5 @@ public protocol LocalAuthManaging {
     func promptForPermission() async throws -> Bool
     func isEnrolled() -> Bool
     func isEnrolledPasscode() -> Bool
-    func recordPasscode() 
+    func recordPasscode()
 }

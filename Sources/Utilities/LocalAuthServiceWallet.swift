@@ -48,7 +48,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 } secondaryButtonAction: { [unowned self] in
                     let viewModel = LocalAuthBiometricsErrorViewModel(analyticsService: analyticsService, localAuthType: biometricsType) { [unowned self] in
                         acceptedBiometrics(completion: completion)
-                    } dismissAction: { 
+                    } dismissAction: {
                         completion()
                     }
                     let skippedBiometricsViewController =  GDSErrorScreen(viewModel: viewModel)
