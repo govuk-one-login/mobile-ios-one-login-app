@@ -138,8 +138,8 @@
 		C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84302682D9167A60002B4B1 /* OLTaxonomy.swift */; };
 		C844943F2D9DEF0E003554E7 /* MockLocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958812C7E795200663299 /* MockLocalAuthManager.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
-		C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */; };
-		C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */; };
+		C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */; };
+		C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */; };
 		C84E8F622CFF1DF500639098 /* AppIntegrityJWTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84E8F602CFF1DF500639098 /* AppIntegrityJWTTests.swift */; };
 		C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */; };
 		C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
@@ -320,7 +320,6 @@
 		3BBF28E92A9F7D3200491BB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OneLogin-Info.plist"; sourceTree = "<group>"; };
 		410464F52B29D078000E7CB2 /* UnableToLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
 		41279DD42BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSignOutPageViewModel.swift; sourceTree = "<group>"; };
 		41279DD62BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSignOutPageViewModelTests.swift; sourceTree = "<group>"; };
@@ -387,6 +386,11 @@
 		C32436CE2DCB6E6500CC3FCC /* PurposeTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTileViewModel.swift; sourceTree = "<group>"; };
 		C32436D02DCB906000CC3FCC /* PurposeTileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTileViewModelTests.swift; sourceTree = "<group>"; };
 		C34BD1292DDF227E00D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModelTests.swift; sourceTree = "<group>"; };
+		C3381D2D2DFAE1240007B594 /* OneLoginRelease-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginRelease-Info.plist"; sourceTree = "<group>"; };
+		C3381D2E2DFAE1380007B594 /* OneLoginBuild-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginBuild-Info.plist"; sourceTree = "<group>"; };
+		C3381D2F2DFAE1450007B594 /* OneLoginDebug-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginDebug-Info.plist"; sourceTree = "<group>"; };
+		C3381D302DFAE14E0007B594 /* OneLoginStaging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginStaging-Info.plist"; sourceTree = "<group>"; };
+		C3381D312DFAE1580007B594 /* OneLoginIntegration-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginIntegration-Info.plist"; sourceTree = "<group>"; };
 		C388D2602DC8E928007C9902 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
 		C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModel.swift; sourceTree = "<group>"; };
 		C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModel.swift; sourceTree = "<group>"; };
@@ -431,8 +435,8 @@
 		C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OneLogin.swift"; sourceTree = "<group>"; };
 		C84302682D9167A60002B4B1 /* OLTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLTaxonomy.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
-		C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyLocalAuthService.swift; sourceTree = "<group>"; };
-		C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyLocalAuthServiceTests.swift; sourceTree = "<group>"; };
+		C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWallet.swift; sourceTree = "<group>"; };
+		C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWalletTests.swift; sourceTree = "<group>"; };
 		C84E8F602CFF1DF500639098 /* AppIntegrityJWTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityJWTTests.swift; sourceTree = "<group>"; };
 		C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabAnalytics.swift; sourceTree = "<group>"; };
 		C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabAnalytics.swift; sourceTree = "<group>"; };
@@ -703,7 +707,6 @@
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
-				3BBF28F52A9F7D4900491BB1 /* OneLogin-Info.plist */,
 				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
@@ -934,6 +937,18 @@
 			path = LocalAuthErrorScreenTests;
 			sourceTree = "<group>";
 		};
+		C3381D2C2DFAE0E50007B594 /* Properties */ = {
+			isa = PBXGroup;
+			children = (
+				C3381D2D2DFAE1240007B594 /* OneLoginRelease-Info.plist */,
+				C3381D2E2DFAE1380007B594 /* OneLoginBuild-Info.plist */,
+				C3381D2F2DFAE1450007B594 /* OneLoginDebug-Info.plist */,
+				C3381D302DFAE14E0007B594 /* OneLoginStaging-Info.plist */,
+				C3381D312DFAE1580007B594 /* OneLoginIntegration-Info.plist */,
+			);
+			path = Properties;
+			sourceTree = "<group>";
+		};
 		C803C2152B8F8865008DE774 /* OneLoginBuildConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,7 +1147,7 @@
 				D0BE243F2BEBAEB600759529 /* JWT */,
 				C8BADD322B88CBB200385FE7 /* Network */,
 				C8BADD332B88CBBA00385FE7 /* Storage */,
-				C8486FE42C60D80A00DE514C /* DummyLocalAuthService.swift */,
+				C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */,
 				C8F092E32DA4650C0046F6EA /* OneLoginEnrolmentManager.swift */,
 				D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */,
 			);
@@ -1154,7 +1169,7 @@
 			isa = PBXGroup;
 			children = (
 				7C81ADD42C78A8F500A73010 /* Session */,
-				C8486FE62C60E66400DE514C /* DummyLocalAuthServiceTests.swift */,
+				C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
 				C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */,
 				C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */,
@@ -1507,6 +1522,7 @@
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				C3381D2C2DFAE0E50007B594 /* Properties */,
 				7C0CCECD2C8A12A500F61C11 /* Configuration */,
 				C8DA2C652D73DAC300EBBE3E /* Entitlements */,
 				C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */,
@@ -2128,7 +2144,7 @@
 				D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */,
-				C8486FE52C60D80A00DE514C /* DummyLocalAuthService.swift in Sources */,
+				C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
@@ -2229,7 +2245,7 @@
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
-				C8486FE72C60E66400DE514C /* DummyLocalAuthServiceTests.swift in Sources */,
+				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
@@ -2485,6 +2501,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginDebug-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2543,6 +2560,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginBuild-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -2562,7 +2580,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginDebug-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2572,7 +2590,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2581,7 +2599,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2594,7 +2612,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginBuild-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2604,7 +2622,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2613,7 +2631,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Build;
 		};
@@ -2862,6 +2880,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginRelease-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -2881,7 +2900,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginRelease-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -2891,7 +2910,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2900,7 +2919,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -3050,6 +3069,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginStaging-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -3069,7 +3089,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginStaging-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -3079,7 +3099,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3088,7 +3108,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Staging;
 		};
@@ -3497,6 +3517,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginIntegration-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -3516,7 +3537,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sources/Application/OneLogin-Info.plist";
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginIntegration-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -3526,7 +3547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3535,7 +3556,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Integration;
 		};
@@ -3767,7 +3788,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-wallet-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
+				minimumVersion = 13.0.0;
 			};
 		};
 		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
