@@ -25,4 +25,15 @@ class LocalAuthPromptRecorderTests {
         sut.recordPrompt()
         #expect(sut.previouslyPrompted)
     }
+    
+    @Test("Check previously prompted is not true by default")
+    func notPreviouslyPromptedPasscode() {
+        #expect(!sut.previouslyPasscodePrompted)
+    }
+    
+    @Test("Check previously prompted is true if set")
+    func previouslyPromptedPasscode() {
+        sut.recordPasscodePrompt()
+        #expect(sut.previouslyPasscodePrompted)
+    }
 }

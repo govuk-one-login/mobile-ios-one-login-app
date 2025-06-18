@@ -123,7 +123,6 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
                     .deviceOwnerAuthentication,
                     localizedReason: localAuthStrings.subtitle
                 )
-            localAuthPromptStore.recordPrompt()
             
             let currentType = try type
             if currentType == .passcode {

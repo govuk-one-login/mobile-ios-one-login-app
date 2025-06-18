@@ -10,6 +10,8 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
     var localAuthIsEnabledOnTheDevice = false
     var errorFromEnrolLocalAuth: Error?
     var userDidConsentToFaceID = true
+    var isPasscodeEnrolled = false
+    var isBiometricsEnrolled = false
     
     var didCallEnrolFaceIDIfAvailable = false
     
@@ -33,6 +35,14 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
     }
     
     func isEnrolled() -> Bool {
-        return true
+        return isBiometricsEnrolled
+    }
+    
+    func isEnrolledPasscode() -> Bool {
+        return isPasscodeEnrolled
+    }
+    
+    func recordPasscode() {
+        isPasscodeEnrolled = true
     }
 }
