@@ -101,6 +101,14 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
         return localAuthPromptStore.previouslyPrompted
     }
     
+    public func isEnrolledPasscode() -> Bool {
+        return localAuthPromptStore.previouslyPasscodePrompted
+    }
+    
+    public func recordPasscode() {
+        localAuthPromptStore.recordPasscodePrompt()
+    }
+    
     public func promptForPermission() async throws -> Bool {
         guard try type == .faceID &&
                 !localAuthPromptStore.previouslyPrompted else {
@@ -116,6 +124,13 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
                     localizedReason: localAuthStrings.subtitle
                 )
             localAuthPromptStore.recordPrompt()
+            
+            let currentType = try type
+            if currentType == .passcode {
+                localAuthPromptStore.recordPasscodePrompt()
+            } else {
+                localAuthPromptStore.recordPrompt()
+            }
             return localAuthResult
         } catch let error as NSError {
             switch error.code {
