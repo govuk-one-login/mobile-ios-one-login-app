@@ -3,14 +3,15 @@ import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
 import Wallet
+import WalletInterface
 
 final class LocalAuthServiceWallet: WalletLocalAuthService {
     let localAuthentication: LocalAuthManaging
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let walletCoodinator: WalletCoordinator
-    private var isPasscodeEnrolled = false
     var biometricsEnrolmentScreen: GDSInformationViewController?
+    var biometricsNavigationController: UINavigationController?
     
     private var localAuthManager: EnrolmentManager
     
@@ -43,29 +44,30 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
                                                              biometricsType: biometricsType,
                                                              enrolmentJourney: .wallet) { [unowned self] in
-                    localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
-                        self.biometricsEnrolmentScreen?.dismiss(animated: true)
-                        completion()
-                    }
+                    acceptedBiometrics(completion: completion)
                 } secondaryButtonAction: { [unowned self] in
-                    localAuthManager.completeEnrolment(isWalletEnrolment: true) { [unowned self] in
-                        self.biometricsEnrolmentScreen?.dismiss(animated: true)
+                    let viewModel = LocalAuthBiometricsErrorViewModel(analyticsService: analyticsService, localAuthType: biometricsType) { [unowned self] in
+                        acceptedBiometrics(completion: completion)
+                    } dismissAction: { 
                         completion()
                     }
+                    let skippedBiometricsViewController =  GDSErrorScreen(viewModel: viewModel)
+                    biometricsNavigationController?.pushViewController(skippedBiometricsViewController, animated: true)
                 }
                 biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
-                walletCoodinator.root.modalPresentationStyle = .pageSheet
-                walletCoodinator.root.present(biometricsEnrolmentScreen ?? GDSInformationViewController(viewModel: viewModel),
+                
+                biometricsNavigationController = UINavigationController(rootViewController: biometricsEnrolmentScreen ?? GDSInformationViewController(viewModel: viewModel))
+                biometricsNavigationController?.modalPresentationStyle = .pageSheet
+                biometricsNavigationController?.presentationController?.delegate = walletCoodinator
+                walletCoodinator.root.present(biometricsNavigationController ?? UINavigationController(),
                                               animated: true)
             case .passcode:
-                localAuthManager.saveSession(isWalletEnrolment: true) {
-                    self.isPasscodeEnrolled = true
+                localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
+                    localAuthentication.recordPasscode()
                     completion()
                 }
             case .none:
-                localAuthManager.completeEnrolment(isWalletEnrolment: true) {
-                    completion()
-                }
+                completion()
             }
         } catch {
             preconditionFailure()
@@ -73,11 +75,27 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     }
     
     func isEnrolled(_ minimum: any WalletLocalAuthType) -> Bool {
-        return localAuthentication.isEnrolled() || isPasscodeEnrolled
+        guard let minimumAuth = minimum as? LocalAuth else {
+            return false
+        }
+        
+        switch minimumAuth {
+        case .biometrics:
+            return localAuthentication.isEnrolled()
+        default:
+            return localAuthentication.isEnrolled() || localAuthentication.isEnrolledPasscode()
+        }
     }
     
     func userCancelled() {
-        biometricsEnrolmentScreen?.dismiss(animated: true)
         WalletSDK.walletTabSelected()
+        biometricsEnrolmentScreen?.dismiss(animated: true)
+    }
+    
+    private func acceptedBiometrics(completion: @escaping () -> Void) {
+        localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
+            self.biometricsEnrolmentScreen?.dismiss(animated: true)
+            completion()
+        }
     }
 }
