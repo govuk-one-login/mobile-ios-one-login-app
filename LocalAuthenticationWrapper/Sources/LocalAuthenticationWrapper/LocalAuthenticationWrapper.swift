@@ -103,18 +103,13 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
         return supportedLevel >= requiredLevel.tier
     }
     
-    public func isEnrolled() -> Bool {
+    public func hasBeenPrompted() -> Bool {
         return localAuthPromptStore.previouslyPrompted
-    }
-    
-    public func isEnrolledPasscode() -> Bool {
-        return localAuthPromptStore.previouslyPasscodePrompted
     }
     
     public func promptForPermission() async throws -> Bool {
         guard try type != .none  &&
-                !localAuthPromptStore.previouslyPrompted &&
-                !localAuthPromptStore.previouslyPasscodePrompted else {
+                !localAuthPromptStore.previouslyPrompted else {
             return true
         }
         // Enrolment is required if biometry type is FaceID
@@ -127,12 +122,7 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
                     localizedReason: localAuthStrings.subtitle
                 )
             
-            let currentType = try type
-            if currentType == .passcode {
-                localAuthPromptStore.recordPasscodePrompt()
-            } else {
-                localAuthPromptStore.recordPrompt()
-            }
+            localAuthPromptStore.recordPrompt()
             return localAuthResult
         } catch let error as NSError {
             switch error.code {

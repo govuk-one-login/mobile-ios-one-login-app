@@ -89,11 +89,16 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             return false
         }
         
-        switch minimumAuth {
-        case .biometrics:
-            return localAuthentication.isEnrolled()
-        default:
-            return localAuthentication.isEnrolled() || localAuthentication.isEnrolledPasscode()
+        do {
+            let type = try localAuthentication.type
+            switch minimumAuth {
+            case .biometrics:
+                return (type == .touchID || type == .faceID) && localAuthentication.hasBeenPrompted()
+            default:
+                return (type == .touchID || type == .faceID || type == .passcode) && localAuthentication.hasBeenPrompted()
+            }
+        } catch {
+            preconditionFailure()
         }
     }
     
