@@ -62,12 +62,22 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 walletCoodinator.root.present(biometricsNavigationController ?? UINavigationController(),
                                               animated: true)
             case .passcode:
-                localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
-                    localAuthentication.recordPasscode()
+                localAuthManager.saveSession(isWalletEnrolment: true) {
                     completion()
                 }
             case .none:
-                completion()
+                var settingsErrorScreen: GDSErrorScreen?
+                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) { 
+                    settingsErrorScreen?.dismiss(animated: true)
+                    completion()
+                }
+                settingsErrorScreen = GDSErrorScreen(viewModel: viewModel)
+                
+                biometricsNavigationController = UINavigationController(rootViewController: settingsErrorScreen ?? GDSErrorScreen(viewModel: viewModel))
+                biometricsNavigationController?.modalPresentationStyle = .pageSheet
+                biometricsNavigationController?.presentationController?.delegate = walletCoodinator
+                walletCoodinator.root.present(biometricsNavigationController ?? UINavigationController(),
+                                              animated: true)
             }
         } catch {
             preconditionFailure()
