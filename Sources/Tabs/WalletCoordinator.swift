@@ -54,6 +54,7 @@ final class WalletCoordinator: NSObject,
     }
     
     func didBecomeSelected() {
+        WalletSDK.walletTabSelected()
         let event = IconEvent(textKey: "app_walletTitle")
         analyticsService.logEvent(event)
     }
@@ -63,6 +64,12 @@ final class WalletCoordinator: NSObject,
     }
     
     func userCancelledPasscode() {
+        walletAuthService.userCancelled()
+    }
+}
+
+extension WalletCoordinator: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         walletAuthService.userCancelled()
     }
 }

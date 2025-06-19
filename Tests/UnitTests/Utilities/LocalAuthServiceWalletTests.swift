@@ -4,6 +4,7 @@ import LocalAuthenticationWrapper
 import Networking
 @testable import OneLogin
 import Wallet
+import WalletInterface
 import XCTest
 
 @MainActor
@@ -115,11 +116,13 @@ extension LocalAuthServiceWalletTests {
     }
     
     func test_isEnrolled() {
-        XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.biometrics))
-    }
-    
-    func test_isEnrolledFalse() {
-        XCTAssertTrue(sut.isEnrolled(WalletMockLocalAuthType.none))
+        mockLocalAuthManager.isBiometricsEnrolled = false
+        XCTAssertFalse(mockLocalAuthManager.isEnrolledPasscode())
+        mockLocalAuthManager.recordPasscode()
+        
+        XCTAssertFalse(sut.isEnrolled(LocalAuth.biometrics))
+        XCTAssertTrue(sut.isEnrolled(LocalAuth.passcode))
+        XCTAssertTrue(sut.isEnrolled(LocalAuth.none))
     }
     
     func test_primaryButtonAction() throws {
@@ -156,6 +159,14 @@ extension LocalAuthServiceWalletTests {
         let screen = try XCTUnwrap(sut.biometricsEnrolmentScreen?.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
         
         screen.secondaryButtonViewModel.action()
+        
+        let vc = try XCTUnwrap(sut.biometricsNavigationController?.topViewController as? GDSErrorScreen)
+        
+        XCTAssertTrue(vc.viewModel is LocalAuthBiometricsErrorViewModel)
+        
+        let secondErrorScreen = try XCTUnwrap(vc.viewModel)
+        
+        secondErrorScreen.buttonViewModels[0].action()
         
         XCTAssertTrue(isEnrolled)
     }
