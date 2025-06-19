@@ -31,6 +31,12 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
                 return try canUseAnyLocalAuth ? .passcode : .none
             }
             
+            return try deviceBiometricsType
+        }
+    }
+    
+    public var deviceBiometricsType: LocalAuthType {
+        get throws {
             switch localAuthContext.biometryType {
             case .touchID:
                 return .touchID
@@ -105,13 +111,10 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
         return localAuthPromptStore.previouslyPasscodePrompted
     }
     
-    public func recordPasscode() {
-        localAuthPromptStore.recordPasscodePrompt()
-    }
-    
     public func promptForPermission() async throws -> Bool {
-        guard try (type == .faceID || type == .touchID) &&
-                !localAuthPromptStore.previouslyPrompted else {
+        guard try type != .none  &&
+                !localAuthPromptStore.previouslyPrompted &&
+                !localAuthPromptStore.previouslyPasscodePrompted else {
             return true
         }
         // Enrolment is required if biometry type is FaceID

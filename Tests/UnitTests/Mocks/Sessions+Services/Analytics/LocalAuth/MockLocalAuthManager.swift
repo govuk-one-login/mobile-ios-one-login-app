@@ -4,6 +4,7 @@ import SecureStore
 
 final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextStrings {
     var type: LocalAuthType = .touchID
+    var deviceBiometricsType: LocalAuthType = .touchID
     
     var oneLoginStrings: LocalAuthenticationLocalizedStrings?
     
@@ -40,9 +41,5 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
     
     func isEnrolledPasscode() -> Bool {
         return isPasscodeEnrolled
-    }
-    
-    func recordPasscode() {
-        isPasscodeEnrolled = true
     }
 }
