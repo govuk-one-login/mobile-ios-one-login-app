@@ -940,11 +940,11 @@
 		C3381D2C2DFAE0E50007B594 /* Properties */ = {
 			isa = PBXGroup;
 			children = (
-				C3381D2D2DFAE1240007B594 /* OneLoginRelease-Info.plist */,
 				C3381D2E2DFAE1380007B594 /* OneLoginBuild-Info.plist */,
 				C3381D2F2DFAE1450007B594 /* OneLoginDebug-Info.plist */,
-				C3381D302DFAE14E0007B594 /* OneLoginStaging-Info.plist */,
 				C3381D312DFAE1580007B594 /* OneLoginIntegration-Info.plist */,
+				C3381D2D2DFAE1240007B594 /* OneLoginRelease-Info.plist */,
+				C3381D302DFAE14E0007B594 /* OneLoginStaging-Info.plist */,
 			);
 			path = Properties;
 			sourceTree = "<group>";
@@ -1169,8 +1169,8 @@
 			isa = PBXGroup;
 			children = (
 				7C81ADD42C78A8F500A73010 /* Session */,
-				C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
+				C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */,
 				C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */,
 				C836FDDB2D6619AA00F8AC37 /* OneLoginSecureStoreManagerTests.swift */,
 				4193D2E42C89F48800073EB8 /* SecureTokenStoreTests.swift */,
@@ -1522,9 +1522,9 @@
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
-				C3381D2C2DFAE0E50007B594 /* Properties */,
 				7C0CCECD2C8A12A500F61C11 /* Configuration */,
 				C8DA2C652D73DAC300EBBE3E /* Entitlements */,
+				C3381D2C2DFAE0E50007B594 /* Properties */,
 				C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */,
 				C880DDE12AEAB6C100020796 /* AppEnvironment.swift */,
 				C8BACAFE2B4DE1C300530419 /* Flag.swift */,
@@ -2144,7 +2144,6 @@
 				D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */,
-				C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
@@ -2167,6 +2166,7 @@
 				C84040CD2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift in Sources */,
 				ABFE5E302DB9A54D0093E86E /* LocalAuthErrorListView.swift in Sources */,
 				C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */,
+				C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */,
 				AB24C1132DB94A5F0080141C /* LocalAuthSettingsErrorViewModel.swift in Sources */,
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
 				C8BEC2942BFFA8C800C9775A /* LoginLoadingViewModel.swift in Sources */,
@@ -2195,10 +2195,10 @@
 				C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */,
 				C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
-				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				F1B6807E2CA4424400A64971 /* SignOutPageViewModel.swift in Sources */,
+				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
@@ -2242,10 +2242,8 @@
 				41FF35AF2B222CAC00419DB3 /* AuthenticationServiceTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* BiometricsEnrolmentViewModelTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
-				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
-				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
@@ -2255,6 +2253,7 @@
                 C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */,
 				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
+				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
@@ -2298,6 +2297,7 @@
 				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
 				F1B680822CA452CD00A64971 /* SignOutPageViewModelTests.swift in Sources */,
+				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
