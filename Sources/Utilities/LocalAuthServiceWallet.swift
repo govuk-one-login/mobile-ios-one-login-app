@@ -67,7 +67,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 }
             case .none:
                 var settingsErrorScreen: GDSErrorScreen?
-                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) { 
+                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) {
                     settingsErrorScreen?.dismiss(animated: true)
                     completion()
                 }
