@@ -10,7 +10,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let walletCoodinator: WalletCoordinator
-    var biometricsNavigationController = UINavigationController()
+    private(set) var biometricsNavigationController = UINavigationController()
     
     private var localAuthManager: EnrolmentManager
     
