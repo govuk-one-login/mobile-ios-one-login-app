@@ -82,7 +82,9 @@ extension LocalAuthServiceWalletTests {
             completion: {}
         )
         
-        XCTAssertNotNil(sut.biometricsEnrolmentScreen)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
+        
+        XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
     
     func test_enrolLocalAuthPasscode() async throws {
@@ -112,7 +114,7 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController?.topViewController as? GDSErrorScreen)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
         
         XCTAssertTrue(vc.viewModel is LocalAuthSettingsErrorViewModel)
         
@@ -124,9 +126,10 @@ extension LocalAuthServiceWalletTests {
     }
     
     func test_isEnrolled() {
-        mockLocalAuthManager.isBiometricsEnrolled = false
-        XCTAssertFalse(mockLocalAuthManager.isEnrolledPasscode())
-        mockLocalAuthManager.isPasscodeEnrolled = true
+        mockLocalAuthManager.type = .passcode
+        mockLocalAuthManager.userPromptedForLocalAuth = false
+        XCTAssertFalse(mockLocalAuthManager.hasBeenPrompted())
+        mockLocalAuthManager.userPromptedForLocalAuth = true
         
         XCTAssertFalse(sut.isEnrolled(LocalAuth.biometrics))
         XCTAssertTrue(sut.isEnrolled(LocalAuth.passcode))
@@ -145,9 +148,11 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        let screen = try XCTUnwrap(sut.biometricsEnrolmentScreen?.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
         
-        screen.primaryButtonViewModel.action()
+        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        
+        viewModel.primaryButtonViewModel.action()
         
         XCTAssertTrue(isEnrolled)
     }
@@ -164,15 +169,17 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        let screen = try XCTUnwrap(sut.biometricsEnrolmentScreen?.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
         
-        screen.secondaryButtonViewModel.action()
+        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController?.topViewController as? GDSErrorScreen)
+        viewModel.secondaryButtonViewModel.action()
         
-        XCTAssertTrue(vc.viewModel is LocalAuthBiometricsErrorViewModel)
+        let vc2 = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
         
-        let secondErrorScreen = try XCTUnwrap(vc.viewModel)
+        XCTAssertTrue(vc2.viewModel is LocalAuthBiometricsErrorViewModel)
+        
+        let secondErrorScreen = try XCTUnwrap(vc2.viewModel)
         
         secondErrorScreen.buttonViewModels[0].action()
         

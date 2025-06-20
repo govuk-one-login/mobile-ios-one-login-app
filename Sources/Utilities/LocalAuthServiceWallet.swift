@@ -10,8 +10,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let walletCoodinator: WalletCoordinator
-    var biometricsEnrolmentScreen: GDSInformationViewController?
-    var biometricsNavigationController: UINavigationController?
+    var biometricsNavigationController = UINavigationController()
     
     private var localAuthManager: EnrolmentManager
     
@@ -38,6 +37,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     
     func enrolLocalAuth(_ minimum: any WalletLocalAuthType, completion: @escaping () -> Void) {
         do {
+            self.biometricsNavigationController = UINavigationController()
             let biometricsType = try localAuthentication.type
             switch biometricsType {
             case .touchID, .faceID:
@@ -52,31 +52,30 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                         completion()
                     }
                     let skippedBiometricsViewController =  GDSErrorScreen(viewModel: viewModel)
-                    biometricsNavigationController?.pushViewController(skippedBiometricsViewController, animated: true)
+                    biometricsNavigationController.pushViewController(skippedBiometricsViewController, animated: true)
                 }
-                biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                let biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
                 
-                biometricsNavigationController = UINavigationController(rootViewController: biometricsEnrolmentScreen ?? GDSInformationViewController(viewModel: viewModel))
-                biometricsNavigationController?.modalPresentationStyle = .pageSheet
-                biometricsNavigationController?.presentationController?.delegate = walletCoodinator
-                walletCoodinator.root.present(biometricsNavigationController ?? UINavigationController(),
+                biometricsNavigationController.setViewControllers([biometricsEnrolmentScreen], animated: false)
+                biometricsNavigationController.modalPresentationStyle = .pageSheet
+                biometricsNavigationController.presentationController?.delegate = walletCoodinator
+                walletCoodinator.root.present(biometricsNavigationController,
                                               animated: true)
             case .passcode:
                 localAuthManager.saveSession(isWalletEnrolment: true) {
                     completion()
                 }
             case .none:
-                var settingsErrorScreen: GDSErrorScreen?
-                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) {
-                    settingsErrorScreen?.dismiss(animated: true)
+                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) { [unowned self] in
+                    biometricsNavigationController.dismiss(animated: true)
                     completion()
                 }
-                settingsErrorScreen = GDSErrorScreen(viewModel: viewModel)
+                let settingsErrorScreen = GDSErrorScreen(viewModel: viewModel)
                 
-                biometricsNavigationController = UINavigationController(rootViewController: settingsErrorScreen ?? GDSErrorScreen(viewModel: viewModel))
-                biometricsNavigationController?.modalPresentationStyle = .pageSheet
-                biometricsNavigationController?.presentationController?.delegate = walletCoodinator
-                walletCoodinator.root.present(biometricsNavigationController ?? UINavigationController(),
+                biometricsNavigationController.setViewControllers([settingsErrorScreen], animated: false)
+                biometricsNavigationController.modalPresentationStyle = .pageSheet
+                biometricsNavigationController.presentationController?.delegate = walletCoodinator
+                walletCoodinator.root.present(biometricsNavigationController,
                                               animated: true)
             }
         } catch {
@@ -104,12 +103,12 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     
     func userCancelled() {
         WalletSDK.walletTabSelected()
-        biometricsEnrolmentScreen?.dismiss(animated: true)
+        biometricsNavigationController.dismiss(animated: true)
     }
     
     private func acceptedBiometrics(completion: @escaping () -> Void) {
         localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
-            self.biometricsEnrolmentScreen?.dismiss(animated: true)
+            biometricsNavigationController.dismiss(animated: true)
             completion()
         }
     }
