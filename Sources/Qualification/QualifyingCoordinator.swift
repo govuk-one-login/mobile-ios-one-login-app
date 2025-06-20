@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import DocumentCheck
 import GDSCommon
 import Logging
 import Networking
@@ -139,7 +140,7 @@ extension QualifyingCoordinator {
             updateStream.continuation.yield(tabManagerCoordinator)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
-                root: UITabBarController(),
+                root: CustomTabBarController(),
                 analyticsService: analyticsService,
                 analyticsPreferenceStore: analyticsPreferenceStore,
                 networkClient: networkClient,
@@ -193,6 +194,50 @@ extension QualifyingCoordinator {
                     tabCoordinator.handleUniversalLink(deeplink)
                     self.deeplink = nil
                 }
+            }
+        }
+    }
+}
+
+public typealias IDCheckNavigationController = ConfirmNavigationController
+
+class CustomTabBarController: UITabBarController {
+    override open var shouldAutorotate: Bool {
+        get {
+            if let vc = self.selectedViewController, vc is IDCheckNavigationController {
+                return vc.shouldAutorotate
+            } else {
+                return super.shouldAutorotate
+            }
+        }
+    }
+    
+    override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        get {
+            if let vc = self.selectedViewController, vc is IDCheckNavigationController {
+                return vc.preferredInterfaceOrientationForPresentation
+            } else {
+                return super.preferredInterfaceOrientationForPresentation
+            }
+        }
+    }
+    
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            if let vc = self.selectedViewController, vc is IDCheckNavigationController {
+                return vc.supportedInterfaceOrientations
+            } else {
+                return super.supportedInterfaceOrientations
+            }
+        }
+    }
+    
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            if let vc = self.selectedViewController, vc is IDCheckNavigationController {
+                return vc.preferredStatusBarStyle
+            } else {
+                return super.preferredStatusBarStyle
             }
         }
     }
