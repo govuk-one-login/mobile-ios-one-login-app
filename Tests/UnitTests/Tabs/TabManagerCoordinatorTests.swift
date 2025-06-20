@@ -146,7 +146,7 @@ extension TabManagerCoordinatorTests {
         )
         sut.start()
         
-        //start with home selected
+        // start with home tab selected
         sut.root.selectedIndex = 0
         sut.updateSelectedTabIndex()
         XCTAssertEqual(sut.selectedTabIndex, 0)
