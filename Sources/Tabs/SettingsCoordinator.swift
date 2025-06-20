@@ -53,6 +53,8 @@ final class SettingsCoordinator: NSObject,
     func didBecomeSelected() {
         let event = IconEvent(textKey: "app_settingsTitle")
         analyticsService.logEvent(event)
+        let tabCoordinator = (parentCoordinator as? TabManagerCoordinator)
+        tabCoordinator?.updateSelectedTabIndex()
     }
     
     func openSignOutPage() {
