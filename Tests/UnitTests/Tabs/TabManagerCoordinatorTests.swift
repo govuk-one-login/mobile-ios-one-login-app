@@ -136,4 +136,23 @@ extension TabManagerCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators.contains(where: { $0 is WalletCoordinator }))
         XCTAssertTrue(sut.root.selectedIndex == 1)
     }
+    
+    @MainActor
+    func test_tabSwitching() throws {
+        // GIVEN the wallet feature flag is on
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
+            featureFlags: [:]
+        )
+        sut.start()
+        
+        //start with home selected
+        sut.root.selectedIndex = 0
+        sut.updateSelectedTabIndex()
+        XCTAssertEqual(sut.selectedTabIndex, 0)
+        XCTAssertTrue(sut.isTabAlreadySelected())
+        
+        sut.root.selectedIndex = 1
+        XCTAssertFalse(sut.isTabAlreadySelected())
+    }
 }
