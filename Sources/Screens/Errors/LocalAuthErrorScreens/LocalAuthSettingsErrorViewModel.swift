@@ -29,7 +29,7 @@ struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         self.buttonViewModels = [
             AnalyticsButtonViewModel(titleKey: "app_localAuthManagerErrorGoToSettingsButton",
                                      analyticsService: analyticsService) {
-                                         guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                                         guard let url = URL(string: "App-Prefs:PASSCODE") ?? URL(string: UIApplication.openSettingsURLString) else {
                                              return
                                          }
                                          urlOpener.open(url: url)
