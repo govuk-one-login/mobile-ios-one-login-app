@@ -27,6 +27,8 @@ final class TabManagerCoordinator: NSObject,
     
     lazy var delegate: TabCoordinatorDelegate? = TabCoordinatorDelegate(coordinator: self)
     
+    var selectedTabIndex: Int?
+    
     private var walletCoordinator: WalletCoordinator? {
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
@@ -91,6 +93,14 @@ final class TabManagerCoordinator: NSObject,
                                      networkClient: networkClient,
                                      urlOpener: UIApplication.shared)
         addTab(pc)
+    }
+    
+    func updateSelectedTabIndex() {
+        selectedTabIndex = root.selectedIndex
+    }
+    
+    func isTabAlreadySelected() -> Bool {
+        return selectedTabIndex == root.selectedIndex
     }
 }
 

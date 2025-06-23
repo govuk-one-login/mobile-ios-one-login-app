@@ -54,9 +54,14 @@ final class WalletCoordinator: NSObject,
     }
     
     func didBecomeSelected() {
-        WalletSDK.walletTabSelected()
+        let tabCoordinator = parentCoordinator as? TabManagerCoordinator
+        let isWalletAlreadySelected = tabCoordinator?.isTabAlreadySelected()
+       
+        WalletSDK.walletTabSelected(isTabAlreadySelected: isWalletAlreadySelected ?? false)
+        
         let event = IconEvent(textKey: "app_walletTitle")
         analyticsService.logEvent(event)
+        tabCoordinator?.updateSelectedTabIndex()
     }
     
     func handleUniversalLink(_ url: URL) {
