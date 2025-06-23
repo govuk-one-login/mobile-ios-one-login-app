@@ -113,7 +113,7 @@ extension LocalAuthServiceWalletTests {
                 self.isEnrolled = true
             }
         )
-
+        
         let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
         
         XCTAssertTrue(vc.viewModel is LocalAuthSettingsErrorViewModel)
