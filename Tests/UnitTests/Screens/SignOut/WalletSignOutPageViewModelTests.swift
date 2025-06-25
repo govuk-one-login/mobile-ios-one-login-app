@@ -1,3 +1,4 @@
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
@@ -67,7 +68,7 @@ extension WalletSignOutPageViewModelTests {
     func test_button() throws {
         XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeleteAppDataButton")
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, .gdsRed)
+        XCTAssertEqual(button.backgroundColor, DesignSystem.Color.red1)
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.buttonViewModel.action()
