@@ -99,7 +99,7 @@
 					</dict>
 				</array>
 			</dict>
-			<key>account.gov.uk</key>
+			<key>integration.account.gov.uk</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
