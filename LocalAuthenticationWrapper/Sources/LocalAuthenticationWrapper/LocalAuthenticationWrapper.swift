@@ -31,6 +31,12 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
                 return try canUseAnyLocalAuth ? .passcode : .none
             }
             
+            return try deviceBiometricsType
+        }
+    }
+    
+    public var deviceBiometricsType: LocalAuthType {
+        get throws {
             switch localAuthContext.biometryType {
             case .touchID:
                 return .touchID
@@ -97,12 +103,12 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
         return supportedLevel >= requiredLevel.tier
     }
     
-    public func isEnrolled() -> Bool {
+    public func hasBeenPrompted() -> Bool {
         return localAuthPromptStore.previouslyPrompted
     }
     
     public func promptForPermission() async throws -> Bool {
-        guard try type == .faceID &&
+        guard try type != .none  &&
                 !localAuthPromptStore.previouslyPrompted else {
             return true
         }
@@ -115,6 +121,7 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
                     .deviceOwnerAuthentication,
                     localizedReason: localAuthStrings.subtitle
                 )
+            
             localAuthPromptStore.recordPrompt()
             return localAuthResult
         } catch let error as NSError {

@@ -27,8 +27,7 @@ final class SettingsCoordinator: NSObject,
          networkClient: NetworkClient,
          urlOpener: URLOpener) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.system,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.system
         ])
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
@@ -54,6 +53,8 @@ final class SettingsCoordinator: NSObject,
     func didBecomeSelected() {
         let event = IconEvent(textKey: "app_settingsTitle")
         analyticsService.logEvent(event)
+        let tabCoordinator = (parentCoordinator as? TabManagerCoordinator)
+        tabCoordinator?.updateSelectedTabIndex()
     }
     
     func openSignOutPage() {

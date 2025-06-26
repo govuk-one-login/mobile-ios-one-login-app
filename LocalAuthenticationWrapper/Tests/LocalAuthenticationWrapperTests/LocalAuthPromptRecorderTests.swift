@@ -12,6 +12,7 @@ class LocalAuthPromptRecorderTests {
     
     deinit {
         UserDefaults.standard.removeObject(forKey: "localAuthPrompted")
+        UserDefaults.standard.removeObject(forKey: "localAuthPasscodePrompted")
     }
     
     @Test("Check previously prompted is not true by default")

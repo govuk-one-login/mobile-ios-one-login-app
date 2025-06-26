@@ -135,7 +135,8 @@ final class LoginCoordinator: NSObject,
     
     func launchOnboardingCoordinator() {
         if analyticsPreferenceStore.hasAcceptedAnalytics == nil, root.topViewController is IntroViewController {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsPreferenceStore,
+            openChildModally(OnboardingCoordinator(analyticsService: analyticsService,
+                                                   analyticsPreferenceStore: analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }
     }

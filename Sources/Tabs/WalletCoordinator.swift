@@ -29,10 +29,7 @@ final class WalletCoordinator: NSObject,
     init(analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient & WalletNetworkClient,
          sessionManager: SessionManager) {
-        self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.wallet,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
-        ])
+        self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
@@ -57,8 +54,14 @@ final class WalletCoordinator: NSObject,
     }
     
     func didBecomeSelected() {
+        let tabCoordinator = parentCoordinator as? TabManagerCoordinator
+        let isWalletAlreadySelected = tabCoordinator?.isTabAlreadySelected()
+       
+        WalletSDK.walletTabSelected(isTabAlreadySelected: isWalletAlreadySelected ?? false)
+        
         let event = IconEvent(textKey: "app_walletTitle")
         analyticsService.logEvent(event)
+        tabCoordinator?.updateSelectedTabIndex()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -66,6 +69,12 @@ final class WalletCoordinator: NSObject,
     }
     
     func userCancelledPasscode() {
+        walletAuthService.userCancelled()
+    }
+}
+
+extension WalletCoordinator: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         walletAuthService.userCancelled()
     }
 }

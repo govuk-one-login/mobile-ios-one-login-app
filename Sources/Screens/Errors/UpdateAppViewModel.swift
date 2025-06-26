@@ -23,8 +23,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
     init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.system,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+            OLTaxonomyKey.level2: OLTaxonomyValue.system
         ])
         let event = LinkEvent(textKey: "app_updateAppButton",
                               variableKeys: "app_nameString",
