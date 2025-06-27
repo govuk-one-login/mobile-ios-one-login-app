@@ -84,6 +84,14 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     }
     
     func isEnrolled(_ minimum: any WalletLocalAuthType) -> Bool {
+        #if targetEnvironment(simulator)
+            return true
+        #endif
+        
+        return isEnrolledToLocalAuth(minimum)
+    }
+    
+    func isEnrolledToLocalAuth(_ minimum: any WalletLocalAuthType) -> Bool {
         guard let minimumAuth = minimum as? LocalAuth else {
             return false
         }
