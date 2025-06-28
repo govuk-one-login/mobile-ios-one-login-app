@@ -63,7 +63,7 @@ final class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(ContentTileCell.self, forCellReuseIdentifier: "ContentTileCell")
+        tableView.register(ContentTileCell.self, forCellReuseIdentifier: ContentTileCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -80,9 +80,9 @@ final class HomeViewController: BaseViewController {
             for await status in idCheckCardUpdateStream.stream {
                 switch status {
                 case .hide:
-                    tableView.deleteSections(IndexSet(integer: 0), with: .fade)
+                    tableView.deleteSections(.first, with: .fade)
                 case .show:
-                    tableView.insertSections(IndexSet(integer: 0), with: .fade)
+                    tableView.insertSections(.first, with: .fade)
                 }
             }
         }
@@ -127,41 +127,36 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             guard let idCheckCard, !idCheckCard.view.isHidden else {
-                return getWelcomeCard(indexPath: indexPath)
+                return getOneLoginCard(type: .welcome, indexPath: indexPath)
             }
             return getIDCheckCard(indexPath: indexPath)
         case 1:
             guard let idCheckCard, !idCheckCard.view.isHidden else {
-                return getPurposeCard(indexPath: indexPath)
+                return getOneLoginCard(type: .purpose, indexPath: indexPath)
             }
-            return getWelcomeCard(indexPath: indexPath)
+            return getOneLoginCard(type: .welcome, indexPath: indexPath)
         case 2:
-            return getPurposeCard(indexPath: indexPath)
+            return getOneLoginCard(type: .purpose, indexPath: indexPath)
         default:
             return UITableViewCell()
         }
     }
     
-    private func getWelcomeCard(indexPath: IndexPath) -> UITableViewCell {
+    private func getOneLoginCard(type: OneLoginContentTileCardType,
+                                 indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "ContentTileCell",
+            withIdentifier: ContentTileCell.identifier,
             for: indexPath
         ) as? ContentTileCell else {
             preconditionFailure()
         }
-        cell.viewModel = WelcomeTileViewModel()
         
-        return cell
-    }
-    
-    private func getPurposeCard(indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "ContentTileCell",
-            for: indexPath
-        ) as? ContentTileCell else {
-            preconditionFailure()
+        cell.viewModel = switch type {
+        case .welcome:
+            WelcomeTileViewModel()
+        case .purpose:
+            PurposeTileViewModel()
         }
-        cell.viewModel = PurposeTileViewModel()
         
         return cell
     }
@@ -189,4 +184,13 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    
+    enum OneLoginContentTileCardType {
+        case welcome
+        case purpose
+    }
+}
+
+extension IndexSet {
+    static let first = IndexSet(integer: 0)
 }

@@ -52,19 +52,20 @@ final class LoginCoordinator: NSObject,
     }
     
     func start() {
-        let rootViewController: UIViewController
-        
-        if isExpiredUser {
+        let rootViewController = isExpiredUser ?
+        {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = GDSInformationViewController(viewModel: viewModel)
-        } else {
+            return GDSInformationViewController(viewModel: viewModel)
+        }()
+        :
+        {
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = IntroViewController(viewModel: viewModel)
-        }
+            return IntroViewController(viewModel: viewModel)
+        }()
         
         root.setViewControllers([rootViewController], animated: true)
     }

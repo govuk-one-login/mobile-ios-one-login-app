@@ -3,7 +3,7 @@ import GDSCommon
 import Logging
 import UIKit
 
-final class ContentTileCell: UITableViewCell {
+final class ContentTileCell: UITableViewCell, ViewIdentifiable {
     var viewModel: GDSContentTileViewModel? {
         didSet {
             guard let viewModel else { return }

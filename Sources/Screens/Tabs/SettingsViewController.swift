@@ -58,14 +58,14 @@ final class SettingsViewController: BaseViewController {
     private func subscribeToUsers() {
         userProvider.user
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                self.updateEmail()
+            .sink { [unowned self] _ in
+                updateEmail()
             }.store(in: &cancellables)
     }
     
     func updateEmail() {
         // temporary solution to stop app from freezing. Similar resolution here: https://stackoverflow.com/questions/74868322/tableview-freeze
-        self.tableView.reloadRows(at: [.first], with: .none)
+        tableView.reloadRows(at: [.first], with: .none)
     }
     
     @objc private func updateAnalytics(_ sender: UISwitch) {

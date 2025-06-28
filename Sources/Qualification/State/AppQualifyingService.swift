@@ -128,10 +128,6 @@ extension AppQualifyingService {
                                                name: .enrolmentComplete)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(sessionDidExpire),
-                                               name: .sessionExpired)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(userDidLogout),
                                                name: .didLogout)
     }
@@ -139,11 +135,7 @@ extension AppQualifyingService {
     @objc private func enrolmentComplete() {
         userState = .loggedIn
     }
-
-    @objc private func sessionDidExpire() {
-        userState = .expired
-    }
-
+    
     @objc private func userDidLogout() {
         userState = .notLoggedIn
     }

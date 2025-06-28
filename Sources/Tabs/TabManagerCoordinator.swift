@@ -45,6 +45,10 @@ final class TabManagerCoordinator: NSObject,
         self.sessionManager = sessionManager
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func start() {
         addTabs()
         subscribe()
