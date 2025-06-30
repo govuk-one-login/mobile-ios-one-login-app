@@ -3779,8 +3779,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
-				branch = "fix/dcmaw-13381-readid-landscape";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.4;
 			};
 		};
 		AB7B56222D6CD9A100193241 /* XCRemoteSwiftPackageReference "mobile-wallet-ios" */ = {
