@@ -132,7 +132,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
         "branch" : "fix/dcmaw-13381-readid-landscape",
-        "revision" : "e9ab51fc86b76a94666671b4b5a6bcfc0b1c8505"
+        "revision" : "a1ac3c9bf3ba65ea7ed743d533081378dfe02288"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "revision" : "69781a4b5d40d1b58877fdc98aa7377fddc13b41",
-        "version" : "2.15.0"
+        "branch" : "chore/dcmaw-13381-orientation-locking-functionality-",
+        "revision" : "b5412215795af1e417d4618db48ac93f07020d85"
       }
     },
     {

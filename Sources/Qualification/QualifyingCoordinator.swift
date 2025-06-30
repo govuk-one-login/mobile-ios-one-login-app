@@ -139,7 +139,7 @@ extension QualifyingCoordinator {
             updateStream.continuation.yield(tabManagerCoordinator)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
-                root: CustomTabBarController(),
+                root: OrientationLockingTabBarController(),
                 analyticsService: analyticsService,
                 analyticsPreferenceStore: analyticsPreferenceStore,
                 networkClient: networkClient,
