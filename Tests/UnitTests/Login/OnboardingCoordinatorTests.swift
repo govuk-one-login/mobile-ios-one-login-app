@@ -15,7 +15,8 @@ final class OnboardingCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockURLOpener = MockURLOpener()
-        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
+        sut = OnboardingCoordinator(analyticsService: mockAnalyticsService,
+                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     urlOpener: mockURLOpener)
     }
     
@@ -40,6 +41,7 @@ extension OnboardingCoordinatorTests {
         let acceptPermissionsButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-primary-button"])
         acceptPermissionsButton.sendActions(for: .touchUpInside)
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to true
+        XCTAssertTrue(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics))
         XCTAssertTrue(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
     }
 
@@ -53,6 +55,7 @@ extension OnboardingCoordinatorTests {
         let declinePermissionsButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-secondary-button"])
         declinePermissionsButton.sendActions(for: .touchUpInside)
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to false
+        XCTAssertFalse(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics))
         XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
     }
     

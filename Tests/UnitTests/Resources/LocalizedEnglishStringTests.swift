@@ -238,7 +238,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_loadingLabel".getEnglishString(), "Loading %@")
     }
     
-    func test_localAuthError_keys() throws {
+    func test_localAuthSettingsError_keys() throws {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
                        "You need to update your phone settings")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
@@ -255,6 +255,15 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Come back to continue using your %@.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getEnglishString(),
                        "Go to phone settings")
+    }
+    
+    func test_localAuthBiometricsError_keys() throws {
+        XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getEnglishString(),
+                       "You need to allow %@")
+        XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getEnglishString(),
+                       "To add documents to your GOV.UK Wallet, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.")
+        XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getEnglishString(),
+                       "To add documents to your GOV.UK Wallet, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
 }
 
