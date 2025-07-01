@@ -84,6 +84,7 @@
 		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
 		ABC6B2C82E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */; };
+		ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */; };
 		ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */; };
 		ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */; };
 		ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */ = {isa = PBXBuildFile; productRef = ABD7A0BF2CEF887E006D6C7A /* CryptoService */; };
@@ -380,6 +381,7 @@
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnrecoverableLoginErrorViewModel.swift; sourceTree = "<group>"; };
+		ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnrecoverableLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
 		ABD7A0BB2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift"; sourceTree = "<group>"; };
 		ABD7A0C12CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JWTGenerator+ProofTokenGenerator.swift"; sourceTree = "<group>"; };
 		ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorListView.swift; sourceTree = "<group>"; };
@@ -755,14 +757,15 @@
 		41A0BD0E2B275155009AE51F /* Errors */ = {
 			isa = PBXGroup;
 			children = (
+				ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */,
 				ABFE5EF32DBA662B0093E86E /* LocalAuthErrorScreenTests */,
 				C8BFE5EA2CB5818200FA9A35 /* AppUnavailableViewModelTests.swift */,
 				C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */,
 				41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */,
 				41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */,
+				410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */,
 				D087BCF12C19E4BB00825F60 /* SignOutErrorViewModelTests.swift */,
 				C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */,
-				410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */,
 				41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */,
 			);
 			path = Errors;
@@ -786,11 +789,11 @@
 				C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */,
 				41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */,
 				41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */,
+				C8AA11D72B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift */,
 				D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */,
 				C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */,
-				C8AA11D72B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift */,
-				41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */,
 				ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */,
+				41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -2188,6 +2191,7 @@
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
 				C32436CF2DCB6E7D00CC3FCC /* PurposeTileViewModel.swift in Sources */,
 				C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */,
+				C8AA11D82B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				C851C0FF2D833A8B00FC8CA8 /* SDKConformances.swift in Sources */,
@@ -2200,7 +2204,6 @@
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
-				ABC6B2C82E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift in Sources */,
 				F1B6807E2CA4424400A64971 /* SignOutPageViewModel.swift in Sources */,
 				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
@@ -2215,10 +2218,10 @@
 				C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */,
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
-				C8AA11D82B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
+				ABC6B2C82E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift in Sources */,
 				41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */,
 				7CA719602C846AED00973585 /* URLRequest+Authorization.swift in Sources */,
 				7C47BE162C7883B800DCE5D2 /* User.swift in Sources */,
@@ -2257,6 +2260,7 @@
 				C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */,
 				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
+				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
@@ -2294,6 +2298,7 @@
 				7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */,
 				C32436D12DCB906900CC3FCC /* PurposeTileViewModelTests.swift in Sources */,
 				7CD66F842C90A890008513F4 /* QualifyingCoordinatorTests.swift in Sources */,
+				410464F62B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift in Sources */,
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
 				4193D2E52C89F48800073EB8 /* SecureTokenStoreTests.swift in Sources */,
 				D01A72772BE29B51004333F8 /* SettingsCoordinatorTests.swift in Sources */,
@@ -2307,7 +2312,6 @@
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */,
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
-				410464F62B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift in Sources */,
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
