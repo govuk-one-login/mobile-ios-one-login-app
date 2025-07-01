@@ -142,7 +142,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor
@@ -168,7 +168,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor
@@ -181,7 +181,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor
@@ -194,7 +194,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor
@@ -207,7 +207,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor
@@ -233,7 +233,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor
@@ -246,7 +246,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnableToLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor

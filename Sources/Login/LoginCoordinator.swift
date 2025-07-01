@@ -90,7 +90,7 @@ final class LoginCoordinator: NSObject,
                     LoginError.accessDenied {
                 showDataDeletedWarningScreen()
             } catch PersistentSessionError.cannotDeleteData(let error) {
-                showUnableToLoginErrorScreen(error)
+                showRecoverableErrorScreen(error)
             } catch LoginError.userCancelled {
                 enableAuthButton()
             } catch LoginError.network {
@@ -101,9 +101,9 @@ final class LoginCoordinator: NSObject,
                     let error as LoginError where error == .invalidRequest,
                     let error as LoginError where error == .clientError,
                     let error as LoginError where error == .serverError {
-                showUnableToLoginErrorScreen(error)
+                showRecoverableErrorScreen(error)
             } catch let error as JWTVerifierError {
-                showUnableToLoginErrorScreen(error)
+                showRecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -159,11 +159,18 @@ extension LoginCoordinator {
         root.pushViewController(vc, animated: true)
     }
     
-    private func showUnableToLoginErrorScreen(_ error: Error) {
-        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService,
+    private func showRecoverableErrorScreen(_ error: Error) {
+        let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
                                                     errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
+        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        root.pushViewController(unableToLoginErrorScreen, animated: true)
+    }
+    
+    private func showUnrecoverableErrorScreen(_ error: Error) {
+        let viewModel = UnrecoverableLoginErrorViewModel(analyticsService: analyticsService,
+                                                         errorDescription: error.localizedDescription)
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }

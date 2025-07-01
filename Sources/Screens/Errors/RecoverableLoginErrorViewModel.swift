@@ -2,12 +2,12 @@ import GDSAnalytics
 import GDSCommon
 import Logging
 
-struct UnableToLoginErrorViewModel: GDSErrorViewModelV3,
+struct RecoverableLoginErrorViewModel: GDSErrorViewModelV3,
                                     BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let errorDescription: String
     let title: GDSLocalisedString = "app_signInErrorTitle"
-    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_signInErrorBody")]
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_signInErrorRecoverableBody")]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
     
@@ -20,7 +20,7 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV3,
         self.analyticsService = analyticsService
         self.errorDescription = errorDescription
         self.buttonViewModels = [
-            AnalyticsButtonViewModel(titleKey: "app_closeButton",
+            AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
                                      analyticsService: analyticsService) {
                                          action()
                                      }
@@ -28,8 +28,8 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV3,
     }
     
     func didAppear() {
-        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unableToLogin.rawValue,
-                                     screen: ErrorAnalyticsScreen.unableToLogin,
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableSignInError.rawValue,
+                                     screen: ErrorAnalyticsScreen.recoverableSignInError,
                                      titleKey: title.stringKey,
                                      reason: errorDescription)
         analyticsService.trackScreen(screen)
