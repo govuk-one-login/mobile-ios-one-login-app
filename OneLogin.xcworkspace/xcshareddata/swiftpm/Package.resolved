@@ -132,7 +132,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
         "branch" : "fix/dcmaw-13381-readid-landscape",
-        "revision" : "904f7b11b710f58f96ed02ff75e9bf9daea55699"
+        "revision" : "4e94a4af7bc275ce56cd6e8d9408b506abff633c"
       }
     },
     {
