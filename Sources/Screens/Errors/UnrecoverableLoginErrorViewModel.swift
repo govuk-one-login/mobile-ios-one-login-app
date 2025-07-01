@@ -21,8 +21,8 @@ struct UnrecoverableLoginErrorViewModel: GDSErrorViewModelV3,
     }
     
     func didAppear() {
-        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unrecoverableSignInError.rawValue,
-                                     screen: ErrorAnalyticsScreen.unrecoverableSignInError,
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unrecoverableLoginError.rawValue,
+                                     screen: ErrorAnalyticsScreen.unrecoverablLoginError,
                                      titleKey: title.stringKey,
                                      reason: errorDescription)
         analyticsService.trackScreen(screen)

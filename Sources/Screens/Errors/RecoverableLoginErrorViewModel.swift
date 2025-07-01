@@ -28,8 +28,8 @@ struct RecoverableLoginErrorViewModel: GDSErrorViewModelV3,
     }
     
     func didAppear() {
-        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableSignInError.rawValue,
-                                     screen: ErrorAnalyticsScreen.recoverableSignInError,
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableLoginError.rawValue,
+                                     screen: ErrorAnalyticsScreen.recoverablLoginError,
                                      titleKey: title.stringKey,
                                      reason: errorDescription)
         analyticsService.trackScreen(screen)
