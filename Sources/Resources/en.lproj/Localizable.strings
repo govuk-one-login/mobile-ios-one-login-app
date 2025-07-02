@@ -118,7 +118,7 @@
 
 
 // MARK: Wallet screen
-"app_TabBarWallet" = "Documents";
+"app_tabBarWallet" = "Documents";
 
 
 // MARK: Settings screen

@@ -119,7 +119,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
     
     func test_walletScreenKeys() {
-        XCTAssertEqual("app_TabBarWallet".getEnglishString(),
+        XCTAssertEqual("app_tabBarWallet".getEnglishString(),
                        "Documents")
     }
     

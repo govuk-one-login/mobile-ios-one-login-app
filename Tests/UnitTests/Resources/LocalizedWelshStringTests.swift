@@ -119,7 +119,7 @@ final class LocalizedWelshStringTests: XCTestCase {
     }
     
     func test_walletScreenKeys() {
-        XCTAssertEqual("app_TabBarWallet".getWelshString(),
+        XCTAssertEqual("app_tabBarWallet".getWelshString(),
                        "Dogfennau")
     }
     

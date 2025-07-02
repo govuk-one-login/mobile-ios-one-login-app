@@ -44,7 +44,7 @@ extension WalletCoordinatorTests {
     func test_didBecomeSelected() {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.didBecomeSelected()
-        let event = IconEvent(textKey: "app_TabBarWallet")
+        let event = IconEvent(textKey: "app_tabBarWallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
