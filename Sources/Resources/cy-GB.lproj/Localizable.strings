@@ -210,7 +210,7 @@
 
 
 // MARK: Data Deletion Warning With Wallet screen
-"app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich %@ wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich %@.";
+"app_dataDeletionWarningBody" = "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw eich gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich ap wedi cael eu dileu ac mae eich dewisiadau wedi cael eu hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.";
 
 
 // MARK: Update App screen
