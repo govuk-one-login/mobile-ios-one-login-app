@@ -9,7 +9,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
     let localAuthentication: LocalAuthManaging
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let walletCoodinator: WalletCoordinator
+    private weak var walletCoodinator: WalletCoordinator?
     private(set) var biometricsNavigationController = UINavigationController()
     
     private var localAuthManager: EnrolmentManager
@@ -59,8 +59,8 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 biometricsNavigationController.setViewControllers([biometricsEnrolmentScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet
                 biometricsNavigationController.presentationController?.delegate = walletCoodinator
-                walletCoodinator.root.present(biometricsNavigationController,
-                                              animated: true)
+                walletCoodinator?.root.present(biometricsNavigationController,
+                                               animated: true)
             case .passcode:
                 localAuthManager.saveSession(isWalletEnrolment: true) {
                     completion()
@@ -75,8 +75,8 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 biometricsNavigationController.setViewControllers([settingsErrorScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet
                 biometricsNavigationController.presentationController?.delegate = walletCoodinator
-                walletCoodinator.root.present(biometricsNavigationController,
-                                              animated: true)
+                walletCoodinator?.root.present(biometricsNavigationController,
+                                               animated: true)
             }
         } catch {
             preconditionFailure()
