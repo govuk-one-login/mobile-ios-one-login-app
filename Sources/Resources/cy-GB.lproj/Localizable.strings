@@ -156,13 +156,13 @@
 
 "app_signOutConfirmationBody2" = "Mae hyn yn golygu:";
 
-"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau a arbedir yn eich %@ yn cael eu dileu";
+"app_signOutConfirmationBullet1" = "bydd unrhyw ddogfennau yn eich ap yn cael eu dileu";
 
 "app_signOutConfirmationBullet2" = "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd";
 
 "app_signOutConfirmationBullet3" = "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap";
 
-"app_signOutConfirmationBody3" = "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich %@ a gosod eich dewisiadau eto.";
+"app_signOutConfirmationBody3" = "Y tro nesaf y byddwch yn mewngofnodi, byddwch yn gallu ychwanegu eich dogfennau eto ac ailosod eich dewisiadau.";
 
 "app_signOutAndDeleteAppDataButton" = "Mewngofnodi a dileu gwybodaeth";
 

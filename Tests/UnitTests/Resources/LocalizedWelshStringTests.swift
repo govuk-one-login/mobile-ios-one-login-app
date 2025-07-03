@@ -160,13 +160,13 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
                        "Mae hyn yn golygu:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
-                       "bydd unrhyw ddogfennau a arbedir yn eich %@ yn cael eu dileu")
+                       "bydd unrhyw ddogfennau yn eich ap yn cael eu dileu")
         XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
                        "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd")
         XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
                        "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap")
         XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
-                       "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich %@ a gosod eich dewisiadau eto.")
+                       "Y tro nesaf y byddwch yn mewngofnodi, byddwch yn gallu ychwanegu eich dogfennau eto ac ailosod eich dewisiadau.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
                        "Mewngofnodi a dileu gwybodaeth")
     }
