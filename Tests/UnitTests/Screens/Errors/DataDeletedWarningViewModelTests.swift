@@ -63,7 +63,7 @@ extension DataDeletedWarningViewModelTests {
         XCTAssertEqual(sut.bodyContent.count, 1)
         let bodyLabel = try XCTUnwrap(sut.bodyContent.first?.uiView as? UILabel)
         // swiftlint:disable:next line_length
-        XCTAssertEqual(bodyLabel.text, "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your GOV.UK Wallet have been removed and your app preferences have been reset.\n\nYou need to sign in again and set your preferences again to continue using the app. You’ll then be able to add documents to you GOV.UK Wallet.")
+        XCTAssertEqual(bodyLabel.text, "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your app preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }
