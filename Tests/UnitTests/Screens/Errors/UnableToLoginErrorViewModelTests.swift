@@ -37,13 +37,13 @@ extension UnableToLoginErrorViewModelTests {
     }
     
     func test_button() {
-        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_closeButton")
+        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_tryAgainButton")
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.buttonViewModels[0].action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_closeButton")
+        let event = ButtonEvent(textKey: "app_tryAgainButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }

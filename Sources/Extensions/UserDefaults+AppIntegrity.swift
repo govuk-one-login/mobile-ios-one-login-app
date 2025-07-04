@@ -49,5 +49,6 @@ extension UserDefaults: SessionBoundData {
         removeObject(forKey: OLString.accessTokenExpiry)
         removeObject(forKey: OLString.persistentSessionID)
         removeObject(forKey: OLString.storedTokens)
+        removeObject(forKey: OLString.biometricsPrompt)
     }
 }

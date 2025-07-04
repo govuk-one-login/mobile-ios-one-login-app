@@ -56,7 +56,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signInErrorTitle".getEnglishString(),
                        "There was a problem signing you in")
         XCTAssertEqual("app_signInErrorBody".getEnglishString(),
-                       "You can try signing in again.\n\nIf this does not work, you may need to try again later.")
+                       "Try to sign in again.")
     }
     
     func test_networkConnectionErrorScreen_keys() throws {
@@ -119,8 +119,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
     
     func test_walletScreenKeys() {
-        XCTAssertEqual("app_walletTitle".getEnglishString(),
-                       "Wallet")
+        XCTAssertEqual("app_tabBarWallet".getEnglishString(),
+                       "Documents")
     }
     
     func test_settingsScreenKeys() {
@@ -160,13 +160,13 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
                        "This means:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
-                       "any documents saved in your %@ will be removed")
+                       "any documents in your app will be removed")
         XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
                        "if you’re using Face ID or Touch ID to unlock the app, this will be switched off")
         XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
                        "you’ll stop sharing analytics about how you use the app")
         XCTAssertEqual("app_signOutConfirmationBody3".getEnglishString(),
-                       "Next time you sign in, you’ll be able to add your documents to your %@ and set your preferences again.")
+                       "Next time you sign in, you’ll be able to add your documents again and reset your preferences.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
                        "Sign out and delete information")
     }
@@ -199,7 +199,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Something went wrong")
         
         XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
-                       "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your %@ have been removed and your app preferences have been reset.\n\nYou need to sign in again and set your preferences again to continue using the app. You’ll then be able to add documents to you %@.")
+                       "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
         
         XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getEnglishString(),
                        "We could not confirm your sign in details.\n\nTo keep your information secure, your preference for using Touch ID or Face ID to unlock the app has been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")

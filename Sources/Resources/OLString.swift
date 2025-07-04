@@ -11,4 +11,7 @@ enum OLString {
     static let redirect = "redirect"
     static let wallet = "wallet"
     static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
+    
+    // Biometrics
+    static let biometricsPrompt = "localAuthPrompted"
 }

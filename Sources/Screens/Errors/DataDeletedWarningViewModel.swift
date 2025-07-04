@@ -7,9 +7,7 @@ struct DataDeletedWarningViewModel: GDSErrorViewModelV3,
     let title: GDSLocalisedString = "app_dataDeletionWarningTitle"
     var bodyContent: [ScreenBodyItem] {
         if WalletAvailabilityService.shouldShowFeature {
-            [BodyTextViewModel(text: GDSLocalisedString(stringKey: "app_dataDeletionWarningBody",
-                                                        "app_walletString",
-                                                        "app_walletString"))]
+            [BodyTextViewModel(text: "app_dataDeletionWarningBody")]
         } else {
             [BodyTextViewModel(text: "app_dataDeletionWarningBodyNoWallet")]
         }

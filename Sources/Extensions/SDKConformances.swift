@@ -16,7 +16,7 @@ typealias OneLoginAnalyticsService = AnalyticsService & IDCheckAnalyticsService 
 
 extension WalletConfig {
     static let oneLoginWalletConfig = WalletConfig(
-        environment: WalletEnvironment(rawValue: AppEnvironment.buildConfiguration.lowercased()),
+        environment: WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()),
         credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString,
         clientID: AppEnvironment.stsClientID
     )
@@ -31,4 +31,18 @@ struct OneLoginCRIURLs: CRIURLs {
     let govUKURL: URL = AppEnvironment.govURL
     let readIDURLString: String = AppEnvironment.readIDURLString
     let iProovURLString: String = AppEnvironment.iProovURLString
+}
+
+extension WalletEnvironment {
+    public init?(buildConfiguration: String) {
+        switch buildConfiguration {
+        case "release":
+            self = .production
+        default:
+            guard let config = Self.init(rawValue: buildConfiguration) else {
+                return nil
+            }
+            self = config
+        }
+    }
 }

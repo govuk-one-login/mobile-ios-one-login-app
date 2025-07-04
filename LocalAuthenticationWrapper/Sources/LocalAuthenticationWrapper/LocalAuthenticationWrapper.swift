@@ -108,7 +108,7 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
     }
     
     public func promptForPermission() async throws -> Bool {
-        guard try type != .none  &&
+        guard try type != .none &&
                 !localAuthPromptStore.previouslyPrompted else {
             return true
         }

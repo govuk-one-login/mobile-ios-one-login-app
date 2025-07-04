@@ -56,7 +56,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signInErrorTitle".getWelshString(),
                        "Roedd problem wrth eich mewngofnodi")
         XCTAssertEqual("app_signInErrorBody".getWelshString(),
-                       "Gallwch geisio mewngofnodi eto.\n\nOs na fydd hyn yn gweithio, efallai y bydd angen i chi roi cynnig arall yn nes ymlaen.")
+                       "Ceisio mewngofnodi eto.")
     }
     
     func test_networkConnectionErrorScreen_keys() throws {
@@ -119,8 +119,8 @@ final class LocalizedWelshStringTests: XCTestCase {
     }
     
     func test_walletScreenKeys() {
-        XCTAssertEqual("app_walletTitle".getWelshString(),
-                       "Waled")
+        XCTAssertEqual("app_tabBarWallet".getWelshString(),
+                       "Dogfennau")
     }
     
     func test_settingsScreenKeys() {
@@ -160,13 +160,13 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
                        "Mae hyn yn golygu:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
-                       "bydd unrhyw ddogfennau a arbedir yn eich %@ yn cael eu dileu")
+                       "bydd unrhyw ddogfennau yn eich ap yn cael eu dileu")
         XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
                        "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd")
         XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
                        "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap")
         XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
-                       "Y tro nesaf y byddwch yn mewngofnodi, gallwch ychwanegu eich dogfennau at eich %@ a gosod eich dewisiadau eto.")
+                       "Y tro nesaf y byddwch yn mewngofnodi, byddwch yn gallu ychwanegu eich dogfennau eto ac ailosod eich dewisiadau.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
                        "Mewngofnodi a dileu gwybodaeth")
     }
@@ -199,7 +199,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mae rhywbeth wedi mynd o'i le")
         
         XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
-                       "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich %@ wedi'u dileu ac mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi eto a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu dogfennau at eich %@.")
+                       "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw eich gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich ap wedi cael eu dileu ac mae eich dewisiadau wedi cael eu hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
         
         XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getWelshString(),
                        "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")

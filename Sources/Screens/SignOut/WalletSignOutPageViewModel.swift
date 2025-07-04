@@ -1,3 +1,4 @@
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 import Logging
@@ -18,7 +19,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",
-                                                        backgroundColor: .gdsRed,
+                                                        backgroundColor: DesignSystem.Color.red1,
                                                         analyticsService: analyticsService) {
             buttonAction()
         }
