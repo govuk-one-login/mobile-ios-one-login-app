@@ -66,8 +66,6 @@
 
 "app_signInErrorBody" = "Try to sign in again.";
 
-"app_signInErrorButton" = "Go back and try again";
-
 
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "You are not connected to the internet";

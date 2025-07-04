@@ -20,7 +20,7 @@ struct UnableToLoginErrorViewModel: GDSErrorViewModelV3,
         self.analyticsService = analyticsService
         self.errorDescription = errorDescription
         self.buttonViewModels = [
-            AnalyticsButtonViewModel(titleKey: "app_signInErrorButton",
+            AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
                                      analyticsService: analyticsService) {
                                          action()
                                      }

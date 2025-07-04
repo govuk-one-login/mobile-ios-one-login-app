@@ -66,8 +66,6 @@
 
 "app_signInErrorBody" = "Ceisio mewngofnodi eto.";
 
-"app_signInErrorButton" = "Ewch yn ôl i roi cynnig eto.";
-
 
 // MARK: Network connection error screen
 "app_networkErrorTitle" = "Nid ydych wedi'ch cysylltu â'r rhyngrwyd";

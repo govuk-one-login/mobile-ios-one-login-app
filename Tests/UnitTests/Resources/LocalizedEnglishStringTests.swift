@@ -57,8 +57,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "There was a problem signing you in")
         XCTAssertEqual("app_signInErrorBody".getEnglishString(),
                        "Try to sign in again.")
-        XCTAssertEqual("app_signInErrorButton".getEnglishString(),
-                       "Go back and try again")
     }
     
     func test_networkConnectionErrorScreen_keys() throws {
