@@ -77,7 +77,7 @@ extension LoginUITests {
         // Redirect with OAuth error
         let errorScreen = loginModal.tapBrowserRedirectWithOAuthErrorButton()
         XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+        XCTAssertEqual(errorScreen.closeButton.label, "Go back and try again")
     }
     
     func test_noAuthCodeError() throws {
@@ -93,7 +93,7 @@ extension LoginUITests {
         // Redirect with invalid state
         let errorScreen = loginModal.tapBrowserNoAuthCodeErrorButton()
         XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+        XCTAssertEqual(errorScreen.closeButton.label, "Go back and try again")
     }
     
     func test_fourHundredResponseError() throws {
@@ -113,7 +113,7 @@ extension LoginUITests {
         // Second Modal Screen
         let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
         XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+        XCTAssertEqual(errorScreen.closeButton.label, "Go back and try again")
     }
     
     func test_fiveHundredResponseError() throws {
@@ -133,6 +133,6 @@ extension LoginUITests {
         // Second Modal Screen
         let errorScreen = loginModalSecondScreen.tapBrowserLoginButton()
         XCTAssertEqual(errorScreen.title.label, "There was a problem signing you in")
-        XCTAssertEqual(errorScreen.closeButton.label, "Close")
+        XCTAssertEqual(errorScreen.closeButton.label, "Go back and try again")
     }
 }
