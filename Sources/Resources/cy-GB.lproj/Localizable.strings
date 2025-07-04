@@ -64,7 +64,9 @@
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "Roedd problem wrth eich mewngofnodi";
 
-"app_signInErrorBody" = "Gallwch geisio mewngofnodi eto.\n\nOs na fydd hyn yn gweithio, efallai y bydd angen i chi roi cynnig arall yn nes ymlaen.";
+"app_signInErrorBody" = "Ceisio mewngofnodi eto.";
+
+"app_signInErrorButton" = "Ewch yn ôl i roi cynnig eto.";
 
 
 // MARK: Network connection error screen

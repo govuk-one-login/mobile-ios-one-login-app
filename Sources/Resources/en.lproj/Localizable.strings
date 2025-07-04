@@ -64,7 +64,9 @@
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "There was a problem signing you in";
 
-"app_signInErrorBody" = "You can try signing in again.\n\nIf this does not work, you may need to try again later.";
+"app_signInErrorBody" = "Try to sign in again.";
+
+"app_signInErrorButton" = "Go back and try again";
 
 
 // MARK: Network connection error screen
