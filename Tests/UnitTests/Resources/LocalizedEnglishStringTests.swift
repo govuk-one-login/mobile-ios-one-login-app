@@ -160,13 +160,13 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
                        "This means:")
         XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
-                       "any documents saved in your %@ will be removed")
+                       "any documents in your app will be removed")
         XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
                        "if you’re using Face ID or Touch ID to unlock the app, this will be switched off")
         XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
                        "you’ll stop sharing analytics about how you use the app")
         XCTAssertEqual("app_signOutConfirmationBody3".getEnglishString(),
-                       "Next time you sign in, you’ll be able to add your documents to your %@ and set your preferences again.")
+                       "Next time you sign in, you’ll be able to add your documents again and reset your preferences.")
         XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
                        "Sign out and delete information")
     }

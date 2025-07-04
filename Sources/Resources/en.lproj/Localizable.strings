@@ -156,13 +156,13 @@
 
 "app_signOutConfirmationBody2" = "This means:";
 
-"app_signOutConfirmationBullet1" = "any documents saved in your %@ will be removed";
+"app_signOutConfirmationBullet1" = "any documents in your app will be removed";
 
 "app_signOutConfirmationBullet2" = "if you’re using Face ID or Touch ID to unlock the app, this will be switched off";
 
 "app_signOutConfirmationBullet3" = "you’ll stop sharing analytics about how you use the app";
 
-"app_signOutConfirmationBody3" = "Next time you sign in, you’ll be able to add your documents to your %@ and set your preferences again.";
+"app_signOutConfirmationBody3" = "Next time you sign in, you’ll be able to add your documents again and reset your preferences.";
 
 "app_signOutAndDeleteAppDataButton" = "Sign out and delete information";
 
