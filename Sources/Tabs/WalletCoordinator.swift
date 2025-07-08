@@ -35,7 +35,7 @@ final class WalletCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_walletTitle").value,
+        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
         let walletServices = WalletServices(
@@ -59,7 +59,7 @@ final class WalletCoordinator: NSObject,
        
         WalletSDK.walletTabSelected(isTabAlreadySelected: isWalletAlreadySelected ?? false)
         
-        let event = IconEvent(textKey: "app_walletTitle")
+        let event = IconEvent(textKey: "app_tabBarWallet")
         analyticsService.logEvent(event)
         tabCoordinator?.updateSelectedTabIndex()
     }

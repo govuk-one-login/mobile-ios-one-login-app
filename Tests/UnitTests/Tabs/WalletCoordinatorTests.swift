@@ -33,7 +33,7 @@ extension WalletCoordinatorTests {
         // WHEN the WalletCoordinator has started
         sut.start()
         // THEN the bar button item of the root is correctly configured
-        let walletTab = UITabBarItem(title: "Wallet",
+        let walletTab = UITabBarItem(title: "Documents",
                                      image: UIImage(systemName: "wallet.pass"),
                                      tag: 1)
         XCTAssertEqual(sut.root.tabBarItem.title, walletTab.title)
@@ -44,7 +44,7 @@ extension WalletCoordinatorTests {
     func test_didBecomeSelected() {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.didBecomeSelected()
-        let event = IconEvent(textKey: "app_walletTitle")
+        let event = IconEvent(textKey: "app_tabBarWallet")
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)

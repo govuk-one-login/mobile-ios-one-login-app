@@ -64,7 +64,7 @@
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "There was a problem signing you in";
 
-"app_signInErrorBody" = "You can try signing in again.\n\nIf this does not work, you may need to try again later.";
+"app_signInErrorBody" = "Try to sign in again.";
 
 
 // MARK: Network connection error screen
@@ -118,7 +118,7 @@
 
 
 // MARK: Wallet screen
-"app_walletTitle" = "Wallet";
+"app_tabBarWallet" = "Documents";
 
 
 // MARK: Settings screen
@@ -156,13 +156,13 @@
 
 "app_signOutConfirmationBody2" = "This means:";
 
-"app_signOutConfirmationBullet1" = "any documents saved in your %@ will be removed";
+"app_signOutConfirmationBullet1" = "any documents in your app will be removed";
 
 "app_signOutConfirmationBullet2" = "if you’re using Face ID or Touch ID to unlock the app, this will be switched off";
 
 "app_signOutConfirmationBullet3" = "you’ll stop sharing analytics about how you use the app";
 
-"app_signOutConfirmationBody3" = "Next time you sign in, you’ll be able to add your documents to your %@ and set your preferences again.";
+"app_signOutConfirmationBody3" = "Next time you sign in, you’ll be able to add your documents again and reset your preferences.";
 
 "app_signOutAndDeleteAppDataButton" = "Sign out and delete information";
 
@@ -210,7 +210,7 @@
 
 
 // MARK: Data Deletion Warning With Wallet screen
-"app_dataDeletionWarningBody" = "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your %@ have been removed and your app preferences have been reset.\n\nYou need to sign in again and set your preferences again to continue using the app. You’ll then be able to add documents to you %@.";
+"app_dataDeletionWarningBody" = "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
 
 
 // MARK: Update App screen

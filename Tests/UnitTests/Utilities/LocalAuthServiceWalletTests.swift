@@ -131,9 +131,9 @@ extension LocalAuthServiceWalletTests {
         XCTAssertFalse(mockLocalAuthManager.hasBeenPrompted())
         mockLocalAuthManager.userPromptedForLocalAuth = true
         
-        XCTAssertFalse(sut.isEnrolled(LocalAuth.biometrics))
-        XCTAssertTrue(sut.isEnrolled(LocalAuth.passcode))
-        XCTAssertTrue(sut.isEnrolled(LocalAuth.none))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.none))
     }
     
     func test_primaryButtonActionWithBiometrics() throws {
