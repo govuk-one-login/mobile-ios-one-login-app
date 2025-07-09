@@ -123,7 +123,7 @@ final class QualifyingCoordinator: NSObject,
                 analyticsPreferenceStore: analyticsPreferenceStore,
                 sessionManager: sessionManager,
                 authService: WebAuthenticationService(sessionManager: sessionManager,
-                                                      session: AppAuthSession(window: appWindow),
+                                                      session: AppAuthSessionV2(window: appWindow),
                                                       analyticsService: analyticsService),
                 isExpiredUser: userState == .expired
             )

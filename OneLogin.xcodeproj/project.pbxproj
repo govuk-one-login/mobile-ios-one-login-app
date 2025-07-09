@@ -757,7 +757,6 @@
 		41A0BD0E2B275155009AE51F /* Errors */ = {
 			isa = PBXGroup;
 			children = (
-				ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */,
 				ABFE5EF32DBA662B0093E86E /* LocalAuthErrorScreenTests */,
 				C8BFE5EA2CB5818200FA9A35 /* AppUnavailableViewModelTests.swift */,
 				C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */,
@@ -766,6 +765,7 @@
 				410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */,
 				D087BCF12C19E4BB00825F60 /* SignOutErrorViewModelTests.swift */,
 				C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */,
+				ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */,
 				41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */,
 			);
 			path = Errors;
@@ -2260,7 +2260,6 @@
 				C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */,
 				ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
-				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
@@ -2315,6 +2314,7 @@
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
+				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
 				7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */,
 				C81509A32D1037C100B0CEA1 /* UserDefaults+OneLoginTests.swift in Sources */,
