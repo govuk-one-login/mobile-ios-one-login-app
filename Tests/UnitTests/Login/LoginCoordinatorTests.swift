@@ -146,9 +146,24 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
+    func test_launchAuthenticationService_accessDenied() throws {
+        // GIVEN the authentication session returns an access denied error
+        let error = LoginErrorV2(reason: .authorizationAccessDenied)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the DataDeletedWarningViewModel
+        XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
+    }
+    
+    @MainActor
     func test_launchAuthenticationService_network() throws {
         // GIVEN the authentication session returns a network error
-        mockSessionManager.errorFromStartSession = LoginError.network
+        let error = LoginErrorV2(reason: .network)
+        mockSessionManager.errorFromStartSession = error
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -159,35 +174,206 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_non200() throws {
-        // GIVEN the authentication session returns a non200 error
-        mockSessionManager.errorFromStartSession = LoginError.non200
+    func test_launchAuthenticationService_authInvalidRequest() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .authorizationInvalidRequest)
+        mockSessionManager.errorFromStartSession = error
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
     }
     
     @MainActor
-    func test_launchAuthenticationService_invalidRequest() throws {
+    func test_launchAuthenticationService_authUnauthorizedClient() throws {
         // GIVEN the authentication session returns a invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError.invalidRequest
+        let error = LoginErrorV2(reason: .authorizationUnauthorizedClient)
+        mockSessionManager.errorFromStartSession = error
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_unsupportedResponse() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .authorizationUnsupportedResponseType)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_authInvalidScope() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .authorizationInvalidScope)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_temporarilyUnavailable() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .authorizationTemporarilyUnavailable)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_tokenInvalidRequest() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenInvalidRequest)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_tokenUnauthorizedClient() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenUnauthorizedClient)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_tokenInvalidScope() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenInvalidScope)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_invalidClient() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenInvalidClient)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_invalidGrant() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenInvalidGrant)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_unsupportedGrant() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenUnsupportedGrantType)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
     }
     
     @MainActor
     func test_launchAuthenticationService_clientError() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .tokenClientError)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_authServerError() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .authorizationServerError)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the RecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_authUnknownError() throws {
+        // GIVEN the authentication session returns a invalidRequest error
+        let error = LoginErrorV2(reason: .authorizationUnknownError)
+        mockSessionManager.errorFromStartSession = error
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the RecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_tokenUnknownError() throws {
         // GIVEN the authentication session returns a clientError error
-        mockSessionManager.errorFromStartSession = LoginError.clientError
+        let error = LoginErrorV2(reason: .tokenUnknownError)
+        mockSessionManager.errorFromStartSession = error
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -200,7 +386,8 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_serverError() throws {
         // GIVEN the authentication session returns a serverError error
-        mockSessionManager.errorFromStartSession = LoginError.serverError
+        let error = LoginErrorV2(reason: .generalServerError)
+        mockSessionManager.errorFromStartSession = error
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -211,16 +398,17 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_accessDenied() throws {
+    func test_launchAuthenticationService_safariError() throws {
         // GIVEN the authentication session returns a serverError error
-        mockSessionManager.errorFromStartSession = LoginError.accessDenied
+        let error = LoginErrorV2(reason: .safariOpenError)
+        mockSessionManager.errorFromStartSession = error
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is DataDeletedWarningViewModel)
+        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
     }
     
     @MainActor

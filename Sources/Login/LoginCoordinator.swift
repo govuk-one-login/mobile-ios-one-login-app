@@ -86,21 +86,36 @@ final class LoginCoordinator: NSObject,
         loginTask = Task {
             do {
                 try await triggerAuthFlow()
-            } catch PersistentSessionError.sessionMismatch,
-                    LoginError.accessDenied {
+            } catch PersistentSessionError.sessionMismatch {
                 showDataDeletedWarningScreen()
             } catch PersistentSessionError.cannotDeleteData(let error) {
                 showRecoverableErrorScreen(error)
-            } catch LoginError.userCancelled {
+            } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
+                showDataDeletedWarningScreen()
+            } catch let error as LoginErrorV2 where error.reason == .userCancelled {
                 enableAuthButton()
-            } catch LoginError.network {
+            } catch let error as LoginErrorV2 where error.reason == .network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as LoginError where error == .non200,
-                    let error as LoginError where error == .invalidRequest,
-                    let error as LoginError where error == .clientError,
-                    let error as LoginError where error == .serverError {
+            } catch let error as LoginErrorV2 where error.reason == .authorizationInvalidRequest,
+                    let error as LoginErrorV2 where error.reason == .authorizationUnauthorizedClient,
+                    let error as LoginErrorV2 where error.reason == .authorizationUnsupportedResponseType,
+                    let error as LoginErrorV2 where error.reason == .authorizationInvalidScope,
+                    let error as LoginErrorV2 where error.reason == .authorizationTemporarilyUnavailable,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidRequest,
+                    let error as LoginErrorV2 where error.reason == .tokenUnauthorizedClient,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidScope,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidClient,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidGrant,
+                    let error as LoginErrorV2 where error.reason == .tokenUnsupportedGrantType,
+                    let error as LoginErrorV2 where error.reason == .tokenClientError {
+                showUnrecoverableErrorScreen(error)
+            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
+                    let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
+                    let error as LoginErrorV2 where error.reason == .tokenUnknownError,
+                    let error as LoginErrorV2 where error.reason == .generalServerError,
+                    let error as LoginErrorV2 where error.reason == .safariOpenError {
                 showRecoverableErrorScreen(error)
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
@@ -140,7 +155,7 @@ final class LoginCoordinator: NSObject,
                                                    urlOpener: UIApplication.shared))
         }
     }
-        
+    
     func launchEnrolmentCoordinator() {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsService,
@@ -161,7 +176,7 @@ extension LoginCoordinator {
     
     private func showRecoverableErrorScreen(_ error: Error) {
         let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
-                                                    errorDescription: error.localizedDescription) { [unowned self] in
+                                                       errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
