@@ -3,7 +3,7 @@ import GDSCommon
 import Logging
 
 struct RecoverableLoginErrorViewModel: GDSErrorViewModelV3,
-                                    BaseViewModel {
+                                       BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let errorDescription: String
     let title: GDSLocalisedString = "app_signInErrorTitle"
