@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "revision" : "d62c78330529390d553bec14c04107ae2f42d1b5",
-        "version" : "2.17.1"
+        "branch" : "fix/active-session-card-button-keyboard-focus",
+        "revision" : "e268884a448341b7add4ad26a807b6c6f51c9dba"
       }
     },
     {

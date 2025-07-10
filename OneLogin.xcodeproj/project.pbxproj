@@ -3795,8 +3795,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.16.0;
+				branch = "fix/active-session-card-button-keyboard-focus";
+				kind = branch;
 			};
 		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
