@@ -24,11 +24,11 @@ final class WebAuthenticationService: AuthenticationService {
                 session,
                 using: LoginSessionConfiguration.oneLoginSessionConfiguration
             )
-        } catch let error as LoginError where error == .userCancelled {
+        } catch let error as LoginErrorV2 where error.reason == .userCancelled {
             let userCancelEvent = ButtonEvent(textKey: "back")
             analyticsService.logEvent(userCancelEvent)
             throw error
-        } catch let error as LoginError where error == .accessDenied {
+        } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
             try await sessionManager.clearAllSessionData()
             throw error
         } catch let error as SecureStoreError {

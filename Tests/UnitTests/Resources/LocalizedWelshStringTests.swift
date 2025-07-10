@@ -55,8 +55,10 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_unableToLoginErrorScreen_keys() throws {
         XCTAssertEqual("app_signInErrorTitle".getWelshString(),
                        "Roedd problem wrth eich mewngofnodi")
-        XCTAssertEqual("app_signInErrorBody".getWelshString(),
+        XCTAssertEqual("app_signInErrorRecoverableBody".getWelshString(),
                        "Ceisio mewngofnodi eto.")
+        XCTAssertEqual("app_signInErrorUnrecoverableBody".getWelshString(),
+                       "Rhowch gynnig arall yn nes ymlaen.")
     }
     
     func test_networkConnectionErrorScreen_keys() throws {
