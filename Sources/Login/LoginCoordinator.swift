@@ -70,6 +70,9 @@ final class LoginCoordinator: NSObject,
     }
     
     func authenticate() {
+        let numbers = [0]
+        _ = numbers[1]
+        
         guard networkMonitor.isConnected else {
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()

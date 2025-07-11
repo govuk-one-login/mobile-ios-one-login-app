@@ -22,12 +22,10 @@ final class OnboardingCoordinator: NSObject,
     
     func start() {
         let viewModel = AnalyticsPreferenceViewModel { [unowned self] in
-            analyticsService.grantAnalyticsPermission()
             analyticsPreferenceStore.hasAcceptedAnalytics = true
             root.dismiss(animated: true)
             finish()
         } secondaryButtonAction: { [unowned self] in
-            analyticsService.denyAnalyticsPermission()
             analyticsPreferenceStore.hasAcceptedAnalytics = false
             root.dismiss(animated: true)
             finish()

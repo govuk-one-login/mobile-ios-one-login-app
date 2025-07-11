@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "e593364750ea10cc2564f7783749b1093d9c5d43",
-        "version" : "4.1.3"
+        "branch" : "feature/ganalyticsv2",
+        "revision" : "c602628d78d4afaacffe79a25a2ae6a052c20ebb"
       }
     },
     {
