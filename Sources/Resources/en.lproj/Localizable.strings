@@ -243,7 +243,7 @@
 
 "app_localAuthManagerErrorTitle" = "You need to update your phone settings";
 
-"app_localAuthManagerErrorBody1" = "To add documents to your %@, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.";
+"app_localAuthManagerErrorBody1" = "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.";
 
 "app_localAuthManagerErrorBody3" = "You need to:";
 
@@ -253,7 +253,7 @@
 
 "app_localAuthManagerErrorNumberedList2" = "Tap Turn Passcode On and follow the instructions.";
 
-"app_localAuthManagerErrorNumberedList3" = "Come back to continue using your %@.";
+"app_localAuthManagerErrorNumberedList3" = "Come back to continue using your documents.";
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Go to phone settings";
 
