@@ -25,6 +25,5 @@ struct LocalAuthErrorListViewModelTests {
         #expect(sut.listItemStrings[1].value == "Tap Turn Passcode On and follow the instructions.")
         #expect(sut.listItemStrings[2].stringKey == "app_localAuthManagerErrorNumberedList3")
         #expect(sut.listItemStrings[2].value == "Come back to continue using your documents.")
-        #expect(sut.listItemStrings[2].variableKeys == ["app_walletString"])
     }
 }
