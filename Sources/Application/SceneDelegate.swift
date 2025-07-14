@@ -12,7 +12,7 @@ final class SceneDelegate: UIResponder,
     
     lazy var analyticsService: OneLoginAnalyticsService = {
         let analyticsService = GAnalyticsV2().addingAdditionalParameters(.oneLoginDefaults)
-        analyticsService.configure()
+        analyticsService.activate()
         return analyticsService
     }()
     private lazy var analyticsPreferenceStore = UserDefaultsPreferenceStore()
