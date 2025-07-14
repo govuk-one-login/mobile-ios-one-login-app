@@ -25,7 +25,6 @@ final class QualifyingCoordinator: NSObject,
     
     private let appQualifyingService: QualifyingService
     private let analyticsService: OneLoginAnalyticsService
-    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     
@@ -49,13 +48,11 @@ final class QualifyingCoordinator: NSObject,
     init(appWindow: UIWindow,
          appQualifyingService: QualifyingService,
          analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
          sessionManager: SessionManager,
          networkClient: NetworkClient) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsService = analyticsService
-        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkClient = networkClient
         super.init()
@@ -120,7 +117,6 @@ final class QualifyingCoordinator: NSObject,
                 appWindow: appWindow,
                 root: UINavigationController(),
                 analyticsService: analyticsService,
-                analyticsPreferenceStore: analyticsPreferenceStore,
                 sessionManager: sessionManager,
                 authService: WebAuthenticationService(sessionManager: sessionManager,
                                                       session: AppAuthSessionV2(window: appWindow),
@@ -141,7 +137,6 @@ extension QualifyingCoordinator {
             let tabManagerCoordinator = TabManagerCoordinator(
                 root: OrientationLockingTabBarController(),
                 analyticsService: analyticsService,
-                analyticsPreferenceStore: analyticsPreferenceStore,
                 networkClient: networkClient,
                 sessionManager: sessionManager)
             displayChildCoordinator(tabManagerCoordinator)

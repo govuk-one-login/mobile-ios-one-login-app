@@ -17,7 +17,6 @@ final class LoginCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     
     private let analyticsService: OneLoginAnalyticsService
-    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
@@ -32,7 +31,6 @@ final class LoginCoordinator: NSObject,
     init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          authService: AuthenticationService,
@@ -40,7 +38,6 @@ final class LoginCoordinator: NSObject,
         self.appWindow = appWindow
         self.root = root
         self.analyticsService = analyticsService
-        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
@@ -70,9 +67,6 @@ final class LoginCoordinator: NSObject,
     }
     
     func authenticate() {
-        let numbers = [0]
-        _ = numbers[1]
-        
         guard networkMonitor.isConnected else {
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
@@ -152,9 +146,9 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        if analyticsPreferenceStore.hasAcceptedAnalytics == nil, root.topViewController is IntroViewController {
-            openChildModally(OnboardingCoordinator(analyticsService: analyticsService,
-                                                   analyticsPreferenceStore: analyticsPreferenceStore,
+        if analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
+           root.topViewController is IntroViewController {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }
     }

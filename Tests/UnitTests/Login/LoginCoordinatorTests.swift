@@ -9,7 +9,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var appWindow: UIWindow!
     var navigationController: UINavigationController!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockSessionManager: MockSessionManager!
     var mockNetworkMonitor: NetworkMonitoring!
     var mockAuthenticationService: MockAuthenticationService!
@@ -22,7 +21,6 @@ final class LoginCoordinatorTests: XCTestCase {
         appWindow = .init()
         navigationController = .init()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         mockNetworkMonitor = MockNetworkMonitor()
         mockAuthenticationService = MockAuthenticationService(sessionManager: mockSessionManager)
@@ -31,7 +29,6 @@ final class LoginCoordinatorTests: XCTestCase {
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsService: mockAnalyticsService,
-                               analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
@@ -42,7 +39,6 @@ final class LoginCoordinatorTests: XCTestCase {
         appWindow = nil
         navigationController = nil
         mockAnalyticsService = nil
-        mockAnalyticsPreferenceStore = nil
         mockSessionManager = nil
         mockNetworkMonitor = nil
         sut = nil
@@ -56,7 +52,6 @@ final class LoginCoordinatorTests: XCTestCase {
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsService: mockAnalyticsService,
-                               analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
@@ -472,7 +467,7 @@ extension LoginCoordinatorTests {
     func test_skip_launchOnboardingCoordinator() {
         sut.start()
         // GIVEN the user has accepted analytics permissions
-        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
+        mockAnalyticsService.analyticsPreferenceStore.hasAcceptedAnalytics = true
         // WHEN the launchOnboardingCoordinator method is called
         sut.launchOnboardingCoordinator()
         // THEN the OnboardingCoordinator should not be launched

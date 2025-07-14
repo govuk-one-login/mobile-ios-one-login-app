@@ -10,12 +10,13 @@ final class SceneDelegate: UIResponder,
                            SceneLifecycle {
     private var rootCoordinator: QualifyingCoordinator?
     
+    private lazy var analyticsPreferenceStore = UserDefaultsPreferenceStore()
     lazy var analyticsService: OneLoginAnalyticsService = {
-        let analyticsService = GAnalyticsV2().addingAdditionalParameters(.oneLoginDefaults)
+        let analyticsService = GAnalyticsV2(analyticsPreferenceStore: analyticsPreferenceStore)
+            .addingAdditionalParameters(.oneLoginDefaults)
         analyticsService.activate()
         return analyticsService
     }()
-    private lazy var analyticsPreferenceStore = UserDefaultsPreferenceStore()
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
     private lazy var networkClient = NetworkClient()
@@ -52,7 +53,6 @@ final class SceneDelegate: UIResponder,
             appWindow: UIWindow(windowScene: windowScene),
             appQualifyingService: appQualifyingService,
             analyticsService: analyticsService,
-            analyticsPreferenceStore: analyticsPreferenceStore,
             sessionManager: sessionManager,
             networkClient: networkClient
         )

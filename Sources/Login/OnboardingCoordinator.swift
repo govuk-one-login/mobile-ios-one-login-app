@@ -8,14 +8,11 @@ final class OnboardingCoordinator: NSObject,
                                    ChildCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    private var analyticsService: OneLoginAnalyticsService
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let urlOpener: URLOpener
     
-    init(analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
+    init(analyticsPreferenceStore: AnalyticsPreferenceStore,
          urlOpener: URLOpener) {
-        self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.urlOpener = urlOpener
     }
