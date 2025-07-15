@@ -34,7 +34,7 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        let screen = ScreenView(id: ErrorAnalyticsScreen.signOutWarning.rawValue,
+        let screen = ScreenView(id: ErrorAnalyticsScreenID.signOutWarning.rawValue,
                                 screen: ErrorAnalyticsScreen.signOutWarning,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)

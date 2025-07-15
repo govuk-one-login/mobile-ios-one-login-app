@@ -1,6 +1,5 @@
 import GDSAnalytics
 import Logging
-import Wallet
 
 public typealias OneLoginScreenType = GDSAnalytics.ScreenType
 
