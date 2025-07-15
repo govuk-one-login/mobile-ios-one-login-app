@@ -134,7 +134,9 @@
 
 "app_settingsSubtitle1" = "Help ac adborth";
 
-"app_appGuidanceLink" = "Defnyddio'r ap %@";
+"app_proveYourIdentityLink" = "Profi eich hunaniaeth";
+
+"app_addDocumentsLink" = "Ychwanegu dogfennau at eich ap";
 
 "app_contactLink" = "Cysylltu %@";
 
@@ -147,6 +149,8 @@
 "app_privacyNoticeLink2" = "Rhybudd Preifatrwydd %@";
 
 "app_accessibilityStatement" = "Datganiad hygyrchedd";
+
+"app_termsAndConditionsLink" = "Telerau ac amodau";
 
 "app_signOutButton" = "Allgofnodi";
 

@@ -140,8 +140,10 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Help and feedback")
         XCTAssertEqual("app_contactLink".getEnglishString(),
                        "Contact %@")
-        XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
-                       "Using the %@ app")
+        XCTAssertEqual("app_proveYourIdentityLink".getEnglishString(),
+                       "Proving your identity")
+        XCTAssertEqual("app_addDocumentsLink".getEnglishString(),
+                       "Adding documents to your app")
         XCTAssertEqual("app_signOutButton".getEnglishString(),
                        "Sign out")
         XCTAssertEqual("app_settingsSubtitle2".getEnglishString(),
@@ -152,6 +154,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "You can share anonymous analytics about how you use the app to help the %@ team make improvements. Read more in the %@ privacy notice.")
         XCTAssertEqual("app_accessibilityStatement".getEnglishString(),
                        "Accessibility statement")
+        XCTAssertEqual("app_termsAndConditionsLink".getEnglishString(),
+                       "Terms and conditions")
     }
     
     func test_signOutPageKeys() {

@@ -31,14 +31,21 @@ extension TabbedViewSectionModel {
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
-                                      tabModels: [.init(cellTitle: GDSLocalisedString(stringKey: "app_appGuidanceLink",
-                                                                                      "app_nameString"),
+                                      tabModels: [.init(cellTitle: "app_proveYourIdentityLink",
                                                         accessoryView: linkDisclosureArrow,
                                                         accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
             urlOpener.open(url: AppEnvironment.appHelpURL)
-            let event = LinkEvent(textKey: "app_appGuidanceLink",
-                                  variableKeys: "app_nameString",
+            let event = LinkEvent(textKey: "app_proveYourIdentityLink",
                                   linkDomain: AppEnvironment.appHelpURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
+        },
+                                                  .init(cellTitle: "app_addDocumentsLink",
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
+            urlOpener.open(url: AppEnvironment.addingDocumentsURL)
+            let event = LinkEvent(textKey: "app_addDocumentsLink",
+                                  linkDomain: AppEnvironment.addingDocumentsURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
         },
@@ -83,6 +90,15 @@ extension TabbedViewSectionModel {
             urlOpener.open(url: AppEnvironment.accessibilityStatementURL)
             let event = LinkEvent(textKey: "app_accessibilityStatement",
                                   linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
+        },
+                                                  .init(cellTitle: "app_termsAndConditionsLink",
+                                                        accessoryView: linkDisclosureArrow,
+                                                        accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
+            urlOpener.open(url: AppEnvironment.termsAndConditionsURL)
+            let event = LinkEvent(textKey: "app_termsAndConditionsLink",
+                                  linkDomain: AppEnvironment.termsAndConditionsURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
         }])

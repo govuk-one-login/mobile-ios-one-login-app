@@ -140,8 +140,10 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Help ac adborth")
         XCTAssertEqual("app_contactLink".getWelshString(),
                        "Cysylltu %@")
-        XCTAssertEqual("app_appGuidanceLink".getWelshString(),
-                       "Defnyddio'r ap %@")
+        XCTAssertEqual("app_proveYourIdentityLink".getWelshString(),
+                       "Profi eich hunaniaeth")
+        XCTAssertEqual("app_addDocumentsLink".getWelshString(),
+                       "Ychwanegu dogfennau at eich ap")
         XCTAssertEqual("app_signOutButton".getWelshString(),
                        "Allgofnodi")
         XCTAssertEqual("app_settingsSubtitle2".getWelshString(),
@@ -152,6 +154,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd %@.")
         XCTAssertEqual("app_accessibilityStatement".getWelshString(),
                        "Datganiad hygyrchedd")
+        XCTAssertEqual("app_termsAndConditionsLink".getWelshString(),
+                       "Telerau ac amodau")
     }
     
     func test_signOutPageKeys() {

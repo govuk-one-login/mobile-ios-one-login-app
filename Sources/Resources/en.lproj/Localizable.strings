@@ -134,7 +134,9 @@
 
 "app_settingsSubtitle1" = "Help and feedback";
 
-"app_appGuidanceLink" = "Using the %@ app";
+"app_proveYourIdentityLink" = "Proving your identity";
+
+"app_addDocumentsLink" = "Adding documents to your app";
 
 "app_contactLink" = "Contact %@";
 
@@ -147,6 +149,8 @@
 "app_privacyNoticeLink2" = "%@ privacy notice";
 
 "app_accessibilityStatement" = "Accessibility statement";
+
+"app_termsAndConditionsLink" = "Terms and conditions";
 
 "app_signOutButton" = "Sign out";
 

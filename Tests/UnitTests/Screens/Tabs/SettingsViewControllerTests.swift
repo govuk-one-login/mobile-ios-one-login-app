@@ -165,16 +165,32 @@ extension SettingsViewControllerTests {
         XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
-    func test_helpCell_eventAnalytics() throws {
+    func test_provingIdentityCell_eventAnalytics() throws {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         
         let indexPath = IndexPath(row: 0, section: 1)
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
-        let event = LinkEvent(textKey: "app_appGuidanceLink",
-                              variableKeys: "app_nameString",
+        let event = LinkEvent(textKey: "app_proveYourIdentityLink",
                               linkDomain: AppEnvironment.appHelpURL.absoluteString,
+                              external: .false)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+    }
+    
+    func test_addingDocumentsCell_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 1, section: 1)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        let event = LinkEvent(textKey: "app_addDocumentsLink",
+                              linkDomain: AppEnvironment.addingDocumentsURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
@@ -186,7 +202,7 @@ extension SettingsViewControllerTests {
     func test_contactCell_eventAnalytics() throws {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         
-        let indexPath = IndexPath(row: 1, section: 1)
+        let indexPath = IndexPath(row: 2, section: 1)
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
