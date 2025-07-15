@@ -244,7 +244,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
                        "Mae angen i chi ddiweddaru gosodiadau eich ffôn")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
-                       "I ychwanegu dogfennau at eich %@, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.")
+                       "I ychwanegu dogfennau, mae angen i chi ddiogelu eich ffôn gyda chod mynediad.\n\nMae hyn er mwyn sicrhau na all unrhyw un arall weld na hychwanegu dogfennau at eich ap.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getWelshString(),
                        "Mae angen i chi:")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getWelshString(),
@@ -254,7 +254,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getWelshString(),
                        "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getWelshString(),
-                       "Dod yn ôl i barhau i ddefnyddio'ch %@.")
+                       "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getWelshString(),
                        "Ewch i osodiadau ffôn")
     }

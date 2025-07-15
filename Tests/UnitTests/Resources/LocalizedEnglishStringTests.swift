@@ -244,7 +244,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
                        "You need to update your phone settings")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
-                       "To add documents to your %@, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.")
+                       "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
                        "You need to:")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString(),
@@ -254,7 +254,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getEnglishString(),
                        "Tap Turn Passcode On and follow the instructions.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getEnglishString(),
-                       "Come back to continue using your %@.")
+                       "Come back to continue using your documents.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getEnglishString(),
                        "Go to phone settings")
     }

@@ -243,7 +243,7 @@
 
 "app_localAuthManagerErrorTitle" = "Mae angen i chi ddiweddaru gosodiadau eich ffôn";
 
-"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau at eich %@, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.";
+"app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau, mae angen i chi ddiogelu eich ffôn gyda chod mynediad.\n\nMae hyn er mwyn sicrhau na all unrhyw un arall weld na hychwanegu dogfennau at eich ap.";
 
 "app_localAuthManagerErrorBody3" = "Mae angen i chi:";
 
@@ -253,7 +253,7 @@
 
 "app_localAuthManagerErrorNumberedList2" = "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.";
 
-"app_localAuthManagerErrorNumberedList3" = "Dod yn ôl i barhau i ddefnyddio'ch %@.";
+"app_localAuthManagerErrorNumberedList3" = "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.";
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Ewch i osodiadau ffôn";
 
