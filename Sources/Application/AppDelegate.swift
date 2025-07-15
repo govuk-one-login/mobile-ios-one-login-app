@@ -8,7 +8,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseAppIntegrityService.configure()
-        GAnalytics().configure()
+        GAnalyticsV2.configure()
         return true
     }
     

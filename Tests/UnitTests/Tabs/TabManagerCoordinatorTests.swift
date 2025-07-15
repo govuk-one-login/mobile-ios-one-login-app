@@ -7,7 +7,6 @@ import XCTest
 final class TabManagerCoordinatorTests: XCTestCase {
     var tabBarController: UITabBarController!
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockSessionManager: MockSessionManager!
     var sut: TabManagerCoordinator!
     
@@ -17,11 +16,9 @@ final class TabManagerCoordinatorTests: XCTestCase {
         
         tabBarController = UITabBarController()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         sut = TabManagerCoordinator(root: tabBarController,
                                     analyticsService: mockAnalyticsService,
-                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     networkClient: NetworkClient(),
                                     sessionManager: mockSessionManager)
     }
@@ -29,7 +26,6 @@ final class TabManagerCoordinatorTests: XCTestCase {
     override func tearDown() {
         tabBarController = nil
         mockAnalyticsService = nil
-        mockAnalyticsPreferenceStore = nil
         mockSessionManager = nil
         sut = nil
         
@@ -87,7 +83,6 @@ extension TabManagerCoordinatorTests {
         )
         // GIVEN the app has an existing session
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                      analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
                                                       urlOpener: MockURLOpener())
@@ -107,7 +102,6 @@ extension TabManagerCoordinatorTests {
         // GIVEN the app has an existing session
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                      analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                                       sessionManager: mockSessionManager,
                                                       networkClient: NetworkClient(),
                                                       urlOpener: MockURLOpener())

@@ -66,7 +66,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     completion()
                 }
             case .none:
-                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) { [unowned self] in
+                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: localAuthentication.deviceBiometricsType) { [unowned self] in
                     biometricsNavigationController.dismiss(animated: true)
                     completion()
                 }
@@ -88,7 +88,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             return true
         #endif
         
-        return isEnrolledToLocalAuth(minimum)
+        isEnrolledToLocalAuth(minimum)
     }
     
     func isEnrolledToLocalAuth(_ minimum: any WalletLocalAuthType) -> Bool {

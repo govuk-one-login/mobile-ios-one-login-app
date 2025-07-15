@@ -21,7 +21,6 @@ final class TabManagerCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: OneLoginAnalyticsService
-    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
     
@@ -35,12 +34,10 @@ final class TabManagerCoordinator: NSObject,
     
     init(root: UITabBarController,
          analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
          networkClient: NetworkClient,
          sessionManager: SessionManager) {
         self.root = root
         self.analyticsService = analyticsService
-        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.networkClient = networkClient
         self.sessionManager = sessionManager
     }
@@ -88,7 +85,6 @@ final class TabManagerCoordinator: NSObject,
     
     private func addSettingsTab() {
         let pc = SettingsCoordinator(analyticsService: analyticsService,
-                                     analyticsPreferenceStore: analyticsPreferenceStore,
                                      sessionManager: sessionManager,
                                      networkClient: networkClient,
                                      urlOpener: UIApplication.shared)

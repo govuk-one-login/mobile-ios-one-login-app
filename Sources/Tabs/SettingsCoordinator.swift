@@ -16,20 +16,17 @@ final class SettingsCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     
     private let analyticsService: OneLoginAnalyticsService
-    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let sessionManager: SessionManager & UserProvider
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
     
     init(analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
          sessionManager: SessionManager & UserProvider,
          networkClient: NetworkClient,
          urlOpener: URLOpener) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.system
         ])
-        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkClient = networkClient
         self.urlOpener = urlOpener
@@ -46,7 +43,7 @@ final class SettingsCoordinator: NSObject,
                                              openDeveloperMenu: openDeveloperMenu)
         let settingsViewController = SettingsViewController(viewModel: viewModel,
                                                             userProvider: sessionManager,
-                                                            analyticsPreference: analyticsPreferenceStore)
+                                                            analyticsPreference: analyticsService.analyticsPreferenceStore)
         root.setViewControllers([settingsViewController], animated: true)
     }
     

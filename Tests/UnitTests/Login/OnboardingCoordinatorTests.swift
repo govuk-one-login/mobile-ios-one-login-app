@@ -4,7 +4,6 @@ import XCTest
 
 @MainActor
 final class OnboardingCoordinatorTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockURLOpener: MockURLOpener!
     var sut: OnboardingCoordinator!
@@ -12,16 +11,13 @@ final class OnboardingCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockURLOpener = MockURLOpener()
-        sut = OnboardingCoordinator(analyticsService: mockAnalyticsService,
-                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore,
+        sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     urlOpener: mockURLOpener)
     }
     
     override func tearDown() {
-        mockAnalyticsService = nil
         mockAnalyticsPreferenceStore = nil
         mockURLOpener = nil
         sut = nil
@@ -41,7 +37,6 @@ extension OnboardingCoordinatorTests {
         let acceptPermissionsButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-primary-button"])
         acceptPermissionsButton.sendActions(for: .touchUpInside)
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to true
-        XCTAssertTrue(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics))
         XCTAssertTrue(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
     }
 
@@ -55,7 +50,6 @@ extension OnboardingCoordinatorTests {
         let declinePermissionsButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-secondary-button"])
         declinePermissionsButton.sendActions(for: .touchUpInside)
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to false
-        XCTAssertFalse(try XCTUnwrap(mockAnalyticsService.hasAcceptedAnalytics))
         XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
     }
     
