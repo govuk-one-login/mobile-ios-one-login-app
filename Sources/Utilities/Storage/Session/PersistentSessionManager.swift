@@ -157,21 +157,13 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func resumeSession() throws {
-        guard expiryDate != nil else {
-            throw PersistentSessionError.noSessionExists
-        }
-        
-        guard isSessionValid else {
-            throw TokenError.expired
-        }
-        
         guard hasNotRemovedLocalAuth else {
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
         let keys = try storeKeyService.fetch()
         if let idToken = keys.idToken {
-            try user.send(IDTokenUserRepresentation(idToken: idToken))
+            user.send(try IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)
         }
