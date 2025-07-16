@@ -88,7 +88,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             return true
         #endif
         
-        isEnrolledToLocalAuth(minimum)
+        return isEnrolledToLocalAuth(minimum)
     }
     
     func isEnrolledToLocalAuth(_ minimum: any WalletLocalAuthType) -> Bool {
