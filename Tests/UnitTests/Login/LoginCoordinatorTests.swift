@@ -383,6 +383,17 @@ extension LoginCoordinatorTests {
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the UnableToLoginErrorViewModel
         XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        let vc2 = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        XCTAssertTrue(vc2.viewModel is RecoverableLoginErrorViewModel)
+        
+        // 3rd server error should show non-recoverable error screen
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        let vc3 = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        XCTAssertTrue(vc3.viewModel is UnrecoverableLoginErrorViewModel)
     }
     
     @MainActor

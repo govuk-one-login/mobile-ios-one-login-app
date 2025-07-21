@@ -111,10 +111,10 @@ final class LoginCoordinator: NSObject,
                 showUnrecoverableErrorScreen(error)
             } catch let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
                     let error as LoginErrorV2 where error.reason == .tokenUnknownError,
-                    let error as LoginErrorV2 where error.reason == .generalServerError,
                     let error as LoginErrorV2 where error.reason == .safariOpenError {
                 showRecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError {
+            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
+                    let error as LoginErrorV2 where error.reason == .generalServerError {
                 self.serverErrorCounter += 1
                 if serverErrorCounter < 3 {
                     showRecoverableErrorScreen(error)
