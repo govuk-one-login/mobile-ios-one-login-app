@@ -140,6 +140,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Help and feedback")
         XCTAssertEqual("app_contactLink".getEnglishString(),
                        "Contact %@")
+        XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
+                       "Using the %@ app")
         XCTAssertEqual("app_proveYourIdentityLink".getEnglishString(),
                        "Proving your identity")
         XCTAssertEqual("app_addDocumentsLink".getEnglishString(),

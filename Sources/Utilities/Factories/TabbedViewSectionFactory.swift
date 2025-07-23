@@ -29,29 +29,29 @@ extension TabbedViewSectionModel {
     }
     
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var tabs: [TabbedViewCellModel] = [.init(cellTitle: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : GDSLocalisedString(stringKey: "app_appGuidanceLink",
-                                                                                                                                                           "app_nameString"),
-                                                 accessoryView: linkDisclosureArrow,
-                                                 accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
-            urlOpener.open(url: AppEnvironment.appHelpURL)
-            let event = LinkEvent(textKey: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : GDSLocalisedString(stringKey: "app_appGuidanceLink",
-                                                                                                                                          "app_nameString").value,
-                                  linkDomain: AppEnvironment.appHelpURL.absoluteString,
-                                  external: .false)
-            analyticsService.logEvent(event)
-        },
-                                           
+        var tabs: [TabbedViewCellModel] = [
+            .init(cellTitle: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : GDSLocalisedString(stringKey: "app_appGuidanceLink",
+                                                                                                                            "app_nameString"),
+                  accessoryView: linkDisclosureArrow,
+                  accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
+                      urlOpener.open(url: AppEnvironment.appHelpURL)
+                      let event = LinkEvent(textKey: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : "app_appGuidanceLink",
+                                            variableKeys: WalletAvailabilityService.shouldShowFeature ? "" : "app_nameString",
+                                            linkDomain: AppEnvironment.appHelpURL.absoluteString,
+                                            external: .false)
+                      analyticsService.logEvent(event)
+                  },
             .init(cellTitle: GDSLocalisedString(stringKey: "app_contactLink",
                                                 "app_nameString"),
                   accessoryView: linkDisclosureArrow,
                   accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
-            urlOpener.open(url: AppEnvironment.contactURL)
-            let event = LinkEvent(textKey: "app_contactLink",
-                                  variableKeys: "app_nameString",
-                                  linkDomain: AppEnvironment.contactURL.absoluteString,
-                                  external: .false)
-            analyticsService.logEvent(event)
-        }]
+                      urlOpener.open(url: AppEnvironment.contactURL)
+                      let event = LinkEvent(textKey: "app_contactLink",
+                                            variableKeys: "app_nameString",
+                                            linkDomain: AppEnvironment.contactURL.absoluteString,
+                                            external: .false)
+                      analyticsService.logEvent(event)
+                  }]
         
         if WalletAvailabilityService.shouldShowFeature {
             tabs.insert(.init(cellTitle: "app_addDocumentsLink",
@@ -62,8 +62,7 @@ extension TabbedViewSectionModel {
                                       linkDomain: AppEnvironment.addingDocumentsURL.absoluteString,
                                       external: .false)
                 analyticsService.logEvent(event)
-            }
-                        , at: 1)
+            }, at: 1)
         }
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,

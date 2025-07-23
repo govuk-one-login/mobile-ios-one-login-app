@@ -87,7 +87,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
         XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
     }
-
+    
     func test_cellConfiguration_updateEmail() throws {
         mockSessionManager.user.send(MockUser())
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)

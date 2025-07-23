@@ -140,6 +140,8 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Help ac adborth")
         XCTAssertEqual("app_contactLink".getWelshString(),
                        "Cysylltu %@")
+        XCTAssertEqual("app_appGuidanceLink".getWelshString(),
+                       "Defnyddio'r ap %@")
         XCTAssertEqual("app_proveYourIdentityLink".getWelshString(),
                        "Profi eich hunaniaeth")
         XCTAssertEqual("app_addDocumentsLink".getWelshString(),
