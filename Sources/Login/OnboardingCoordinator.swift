@@ -8,26 +8,21 @@ final class OnboardingCoordinator: NSObject,
                                    ChildCoordinator {
     let root = UINavigationController()
     weak var parentCoordinator: ParentCoordinator?
-    private var analyticsService: OneLoginAnalyticsService
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let urlOpener: URLOpener
     
-    init(analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
+    init(analyticsPreferenceStore: AnalyticsPreferenceStore,
          urlOpener: URLOpener) {
-        self.analyticsService = analyticsService
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.urlOpener = urlOpener
     }
     
     func start() {
         let viewModel = AnalyticsPreferenceViewModel { [unowned self] in
-            analyticsService.grantAnalyticsPermission()
             analyticsPreferenceStore.hasAcceptedAnalytics = true
             root.dismiss(animated: true)
             finish()
         } secondaryButtonAction: { [unowned self] in
-            analyticsService.denyAnalyticsPermission()
             analyticsPreferenceStore.hasAcceptedAnalytics = false
             root.dismiss(animated: true)
             finish()

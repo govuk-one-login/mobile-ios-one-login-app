@@ -30,21 +30,18 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
             guard try canOnlyUseBiometrics else {
                 return try canUseAnyLocalAuth ? .passcode : .none
             }
-            
-            return try deviceBiometricsType
+            return deviceBiometricsType
         }
     }
     
     public var deviceBiometricsType: LocalAuthType {
-        get throws {
-            switch localAuthContext.biometryType {
-            case .touchID:
-                return .touchID
-            case .faceID:
-                return .faceID
-            default:
-                return .none
-            }
+        switch localAuthContext.biometryType {
+        case .touchID:
+            return .touchID
+        case .faceID:
+            return .faceID
+        default:
+            return .none
         }
     }
     

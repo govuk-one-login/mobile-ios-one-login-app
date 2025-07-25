@@ -66,7 +66,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     completion()
                 }
             case .none:
-                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: try localAuthentication.deviceBiometricsType) { [unowned self] in
+                let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: localAuthentication.deviceBiometricsType) { [unowned self] in
                     biometricsNavigationController.dismiss(animated: true)
                     completion()
                 }

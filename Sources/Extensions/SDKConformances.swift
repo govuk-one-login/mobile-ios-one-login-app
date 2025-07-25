@@ -10,9 +10,9 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger { }
 
 extension NetworkClient: @retroactive WalletNetworkClient { }
 
-extension GAnalytics: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
+extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
 
-typealias OneLoginAnalyticsService = AnalyticsService & IDCheckAnalyticsService & WalletAnalyticsService
+typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService
 
 extension WalletConfig {
     static let oneLoginWalletConfig = WalletConfig(
@@ -20,17 +20,6 @@ extension WalletConfig {
         credentialIssuer: AppEnvironment.walletCredentialIssuer.absoluteString,
         clientID: AppEnvironment.stsClientID
     )
-}
-
-struct OneLoginCRIURLs: CRIURLs {
-    let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
-    let govSupportURL: URL = AppEnvironment.govSupportURL
-    let handoffURL: URL = AppEnvironment.idCheckHandoffURL
-    let baseURL: URL = AppEnvironment.idCheckBaseURL
-    let domainURL: URL = AppEnvironment.idCheckDomainURL
-    let govUKURL: URL = AppEnvironment.govURL
-    let readIDURLString: String = AppEnvironment.readIDURLString
-    let iProovURLString: String = AppEnvironment.iProovURLString
 }
 
 extension WalletEnvironment {
@@ -45,4 +34,15 @@ extension WalletEnvironment {
             self = config
         }
     }
+}
+
+struct OneLoginCRIURLs: CRIURLs {
+    let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
+    let govSupportURL: URL = AppEnvironment.govSupportURL
+    let handoffURL: URL = AppEnvironment.idCheckHandoffURL
+    let baseURL: URL = AppEnvironment.idCheckBaseURL
+    let domainURL: URL = AppEnvironment.idCheckDomainURL
+    let govUKURL: URL = AppEnvironment.govURL
+    let readIDURLString: String = AppEnvironment.readIDURLString
+    let iProovURLString: String = AppEnvironment.iProovURLString
 }

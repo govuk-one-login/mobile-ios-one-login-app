@@ -64,7 +64,9 @@
 // MARK: Unable to login error screen
 "app_signInErrorTitle" = "There was a problem signing you in";
 
-"app_signInErrorBody" = "Try to sign in again.";
+"app_signInErrorRecoverableBody" = "Try to sign in again.";
+
+"app_signInErrorUnrecoverableBody" = "Try again later.";
 
 
 // MARK: Network connection error screen
@@ -241,7 +243,7 @@
 
 "app_localAuthManagerErrorTitle" = "You need to update your phone settings";
 
-"app_localAuthManagerErrorBody1" = "To add documents to your %@, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.";
+"app_localAuthManagerErrorBody1" = "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.";
 
 "app_localAuthManagerErrorBody3" = "You need to:";
 
@@ -251,7 +253,7 @@
 
 "app_localAuthManagerErrorNumberedList2" = "Tap Turn Passcode On and follow the instructions.";
 
-"app_localAuthManagerErrorNumberedList3" = "Come back to continue using your %@.";
+"app_localAuthManagerErrorNumberedList3" = "Come back to continue using your documents.";
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Go to phone settings";
 
@@ -259,6 +261,6 @@
 
 "app_localAuthManagerBiometricsErrorTitle" = "You need to allow %@";
 
-"app_localAuthManagerBiometricsFaceIDErrorBody" = "To add documents to your GOV.UK Wallet, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.";
+"app_localAuthManagerBiometricsFaceIDErrorBody" = "To add documents, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.";
 
-"app_localAuthManagerBiometricsTouchIDErrorBody" = "To add documents to your GOV.UK Wallet, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
+"app_localAuthManagerBiometricsTouchIDErrorBody" = "To add documents, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";

@@ -3,6 +3,8 @@ import Logging
 import XCTest
 
 final class MockAnalyticsService: OneLoginAnalyticsService {
+    var analyticsPreferenceStore: AnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
+    
     var additionalParameters = [String: Any]()
     
     private(set) var screensVisited = [String]()

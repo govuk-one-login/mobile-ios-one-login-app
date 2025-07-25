@@ -55,8 +55,10 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_unableToLoginErrorScreen_keys() throws {
         XCTAssertEqual("app_signInErrorTitle".getWelshString(),
                        "Roedd problem wrth eich mewngofnodi")
-        XCTAssertEqual("app_signInErrorBody".getWelshString(),
+        XCTAssertEqual("app_signInErrorRecoverableBody".getWelshString(),
                        "Ceisio mewngofnodi eto.")
+        XCTAssertEqual("app_signInErrorUnrecoverableBody".getWelshString(),
+                       "Rhowch gynnig arall yn nes ymlaen.")
     }
     
     func test_networkConnectionErrorScreen_keys() throws {
@@ -242,7 +244,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
                        "Mae angen i chi ddiweddaru gosodiadau eich ffôn")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
-                       "I ychwanegu dogfennau at eich %@, mae angen i chi ddiogelu eich ffôn gyda chod.\n\nMae hyn er mwyn sicrhau nad oes unrhyw un arall yn gallu gweld neu ychwanegu dogfennau at eich waled.")
+                       "I ychwanegu dogfennau, mae angen i chi ddiogelu eich ffôn gyda chod mynediad.\n\nMae hyn er mwyn sicrhau na all unrhyw un arall weld na hychwanegu dogfennau at eich ap.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getWelshString(),
                        "Mae angen i chi:")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getWelshString(),
@@ -252,7 +254,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getWelshString(),
                        "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getWelshString(),
-                       "Dod yn ôl i barhau i ddefnyddio'ch %@.")
+                       "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getWelshString(),
                        "Ewch i osodiadau ffôn")
     }
@@ -261,9 +263,9 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getWelshString(),
                        "Mae angen i chi ganiatáu %@")
         XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getWelshString(),
-                       "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ganiatáu Face ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
+                       "I ychwanegu dogfennau, mae angen i chi ganiatáu Face ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
         XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getWelshString(),
-                       "I ychwanegu dogfennau at eich GOV.UK Wallet, mae angen i chi ganiatáu Touch ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
+                       "I ychwanegu dogfennau, mae angen i chi ganiatáu Touch ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
 }
 

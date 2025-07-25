@@ -1,6 +1,5 @@
 import GDSAnalytics
 import Logging
-import Wallet
 
 public typealias OneLoginScreenType = GDSAnalytics.ScreenType
 
@@ -26,7 +25,7 @@ extension ErrorScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginS
 
 extension EventName: @retroactive LoggableEvent { }
 
-extension AnalyticsService {
+extension AnalyticsServiceV2 {
     public func logEvent(_ event: Event) {
         logEvent(event.name,
                  parameters: event.parameters)

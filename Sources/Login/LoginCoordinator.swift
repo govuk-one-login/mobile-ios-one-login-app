@@ -17,7 +17,6 @@ final class LoginCoordinator: NSObject,
     var childCoordinators = [ChildCoordinator]()
     
     private let analyticsService: OneLoginAnalyticsService
-    private let analyticsPreferenceStore: AnalyticsPreferenceStore
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
@@ -32,7 +31,6 @@ final class LoginCoordinator: NSObject,
     init(appWindow: UIWindow,
          root: UINavigationController,
          analyticsService: OneLoginAnalyticsService,
-         analyticsPreferenceStore: AnalyticsPreferenceStore,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          authService: AuthenticationService,
@@ -40,7 +38,6 @@ final class LoginCoordinator: NSObject,
         self.appWindow = appWindow
         self.root = root
         self.analyticsService = analyticsService
-        self.analyticsPreferenceStore = analyticsPreferenceStore
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
@@ -86,24 +83,39 @@ final class LoginCoordinator: NSObject,
         loginTask = Task {
             do {
                 try await triggerAuthFlow()
-            } catch PersistentSessionError.sessionMismatch,
-                    LoginError.accessDenied {
+            } catch PersistentSessionError.sessionMismatch {
                 showDataDeletedWarningScreen()
             } catch PersistentSessionError.cannotDeleteData(let error) {
-                showUnableToLoginErrorScreen(error)
-            } catch LoginError.userCancelled {
+                showRecoverableErrorScreen(error)
+            } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
+                showDataDeletedWarningScreen()
+            } catch let error as LoginErrorV2 where error.reason == .userCancelled {
                 enableAuthButton()
-            } catch LoginError.network {
+            } catch let error as LoginErrorV2 where error.reason == .network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as LoginError where error == .non200,
-                    let error as LoginError where error == .invalidRequest,
-                    let error as LoginError where error == .clientError,
-                    let error as LoginError where error == .serverError {
-                showUnableToLoginErrorScreen(error)
+            } catch let error as LoginErrorV2 where error.reason == .authorizationInvalidRequest,
+                    let error as LoginErrorV2 where error.reason == .authorizationUnauthorizedClient,
+                    let error as LoginErrorV2 where error.reason == .authorizationUnsupportedResponseType,
+                    let error as LoginErrorV2 where error.reason == .authorizationInvalidScope,
+                    let error as LoginErrorV2 where error.reason == .authorizationTemporarilyUnavailable,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidRequest,
+                    let error as LoginErrorV2 where error.reason == .tokenUnauthorizedClient,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidScope,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidClient,
+                    let error as LoginErrorV2 where error.reason == .tokenInvalidGrant,
+                    let error as LoginErrorV2 where error.reason == .tokenUnsupportedGrantType,
+                    let error as LoginErrorV2 where error.reason == .tokenClientError {
+                showUnrecoverableErrorScreen(error)
+            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
+                    let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
+                    let error as LoginErrorV2 where error.reason == .tokenUnknownError,
+                    let error as LoginErrorV2 where error.reason == .generalServerError,
+                    let error as LoginErrorV2 where error.reason == .safariOpenError {
+                showRecoverableErrorScreen(error)
             } catch let error as JWTVerifierError {
-                showUnableToLoginErrorScreen(error)
+                showRecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -134,13 +146,13 @@ final class LoginCoordinator: NSObject,
     }
     
     func launchOnboardingCoordinator() {
-        if analyticsPreferenceStore.hasAcceptedAnalytics == nil, root.topViewController is IntroViewController {
-            openChildModally(OnboardingCoordinator(analyticsService: analyticsService,
-                                                   analyticsPreferenceStore: analyticsPreferenceStore,
+        if analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
+           root.topViewController is IntroViewController {
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }
     }
-        
+    
     func launchEnrolmentCoordinator() {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsService,
@@ -159,11 +171,18 @@ extension LoginCoordinator {
         root.pushViewController(vc, animated: true)
     }
     
-    private func showUnableToLoginErrorScreen(_ error: Error) {
-        let viewModel = UnableToLoginErrorViewModel(analyticsService: analyticsService,
-                                                    errorDescription: error.localizedDescription) { [unowned self] in
+    private func showRecoverableErrorScreen(_ error: Error) {
+        let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
+                                                       errorDescription: error.localizedDescription) { [unowned self] in
             returnFromErrorScreen()
         }
+        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        root.pushViewController(unableToLoginErrorScreen, animated: true)
+    }
+    
+    private func showUnrecoverableErrorScreen(_ error: Error) {
+        let viewModel = UnrecoverableLoginErrorViewModel(analyticsService: analyticsService,
+                                                         errorDescription: error.localizedDescription)
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }

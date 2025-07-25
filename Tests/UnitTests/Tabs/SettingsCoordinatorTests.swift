@@ -8,7 +8,6 @@ import XCTest
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockSessionManager: MockSessionManager!
     var mockNetworkClient: NetworkClient!
     var urlOpener: URLOpener!
@@ -18,13 +17,11 @@ final class SettingsCoordinatorTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore =  MockAnalyticsPreferenceStore()
         mockSessionManager = MockSessionManager()
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         urlOpener = MockURLOpener()
         sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                  analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                   sessionManager: mockSessionManager,
                                   networkClient: mockNetworkClient,
                                   urlOpener: urlOpener)
@@ -35,7 +32,6 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     override func tearDown() {
         mockAnalyticsService = nil
-        mockAnalyticsPreferenceStore = nil
         mockSessionManager = nil
         mockNetworkClient = nil
         urlOpener = nil

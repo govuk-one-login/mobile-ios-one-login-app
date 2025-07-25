@@ -3,9 +3,9 @@ import GDSAnalytics
 import XCTest
 
 @MainActor
-final class UnableToLoginErrorViewModelTests: XCTestCase {
+final class RecoverableLoginErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: UnableToLoginErrorViewModel!
+    var sut: RecoverableLoginErrorViewModel!
     
     var didCallButtonAction = false
     
@@ -13,7 +13,7 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
-        sut = UnableToLoginErrorViewModel(analyticsService: mockAnalyticsService,
+        sut = RecoverableLoginErrorViewModel(analyticsService: mockAnalyticsService,
                                           errorDescription: "error description") {
             self.didCallButtonAction = true
         }
@@ -29,7 +29,7 @@ final class UnableToLoginErrorViewModelTests: XCTestCase {
     }
 }
 
-extension UnableToLoginErrorViewModelTests {
+extension RecoverableLoginErrorViewModelTests {
     func test_page() {
         XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_signInErrorTitle")
@@ -52,8 +52,8 @@ extension UnableToLoginErrorViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unableToLogin.rawValue,
-                                     screen: ErrorAnalyticsScreen.unableToLogin,
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableLoginError.rawValue,
+                                     screen: ErrorAnalyticsScreen.recoverablLoginError,
                                      titleKey: "app_signInErrorTitle",
                                      reason: "error description")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])

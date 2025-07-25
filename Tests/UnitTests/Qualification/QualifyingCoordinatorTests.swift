@@ -7,7 +7,6 @@ import XCTest
 final class QualifyingCoordinatorTests: XCTestCase {
     private var qualifyingService: MockQualifyingService!
     private var mockAnalyticsService: MockAnalyticsService!
-    private var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     private var sessionManager: MockSessionManager!
     private var networkClient: NetworkClient!
     private var window: UIWindow!
@@ -21,14 +20,12 @@ final class QualifyingCoordinatorTests: XCTestCase {
         window = UIWindow()
         sessionManager = MockSessionManager()
         mockAnalyticsService = MockAnalyticsService()
-        mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         networkClient = NetworkClient()
         networkClient.authorizationProvider = MockAuthenticationProvider()
         qualifyingService = MockQualifyingService()
         sut = QualifyingCoordinator(appWindow: window,
                                     appQualifyingService: qualifyingService,
                                     analyticsService: mockAnalyticsService,
-                                    analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     sessionManager: sessionManager,
                                     networkClient: networkClient)
     }
@@ -167,7 +164,7 @@ extension QualifyingCoordinatorTests {
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSErrorScreen
         )
-        let viewModel = try XCTUnwrap(vc.viewModel as? UnableToLoginErrorViewModel)
+        let viewModel = try XCTUnwrap(vc.viewModel as? RecoverableLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")
     }
     

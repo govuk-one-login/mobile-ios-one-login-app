@@ -55,8 +55,10 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_unableToLoginErrorScreen_keys() throws {
         XCTAssertEqual("app_signInErrorTitle".getEnglishString(),
                        "There was a problem signing you in")
-        XCTAssertEqual("app_signInErrorBody".getEnglishString(),
+        XCTAssertEqual("app_signInErrorRecoverableBody".getEnglishString(),
                        "Try to sign in again.")
+        XCTAssertEqual("app_signInErrorUnrecoverableBody".getEnglishString(),
+                       "Try again later.")
     }
     
     func test_networkConnectionErrorScreen_keys() throws {
@@ -242,7 +244,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
                        "You need to update your phone settings")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
-                       "To add documents to your %@, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your wallet.")
+                       "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
                        "You need to:")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString(),
@@ -252,7 +254,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getEnglishString(),
                        "Tap Turn Passcode On and follow the instructions.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getEnglishString(),
-                       "Come back to continue using your %@.")
+                       "Come back to continue using your documents.")
         XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getEnglishString(),
                        "Go to phone settings")
     }
@@ -261,9 +263,9 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getEnglishString(),
                        "You need to allow %@")
         XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getEnglishString(),
-                       "To add documents to your GOV.UK Wallet, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.")
+                       "To add documents, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.")
         XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getEnglishString(),
-                       "To add documents to your GOV.UK Wallet, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
+                       "To add documents, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
 }
 
