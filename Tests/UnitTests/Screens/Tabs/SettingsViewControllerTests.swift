@@ -87,7 +87,7 @@ extension SettingsViewControllerTests {
         XCTAssertEqual(cellConfig.secondaryTextProperties.color, .gdsGrey)
         XCTAssertEqual(cellConfig.image, UIImage(named: "userAccountIcon"))
     }
-
+    
     func test_cellConfiguration_updateEmail() throws {
         mockSessionManager.user.send(MockUser())
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
@@ -172,9 +172,26 @@ extension SettingsViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
-        let event = LinkEvent(textKey: "app_appGuidanceLink",
-                              variableKeys: "app_nameString",
+        let event = LinkEvent(textKey: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : GDSLocalisedString(stringKey: "app_appGuidanceLink",
+                                                                                                                                      "app_nameString").value,
                               linkDomain: AppEnvironment.appHelpURL.absoluteString,
+                              external: .false)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+    }
+    
+    func test_addingDocumentsCell_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 1, section: 1)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        let event = LinkEvent(textKey: "app_addDocumentsLink",
+                              linkDomain: AppEnvironment.addingDocumentsURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
@@ -186,7 +203,7 @@ extension SettingsViewControllerTests {
     func test_contactCell_eventAnalytics() throws {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         
-        let indexPath = IndexPath(row: 1, section: 1)
+        let indexPath = IndexPath(row: 2, section: 1)
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
@@ -228,6 +245,22 @@ extension SettingsViewControllerTests {
         
         let event = LinkEvent(textKey: "app_accessibilityStatement",
                               linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
+                              external: .false)
+        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
+        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
+        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+    }
+    
+    func test_termsAndConditions_eventAnalytics() throws {
+        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        
+        let indexPath = IndexPath(row: 2, section: 3)
+        try sut.tabbedTableView.reloadData()
+        sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
+        
+        let event = LinkEvent(textKey: "app_termsAndConditionsLink",
+                              linkDomain: AppEnvironment.termsAndConditionsURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
