@@ -21,6 +21,7 @@ final class LoginCoordinator: NSObject,
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
     private var isExpiredUser: Bool
+    private var serverErrorCounter: Int = 0
     
     private var loginTask: Task<Void, Never>? {
         didSet {
@@ -108,12 +109,18 @@ final class LoginCoordinator: NSObject,
                     let error as LoginErrorV2 where error.reason == .tokenUnsupportedGrantType,
                     let error as LoginErrorV2 where error.reason == .tokenClientError {
                 showUnrecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
-                    let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
+            } catch let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
                     let error as LoginErrorV2 where error.reason == .tokenUnknownError,
-                    let error as LoginErrorV2 where error.reason == .generalServerError,
                     let error as LoginErrorV2 where error.reason == .safariOpenError {
                 showRecoverableErrorScreen(error)
+            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
+                    let error as LoginErrorV2 where error.reason == .generalServerError {
+                self.serverErrorCounter += 1
+                if serverErrorCounter < 3 {
+                    showRecoverableErrorScreen(error)
+                } else {
+                    showUnrecoverableErrorScreen(error)
+                }
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
             } catch {
@@ -128,6 +135,7 @@ final class LoginCoordinator: NSObject,
             launchEnrolmentCoordinator()
             return
         }
+        self.serverErrorCounter = 0
         finish()
     }
     

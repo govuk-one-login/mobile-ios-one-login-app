@@ -19,7 +19,7 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
          buttonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",
-                                                        backgroundColor: DesignSystem.Color.red1,
+                                                        backgroundColor: DesignSystem.Color.Base.red1,
                                                         analyticsService: analyticsService) {
             buttonAction()
         }
