@@ -28,10 +28,10 @@ final class SceneDelegate: UIResponder,
             
             manager.registerSessionBoundData(
                 [
-                    WalletSessionData(),
-                    WalletAvailabilityService(),
+                    UserDefaults.standard,
                     analyticsPreferenceStore,
-                    UserDefaults.standard
+                    WalletAvailabilityService(),
+                    WalletSessionData()
                 ]
             )
             return manager
