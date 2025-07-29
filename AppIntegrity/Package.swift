@@ -5,13 +5,19 @@ import PackageDescription
 
 let package = Package(
     name: "AppIntegrity",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(name: "AppIntegrity", targets: ["AppIntegrity"])
     ],
     dependencies: [
-        .package(url: "https://github.com/govuk-one-login/mobile-ios-networking", .upToNextMajor(from: "3.0.0")),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "11.1.0"))
+        .package(
+            url: "https://github.com/firebase/firebase-ios-sdk.git",
+            revision: "4e62da1e5e6baf61674d3f5ae23d6d60c19f9c4a" // 12.0.0
+        ),
+        .package(
+            url: "https://github.com/govuk-one-login/mobile-ios-networking",
+            from: "3.0.0"
+        )
     ],
     targets: [
         .target(name: "AppIntegrity", dependencies: [
