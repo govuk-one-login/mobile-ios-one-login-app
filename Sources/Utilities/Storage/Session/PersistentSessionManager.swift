@@ -74,7 +74,8 @@ final class PersistentSessionManager: SessionManager {
         guard let expiryDate else {
             return false
         }
-        return expiryDate > .now
+        // ten second buffer
+        return expiryDate + 10 > .now
     }
     
     var isReturningUser: Bool {
