@@ -18,7 +18,8 @@ final class WalletCoordinator: NSObject,
     
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let networkClient: NetworkClient & WalletNetworkClient
+    private let networkClient: NetworkClient
+    private let walletNetworkClient: WalletNetworkClientWrapper & WalletNetworkClient
     
     private lazy var walletAuthService = LocalAuthServiceWallet(
         walletCoordinator: self,
@@ -27,19 +28,22 @@ final class WalletCoordinator: NSObject,
     )
     
     init(analyticsService: OneLoginAnalyticsService,
-         networkClient: NetworkClient & WalletNetworkClient,
+         networkClient: NetworkClient,
          sessionManager: SessionManager) {
         self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager
+        self.walletNetworkClient = WalletNetworkClientWrapper(networkClient: networkClient,
+                                                              sessionManager: sessionManager)
     }
     
     func start() {
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
+        
         let walletServices = WalletServices(
-            networkClient: networkClient,
+            networkClient: walletNetworkClient,
             localAuthService: walletAuthService,
             txmaLogger: AuthorizedHTTPLogger(
                 url: AppEnvironment.txma,
