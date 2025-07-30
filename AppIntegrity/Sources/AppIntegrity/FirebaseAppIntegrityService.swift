@@ -27,11 +27,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         #if DEBUG
         AppCheckDebugProviderFactory()
         #else
-        if #available(iOS 14.0, *) {
-            AppAttestProviderFactory()
-        } else {
-            DeviceCheckProviderFactory()
-        }
+        AppAttestProviderFactory()
         #endif
     }
 
