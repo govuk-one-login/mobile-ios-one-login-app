@@ -19,7 +19,6 @@ final class WalletCoordinator: NSObject,
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
-    private let walletNetworkClient: WalletNetworkClientWrapper & WalletNetworkClient
     
     private lazy var walletAuthService = LocalAuthServiceWallet(
         walletCoordinator: self,
@@ -33,8 +32,6 @@ final class WalletCoordinator: NSObject,
         self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager
-        self.walletNetworkClient = WalletNetworkClientWrapper(networkClient: networkClient,
-                                                              sessionManager: sessionManager)
     }
     
     func start() {
@@ -43,7 +40,8 @@ final class WalletCoordinator: NSObject,
                                        tag: 1)
         
         let walletServices = WalletServices(
-            networkClient: walletNetworkClient,
+            networkClient: WalletNetworkClientWrapper(networkClient: networkClient,
+                                                      sessionManager: sessionManager),
             localAuthService: walletAuthService,
             txmaLogger: AuthorizedHTTPLogger(
                 url: AppEnvironment.txma,
