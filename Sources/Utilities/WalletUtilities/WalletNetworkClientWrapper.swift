@@ -2,14 +2,13 @@ import Networking
 import UIKit
 import Wallet
 
+enum SessionError: Error {
+    case expired
+}
+
 public final class WalletNetworkClientWrapper: WalletNetworkClient {
     private let networkClient: NetworkClient
     private let sessionManager: SessionManager
-    lazy var sessionExpiredError: NSError = {
-        NSError(domain: NSURLErrorDomain,
-                code: 401,
-                userInfo: [NSLocalizedDescriptionKey: "session expired"])
-    }()
     
     init(networkClient: NetworkClient,
          sessionManager: SessionManager) {
@@ -21,7 +20,7 @@ public final class WalletNetworkClientWrapper: WalletNetworkClient {
         switch sessionManager.sessionState {
         case .expired:
             NotificationCenter.default.post(name: .sessionExpired)
-            throw sessionExpiredError
+            throw SessionError.expired
         default:
             try await networkClient.makeRequest(request)
         }
@@ -34,7 +33,7 @@ public final class WalletNetworkClientWrapper: WalletNetworkClient {
         switch sessionManager.sessionState {
         case .expired:
             NotificationCenter.default.post(name: .sessionExpired)
-            throw sessionExpiredError
+            throw SessionError.expired
         default:
             try await networkClient.makeAuthorizedRequest(scope: scope, request: request)
         }

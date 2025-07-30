@@ -38,8 +38,8 @@ extension WalletNetworkClientWrapperTests {
         mockSessionManager.sessionState = .expired
         do {
             _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
-        } catch let error as NSError {
-            XCTAssert(error == sut.sessionExpiredError)
+        } catch let error as SessionError {
+            XCTAssert(error == SessionError.expired)
         }
         await fulfillment(of: [exp], timeout: 5)
     }
@@ -54,8 +54,8 @@ extension WalletNetworkClientWrapperTests {
         mockSessionManager.sessionState = .expired
         do {
             _ = try await sut.makeAuthorizedRequest(scope: "", request: URLRequest(url: URL(string: "testurl.com")!))
-        } catch let error as NSError {
-            XCTAssert(error == sut.sessionExpiredError)
+        } catch let error as SessionError {
+            XCTAssert(error == SessionError.expired)
         }
         await fulfillment(of: [exp], timeout: 5)
     }
