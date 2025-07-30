@@ -44,7 +44,6 @@ final class TabManagerCoordinator: NSObject,
     
     func start() {
         addTabs()
-        subscribe()
     }
     
     func handleUniversalLink(_ url: URL) {
@@ -103,35 +102,8 @@ final class TabManagerCoordinator: NSObject,
 extension TabManagerCoordinator: ParentCoordinator {
     func performChildCleanup(child: ChildCoordinator) {
         if child is SettingsCoordinator {
-            Task {
-                do {
-                    let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
-                    try await sessionManager.clearAllSessionData(restartLoginFlow: false)
-                    
-                    let viewModel = SignOutSuccessfulViewModel(analyticsService: analyticsService,
-                                                               withWallet: isWalletAccessed) {
-                        NotificationCenter.default.post(name: .didLogout)
-                    }
-                    let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
-                    signOutSuccessful.modalPresentationStyle = .fullScreen
-                    root.present(signOutSuccessful, animated: false)
-                } catch {
-                    let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
-                                                          error: error)
-                    let signOutErrorScreen = GDSErrorScreen(viewModel: viewModel)
-                    root.present(signOutErrorScreen, animated: true)
-                }
-            }
+            NotificationCenter.default.post(name: .didLogout)
+            finish()
         }
-    }
-    
-    private func subscribe() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(userDidLogout),
-                                               name: .didLogout)
-    }
-    
-    @objc private func userDidLogout() {
-        finish()
     }
 }

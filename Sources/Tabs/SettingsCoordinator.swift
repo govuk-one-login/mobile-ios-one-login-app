@@ -69,13 +69,13 @@ final class SettingsCoordinator: NSObject,
         WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 showLoadingScreen()
-                finish()
+                logOut()
             }
         }
         : SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 showLoadingScreen()
-                finish()
+                logOut()
             }
         }
     }
@@ -87,6 +87,28 @@ final class SettingsCoordinator: NSObject,
             )
         )
         root.pushViewController(loginLoadingScreen, animated: false)
+    }
+    
+    private func logOut() {
+        Task {
+            do {
+                let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
+                try await sessionManager.clearAllSessionData(restartLoginFlow: false)
+                
+                let viewModel = SignOutSuccessfulViewModel(analyticsService: analyticsService,
+                                                           withWallet: isWalletAccessed) { [unowned self] in
+                    finish()
+                }
+                let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
+                signOutSuccessful.modalPresentationStyle = .fullScreen
+                root.present(signOutSuccessful, animated: false)
+            } catch {
+                let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
+                                                      error: error)
+                let signOutErrorScreen = GDSErrorScreen(viewModel: viewModel)
+                root.present(signOutErrorScreen, animated: true)
+            }
+        }
     }
     
     func openDeveloperMenu() {

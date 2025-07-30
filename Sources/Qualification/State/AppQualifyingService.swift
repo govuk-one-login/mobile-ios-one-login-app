@@ -109,8 +109,8 @@ final class AppQualifyingService: QualifyingService {
                 // As such, no additional action is required.
                 return
             } catch {
+                analyticsService.logCrash(error)
                 do {
-                    analyticsService.logCrash(error)
                     try await sessionManager.clearAllSessionData()
                 } catch {
                     userState = .failed(error)
@@ -128,20 +128,12 @@ extension AppQualifyingService {
                                                name: .enrolmentComplete)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(sessionDidExpire),
-                                               name: .sessionExpired)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(userDidLogout),
                                                name: .didLogout)
     }
 
     @objc private func enrolmentComplete() {
         userState = .loggedIn
-    }
-
-    @objc private func sessionDidExpire() {
-        userState = .expired
     }
 
     @objc private func userDidLogout() {
