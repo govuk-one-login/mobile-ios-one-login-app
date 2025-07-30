@@ -14,8 +14,8 @@ A number of how-to documents are provided to get a new developer up to speed wit
 
 ## Packages
 
-- App Integrity - contains the logic to implement app integrity checks
-- Local Authentication Wrapper - wraps [Apple's Local Authentication](https://developer.apple.com/documentation/localauthentication) framework for easier use
+- App Integrity - contains the logic to implement app integrity checks.
+- Local Authentication Wrapper - wraps [Apple's Local Authentication](https://developer.apple.com/documentation/localauthentication) framework for easier use.
 - Mobile Platform Services - seperates backend api calls for a cleaner One Login codebase.
 
 

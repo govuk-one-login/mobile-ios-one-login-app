@@ -6,7 +6,7 @@ This guide shows you how to select a scheme, simulator and run the application f
 
 ## Set up
 
-In order to build and run the app, ensure that the following repositories have been cloned  into a suitable working directory:
+In order to build and run the app, ensure that the following repositories have been cloned into a suitable working directory:
 - https://github.com/govuk-one-login/mobile-ios-one-login-app
 - https://github.com/govuk-one-login/mobile-id-check-ios-sdk
 
