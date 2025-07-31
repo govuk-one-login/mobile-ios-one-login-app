@@ -102,6 +102,7 @@ final class SettingsCoordinator: NSObject,
                 let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
                 signOutSuccessful.modalPresentationStyle = .fullScreen
                 root.present(signOutSuccessful, animated: false)
+                root.popToRootViewController(animated: true)
             } catch {
                 let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
                                                       error: error)
