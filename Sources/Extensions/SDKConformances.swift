@@ -6,7 +6,11 @@ import Logging
 import Networking
 import Wallet
 
-extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger { }
+extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
+    public func logEvent(_ event: any WalletTxMAEvent) async {
+        await logEvent(requestBody: event)
+    }
+}
 
 extension NetworkClient: @retroactive WalletNetworkClient { }
 
