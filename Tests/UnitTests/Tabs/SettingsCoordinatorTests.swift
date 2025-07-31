@@ -100,8 +100,9 @@ final class SettingsCoordinatorTests: XCTestCase {
         // WHEN the user signs out
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
-        // THEN the presented view controller should be dismissed
-        waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
+        // THEN the presented sign out successful screen is shown
+        waitForTruth((self.sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel,
+                     timeout: 20)
     }
     
     func test_showDeveloperMenu() throws {
