@@ -1,0 +1,3 @@
+[submodule "mobile-wallet-ios"]
+	path = mobile-wallet-ios
+	url = git@github.com:govuk-one-login/mobile-wallet-ios.git
