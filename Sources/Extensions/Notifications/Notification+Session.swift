@@ -14,7 +14,7 @@ extension Notification.Name {
     static var enrolmentComplete: Self {
         Notification.Name("onelogin:enrolment-complete")
     }
-
+    
     static var sessionExpired: Self {
         Notification.Name("onelogin:session-expired")
     }

@@ -252,7 +252,7 @@ extension AppQualifyingServiceTests {
         NotificationCenter.default.post(name: .enrolmentComplete)
         waitForTruth(self.userState == .loggedIn, timeout: 5)
     }
-
+    
     func test_sessionExpiry_changesUserState() {
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
@@ -261,7 +261,7 @@ extension AppQualifyingServiceTests {
         NotificationCenter.default.post(name: .sessionExpired)
         waitForTruth(self.userState == .expired, timeout: 5)
     }
-
+    
     func test_logOut_changesUserState() {
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
