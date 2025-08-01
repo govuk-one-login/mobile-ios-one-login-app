@@ -8,7 +8,7 @@ You will need a Mac in order to run this. It will not work on a Windows or Linux
 
 ## Xcode
 
-You'll need an Apple ID in order to download Xcode. Download it using **[this link]**(https://developer.apple.com/download/applications). You will need to become an Apple Developer (you will be prompted to do this, and agree to their terms and conditions) - this is free.
+You'll need an Apple ID in order to download Xcode. Download it using [this link](https://developer.apple.com/download/applications). You will need to become an Apple Developer (you will be prompted to do this, and agree to their terms and conditions) - this is free.
 
 NOTE: We suggest downloading via the link above and not via the App Store to have more control over the Xcode version, due to how the App Store handles version updates with Xcode. 
 

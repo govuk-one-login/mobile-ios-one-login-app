@@ -255,6 +255,24 @@ extension AppEnvironment {
         return components.url!
     }
     
+    static var addingDocumentsURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = govURLString
+        components.path = "/wallet/help-adding-document"
+        isLocaleWelsh ? components.path.append("/cy") : nil
+        return components.url!
+    }
+    
+    static var termsAndConditionsURL: URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = govURLString
+        components.path = "/wallet/terms-conditions"
+        isLocaleWelsh ? components.path.append("/cy") : nil
+        return components.url!
+    }
+    
     static var contactURL: URL {
         var components = URLComponents()
         components.scheme = "https"
