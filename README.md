@@ -26,13 +26,17 @@ A git submodule works as a separate, linked repository within your repository, t
 
 ### Working with submodules in this package
 
-Once you have pulled the project you will also need to pull the submodule to run the code locally.
-
 The submodules we are using are private repositories so you will need to authenticate through SSH to pull them down.
 
 In terminal, run the following command and authenticate with GitHub through the GitHub CLI:
 
 `gh auth login`
+
+You can clone the project along with submodules using the following command:
+
+`git clone --recurse-submodules https://github.com/govuk-one-login/mobile-ios-one-login-app`
+
+If you have cloned the project previously or pulled the project without the `--recurse-submodules` flag you will also need to pull the submodule to run the code locally.
 
 Once you have successfully authenticated with GitHUb through SSH you can pull the submodule through running the following command at the project root:
 
