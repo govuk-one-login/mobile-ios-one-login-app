@@ -105,6 +105,22 @@ final class SettingsCoordinatorTests: XCTestCase {
                      timeout: 20)
     }
     
+    func test_tapSignOut_errors() throws {
+        // GIVEN an error is returned from clearAllSessionData
+        mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
+        // GIVEN the user is on the signout page
+        sut.start()
+        // WHEN the openSignOutPage method is called
+        sut.openSignOutPage()
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        // WHEN the user signs out
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
+        signOutButton.sendActions(for: .touchUpInside)
+        // THEN the presented sign out successful screen is shown
+        waitForTruth((self.sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is SignOutErrorViewModel,
+                     timeout: 20)
+    }
+    
     func test_showDeveloperMenu() throws {
         sut.start()
         // WHEN the showDeveloperMenu method is called
