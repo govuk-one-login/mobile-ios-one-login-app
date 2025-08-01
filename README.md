@@ -45,3 +45,7 @@ Once you have successfully authenticated with GitHUb through SSH you can pull th
 For subsequent pulls of the submodule you can omit the `--init` flag:
 
 `git submodule update`
+
+If you want to update to the latest version of the Wallet SDK, you can use:
+
+`git submodule update --remote`
