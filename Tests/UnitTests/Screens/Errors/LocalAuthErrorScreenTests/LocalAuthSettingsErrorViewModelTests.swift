@@ -50,7 +50,7 @@ extension LocalAuthSettingsErrorViewModelTests {
     
     @Test
     func test_didAppear() {
-        #expect(mockAnalyticsService.screensVisited.count == 0)
+        #expect(mockAnalyticsService.screenViews.count == 0)
         
         sut.didAppear()
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.updateTouchID.rawValue,
