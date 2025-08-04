@@ -10,7 +10,10 @@ struct LoginLoadingViewModel: GDSLoadingViewModel, BaseViewModel {
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
     }
     
     func didAppear() {

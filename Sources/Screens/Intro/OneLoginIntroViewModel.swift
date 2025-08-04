@@ -16,7 +16,10 @@ struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
     
     init(analyticsService: OneLoginAnalyticsService,
          signinAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.login,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         let event = LinkEvent(textKey: "app_extendedSignInButton",
                               variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
