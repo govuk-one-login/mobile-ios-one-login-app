@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4
         with:
           ref: ${{ inputs.test_branch }}
+          submodules: 'true'
+          token: ${{ secrets.MODULE_FETCH_TOKEN }}
 
       - name: Configure Private Repo Access
         env:
