@@ -68,14 +68,14 @@ extension GenericErrorViewModelTests {
           Validates that did appear logs the expected analytics event
           """)
     func test_didAppear() {
-        #expect(mockAnalyticsService.screensVisited.count == 0)
+        #expect(mockAnalyticsService.screenViews.count == 0)
         sut.didAppear()
-        #expect(mockAnalyticsService.screensVisited.count == 1)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                      screen: ErrorAnalyticsScreen.generic,
                                      titleKey: "app_genericErrorPage",
                                      reason: sut.errorDescription)
-        #expect(mockAnalyticsService.screensVisited == [screen.name])
+        #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

@@ -71,13 +71,13 @@ extension SignOutPageViewModelTests {
     }
     
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreenNoWallet.rawValue,
                                 screen: SettingsAnalyticsScreen.signOutScreenNoWallet,
                                 titleKey: "app_signOutConfirmationTitleNoWallet")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     

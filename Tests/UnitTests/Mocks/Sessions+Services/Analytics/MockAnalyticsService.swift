@@ -1,4 +1,5 @@
 import Logging
+// import GDSAnalytics
 @testable import OneLogin
 import XCTest
 
@@ -7,6 +8,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
     
     var additionalParameters = [String: Any]()
     
+    private(set) var screenViews = [any LoggableScreenV2]()
     private(set) var screensVisited = [String]()
     private(set) var screenParamsLogged = [String: String]()
     private(set) var eventsLogged = [String]()
@@ -32,7 +34,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
     }
     
     func trackScreen(_ screen: any LoggableScreenV2, parameters: [String: Any]) {
-        screensVisited.append(screen.name)
+        screenViews.append(screen)
         
         guard let parameters = parameters as? [String: String] else {
             XCTFail("Non-string parameters were logged")
