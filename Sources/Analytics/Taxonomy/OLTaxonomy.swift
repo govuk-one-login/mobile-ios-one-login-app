@@ -11,5 +11,6 @@ enum OLTaxonomyValue {
     static let reauth = "re auth"
     static let undefined = "undefined"
     static let onboarding = "onboarding"
+    static let localAuth = "local auth manager"
     static let signout = "sign out"
 }
