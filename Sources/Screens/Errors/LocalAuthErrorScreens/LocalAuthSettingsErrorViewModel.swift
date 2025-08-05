@@ -23,7 +23,8 @@ struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         self.completion = completion
         
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.onboarding
+            OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
         
         self.buttonViewModels = [

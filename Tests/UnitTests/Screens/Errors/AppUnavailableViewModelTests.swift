@@ -41,10 +41,11 @@ extension AppUnavailableViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appUnavailable.rawValue,
                                      screen: ErrorAnalyticsScreen.appUnavailable,
-                                     titleKey: "app_appUnavailableTitle")
+                                     titleKey: "app_appUnavailableTitle",
+                                     reason: "app unavailable error")
         XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.system)
-        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
     }
 }

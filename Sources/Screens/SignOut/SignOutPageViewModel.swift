@@ -16,7 +16,10 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     
     init(analyticsService: OneLoginAnalyticsService,
          buttonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.settings,
+            OLTaxonomyKey.level3: OLTaxonomyValue.signout
+        ])
         self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeletePreferences",
                                                         backgroundColor: .gdsGreen,
                                                         analyticsService: analyticsService) {

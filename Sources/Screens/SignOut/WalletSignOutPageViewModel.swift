@@ -17,7 +17,10 @@ struct WalletSignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     
     init(analyticsService: OneLoginAnalyticsService,
          buttonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.settings,
+            OLTaxonomyKey.level3: OLTaxonomyValue.signout
+        ])
         self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",
                                                         backgroundColor: DesignSystem.Color.Base.red1,
                                                         analyticsService: analyticsService) {

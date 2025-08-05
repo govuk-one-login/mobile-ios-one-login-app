@@ -16,7 +16,10 @@ struct UnrecoverableLoginErrorViewModel: GDSErrorViewModelV3,
     
     init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.login,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.errorDescription = errorDescription
     }
     

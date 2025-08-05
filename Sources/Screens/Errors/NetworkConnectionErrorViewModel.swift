@@ -15,7 +15,10 @@ struct NetworkConnectionErrorViewModel: GDSErrorViewModelV3,
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService, action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.buttonViewModels = [
             AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",
                                      analyticsService: analyticsService) {

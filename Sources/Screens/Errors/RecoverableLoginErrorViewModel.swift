@@ -17,7 +17,10 @@ struct RecoverableLoginErrorViewModel: GDSErrorViewModelV3,
     init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String,
          action: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.login,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.errorDescription = errorDescription
         self.buttonViewModels = [
             AnalyticsButtonViewModel(titleKey: "app_tryAgainButton",

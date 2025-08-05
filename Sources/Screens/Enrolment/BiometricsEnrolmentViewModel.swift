@@ -32,7 +32,10 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
          enrolmentJourney: EnrolmentJourney,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.enrolmentJourney = enrolmentJourney
         self.isFaceID = biometricsType == .faceID
         self.biometricsTypeString = isFaceID ? "app_FaceID" : "app_TouchID"
