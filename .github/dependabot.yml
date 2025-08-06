@@ -1,4 +1,12 @@
 version: 2
+
+registries:
+  github:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: ${{ secrets.MODULE_FETCH_TOKEN }}
+
 updates:
   - package-ecosystem: github-actions
     directory: /
@@ -23,3 +31,10 @@ updates:
           - minor
           - patch
     open-pull-requests-limit: 5
+
+  - package-ecosystem: gitsubmodule
+    directory: /
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "build(deps)"
