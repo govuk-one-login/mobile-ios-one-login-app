@@ -136,53 +136,53 @@ extension BiometricsEnrolmentViewModelTests {
     
     func test_didAppear_faceID() {
         sut = makeSut()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrolment,
                                 titleKey: "app_enableLoginBiometricsTitle",
                                 variableKeys: ["app_FaceID"])
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     
     func test_didAppear_faceID_wallet() {
         sut = makeSut(enrolmentJourney: .wallet)
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDWalletEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrolment,
                                 titleKey: "app_enableBiometricsTitle",
                                 variableKeys: ["app_FaceID"])
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     
     func test_didAppear_touchID() {
         sut = makeSut(biometricsType: .touchID)
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrolment,
                                 titleKey: "app_enableLoginBiometricsTitle",
                                 variableKeys: ["app_TouchID"])
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     
     func test_didAppear_touchID_wallet() {
         sut = makeSut(biometricsType: .touchID, enrolmentJourney: .wallet)
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDWalletEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrolment,
                                 titleKey: "app_enableBiometricsTitle",
                                 variableKeys: ["app_TouchID"])
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }

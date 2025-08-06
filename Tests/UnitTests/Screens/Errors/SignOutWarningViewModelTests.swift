@@ -60,13 +60,13 @@ extension SignOutWarningViewModelTests {
     }
 
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: ErrorAnalyticsScreenID.signOutWarning.rawValue,
                                 screen: ErrorAnalyticsScreen.signOutWarning,
                                 titleKey: sut.title.stringKey)
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.login)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)

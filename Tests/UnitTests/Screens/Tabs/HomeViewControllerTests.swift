@@ -123,14 +123,14 @@ extension HomeViewControllerTests {
     }
     
     func test_viewDidAppear() {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: "app_homeTitle")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.home)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)

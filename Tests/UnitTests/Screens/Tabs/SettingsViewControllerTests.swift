@@ -113,11 +113,11 @@ extension SettingsViewControllerTests {
     func test_screenAnalytics() {
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
                                 screen: SettingsAnalyticsScreen.settingsScreen,
                                 titleKey: "app_settingsTitle")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
         XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)

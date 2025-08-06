@@ -28,13 +28,13 @@ extension LoginLoadingViewModelTests {
     }
     
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoading.rawValue,
                                 screen: IntroAnalyticsScreen.loginLoading,
                                 titleKey: "app_loadingBody")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }
