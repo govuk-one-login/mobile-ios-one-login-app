@@ -2,7 +2,7 @@ import Foundation
 
 enum AppRoute {
     case login(url: URL)
-    case wallet(url: URL)
+    case wallet
     case unknown
 }
 
@@ -26,7 +26,7 @@ struct UniversalLinkQualifier {
                 return .login(url: finalURL)
             }
         } else if path.contains(where: { $0 == OLString.wallet }) {
-            return .wallet(url: url)
+            return .wallet
         }
         return .unknown
     }

@@ -147,7 +147,7 @@ extension QualifyingCoordinator {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
         case .login(let url):
             loginCoordinator?.handleUniversalLink(url)
-        case .wallet(let url):
+        case .wallet:
             deeplink = url
         case .unknown:
             return
