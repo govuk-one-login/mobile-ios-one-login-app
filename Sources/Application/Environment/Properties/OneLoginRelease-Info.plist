@@ -88,10 +88,12 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 				<key>NSPinnedCAIdentities</key>
-				<dict>
-					<key>SPKI-SHA256-BASE64</key>
-					<string>x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=</string>
-				</dict>
+				<array>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=</string>
+					</dict>
+				</array>
 			</dict>
 			<key>account.gov.uk</key>
 			<dict>
