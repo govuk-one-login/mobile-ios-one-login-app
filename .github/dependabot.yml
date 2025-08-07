@@ -34,6 +34,8 @@ updates:
 
   - package-ecosystem: gitsubmodule
     directory: /
+    registries:
+      - github
     schedule:
       interval: daily
     commit-message:
