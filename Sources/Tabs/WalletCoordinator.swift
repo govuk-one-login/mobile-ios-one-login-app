@@ -35,10 +35,12 @@ final class WalletCoordinator: NSObject,
     }
     
     func start() {
+        guard let persistentID = sessionManager.persistentID else {
+            return
+        }
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(networkClient: networkClient,
                                                       sessionManager: sessionManager),
@@ -51,7 +53,7 @@ final class WalletCoordinator: NSObject,
             analyticsService: analyticsService
         )
         WalletSDK.start(in: root,
-                        config: .oneLoginWalletConfig,
+                        config: WalletConfigV2.oneLoginWalletConfig(persistentID: persistentID),
                         services: walletServices)
     }
     
