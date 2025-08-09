@@ -20,14 +20,16 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel,
     
     init(analyticsService: OneLoginAnalyticsService) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.system
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
     }
     
     func didAppear() {
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appUnavailable.rawValue,
                                      screen: ErrorAnalyticsScreen.appUnavailable,
-                                     titleKey: title.stringKey)
+                                     titleKey: title.stringKey,
+                                     reason: "app unavailable error")
         analyticsService.trackScreen(screen)
     }
     

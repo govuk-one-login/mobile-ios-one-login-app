@@ -13,7 +13,10 @@ struct UnlockScreenViewModel: BaseViewModel {
     
     init(analyticsService: OneLoginAnalyticsService,
          primaryButtonAction: @escaping () -> Void ) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_unlockButton",
                                                                analyticsService: analyticsService) {
             primaryButtonAction()

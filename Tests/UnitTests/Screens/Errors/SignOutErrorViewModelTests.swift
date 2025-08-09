@@ -41,16 +41,16 @@ extension SignOutErrorViewModelTests {
     
     func test_didAppear() {
         XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 0)
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         XCTAssertTrue(mockAnalyticsService.crashesLogged.first as? MockWalletError == .cantDelete)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
                                      screen: ErrorAnalyticsScreen.signOut,
                                      titleKey: "app_signOutErrorTitle",
                                      reason: MockWalletError.cantDelete.localizedDescription)
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }

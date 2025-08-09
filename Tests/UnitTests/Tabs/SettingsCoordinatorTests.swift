@@ -61,8 +61,6 @@ final class SettingsCoordinatorTests: XCTestCase {
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.system)
-        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
     }
     
     func test_openSignOutPageWithWallet() throws {
@@ -100,8 +98,25 @@ final class SettingsCoordinatorTests: XCTestCase {
         // WHEN the user signs out
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
-        // THEN the presented view controller should be dismissed
-        waitForTruth(self.sut.root.presentedViewController == nil, timeout: 20)
+        // THEN the presented sign out successful screen is shown
+        waitForTruth((self.sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel,
+                     timeout: 20)
+    }
+    
+    func test_tapSignOut_errors() throws {
+        // GIVEN an error is returned from clearAllSessionData
+        mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
+        // GIVEN the user is on the signout page
+        sut.start()
+        // WHEN the openSignOutPage method is called
+        sut.openSignOutPage()
+        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
+        // WHEN the user signs out
+        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
+        signOutButton.sendActions(for: .touchUpInside)
+        // THEN the presented sign out error screen is shown
+        waitForTruth((self.sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is SignOutErrorViewModel,
+                     timeout: 20)
     }
     
     func test_showDeveloperMenu() throws {

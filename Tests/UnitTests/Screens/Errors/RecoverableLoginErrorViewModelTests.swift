@@ -49,14 +49,14 @@ extension RecoverableLoginErrorViewModelTests {
     }
     
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableLoginError.rawValue,
                                      screen: ErrorAnalyticsScreen.recoverablLoginError,
                                      titleKey: "app_signInErrorTitle",
                                      reason: "error description")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }

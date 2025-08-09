@@ -75,47 +75,6 @@ extension TabManagerCoordinatorTests {
     }
     
     @MainActor
-    func test_performChildCleanup_fromSettingsCoordinator_succeeds() async throws {
-        let exp = XCTNSNotificationExpectation(
-            name: .didLogout,
-            object: nil,
-            notificationCenter: NotificationCenter.default
-        )
-        // GIVEN the app has an existing session
-        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                      sessionManager: mockSessionManager,
-                                                      networkClient: NetworkClient(),
-                                                      urlOpener: MockURLOpener())
-        // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
-        sut.performChildCleanup(child: settingsCoordinator)
-        // THEN a logout notification is sent
-        await fulfillment(of: [exp], timeout: 5)
-        // THEN the session should be cleared
-        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
-    }
-    
-    @MainActor
-    func test_performChildCleanup_fromSettingsCoordinator_errors() throws {
-        let window = UIWindow()
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
-        // GIVEN the app has an existing session
-        mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
-        let settingsCoordinator = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                                      sessionManager: mockSessionManager,
-                                                      networkClient: NetworkClient(),
-                                                      urlOpener: MockURLOpener())
-        // WHEN the TabManagerCoordinator's performChildCleanup method is called from SettingsCoordinator (on user sign out)
-        // but there was an error in signing out
-        sut.performChildCleanup(child: settingsCoordinator)
-        // THEN the sign out error screen should be presented
-        waitForTruth(self.sut.root.presentedViewController is GDSErrorScreen, timeout: 5)
-        XCTAssertTrue((sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is SignOutErrorViewModel)
-        // THEN the session should not be cleared
-        XCTAssertFalse(mockSessionManager.didCallEndCurrentSession)
-    }
-    
-    @MainActor
     func test_handleUniversalLink() throws {
         // GIVEN the wallet feature flag is on
         AppEnvironment.updateFlags(

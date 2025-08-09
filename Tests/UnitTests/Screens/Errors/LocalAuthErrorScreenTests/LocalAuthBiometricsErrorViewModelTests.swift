@@ -48,14 +48,14 @@ extension LocalAuthBiometricsErrorViewModelTests {
     }
     
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.allowFaceID.rawValue,
                                      screen: ErrorAnalyticsScreen.allowFaceID,
                                      titleKey: "app_localAuthManagerBiometricsErrorTitle")
         
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
     

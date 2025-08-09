@@ -23,7 +23,8 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
     init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.system
+            OLTaxonomyKey.level2: OLTaxonomyValue.system,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
         let event = LinkEvent(textKey: "app_updateAppButton",
                               variableKeys: "app_nameString",
@@ -39,9 +40,10 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        let screen = ScreenView(id: IntroAnalyticsScreenID.updateApp.rawValue,
-                                screen: IntroAnalyticsScreen.updateApp,
-                                titleKey: title.stringKey)
+        let screen = ErrorScreenView(id: IntroAnalyticsScreenID.updateApp.rawValue,
+                                     screen: IntroAnalyticsScreen.updateApp,
+                                     titleKey: title.stringKey,
+                                     reason: "update required error")
         analyticsService.trackScreen(screen)
     }
     

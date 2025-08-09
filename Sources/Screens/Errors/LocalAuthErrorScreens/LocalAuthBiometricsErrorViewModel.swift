@@ -20,7 +20,10 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
          localAuthType: LocalAuthType,
          action: @escaping () -> Void,
          dismissAction: (() -> Void)? = nil) {
-        self.analyticsService = analyticsService
+        self.analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
+            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
+        ])
         self.localAuthType = localAuthType
         self.biometricsTypeString = localAuthType == .faceID ? "app_FaceID" : "app_TouchID"
         self.title = GDSLocalisedString(stringKey: "app_localAuthManagerBiometricsErrorTitle", biometricsTypeString)

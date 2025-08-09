@@ -35,13 +35,13 @@ final class SceneLifecycleTests: XCTestCase {
 
 extension SceneLifecycleTests {
     func test_splashscreen_analytics() throws {
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 0)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.trackSplashScreen()
-        XCTAssertEqual(mockAnalyticsService.screensVisited.count, 1)
+        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.splash.rawValue,
                                 screen: IntroAnalyticsScreen.splash,
                                 titleKey: "one login splash screen")
-        XCTAssertEqual(mockAnalyticsService.screensVisited, [screen.name])
+        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
 }
