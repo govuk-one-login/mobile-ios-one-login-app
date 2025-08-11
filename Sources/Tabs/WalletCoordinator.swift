@@ -43,6 +43,11 @@ final class WalletCoordinator: NSObject,
             analyticsService.logCrash(SecureStoreError.unableToRetrieveFromUserDefaults)
             return
         }
+        let walletConfig = WalletConfigV2(
+            environment: WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()),
+            clientID: AppEnvironment.stsClientID,
+            persistentSessionID: persistentID
+        )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(networkClient: networkClient,
                                                       sessionManager: sessionManager),
@@ -54,9 +59,11 @@ final class WalletCoordinator: NSObject,
             ),
             analyticsService: analyticsService
         )
-        WalletSDK.start(in: root,
-                        config: WalletConfigV2.oneLoginWalletConfig(persistentID: persistentID),
-                        services: walletServices)
+        WalletSDK.start(
+            in: root,
+            config: walletConfig,
+            services: walletServices
+        )
     }
     
     func didBecomeSelected() {

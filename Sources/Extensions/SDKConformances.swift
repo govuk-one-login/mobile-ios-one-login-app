@@ -18,16 +18,6 @@ extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsSe
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService
 
-extension WalletConfigV2 {
-    static func oneLoginWalletConfig(persistentID: String) -> WalletConfigV2 {
-        WalletConfigV2(
-            environment: WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()),
-            clientID: AppEnvironment.stsClientID,
-            persistentSessionID: persistentID
-        )
-    }
-}
-
 extension WalletEnvironment {
     public init?(buildConfiguration: String) {
         switch buildConfiguration {
