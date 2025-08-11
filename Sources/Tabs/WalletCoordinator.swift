@@ -4,6 +4,7 @@ import GDSCommon
 import HTTPLogging
 import Logging
 import Networking
+import SecureStore
 import UIKit
 import Wallet
 
@@ -35,12 +36,13 @@ final class WalletCoordinator: NSObject,
     }
     
     func start() {
-        guard let persistentID = sessionManager.persistentID else {
-            return
-        }
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
+        guard let persistentID = sessionManager.persistentID else {
+            analyticsService.logCrash(SecureStoreError.unableToRetrieveFromUserDefaults)
+            return
+        }
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(networkClient: networkClient,
                                                       sessionManager: sessionManager),
