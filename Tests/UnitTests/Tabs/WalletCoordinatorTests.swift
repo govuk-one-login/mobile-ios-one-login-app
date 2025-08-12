@@ -31,6 +31,8 @@ final class WalletCoordinatorTests: XCTestCase {
 
 extension WalletCoordinatorTests {
     func test_tabBarItem() throws {
+        // GIVEN there is a persisten session ID
+        mockSessionManager.persistentID = "123456789"
         // WHEN the WalletCoordinator has started
         sut.start()
         // THEN the bar button item of the root is correctly configured
