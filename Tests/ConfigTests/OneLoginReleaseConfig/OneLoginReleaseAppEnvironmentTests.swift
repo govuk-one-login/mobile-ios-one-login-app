@@ -41,7 +41,6 @@ final class OneLoginReleaseAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.mobileRedirect.absoluteString, "https://mobile.account.gov.uk/redirect")
         XCTAssertEqual(sut.appInfoURL.absoluteString, "https://mobile.account.gov.uk/appInfo")
         XCTAssertEqual(sut.txma.absoluteString, "https://mobile.account.gov.uk/txma-event")
-        XCTAssertEqual(sut.walletCredentialIssuer.absoluteString, "https://example-credential-issuer.mobile.account.gov.uk")
     }
     
     func test_appEnvironment_idCheckURLs() {

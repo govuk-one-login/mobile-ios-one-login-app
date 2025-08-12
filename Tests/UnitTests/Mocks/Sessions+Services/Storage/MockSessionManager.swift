@@ -11,6 +11,7 @@ final class MockSessionManager: SessionManager {
     var isEnrolling: Bool
     var isReturningUser: Bool
 
+    var persistentID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
 
     var tokenProvider: TokenHolder

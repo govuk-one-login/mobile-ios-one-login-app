@@ -25,6 +25,8 @@ protocol SessionManager: AnyObject, UserProvider {
     var tokenProvider: TokenHolder { get }
 
     var localAuthentication: LocalAuthManaging { get }
+    
+    var persistentID: String? { get }
 
     /// Starts a new session from a remote login
     func startSession(

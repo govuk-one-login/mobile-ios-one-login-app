@@ -83,7 +83,7 @@ final class PersistentSessionManager: SessionManager {
         ?? false
     }
     
-    private var persistentID: String? {
+    var persistentID: String? {
         try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
     }
     
