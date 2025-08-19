@@ -148,13 +148,6 @@ extension AppEnvironment {
         mobileBaseURL
             .appendingPathComponent("txma-event")
     }
-    
-    static var walletCredentialIssuer: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "example-credential-issuer.\(mobileBaseURLString)"
-        return components.url!
-    }
 }
 
 // MARK: - ID Check Info Plist values as Type properties

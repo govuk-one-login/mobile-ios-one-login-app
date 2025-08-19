@@ -1,6 +1,7 @@
 import GDSAnalytics
 import Networking
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 @MainActor
@@ -30,6 +31,8 @@ final class WalletCoordinatorTests: XCTestCase {
 
 extension WalletCoordinatorTests {
     func test_tabBarItem() throws {
+        // GIVEN there is a persisten session ID
+        mockSessionManager.persistentID = "123456789"
         // WHEN the WalletCoordinator has started
         sut.start()
         // THEN the bar button item of the root is correctly configured
@@ -39,6 +42,14 @@ extension WalletCoordinatorTests {
         XCTAssertEqual(sut.root.tabBarItem.title, walletTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, walletTab.image)
         XCTAssertEqual(sut.root.tabBarItem.tag, walletTab.tag)
+    }
+    
+    func test_noPersistenIDError() {
+        // GIVEN there is no persisten session ID
+        mockSessionManager.persistentID = nil
+        // WHEN the WalletCoordinator has started
+        sut.start()
+        XCTAssertEqual(mockAnalyticsService.crashesLogged, [SecureStoreError.unableToRetrieveFromUserDefaults as NSError])
     }
     
     func test_didBecomeSelected() {
