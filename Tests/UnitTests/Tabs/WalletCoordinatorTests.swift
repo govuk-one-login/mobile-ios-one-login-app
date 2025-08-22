@@ -1,6 +1,7 @@
 import GDSAnalytics
 import Networking
 @testable import OneLogin
+import SecureStore
 import XCTest
 
 @MainActor
