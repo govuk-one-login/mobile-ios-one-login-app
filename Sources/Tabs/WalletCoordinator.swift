@@ -39,14 +39,10 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        guard let persistentID = sessionManager.persistentID else {
-            analyticsService.logCrash(SecureStoreError.unableToRetrieveFromUserDefaults)
-            return
-        }
         let walletConfig = WalletConfigV2(
             environment: WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()),
             clientID: AppEnvironment.stsClientID,
-            persistentSessionID: persistentID
+            persistentSessionID: sessionManager.persistentID
         )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(networkClient: networkClient,
