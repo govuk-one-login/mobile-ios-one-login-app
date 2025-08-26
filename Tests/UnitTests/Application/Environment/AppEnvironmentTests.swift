@@ -39,7 +39,6 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.mobileRedirect.absoluteString, "https://mobile.build.account.gov.uk/redirect")
         XCTAssertEqual(sut.appInfoURL.absoluteString, "https://mobile.build.account.gov.uk/appInfo")
         XCTAssertEqual(sut.txma.absoluteString, "https://mobile.build.account.gov.uk/txma-event")
-        XCTAssertEqual(sut.walletCredentialIssuer.absoluteString, "https://example-credential-issuer.mobile.build.account.gov.uk")
     }
     
     func test_appEnvironment_idCheckURLs() {

@@ -4,6 +4,7 @@ import GDSCommon
 import HTTPLogging
 import Logging
 import Networking
+import SecureStore
 import UIKit
 import Wallet
 
@@ -38,7 +39,11 @@ final class WalletCoordinator: NSObject,
         root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
                                        image: UIImage(systemName: "wallet.pass"),
                                        tag: 1)
-        
+        let walletConfig = WalletConfigV2(
+            environment: WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()),
+            clientID: AppEnvironment.stsClientID,
+            persistentSessionID: sessionManager.persistentID
+        )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(networkClient: networkClient,
                                                       sessionManager: sessionManager),
@@ -50,9 +55,11 @@ final class WalletCoordinator: NSObject,
             ),
             analyticsService: analyticsService
         )
-        WalletSDK.start(in: root,
-                        config: .oneLoginWalletConfig,
-                        services: walletServices)
+        WalletSDK.start(
+            in: root,
+            config: walletConfig,
+            services: walletServices
+        )
     }
     
     func didBecomeSelected() {
