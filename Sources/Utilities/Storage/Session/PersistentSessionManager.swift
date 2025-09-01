@@ -181,10 +181,11 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAllSessionData(restartLoginFlow: Bool) async throws {
-        endCurrentSession()
         for each in sessionBoundData {
             try await each.delete()
         }
+        
+        endCurrentSession()
         
         if restartLoginFlow {
             NotificationCenter.default.post(
