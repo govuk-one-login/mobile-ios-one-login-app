@@ -25,7 +25,6 @@
 
 
 // MARK: Accessibility - voiceover additions
-
 "app_externalBrowser" = "Opens in web browser";
 
 "app_externalApp" = "Opens in App Store";
@@ -91,7 +90,7 @@
 "app_enableBiometricsButton" = "Allow %@";
 
 
-// MARK: Biometrics Wallet enrolment screen
+// MARK: Biometrics enrolment screen
 "app_FaceID" = "Face ID";
 
 "app_TouchID" = "Touch ID";
@@ -157,7 +156,7 @@
 "app_signOutButton" = "Sign out";
 
 
-// Mark: Sign Out Confirmation screen with Wallet
+// MARK: Sign Out Confirmation screen with Wallet
 "app_signOutConfirmationTitle" = "Are you sure you want to sign out?";
 
 "app_signOutConfirmationBody1" = "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.";
@@ -175,7 +174,7 @@
 "app_signOutAndDeleteAppDataButton" = "Sign out and delete information";
 
 
-// Mark: Sign Out Confirmation screen no Wallet displayed
+// MARK: Sign Out Confirmation screen no Wallet displayed
 "app_signOutConfirmationTitleNoWallet" = "Are you sure you want to sign out?";
 
 "app_signOutConfirmationBody1NoWallet" = "Signing out will switch off your preferences for:";
@@ -189,7 +188,7 @@
 "app_signOutAndDeletePreferences" = "Sign out and delete preferences";
 
 
-// Mark: Sign Out Successful
+// MARK: Sign Out Successful
 "app_signedOutTitle" = "You have signed out";
 
 "app_signedOutBodyWithWallet" = "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
@@ -197,13 +196,19 @@
 "app_signedOutBodyNoWallet" = "To keep your information secure, your app preferences have been reset.\n\nYou need to sign in and set your preferences again to continue using the app.";
 
 
-// Mark: Sign Out Error screen
+// MARK: Sign Out Error screen with Wallet
 "app_signOutErrorTitle" = "There was a problem signing you out";
 
-"app_signOutErrorBody" = "You can force sign out by deleting the app from your device.";
+"app_signOutErrorBody" = "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.";
+
+"app_signOutErrorButton" = "Go back to settings";
 
 
-// Mark: Sign Out Warning screen
+// MARK: Sign Out Error screen no Wallet
+"app_signOutErrorBodyNoWallet" = "You can force sign out by deleting the app from your device.";
+
+
+// MARK: Sign Out Warning screen
 "app_signOutWarningTitle" = "You need to sign in again";
 
 "app_signOutWarningBody" = "It’s been more than 30 minutes since you last signed in to the %@ app.\n\nSign in again to continue.";
@@ -246,7 +251,6 @@
 
 
 // MARK: FaceID/ Touch ID Settings Error Screen
-
 "app_localAuthManagerErrorTitle" = "You need to update your phone settings";
 
 "app_localAuthManagerErrorBody1" = "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.";
@@ -263,8 +267,8 @@
 
 "app_localAuthManagerErrorGoToSettingsButton" = "Go to phone settings";
 
-// MARK: FaceID/ Touch ID Biometrics Error Screen
 
+// MARK: FaceID/ Touch ID Biometrics Error Screen
 "app_localAuthManagerBiometricsErrorTitle" = "You need to allow %@";
 
 "app_localAuthManagerBiometricsFaceIDErrorBody" = "To add documents, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.";

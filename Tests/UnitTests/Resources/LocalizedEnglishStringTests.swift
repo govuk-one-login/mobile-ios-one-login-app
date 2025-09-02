@@ -188,10 +188,17 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "To keep your information secure, your app preferences have been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")
     }
     
-    func test_signOutErrorPageKeys() {
+    func test_signOutErrorWithWalletPageKeys() {
         XCTAssertEqual("app_signOutErrorTitle".getEnglishString(),
                        "There was a problem signing you out")
         XCTAssertEqual("app_signOutErrorBody".getEnglishString(),
+                       "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.")
+        XCTAssertEqual("app_signOutErrorButton".getEnglishString(),
+                       "Go back to settings")
+    }
+    
+    func test_signOutErrorPageKeys() {
+        XCTAssertEqual("app_signOutErrorBodyNoWallet".getEnglishString(),
                        "You can force sign out by deleting the app from your device.")
     }
     

@@ -188,10 +188,17 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")
     }
     
-    func test_signOutErrorPageKeys() {
+    func test_signOutErrorWithWalletPageKeys() {
         XCTAssertEqual("app_signOutErrorTitle".getWelshString(),
                        "Roedd problem wrth eich allgofnodi")
         XCTAssertEqual("app_signOutErrorBody".getWelshString(),
+                       "Rhowch gynnig arall yn nes ymlaen.\n\nOs oes angen i chi fewngofnodi nawr, gallwch ddileu'r ap o'ch ffôn. Bydd hyn hefyd yn dileu unrhyw ddogfennau sydd wedi'u cadw yn eich ap.")
+        XCTAssertEqual("app_signOutErrorButton".getWelshString(),
+                       "Yn ôl i gosodiadau")
+    }
+    
+    func test_signOutErrorPageKeys() {
+        XCTAssertEqual("app_signOutErrorBodyNoWallet".getWelshString(),
                        "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.")
     }
     
