@@ -28,6 +28,8 @@ final class HelloWorldServiceTests: XCTestCase {
         MockURLProtocol.clear()
         client = nil
         sut = nil
+        
+        didRequestScope = nil
 
         super.tearDown()
     }
@@ -36,9 +38,7 @@ final class HelloWorldServiceTests: XCTestCase {
 extension HelloWorldServiceTests {
     public func test_requestHelloWorld_makesNetworkCall() async throws {
         MockURLProtocol.handler = {
-            let data = Data("""
-            Hello World - Tests
-            """.utf8)
+            let data = Data("Hello World - Tests".utf8)
             return (data, HTTPURLResponse(statusCode: 200))
         }
 
@@ -59,9 +59,7 @@ extension HelloWorldServiceTests {
 
     public func test_requestHelloWorldWrongScope_makesNetworkCall() async throws {
         MockURLProtocol.handler = {
-            let data = Data("""
-
-            """.utf8)
+            let data = Data("".utf8)
             return (data, HTTPURLResponse(statusCode: 200))
         }
 
@@ -80,9 +78,7 @@ extension HelloWorldServiceTests {
 
     public func test_requestHelloWorldWrongEndpoint_makesNetworkCall() async throws {
         MockURLProtocol.handler = {
-            let data = Data("""
-
-            """.utf8)
+            let data = Data("".utf8)
             return (data, HTTPURLResponse(statusCode: 200))
         }
 
