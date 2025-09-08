@@ -105,6 +105,7 @@ final class SettingsCoordinator: NSObject,
                 let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
                                                       error: error,
                                                       withWallet: isWalletAccessed) { [unowned self] in
+                    root.popToRootViewController(animated: true)
                     root.dismiss(animated: true)
                 }
                 let signOutErrorScreen = GDSErrorScreen(viewModel: viewModel)
