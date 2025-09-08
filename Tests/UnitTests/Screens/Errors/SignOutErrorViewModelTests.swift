@@ -8,34 +8,54 @@ final class SignOutErrorViewModelTests: XCTestCase {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: SignOutErrorViewModel!
     
+    var didCallButtonAction = false
+    
     override func setUp() {
         super.setUp()
         
         mockAnalyticsService = MockAnalyticsService()
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
-                                    error: MockWalletError.cantDelete)
+                                    error: MockWalletError.cantDelete,
+                                    withWallet: false) { }
     }
     
     override func tearDown() {
         mockAnalyticsService = nil
         sut = nil
-        
+        didCallButtonAction = false
         
         super.tearDown()
     }
 }
 
 extension SignOutErrorViewModelTests {
-    func test_page() {
+    func test_pageWithWallet() throws {
+        sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
+                                    error: MockWalletError.cantDelete,
+                                    withWallet: true) { self.didCallButtonAction = true }
         XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
-        XCTAssertEqual(sut.bodyContent.count, 1)
+        let contentView = try XCTUnwrap(sut.bodyContent.first as? BodyTextViewModel)
+        let contentLabel = try XCTUnwrap(contentView.uiView as? UILabel)
+        XCTAssertEqual(contentLabel.text, GDSLocalisedString(stringLiteral: "app_signOutErrorBody").value)
         XCTAssertTrue(sut.error as? MockWalletError == .cantDelete)
         XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
         XCTAssertTrue(sut.backButtonIsHidden)
+        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_signOutErrorButton")
+        let button = try XCTUnwrap(sut.buttonViewModels.first as? AnalyticsButtonViewModel)
+        button.action()
+        XCTAssertTrue(didCallButtonAction)
     }
     
-    func test_button() {
+    func test_pageNoWallet() throws {
+        XCTAssertEqual(sut.image, .error)
+        XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
+        let contentView = try XCTUnwrap(sut.bodyContent.first as? BodyTextViewModel)
+        let contentLabel = try XCTUnwrap(contentView.uiView as? UILabel)
+        XCTAssertEqual(contentLabel.text, GDSLocalisedString(stringLiteral: "app_signOutErrorBodyNoWallet").value)
+        XCTAssertTrue(sut.error as? MockWalletError == .cantDelete)
+        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
+        XCTAssertTrue(sut.backButtonIsHidden)
         XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_exitButton")
     }
     
