@@ -117,5 +117,7 @@
 	<string>This is required to scan the chip on your document.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>The app will use your phone&apos;s front and rear cameras to prove your identity and scan QR codes.</string>
+	<key>UIDesignRequiresCompatibility</key>
+	<true/>
 </dict>
 </plist>
