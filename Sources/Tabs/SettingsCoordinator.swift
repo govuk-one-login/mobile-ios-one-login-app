@@ -89,8 +89,8 @@ final class SettingsCoordinator: NSObject,
     
     private func logOut() {
         Task {
+            let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
             do {
-                let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
                 try await sessionManager.clearAllSessionData(restartLoginFlow: false)
                 
                 let viewModel = SignOutSuccessfulViewModel(analyticsService: analyticsService,
@@ -103,7 +103,11 @@ final class SettingsCoordinator: NSObject,
                 root.popToRootViewController(animated: true)
             } catch {
                 let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
-                                                      error: error)
+                                                      error: error,
+                                                      withWallet: isWalletAccessed) { [unowned self] in
+                    root.popToRootViewController(animated: true)
+                    root.dismiss(animated: true)
+                }
                 let signOutErrorScreen = GDSErrorScreen(viewModel: viewModel)
                 root.present(signOutErrorScreen, animated: true)
             }
