@@ -108,4 +108,47 @@ extension TabManagerCoordinatorTests {
         sut.root.selectedIndex = 1
         XCTAssertFalse(sut.isTabAlreadySelected())
     }
+    
+    @MainActor
+    func test_callingStartTwiceDoesNotCreateTwoWalletTabs() throws {
+        AppEnvironment.updateFlags(
+            releaseFlags: [FeatureFlagsName.enableWalletVisibleToAll.rawValue: true],
+            featureFlags: [:]
+        )
+        
+        let containsWalletBeforeStart = sut.childCoordinators.contains { child in
+            child is WalletCoordinator
+        }
+        
+        // GIVEN child coordinators does not contain WalletCoordinator before start()
+        XCTAssertFalse(containsWalletBeforeStart)
+        
+        // WHEN start is called once, there's 1 WalletCoordinator and 3 child coordinators in total
+        sut.start()
+        
+        var walletCoordinators = sut.childCoordinators.filter { child in
+            if child is WalletCoordinator {
+                return true
+            }
+            return false
+        }
+        
+        XCTAssertEqual(walletCoordinators.count, 1)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
+        
+        // AND start is called a second time
+        sut.start()
+        
+        walletCoordinators = sut.childCoordinators.filter { child in
+            if child is WalletCoordinator {
+                return true
+            }
+            return false
+        }
+        
+        // THEN WalletCoordinators in childCoordinators is still 1
+        // AND child coordinators is still 3
+        XCTAssertEqual(walletCoordinators.count, 1)
+        XCTAssertEqual(sut.childCoordinators.count, 3)
+    }
 }
