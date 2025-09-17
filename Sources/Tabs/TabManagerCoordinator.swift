@@ -64,9 +64,11 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addHomeTab() {
-        if !childCoordinators.contains(where: { child in
-            child is HomeCoordinator
-        }) {
+        if !childCoordinators.contains(
+            where: { child in
+                child is HomeCoordinator
+            }
+        ) {
             let hc = HomeCoordinator(analyticsService: analyticsService,
                                      networkClient: networkClient)
             addTab(hc)
@@ -78,9 +80,11 @@ final class TabManagerCoordinator: NSObject,
             return
         }
         
-        if !childCoordinators.contains(where: { child in
-            child is WalletCoordinator
-        }) {
+        if !childCoordinators.contains(
+            where: { child in
+                child is WalletCoordinator
+            }
+        ) {
             let wc = WalletCoordinator(analyticsService: analyticsService,
                                        networkClient: networkClient,
                                        sessionManager: sessionManager)
@@ -93,9 +97,11 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addSettingsTab() {
-        if !childCoordinators.contains(where: { child in
-            child is SettingsCoordinator
-        }) {
+        if !childCoordinators.contains(
+            where: { child in
+                child is SettingsCoordinator
+            }
+        ) {
             let pc = SettingsCoordinator(analyticsService: analyticsService,
                                          sessionManager: sessionManager,
                                          networkClient: networkClient,
