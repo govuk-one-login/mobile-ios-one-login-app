@@ -59,9 +59,7 @@ final class TabManagerCoordinator: NSObject,
     
     private func addTabs() {
         addHomeTab()
-        if WalletAvailabilityService.shouldShowFeature {
-            addWalletTab()
-        }
+        addWalletTab()
         addSettingsTab()
     }
     
@@ -76,6 +74,10 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addWalletTab() {
+        guard WalletAvailabilityService.shouldShowFeature else {
+            return
+        }
+        
         if !childCoordinators.contains(where: { child in
             child is WalletCoordinator
         }) {
