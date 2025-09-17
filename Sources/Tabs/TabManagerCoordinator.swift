@@ -32,6 +32,8 @@ final class TabManagerCoordinator: NSObject,
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
     
+    private(set) var addTabTask: Task<Void, Never>?
+    
     init(root: UITabBarController,
          analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
@@ -46,21 +48,23 @@ final class TabManagerCoordinator: NSObject,
         addTabs()
     }
     
-    func handleUniversalLink(_ url: URL) {
+    func handleUniversalLink(_ url: URL) async {
+        await addTabTask?.value
+        
         guard WalletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
-        if walletCoordinator == nil {
-            addWalletTab()
-        }
+        
         root.selectedIndex = 1
         walletCoordinator?.handleUniversalLink(url)
     }
     
     private func addTabs() {
-        addHomeTab()
-        addWalletTab()
-        addSettingsTab()
+        addTabTask = Task {
+            addHomeTab()
+            addWalletTab()
+            addSettingsTab()
+        }
     }
     
     private func addHomeTab() {
