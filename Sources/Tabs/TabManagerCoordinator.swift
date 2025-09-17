@@ -66,16 +66,24 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsService,
-                                 networkClient: networkClient)
-        addTab(hc)
+        if !childCoordinators.contains(where: { child in
+            child is HomeCoordinator
+        }) {
+            let hc = HomeCoordinator(analyticsService: analyticsService,
+                                     networkClient: networkClient)
+            addTab(hc)
+        }
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(analyticsService: analyticsService,
-                                   networkClient: networkClient,
-                                   sessionManager: sessionManager)
-        addTab(wc)
+        if !childCoordinators.contains(where: { child in
+            child is WalletCoordinator
+        }) {
+            let wc = WalletCoordinator(analyticsService: analyticsService,
+                                       networkClient: networkClient,
+                                       sessionManager: sessionManager)
+            addTab(wc)
+        }
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
@@ -83,11 +91,15 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addSettingsTab() {
-        let pc = SettingsCoordinator(analyticsService: analyticsService,
-                                     sessionManager: sessionManager,
-                                     networkClient: networkClient,
-                                     urlOpener: UIApplication.shared)
-        addTab(pc)
+        if !childCoordinators.contains(where: { child in
+            child is SettingsCoordinator
+        }) {
+            let pc = SettingsCoordinator(analyticsService: analyticsService,
+                                         sessionManager: sessionManager,
+                                         networkClient: networkClient,
+                                         urlOpener: UIApplication.shared)
+            addTab(pc)
+        }
     }
     
     func updateSelectedTabIndex() {
