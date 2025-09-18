@@ -185,7 +185,7 @@ extension QualifyingCoordinator {
                     loginCoordinator.launchOnboardingCoordinator()
                 } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
                           let deeplink {
-                    tabCoordinator.handleUniversalLink(deeplink)
+                    await tabCoordinator.handleUniversalLink(deeplink)
                     self.deeplink = nil
                 }
             }

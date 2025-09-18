@@ -32,6 +32,8 @@ final class TabManagerCoordinator: NSObject,
         childCoordinators.firstInstanceOf(WalletCoordinator.self)
     }
     
+    private(set) var addTabTask: Task<Void, Never>?
+    
     init(root: UITabBarController,
          analyticsService: OneLoginAnalyticsService,
          networkClient: NetworkClient,
@@ -46,36 +48,53 @@ final class TabManagerCoordinator: NSObject,
         addTabs()
     }
     
-    func handleUniversalLink(_ url: URL) {
+    func handleUniversalLink(_ url: URL) async {
+        await addTabTask?.value
+        
         guard WalletAvailabilityService.shouldShowFeatureOnUniversalLink else {
             return
         }
-        if walletCoordinator == nil {
-            addWalletTab()
-        }
+        
         root.selectedIndex = 1
         walletCoordinator?.handleUniversalLink(url)
     }
     
     private func addTabs() {
-        addHomeTab()
-        if WalletAvailabilityService.shouldShowFeature {
+        addTabTask = Task {
+            addHomeTab()
             addWalletTab()
+            addSettingsTab()
         }
-        addSettingsTab()
     }
     
     private func addHomeTab() {
-        let hc = HomeCoordinator(analyticsService: analyticsService,
-                                 networkClient: networkClient)
+        guard childCoordinators.firstInstanceOf(HomeCoordinator.self) == nil else {
+            return
+        }
+        
+        let hc = HomeCoordinator(
+            analyticsService: analyticsService,
+            networkClient: networkClient
+        )
         addTab(hc)
     }
     
     private func addWalletTab() {
-        let wc = WalletCoordinator(analyticsService: analyticsService,
-                                   networkClient: networkClient,
-                                   sessionManager: sessionManager)
+        guard WalletAvailabilityService.shouldShowFeature else {
+            return
+        }
+        
+        guard childCoordinators.firstInstanceOf(WalletCoordinator.self) == nil else {
+            return
+        }
+        
+        let wc = WalletCoordinator(
+            analyticsService: analyticsService,
+            networkClient: networkClient,
+            sessionManager: sessionManager
+        )
         addTab(wc)
+        
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
@@ -83,10 +102,16 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addSettingsTab() {
-        let pc = SettingsCoordinator(analyticsService: analyticsService,
-                                     sessionManager: sessionManager,
-                                     networkClient: networkClient,
-                                     urlOpener: UIApplication.shared)
+        guard childCoordinators.firstInstanceOf(SettingsCoordinator.self) == nil else {
+            return
+        }
+        
+        let pc = SettingsCoordinator(
+            analyticsService: analyticsService,
+            sessionManager: sessionManager,
+            networkClient: networkClient,
+            urlOpener: UIApplication.shared
+        )
         addTab(pc)
     }
     
