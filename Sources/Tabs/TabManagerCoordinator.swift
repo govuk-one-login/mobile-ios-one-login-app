@@ -68,15 +68,15 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addHomeTab() {
-        if !childCoordinators.contains(
-            where: { child in
-                child is HomeCoordinator
-            }
-        ) {
-            let hc = HomeCoordinator(analyticsService: analyticsService,
-                                     networkClient: networkClient)
-            addTab(hc)
+        guard childCoordinators.firstInstanceOf(HomeCoordinator.self) == nil else {
+            return
         }
+        
+        let hc = HomeCoordinator(
+            analyticsService: analyticsService,
+            networkClient: networkClient
+        )
+        addTab(hc)
     }
     
     private func addWalletTab() {
@@ -84,16 +84,17 @@ final class TabManagerCoordinator: NSObject,
             return
         }
         
-        if !childCoordinators.contains(
-            where: { child in
-                child is WalletCoordinator
-            }
-        ) {
-            let wc = WalletCoordinator(analyticsService: analyticsService,
-                                       networkClient: networkClient,
-                                       sessionManager: sessionManager)
-            addTab(wc)
+        guard childCoordinators.firstInstanceOf(WalletCoordinator.self) == nil else {
+            return
         }
+        
+        let wc = WalletCoordinator(
+            analyticsService: analyticsService,
+            networkClient: networkClient,
+            sessionManager: sessionManager
+        )
+        addTab(wc)
+        
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
@@ -101,17 +102,17 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addSettingsTab() {
-        if !childCoordinators.contains(
-            where: { child in
-                child is SettingsCoordinator
-            }
-        ) {
-            let pc = SettingsCoordinator(analyticsService: analyticsService,
-                                         sessionManager: sessionManager,
-                                         networkClient: networkClient,
-                                         urlOpener: UIApplication.shared)
-            addTab(pc)
+        guard childCoordinators.firstInstanceOf(SettingsCoordinator.self) == nil else {
+            return
         }
+        
+        let pc = SettingsCoordinator(
+            analyticsService: analyticsService,
+            sessionManager: sessionManager,
+            networkClient: networkClient,
+            urlOpener: UIApplication.shared
+        )
+        addTab(pc)
     }
     
     func updateSelectedTabIndex() {
