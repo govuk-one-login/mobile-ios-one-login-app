@@ -81,6 +81,7 @@ final class LoginCoordinator: NSObject,
         launchAuthenticationService()
     }
     
+    // swiftlint:disable:next function_body_length
     func launchAuthenticationService() {
         loginTask = Task {
             do {
