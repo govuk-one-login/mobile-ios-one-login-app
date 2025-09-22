@@ -2,9 +2,29 @@ import FirebaseAppCheck
 import FirebaseCore
 import Networking
 
-enum AppIntegrityError: Int, Error {
-    case invalidPublicKey = 400
-    case invalidToken = 401
+public struct AppIntegrityError: Error, LocalizedError {
+    public enum AppIntegrityErrorType {
+        case unknown
+        case network
+        case invalidConfiguration
+        case keychainAccess
+        case notSupported
+        case generic
+        case invalidPublicKey
+        case invalidToken
+    }
+    
+    public let errorType: AppIntegrityErrorType
+    let underlyingReason: String
+    public var errorDescription: String? { underlyingReason }
+    
+    init(
+        _ errorType: AppIntegrityErrorType,
+        underlyingReason: String
+    ) {
+        self.errorType = errorType
+        self.underlyingReason = underlyingReason
+    }
 }
 
 public enum TokenHeaderKey: String {
@@ -48,9 +68,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 ]
             }
             
-            let appCheck = try await vendor.limitedUseToken()
-            
             do {
+                let appCheck = try await vendor.limitedUseToken()
                 let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
                 let attestationPOP = try proofTokenGenerator.token
                 
@@ -58,13 +77,29 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                     TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
                     TokenHeaderKey.attestationPoP.rawValue: attestationPOP
                 ]
-                
+            } catch let error as NSError where
+                        error.domain == AppCheckErrorDomain {
+                // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
+                switch error.code {
+                case 0:
+                    throw AppIntegrityError(.unknown, underlyingReason: error.localizedDescription)
+                case 1:
+                    throw AppIntegrityError(.network, underlyingReason: error.localizedDescription)
+                case 2:
+                    throw AppIntegrityError(.invalidToken, underlyingReason: error.localizedDescription)
+                case 3:
+                    throw AppIntegrityError(.keychainAccess, underlyingReason: error.localizedDescription)
+                case 4:
+                    throw AppIntegrityError(.notSupported, underlyingReason: error.localizedDescription)
+                default:
+                    throw AppIntegrityError(.generic, underlyingReason: error.localizedDescription)
+                }
             } catch let error as ServerError where
                         error.errorCode == 400 {
-                throw AppIntegrityError.invalidPublicKey
+                throw AppIntegrityError(.invalidPublicKey, underlyingReason: error.localizedDescription)
             } catch let error as ServerError where
                         error.errorCode == 401 {
-                throw AppIntegrityError.invalidToken
+                throw AppIntegrityError(.invalidToken, underlyingReason: error.localizedDescription)
             }
         }
     }
