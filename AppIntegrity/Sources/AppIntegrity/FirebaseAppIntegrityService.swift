@@ -2,7 +2,7 @@ import FirebaseAppCheck
 import FirebaseCore
 import Networking
 
-public struct AppIntegrityError: Error, LocalizedError {
+public struct AppIntegrityError: Error, LocalizedError, Equatable {
     public enum AppIntegrityErrorType {
         case unknown
         case network
@@ -15,15 +15,14 @@ public struct AppIntegrityError: Error, LocalizedError {
     }
     
     public let errorType: AppIntegrityErrorType
-    let underlyingReason: String
-    public var errorDescription: String? { underlyingReason }
+    public var errorDescription: String?
     
-    init(
+    public init(
         _ errorType: AppIntegrityErrorType,
         underlyingReason: String
     ) {
         self.errorType = errorType
-        self.underlyingReason = underlyingReason
+        self.errorDescription = underlyingReason
     }
 }
 

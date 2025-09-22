@@ -124,12 +124,12 @@ final class LoginCoordinator: NSObject,
                 }
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError where error.errorType == .network,
-                    let error as AppIntegrityError where error.errorType == .generic {
+            } catch let error as AppIntegrityError where error.errorType == .network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as AppIntegrityError where error.errorType == .notSupported,
+            } catch let error as AppIntegrityError where error.errorType == .generic,
+                    let error as AppIntegrityError where error.errorType == .notSupported,
                     let error as AppIntegrityError where error.errorType == .keychainAccess {
                 showUnrecoverableErrorScreen(error)
             } catch {

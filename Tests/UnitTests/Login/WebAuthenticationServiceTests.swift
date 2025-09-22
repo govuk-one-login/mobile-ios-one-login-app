@@ -1,15 +1,16 @@
+import AppIntegrity
 import Authentication
 import GDSAnalytics
 @testable import OneLogin
 import SecureStore
 import XCTest
 
-final class AuthenticationServiceTests: XCTestCase {
+final class WebAuthenticationServiceTests: XCTestCase {
     var window: UIWindow!
     var mockSessionManager: MockSessionManager!
     var mockLoginSession: MockLoginSession!
     var mockAnalyticsService: MockAnalyticsService!
-    var sut: AuthenticationService!
+    var sut: WebAuthenticationService!
 
     @MainActor
     override func setUp() {
@@ -39,7 +40,7 @@ final class AuthenticationServiceTests: XCTestCase {
     }
 }
 
-extension AuthenticationServiceTests {
+extension WebAuthenticationServiceTests {
     func test_loginError_userCancelled() async {
         mockSessionManager.errorFromStartSession = LoginErrorV2(reason: .userCancelled)
         do {
@@ -68,6 +69,20 @@ extension AuthenticationServiceTests {
             XCTAssertTrue(error == LoginErrorV2(reason: .authorizationAccessDenied))
         }
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
+    }
+    
+    func test_appIntegrityError() async {
+        mockSessionManager.errorFromStartSession = AppIntegrityError(.generic, underlyingReason: "test reason")
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? AppIntegrityError else {
+                XCTFail("Error should be a SecureStoreError")
+                return
+            }
+            XCTAssertTrue(error.errorType == .generic)
+            XCTAssertNotNil(mockAnalyticsService.crashesLogged)
+        }
     }
     
     func test_secureStoreError() async {

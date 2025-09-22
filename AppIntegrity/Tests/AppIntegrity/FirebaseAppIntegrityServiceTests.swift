@@ -59,7 +59,12 @@ struct FirebaseAppIntegrityServiceTests {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
 
-        await #expect(throws: AppIntegrityError.invalidToken) {
+        await #expect(
+            throws: AppIntegrityError(
+                .invalidToken,
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
             try await sut.integrityAssertions
         }
     }
@@ -72,7 +77,12 @@ struct FirebaseAppIntegrityServiceTests {
             (Data(), HTTPURLResponse(statusCode: 400))
         }
 
-        await #expect(throws: AppIntegrityError.invalidPublicKey) {
+        await #expect(
+            throws: AppIntegrityError(
+                .invalidPublicKey,
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
             try await sut.integrityAssertions
         }
     }
