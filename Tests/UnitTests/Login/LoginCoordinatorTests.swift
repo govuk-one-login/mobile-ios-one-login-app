@@ -1,4 +1,4 @@
-// swiftlint:disable:next file_length
+// swiftlint:disable file_length
 import AppIntegrity
 import Authentication
 import GDSCommon
@@ -622,3 +622,4 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
     }
  }
+// swiftlint:enable file_length

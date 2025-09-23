@@ -1,4 +1,4 @@
-// swiftlint:disable:next type_body_length
+// swiftlint:disable type_body_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -313,3 +313,4 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
 }
+// swiftlint:disable type_body_length
