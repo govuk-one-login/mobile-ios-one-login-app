@@ -12,6 +12,7 @@ public struct AppIntegrityError: Error, LocalizedError, Equatable {
         case generic
         case invalidPublicKey
         case invalidToken
+        case serverError
     }
     
     public let errorType: AppIntegrityErrorType
@@ -98,7 +99,11 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 throw AppIntegrityError(.invalidPublicKey, underlyingReason: error.localizedDescription)
             } catch let error as ServerError where
                         error.errorCode == 401 {
+                // potential for a server error or invalid app check token from mobile backend
                 throw AppIntegrityError(.invalidToken, underlyingReason: error.localizedDescription)
+            } catch let error as ServerError where
+                        error.errorCode == 500 {
+                throw AppIntegrityError(.serverError, underlyingReason: error.localizedDescription)
             }
         }
     }

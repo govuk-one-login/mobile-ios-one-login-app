@@ -150,6 +150,24 @@ struct FirebaseAppIntegrityServiceTests {
     }
     
     @Test("""
+          Check that 500 throws txma server error
+          """)
+    func testAssertIntegrity500() async throws {
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 500))
+        }
+
+        await #expect(
+            throws: AppIntegrityError(
+                .serverError,
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
           Check that 401 throws invalid token error
           """)
     func testAssertIntegrity401() async throws {

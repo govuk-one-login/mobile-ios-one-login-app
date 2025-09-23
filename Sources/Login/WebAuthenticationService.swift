@@ -32,7 +32,7 @@ final class WebAuthenticationService: AuthenticationService {
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
             try await sessionManager.clearAllSessionData()
             throw error
-        } catch let error as AppIntegrityError where error.errorType != .network {
+        } catch let error as AppIntegrityError {
             analyticsService.logCrash(error)
             throw error
         } catch let error as SecureStoreError {

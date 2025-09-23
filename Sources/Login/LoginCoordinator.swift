@@ -129,9 +129,15 @@ final class LoginCoordinator: NSObject,
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as AppIntegrityError where error.errorType == .generic,
-                    let error as AppIntegrityError where error.errorType == .notSupported,
-                    let error as AppIntegrityError where error.errorType == .keychainAccess {
+            } catch let error as AppIntegrityError where error.errorType == .unknown,
+                    let error as AppIntegrityError where error.errorType == .generic,
+                    let error as AppIntegrityError where error.errorType == .invalidToken,
+                    let error as AppIntegrityError where error.errorType == .serverError {
+                showRecoverableErrorScreen(error)
+            } catch let error as AppIntegrityError where error.errorType == .notSupported,
+                    let error as AppIntegrityError where error.errorType == .keychainAccess,
+                    let error as AppIntegrityError where error.errorType == .invalidConfiguration,
+                    let error as AppIntegrityError where error.errorType == .invalidPublicKey {
                 showUnrecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
