@@ -622,4 +622,3 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is EnrolmentCoordinator)
     }
  }
-// swiftlint:enable file_length
