@@ -1,3 +1,4 @@
+// swiftlint:disable:next type_body_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
