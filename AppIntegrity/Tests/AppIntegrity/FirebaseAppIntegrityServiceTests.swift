@@ -313,4 +313,4 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
 }
-// swiftlint:disable type_body_length
+// swiftlint:enable type_body_length
