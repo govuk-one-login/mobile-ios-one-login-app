@@ -28,6 +28,8 @@ final class QualifyingCoordinator: NSObject,
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     
+    private var confirmLogOut = false
+    
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
@@ -96,7 +98,7 @@ final class QualifyingCoordinator: NSObject,
         switch userState {
         case .loggedIn:
             launchTabManagerCoordinator()
-        case .notLoggedIn, .expired:
+        case .notLoggedIn, .expired, .loggedOut:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
@@ -110,6 +112,7 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func launchLoginCoordinator(userState: AppLocalAuthState) {
+        confirmLogOut = userState == .loggedOut
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
@@ -182,7 +185,12 @@ extension QualifyingCoordinator {
         Task {
             for await coordinator in updateStream.stream {
                 if let loginCoordinator = coordinator as? LoginCoordinator {
-                    loginCoordinator.launchOnboardingCoordinator()
+                    if confirmLogOut {
+                        loginCoordinator.showLogOutConfirmation()
+                    } else {
+                        loginCoordinator.launchOnboardingCoordinator()
+                    }
+                    confirmLogOut = false
                 } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
                           let deeplink {
                     await tabCoordinator.handleUniversalLink(deeplink)

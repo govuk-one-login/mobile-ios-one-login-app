@@ -68,12 +68,14 @@ final class SettingsCoordinator: NSObject,
             navController.dismiss(animated: true) { [unowned self] in
                 showLoadingScreen()
                 logOut()
+                root.popToRootViewController(animated: true)
             }
         }
         : SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
             navController.dismiss(animated: true) { [unowned self] in
                 showLoadingScreen()
                 logOut()
+                root.popToRootViewController(animated: true)
             }
         }
     }
@@ -92,15 +94,7 @@ final class SettingsCoordinator: NSObject,
             let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
             do {
                 try await sessionManager.clearAllSessionData(restartLoginFlow: false)
-                
-                let viewModel = SignOutSuccessfulViewModel(analyticsService: analyticsService,
-                                                           withWallet: isWalletAccessed) { [unowned self] in
-                    finish()
-                }
-                let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
-                signOutSuccessful.modalPresentationStyle = .fullScreen
-                root.present(signOutSuccessful, animated: false)
-                root.popToRootViewController(animated: true)
+                finish()
             } catch {
                 let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
                                                       error: error,

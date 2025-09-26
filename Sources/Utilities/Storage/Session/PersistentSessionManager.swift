@@ -30,7 +30,9 @@ final class PersistentSessionManager: SessionManager {
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthManaging) {
         self.secureStoreManager = secureStoreManager
-        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore)
+        self.storeKeyService = SecureTokenStore(
+            accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore
+        )
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
         

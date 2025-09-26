@@ -161,6 +161,17 @@ final class LoginCoordinator: NSObject,
         }
     }
     
+    func showLogOutConfirmation() {
+        let viewModel = SignOutSuccessfulViewModel { [unowned self] in
+            root.dismiss(animated: true) { [unowned self] in
+                launchOnboardingCoordinator()
+            }
+        }
+        let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
+        signOutSuccessful.modalPresentationStyle = .overFullScreen
+        root.present(signOutSuccessful, animated: false)
+    }
+    
     func launchEnrolmentCoordinator() {
         openChildInline(EnrolmentCoordinator(root: root,
                                              analyticsService: analyticsService,

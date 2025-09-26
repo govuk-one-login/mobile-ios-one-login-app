@@ -145,6 +145,6 @@ extension AppQualifyingService {
     }
 
     @objc private func userDidLogout() {
-        userState = .notLoggedIn
+        userState = .loggedOut
     }
 }
