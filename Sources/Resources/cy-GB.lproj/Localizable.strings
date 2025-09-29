@@ -174,20 +174,6 @@
 "app_signOutAndDeleteAppDataButton" = "Mewngofnodi a dileu gwybodaeth";
 
 
-// MARK: Sign Out Confirmation screen no Wallet displayed
-"app_signOutConfirmationTitleNoWallet" = "Ydych chi'n siŵr eich bod eisiau allgofnodi?";
-
-"app_signOutConfirmationBody1NoWallet" = "Bydd allgofnodi yn difodd eich dewisiadau am:";
-
-"app_signOutConfirmationBullet1iOSNoWallet" = "ddefnyddio Touch ID neu Face ID i ddatgloi'r ap";
-
-"app_signOutConfirmationBullet2NoWallet" = "rhannu dadansoddeg am sut rydych yn defnyddio'r ap";
-
-"app_signOutConfirmationBody2NoWallet" = "Gofynnir i chi osod y dewisiadau hyn eto y tro nesaf y byddwch yn mewngofnodi.";
-
-"app_signOutAndDeletePreferences" = "Allgofnodi a dileu dewisiadau";
-
-
 // MARK: Sign Out Successful
 "app_signedOutTitle" = "Rydych wedi allfognodi";
 
