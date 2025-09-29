@@ -5,8 +5,8 @@ import Logging
 import UIKit
 
 struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
-    let title: GDSCommon.GDSLocalisedString = "app_signOutConfirmationTitle"
-    let body: String = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
+    let title = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationTitle")
+    let body = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
     var childView = UIView()
     let buttonViewModel: any ButtonViewModel
     let secondaryButtonViewModel: (any ButtonViewModel)? = nil
@@ -48,27 +48,27 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
-            label.accessibilityIdentifier = "sign-out-body2-text-with-wallet"
+            label.accessibilityIdentifier = "sign-out-body2-text"
             return label
         }()
         
-        let bulletView: BulletView = BulletView(title: nil,
-                                                text: [
-                                                    GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
-                                                                       "app_walletString").value,
-                                                    GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
-                                                    GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
-                                                ])
-        bulletView.accessibilityIdentifier = "sign-out-bullet-list-with-wallet"
+        let bulletView = BulletView(title: nil,
+                                    text: [
+                                        GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
+                                                                     "app_walletString").value,
+                                        GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
+                                        GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
+                                    ])
+        bulletView.accessibilityIdentifier = "sign-out-bullet-list"
         
         let body3Label = {
             let label = UILabel()
             label.text = GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBody3",
-                                            "app_walletString").value
+                                                      "app_walletString").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
-            label.accessibilityIdentifier = "sign-out-body3-text-with-wallet"
+            label.accessibilityIdentifier = "sign-out-body3-text"
             return label
         }()
         
@@ -76,7 +76,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12
-        stackView.accessibilityIdentifier = "sign-out-stack-view-with-wallet"
+        stackView.accessibilityIdentifier = "sign-out-stack-view"
         return stackView
     }
 }

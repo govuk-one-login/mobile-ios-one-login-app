@@ -103,19 +103,19 @@ extension SignOutPageViewModelTests {
 extension SignOutPageViewModelTests {
     var bulletList: BulletView {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list-with-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
         }
     }
     
     var body2Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body2-text-with-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
         }
     }
     
     var body3Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body3-text-with-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body3-text"])
         }
     }
 }
