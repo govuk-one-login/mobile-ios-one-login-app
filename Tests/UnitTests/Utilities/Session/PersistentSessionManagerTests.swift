@@ -160,7 +160,7 @@ extension PersistentSessionManagerTests {
     
     func test_startSession_cannotReauthenticateWithoutPersistentSessionID() async throws {
         let exp = XCTNSNotificationExpectation(
-            name: .logUserOut,
+            name: .forceUserLogOut,
             object: nil,
             notificationCenter: NotificationCenter.default
         )

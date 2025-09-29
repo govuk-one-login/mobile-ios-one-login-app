@@ -32,7 +32,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               isExpiredUser: false)
+                               authState: .notLoggedIn)
     }
     
     override func tearDown() {
@@ -55,7 +55,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               isExpiredUser: true)
+                               authState: .expired)
     }
 }
 
@@ -475,31 +475,39 @@ extension LoginCoordinatorTests {
     
     // MARK: Coordinator flow
     @MainActor
-    func test_launchOnboardingCoordinator() {
+    func test_promptForAnalyticsPermissions() {
         sut.start()
-        // WHEN the launchOnboardingCoordinator method is called
-        sut.launchOnboardingCoordinator()
+        // WHEN the promptForAnalyticsPermissions method is called
+        sut.promptForAnalyticsPermissions()
         // THEN the OnboardingCoordinator should be launched
         XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
     @MainActor
-    func test_skip_launchOnboardingCoordinator() {
+    func test_skip_promptForAnalyticsPermissions() {
         sut.start()
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsService.analyticsPreferenceStore.hasAcceptedAnalytics = true
-        // WHEN the launchOnboardingCoordinator method is called
-        sut.launchOnboardingCoordinator()
+        // WHEN the promptForAnalyticsPermissions method is called
+        sut.promptForAnalyticsPermissions()
         // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     
     @MainActor
     func test_showLogOutConfirmation() {
+        // WHEN the LoginCoordinator is started with a loggedOut authState
+        sut = LoginCoordinator(appWindow: appWindow,
+                               root: navigationController,
+                               analyticsService: mockAnalyticsService,
+                               sessionManager: mockSessionManager,
+                               networkMonitor: mockNetworkMonitor,
+                               authService: mockAuthenticationService,
+                               authState: .loggedOut)
         sut.start()
-        // WHEN the showLogOutConfirmation method is called
-        sut.showLogOutConfirmation()
+        // WHEN the promptForAnalyticsPermissions method is called
+        sut.promptForAnalyticsPermissions()
         // THEN the log out confirmation screen should be shown
         XCTAssertTrue(sut.root.presentedViewController is GDSInformationViewController)
         XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel)

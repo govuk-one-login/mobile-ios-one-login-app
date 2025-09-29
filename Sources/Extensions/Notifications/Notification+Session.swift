@@ -23,7 +23,7 @@ extension Notification.Name {
         Notification.Name("onelogin:logout")
     }
     
-    static var logUserOut: Self {
+    static var forceUserLogOut: Self {
         Notification.Name("onelogin:logUserOut")
     }
 }

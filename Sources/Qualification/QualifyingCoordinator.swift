@@ -28,8 +28,6 @@ final class QualifyingCoordinator: NSObject,
     private let sessionManager: SessionManager
     private let networkClient: NetworkClient
     
-    private var confirmLogOut = false
-    
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
     }
@@ -112,7 +110,6 @@ final class QualifyingCoordinator: NSObject,
     }
     
     func launchLoginCoordinator(userState: AppLocalAuthState) {
-        confirmLogOut = userState == .loggedOut
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
@@ -124,7 +121,7 @@ final class QualifyingCoordinator: NSObject,
                 authService: WebAuthenticationService(sessionManager: sessionManager,
                                                       session: AppAuthSessionV2(window: appWindow),
                                                       analyticsService: analyticsService),
-                isExpiredUser: userState == .expired
+                authState: userState
             )
             displayChildCoordinator(loginCoordinator)
         }
@@ -185,12 +182,7 @@ extension QualifyingCoordinator {
         Task {
             for await coordinator in updateStream.stream {
                 if let loginCoordinator = coordinator as? LoginCoordinator {
-                    if confirmLogOut {
-                        loginCoordinator.showLogOutConfirmation()
-                    } else {
-                        loginCoordinator.launchOnboardingCoordinator()
-                    }
-                    confirmLogOut = false
+                    loginCoordinator.promptForAnalyticsPermissions()
                 } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
                           let deeplink {
                     await tabCoordinator.handleUniversalLink(deeplink)
