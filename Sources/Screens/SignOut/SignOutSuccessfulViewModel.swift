@@ -6,12 +6,12 @@ import UIKit
 struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel,
                                    GDSCentreAlignedViewModelWithPrimaryButton {
     let title: GDSLocalisedString = "app_signedOutTitle"
-    var body: GDSLocalisedString? = "app_signedOutBodyNoWallet"
+    var body: GDSLocalisedString? = "app_signedOutBody"
     let primaryButtonViewModel: ButtonViewModel
     
     init(buttonAction: @escaping () -> Void) {
         self.primaryButtonViewModel = StandardButtonViewModel(
-            titleKey: GDSLocalisedString(stringLiteral: "app_continueButton").value
+            titleKey: "app_continueButton"
         ) {
             buttonAction()
         }

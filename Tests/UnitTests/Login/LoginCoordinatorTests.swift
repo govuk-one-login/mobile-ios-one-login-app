@@ -496,6 +496,16 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
+    func test_showLogOutConfirmation() {
+        sut.start()
+        // WHEN the showLogOutConfirmation method is called
+        sut.showLogOutConfirmation()
+        // THEN the log out confirmation screen should be shown
+        XCTAssertTrue(sut.root.presentedViewController is GDSInformationViewController)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel)
+    }
+    
+    @MainActor
     func test_launchEnrolmentCoordinator() {
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator()

@@ -191,21 +191,15 @@
 // MARK: Sign Out Successful
 "app_signedOutTitle" = "Rydych wedi allfognodi";
 
-"app_signedOutBodyWithWallet" = "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.";
-
-"app_signedOutBodyNoWallet" = "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.";
+"app_signedOutBody" = "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.";
 
 
-// MARK: Sign Out Error screen with Wallet
+// MARK: Sign Out Error screen
 "app_signOutErrorTitle" = "Roedd problem wrth eich allgofnodi";
 
 "app_signOutErrorBody" = "Rhowch gynnig arall yn nes ymlaen.\n\nOs oes angen i chi fewngofnodi nawr, gallwch ddileu'r ap o'ch ffôn. Bydd hyn hefyd yn dileu unrhyw ddogfennau sydd wedi'u cadw yn eich ap.";
 
 "app_signOutErrorButton" = "Yn ôl i gosodiadau";
-
-
-// MARK: Sign Out Error screen no Wallet
-"app_signOutErrorBodyNoWallet" = "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.";
 
 
 // MARK: Sign Out Warning screen

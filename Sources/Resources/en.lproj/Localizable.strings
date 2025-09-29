@@ -191,21 +191,15 @@
 // MARK: Sign Out Successful
 "app_signedOutTitle" = "You have signed out";
 
-"app_signedOutBodyWithWallet" = "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
-
-"app_signedOutBodyNoWallet" = "To keep your information secure, your app preferences have been reset.\n\nYou need to sign in and set your preferences again to continue using the app.";
+"app_signedOutBody" = "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
 
 
-// MARK: Sign Out Error screen with Wallet
+// MARK: Sign Out Error screen
 "app_signOutErrorTitle" = "There was a problem signing you out";
 
 "app_signOutErrorBody" = "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.";
 
 "app_signOutErrorButton" = "Go back to settings";
-
-
-// MARK: Sign Out Error screen no Wallet
-"app_signOutErrorBodyNoWallet" = "You can force sign out by deleting the app from your device.";
 
 
 // MARK: Sign Out Warning screen

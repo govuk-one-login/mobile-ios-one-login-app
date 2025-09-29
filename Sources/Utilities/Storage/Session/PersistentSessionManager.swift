@@ -103,7 +103,7 @@ final class PersistentSessionManager: SessionManager {
             //
             // I need to delete my session & Wallet data before I can login
             do {
-                try await clearAllSessionData()
+                try await clearAllSessionData(restartLoginFlow: true)
             } catch {
                 throw PersistentSessionError.cannotDeleteData(error)
             }
@@ -191,7 +191,7 @@ final class PersistentSessionManager: SessionManager {
         
         if restartLoginFlow {
             NotificationCenter.default.post(
-                name: .didLogout
+                name: .logUserOut
             )
         }
     }

@@ -111,7 +111,7 @@ final class AppQualifyingService: QualifyingService {
             } catch {
                 analyticsService.logCrash(error)
                 do {
-                    try await sessionManager.clearAllSessionData()
+                    try await sessionManager.clearAllSessionData(restartLoginFlow: true)
                 } catch {
                     userState = .failed(error)
                 }
@@ -134,6 +134,10 @@ extension AppQualifyingService {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userDidLogout),
                                                name: .didLogout)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didLogUserOut),
+                                               name: .logUserOut)
     }
 
     @objc private func enrolmentComplete() {
@@ -146,5 +150,9 @@ extension AppQualifyingService {
 
     @objc private func userDidLogout() {
         userState = .loggedOut
+    }
+    
+    @objc private func didLogUserOut() {
+        userState = .notLoggedIn
     }
 }

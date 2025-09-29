@@ -63,9 +63,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
     
-    func test_openSignOutPageWithWallet() throws {
-        // WHEN Wallet has been accessed before
-        WalletAvailabilityService.hasAccessedBefore = true
+    func test_openSignOutPage() throws {
         // WHEN the SettingsCoordinator is started
         sut.start()
         // WHEN the openSignOutPage method is called
@@ -73,34 +71,26 @@ final class SettingsCoordinatorTests: XCTestCase {
         // THEN the presented view controller's view model is the WalletSignOutPageViewModel
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
-        XCTAssertTrue(viewController.viewModel is WalletSignOutPageViewModel)
-    }
-    
-    func test_openSignOutPageNoWallet() throws {
-        // WHEN Wallet has not been accessed before
-        WalletAvailabilityService.hasAccessedBefore = false
-        // WHEN the SettingsCoordinator is started
-        sut.start()
-        // WHEN the openSignOutPage method is called
-        sut.openSignOutPage()
-        // THEN the presented view controller's view model is the SignOutPageViewModel
-        let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
         XCTAssertTrue(viewController.viewModel is SignOutPageViewModel)
     }
     
-    func test_tapSignoutClearsData() throws {
+    func test_tapSignoutClearsData() async throws {
+        let exp = XCTNSNotificationExpectation(
+            name: .didLogout,
+            object: nil,
+            notificationCenter: NotificationCenter.default
+        )
         // GIVEN the user is on the signout page
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        // WHEN the user signs out
+        // WHEN the button on the screen is hit
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
-        // THEN the presented sign out successful screen is shown
-        waitForTruth((self.sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel,
-                     timeout: 20)
+        // THEN clear all session data is called
+        await fulfillment(of: [exp], timeout: 5)
+        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
     func test_tapSignOut_errors() throws {

@@ -54,30 +54,15 @@ final class SettingsCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let viewModel = showSignOutConfirmationScreen(navController: navController)
+        let viewModel = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+            root.dismiss(animated: true) { [unowned self] in
+                showLoadingScreen()
+                logOut()
+            }
+        }
         let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
         navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)
-    }
-    
-    private func showSignOutConfirmationScreen(
-        navController: UINavigationController
-    ) -> GDSInstructionsViewModel {
-        WalletAvailabilityService.hasAccessedBefore ?
-        WalletSignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-            navController.dismiss(animated: true) { [unowned self] in
-                showLoadingScreen()
-                logOut()
-                root.popToRootViewController(animated: true)
-            }
-        }
-        : SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
-            navController.dismiss(animated: true) { [unowned self] in
-                showLoadingScreen()
-                logOut()
-                root.popToRootViewController(animated: true)
-            }
-        }
     }
     
     private func showLoadingScreen() {
@@ -91,14 +76,12 @@ final class SettingsCoordinator: NSObject,
     
     private func logOut() {
         Task {
-            let isWalletAccessed = WalletAvailabilityService.hasAccessedBefore
             do {
                 try await sessionManager.clearAllSessionData(restartLoginFlow: false)
                 finish()
             } catch {
                 let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
-                                                      error: error,
-                                                      withWallet: isWalletAccessed) { [unowned self] in
+                                                      error: error) { [unowned self] in
                     root.popToRootViewController(animated: true)
                     root.dismiss(animated: true)
                 }

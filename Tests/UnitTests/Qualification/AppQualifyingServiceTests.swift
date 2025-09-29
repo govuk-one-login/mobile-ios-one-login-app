@@ -267,7 +267,7 @@ extension AppQualifyingServiceTests {
         sut.delegate = self
         sut.initiate()
         
-        NotificationCenter.default.post(name: .didLogout)
+        NotificationCenter.default.post(name: .logUserOut)
         waitForTruth(self.userState == .notLoggedIn, timeout: 5)
     }
 }
