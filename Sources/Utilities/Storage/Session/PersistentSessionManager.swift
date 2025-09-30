@@ -191,7 +191,7 @@ final class PersistentSessionManager: SessionManager {
         
         if restartLoginFlow {
             NotificationCenter.default.post(
-                name: .forceUserLogOut
+                name: .systemLogUserOut
             )
         }
     }

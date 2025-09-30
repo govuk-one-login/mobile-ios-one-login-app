@@ -133,11 +133,11 @@ extension AppQualifyingService {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userDidLogout),
-                                               name: .didLogout)
+                                               name: .userDidLogout)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(forceUserLogOut),
-                                               name: .forceUserLogOut)
+                                               selector: #selector(systemLogUserOut),
+                                               name: .systemLogUserOut)
     }
 
     @objc private func enrolmentComplete() {
@@ -149,10 +149,10 @@ extension AppQualifyingService {
     }
 
     @objc private func userDidLogout() {
-        userState = .loggedOut
+        userState = .userLogOut
     }
     
-    @objc private func forceUserLogOut() {
+    @objc private func systemLogUserOut() {
         userState = .notLoggedIn
     }
 }

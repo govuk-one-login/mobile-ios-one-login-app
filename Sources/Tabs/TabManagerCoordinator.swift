@@ -127,7 +127,7 @@ final class TabManagerCoordinator: NSObject,
 extension TabManagerCoordinator: ParentCoordinator {
     func performChildCleanup(child: ChildCoordinator) {
         if child is SettingsCoordinator {
-            NotificationCenter.default.post(name: .didLogout)
+            NotificationCenter.default.post(name: .userDidLogout)
             finish()
         }
     }

@@ -83,9 +83,9 @@ final class MockSessionManager: SessionManager {
             throw errorFromClearAllSessionData
         }
         if restartLoginFlow {
-            NotificationCenter.default.post(name: .forceUserLogOut)
+            NotificationCenter.default.post(name: .systemLogUserOut)
         } else {
-            NotificationCenter.default.post(name: .didLogout)
+            NotificationCenter.default.post(name: .userDidLogout)
         }
     }
 

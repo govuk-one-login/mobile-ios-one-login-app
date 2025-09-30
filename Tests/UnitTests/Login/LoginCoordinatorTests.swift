@@ -497,14 +497,14 @@ extension LoginCoordinatorTests {
     
     @MainActor
     func test_showLogOutConfirmation() {
-        // WHEN the LoginCoordinator is started with a loggedOut authState
+        // WHEN the LoginCoordinator is started with a userLogOut authState
         sut = LoginCoordinator(appWindow: appWindow,
                                root: navigationController,
                                analyticsService: mockAnalyticsService,
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               authState: .loggedOut)
+                               authState: .userLogOut)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.promptForAnalyticsPermissions()

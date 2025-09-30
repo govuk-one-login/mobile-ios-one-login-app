@@ -76,7 +76,7 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     func test_tapSignoutClearsData() async throws {
         let exp = XCTNSNotificationExpectation(
-            name: .didLogout,
+            name: .userDidLogout,
             object: nil,
             notificationCenter: NotificationCenter.default
         )

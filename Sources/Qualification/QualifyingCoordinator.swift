@@ -96,7 +96,7 @@ final class QualifyingCoordinator: NSObject,
         switch userState {
         case .loggedIn:
             launchTabManagerCoordinator()
-        case .notLoggedIn, .expired, .loggedOut:
+        case .notLoggedIn, .expired, .userLogOut:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,

@@ -159,7 +159,7 @@ final class LoginCoordinator: NSObject,
               root.topViewController is IntroViewController else {
             return
         }
-        if authState == .loggedOut {
+        if authState == .userLogOut {
             let viewModel = SignOutSuccessfulViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
