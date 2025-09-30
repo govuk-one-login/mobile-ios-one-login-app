@@ -30,7 +30,9 @@ final class PersistentSessionManager: SessionManager {
          unprotectedStore: DefaultsStorable,
          localAuthentication: LocalAuthManaging) {
         self.secureStoreManager = secureStoreManager
-        self.storeKeyService = SecureTokenStore(accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore)
+        self.storeKeyService = SecureTokenStore(
+            accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore
+        )
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
         
@@ -101,7 +103,7 @@ final class PersistentSessionManager: SessionManager {
             //
             // I need to delete my session & Wallet data before I can login
             do {
-                try await clearAllSessionData()
+                try await clearAllSessionData(restartLoginFlow: true)
             } catch {
                 throw PersistentSessionError.cannotDeleteData(error)
             }
@@ -189,7 +191,7 @@ final class PersistentSessionManager: SessionManager {
         
         if restartLoginFlow {
             NotificationCenter.default.post(
-                name: .didLogout
+                name: .systemLogUserOut
             )
         }
     }

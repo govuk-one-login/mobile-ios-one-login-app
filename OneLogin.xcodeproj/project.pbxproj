@@ -21,8 +21,8 @@
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		410464F62B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */; };
-		41279DD52BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift */; };
-		41279DD72BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift */; };
+		41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */; };
+		41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */; };
 		413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58752BF261D300171C06 /* HomeViewControllerTests.swift */; };
 		413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58772BF266A200171C06 /* SettingsTabViewModelTests.swift */; };
 		414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414D98022B8DEC7100E267EF /* UnlockScreenViewController.swift */; };
@@ -255,8 +255,6 @@
 		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
 		D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */; };
 		D0BE24492BEBD43300759529 /* MockNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0BE24482BEBD43300759529 /* MockNetworking */; };
-		F1B6807E2CA4424400A64971 /* SignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B6807D2CA4424400A64971 /* SignOutPageViewModel.swift */; };
-		F1B680822CA452CD00A64971 /* SignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B680812CA452CD00A64971 /* SignOutPageViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -325,8 +323,8 @@
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverableLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
-		41279DD42BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSignOutPageViewModel.swift; sourceTree = "<group>"; };
-		41279DD62BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSignOutPageViewModelTests.swift; sourceTree = "<group>"; };
+		41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModel.swift; sourceTree = "<group>"; };
+		41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModelTests.swift; sourceTree = "<group>"; };
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
 		413C58752BF261D300171C06 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
 		413C58772BF266A200171C06 /* SettingsTabViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabViewModelTests.swift; sourceTree = "<group>"; };
@@ -561,8 +559,6 @@
 		D0BE24422BEBB06700759529 /* JWKInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWKInfo.swift; sourceTree = "<group>"; };
 		D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierTests.swift; sourceTree = "<group>"; };
 		D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJWKSResponse.swift; sourceTree = "<group>"; };
-		F1B6807D2CA4424400A64971 /* SignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModel.swift; sourceTree = "<group>"; };
-		F1B680812CA452CD00A64971 /* SignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -725,9 +721,8 @@
 		41279DD32BFDD9A700E16537 /* SignOut */ = {
 			isa = PBXGroup;
 			children = (
-				F1B6807D2CA4424400A64971 /* SignOutPageViewModel.swift */,
 				C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */,
-				41279DD42BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift */,
+				41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -1616,9 +1611,8 @@
 		C8BFE5E32CB5792F00FA9A35 /* SignOut */ = {
 			isa = PBXGroup;
 			children = (
-				F1B680812CA452CD00A64971 /* SignOutPageViewModelTests.swift */,
 				C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */,
-				41279DD62BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift */,
+				41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -2218,7 +2212,6 @@
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
-				F1B6807E2CA4424400A64971 /* SignOutPageViewModel.swift in Sources */,
 				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
@@ -2246,7 +2239,7 @@
 				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
 				C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */,
 				7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */,
-				41279DD52BFDD9CA00E16537 /* WalletSignOutPageViewModel.swift in Sources */,
+				41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* WebAuthenticationService.swift in Sources */,
 				AB51B3752D771E9500348FB6 /* WelcomeTileViewModel.swift in Sources */,
 			);
@@ -2319,7 +2312,6 @@
 				413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
-				F1B680822CA452CD00A64971 /* SignOutPageViewModelTests.swift in Sources */,
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
@@ -2336,7 +2328,7 @@
 				C81509A32D1037C100B0CEA1 /* UserDefaults+OneLoginTests.swift in Sources */,
 				7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
-				41279DD72BFF46DB00E16537 /* WalletSignOutPageViewModelTests.swift in Sources */,
+				41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */,
 				AB51B3772D78824F00348FB6 /* WelcomeTileViewModelTests.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+TestExtensions.swift in Sources */,
 			);

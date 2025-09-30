@@ -15,8 +15,7 @@ final class SignOutErrorViewModelTests: XCTestCase {
         
         mockAnalyticsService = MockAnalyticsService()
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
-                                    error: MockWalletError.cantDelete,
-                                    withWallet: false) { }
+                                    error: MockWalletError.cantDelete) { }
     }
     
     override func tearDown() {
@@ -31,8 +30,7 @@ final class SignOutErrorViewModelTests: XCTestCase {
 extension SignOutErrorViewModelTests {
     func test_pageWithWallet() throws {
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
-                                    error: MockWalletError.cantDelete,
-                                    withWallet: true) { self.didCallButtonAction = true }
+                                    error: MockWalletError.cantDelete) { self.didCallButtonAction = true }
         XCTAssertEqual(sut.image, .error)
         XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
         let contentView = try XCTUnwrap(sut.bodyContent.first as? BodyTextViewModel)
@@ -45,18 +43,6 @@ extension SignOutErrorViewModelTests {
         let button = try XCTUnwrap(sut.buttonViewModels.first as? AnalyticsButtonViewModel)
         button.action()
         XCTAssertTrue(didCallButtonAction)
-    }
-    
-    func test_pageNoWallet() throws {
-        XCTAssertEqual(sut.image, .error)
-        XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
-        let contentView = try XCTUnwrap(sut.bodyContent.first as? BodyTextViewModel)
-        let contentLabel = try XCTUnwrap(contentView.uiView as? UILabel)
-        XCTAssertEqual(contentLabel.text, GDSLocalisedString(stringLiteral: "app_signOutErrorBodyNoWallet").value)
-        XCTAssertTrue(sut.error as? MockWalletError == .cantDelete)
-        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
-        XCTAssertTrue(sut.backButtonIsHidden)
-        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_exitButton")
     }
     
     func test_didAppear() {

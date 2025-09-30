@@ -96,7 +96,7 @@ final class QualifyingCoordinator: NSObject,
         switch userState {
         case .loggedIn:
             launchTabManagerCoordinator()
-        case .notLoggedIn, .expired:
+        case .notLoggedIn, .expired, .userLogOut:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
@@ -121,7 +121,7 @@ final class QualifyingCoordinator: NSObject,
                 authService: WebAuthenticationService(sessionManager: sessionManager,
                                                       session: AppAuthSessionV2(window: appWindow),
                                                       analyticsService: analyticsService),
-                isExpiredUser: userState == .expired
+                authState: userState
             )
             displayChildCoordinator(loginCoordinator)
         }
@@ -182,7 +182,7 @@ extension QualifyingCoordinator {
         Task {
             for await coordinator in updateStream.stream {
                 if let loginCoordinator = coordinator as? LoginCoordinator {
-                    loginCoordinator.launchOnboardingCoordinator()
+                    loginCoordinator.promptForAnalyticsPermissions()
                 } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
                           let deeplink {
                     await tabCoordinator.handleUniversalLink(deeplink)

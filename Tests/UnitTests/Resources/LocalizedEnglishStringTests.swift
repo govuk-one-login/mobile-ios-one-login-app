@@ -182,10 +182,8 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_signOutSuccessfulPageKeys() {
         XCTAssertEqual("app_signedOutTitle".getEnglishString(),
                        "You have signed out")
-        XCTAssertEqual("app_signedOutBodyWithWallet".getEnglishString(),
+        XCTAssertEqual("app_signedOutBody".getEnglishString(),
                        "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
-        XCTAssertEqual("app_signedOutBodyNoWallet".getEnglishString(),
-                       "To keep your information secure, your app preferences have been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")
     }
     
     func test_signOutErrorWithWalletPageKeys() {
@@ -195,11 +193,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.")
         XCTAssertEqual("app_signOutErrorButton".getEnglishString(),
                        "Go back to settings")
-    }
-    
-    func test_signOutErrorPageKeys() {
-        XCTAssertEqual("app_signOutErrorBodyNoWallet".getEnglishString(),
-                       "You can force sign out by deleting the app from your device.")
     }
     
     func test_signOutWarningPageKeys() {

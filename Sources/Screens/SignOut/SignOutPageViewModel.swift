@@ -1,17 +1,18 @@
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 import Logging
 import UIKit
 
 struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
-    let title: GDSLocalisedString = "app_signOutConfirmationTitleNoWallet"
-    let body: String = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1NoWallet").value
+    let title = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationTitle")
+    let body = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
     var childView = UIView()
     let buttonViewModel: any ButtonViewModel
     let secondaryButtonViewModel: (any ButtonViewModel)? = nil
     let analyticsService: OneLoginAnalyticsService
     
-    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
+    let rightBarButtonTitle: GDSCommon.GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService,
@@ -20,8 +21,8 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
             OLTaxonomyKey.level2: OLTaxonomyValue.settings,
             OLTaxonomyKey.level3: OLTaxonomyValue.signout
         ])
-        self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeletePreferences",
-                                                        backgroundColor: .gdsGreen,
+        self.buttonViewModel = AnalyticsButtonViewModel(titleKey: "app_signOutAndDeleteAppDataButton",
+                                                        backgroundColor: DesignSystem.Color.Base.red1,
                                                         analyticsService: analyticsService) {
             buttonAction()
         }
@@ -29,8 +30,8 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreenNoWallet.rawValue,
-                                screen: SettingsAnalyticsScreen.signOutScreenNoWallet,
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreenWithWallet.rawValue,
+                                screen: SettingsAnalyticsScreen.signOutScreenWithWallet,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
@@ -41,28 +42,41 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     }
     
     private func configureStackView() -> UIView {
-        let bulletView: BulletView = BulletView(title: nil,
-                                                text: [
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1iOSNoWallet").value,
-                                                    GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2NoWallet").value
-                                                ])
-        bulletView.accessibilityIdentifier = "sign-out-bullet-list-no-wallet"
-        
         let body2Label = {
             let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value
+            label.text = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
-            label.accessibilityIdentifier = "sign-out-body2-text-no-wallet"
+            label.accessibilityIdentifier = "sign-out-body2-text"
             return label
         }()
         
-        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label])
+        let bulletView = BulletView(title: nil,
+                                    text: [
+                                        GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
+                                                                     "app_walletString").value,
+                                        GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
+                                        GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
+                                    ])
+        bulletView.accessibilityIdentifier = "sign-out-bullet-list"
+        
+        let body3Label = {
+            let label = UILabel()
+            label.text = GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBody3",
+                                                      "app_walletString").value
+            label.adjustsFontForContentSizeCategory = true
+            label.numberOfLines = 0
+            label.font = .body
+            label.accessibilityIdentifier = "sign-out-body3-text"
+            return label
+        }()
+        
+        let stackView = UIStackView(arrangedSubviews: [body2Label, bulletView, body3Label])
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.spacing = 12
-        stackView.accessibilityIdentifier = "sign-out-stack-view-no-wallet"
+        stackView.accessibilityIdentifier = "sign-out-stack-view"
         return stackView
     }
 }
