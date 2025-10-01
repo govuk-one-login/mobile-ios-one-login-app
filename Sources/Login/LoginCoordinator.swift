@@ -20,8 +20,9 @@ final class LoginCoordinator: NSObject,
     private let sessionManager: SessionManager
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
-    private var isExpiredUser: Bool
-    private var serverErrorCounter: Int = 0
+    
+    private var authState: AppLocalAuthState
+    private var serverErrorCounter = 0
     
     private var loginTask: Task<Void, Never>? {
         didSet {
@@ -35,14 +36,14 @@ final class LoginCoordinator: NSObject,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          authService: AuthenticationService,
-         isExpiredUser: Bool) {
+         authState: AppLocalAuthState) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
-        self.isExpiredUser = isExpiredUser
+        self.authState = authState
     }
     
     deinit {
@@ -52,7 +53,7 @@ final class LoginCoordinator: NSObject,
     func start() {
         let rootViewController: UIViewController
         
-        if isExpiredUser {
+        if authState == .expired {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
@@ -153,9 +154,22 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func launchOnboardingCoordinator() {
-        if analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
-           root.topViewController is IntroViewController {
+    func promptForAnalyticsPermissions() {
+        guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
+              root.topViewController is IntroViewController else {
+            return
+        }
+        if authState == .userLogOut {
+            let viewModel = SignOutSuccessfulViewModel { [unowned self] in
+                root.dismiss(animated: true) { [unowned self] in
+                    openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
+                                                           urlOpener: UIApplication.shared))
+                }
+            }
+            let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
+            signOutSuccessful.modalPresentationStyle = .overFullScreen
+            root.present(signOutSuccessful, animated: false)
+        } else {
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         }
@@ -171,9 +185,9 @@ final class LoginCoordinator: NSObject,
 extension LoginCoordinator {
     private func showDataDeletedWarningScreen() {
         let viewModel = DataDeletedWarningViewModel { [unowned self] in
-            isExpiredUser = false
+            authState = .notLoggedIn
             start()
-            launchOnboardingCoordinator()
+            promptForAnalyticsPermissions()
         }
         let vc = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)

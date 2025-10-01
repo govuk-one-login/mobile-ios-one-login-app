@@ -1,3 +1,4 @@
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 @testable import OneLogin
@@ -31,10 +32,11 @@ final class SignOutPageViewModelTests: XCTestCase {
 
 extension SignOutPageViewModelTests {
     func test_page() {
-        XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitleNoWallet")
-        XCTAssertEqual(sut.body, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1NoWallet").value)
+        XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
+        XCTAssertEqual(sut.body, "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.")
         XCTAssertNil(sut.secondaryButtonViewModel)
         XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
+        XCTAssertEqual(sut.rightBarButtonTitle?.value, "Cancel")
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
@@ -43,29 +45,36 @@ extension SignOutPageViewModelTests {
         let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
         let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
         let firstBulletText = try XCTUnwrap(firstBullet.text)
-        XCTAssertTrue(firstBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet1iOSNoWallet").value))
+        XCTAssertTrue(firstBulletText.contains("any documents in your app will be removed"))
         let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
         let secondBulletText = try XCTUnwrap(secondBullet.text)
-        XCTAssertTrue(secondBulletText.contains(GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2NoWallet").value))
+        XCTAssertTrue(secondBulletText.contains("if you’re using Face ID or Touch ID to unlock the app, this will be switched off"))
+        let thirdBullet = try XCTUnwrap(bulletStack.subviews[2] as? UILabel)
+        let thirdBulletText = try XCTUnwrap(thirdBullet.text)
+        XCTAssertTrue(thirdBulletText.contains("you’ll stop sharing analytics about how you use the app"))
     }
     
-    func test_view() throws {
-        XCTAssertEqual(try body2Label.text, GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2NoWallet").value)
+    func test_views() throws {
+        XCTAssertEqual(try body2Label.text, "This means:")
         XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
         XCTAssertEqual(try body2Label.numberOfLines, 0)
         XCTAssertEqual(try body2Label.font, .body)
+        XCTAssertEqual(try body3Label.text, "Next time you sign in, you’ll be able to add your documents again and reset your preferences.")
+        XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
+        XCTAssertEqual(try body3Label.numberOfLines, 0)
+        XCTAssertEqual(try body3Label.font, .body)
     }
     
     func test_button() throws {
-        XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeletePreferences")
+        XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeleteAppDataButton")
         let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, .gdsGreen)
+        XCTAssertEqual(button.backgroundColor, DesignSystem.Color.Base.red1)
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.buttonViewModel.action()
         XCTAssertTrue(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "app_signOutAndDeletePreferences")
+        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
     }
@@ -74,9 +83,9 @@ extension SignOutPageViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
-        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreenNoWallet.rawValue,
-                                screen: SettingsAnalyticsScreen.signOutScreenNoWallet,
-                                titleKey: "app_signOutConfirmationTitleNoWallet")
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreenWithWallet.rawValue,
+                                screen: SettingsAnalyticsScreen.signOutScreenWithWallet,
+                                titleKey: "app_signOutConfirmationTitle")
         XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
         XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
     }
@@ -94,13 +103,19 @@ extension SignOutPageViewModelTests {
 extension SignOutPageViewModelTests {
     var bulletList: BulletView {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list-no-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
         }
     }
     
     var body2Label: UILabel {
         get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body2-text-no-wallet"])
+            try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
+        }
+    }
+    
+    var body3Label: UILabel {
+        get throws {
+            try XCTUnwrap(sut.childView[child: "sign-out-body3-text"])
         }
     }
 }

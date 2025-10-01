@@ -7,6 +7,8 @@ enum AppLocalAuthState: Equatable {
     case expired
     /// No user session
     case notLoggedIn
+    /// User explicitly logged out of the app
+    case userLogOut
     /// User session exists, has not expired and retrieved into memory
     case loggedIn
 
@@ -15,6 +17,7 @@ enum AppLocalAuthState: Equatable {
         case (.failed, .failed),
             (.expired, .expired),
             (.notLoggedIn, .notLoggedIn),
+            (.userLogOut, .userLogOut),
             (.loggedIn, .loggedIn):
             return true
         default:

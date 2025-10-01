@@ -182,10 +182,8 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_signOutSuccessfulPageKeys() {
         XCTAssertEqual("app_signedOutTitle".getWelshString(),
                        "Rydych wedi allfognodi")
-        XCTAssertEqual("app_signedOutBodyWithWallet".getWelshString(),
+        XCTAssertEqual("app_signedOutBody".getWelshString(),
                        "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
-        XCTAssertEqual("app_signedOutBodyNoWallet".getWelshString(),
-                       "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewisiadau ap wedi'u hailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")
     }
     
     func test_signOutErrorWithWalletPageKeys() {
@@ -195,11 +193,6 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Rhowch gynnig arall yn nes ymlaen.\n\nOs oes angen i chi fewngofnodi nawr, gallwch ddileu'r ap o'ch ffôn. Bydd hyn hefyd yn dileu unrhyw ddogfennau sydd wedi'u cadw yn eich ap.")
         XCTAssertEqual("app_signOutErrorButton".getWelshString(),
                        "Yn ôl i gosodiadau")
-    }
-    
-    func test_signOutErrorPageKeys() {
-        XCTAssertEqual("app_signOutErrorBodyNoWallet".getWelshString(),
-                       "Gallwch orfodi allgofnodi trwy ddileu'r ap o'ch dyfais.")
     }
     
     func test_signOutWarningPageKeys() {

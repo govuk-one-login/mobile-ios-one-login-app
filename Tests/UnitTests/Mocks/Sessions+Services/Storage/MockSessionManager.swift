@@ -82,7 +82,11 @@ final class MockSessionManager: SessionManager {
         if let errorFromClearAllSessionData {
             throw errorFromClearAllSessionData
         }
-        NotificationCenter.default.post(name: .didLogout)
+        if restartLoginFlow {
+            NotificationCenter.default.post(name: .systemLogUserOut)
+        } else {
+            NotificationCenter.default.post(name: .userDidLogout)
+        }
     }
 
     func setupSession(returningUser: Bool = true, expired: Bool = false) throws {

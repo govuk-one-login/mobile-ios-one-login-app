@@ -17,25 +17,21 @@ public final class WalletNetworkClientWrapper: WalletNetworkClient {
     }
     
     public func makeRequest(_ request: URLRequest) async throws -> Data {
-        switch sessionManager.sessionState {
-        case .expired:
+        guard sessionManager.sessionState != .expired else {
             NotificationCenter.default.post(name: .sessionExpired)
             throw SessionError.expired
-        default:
-            try await networkClient.makeRequest(request)
         }
+        return try await networkClient.makeRequest(request)
     }
     
     public func makeAuthorizedRequest(
         scope: String,
         request: URLRequest
     ) async throws -> Data {
-        switch sessionManager.sessionState {
-        case .expired:
+        guard sessionManager.sessionState != .expired else {
             NotificationCenter.default.post(name: .sessionExpired)
             throw SessionError.expired
-        default:
-            try await networkClient.makeAuthorizedRequest(scope: scope, request: request)
         }
+        return try await networkClient.makeAuthorizedRequest(scope: scope, request: request)
     }
 }

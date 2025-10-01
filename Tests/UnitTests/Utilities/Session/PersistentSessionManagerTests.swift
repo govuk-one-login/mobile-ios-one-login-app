@@ -160,7 +160,7 @@ extension PersistentSessionManagerTests {
     
     func test_startSession_cannotReauthenticateWithoutPersistentSessionID() async throws {
         let exp = XCTNSNotificationExpectation(
-            name: .didLogout,
+            name: .systemLogUserOut,
             object: nil,
             notificationCenter: NotificationCenter.default
         )
@@ -311,7 +311,7 @@ extension PersistentSessionManagerTests {
         ]
         sut.registerSessionBoundData([mockUnprotectedStore, mockEncryptedStore])
         // WHEN I clear all session data
-        try await sut.clearAllSessionData()
+        try await sut.clearAllSessionData(restartLoginFlow: true)
         // THEN my session data is deleted
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
         XCTAssertEqual(mockEncryptedStore.savedItems, [:])
