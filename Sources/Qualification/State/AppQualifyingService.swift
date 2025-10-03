@@ -21,6 +21,8 @@ final class AppQualifyingService: QualifyingService {
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
     
+    private var appNotInteractive = 0
+    
     private var appInfoState: AppInformationState = .notChecked {
         didSet {
             Task {
@@ -102,6 +104,18 @@ final class AppQualifyingService: QualifyingService {
                     try sessionManager.resumeSession()
                     userState = .loggedIn
                 }
+            } catch let error as StoredTokenError where error == .notInteractive {
+                // The local authentication prompt to allow the user into the app has been blocked by the system.
+                //
+                // In this instance retrying may be the only option.
+                // It might be worth considering a counter which logs the user out if the retry keeps encountering this error.
+                guard appNotInteractive < 3 else {
+                    await resetUser(error: error)
+                    self.appNotInteractive = 0
+                    return
+                }
+                self.appNotInteractive += 1
+                await evaluateUser()
             } catch SecureStoreError.biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
                 //
@@ -109,13 +123,17 @@ final class AppQualifyingService: QualifyingService {
                 // As such, no additional action is required.
                 return
             } catch {
-                analyticsService.logCrash(error)
-                do {
-                    try await sessionManager.clearAllSessionData(restartLoginFlow: true)
-                } catch {
-                    userState = .failed(error)
-                }
+                await resetUser(error: error)
             }
+        }
+    }
+    
+    private func resetUser(error: Error) async {
+        analyticsService.logCrash(error)
+        do {
+            try await sessionManager.clearAllSessionData(restartLoginFlow: true)
+        } catch {
+            userState = .failed(error)
         }
     }
 }

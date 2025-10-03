@@ -1,4 +1,5 @@
 import Authentication
+import CryptoService
 import GDSAnalytics
 import Logging
 import SecureStore
@@ -32,6 +33,9 @@ final class WebAuthenticationService: AuthenticationService {
             try await sessionManager.clearAllSessionData(restartLoginFlow: true)
             throw error
         } catch let error as SecureStoreError {
+            analyticsService.logCrash(error)
+            throw error
+        } catch let error as SigningServiceError {
             analyticsService.logCrash(error)
             throw error
         }

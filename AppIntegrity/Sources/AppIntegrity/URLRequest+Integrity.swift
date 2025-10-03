@@ -3,7 +3,7 @@ import Foundation
 extension URLRequest {
     static func clientAttestation(baseURL: URL,
                                   token: String,
-                                  body: Data) throws -> URLRequest {
+                                  body: Data) -> URLRequest {
         var request = URLRequest(url: baseURL.appendingPathComponent("client-attestation"))
         request.httpMethod = "POST"
 

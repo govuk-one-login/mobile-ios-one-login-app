@@ -1,7 +1,9 @@
 import Foundation
+import LocalAuthentication
 import SecureStore
 
 enum StoredTokenError: Error {
+    case notInteractive
     case unableToDecodeTokens
 }
 
@@ -29,12 +31,16 @@ final class SecureTokenStore: TokenStore {
     }
     
     func fetch() throws -> StoredTokens {
-        let storedTokens = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
-        guard let tokensAsData = Data(base64Encoded: storedTokens) else {
-            throw StoredTokenError.unableToDecodeTokens
+        do {
+            let storedTokens = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
+            guard let tokensAsData = Data(base64Encoded: storedTokens) else {
+                throw StoredTokenError.unableToDecodeTokens
+            }
+            let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
+            return decodedTokens
+        } catch let error as LAError where error.code == .notInteractive {
+            throw StoredTokenError.notInteractive
         }
-        let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
-        return decodedTokens
     }
     
     func save(tokens: StoredTokens) throws {

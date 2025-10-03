@@ -5,6 +5,8 @@ import Networking
 enum AppIntegrityError: Int, Error {
     case invalidPublicKey = 400
     case invalidToken = 401
+    case cantDecodeClientAssertion
+    case cantCreateAttestationPoP
 }
 
 public enum TokenHeaderKey: String {
@@ -19,9 +21,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let proofOfPossessionProvider: ProofOfPossessionProvider
     private let proofTokenGenerator: ProofTokenGenerator
     private let attestationStore: AttestationStorage
-
-    // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
-    private var isValidAttestationAvailable: Bool = false
 
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
@@ -43,8 +42,9 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         get async throws {
             guard !attestationStore.validAttestation else {
                 return [
+                    // can only throw AttestationStorageError.cantRetrieveAttestationJWT error
                     TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
-                    TokenHeaderKey.attestationPoP.rawValue: try proofTokenGenerator.token
+                    TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
                 ]
             }
             
@@ -52,19 +52,29 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             
             do {
                 let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
-                let attestationPOP = try proofTokenGenerator.token
-                
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
-                    TokenHeaderKey.attestationPoP.rawValue: attestationPOP
+                    TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
                 ]
-                
             } catch let error as ServerError where
                         error.errorCode == 400 {
                 throw AppIntegrityError.invalidPublicKey
             } catch let error as ServerError where
                         error.errorCode == 401 {
                 throw AppIntegrityError.invalidToken
+            }
+        }
+    }
+    
+    private var attestationPoP: String {
+        get throws {
+            do {
+                // can throw:
+                // JWTGeneratorError.cantCreateJSONData error
+                // SigningServiceError.unknownCreateSignatureError error or Security framework error
+                return try proofTokenGenerator.token
+            } catch {
+                throw AppIntegrityError.cantCreateAttestationPoP
             }
         }
     }
@@ -99,20 +109,26 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     }
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
+        // can throw ServerError
         let data = try await networkClient.makeRequest(.clientAttestation(
             baseURL: baseURL,
             token: appCheckToken,
-            body: proofOfPossessionProvider.publicKey
+            // can throw AppIntegritySigningError.publicKeyError error
+            body: try proofOfPossessionProvider.publicKey
         ))
         
-        let assertionResponse = try JSONDecoder()
-            .decode(ClientAssertionResponse.self, from: data)
-        
-        attestationStore.store(
-            assertionJWT: assertionResponse.attestationJWT,
-            assertionExpiry: assertionResponse.expiryDate
-        )
-        
-        return assertionResponse
+        do {
+            let assertionResponse = try JSONDecoder()
+                .decode(ClientAssertionResponse.self, from: data)
+            
+            attestationStore.store(
+                assertionJWT: assertionResponse.attestationJWT,
+                assertionExpiry: assertionResponse.expiryDate
+            )
+            
+            return assertionResponse
+        } catch {
+            throw AppIntegrityError.cantDecodeClientAssertion
+        }
     }
 }
