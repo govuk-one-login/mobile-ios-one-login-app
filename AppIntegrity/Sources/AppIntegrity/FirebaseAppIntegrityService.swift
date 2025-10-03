@@ -3,7 +3,7 @@ import FirebaseCore
 import Networking
 
 public struct AppIntegrityError: Error, LocalizedError, Equatable {
-    public enum AppIntegrityErrorType {
+    public enum AppIntegrityErrorType: String {
         case unknown
         case network
         case invalidConfiguration
@@ -16,7 +16,8 @@ public struct AppIntegrityError: Error, LocalizedError, Equatable {
     }
     
     public let errorType: AppIntegrityErrorType
-    public var errorDescription: String?
+    public let errorDescription: String?
+    public let failureReason: String?
     
     public init(
         _ errorType: AppIntegrityErrorType,
@@ -24,6 +25,7 @@ public struct AppIntegrityError: Error, LocalizedError, Equatable {
     ) {
         self.errorType = errorType
         self.errorDescription = underlyingReason
+        self.failureReason = errorType.rawValue
     }
 }
 
