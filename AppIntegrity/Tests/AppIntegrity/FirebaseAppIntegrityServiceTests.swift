@@ -9,12 +9,12 @@ import Testing
 
 @Suite(.serialized)
 struct FirebaseAppIntegrityServiceTests {
-    let proofProvider: ProofOfPossessionProvider
+    let mockVendor: MockAppCheckVendor
     let networkClient: NetworkClient
+    let mockProofOfPossessionProvider: MockProofOfPossessionProvider
     let baseURL: URL
     let mockProofTokenGenerator: MockProofTokenGenerator
     let mockAttestationStore: MockAttestationStore
-    let mockVendor: MockAppCheckVendor
     let sut: FirebaseAppIntegrityService
     
     init() throws {
@@ -25,21 +25,17 @@ struct FirebaseAppIntegrityServiceTests {
         
         MockURLProtocol.clear()
         
-        proofProvider = MockProofOfPossessionProvider()
-        
-        networkClient = NetworkClient(configuration: configuration)
-        baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
-        mockProofTokenGenerator = MockProofTokenGenerator(
-            header: ["mockHeaderKey1": "mockHeaderValue1"],
-            payload: ["mockPayloadKey1": "mockPayloadValue1"]
-        )
-        mockAttestationStore = MockAttestationStore()
         mockVendor = MockAppCheckVendor()
+        networkClient = NetworkClient(configuration: configuration)
+        mockProofOfPossessionProvider = MockProofOfPossessionProvider()
+        baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
+        mockProofTokenGenerator = MockProofTokenGenerator()
+        mockAttestationStore = MockAttestationStore()
         
         sut = FirebaseAppIntegrityService(
             vendor: mockVendor,
             networkClient: networkClient,
-            proofOfPossessionProvider: proofProvider,
+            proofOfPossessionProvider: mockProofOfPossessionProvider,
             baseURL: baseURL,
             proofTokenGenerator: mockProofTokenGenerator,
             attestationStore: mockAttestationStore
@@ -87,9 +83,9 @@ struct FirebaseAppIntegrityServiceTests {
     }
     
     @Test("""
-          AppCheck vendor throws invalid token error from limitedUseToken
+          AppCheck vendor throws invalid configuration error from limitedUseToken
           """)
-    func testAppCheckInvalidTokenError() async throws {
+    func testAppCheckInvalidconfigurationError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
         
         await #expect(
@@ -151,13 +147,13 @@ struct FirebaseAppIntegrityServiceTests {
     }
     
     @Test("""
-          Check that 500 throws txma server error
+          Check that 400 throws invalid public key error
           """)
-    func testAssertIntegrity500() async throws {
+    func testAssertIntegrity400() async throws {
         MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 500))
+            (Data(), HTTPURLResponse(statusCode: 400))
         }
-
+        
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
                 .serverError,
@@ -187,12 +183,40 @@ struct FirebaseAppIntegrityServiceTests {
     }
     
     @Test("""
-          Check that 400 throws invalid public key error
+          Check that 500 throws txma server error
           """)
-    func testAssertIntegrity400() async throws {
+    func testAssertIntegrity500() async throws {
         MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 400))
+            (Data(), HTTPURLResponse(statusCode: 500))
         }
+
+        await #expect(
+            throws: AppIntegrityError<ClientAssertionError>(
+                .serverError,
+                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          Proof token generator returns error cant create attestation PoP error
+          """)
+    func testAttestationPoPError() async throws {
+        mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
+        mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
+        
+        MockURLProtocol.handler = {
+            (Data("""
+             {
+              "client_attestation": "testAttestation",
+              "expires_in": 86400
+             }
+            """.utf8), HTTPURLResponse(statusCode: 200))
+        }
+        
+        mockProofTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
@@ -208,6 +232,9 @@ struct FirebaseAppIntegrityServiceTests {
           Check the saved attestation and proof token are returned if valid
           """)
     func testSavedIntegrityAssertion() async throws {
+        mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
+        mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
+        
         mockAttestationStore.validAttestation = true
         
         let integrityResponse = try await sut.integrityAssertions
@@ -252,6 +279,9 @@ struct FirebaseAppIntegrityServiceTests {
           Check that the assertIntegrity returns correct dictionary
           """)
     func testAssertIntegrityResponse() async throws {
+        mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
+        mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
+        
         MockURLProtocol.handler = {
             (Data("""
              {
@@ -312,5 +342,68 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(response.expiryDate > initialDate.addingTimeInterval(expiresIn))
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
+    
+    @Test("""
+          Check that client attestation request returns a server error
+          """)
+    func testFetchClientAttestationServerError() async throws {
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 400))
+        }
+        
+        await #expect(
+            throws: ServerError(endpoint: "client-attestation", errorCode: 400)
+        ) {
+            try await sut
+                .fetchClientAttestation(appCheckToken: UUID().uuidString)
+        }
+    }
+    
+    @Test("""
+          Check that client attestation request payload results in a decoding error
+          """)
+    func testFetchClientAttestationDecodingError() async throws {
+        MockURLProtocol.handler = {
+            (Data("""
+             {
+              "client_attestation": "testAttestation",
+              "expires_in":
+             }
+            """.utf8), HTTPURLResponse(statusCode: 200))
+        }
+        
+        await #expect(
+            throws: AppIntegrityError<ClientAssertionError>(
+                .cantDecodeClientAssertion,
+                errorDescription: "test description"
+            )
+        ) {
+            try await sut
+                .fetchClientAttestation(appCheckToken: UUID().uuidString)
+        }
+    }
+    
+    @Test("""
+          Check that client attestation request public key error is caught
+          """)
+    func testFetchClientAttestationPublicKey() async throws {
+        mockProofOfPossessionProvider.errorFromPublicKey = NSError(domain: "test domain", code: 0)
+        
+        await #expect(
+            throws: AppIntegrityError<ProofOfPossessionError>(
+                .cantGeneratePublicKey,
+                errorDescription: "test desciption"
+            )
+        ) {
+            try await sut
+                .fetchClientAttestation(appCheckToken: UUID().uuidString)
+        }
+    }
 }
 // swiftlint:enable type_body_length
+
+extension ServerError: @retroactive Equatable {
+    public static func == (lhs: ServerError, rhs: ServerError) -> Bool {
+        lhs.endpoint == rhs.endpoint && lhs.errorCode == rhs.errorCode
+    }
+}

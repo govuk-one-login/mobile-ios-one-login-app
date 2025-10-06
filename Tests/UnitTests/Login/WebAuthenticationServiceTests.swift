@@ -43,6 +43,7 @@ final class WebAuthenticationServiceTests: XCTestCase {
 extension WebAuthenticationServiceTests {
     func test_loginError_userCancelled() async {
         mockSessionManager.errorFromStartSession = LoginErrorV2(reason: .userCancelled)
+        
         do {
             try await sut.startWebSession()
         } catch {
@@ -59,6 +60,7 @@ extension WebAuthenticationServiceTests {
     
     func test_loginError_accessDenied() async {
         mockSessionManager.errorFromStartSession = LoginErrorV2(reason: .authorizationAccessDenied)
+        
         do {
             try await sut.startWebSession()
         } catch {
@@ -71,8 +73,12 @@ extension WebAuthenticationServiceTests {
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
-    func test_appIntegrityError() async {
-        mockSessionManager.errorFromStartSession = AppIntegrityError<FirebaseAppCheckError>(.generic, errorDescription: "test reason")
+    func test_appIntegrityError_firebaseAppCheckError() async {
+        mockSessionManager.errorFromStartSession = AppIntegrityError<FirebaseAppCheckError>(
+            .generic,
+            errorDescription: "test reason"
+        )
+        
         do {
             try await sut.startWebSession()
         } catch {
@@ -85,8 +91,45 @@ extension WebAuthenticationServiceTests {
         }
     }
     
+    func test_appIntegrityError_clientAssertionError() async {
+        mockSessionManager.errorFromStartSession = AppIntegrityError<ClientAssertionError>(
+            .invalidToken,
+            errorDescription: "test reason"
+        )
+        
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? AppIntegrityError<ClientAssertionError> else {
+                XCTFail("Error should be a SecureStoreError")
+                return
+            }
+            XCTAssertTrue(error.errorType == .invalidToken)
+            XCTAssertNotNil(mockAnalyticsService.crashesLogged)
+        }
+    }
+    
+    func test_appIntegrityError_proofOfPosessionError() async {
+        mockSessionManager.errorFromStartSession = AppIntegrityError<ProofOfPossessionError>(
+            .cantGeneratePublicKey,
+            errorDescription: "test reason"
+        )
+        
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? AppIntegrityError<ProofOfPossessionError> else {
+                XCTFail("Error should be a SecureStoreError")
+                return
+            }
+            XCTAssertTrue(error.errorType == .cantGeneratePublicKey)
+            XCTAssertNotNil(mockAnalyticsService.crashesLogged)
+        }
+    }
+    
     func test_secureStoreError() async {
         mockSessionManager.errorFromStartSession = SecureStoreError.cantDecodeData
+        
         do {
             try await sut.startWebSession()
         } catch {
@@ -102,6 +145,7 @@ extension WebAuthenticationServiceTests {
     @MainActor
     func test_handleUniversalLink_catchAllError() throws {
         mockLoginSession.errorFromFinalise = AuthenticationError.generic
+        
         do {
             let callbackURL = try XCTUnwrap(URL(string: "https://www.test.com"))
             try sut.handleUniversalLink(callbackURL)

@@ -57,28 +57,55 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
                 switch error.code {
                 case 0:
-                    throw AppIntegrityError<FirebaseAppCheckError>(.unknown, errorDescription: error.localizedDescription)
+                    throw AppIntegrityError<FirebaseAppCheckError>(
+                        .unknown,
+                        errorDescription: error.localizedDescription
+                    )
                 case 1:
-                    throw AppIntegrityError<FirebaseAppCheckError>(.network, errorDescription: error.localizedDescription)
+                    throw AppIntegrityError<FirebaseAppCheckError>(
+                        .network,
+                        errorDescription: error.localizedDescription
+                    )
                 case 2:
-                    throw AppIntegrityError<FirebaseAppCheckError>(.invalidConfiguration, errorDescription: error.localizedDescription)
+                    throw AppIntegrityError<FirebaseAppCheckError>(
+                        .invalidConfiguration,
+                        errorDescription: error.localizedDescription
+                    )
                 case 3:
-                    throw AppIntegrityError<FirebaseAppCheckError>(.keychainAccess, errorDescription: error.localizedDescription)
+                    throw AppIntegrityError<FirebaseAppCheckError>(
+                        .keychainAccess,
+                        errorDescription: error.localizedDescription
+                    )
                 case 4:
-                    throw AppIntegrityError<FirebaseAppCheckError>(.notSupported, errorDescription: error.localizedDescription)
+                    throw AppIntegrityError<FirebaseAppCheckError>(
+                        .notSupported,
+                        errorDescription: error.localizedDescription
+                    )
                 default:
-                    throw AppIntegrityError<FirebaseAppCheckError>(.generic, errorDescription: error.localizedDescription)
+                    throw AppIntegrityError<FirebaseAppCheckError>(
+                        .generic,
+                        errorDescription: error.localizedDescription
+                    )
                 }
             } catch let error as ServerError where
                         error.errorCode == 400 {
-                throw AppIntegrityError<ClientAssertionError>(.invalidPublicKey, errorDescription: error.localizedDescription)
+                throw AppIntegrityError<ClientAssertionError>(
+                    .invalidPublicKey,
+                    errorDescription: error.localizedDescription
+                )
             } catch let error as ServerError where
                         error.errorCode == 401 {
                 // potential for a server error or invalid app check token from mobile backend
-                throw AppIntegrityError<ClientAssertionError>(.invalidToken, errorDescription: error.localizedDescription)
+                throw AppIntegrityError<ClientAssertionError>(
+                    .invalidToken,
+                    errorDescription: error.localizedDescription
+                )
             } catch let error as ServerError where
                         error.errorCode == 500 {
-                throw AppIntegrityError<ClientAssertionError>(.serverError, errorDescription: error.localizedDescription)
+                throw AppIntegrityError<ClientAssertionError>(
+                    .serverError,
+                    errorDescription: error.localizedDescription
+                )
             }
         }
     }
@@ -91,7 +118,10 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 // SigningServiceError.unknownCreateSignatureError error or Security framework error
                 return try proofTokenGenerator.token
             } catch {
-                throw AppIntegrityError<ClientAssertionError>(.cantCreateAttestationPoP, errorDescription: error.localizedDescription)
+                throw AppIntegrityError<ClientAssertionError>(
+                    .cantCreateAttestationPoP,
+                    errorDescription: error.localizedDescription
+                )
             }
         }
     }
@@ -145,9 +175,15 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         } catch let error as ServerError {
             throw error
         } catch let error as DecodingError {
-            throw AppIntegrityError<ClientAssertionError>(.cantDecodeClientAssertion, errorDescription: error.localizedDescription)
+            throw AppIntegrityError<ClientAssertionError>(
+                .cantDecodeClientAssertion,
+                errorDescription: error.localizedDescription
+            )
         } catch {
-            throw AppIntegrityError<ProofOfPossessionError>(.cantGeneratePublicKey, errorDescription: error.localizedDescription)
+            throw AppIntegrityError<ProofOfPossessionError>(
+                .cantGeneratePublicKey,
+                errorDescription: error.localizedDescription
+            )
         }
     }
 }
