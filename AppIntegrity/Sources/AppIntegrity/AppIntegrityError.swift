@@ -1,24 +1,24 @@
 import Foundation
 
 public enum FirebaseAppCheckError: String {
-    case unknown
-    case network
-    case invalidConfiguration
-    case keychainAccess
-    case notSupported
-    case generic
+    case unknown              = "unknow firebase app check service error"
+    case network              = "network error in firebase app check service"
+    case invalidConfiguration = "invalid configuration for firebase app check service"
+    case keychainAccess       = "keychain access error in firebase app check service"
+    case notSupported         = "firebase app check service not supported on this platform"
+    case generic              = "generic firebase app check service error"
 }
 
 public enum ClientAssertionError: String {
-    case invalidPublicKey
-    case invalidToken
-    case serverError
-    case cantDecodeClientAssertion
-    case cantCreateAttestationPoP
+    case invalidPublicKey          = "invalid client attestation public key"
+    case invalidToken              = "invalid firebase app check token"
+    case serverError               = "internal server error"
+    case cantDecodeClientAssertion = "cant decode client attestation"
+    case cantCreateAttestationPoP  = "cant create attestation proof of possession"
 }
 
 public enum ProofOfPossessionError: String {
-    case cantGeneratePublicKey
+    case cantGeneratePublicKey = "cant generate proof of possession public key"
 }
 
 public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedError, Equatable where ErrorType.RawValue == String {

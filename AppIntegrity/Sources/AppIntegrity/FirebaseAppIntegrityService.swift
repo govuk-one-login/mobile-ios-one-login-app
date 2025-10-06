@@ -40,17 +40,16 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 return [
                     // error: AttestationStorageError.cantRetrieveAttestationJWT
                     TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
-                    // error: AppIntegrityError<ClientAssertionError.cantCreateAttestationPoP>
                     TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
                 ]
             }
             
             do {
                 let appCheck = try await vendor.limitedUseToken()
-                let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
+                let attestationJWT = try await fetchClientAttestation(appCheckToken: appCheck.token)
                 
                 return [
-                    TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
+                    TokenHeaderKey.attestationJWT.rawValue: attestationJWT,
                     TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
                 ]
             } catch let error as NSError where
@@ -126,7 +125,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         )
     }
     
-    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
+    func fetchClientAttestation(appCheckToken: String) async throws -> String {
         do {
             let data = try await networkClient.makeRequest(.clientAttestation(
                 baseURL: baseURL,
@@ -142,7 +141,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 assertionExpiry: assertionResponse.expiryDate
             )
             
-            return assertionResponse
+            return assertionResponse.attestationJWT
         } catch let error as ServerError {
             throw error
         } catch let error as DecodingError {
