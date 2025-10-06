@@ -61,9 +61,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
         
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<FirebaseAppCheckError>(
                 .unknown,
-                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 0.)"
+                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 0.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -77,9 +77,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
         
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<FirebaseAppCheckError>(
                 .network,
-                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
+                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -93,9 +93,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
         
         await #expect(
-            throws: AppIntegrityError(
-                .invalidToken,
-                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 2.)"
+            throws: AppIntegrityError<FirebaseAppCheckError>(
+                .invalidConfiguration,
+                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 2.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -109,9 +109,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
         
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<FirebaseAppCheckError>(
                 .keychainAccess,
-                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 3.)"
+                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 3.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -125,9 +125,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
         
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<FirebaseAppCheckError>(
                 .notSupported,
-                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 4.)"
+                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 4.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -141,9 +141,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
         
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<FirebaseAppCheckError>(
                 .generic,
-                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 5.)"
+                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 5.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -159,7 +159,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
 
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<ClientAssertionError>(
                 .serverError,
                 underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
             )
@@ -177,7 +177,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
 
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<ClientAssertionError>(
                 .invalidToken,
                 underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
             )
@@ -195,7 +195,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
         
         await #expect(
-            throws: AppIntegrityError(
+            throws: AppIntegrityError<ClientAssertionError>(
                 .invalidPublicKey,
                 underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
             )

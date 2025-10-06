@@ -72,11 +72,11 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_appIntegrityError() async {
-        mockSessionManager.errorFromStartSession = AppIntegrityError(.generic, underlyingReason: "test reason")
+        mockSessionManager.errorFromStartSession = AppIntegrityError<FirebaseAppCheckError>(.generic, errorDescription: "test reason")
         do {
             try await sut.startWebSession()
         } catch {
-            guard let error = error as? AppIntegrityError else {
+            guard let error = error as? AppIntegrityError<FirebaseAppCheckError> else {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }

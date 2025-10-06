@@ -118,8 +118,8 @@ final class LoginCoordinator: NSObject,
                 showRecoverableErrorScreen(error)
             } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
                     let error as LoginErrorV2 where error.reason == .generalServerError {
+                self.serverErrorCounter += 1
                 if serverErrorCounter < 3 {
-                    self.serverErrorCounter += 1
                     showRecoverableErrorScreen(error)
                 } else {
                     showUnrecoverableErrorScreen(error)
