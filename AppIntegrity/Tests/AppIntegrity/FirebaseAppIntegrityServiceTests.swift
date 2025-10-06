@@ -1,3 +1,4 @@
+// swiftlint:disable type_body_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -8,23 +9,24 @@ import Testing
 
 @Suite(.serialized)
 struct FirebaseAppIntegrityServiceTests {
-    let sut: FirebaseAppIntegrityService
     let proofProvider: ProofOfPossessionProvider
     let networkClient: NetworkClient
     let baseURL: URL
     let mockProofTokenGenerator: MockProofTokenGenerator
     let mockAttestationStore: MockAttestationStore
+    let mockVendor: MockAppCheckVendor
+    let sut: FirebaseAppIntegrityService
     
     init() throws {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [
             MockURLProtocol.self
         ]
-
+        
         MockURLProtocol.clear()
-
+        
         proofProvider = MockProofOfPossessionProvider()
-
+        
         networkClient = NetworkClient(configuration: configuration)
         baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
         mockProofTokenGenerator = MockProofTokenGenerator(
@@ -32,9 +34,10 @@ struct FirebaseAppIntegrityServiceTests {
             payload: ["mockPayloadKey1": "mockPayloadValue1"]
         )
         mockAttestationStore = MockAttestationStore()
-
+        mockVendor = MockAppCheckVendor()
+        
         sut = FirebaseAppIntegrityService(
-            vendor: MockAppCheckVendor(),
+            vendor: mockVendor,
             networkClient: networkClient,
             proofOfPossessionProvider: proofProvider,
             baseURL: baseURL,
@@ -42,7 +45,7 @@ struct FirebaseAppIntegrityServiceTests {
             attestationStore: mockAttestationStore
         )
     }
-
+    
     @Test("""
           AppCheck provider is correctly configured in debug mode
           """)
@@ -50,7 +53,121 @@ struct FirebaseAppIntegrityServiceTests {
         FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
         #expect(MockAppCheckVendor.wasConfigured is AppCheckDebugProviderFactory)
     }
+    
+    @Test("""
+          AppCheck vendor throws unknown error from limitedUseToken
+          """)
+    func testAppCheckUnknownError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .unknown,
+                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 0.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          AppCheck vendor throws network error from limitedUseToken
+          """)
+    func testAppCheckNetworkError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .network,
+                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          AppCheck vendor throws invalid token error from limitedUseToken
+          """)
+    func testAppCheckInvalidTokenError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .invalidToken,
+                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 2.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          AppCheck vendor throws keychain access error from limitedUseToken
+          """)
+    func testAppCheckKeychainAccessError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .keychainAccess,
+                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 3.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          AppCheck vendor throws not supported error from limitedUseToken
+          """)
+    func testAppCheckNotSupportedError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .notSupported,
+                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 4.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          AppCheck vendor throws generic error from limitedUseToken
+          """)
+    func testAppCheckGenericError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .generic,
+                underlyingReason: "The operation couldn’t be completed. (com.firebase.appCheck error 5.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
+    @Test("""
+          Check that 500 throws txma server error
+          """)
+    func testAssertIntegrity500() async throws {
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 500))
+        }
 
+        await #expect(
+            throws: AppIntegrityError(
+                .serverError,
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
+            try await sut.integrityAssertions
+        }
+    }
+    
     @Test("""
           Check that 401 throws invalid token error
           """)
@@ -59,11 +176,16 @@ struct FirebaseAppIntegrityServiceTests {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
 
-        await #expect(throws: AppIntegrityError.invalidToken) {
+        await #expect(
+            throws: AppIntegrityError(
+                .invalidToken,
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
             try await sut.integrityAssertions
         }
     }
-
+    
     @Test("""
           Check that 400 throws invalid public key error
           """)
@@ -71,8 +193,13 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 400))
         }
-
-        await #expect(throws: AppIntegrityError.invalidPublicKey) {
+        
+        await #expect(
+            throws: AppIntegrityError(
+                .invalidPublicKey,
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+            )
+        ) {
             try await sut.integrityAssertions
         }
     }
@@ -98,7 +225,7 @@ struct FirebaseAppIntegrityServiceTests {
         )
         #expect(payload)
     }
-
+    
     @Test("""
           Check that 200 returns the client attestation
           """)
@@ -111,9 +238,9 @@ struct FirebaseAppIntegrityServiceTests {
              }
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
-
+        
         _ = try await sut.integrityAssertions
-
+        
         #expect(MockURLProtocol.requests.count == 1)
         #expect(
             MockURLProtocol.requests[0].url?.absoluteString ==
@@ -133,7 +260,7 @@ struct FirebaseAppIntegrityServiceTests {
              }
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
-
+        
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(integrityResponse["OAuth-Client-Attestation"] == "testAttestation")
@@ -159,13 +286,13 @@ struct FirebaseAppIntegrityServiceTests {
             )
         }
     }
-
+    
     @Test("""
           Check that client attestation is decoded successfully
           """)
     func testFetchClientAttestation() async throws {
         let expiresIn: TimeInterval = 86400
-
+        
         MockURLProtocol.handler = {
             (Data("""
              {
@@ -174,15 +301,16 @@ struct FirebaseAppIntegrityServiceTests {
              }
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
-
+        
         let initialDate = Date()
         let response = try await sut
             .fetchClientAttestation(appCheckToken: UUID().uuidString)
         #expect(response.attestationJWT == "testAttestation")
-
+        
         // Expiry time should be more a day since before we made the request
         // but less than a day from now
         #expect(response.expiryDate > initialDate.addingTimeInterval(expiresIn))
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
- }
+}
+// swiftlint:enable type_body_length
