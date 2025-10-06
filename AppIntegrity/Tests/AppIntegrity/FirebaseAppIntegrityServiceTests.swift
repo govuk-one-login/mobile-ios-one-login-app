@@ -1,4 +1,4 @@
-// swiftlint:disable type_body_length
+// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -7,6 +7,7 @@ import MockNetworking
 @testable import Networking
 import Testing
 
+// swiftlint:disable type_body_length
 @Suite(.serialized)
 struct FirebaseAppIntegrityServiceTests {
     let mockVendor: MockAppCheckVendor
