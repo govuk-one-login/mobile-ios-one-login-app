@@ -118,15 +118,15 @@ final class LoginCoordinator: NSObject,
                 showRecoverableErrorScreen(error)
             } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
                     let error as LoginErrorV2 where error.reason == .generalServerError {
-                self.serverErrorCounter += 1
                 if serverErrorCounter < 3 {
+                    self.serverErrorCounter += 1
                     showRecoverableErrorScreen(error)
                 } else {
                     showUnrecoverableErrorScreen(error)
                 }
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError where error.errorType == .network {
+            } catch let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }

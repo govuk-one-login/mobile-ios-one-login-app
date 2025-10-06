@@ -6,7 +6,14 @@ import TokenGeneration
 extension CryptoSigningService: @retroactive ProofOfPossessionProvider, @retroactive JWTSigningService {
     public var publicKey: Data {
         get throws {
-            try publicKey(format: .jwk)
+            do {
+                return try publicKey(format: .jwk)
+            } catch {
+                throw AppIntegritySigningError(
+                    errorType: .publicKeyError,
+                    errorDescription: error.localizedDescription
+                )
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import AppIntegrity
+import CryptoService
 import Authentication
 import GDSAnalytics
 import Logging
@@ -32,7 +33,16 @@ final class WebAuthenticationService: AuthenticationService {
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
             try await sessionManager.clearAllSessionData(restartLoginFlow: true)
             throw error
-        } catch let error as AppIntegrityError {
+        } catch let error as AppIntegritySigningError {
+            analyticsService.logCrash(error)
+            throw error
+        } catch let error as AppIntegrityError<FirebaseAppCheckError> {
+            analyticsService.logCrash(error)
+            throw error
+        } catch let error as AppIntegrityError<ClientAssertionError> {
+            analyticsService.logCrash(error)
+            throw error
+        } catch let error as AppIntegrityError<ProofOfPossessionError> {
             analyticsService.logCrash(error)
             throw error
         } catch let error as SecureStoreError {
