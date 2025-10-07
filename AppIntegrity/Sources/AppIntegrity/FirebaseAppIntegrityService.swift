@@ -15,9 +15,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let proofTokenGenerator: ProofTokenGenerator
     private let attestationStore: AttestationStorage
 
-    // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
-    private var isValidAttestationAvailable: Bool = false
-
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
         AppCheckDebugProviderFactory()
@@ -38,7 +35,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         get async throws {
             guard !attestationStore.validAttestation else {
                 return [
-                    // error: AttestationStorageError.cantRetrieveAttestationJWT
                     TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
                     TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
                 ]
@@ -95,7 +91,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 )
             } catch let error as ServerError where
                         error.errorCode == 401 {
-                // potential for a server error or invalid app check token from mobile backend
                 throw AppIntegrityError<ClientAssertionError>(
                     .invalidToken,
                     errorDescription: error.localizedDescription
@@ -113,9 +108,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private var attestationPoP: String {
         get throws {
             do {
-                // can throw:
-                // JWTGeneratorError.cantCreateJSONData error
-                // SigningServiceError.unknownCreateSignatureError error or Security framework error
                 return try proofTokenGenerator.token
             } catch {
                 throw AppIntegrityError<ClientAssertionError>(
