@@ -73,6 +73,24 @@ extension WebAuthenticationServiceTests {
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
+    func test_appIntegritySigningError() async {
+        mockSessionManager.errorFromStartSession = AppIntegritySigningError(
+            errorType: .publicKeyError,
+            errorDescription: "test description"
+        )
+        
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? AppIntegritySigningError else {
+                XCTFail("Error should be a SecureStoreError")
+                return
+            }
+            XCTAssertTrue(error.errorType == .publicKeyError)
+            XCTAssertNotNil(mockAnalyticsService.crashesLogged)
+        }
+    }
+    
     func test_appIntegrityError_firebaseAppCheckError() async {
         mockSessionManager.errorFromStartSession = AppIntegrityError<FirebaseAppCheckError>(
             .generic,
