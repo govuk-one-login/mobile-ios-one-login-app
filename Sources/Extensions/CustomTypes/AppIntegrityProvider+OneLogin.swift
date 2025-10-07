@@ -32,14 +32,10 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
         )
         do {
             let signingService = try CryptoSigningService(configuration: configuration)
-            let jwtRepresentation = JWTRepresentation(
-                header: AppIntegrityJWT.headers(),
-                payload: AppIntegrityJWT.payload()
-            )
-            let proofTokenGenerator = JWTGenerator(
-                jwtRepresentation: jwtRepresentation,
-                signingService: signingService
-            )
+            let jwtRepresentation = JWTRepresentation(header: AppIntegrityJWT.headers(),
+                                                      payload: AppIntegrityJWT.payload())
+            let proofTokenGenerator = JWTGenerator(jwtRepresentation: jwtRepresentation,
+                                                   signingService: signingService)
             return FirebaseAppIntegrityService(
                 networkClient: NetworkClient(),
                 proofOfPossessionProvider: signingService,
