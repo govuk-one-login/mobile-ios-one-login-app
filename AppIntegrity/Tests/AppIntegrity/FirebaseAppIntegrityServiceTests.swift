@@ -341,7 +341,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
                 .cantDecodeClientAssertion,
-                errorDescription: "cant decode client attestation"
+                errorDescription: "The data couldn’t be read because it isn’t in the correct format."
             )
         ) {
             try await sut
@@ -356,7 +356,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError<ProofOfPossessionError>(
                 .cantGeneratePublicKey,
-                errorDescription: "cant generate proof of possession public key"
+                errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
             try await sut
