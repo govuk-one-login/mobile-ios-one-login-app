@@ -1,7 +1,7 @@
 import Foundation
 
 public enum FirebaseAppCheckError: String {
-    case unknown              = "unknow firebase app check service error"
+    case unknown              = "unknown firebase app check service error"
     case network              = "network error in firebase app check service"
     case invalidConfiguration = "invalid configuration for firebase app check service"
     case keychainAccess       = "keychain access error in firebase app check service"
@@ -10,18 +10,18 @@ public enum FirebaseAppCheckError: String {
 }
 
 public enum ClientAssertionError: String {
-    case invalidPublicKey          = "invalid client attestation public key"
-    case invalidToken              = "invalid firebase app check token"
-    case serverError               = "internal server error"
-    case cantDecodeClientAssertion = "cant decode client attestation"
-    case cantCreateAttestationPoP  = "cant create attestation proof of possession"
+    case invalidPublicKey                       = "invalid client attestation public key"
+    case invalidToken                           = "invalid firebase app check token"
+    case serverError                            = "server error"
+    case cantDecodeClientAssertion              = "cant decode client attestation"
+    case cantCreateAttestationProofOfPossession = "cant create attestation proof of possession"
 }
 
 public enum ProofOfPossessionError: String {
     case cantGeneratePublicKey = "cant generate proof of possession public key"
 }
 
-public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedError, Equatable where ErrorType.RawValue == String {
+public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedError, CustomNSError, Equatable where ErrorType.RawValue == String {
     public let errorType: ErrorType
     public let errorDescription: String?
     public let failureReason: String?
@@ -36,6 +36,6 @@ public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedEr
     }
     
     public static func == (lhs: AppIntegrityError<ErrorType>, rhs: AppIntegrityError<ErrorType>) -> Bool {
-        lhs.errorType == rhs.errorType
+        lhs.errorType == rhs.errorType && lhs.errorDescription == rhs.errorDescription
     }
 }

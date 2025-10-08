@@ -43,17 +43,13 @@ struct FirebaseAppIntegrityServiceTests {
         )
     }
     
-    @Test("""
-          AppCheck provider is correctly configured in debug mode
-          """)
+    @Test("AppCheck provider is correctly configured in debug mode")
     func testConfigureAppCheckProvider() {
         FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
         #expect(MockAppCheckVendor.wasConfigured is AppCheckDebugProviderFactory)
     }
     
-    @Test("""
-          AppCheck vendor throws unknown error from limitedUseToken
-          """)
+    @Test("AppCheck vendor throws unknown error from limitedUseToken")
     func testAppCheckUnknownError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
         
@@ -67,9 +63,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          AppCheck vendor throws network error from limitedUseToken
-          """)
+    @Test("AppCheck vendor throws network error from limitedUseToken")
     func testAppCheckNetworkError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
         
@@ -83,9 +77,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          AppCheck vendor throws invalid configuration error from limitedUseToken
-          """)
+    @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
     func testAppCheckInvalidconfigurationError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
         
@@ -99,9 +91,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          AppCheck vendor throws keychain access error from limitedUseToken
-          """)
+    @Test("AppCheck vendor throws keychain access error from limitedUseToken")
     func testAppCheckKeychainAccessError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
         
@@ -115,9 +105,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          AppCheck vendor throws not supported error from limitedUseToken
-          """)
+    @Test("AppCheck vendor throws not supported error from limitedUseToken")
     func testAppCheckNotSupportedError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
         
@@ -131,9 +119,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          AppCheck vendor throws generic error from limitedUseToken
-          """)
+    @Test("AppCheck vendor throws generic error from limitedUseToken")
     func testAppCheckGenericError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
         
@@ -147,9 +133,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check that 400 throws invalid public key error
-          """)
+    @Test("Check that 400 throws invalid public key error")
     func testAssertIntegrity400() async throws {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 400))
@@ -165,9 +149,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check that 401 throws invalid token error
-          """)
+    @Test("Check that 401 throws invalid token error")
     func testAssertIntegrity401() async throws {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 401))
@@ -183,9 +165,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check that 500 throws txma server error
-          """)
+    @Test("Check that 500 throws txma server error")
     func testAssertIntegrity500() async throws {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 500))
@@ -201,10 +181,8 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Proof token generator returns error cant create attestation PoP error
-          """)
-    func testAttestationPoPError() async throws {
+    @Test("Proof token generator returns error cant create attestation proof of possession error")
+    func testAttestationProofOfPossessionError() async throws {
         mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
         mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
         
@@ -229,9 +207,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check the saved attestation and proof token are returned if valid
-          """)
+    @Test("Check the saved attestation and proof token are returned if valid")
     func testSavedIntegrityAssertion() async throws {
         mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
         mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
@@ -254,9 +230,7 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(payload)
     }
     
-    @Test("""
-          Check that 200 returns the client attestation
-          """)
+    @Test("Check that 200 returns the client attestation")
     func testAssertIntegritySuccess() async throws {
         MockURLProtocol.handler = {
             (Data("""
@@ -276,9 +250,7 @@ struct FirebaseAppIntegrityServiceTests {
         )
     }
     
-    @Test("""
-          Check that the assertIntegrity returns correct dictionary
-          """)
+    @Test("Check that the assertIntegrity returns correct dictionary")
     func testAssertIntegrityResponse() async throws {
         mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
         mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
@@ -318,9 +290,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check that client attestation is decoded successfully
-          """)
+    @Test("Check that client attestation is decoded successfully")
     func testFetchClientAttestation() async throws {
         let expiresIn: TimeInterval = 86400
         
@@ -344,9 +314,7 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
     
-    @Test("""
-          Check that client attestation request returns a server error
-          """)
+    @Test("Check that client attestation request returns a server error")
     func testFetchClientAttestationServerError() async throws {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 400))
@@ -360,9 +328,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check that client attestation request payload results in a decoding error
-          """)
+    @Test("Check that client attestation request payload results in a decoding error")
     func testFetchClientAttestationDecodingError() async throws {
         MockURLProtocol.handler = {
             (Data("""
@@ -384,9 +350,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("""
-          Check that client attestation request public key error is caught
-          """)
+    @Test("Check that client attestation request public key error is caught")
     func testFetchClientAttestationPublicKey() async throws {
         mockProofOfPossessionProvider.errorFromPublicKey = NSError(domain: "test domain", code: 0)
         
@@ -401,7 +365,6 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
 }
-// swiftlint:enable type_body_length
 
 extension ServerError: @retroactive Equatable {
     public static func == (lhs: ServerError, rhs: ServerError) -> Bool {

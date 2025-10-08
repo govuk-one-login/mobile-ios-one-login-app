@@ -142,7 +142,7 @@ final class LoginCoordinator: NSObject,
                     let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .invalidConfiguration {
                 showUnrecoverableErrorScreen(error)
             } catch let error as AppIntegrityError<ClientAssertionError> where error.errorType == .invalidPublicKey,
-                    let error as AppIntegrityError<ClientAssertionError> where error.errorType == .cantCreateAttestationPoP {
+                    let error as AppIntegrityError<ClientAssertionError> where error.errorType == .cantCreateAttestationProofOfPossession {
                 showUnrecoverableErrorScreen(error)
             } catch let error as AppIntegrityError<ProofOfPossessionError> where error.errorType == .cantGeneratePublicKey {
                 showUnrecoverableErrorScreen(error)

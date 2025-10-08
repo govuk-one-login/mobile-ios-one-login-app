@@ -4,7 +4,7 @@ import Networking
 
 public enum TokenHeaderKey: String {
     case attestationJWT = "OAuth-Client-Attestation"
-    case attestationPoP = "OAuth-Client-Attestation-PoP"
+    case attestationProofOfPossession = "OAuth-Client-Attestation-PoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
@@ -36,7 +36,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             guard !attestationStore.validAttestation else {
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
-                    TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
+                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
                 ]
             }
             
@@ -46,7 +46,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
-                    TokenHeaderKey.attestationPoP.rawValue: try attestationPoP
+                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
                 ]
             } catch let error as NSError where
                         error.domain == AppCheckErrorDomain {
@@ -105,13 +105,13 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    private var attestationPoP: String {
+    private var attestationProofOfPossession: String {
         get throws {
             do {
                 return try proofTokenGenerator.token
             } catch {
                 throw AppIntegrityError<ClientAssertionError>(
-                    .cantCreateAttestationPoP,
+                    .cantCreateAttestationProofOfPossession,
                     errorDescription: error.localizedDescription
                 )
             }

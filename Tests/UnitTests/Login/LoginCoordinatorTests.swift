@@ -567,9 +567,9 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_appIntegrityCantCreateAttestationPoP() throws {
+    func test_launchAuthenticationService_appIntegrityCantCreateAttestationProofOfPossession() throws {
         // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
-        mockSessionManager.errorFromStartSession = AppIntegrityError<ClientAssertionError>(.cantCreateAttestationPoP, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = AppIntegrityError<ClientAssertionError>(.cantCreateAttestationProofOfPossession, errorDescription: "test reason")
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
