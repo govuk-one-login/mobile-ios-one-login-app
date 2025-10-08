@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "MobilePlatformServices", targets: ["MobilePlatformServices"])
     ],
     dependencies: [
-        .package(url: "https://github.com/govuk-one-login/mobile-ios-networking", .upToNextMajor(from: "3.0.0"))
+        .package(url: "https://github.com/govuk-one-login/mobile-ios-networking", .upToNextMajor(from: "3.3.0"))
     ],
     targets: [
         .target(name: "MobilePlatformServices", dependencies: [
