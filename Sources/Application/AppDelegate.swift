@@ -3,12 +3,13 @@ import GAnalytics
 import UIKit
 
 @main
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate, BackupDisabler {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseAppIntegrityService.configure()
         GAnalyticsV2.configure()
+        disableFileBackup()
         return true
     }
     
@@ -20,9 +21,4 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration",
                                     sessionRole: connectingSceneSession.role)
     }
-    
-    func application(_ application: UIApplication,
-                     didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-    }
-    
 }
