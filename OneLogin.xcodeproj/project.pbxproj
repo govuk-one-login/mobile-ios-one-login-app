@@ -111,6 +111,11 @@
 		C80B87282B029F440087C6D5 /* ScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87272B029F440087C6D5 /* ScreenObject.swift */; };
 		C80C58032CB0017300021D4F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58022CB0016E00021D4F /* HomeViewController.swift */; };
 		C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80C58042CB001AB00021D4F /* ContentTileCell.swift */; };
+		C80D77422E97C63200082040 /* BackupDisabler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D77412E97C62D00082040 /* BackupDisabler.swift */; };
+		C80D77442E97C65B00082040 /* AppFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D77432E97C65500082040 /* AppFileManager.swift */; };
+		C80D77462E97C6A200082040 /* BackupDisablerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D77452E97C69900082040 /* BackupDisablerTests.swift */; };
+		C80D77482E97C6CB00082040 /* MockBackupDisabler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D77472E97C6C400082040 /* MockBackupDisabler.swift */; };
+		C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D77492E97C6DB00082040 /* MockFileManager.swift */; };
 		C81509A32D1037C100B0CEA1 /* UserDefaults+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81509A22D1037B800B0CEA1 /* UserDefaults+OneLoginTests.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
 		C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */; };
@@ -411,6 +416,11 @@
 		C80B87272B029F440087C6D5 /* ScreenObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenObject.swift; sourceTree = "<group>"; };
 		C80C58022CB0016E00021D4F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C80C58042CB001AB00021D4F /* ContentTileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTileCell.swift; sourceTree = "<group>"; };
+		C80D77412E97C62D00082040 /* BackupDisabler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupDisabler.swift; sourceTree = "<group>"; };
+		C80D77432E97C65500082040 /* AppFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFileManager.swift; sourceTree = "<group>"; };
+		C80D77452E97C69900082040 /* BackupDisablerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupDisablerTests.swift; sourceTree = "<group>"; };
+		C80D77472E97C6C400082040 /* MockBackupDisabler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBackupDisabler.swift; sourceTree = "<group>"; };
+		C80D77492E97C6DB00082040 /* MockFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFileManager.swift; sourceTree = "<group>"; };
 		C81509A22D1037B800B0CEA1 /* UserDefaults+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OneLoginTests.swift"; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
 		C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AppIntegrity.swift"; sourceTree = "<group>"; };
@@ -710,6 +720,7 @@
 				C86B706D2B8F5EF200F4C9BF /* Firebase */,
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
+				C80D77412E97C62D00082040 /* BackupDisabler.swift */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
 				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
@@ -849,6 +860,7 @@
 		7CA7195E2C846AD500973585 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				C80D77432E97C65500082040 /* AppFileManager.swift */,
 				7CA719612C846CA400973585 /* ServiceTokenResponse.swift */,
 				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
 				7CA7195F2C846AED00973585 /* URLRequest+Authorization.swift */,
@@ -1067,6 +1079,7 @@
 			isa = PBXGroup;
 			children = (
 				ABBE421A2C775C6E00607A7A /* Environment */,
+				C80D77452E97C69900082040 /* BackupDisablerTests.swift */,
 				C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */,
 			);
 			path = Application;
@@ -1579,6 +1592,8 @@
 		C8BADD352B88CC0100385FE7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				C80D77492E97C6DB00082040 /* MockFileManager.swift */,
+				C80D77472E97C6C400082040 /* MockBackupDisabler.swift */,
 				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
 				C836FDD42D64DE6400F8AC37 /* MockSecureStoreManager.swift */,
 				C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */,
@@ -2165,6 +2180,7 @@
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */,
+				C80D77422E97C63200082040 /* BackupDisabler.swift in Sources */,
 				C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */,
 				C80C58032CB0017300021D4F /* HomeViewController.swift in Sources */,
 				D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */,
@@ -2216,6 +2232,7 @@
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
+				C80D77442E97C65B00082040 /* AppFileManager.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
@@ -2270,8 +2287,10 @@
 				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
+				C80D77482E97C6CB00082040 /* MockBackupDisabler.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
+				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
@@ -2289,6 +2308,7 @@
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
 				C836FDD52D64DE6900F8AC37 /* MockSecureStoreManager.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
+				C80D77462E97C6A200082040 /* BackupDisablerTests.swift in Sources */,
 				41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
