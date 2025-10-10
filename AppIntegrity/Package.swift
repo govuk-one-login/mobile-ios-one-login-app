@@ -12,11 +12,11 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            exact: "12.1.0"
+            exact: "12.3.0"
         ),
         .package(
             url: "https://github.com/govuk-one-login/mobile-ios-networking",
-            from: "3.0.0"
+            from: "3.3.0"
         )
     ],
     targets: [
