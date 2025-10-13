@@ -60,8 +60,8 @@ jobs:
 
           if [ ${{ inputs.pr }} = true ]
           then
-            bundle exec fastlane test scheme:"OneLoginBuild-Testing" \
-              configuration:"Debug-Testing" \
+            bundle exec fastlane test scheme:"OneLoginTesting" \
+              configuration:"DebugTesting" \
               testplan:OneLoginUnit \
               workspace:${{ github.workspace }} \
               sonar_token:${{ secrets.SONAR_TOKEN }} \
@@ -69,8 +69,8 @@ jobs:
               target_branch:${{ github.base_ref }} \
               pr_number:$pull_number
           else
-            bundle exec fastlane test scheme:"OneLoginBuild-Testing" \
-              configuration:"Debug-Testing" \
+            bundle exec fastlane test scheme:"OneLoginTesting" \
+              configuration:"DebugTesting" \
               testplan:OneLoginUnit \
               workspace:${{ github.workspace }} \
               sonar_token:${{ secrets.SONAR_TOKEN }}

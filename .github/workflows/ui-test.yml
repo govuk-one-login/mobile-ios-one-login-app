@@ -49,7 +49,7 @@ jobs:
         run: |
           bundle install
 
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild-Testing" \
+          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginTesting" \
             testplan:OneLoginUI
 
       - name: Make Artifact
