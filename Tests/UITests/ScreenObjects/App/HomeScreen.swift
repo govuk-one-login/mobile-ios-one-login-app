@@ -4,7 +4,7 @@ struct HomeScreen: ScreenObject {
     let app: XCUIApplication
     
     var view: XCUIElement {
-        app.firstMatch
+        app.tabBars.firstMatch
     }
     
     var titleImage: XCUIElement {

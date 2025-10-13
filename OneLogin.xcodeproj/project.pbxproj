@@ -239,7 +239,6 @@
 		C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */; };
 		C8F092E42DA465110046F6EA /* OneLoginEnrolmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F092E32DA4650C0046F6EA /* OneLoginEnrolmentManager.swift */; };
 		C8F092E62DA472AB0046F6EA /* OneLoginEnrolmentManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */; };
-		C8F493072DCABD3B003EC99F /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F493062DCABD35003EC99F /* LoadingScreen.swift */; };
 		C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */; };
 		D01A72772BE29B51004333F8 /* SettingsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72762BE29B51004333F8 /* SettingsCoordinatorTests.swift */; };
 		D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */; };
@@ -499,6 +498,7 @@
 		C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginUnit.xctestplan; sourceTree = "<group>"; };
 		C873B1DF2AF826D3002C39E8 /* OneLoginBuildAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneLoginBuildAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C873B1E12AF826D3002C39E8 /* OneLoginStagingAppEnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneLoginStagingAppEnvironmentTests.swift; sourceTree = "<group>"; };
+		C87826BC2E9D26210082F9DF /* OneLoginDebug-Testing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OneLoginDebug-Testing.entitlements"; sourceTree = "<group>"; };
 		C87913C32B27B7A300545B33 /* ErrorAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAnalytics.swift; sourceTree = "<group>"; };
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
@@ -560,7 +560,6 @@
 		C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginEnrolmentManagerTests.swift; sourceTree = "<group>"; };
 		C8F25A0E2DA80D0100E75F51 /* OneLoginIntegration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = OneLoginIntegration.xcconfig; sourceTree = "<group>"; };
 		C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginIntegration.entitlements; sourceTree = "<group>"; };
-		C8F493062DCABD35003EC99F /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		C8FC38E52D5A0B980006B974 /* SecureStorable+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStorable+OneLogin.swift"; sourceTree = "<group>"; };
 		D01A72762BE29B51004333F8 /* SettingsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorTests.swift; sourceTree = "<group>"; };
 		D01A72782BE37B86004333F8 /* ViewIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIdentifiable.swift; sourceTree = "<group>"; };
@@ -1066,7 +1065,6 @@
 			children = (
 				41A0BD092B272118009AE51F /* ErrorScreen.swift */,
 				D08B0B8C2BE0FDB100769CEA /* HomeScreen.swift */,
-				C8F493062DCABD35003EC99F /* LoadingScreen.swift */,
 				C80B871E2B029EAB0087C6D5 /* LoginModal.swift */,
 				1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */,
 				C80B87202B029EBB0087C6D5 /* WelcomeScreen.swift */,
@@ -1683,6 +1681,7 @@
 			children = (
 				C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */,
 				7CCCDF812CD15180005CD01F /* OneLoginDebug.entitlements */,
+				C87826BC2E9D26210082F9DF /* OneLoginDebug-Testing.entitlements */,
 				C8F25A102DA8105B00E75F51 /* OneLoginIntegration.entitlements */,
 				7CCCDF802CD150FF005CD01F /* OneLoginRelease.entitlements */,
 				412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */,
@@ -2408,7 +2407,6 @@
 			files = (
 				41A0BD0A2B272118009AE51F /* ErrorScreen.swift in Sources */,
 				D08B0B8D2BE0FDB100769CEA /* HomeScreen.swift in Sources */,
-				C8F493072DCABD3B003EC99F /* LoadingScreen.swift in Sources */,
 				C80B871F2B029EAB0087C6D5 /* LoginModal.swift in Sources */,
 				1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */,
 				C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */,
@@ -3553,6 +3551,257 @@
 			};
 			name = Integration;
 		};
+		C87826B42E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginDebug-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = "Debug-Testing";
+		};
+		C87826B52E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C0CCED02C8A12DF00F61C11 /* OneLoginDebug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Sources/Application/Environment/Entitlements/OneLoginDebug-Testing.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Sources/Application/Environment/Properties/OneLoginDebug-Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.11.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug-Testing";
+		};
+		C87826B62E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = "Debug-Testing";
+		};
+		C87826B72E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-buildAppTests.OneLoginBuildTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = "Debug-Testing";
+		};
+		C87826B82E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appTests.OneLoginIntegrationConfigTests.OneLoginIntegrationConfigTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = "Debug-Testing";
+		};
+		C87826B92E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N8W395F695;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.OneLoginConfigTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = "Debug-Testing";
+		};
+		C87826BA2E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-stagingAppTests.OneLoginStagingTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneLogin.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneLogin";
+			};
+			name = "Debug-Testing";
+		};
+		C87826BB2E9D25D60082F9DF /* Debug-Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.di-mobile-ios-onelogin-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = OneLogin;
+			};
+			name = "Debug-Testing";
+		};
 		C8F25A082DA80CD000E75F51 /* Integration */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3749,6 +3998,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2196020F2A976305008F3427 /* Debug */,
+				C87826B42E9D25D60082F9DF /* Debug-Testing */,
 				219602102A976305008F3427 /* Build */,
 				7CCCDF7A2CD14EED005CD01F /* Staging */,
 				7CCCDF6E2CD14ECF005CD01F /* Release */,
@@ -3761,6 +4011,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602122A976305008F3427 /* Debug */,
+				C87826B52E9D25D60082F9DF /* Debug-Testing */,
 				219602132A976305008F3427 /* Build */,
 				7CCCDF7B2CD14EED005CD01F /* Staging */,
 				7CCCDF6F2CD14ECF005CD01F /* Release */,
@@ -3773,6 +4024,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602152A976305008F3427 /* Debug */,
+				C87826B62E9D25D60082F9DF /* Debug-Testing */,
 				219602162A976305008F3427 /* Build */,
 				7CCCDF7C2CD14EED005CD01F /* Staging */,
 				7CCCDF702CD14ECF005CD01F /* Release */,
@@ -3785,6 +4037,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				219602182A976305008F3427 /* Debug */,
+				C87826BB2E9D25D60082F9DF /* Debug-Testing */,
 				219602192A976305008F3427 /* Build */,
 				7CCCDF7F2CD14EED005CD01F /* Staging */,
 				7CCCDF732CD14ECF005CD01F /* Release */,
@@ -3797,6 +4050,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				25537C442AF2B2600059DCD2 /* Debug */,
+				C87826BA2E9D25D60082F9DF /* Debug-Testing */,
 				25537C462AF2B2600059DCD2 /* Build */,
 				7CCCDF7D2CD14EED005CD01F /* Staging */,
 				7CCCDF712CD14ECF005CD01F /* Release */,
@@ -3809,6 +4063,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				25537C552AF2B38E0059DCD2 /* Debug */,
+				C87826B72E9D25D60082F9DF /* Debug-Testing */,
 				25537C572AF2B38E0059DCD2 /* Build */,
 				7CCCDF7E2CD14EED005CD01F /* Staging */,
 				7CCCDF722CD14ECF005CD01F /* Release */,
@@ -3821,6 +4076,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C826A7192DA814B100832E65 /* Debug */,
+				C87826B82E9D25D60082F9DF /* Debug-Testing */,
 				C826A71A2DA814B100832E65 /* Build */,
 				C826A71B2DA814B100832E65 /* Staging */,
 				C826A71C2DA814B100832E65 /* Release */,
@@ -3833,6 +4089,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C83E06CF2DCC0944007FDE0D /* Debug */,
+				C87826B92E9D25D60082F9DF /* Debug-Testing */,
 				C83E06D02DCC0944007FDE0D /* Build */,
 				C83E06D12DCC0944007FDE0D /* Staging */,
 				C83E06D22DCC0944007FDE0D /* Release */,

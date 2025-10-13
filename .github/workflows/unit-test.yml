@@ -43,7 +43,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
         run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.2.app
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.4.app
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
@@ -60,8 +60,8 @@ jobs:
 
           if [ ${{ inputs.pr }} = true ]
           then
-            bundle exec fastlane test scheme:"OneLoginBuild" \
-              configuration:"Debug" \
+            bundle exec fastlane test scheme:"OneLoginBuild-Testing" \
+              configuration:"Debug-Testing" \
               testplan:OneLoginUnit \
               workspace:${{ github.workspace }} \
               sonar_token:${{ secrets.SONAR_TOKEN }} \
@@ -69,8 +69,8 @@ jobs:
               target_branch:${{ github.base_ref }} \
               pr_number:$pull_number
           else
-            bundle exec fastlane test scheme:"OneLoginBuild" \
-              configuration:"Debug" \
+            bundle exec fastlane test scheme:"OneLoginBuild-Testing" \
+              configuration:"Debug-Testing" \
               testplan:OneLoginUnit \
               workspace:${{ github.workspace }} \
               sonar_token:${{ secrets.SONAR_TOKEN }}
