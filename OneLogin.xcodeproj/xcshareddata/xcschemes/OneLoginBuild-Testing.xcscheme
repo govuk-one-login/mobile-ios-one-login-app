@@ -33,7 +33,8 @@
             reference = "container:Tests/TestPlans/OneLoginUnit.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:Tests/TestPlans/OneLoginUI.xctestplan">
+            reference = "container:Tests/TestPlans/OneLoginUI.xctestplan"
+            default = "YES">
          </TestPlanReference>
       </TestPlans>
    </TestAction>
