@@ -161,7 +161,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError(
                 .serverError,
-                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -179,7 +179,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError(
                 .invalidToken,
-                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -197,7 +197,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError(
                 .invalidPublicKey,
-                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
             )
         ) {
             try await sut.integrityAssertions
