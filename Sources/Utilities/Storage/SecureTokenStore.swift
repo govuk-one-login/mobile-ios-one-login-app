@@ -7,6 +7,7 @@ enum StoredTokenError: Error {
 
 public struct StoredTokens: Codable {
     let idToken: String?
+    let refreshToken: String?
     let accessToken: String
 }
 
@@ -42,7 +43,10 @@ final class SecureTokenStore: TokenStore {
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
-        try accessControlEncryptedStore.saveItem(item: encodedTokens, itemName: OLString.storedTokens)
+        try accessControlEncryptedStore.saveItem(
+            item: encodedTokens,
+            itemName: OLString.storedTokens
+        )
     }
 
     func deleteTokens() {

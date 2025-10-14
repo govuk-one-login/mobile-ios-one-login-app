@@ -1,6 +1,7 @@
 import Foundation
+import JWTKit
 
 protocol TokenVerifier {
-    func verifyToken(_ token: String) async throws -> IdTokenPayload
-    func extractPayload(_ token: String) throws -> IdTokenPayload
+    func verifyToken<TokenPayload: JWTPayload>(_ token: String) async throws -> TokenPayload
+    func extractPayload<TokenPayload: JWTPayload>(_ token: String) throws -> TokenPayload
 }

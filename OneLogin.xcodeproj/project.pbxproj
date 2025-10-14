@@ -123,6 +123,7 @@
 		C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
 		C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */; };
+		C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */; };
 		C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */; };
 		C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */; };
 		C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C825C02B2D5E281C00112918 /* AuthenticationService.swift */; };
@@ -430,6 +431,7 @@
 		C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AppIntegrity.swift"; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
 		C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
+		C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenPayload.swift; sourceTree = "<group>"; };
 		C823CA0F2C85D97D000BDD5D /* QualifyingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingCoordinator.swift; sourceTree = "<group>"; };
 		C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQualifyingService.swift; sourceTree = "<group>"; };
 		C825C02B2D5E281C00112918 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
@@ -1759,6 +1761,7 @@
 			isa = PBXGroup;
 			children = (
 				D03B04D22BEE734900418C0B /* IdTokenPayload.swift */,
+				C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */,
 				D0BE24422BEBB06700759529 /* JWKInfo.swift */,
 				D0BE24402BEBAEF100759529 /* JWTVerifier.swift */,
 				D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */,
@@ -2182,6 +2185,7 @@
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
+				C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,

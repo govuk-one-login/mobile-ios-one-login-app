@@ -15,11 +15,11 @@ struct ES256KeyVerifier: KeyVerifier {
         }
     }
     
-    func verify(jwt: String) throws -> IdTokenPayload {
+    func verify<TokenPayload: JWTPayload>(jwt: String) throws -> TokenPayload {
         try signers.verify(jwt)
     }
     
-    func extract(jwt: String) throws -> IdTokenPayload {
+    func extract<TokenPayload: JWTPayload>(jwt: String) throws -> TokenPayload {
         return try signers.unverified(jwt)
     }
 }

@@ -11,7 +11,7 @@ final class JWTVerifier: TokenVerifier {
 }
 
 extension JWTVerifier {
-    func verifyToken(_ token: String) async throws -> IdTokenPayload {
+    func verifyToken<TokenPayload: JWTPayload>(_ token: String) async throws -> TokenPayload {
         let jwksInfo = try await fetchJWKs()
         
         guard let kid = try extractKIDFromTokenHeader(token),
@@ -28,7 +28,7 @@ extension JWTVerifier {
         }
     }
     
-    func extractPayload(_ token: String) throws -> IdTokenPayload {
+    func extractPayload<TokenPayload: JWTPayload>(_ token: String) throws -> TokenPayload {
         let extractor = try ES256KeyVerifier()
         do {
             return try extractor.extract(jwt: token)
