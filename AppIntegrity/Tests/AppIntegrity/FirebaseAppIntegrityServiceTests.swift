@@ -140,7 +140,7 @@ struct FirebaseAppIntegrityServiceTests {
         
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
-                .serverError,
+                .invalidPublicKey,
                 errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
             )
         ) {
