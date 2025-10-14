@@ -141,7 +141,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
                 .serverError,
-                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
+                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -157,7 +157,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
                 .invalidToken,
-                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
+                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -173,7 +173,7 @@ struct FirebaseAppIntegrityServiceTests {
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
                 .serverError,
-                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 1.)"
+                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -198,8 +198,8 @@ struct FirebaseAppIntegrityServiceTests {
         
         await #expect(
             throws: AppIntegrityError<ClientAssertionError>(
-                .invalidPublicKey,
-                underlyingReason: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
+                .cantCreateAttestationProofOfPossession,
+                errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
             try await sut.integrityAssertions
