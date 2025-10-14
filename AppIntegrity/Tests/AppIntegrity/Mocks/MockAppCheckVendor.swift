@@ -3,6 +3,7 @@ import FirebaseAppCheck
 
 final class MockAppCheckVendor: AppCheckVendor {
     private(set) static var wasConfigured: (any AppCheckProviderFactory)?
+    var errorFromLimitedUseToken: Error?
 
     static func setAppCheckProviderFactory(_ factory: (any AppCheckProviderFactory)?) {
         self.wasConfigured = factory
@@ -16,6 +17,9 @@ final class MockAppCheckVendor: AppCheckVendor {
     }
     
     func limitedUseToken() async throws -> AppCheckToken {
-        AppCheckToken(token: "abc", expirationDate: .distantFuture)
+        if let errorFromLimitedUseToken {
+            throw errorFromLimitedUseToken
+        }
+        return AppCheckToken(token: "abc", expirationDate: .distantFuture)
     }
 }

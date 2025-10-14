@@ -1,3 +1,4 @@
+import AppIntegrity
 import Authentication
 import GDSAnalytics
 import Logging
@@ -30,6 +31,9 @@ final class WebAuthenticationService: AuthenticationService {
             throw error
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
             try await sessionManager.clearAllSessionData(restartLoginFlow: true)
+            throw error
+        } catch let error as AppIntegrityError {
+            analyticsService.logCrash(error)
             throw error
         } catch let error as SecureStoreError {
             analyticsService.logCrash(error)
