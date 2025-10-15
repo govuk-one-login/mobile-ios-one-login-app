@@ -36,13 +36,13 @@ final class WebAuthenticationService: AuthenticationService {
         } catch let error as AppIntegritySigningError {
             analyticsService.logCrash(error)
             throw error
-        } catch let error as AppIntegrityError<FirebaseAppCheckError> {
+        } catch let error as FirebaseAppCheckError {
             analyticsService.logCrash(error)
             throw error
-        } catch let error as AppIntegrityError<ClientAssertionError> {
+        } catch let error as ClientAssertionError {
             analyticsService.logCrash(error)
             throw error
-        } catch let error as AppIntegrityError<ProofOfPossessionError> {
+        } catch let error as ProofOfPossessionError {
             analyticsService.logCrash(error)
             throw error
         } catch let error as SecureStoreError {

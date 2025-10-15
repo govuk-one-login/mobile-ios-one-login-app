@@ -53,7 +53,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
         
         await #expect(
-            throws: AppIntegrityError<FirebaseAppCheckError>(
+            throws: FirebaseAppCheckError(
                 .unknown,
                 errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 0.)"
             )
@@ -67,7 +67,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
         
         await #expect(
-            throws: AppIntegrityError<FirebaseAppCheckError>(
+            throws: FirebaseAppCheckError(
                 .network,
                 errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
             )
@@ -81,7 +81,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
         
         await #expect(
-            throws: AppIntegrityError<FirebaseAppCheckError>(
+            throws: FirebaseAppCheckError(
                 .invalidConfiguration,
                 errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 2.)"
             )
@@ -95,7 +95,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
         
         await #expect(
-            throws: AppIntegrityError<FirebaseAppCheckError>(
+            throws: FirebaseAppCheckError(
                 .keychainAccess,
                 errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 3.)"
             )
@@ -109,7 +109,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
         
         await #expect(
-            throws: AppIntegrityError<FirebaseAppCheckError>(
+            throws: FirebaseAppCheckError(
                 .notSupported,
                 errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 4.)"
             )
@@ -123,7 +123,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
         
         await #expect(
-            throws: AppIntegrityError<FirebaseAppCheckError>(
+            throws: FirebaseAppCheckError(
                 .generic,
                 errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 5.)"
             )
@@ -139,7 +139,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
         
         await #expect(
-            throws: AppIntegrityError<ClientAssertionError>(
+            throws: ClientAssertionError(
                 .invalidPublicKey,
                 errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
             )
@@ -155,7 +155,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
 
         await #expect(
-            throws: AppIntegrityError<ClientAssertionError>(
+            throws: ClientAssertionError(
                 .invalidToken,
                 errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
             )
@@ -171,7 +171,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
 
         await #expect(
-            throws: AppIntegrityError<ClientAssertionError>(
+            throws: ClientAssertionError(
                 .serverError,
                 errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
             )
@@ -197,7 +197,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockProofTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         await #expect(
-            throws: AppIntegrityError<ClientAssertionError>(
+            throws: ClientAssertionError(
                 .cantCreateAttestationProofOfPossession,
                 errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
@@ -339,7 +339,7 @@ struct FirebaseAppIntegrityServiceTests {
         }
         
         await #expect(
-            throws: AppIntegrityError<ClientAssertionError>(
+            throws: ClientAssertionError(
                 .cantDecodeClientAssertion,
                 errorDescription: "The data couldn’t be read because it isn’t in the correct format."
             )
@@ -354,7 +354,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockProofOfPossessionProvider.errorFromPublicKey = NSError(domain: "test domain", code: 0)
         
         await #expect(
-            throws: AppIntegrityError<ProofOfPossessionError>(
+            throws: ProofOfPossessionError(
                 .cantGeneratePublicKey,
                 errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )

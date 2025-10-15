@@ -126,25 +126,25 @@ final class LoginCoordinator: NSObject,
                 }
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .network {
+            } catch let error as FirebaseAppCheckError where error.errorType == .network {
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .unknown,
-                    let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .generic {
+            } catch let error as FirebaseAppCheckError where error.errorType == .unknown,
+                    let error as FirebaseAppCheckError where error.errorType == .generic {
                 showRecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError<ClientAssertionError> where error.errorType == .invalidToken,
-                    let error as AppIntegrityError<ClientAssertionError> where error.errorType == .serverError,
-                    let error as AppIntegrityError<ClientAssertionError> where error.errorType == .cantDecodeClientAssertion {
+            } catch let error as ClientAssertionError where error.errorType == .invalidToken,
+                    let error as ClientAssertionError where error.errorType == .serverError,
+                    let error as ClientAssertionError where error.errorType == .cantDecodeClientAssertion {
                 showRecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .notSupported,
-                    let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .keychainAccess,
-                    let error as AppIntegrityError<FirebaseAppCheckError> where error.errorType == .invalidConfiguration {
+            } catch let error as FirebaseAppCheckError where error.errorType == .notSupported,
+                    let error as FirebaseAppCheckError where error.errorType == .keychainAccess,
+                    let error as FirebaseAppCheckError where error.errorType == .invalidConfiguration {
                 showUnrecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError<ClientAssertionError> where error.errorType == .invalidPublicKey,
-                    let error as AppIntegrityError<ClientAssertionError> where error.errorType == .cantCreateAttestationProofOfPossession {
+            } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey,
+                    let error as ClientAssertionError where error.errorType == .cantCreateAttestationProofOfPossession {
                 showUnrecoverableErrorScreen(error)
-            } catch let error as AppIntegrityError<ProofOfPossessionError> where error.errorType == .cantGeneratePublicKey {
+            } catch let error as ProofOfPossessionError where error.errorType == .cantGeneratePublicKey {
                 showUnrecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)

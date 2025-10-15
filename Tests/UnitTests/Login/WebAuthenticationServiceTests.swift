@@ -92,7 +92,7 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_appIntegrityError_firebaseAppCheckError() async {
-        mockSessionManager.errorFromStartSession = AppIntegrityError<FirebaseAppCheckError>(
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .generic,
             errorDescription: "test reason"
         )
@@ -100,7 +100,7 @@ extension WebAuthenticationServiceTests {
         do {
             try await sut.startWebSession()
         } catch {
-            guard let error = error as? AppIntegrityError<FirebaseAppCheckError> else {
+            guard let error = error as? FirebaseAppCheckError else {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
@@ -110,7 +110,7 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_appIntegrityError_clientAssertionError() async {
-        mockSessionManager.errorFromStartSession = AppIntegrityError<ClientAssertionError>(
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
             .invalidToken,
             errorDescription: "test reason"
         )
@@ -118,7 +118,7 @@ extension WebAuthenticationServiceTests {
         do {
             try await sut.startWebSession()
         } catch {
-            guard let error = error as? AppIntegrityError<ClientAssertionError> else {
+            guard let error = error as? ClientAssertionError else {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
@@ -128,7 +128,7 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_appIntegrityError_proofOfPosessionError() async {
-        mockSessionManager.errorFromStartSession = AppIntegrityError<ProofOfPossessionError>(
+        mockSessionManager.errorFromStartSession = ProofOfPossessionError(
             .cantGeneratePublicKey,
             errorDescription: "test reason"
         )
@@ -136,7 +136,7 @@ extension WebAuthenticationServiceTests {
         do {
             try await sut.startWebSession()
         } catch {
-            guard let error = error as? AppIntegrityError<ProofOfPossessionError> else {
+            guard let error = error as? ProofOfPossessionError else {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
