@@ -27,25 +27,12 @@ final class WebAuthenticationService: AuthenticationService {
                 using: LoginSessionConfiguration.oneLoginSessionConfiguration
             )
         } catch let error as LoginErrorV2 where error.reason == .userCancelled {
-            let userCancelEvent = ButtonEvent(textKey: "back")
-            analyticsService.logEvent(userCancelEvent)
+            analyticsService.logEvent(ButtonEvent(textKey: "back"))
             throw error
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
             try await sessionManager.clearAllSessionData(restartLoginFlow: true)
             throw error
-        } catch let error as AppIntegritySigningError {
-            analyticsService.logCrash(error)
-            throw error
-        } catch let error as FirebaseAppCheckError {
-            analyticsService.logCrash(error)
-            throw error
-        } catch let error as ClientAssertionError {
-            analyticsService.logCrash(error)
-            throw error
-        } catch let error as ProofOfPossessionError {
-            analyticsService.logCrash(error)
-            throw error
-        } catch let error as SecureStoreError {
+        } catch {
             analyticsService.logCrash(error)
             throw error
         }
