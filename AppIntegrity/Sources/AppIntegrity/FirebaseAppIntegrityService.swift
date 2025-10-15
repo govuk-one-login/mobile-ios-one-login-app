@@ -2,36 +2,9 @@ import FirebaseAppCheck
 import FirebaseCore
 import Networking
 
-public struct AppIntegrityError: Error, LocalizedError, Equatable {
-    public enum AppIntegrityErrorType: String {
-        case unknown
-        case network
-        case invalidConfiguration
-        case keychainAccess
-        case notSupported
-        case generic
-        case invalidPublicKey
-        case invalidToken
-        case serverError
-    }
-    
-    public let errorType: AppIntegrityErrorType
-    public let errorDescription: String?
-    public let failureReason: String?
-    
-    public init(
-        _ errorType: AppIntegrityErrorType,
-        underlyingReason: String
-    ) {
-        self.errorType = errorType
-        self.errorDescription = underlyingReason
-        self.failureReason = errorType.rawValue
-    }
-}
-
 public enum TokenHeaderKey: String {
     case attestationJWT = "OAuth-Client-Attestation"
-    case attestationPoP = "OAuth-Client-Attestation-PoP"
+    case attestationProofOfPossession = "OAuth-Client-Attestation-PoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
@@ -41,9 +14,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let proofOfPossessionProvider: ProofOfPossessionProvider
     private let proofTokenGenerator: ProofTokenGenerator
     private let attestationStore: AttestationStorage
-
-    // TODO: DCMAW-10322 | Return true if a valid (non-expired) attestation JWT is available
-    private var isValidAttestationAvailable: Bool = false
 
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
@@ -66,46 +36,84 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             guard !attestationStore.validAttestation else {
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
-                    TokenHeaderKey.attestationPoP.rawValue: try proofTokenGenerator.token
+                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
                 ]
             }
             
             do {
                 let appCheck = try await vendor.limitedUseToken()
                 let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
-                let attestationPOP = try proofTokenGenerator.token
                 
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
-                    TokenHeaderKey.attestationPoP.rawValue: attestationPOP
+                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
                 ]
             } catch let error as NSError where
                         error.domain == AppCheckErrorDomain {
                 // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
                 switch error.code {
                 case 0:
-                    throw AppIntegrityError(.unknown, underlyingReason: error.localizedDescription)
+                    throw FirebaseAppCheckError(
+                        .unknown,
+                        errorDescription: error.localizedDescription
+                    )
                 case 1:
-                    throw AppIntegrityError(.network, underlyingReason: error.localizedDescription)
+                    throw FirebaseAppCheckError(
+                        .network,
+                        errorDescription: error.localizedDescription
+                    )
                 case 2:
-                    throw AppIntegrityError(.invalidToken, underlyingReason: error.localizedDescription)
+                    throw FirebaseAppCheckError(
+                        .invalidConfiguration,
+                        errorDescription: error.localizedDescription
+                    )
                 case 3:
-                    throw AppIntegrityError(.keychainAccess, underlyingReason: error.localizedDescription)
+                    throw FirebaseAppCheckError(
+                        .keychainAccess,
+                        errorDescription: error.localizedDescription
+                    )
                 case 4:
-                    throw AppIntegrityError(.notSupported, underlyingReason: error.localizedDescription)
+                    throw FirebaseAppCheckError(
+                        .notSupported,
+                        errorDescription: error.localizedDescription
+                    )
                 default:
-                    throw AppIntegrityError(.generic, underlyingReason: error.localizedDescription)
+                    throw FirebaseAppCheckError(
+                        .generic,
+                        errorDescription: error.localizedDescription
+                    )
                 }
             } catch let error as ServerError where
                         error.errorCode == 400 {
-                throw AppIntegrityError(.invalidPublicKey, underlyingReason: error.localizedDescription)
+                throw ClientAssertionError(
+                    .invalidPublicKey,
+                    errorDescription: error.localizedDescription
+                )
             } catch let error as ServerError where
                         error.errorCode == 401 {
-                // potential for a server error or invalid app check token from mobile backend
-                throw AppIntegrityError(.invalidToken, underlyingReason: error.localizedDescription)
+                throw ClientAssertionError(
+                    .invalidToken,
+                    errorDescription: error.localizedDescription
+                )
             } catch let error as ServerError where
                         error.errorCode == 500 {
-                throw AppIntegrityError(.serverError, underlyingReason: error.localizedDescription)
+                throw ClientAssertionError(
+                    .serverError,
+                    errorDescription: error.localizedDescription
+                )
+            }
+        }
+    }
+    
+    private var attestationProofOfPossession: String {
+        get throws {
+            do {
+                return try proofTokenGenerator.token
+            } catch {
+                throw ClientAssertionError(
+                    .cantCreateAttestationProofOfPossession,
+                    errorDescription: error.localizedDescription
+                )
             }
         }
     }
@@ -140,20 +148,34 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     }
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
-        let data = try await networkClient.makeRequest(.clientAttestation(
-            baseURL: baseURL,
-            token: appCheckToken,
-            body: proofOfPossessionProvider.publicKey
-        ))
-        
-        let assertionResponse = try JSONDecoder()
-            .decode(ClientAssertionResponse.self, from: data)
-        
-        attestationStore.store(
-            assertionJWT: assertionResponse.attestationJWT,
-            assertionExpiry: assertionResponse.expiryDate
-        )
-        
-        return assertionResponse
+        do {
+            let data = try await networkClient.makeRequest(.clientAttestation(
+                baseURL: baseURL,
+                token: appCheckToken,
+                body: try proofOfPossessionProvider.publicKey
+            ))
+            
+            let assertionResponse = try JSONDecoder()
+                .decode(ClientAssertionResponse.self, from: data)
+            
+            attestationStore.store(
+                assertionJWT: assertionResponse.attestationJWT,
+                assertionExpiry: assertionResponse.expiryDate
+            )
+            
+            return assertionResponse
+        } catch let error as ServerError {
+            throw error
+        } catch let error as DecodingError {
+            throw ClientAssertionError(
+                .cantDecodeClientAssertion,
+                errorDescription: error.localizedDescription
+            )
+        } catch {
+            throw ProofOfPossessionError(
+                .cantGeneratePublicKey,
+                errorDescription: error.localizedDescription
+            )
+        }
     }
 }
