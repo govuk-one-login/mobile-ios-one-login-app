@@ -14,6 +14,7 @@ struct FirebaseAppIntegrityServiceTests {
     let mockProofOfPossessionProvider: MockProofOfPossessionProvider
     let baseURL: URL
     let mockProofTokenGenerator: MockProofTokenGenerator
+    let mockDPoPTokenGenerator: MockProofTokenGenerator
     let mockAttestationStore: MockAttestationStore
     let sut: FirebaseAppIntegrityService
     
@@ -30,6 +31,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockProofOfPossessionProvider = MockProofOfPossessionProvider()
         baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
         mockProofTokenGenerator = MockProofTokenGenerator()
+        mockDPoPTokenGenerator = MockProofTokenGenerator()
         mockAttestationStore = MockAttestationStore()
         
         sut = FirebaseAppIntegrityService(
@@ -38,6 +40,7 @@ struct FirebaseAppIntegrityServiceTests {
             proofOfPossessionProvider: mockProofOfPossessionProvider,
             baseURL: baseURL,
             proofTokenGenerator: mockProofTokenGenerator,
+            dPoPTokenGenerator: mockDPoPTokenGenerator,
             attestationStore: mockAttestationStore
         )
     }
@@ -208,8 +211,8 @@ struct FirebaseAppIntegrityServiceTests {
     
     @Test("Check the saved attestation and proof token are returned if valid")
     func testSavedIntegrityAssertion() async throws {
-        mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
-        mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
+        mockProofTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
+        mockProofTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
         mockAttestationStore.validAttestation = true
         
@@ -218,13 +221,13 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(integrityResponse["OAuth-Client-Attestation"] == "testSavedAttestation")
         let header = try #require(
             integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockHeaderKey1": "mockHeaderValue1""#) as Bool?
+                .contains(#""mockPoPHeaderKey1": "mockPoPHeaderValue1""#) as Bool?
         )
         #expect(header)
         
         let payload = try #require(
             integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockPayloadKey1": "mockPayloadValue1""#) as Bool?
+                .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) as Bool?
         )
         #expect(payload)
     }
@@ -251,8 +254,8 @@ struct FirebaseAppIntegrityServiceTests {
     
     @Test("Check that the assertIntegrity returns correct dictionary")
     func testAssertIntegrityResponse() async throws {
-        mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
-        mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
+        mockProofTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
+        mockProofTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
         MockURLProtocol.handler = {
             (Data("""
@@ -268,13 +271,13 @@ struct FirebaseAppIntegrityServiceTests {
         #expect(integrityResponse["OAuth-Client-Attestation"] == "testAttestation")
         let header = try #require(
             integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockHeaderKey1": "mockHeaderValue1""#) as Bool?
+                .contains(#""mockPoPHeaderKey1": "mockPoPHeaderValue1""#) as Bool?
         )
         #expect(header)
         
         let payload = try #require(
             integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockPayloadKey1": "mockPayloadValue1""#) as Bool?
+                .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) as Bool?
         )
         #expect(payload)
         

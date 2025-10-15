@@ -11,9 +11,15 @@ struct ClientAssertionResponse: Decodable {
 
     init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        attestationJWT = try values.decode(String.self, forKey: .attestationJWT)
+        attestationJWT = try values.decode(
+            String.self,
+            forKey: .attestationJWT
+        )
 
-        let expiresIn = try values.decode(Double.self, forKey: .expiresIn)
+        let expiresIn = try values.decode(
+            Double.self,
+            forKey: .expiresIn
+        )
         expiryDate = Date(timeIntervalSinceNow: expiresIn)
     }
 }

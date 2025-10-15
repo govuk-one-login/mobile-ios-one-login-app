@@ -5,6 +5,7 @@ import Networking
 public enum TokenHeaderKey: String {
     case attestationJWT = "OAuth-Client-Attestation"
     case attestationProofOfPossession = "OAuth-Client-Attestation-PoP"
+    case dPoP = "DPoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
@@ -13,6 +14,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
     private let proofTokenGenerator: ProofTokenGenerator
+    private let dPoPTokenGenerator: ProofTokenGenerator
     private let attestationStore: AttestationStorage
 
     private static var providerFactory: AppCheckProviderFactory {
@@ -36,7 +38,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             guard !attestationStore.validAttestation else {
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
-                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
+                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession,
+                    TokenHeaderKey.dPoP.rawValue: try dPoP
                 ]
             }
             
@@ -46,7 +49,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 
                 return [
                     TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
-                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
+                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession,
+                    TokenHeaderKey.dPoP.rawValue: try dPoP
                 ]
             } catch let error as NSError where
                         error.domain == AppCheckErrorDomain {
@@ -117,18 +121,33 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             }
         }
     }
+    
+    private var dPoP: String {
+        get throws {
+            do {
+                return try dPoPTokenGenerator.token
+            } catch {
+                throw ClientAssertionError(
+                    .cantCreateAttestationProofOfPossession,
+                    errorDescription: error.localizedDescription
+                )
+            }
+        }
+    }
 
     init(vendor: AppCheckVendor,
          networkClient: NetworkClient,
          proofOfPossessionProvider: ProofOfPossessionProvider,
          baseURL: URL,
          proofTokenGenerator: ProofTokenGenerator,
+         dPoPTokenGenerator: ProofTokenGenerator,
          attestationStore: AttestationStorage) {
         self.networkClient = networkClient
         self.vendor = vendor
         self.proofOfPossessionProvider = proofOfPossessionProvider
         self.baseURL = baseURL
         self.proofTokenGenerator = proofTokenGenerator
+        self.dPoPTokenGenerator = dPoPTokenGenerator
         self.attestationStore = attestationStore
     }
     
@@ -136,6 +155,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                             proofOfPossessionProvider: ProofOfPossessionProvider,
                             baseURL: URL,
                             proofTokenGenerator: ProofTokenGenerator,
+                            dPoPTokenGenerator: ProofTokenGenerator,
                             attestationStore: AttestationStorage) {
         self.init(
             vendor: AppCheck.appCheck(),
@@ -143,6 +163,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             proofOfPossessionProvider: proofOfPossessionProvider,
             baseURL: baseURL,
             proofTokenGenerator: proofTokenGenerator,
+            dPoPTokenGenerator: dPoPTokenGenerator,
             attestationStore: attestationStore
         )
     }

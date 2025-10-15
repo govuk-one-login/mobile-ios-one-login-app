@@ -42,6 +42,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockSessionManager = nil
         mockNetworkMonitor = nil
+        mockAuthenticationService = nil
         sut = nil
         
         super.tearDown()

@@ -17,6 +17,10 @@ public enum ClientAssertionErrorType: String {
     case cantCreateAttestationProofOfPossession = "cant create attestation proof of possession"
 }
 
+public enum DPoPErrorType: String {
+    case cantCreateDPoP = "can't create DPoP"
+}
+
 public enum ProofOfPossessionErrorType: String {
     case cantGeneratePublicKey = "cant generate proof of possession public key"
 }
@@ -42,4 +46,5 @@ public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedEr
 
 public typealias FirebaseAppCheckError = AppIntegrityError<FirebaseAppCheckErrorType>
 public typealias ClientAssertionError = AppIntegrityError<ClientAssertionErrorType>
+public typealias DPoPError = AppIntegrityError<DPoPErrorType>
 public typealias ProofOfPossessionError = AppIntegrityError<ProofOfPossessionErrorType>

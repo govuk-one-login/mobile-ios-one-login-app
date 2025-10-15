@@ -1,8 +1,7 @@
 import Foundation.NSDate
 
-enum AppIntegrityJWT {
-    case headers
-    case payload
+enum AppIntegrityPoPJWT {
+    case headers, payload
     
     func callAsFunction() -> [String: Any] {
         switch self {

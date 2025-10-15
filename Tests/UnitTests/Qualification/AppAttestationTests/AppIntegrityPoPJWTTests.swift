@@ -2,12 +2,12 @@ import Foundation
 @testable import OneLogin
 import Testing
 
-struct AppIntegrityJWTTests {
+struct AppIntegrityPoPJWTTests {
     @Test("""
           Initialise header from value
           """)
     func initialiseJWTHeader() {
-        let header = AppIntegrityJWT.headers()
+        let header = AppIntegrityPoPJWT.headers()
 
         #expect(header as? [String: String] == ["alg": "ES256",
                                                 "typ": "oauth-client-attestation-pop+jwt"])
@@ -17,7 +17,7 @@ struct AppIntegrityJWTTests {
            Initialise payload from value
            """)
      func initialiseJWTPayload() {
-         let payload = AppIntegrityJWT.payload()
+         let payload = AppIntegrityPoPJWT.payload()
          let expiryDate = Int(Date().timeIntervalSince1970) + 180
 
          #expect(payload["iss"] as? String == AppEnvironment.stsClientID)
