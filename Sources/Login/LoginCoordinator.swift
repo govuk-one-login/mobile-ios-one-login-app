@@ -144,7 +144,9 @@ final class LoginCoordinator: NSObject,
             } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey,
                     let error as ClientAssertionError where error.errorType == .cantCreateAttestationProofOfPossession {
                 showUnrecoverableErrorScreen(error)
-            } catch let error as ProofOfPossessionError where error.errorType == .cantGeneratePublicKey {
+            } catch let error as ProofOfPossessionError {
+                showUnrecoverableErrorScreen(error)
+            } catch let error as DPoPError {
                 showUnrecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
