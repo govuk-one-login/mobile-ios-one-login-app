@@ -1,8 +1,8 @@
 @testable import AppIntegrity
 
 class MockProofTokenGenerator: ProofTokenGenerator {
-    var header = [ String: Any ]()
-    var payload = [ String: Any ]()
+    var header = [String: Any]()
+    var payload = [String: Any]()
     
     var errorFromToken: Error?
     
@@ -11,11 +11,7 @@ class MockProofTokenGenerator: ProofTokenGenerator {
             if let errorFromToken {
                 throw errorFromToken
             } else {
-                let body = header
-                let combined = body.merging(payload) {
-                    $1
-                }
-                return "\(combined)"
+                return header.merging(payload) { $1 }.description
             }
         }
     }

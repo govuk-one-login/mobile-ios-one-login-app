@@ -31,7 +31,7 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
                 networkClient: NetworkClient(),
                 proofOfPossessionProvider: signingService,
                 baseURL: AppEnvironment.mobileBaseURL,
-                proofTokenGenerator: popTokenGenerator,
+                proofOfPossessionTokenGenerator: popTokenGenerator,
                 dPoPTokenGenerator: dPoPTokenGenerator,
                 attestationStore: UserDefaults.standard
             )

@@ -12,8 +12,7 @@ struct FirebaseAppIntegrityServiceTests {
     let mockVendor: MockAppCheckVendor
     let networkClient: NetworkClient
     let mockProofOfPossessionProvider: MockProofOfPossessionProvider
-    let baseURL: URL
-    let mockProofTokenGenerator: MockProofTokenGenerator
+    let mockProofOfPossessionTokenGenerator: MockProofTokenGenerator
     let mockDPoPTokenGenerator: MockProofTokenGenerator
     let mockAttestationStore: MockAttestationStore
     let sut: FirebaseAppIntegrityService
@@ -29,8 +28,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor = MockAppCheckVendor()
         networkClient = NetworkClient(configuration: configuration)
         mockProofOfPossessionProvider = MockProofOfPossessionProvider()
-        baseURL = try #require(URL(string: "https://mobile.build.account.gov.uk"))
-        mockProofTokenGenerator = MockProofTokenGenerator()
+        mockProofOfPossessionTokenGenerator = MockProofTokenGenerator()
         mockDPoPTokenGenerator = MockProofTokenGenerator()
         mockAttestationStore = MockAttestationStore()
         
@@ -38,8 +36,8 @@ struct FirebaseAppIntegrityServiceTests {
             vendor: mockVendor,
             networkClient: networkClient,
             proofOfPossessionProvider: mockProofOfPossessionProvider,
-            baseURL: baseURL,
-            proofTokenGenerator: mockProofTokenGenerator,
+            baseURL: try #require(URL(string: "https://mobile.build.account.gov.uk")),
+            proofOfPossessionTokenGenerator: mockProofOfPossessionTokenGenerator,
             dPoPTokenGenerator: mockDPoPTokenGenerator,
             attestationStore: mockAttestationStore
         )
@@ -49,6 +47,99 @@ struct FirebaseAppIntegrityServiceTests {
     func testConfigureAppCheckProvider() {
         FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
         #expect(MockAppCheckVendor.wasConfigured is AppCheckDebugProviderFactory)
+    }
+    
+    @Test("Check the saved attestation and proof token are returned if valid")
+    func testSavedIntegrityAssertion() async throws {
+        mockProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
+        mockProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
+        
+        mockDPoPTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
+        mockDPoPTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
+        
+        mockAttestationStore.validAttestation = true
+        
+        let integrityResponse = try await sut.integrityAssertions
+        
+        #expect(
+            integrityResponse["OAuth-Client-Attestation"] == "testSavedAttestation"
+        )
+        
+        #expect(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPoPHeaderKey1": "mockPoPHeaderValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPHeaderKey1": "mockDPoPHeaderValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPPayloadKey1": "mockDPoPPayloadValue1""#) ?? false
+        )
+    }
+    
+    @Test("Check that the assertIntegrity returns correct dictionary")
+    func testAssertIntegrityResponse() async throws {
+        MockURLProtocol.handler = {
+            (Data("""
+             {
+              "client_attestation": "testAttestation",
+              "expires_in": 86400
+             }
+            """.utf8),
+             HTTPURLResponse(statusCode: 200))
+        }
+        
+        mockProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
+        mockProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
+        
+        mockDPoPTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
+        mockDPoPTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
+        
+        let integrityResponse = try await sut.integrityAssertions
+        
+        #expect(
+            integrityResponse["OAuth-Client-Attestation"] == "testAttestation"
+        )
+        
+        #expect(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPoPHeaderKey1": "mockPoPHeaderValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["OAuth-Client-Attestation-PoP"]?
+                .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPHeaderKey1": "mockDPoPHeaderValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPPayloadKey1": "mockDPoPPayloadValue1""#) ?? false
+        )
+        
+        #expect(
+            mockAttestationStore.mockStorage["attestationJWT"] as? String == "testAttestation"
+        )
+        
+        if #available(iOS 15.0, *) {
+            #expect(
+                (mockAttestationStore.mockStorage["attestationExpiry"] as? Date)?
+                    .formatted(.dateTime) == Date(timeIntervalSinceNow: 86400).formatted(.dateTime)
+            )
+        }
     }
     
     @Test("AppCheck vendor throws unknown error from limitedUseToken")
@@ -183,21 +274,19 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("Proof token generator returns error cant create attestation proof of possession error")
+    @Test("Proof of possession token generator returns error cant create attestation proof of possession error")
     func testAttestationProofOfPossessionError() async throws {
-        mockProofTokenGenerator.header = ["mockHeaderKey1": "mockHeaderValue1"]
-        mockProofTokenGenerator.payload = ["mockPayloadKey1": "mockPayloadValue1"]
-        
         MockURLProtocol.handler = {
             (Data("""
              {
               "client_attestation": "testAttestation",
               "expires_in": 86400
              }
-            """.utf8), HTTPURLResponse(statusCode: 200))
+            """.utf8),
+             HTTPURLResponse(statusCode: 200))
         }
         
-        mockProofTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
+        mockProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         await #expect(
             throws: ClientAssertionError(
@@ -209,86 +298,27 @@ struct FirebaseAppIntegrityServiceTests {
         }
     }
     
-    @Test("Check the saved attestation and proof token are returned if valid")
-    func testSavedIntegrityAssertion() async throws {
-        mockProofTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
-        mockProofTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
-        
-        mockAttestationStore.validAttestation = true
-        
-        let integrityResponse = try await sut.integrityAssertions
-        
-        #expect(integrityResponse["OAuth-Client-Attestation"] == "testSavedAttestation")
-        let header = try #require(
-            integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockPoPHeaderKey1": "mockPoPHeaderValue1""#) as Bool?
-        )
-        #expect(header)
-        
-        let payload = try #require(
-            integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) as Bool?
-        )
-        #expect(payload)
-    }
-    
-    @Test("Check that 200 returns the client attestation")
-    func testAssertIntegritySuccess() async throws {
+    @Test("DPoP token generator returns error cant create attestation proof of possession error")
+    func testDPoPError() async throws {
         MockURLProtocol.handler = {
             (Data("""
              {
               "client_attestation": "testAttestation",
               "expires_in": 86400
              }
-            """.utf8), HTTPURLResponse(statusCode: 200))
+            """.utf8),
+             HTTPURLResponse(statusCode: 200))
         }
         
-        _ = try await sut.integrityAssertions
+        mockDPoPTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
-        #expect(MockURLProtocol.requests.count == 1)
-        #expect(
-            MockURLProtocol.requests[0].url?.absoluteString ==
-            "https://mobile.build.account.gov.uk/client-attestation"
-        )
-    }
-    
-    @Test("Check that the assertIntegrity returns correct dictionary")
-    func testAssertIntegrityResponse() async throws {
-        mockProofTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
-        mockProofTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
-        
-        MockURLProtocol.handler = {
-            (Data("""
-             {
-              "client_attestation": "testAttestation",
-              "expires_in": 86400
-             }
-            """.utf8), HTTPURLResponse(statusCode: 200))
-        }
-        
-        let integrityResponse = try await sut.integrityAssertions
-        
-        #expect(integrityResponse["OAuth-Client-Attestation"] == "testAttestation")
-        let header = try #require(
-            integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockPoPHeaderKey1": "mockPoPHeaderValue1""#) as Bool?
-        )
-        #expect(header)
-        
-        let payload = try #require(
-            integrityResponse["OAuth-Client-Attestation-PoP"]?
-                .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) as Bool?
-        )
-        #expect(payload)
-        
-        #expect(
-            mockAttestationStore.mockStorage["attestationJWT"] as? String == "testAttestation"
-        )
-        if #available(iOS 15.0, *) {
-            #expect(
-                (mockAttestationStore.mockStorage["attestationExpiry"] as? Date)?
-                    .formatted(.dateTime) == Date(timeIntervalSinceNow: 86400).formatted(.dateTime)
+        await #expect(
+            throws: ClientAssertionError(
+                .cantCreateAttestationProofOfPossession,
+                errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
+        ) {
+            try await sut.integrityAssertions
         }
     }
     

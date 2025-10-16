@@ -13,7 +13,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let baseURL: URL
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
-    private let proofTokenGenerator: ProofTokenGenerator
+    private let proofOfPossessionTokenGenerator: ProofTokenGenerator
     private let dPoPTokenGenerator: ProofTokenGenerator
     private let attestationStore: AttestationStorage
 
@@ -112,7 +112,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private var attestationProofOfPossession: String {
         get throws {
             do {
-                return try proofTokenGenerator.token
+                return try proofOfPossessionTokenGenerator.token
             } catch {
                 throw ClientAssertionError(
                     .cantCreateAttestationProofOfPossession,
@@ -139,14 +139,14 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
          networkClient: NetworkClient,
          proofOfPossessionProvider: ProofOfPossessionProvider,
          baseURL: URL,
-         proofTokenGenerator: ProofTokenGenerator,
+         proofOfPossessionTokenGenerator: ProofTokenGenerator,
          dPoPTokenGenerator: ProofTokenGenerator,
          attestationStore: AttestationStorage) {
         self.networkClient = networkClient
         self.vendor = vendor
         self.proofOfPossessionProvider = proofOfPossessionProvider
         self.baseURL = baseURL
-        self.proofTokenGenerator = proofTokenGenerator
+        self.proofOfPossessionTokenGenerator = proofOfPossessionTokenGenerator
         self.dPoPTokenGenerator = dPoPTokenGenerator
         self.attestationStore = attestationStore
     }
@@ -154,7 +154,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     public convenience init(networkClient: NetworkClient,
                             proofOfPossessionProvider: ProofOfPossessionProvider,
                             baseURL: URL,
-                            proofTokenGenerator: ProofTokenGenerator,
+                            proofOfPossessionTokenGenerator: ProofTokenGenerator,
                             dPoPTokenGenerator: ProofTokenGenerator,
                             attestationStore: AttestationStorage) {
         self.init(
@@ -162,7 +162,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             networkClient: networkClient,
             proofOfPossessionProvider: proofOfPossessionProvider,
             baseURL: baseURL,
-            proofTokenGenerator: proofTokenGenerator,
+            proofOfPossessionTokenGenerator: proofOfPossessionTokenGenerator,
             dPoPTokenGenerator: dPoPTokenGenerator,
             attestationStore: attestationStore
         )

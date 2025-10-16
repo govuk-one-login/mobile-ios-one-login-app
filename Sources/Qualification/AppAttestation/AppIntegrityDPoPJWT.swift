@@ -14,8 +14,8 @@ enum AppIntegrityDPoPJWT {
         case .payload:
             [
                 "htm": "POST",
-                "aud": "www." + AppEnvironment.stsToken.absoluteString,
-                "exp": Int(Date.now.timeIntervalSince1970) + 180,
+                "htu": AppEnvironment.stsToken.absoluteString,
+                "iat": Int(Date.now.timeIntervalSince1970) + 180,
                 "jti": UUID().uuidString
             ]
         }

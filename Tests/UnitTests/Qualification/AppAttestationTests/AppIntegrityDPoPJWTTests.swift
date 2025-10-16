@@ -26,8 +26,8 @@ struct AppIntegrityDPoPJWTTests {
         let expiryDate = Int(Date().timeIntervalSince1970) + 180
         
         #expect(payload["htm"] as? String == "POST")
-        #expect(payload["aud"] as? String == "www." + AppEnvironment.stsToken.absoluteString)
-        #expect(payload["exp"] as? Int == expiryDate)
+        #expect(payload["htu"] as? String == AppEnvironment.stsToken.absoluteString)
+        #expect(payload["iat"] as? Int == expiryDate)
         #expect((payload["jti"] as? String)?.count == 36)
     }
 }
