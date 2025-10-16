@@ -99,8 +99,10 @@ final class QualifyingCoordinator: NSObject,
         case .notLoggedIn, .expired, .userLogOut:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
-            let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
-                                                           errorDescription: error.localizedDescription) { [unowned self] in
+            let viewModel = RecoverableLoginErrorViewModel(
+                analyticsService: analyticsService,
+                errorDescription: error.localizedDescription
+            ) { [unowned self] in
                 analyticsService.logCrash(error)
                 fatalError("We were unable to resume the session, there's not much we can do to help the user")
             }
@@ -118,9 +120,11 @@ final class QualifyingCoordinator: NSObject,
                 root: UINavigationController(),
                 analyticsService: analyticsService,
                 sessionManager: sessionManager,
-                authService: WebAuthenticationService(sessionManager: sessionManager,
-                                                      session: AppAuthSessionV2(window: appWindow),
-                                                      analyticsService: analyticsService),
+                authService: WebAuthenticationService(
+                    sessionManager: sessionManager,
+                    session: AppAuthSessionV2(window: appWindow),
+                    analyticsService: analyticsService
+                ),
                 authState: userState
             )
             displayChildCoordinator(loginCoordinator)

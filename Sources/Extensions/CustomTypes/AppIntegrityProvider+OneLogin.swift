@@ -5,7 +5,7 @@ import Networking
 import TokenGeneration
 
 extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
-    static func firebaseAppCheck() throws -> FirebaseAppIntegrityService {
+    static func firebaseAppCheck() throws(AppIntegritySigningError) -> FirebaseAppIntegrityService {
         let configuration = CryptoServiceConfiguration(
             id: OLString.attestation,
             accessControlLevel: .open
@@ -35,9 +35,19 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
                 dPoPTokenGenerator: dPoPTokenGenerator,
                 attestationStore: UserDefaults.standard
             )
-        } catch {
+        } catch let error as KeyPairAdministratorError {
             throw AppIntegritySigningError(
                 errorType: .initialisationError,
+                errorDescription: error.localizedDescription
+            )
+        } catch let error as SigningServiceError {
+            throw AppIntegritySigningError(
+                errorType: .publicKeyDictionaryError,
+                errorDescription: error.localizedDescription
+            )
+        } catch {
+            throw AppIntegritySigningError(
+                errorType: .unknown,
                 errorDescription: error.localizedDescription
             )
         }

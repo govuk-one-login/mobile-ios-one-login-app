@@ -75,7 +75,7 @@ extension WebAuthenticationServiceTests {
     
     func test_appIntegritySigningError() async {
         mockSessionManager.errorFromStartSession = AppIntegritySigningError(
-            errorType: .publicKeyError,
+            errorType: .publicKeyJWTError,
             errorDescription: "test description"
         )
         
@@ -86,7 +86,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
-            XCTAssertTrue(error.errorType == .publicKeyError)
+            XCTAssertTrue(error.errorType == .publicKeyJWTError)
             XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         }
     }

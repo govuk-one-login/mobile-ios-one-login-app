@@ -31,17 +31,23 @@ final class SettingsCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
-                                       image: UIImage(systemName: "gearshape"),
-                                       tag: 2)
-        let viewModel = SettingsTabViewModel(analyticsService: analyticsService,
-                                             userProvider: sessionManager,
-                                             urlOpener: urlOpener,
-                                             openSignOutPage: openSignOutPage,
-                                             openDeveloperMenu: openDeveloperMenu)
-        let settingsViewController = SettingsViewController(viewModel: viewModel,
-                                                            userProvider: sessionManager,
-                                                            analyticsPreference: analyticsService.analyticsPreferenceStore)
+        root.tabBarItem = UITabBarItem(
+            title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
+            image: UIImage(systemName: "gearshape"),
+            tag: 2
+        )
+        let viewModel = SettingsTabViewModel(
+            analyticsService: analyticsService,
+            userProvider: sessionManager,
+            urlOpener: urlOpener,
+            openSignOutPage: openSignOutPage,
+            openDeveloperMenu: openDeveloperMenu
+        )
+        let settingsViewController = SettingsViewController(
+            viewModel: viewModel,
+            userProvider: sessionManager,
+            analyticsPreference: analyticsService.analyticsPreferenceStore
+        )
         root.setViewControllers([settingsViewController], animated: true)
     }
     
@@ -80,8 +86,10 @@ final class SettingsCoordinator: NSObject,
                 try await sessionManager.clearAllSessionData(restartLoginFlow: false)
                 finish()
             } catch {
-                let viewModel = SignOutErrorViewModel(analyticsService: analyticsService,
-                                                      error: error) { [unowned self] in
+                let viewModel = SignOutErrorViewModel(
+                    analyticsService: analyticsService,
+                    error: error
+                ) { [unowned self] in
                     root.popToRootViewController(animated: true)
                     root.dismiss(animated: true)
                 }
@@ -93,10 +101,15 @@ final class SettingsCoordinator: NSObject,
     
     func openDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
-        let service = HelloWorldService(client: networkClient, baseURL: AppEnvironment.stsHelloWorld)
-        let devMenuViewController = DeveloperMenuViewController(viewModel: viewModel,
-                                                                sessionManager: sessionManager,
-                                                                helloWorldProvider: service)
+        let service = HelloWorldService(
+            client: networkClient,
+            baseURL: AppEnvironment.stsHelloWorld
+        )
+        let devMenuViewController = DeveloperMenuViewController(
+            viewModel: viewModel,
+            sessionManager: sessionManager,
+            helloWorldProvider: service
+        )
         let navController = UINavigationController(rootViewController: devMenuViewController)
         root.present(navController, animated: true)
     }

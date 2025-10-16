@@ -216,8 +216,10 @@ extension LoginCoordinator {
     }
     
     private func showRecoverableErrorScreen(_ error: Error) {
-        let viewModel = RecoverableLoginErrorViewModel(analyticsService: analyticsService,
-                                                       errorDescription: error.localizedDescription) { [unowned self] in
+        let viewModel = RecoverableLoginErrorViewModel(
+            analyticsService: analyticsService,
+            errorDescription: error.localizedDescription
+        ) { [unowned self] in
             returnFromErrorScreen()
         }
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
@@ -225,8 +227,10 @@ extension LoginCoordinator {
     }
     
     private func showUnrecoverableErrorScreen(_ error: Error) {
-        let viewModel = UnrecoverableLoginErrorViewModel(analyticsService: analyticsService,
-                                                         errorDescription: error.localizedDescription)
+        let viewModel = UnrecoverableLoginErrorViewModel(
+            analyticsService: analyticsService,
+            errorDescription: error.localizedDescription
+        )
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }
@@ -240,8 +244,10 @@ extension LoginCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
-        let viewModel = GenericErrorViewModel(analyticsService: analyticsService,
-                                              errorDescription: error.localizedDescription) { [unowned self] in
+        let viewModel = GenericErrorViewModel(
+            analyticsService: analyticsService,
+            errorDescription: error.localizedDescription
+        ) { [unowned self] in
             returnFromErrorScreen()
         }
         let genericErrorScreen = GDSErrorScreen(viewModel: viewModel)
