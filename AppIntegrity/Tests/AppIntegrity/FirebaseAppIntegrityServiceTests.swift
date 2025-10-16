@@ -314,8 +314,8 @@ struct FirebaseAppIntegrityServiceTests {
         mockDPoPTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         await #expect(
-            throws: ClientAssertionError(
-                .cantCreateAttestationProofOfPossession,
+            throws: DPoPError(
+                .cantCreateDPoP,
                 errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {

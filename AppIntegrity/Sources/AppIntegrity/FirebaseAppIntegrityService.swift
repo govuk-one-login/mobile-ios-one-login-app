@@ -127,8 +127,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             do {
                 return try dPoPTokenGenerator.token
             } catch {
-                throw ClientAssertionError(
-                    .cantCreateAttestationProofOfPossession,
+                throw DPoPError(
+                    .cantCreateDPoP,
                     errorDescription: error.localizedDescription
                 )
             }
