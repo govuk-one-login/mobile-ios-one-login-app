@@ -6,5 +6,5 @@ protocol User {
 }
 
 protocol RefreshToken {
-    var expiryDate: Date { get }
+    var expiryDate: String { get }
 }

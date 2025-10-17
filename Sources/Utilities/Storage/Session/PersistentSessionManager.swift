@@ -151,9 +151,9 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let refreshToken = tokenResponse.refreshToken {
-            unprotectedStore.set(
-                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
-                forKey: OLString.refreshTokenExpiry
+            try secureStoreManager.encryptedStore.saveItem(
+                item: try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
+                itemName: OLString.refreshTokenExpiry
             )
         }
         
@@ -182,14 +182,14 @@ final class PersistentSessionManager: SessionManager {
         }
         
         let keys = try storeKeyService.fetch()
+                
         if let idToken = keys.idToken {
             user.send(try IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)
         }
         
-        let accessToken = keys.accessToken
-        tokenProvider.update(subjectToken: accessToken)
+        tokenProvider.update(subjectToken: keys.accessToken)
     }
     
     func endCurrentSession() {
