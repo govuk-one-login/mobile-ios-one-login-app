@@ -109,7 +109,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    private var attestationProofOfPossessionToken: String {
+    private var proofOfPossessionToken: String {
         get throws {
             do {
                 return try attestationProofOfPossessionTokenGenerator.token
