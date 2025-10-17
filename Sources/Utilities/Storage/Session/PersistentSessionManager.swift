@@ -152,7 +152,7 @@ final class PersistentSessionManager: SessionManager {
         
         if let refreshToken = tokenResponse.refreshToken {
             unprotectedStore.set(
-                try RefreshTokenRepresentation(refreshToken: refreshToken).expiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
                 forKey: OLString.refreshTokenExpiry
             )
         }
