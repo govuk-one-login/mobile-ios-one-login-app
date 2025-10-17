@@ -3,7 +3,7 @@ import FirebaseCore
 import Networking
 
 public enum AppIntegrityHeaderKey: String {
-    case attestationJWT                 = "OAuth-Client-Attestation"
+    case attestation                    = "OAuth-Client-Attestation"
     case attestationProofOfPossession   = "OAuth-Client-Attestation-PoP"
     case demonstratingproofOfPossession = "DPoP"
 }
@@ -37,7 +37,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         get async throws {
             guard !attestationStore.validAttestation else {
                 return [
-                    AppIntegrityHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
+                    AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
                     AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
@@ -48,7 +48,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
                 
                 return [
-                    AppIntegrityHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
+                    AppIntegrityHeaderKey.attestation.rawValue: attestation.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
                     AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
