@@ -1,6 +1,6 @@
 @testable import AppIntegrity
 
-class MockProofTokenGenerator: ProofTokenGenerator {
+class MockProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator {
     var header = [String: Any]()
     var payload = [String: Any]()
     

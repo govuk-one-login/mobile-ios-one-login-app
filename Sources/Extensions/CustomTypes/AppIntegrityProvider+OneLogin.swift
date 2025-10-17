@@ -31,8 +31,8 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
                 networkClient: NetworkClient(),
                 proofOfPossessionProvider: signingService,
                 baseURL: AppEnvironment.mobileBaseURL,
-                proofOfPossessionTokenGenerator: popTokenGenerator,
-                dPoPTokenGenerator: dPoPTokenGenerator,
+                attestationProofOfPossessionTokenGenerator: popTokenGenerator,
+                demonstratingProofOfPossessionTokenGenerator: dPoPTokenGenerator,
                 attestationStore: UserDefaults.standard
             )
         } catch let error as KeyPairAdministratorError {
