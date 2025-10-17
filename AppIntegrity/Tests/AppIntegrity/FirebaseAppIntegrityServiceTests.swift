@@ -341,7 +341,7 @@ struct FirebaseAppIntegrityServiceTests {
             .fetchClientAttestation(appCheckToken: UUID().uuidString)
         #expect(response.attestationJWT == "testAttestation")
         
-        // Expiry time should be more a day since before we made the request
+        // Expiry time should be more than a day since before we made the request
         // but less than a day from now
         #expect(response.expiryDate > initialDate.addingTimeInterval(expiresIn))
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))

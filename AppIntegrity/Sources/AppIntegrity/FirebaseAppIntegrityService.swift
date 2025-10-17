@@ -109,8 +109,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    private var proofOfPossessionToken: String {
-        get throws {
+    private var attestationProofOfPossessionToken: String {
+        get throws(ProofOfPossessionError) {
             do {
                 return try attestationProofOfPossessionTokenGenerator.token
             } catch {
@@ -123,7 +123,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     }
     
     private var demonstratingProofOfPossessionToken: String {
-        get throws {
+        get throws(ProofOfPossessionError) {
             do {
                 return try demonstratingProofOfPossessionTokenGenerator.token
             } catch {
