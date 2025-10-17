@@ -10,22 +10,22 @@ public enum FirebaseAppCheckErrorType: String {
 }
 
 public enum ClientAssertionErrorType: String {
-    case invalidPublicKey                       = "invalid client attestation public key"
-    case invalidToken                           = "invalid firebase app check token"
-    case serverError                            = "server error"
-    case cantDecodeClientAssertion              = "cant decode client attestation"
-    case cantCreateAttestationProofOfPossession = "cant create attestation proof of possession"
+    case invalidPublicKey          = "invalid client attestation public key"
+    case invalidToken              = "invalid firebase app check token"
+    case serverError               = "server error"
+    case cantDecodeClientAssertion = "cant decode client attestation"
 }
 
 public enum ProofOfPossessionErrorType: String {
-    case cantGeneratePublicKey = "cant generate proof of possession public key"
+    case cantGenerateAttestationPublicKeyJWK           = "cant generate attestation public key JWK"
+    case cantGenerateProofOfPossessionJWT              = "cant create attestation proof of possession"
+    case cantGenerateDemonstratingProofOfPossessionJWT = "can't generate demonstrating public key dictionary"
 }
 
-public enum DPoPErrorType: String {
-    case cantCreateDPoP = "can't create DPoP"
-}
-
-public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedError, CustomNSError, Equatable where ErrorType.RawValue == String {
+public struct AppIntegrityError<ErrorType: RawRepresentable>: Error,
+                                                              LocalizedError,
+                                                              CustomNSError,
+                                                              Equatable where ErrorType.RawValue == String {
     public let errorType: ErrorType
     public let errorDescription: String?
     public let failureReason: String?
@@ -47,4 +47,3 @@ public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedEr
 public typealias FirebaseAppCheckError = AppIntegrityError<FirebaseAppCheckErrorType>
 public typealias ClientAssertionError = AppIntegrityError<ClientAssertionErrorType>
 public typealias ProofOfPossessionError = AppIntegrityError<ProofOfPossessionErrorType>
-public typealias DPoPError = AppIntegrityError<DPoPErrorType>

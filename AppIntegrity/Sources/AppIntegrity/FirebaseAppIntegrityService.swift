@@ -13,7 +13,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let baseURL: URL
     private let vendor: AppCheckVendor
     private let proofOfPossessionProvider: ProofOfPossessionProvider
-    private let attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
+    private let proofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
     private let demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
     private let attestationStore: AttestationStorage
 
@@ -112,10 +112,10 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private var attestationProofOfPossessionToken: String {
         get throws {
             do {
-                return try attestationProofOfPossessionTokenGenerator.token
+                return try proofOfPossessionTokenGenerator.token
             } catch {
-                throw ClientAssertionError(
-                    .cantCreateAttestationProofOfPossession,
+                throw ProofOfPossessionError(
+                    .cantGenerateProofOfPossessionJWT,
                     errorDescription: error.localizedDescription
                 )
             }
@@ -127,8 +127,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             do {
                 return try demonstratingProofOfPossessionTokenGenerator.token
             } catch {
-                throw DPoPError(
-                    .cantCreateDPoP,
+                throw ProofOfPossessionError(
+                    .cantGenerateDemonstratingProofOfPossessionJWT,
                     errorDescription: error.localizedDescription
                 )
             }
@@ -139,14 +139,14 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
          networkClient: NetworkClient,
          proofOfPossessionProvider: ProofOfPossessionProvider,
          baseURL: URL,
-         attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
+         proofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
          demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
          attestationStore: AttestationStorage) {
         self.networkClient = networkClient
         self.vendor = vendor
         self.proofOfPossessionProvider = proofOfPossessionProvider
         self.baseURL = baseURL
-        self.attestationProofOfPossessionTokenGenerator = attestationProofOfPossessionTokenGenerator
+        self.proofOfPossessionTokenGenerator = proofOfPossessionTokenGenerator
         self.demonstratingProofOfPossessionTokenGenerator = demonstratingProofOfPossessionTokenGenerator
         self.attestationStore = attestationStore
     }
@@ -154,7 +154,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     public convenience init(networkClient: NetworkClient,
                             proofOfPossessionProvider: ProofOfPossessionProvider,
                             baseURL: URL,
-                            attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
+                            proofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
                             demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
                             attestationStore: AttestationStorage) {
         self.init(
@@ -162,7 +162,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             networkClient: networkClient,
             proofOfPossessionProvider: proofOfPossessionProvider,
             baseURL: baseURL,
-            attestationProofOfPossessionTokenGenerator: attestationProofOfPossessionTokenGenerator,
+            proofOfPossessionTokenGenerator: proofOfPossessionTokenGenerator,
             demonstratingProofOfPossessionTokenGenerator: demonstratingProofOfPossessionTokenGenerator,
             attestationStore: attestationStore
         )
@@ -194,7 +194,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             )
         } catch {
             throw ProofOfPossessionError(
-                .cantGeneratePublicKey,
+                .cantGenerateAttestationPublicKeyJWK,
                 errorDescription: error.localizedDescription
             )
         }

@@ -13,7 +13,7 @@ struct FirebaseAppIntegrityServiceTests {
     let mockVendor: MockAppCheckVendor
     let networkClient: NetworkClient
     let mockProofOfPossessionProvider: MockProofOfPossessionProvider
-    let mockAttestationProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
+    let mockProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
     let mockDemonstratingProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
     let mockAttestationStore: MockAttestationStore
     let sut: FirebaseAppIntegrityService
@@ -29,7 +29,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockVendor = MockAppCheckVendor()
         networkClient = NetworkClient(configuration: configuration)
         mockProofOfPossessionProvider = MockProofOfPossessionProvider()
-        mockAttestationProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
+        mockProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockAttestationStore = MockAttestationStore()
         
@@ -38,7 +38,7 @@ struct FirebaseAppIntegrityServiceTests {
             networkClient: networkClient,
             proofOfPossessionProvider: mockProofOfPossessionProvider,
             baseURL: try #require(URL(string: "https://mobile.build.account.gov.uk")),
-            attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator,
+            proofOfPossessionTokenGenerator: mockProofOfPossessionTokenGenerator,
             demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator,
             attestationStore: mockAttestationStore
         )
@@ -52,8 +52,8 @@ struct FirebaseAppIntegrityServiceTests {
     
     @Test("Check the saved attestation and proof token are returned if valid")
     func testSavedIntegrityAssertion() async throws {
-        mockAttestationProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
-        mockAttestationProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
+        mockProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
+        mockProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
@@ -99,8 +99,8 @@ struct FirebaseAppIntegrityServiceTests {
              HTTPURLResponse(statusCode: 200))
         }
         
-        mockAttestationProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
-        mockAttestationProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
+        mockProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
+        mockProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
@@ -287,11 +287,11 @@ struct FirebaseAppIntegrityServiceTests {
              HTTPURLResponse(statusCode: 200))
         }
         
-        mockAttestationProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
+        mockProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         await #expect(
-            throws: ClientAssertionError(
-                .cantCreateAttestationProofOfPossession,
+            throws: ProofOfPossessionError(
+                .cantGenerateProofOfPossessionJWT,
                 errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
@@ -314,8 +314,8 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         await #expect(
-            throws: DPoPError(
-                .cantCreateDPoP,
+            throws: ProofOfPossessionError(
+                .cantGenerateDemonstratingProofOfPossessionJWT,
                 errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
@@ -389,7 +389,7 @@ struct FirebaseAppIntegrityServiceTests {
         
         await #expect(
             throws: ProofOfPossessionError(
-                .cantGeneratePublicKey,
+                .cantGenerateAttestationPublicKeyJWK,
                 errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {

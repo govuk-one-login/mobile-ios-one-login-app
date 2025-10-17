@@ -598,26 +598,10 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_appIntegrityCantCreateAttestationProofOfPossession() throws {
-        // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
-        mockSessionManager.errorFromStartSession = ClientAssertionError(
-            .cantCreateAttestationProofOfPossession,
-            errorDescription: "test reason"
-        )
-        // WHEN the LoginCoordinator's launchAuthenticationService method is called
-        sut.launchAuthenticationService()
-        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
-        // THEN the visible view controller should be the GDSErrorScreen
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
-    }
-    
-    @MainActor
-    func test_launchAuthenticationService_appIntegritycantGenerateProofOfPossessionPublicKey() throws {
+    func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionPublicKeyJWK() throws {
         // GIVEN the authentication session returns an app integrity cant generate a proof of possession public key error
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
-            .cantGeneratePublicKey,
+            .cantGenerateAttestationPublicKeyJWK,
             errorDescription: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
@@ -630,10 +614,26 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_appIntegritycantGenerateDPoPPublicKey() throws {
+    func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionJWT() throws {
+        // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
+        mockSessionManager.errorFromStartSession = ProofOfPossessionError(
+            .cantGenerateProofOfPossessionJWT,
+            errorDescription: "test reason"
+        )
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_appIntegrityCantGenerateDemonstratingProofOfPossessionJWT() throws {
         // GIVEN the authentication session returns an app integrity cant generate a DPoP public key error
-        mockSessionManager.errorFromStartSession = DPoPError(
-            .cantCreateDPoP,
+        mockSessionManager.errorFromStartSession = ProofOfPossessionError(
+            .cantGenerateDemonstratingProofOfPossessionJWT,
             errorDescription: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called

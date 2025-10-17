@@ -13,6 +13,12 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
         do {
             let signingService = try CryptoSigningService(configuration: configuration)
             
+            // MARK: PoP JWT
+            let popJWTRepresentation = JWTRepresentation(header: AppIntegrityPoPJWT.headers(),
+                                                         payload: AppIntegrityPoPJWT.payload())
+            let popTokenGenerator = JWTGenerator(jwtRepresentation: popJWTRepresentation,
+                                                 signingService: signingService)
+            
             // MARK: DPoP JWT
             let dpopJWTRepresentation = JWTRepresentation(
                 header: AppIntegrityDPoPJWT.headers(jwk: try signingService.jwkDictionary)(),
@@ -21,17 +27,11 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
             let dPoPTokenGenerator = JWTGenerator(jwtRepresentation: dpopJWTRepresentation,
                                                   signingService: signingService)
             
-            // MARK: PoP JWT
-            let popJWTRepresentation = JWTRepresentation(header: AppIntegrityPoPJWT.headers(),
-                                                         payload: AppIntegrityPoPJWT.payload())
-            let popTokenGenerator = JWTGenerator(jwtRepresentation: popJWTRepresentation,
-                                                 signingService: signingService)
-            
             return FirebaseAppIntegrityService(
                 networkClient: NetworkClient(),
                 proofOfPossessionProvider: signingService,
                 baseURL: AppEnvironment.mobileBaseURL,
-                attestationProofOfPossessionTokenGenerator: popTokenGenerator,
+                proofOfPossessionTokenGenerator: popTokenGenerator,
                 demonstratingProofOfPossessionTokenGenerator: dPoPTokenGenerator,
                 attestationStore: UserDefaults.standard
             )

@@ -141,12 +141,9 @@ final class LoginCoordinator: NSObject,
                     let error as FirebaseAppCheckError where error.errorType == .keychainAccess,
                     let error as FirebaseAppCheckError where error.errorType == .invalidConfiguration {
                 showUnrecoverableErrorScreen(error)
-            } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey,
-                    let error as ClientAssertionError where error.errorType == .cantCreateAttestationProofOfPossession {
+            } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey {
                 showUnrecoverableErrorScreen(error)
             } catch let error as ProofOfPossessionError {
-                showUnrecoverableErrorScreen(error)
-            } catch let error as DPoPError {
                 showUnrecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)

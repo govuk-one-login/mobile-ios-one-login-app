@@ -129,7 +129,7 @@ extension WebAuthenticationServiceTests {
     
     func test_appIntegrityError_proofOfPosessionError() async {
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
-            .cantGeneratePublicKey,
+            .cantGenerateAttestationPublicKeyJWK,
             errorDescription: "test reason"
         )
         
@@ -140,7 +140,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
-            XCTAssertTrue(error.errorType == .cantGeneratePublicKey)
+            XCTAssertTrue(error.errorType == .cantGenerateAttestationPublicKeyJWK)
             XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         }
     }
