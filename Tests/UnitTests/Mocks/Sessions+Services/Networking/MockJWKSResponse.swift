@@ -1,8 +1,7 @@
 import Foundation
 // swiftlint:disable line_length
 struct MockJWKSResponse {
-    static var jwksJson: Data =
-        Data("""
+    static var jwksJson = Data("""
         {
             "keys": [
               {
@@ -26,8 +25,7 @@ struct MockJWKSResponse {
         }
         """.utf8)
     
-    static var jwksJsonNonMatchingKIDs: Data =
-        Data("""
+    static var jwksJsonNonMatchingKIDs = Data("""
         {
             "keys": [
               {
@@ -50,9 +48,5 @@ struct MockJWKSResponse {
             ]
         }
         """.utf8)
-
-    static let idToken =  "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.eyJhdWQiOiJiWXJjdVJWdm55bHZFZ1lTU2JCandYekhyd0oiLCJpc3MiOiJodHRwczovL3Rva2VuLmJ1aWxkLmFjY291bnQuZ292LnVrIiwic3ViIjoiZjk3ZjY0Y2MtNzcyNS00ZDRjLWJiNGQtMzc4OWEwOTU5NDM4IiwicGVyc2lzdGVudF9pZCI6IjFkMDAzMzQyLWVmZDEtNGRlZC05YzExLTMyZTBmMTVhY2FlNiIsImlhdCI6MTcxOTM5NzU3OCwiZXhwIjoxNzE5Mzk3NzU4LCJub25jZSI6ImR5U01yWnNEaFljWlB6dDJHSUZSanJlMUtha053aE1HNWdTbTJRTXdIcUUiLCJlbWFpbCI6Im1vY2tAZW1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9.ACgEiMqIEY8tamcBen9Tm5JVm6gbZka46UYcLmlYYqof-g0RoGxdlGn9pGQK1Ek7hEPY6bFT-JtVZXVmOKeLtg"
-    
-    static let malformedToken = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.eyJhdWQiOiJNT0JJTEVfQ0xJRU5UX0lEIiwiaXNzIjoiaHR0cHM6Ly90b2tlbi5idWlsZC5hY2NvdW50Lmdvdi51ayIsInN1YiI6IjljNWFhYzU2LTE0YzAtNDJkNi05MzFkLWI0NmNkM2QzNWFlMSIsImlhdCI6MTcxNTI2NTkwMywiZXhwIjoxNzE2NDc1NTAzLCJlbWFpbCI6ImFiY0BleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlfQ"
 }
 // swiftlint:enable line_length

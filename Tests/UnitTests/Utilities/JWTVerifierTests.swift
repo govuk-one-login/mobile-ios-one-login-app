@@ -31,8 +31,8 @@ final class JWTVerifierTests: XCTestCase {
             (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 200))
         }
         
-        let token = MockJWKSResponse.idToken
-        let payload = try await sut.verifyToken(token)
+        let token = MockJWTs.genericToken
+        let payload: IdTokenPayload = try await sut.verifyToken(token)
         
         XCTAssertEqual(payload.email, "mock@email.com")
         XCTAssertEqual(payload.persistentId, "1d003342-efd1-4ded-9c11-32e0f15acae6")
@@ -40,12 +40,14 @@ final class JWTVerifierTests: XCTestCase {
 
     func test_verifyInvalidJWT() async throws {
         let exp = expectation(description: "Failed on invalid JWT Format")
+        
         MockURLProtocol.handler = {
             (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 200))
         }
+        
         sut = .init(networkClient: networkClient)
         do {
-            _ = try await sut.verifyToken(MockJWKSResponse.malformedToken)
+            let _: IdTokenPayload = try await sut.verifyToken(MockJWTs.malformedToken)
         } catch JWTVerifierError.invalidJWTFormat {
             exp.fulfill()
         } catch {
@@ -63,7 +65,7 @@ final class JWTVerifierTests: XCTestCase {
         sut = .init(networkClient: networkClient)
         let token = "This is a fake token"
         do {
-            _ = try await sut.verifyToken(token)
+            let _: IdTokenPayload = try await sut.verifyToken(token)
         } catch JWTVerifierError.invalidJWTFormat {
             exp.fulfill()
         } catch {
@@ -75,14 +77,15 @@ final class JWTVerifierTests: XCTestCase {
     }
     
     func test_verifyNoMatchingKIDs() async throws {
-        
         let exp = expectation(description: "Failed on no matching kid")
+        
         MockURLProtocol.handler = {
             (MockJWKSResponse.jwksJsonNonMatchingKIDs, HTTPURLResponse(statusCode: 200))
         }
-        let token = MockJWKSResponse.idToken
+        
+        let token = MockJWTs.genericToken
         do {
-            _ = try await sut.verifyToken(token)
+            let _: IdTokenPayload = try await sut.verifyToken(token)
         } catch JWTVerifierError.invalidKID {
             exp.fulfill()
         } catch {
@@ -96,9 +99,10 @@ final class JWTVerifierTests: XCTestCase {
         MockURLProtocol.handler = {
             (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 400))
         }
-        let token = MockJWKSResponse.idToken
+        
+        let token = MockJWTs.genericToken
         do {
-            _ = try await sut.verifyToken(token)
+            let _: IdTokenPayload = try await sut.verifyToken(token)
             XCTFail("Expected failure: network error")
         } catch {
             // Expect this
@@ -106,18 +110,18 @@ final class JWTVerifierTests: XCTestCase {
     }
     
     func test_extractToken() throws {
-        let token = MockJWKSResponse.idToken
-        let payload = try sut.extractPayload(token)
+        let token = MockJWTs.genericToken
+        let payload: IdTokenPayload = try sut.extractPayload(token)
         
         XCTAssertEqual(payload.email, "mock@email.com")
         XCTAssertEqual(payload.persistentId, "1d003342-efd1-4ded-9c11-32e0f15acae6")
     }
     
     func test_extractTokenFailure() throws {
-        let token = MockJWKSResponse.malformedToken
+        let token = MockJWTs.malformedToken
         
         do {
-            _ = try  sut.extractPayload(token)
+            let _: IdTokenPayload = try sut.extractPayload(token)
             XCTFail("Expected failure: extraction error")
         } catch {
             // Expect this
