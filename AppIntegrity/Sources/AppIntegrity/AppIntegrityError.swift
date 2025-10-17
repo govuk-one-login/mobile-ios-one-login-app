@@ -18,8 +18,8 @@ public enum ClientAssertionErrorType: String {
 
 public enum ProofOfPossessionErrorType: String {
     case cantGenerateAttestationPublicKeyJWK           = "cant generate attestation public key JWK"
-    case cantGenerateProofOfPossessionJWT              = "cant create attestation proof of possession"
-    case cantGenerateDemonstratingProofOfPossessionJWT = "can't generate demonstrating public key dictionary"
+    case cantGenerateAttestationProofOfPossessionJWT   = "cant generate attestation proof of possession JWT"
+    case cantGenerateDemonstratingProofOfPossessionJWT = "can't generate demonstrating public key dictionary JWT"
 }
 
 public struct AppIntegrityError<ErrorType: RawRepresentable>: Error,

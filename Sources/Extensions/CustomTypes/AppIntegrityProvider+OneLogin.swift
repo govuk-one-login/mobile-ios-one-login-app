@@ -11,29 +11,29 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
             accessControlLevel: .open
         )
         do {
-            let signingService = try CryptoSigningService(configuration: configuration)
+            let attestationProvider = try CryptoSigningService(configuration: configuration)
             
-            // MARK: PoP JWT
-            let popJWTRepresentation = JWTRepresentation(header: AppIntegrityPoPJWT.headers(),
-                                                         payload: AppIntegrityPoPJWT.payload())
-            let popTokenGenerator = JWTGenerator(jwtRepresentation: popJWTRepresentation,
-                                                 signingService: signingService)
+            // MARK: Attestation Proof of Posession JWT
+            let attestationPoPJWTRepresentation = JWTRepresentation(header: AppIntegrityPoPJWT.headers(),
+                                                                    payload: AppIntegrityPoPJWT.payload())
+            let attestationPoPTokenGenerator = JWTGenerator(jwtRepresentation: attestationPoPJWTRepresentation,
+                                                            signingService: attestationProvider)
             
-            // MARK: DPoP JWT
-            let dpopJWTRepresentation = JWTRepresentation(
-                header: AppIntegrityDPoPJWT.headers(jwk: try signingService.jwkDictionary)(),
+            // MARK: Demonstrating Proof of Possession JWT
+            let demonstatringPoPJWTRepresentation = JWTRepresentation(
+                header: AppIntegrityDPoPJWT.headers(jwk: try attestationProvider.jwkDictionary)(),
                 payload: AppIntegrityDPoPJWT.payload()
             )
-            let dPoPTokenGenerator = JWTGenerator(jwtRepresentation: dpopJWTRepresentation,
-                                                  signingService: signingService)
+            let demonstatringPoPTokenGenerator = JWTGenerator(jwtRepresentation: demonstatringPoPJWTRepresentation,
+                                                              signingService: attestationProvider)
             
             return FirebaseAppIntegrityService(
+                attestationProofOfPossessionProvider: attestationProvider,
+                attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
+                demonstratingProofOfPossessionTokenGenerator: demonstatringPoPTokenGenerator,
+                attestationStore: UserDefaults.standard,
                 networkClient: NetworkClient(),
-                proofOfPossessionProvider: signingService,
-                baseURL: AppEnvironment.mobileBaseURL,
-                proofOfPossessionTokenGenerator: popTokenGenerator,
-                demonstratingProofOfPossessionTokenGenerator: dPoPTokenGenerator,
-                attestationStore: UserDefaults.standard
+                baseURL: AppEnvironment.mobileBaseURL
             )
         } catch let error as KeyPairAdministratorError {
             throw AppIntegritySigningError(

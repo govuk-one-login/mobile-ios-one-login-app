@@ -617,7 +617,7 @@ extension LoginCoordinatorTests {
     func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionJWT() throws {
         // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
-            .cantGenerateProofOfPossessionJWT,
+            .cantGenerateAttestationProofOfPossessionJWT,
             errorDescription: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
