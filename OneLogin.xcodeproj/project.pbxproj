@@ -262,7 +262,7 @@
 		D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24402BEBAEF100759529 /* JWTVerifier.swift */; };
 		D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24422BEBB06700759529 /* JWKInfo.swift */; };
 		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
-		D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */; };
+		D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKs.swift */; };
 		D0BE24492BEBD43300759529 /* MockNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0BE24482BEBD43300759529 /* MockNetworking */; };
 /* End PBXBuildFile section */
 
@@ -576,7 +576,7 @@
 		D0BE24402BEBAEF100759529 /* JWTVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifier.swift; sourceTree = "<group>"; };
 		D0BE24422BEBB06700759529 /* JWKInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWKInfo.swift; sourceTree = "<group>"; };
 		D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierTests.swift; sourceTree = "<group>"; };
-		D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJWKSResponse.swift; sourceTree = "<group>"; };
+		D0BE24462BEBD2E400759529 /* MockJWKs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJWKs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -793,7 +793,7 @@
 			isa = PBXGroup;
 			children = (
 				C8A9E57B2EA288CC0059DFDA /* MockJWTs.swift */,
-				D0BE24462BEBD2E400759529 /* MockJWKSResponse.swift */,
+				D0BE24462BEBD2E400759529 /* MockJWKs.swift */,
 				41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */,
 				41E1A9142BE128610034B6C7 /* MockURLOpener.swift */,
 			);
@@ -2215,7 +2215,7 @@
 				C8B825C32B98C34A00336146 /* LoginCoordinator.swift in Sources */,
 				C8BEC2942BFFA8C800C9775A /* LoginLoadingViewModel.swift in Sources */,
 				C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */,
-				D0BE24472BEBD2E400759529 /* MockJWKSResponse.swift in Sources */,
+				D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */,
 				41C5E32F2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift in Sources */,
 				41D9DC452B55851A00FC7DDD /* NetworkMonitor.swift in Sources */,
 				1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */,

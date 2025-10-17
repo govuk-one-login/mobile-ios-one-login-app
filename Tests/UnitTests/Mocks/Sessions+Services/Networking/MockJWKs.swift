@@ -1,7 +1,7 @@
 import Foundation
 // swiftlint:disable line_length
-struct MockJWKSResponse {
-    static var jwksJson = Data("""
+struct MockJWKs {
+    static let jwksJson = Data("""
         {
             "keys": [
               {
@@ -25,7 +25,7 @@ struct MockJWKSResponse {
         }
         """.utf8)
     
-    static var jwksJsonNonMatchingKIDs = Data("""
+    static let jwksJsonNonMatchingKIDs = Data("""
         {
             "keys": [
               {

@@ -1,11 +1,7 @@
 import Foundation
 import JWTKit
 
-protocol KeyVerifier {
-    func verify(jwt: String) throws -> IdTokenPayload
-}
-
-struct ES256KeyVerifier: KeyVerifier {
+struct ES256KeyVerifier {
     let signers = JWTSigners(defaultJSONEncoder: .oneLoginJWTEncoder,
                              defaultJSONDecoder: .oneLoginJWTDecoder)
         

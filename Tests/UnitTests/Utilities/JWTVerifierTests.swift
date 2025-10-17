@@ -28,7 +28,7 @@ final class JWTVerifierTests: XCTestCase {
     
     func test_verifyValidCredential() async throws {
         MockURLProtocol.handler = {
-            (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 200))
+            (MockJWKs.jwksJson, HTTPURLResponse(statusCode: 200))
         }
         
         let token = MockJWTs.genericToken
@@ -42,7 +42,7 @@ final class JWTVerifierTests: XCTestCase {
         let exp = expectation(description: "Failed on invalid JWT Format")
         
         MockURLProtocol.handler = {
-            (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 200))
+            (MockJWKs.jwksJson, HTTPURLResponse(statusCode: 200))
         }
         
         sut = .init(networkClient: networkClient)
@@ -60,7 +60,7 @@ final class JWTVerifierTests: XCTestCase {
     func test_verifyInvalidSignature() async throws {
         let exp = expectation(description: "Failed on invalid JWT Format")
         MockURLProtocol.handler = {
-            (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 200))
+            (MockJWKs.jwksJson, HTTPURLResponse(statusCode: 200))
         }
         sut = .init(networkClient: networkClient)
         let token = "This is a fake token"
@@ -80,7 +80,7 @@ final class JWTVerifierTests: XCTestCase {
         let exp = expectation(description: "Failed on no matching kid")
         
         MockURLProtocol.handler = {
-            (MockJWKSResponse.jwksJsonNonMatchingKIDs, HTTPURLResponse(statusCode: 200))
+            (MockJWKs.jwksJsonNonMatchingKIDs, HTTPURLResponse(statusCode: 200))
         }
         
         let token = MockJWTs.genericToken
@@ -97,7 +97,7 @@ final class JWTVerifierTests: XCTestCase {
     
     func test_fetchJWKs_networkError() async throws {
         MockURLProtocol.handler = {
-            (MockJWKSResponse.jwksJson, HTTPURLResponse(statusCode: 400))
+            (MockJWKs.jwksJson, HTTPURLResponse(statusCode: 400))
         }
         
         let token = MockJWTs.genericToken
