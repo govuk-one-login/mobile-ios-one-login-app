@@ -42,6 +42,7 @@ final class LoginCoordinatorTests: XCTestCase {
         mockAnalyticsService = nil
         mockSessionManager = nil
         mockNetworkMonitor = nil
+        mockAuthenticationService = nil
         sut = nil
         
         super.tearDown()
@@ -439,7 +440,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityNetworkError() throws {
         // GIVEN the authentication session returns an app integrity network error
-        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(.network, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
+            .network,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -452,7 +456,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityUnknownError() throws {
         // GIVEN the authentication session returns an app integrity unknown error
-        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(.unknown, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
+            .unknown,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -465,7 +472,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityGenericError() throws {
         // GIVEN the authentication session returns an app integrity generic error
-        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(.generic, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
+            .generic,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -478,7 +488,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityInvalidTokenError() throws {
         // GIVEN the authentication session returns an app integrity invalid token error
-        mockSessionManager.errorFromStartSession = ClientAssertionError(.invalidToken, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .invalidToken,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -491,7 +504,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityServerError() throws {
         // GIVEN the authentication session returns an app integrity server error
-        mockSessionManager.errorFromStartSession = ClientAssertionError(.serverError, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .serverError,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -504,7 +520,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityCantDecodeClientAssertionError() throws {
         // GIVEN the authentication session returns an cant decode client assertion error
-        mockSessionManager.errorFromStartSession = ClientAssertionError(.cantDecodeClientAssertion, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .cantDecodeClientAssertion,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -517,7 +536,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityNotSupportedError() throws {
         // GIVEN the authentication session returns an app integrity not supported error
-        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(.notSupported, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
+            .notSupported,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -530,7 +552,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityKeychainAccessError() throws {
         // GIVEN the authentication session returns an app integrity keychain access error
-        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(.keychainAccess, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
+            .keychainAccess,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -543,7 +568,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityInvalidConfigurationError() throws {
         // GIVEN the authentication session returns an app integrity invalid configuration error
-        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(.invalidConfiguration, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
+            .invalidConfiguration,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -556,7 +584,10 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_appIntegrityInvalidPublicKeyError() throws {
         // GIVEN the authentication session returns an app integrity invalid public key error
-        mockSessionManager.errorFromStartSession = ClientAssertionError(.invalidPublicKey, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .invalidPublicKey,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -567,9 +598,28 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_appIntegrityCantCreateAttestationProofOfPossession() throws {
+    func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionPublicKeyJWK() throws {
+        // GIVEN the authentication session returns an app integrity cant generate a proof of possession public key error
+        mockSessionManager.errorFromStartSession = ProofOfPossessionError(
+            .cantGenerateAttestationPublicKeyJWK,
+            errorDescription: "test reason"
+        )
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionJWT() throws {
         // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
-        mockSessionManager.errorFromStartSession = ClientAssertionError(.cantCreateAttestationProofOfPossession, errorDescription: "test reason")
+        mockSessionManager.errorFromStartSession = ProofOfPossessionError(
+            .cantGenerateAttestationProofOfPossessionJWT,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -580,9 +630,12 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
-    func test_launchAuthenticationService_appIntegritycantGeneratePublicKey() throws {
-        // GIVEN the authentication session returns an app integrity cant generate public key error
-        mockSessionManager.errorFromStartSession = ProofOfPossessionError(.cantGeneratePublicKey, errorDescription: "test reason")
+    func test_launchAuthenticationService_appIntegrityCantGenerateDemonstratingProofOfPossessionJWT() throws {
+        // GIVEN the authentication session returns an app integrity cant generate a DPoP public key error
+        mockSessionManager.errorFromStartSession = ProofOfPossessionError(
+            .cantGenerateDemonstratingProofOfPossessionJWT,
+            errorDescription: "test reason"
+        )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)

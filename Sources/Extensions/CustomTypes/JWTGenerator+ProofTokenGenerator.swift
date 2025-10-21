@@ -1,4 +1,4 @@
 import AppIntegrity
 import TokenGeneration
 
-extension JWTGenerator: @retroactive ProofTokenGenerator { }
+extension JWTGenerator: @retroactive ProofOfPossessionTokenGenerator { }

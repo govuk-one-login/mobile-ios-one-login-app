@@ -26,15 +26,21 @@ final class HomeCoordinator: NSObject,
     }
     
     func start() {
-        root.tabBarItem = UITabBarItem(title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
-                                       image: UIImage(systemName: "house"),
-                                       tag: 0)
-        let criOrchestrator = CRIOrchestrator(analyticsService: analyticsService,
-                                              networkClient: networkClient,
-                                              criURLs: OneLoginCRIURLs())
-        let hc = HomeViewController(analyticsService: analyticsService,
-                                    networkClient: networkClient,
-                                    criOrchestrator: criOrchestrator)
+        root.tabBarItem = UITabBarItem(
+            title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
+            image: UIImage(systemName: "house"),
+            tag: 0
+        )
+        let criOrchestrator = CRIOrchestrator(
+            analyticsService: analyticsService,
+            networkClient: networkClient,
+            criURLs: OneLoginCRIURLs()
+        )
+        let hc = HomeViewController(
+            analyticsService: analyticsService,
+            networkClient: networkClient,
+            criOrchestrator: criOrchestrator
+        )
         root.setViewControllers([hc], animated: true)
     }
     
