@@ -50,7 +50,7 @@ platform :ios do
   lane :test do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone SE (3rd generation) (18.5)",
+      device: "iPhone SE (3rd generation) (26.0)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       testplan: options[:testplan],
