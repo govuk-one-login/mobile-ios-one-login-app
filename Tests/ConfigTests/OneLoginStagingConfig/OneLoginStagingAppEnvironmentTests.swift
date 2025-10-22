@@ -6,7 +6,7 @@ final class OneLoginStagingAppEnvironmentTests: XCTestCase {
     func test_plistValues() {
         XCTAssertEqual(Bundle.main.bundleIdentifier, "uk.gov.onelogin.staging")
         XCTAssertEqual(Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String, "One Login - Staging")
-        XCTAssertEqual(Bundle.main.infoDictionary?["MinimumOSVersion"] as? String, "15.0")
+        XCTAssertEqual(Bundle.main.infoDictionary?["MinimumOSVersion"] as? String, "16.7")
     }
     
     func test_appEnvironment_featureFlags() {
