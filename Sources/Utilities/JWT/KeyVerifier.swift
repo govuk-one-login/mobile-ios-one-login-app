@@ -1,11 +1,7 @@
 import Foundation
 import JWTKit
 
-protocol KeyVerifier {
-    func verify(jwt: String) throws -> IdTokenPayload
-}
-
-struct ES256KeyVerifier: KeyVerifier {
+struct ES256KeyVerifier {
     let signers = JWTSigners(defaultJSONEncoder: .oneLoginJWTEncoder,
                              defaultJSONDecoder: .oneLoginJWTDecoder)
         
@@ -15,11 +11,11 @@ struct ES256KeyVerifier: KeyVerifier {
         }
     }
     
-    func verify(jwt: String) throws -> IdTokenPayload {
+    func verify<TokenPayload: JWTPayload>(jwt: String) throws -> TokenPayload {
         try signers.verify(jwt)
     }
     
-    func extract(jwt: String) throws -> IdTokenPayload {
+    func extract<TokenPayload: JWTPayload>(jwt: String) throws -> TokenPayload {
         return try signers.unverified(jwt)
     }
 }

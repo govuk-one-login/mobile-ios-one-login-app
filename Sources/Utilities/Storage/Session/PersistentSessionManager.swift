@@ -141,13 +141,6 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        let tokens = StoredTokens(
-            idToken: tokenResponse.idToken,
-            accessToken: tokenResponse.accessToken
-        )
-        
-        try storeKeyService.save(tokens: tokens)
-        
         if let persistentID = user.value?.persistentID {
             try secureStoreManager.encryptedStore.saveItem(
                 item: persistentID,
@@ -156,6 +149,21 @@ final class PersistentSessionManager: SessionManager {
         } else {
             secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
+        
+        if let refreshToken = tokenResponse.refreshToken {
+            try secureStoreManager.encryptedStore.saveItem(
+                item: try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
+                itemName: OLString.refreshTokenExpiry
+            )
+        }
+        
+        let tokens = StoredTokens(
+            idToken: tokenResponse.idToken,
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken
+        )
+        
+        try storeKeyService.save(tokens: tokens)
         
         unprotectedStore.set(
             tokenResponse.expiryDate,
@@ -174,14 +182,14 @@ final class PersistentSessionManager: SessionManager {
         }
         
         let keys = try storeKeyService.fetch()
+                
         if let idToken = keys.idToken {
             user.send(try IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)
         }
         
-        let accessToken = keys.accessToken
-        tokenProvider.update(subjectToken: accessToken)
+        tokenProvider.update(subjectToken: keys.accessToken)
     }
     
     func endCurrentSession() {

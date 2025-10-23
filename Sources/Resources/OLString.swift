@@ -1,5 +1,6 @@
 enum OLString {
     // Token & Login
+    static let refreshTokenExpiry = "refreshTokenExpiry"
     static let accessTokenExpiry = "accessTokenExpiry"
     static let storedTokens = "storedTokens"
     static let oneLoginTokens = "oneLoginTokens"

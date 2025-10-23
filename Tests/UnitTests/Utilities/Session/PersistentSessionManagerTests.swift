@@ -226,7 +226,8 @@ extension PersistentSessionManagerTests {
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // THEN my session data is updated in the store
-        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
         // AND the user can be returned to where they left off
         await fulfillment(of: [exp], timeout: 5)
@@ -241,7 +242,8 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to save my session
         try sut.saveSession()
         // THEN my session data is updated in the store
-        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
@@ -253,16 +255,21 @@ extension PersistentSessionManagerTests {
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // WHEN I attempt to save my session
-        try sut.saveSession()        // THEN the secure store manager is not refreshed
+        try sut.saveSession()
+        // THEN the secure store manager is not refreshed
         XCTAssertFalse(mockSecureStoreManager.didCallRefreshStore)
         // THEN the session data is updated in the store
-        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
     func test_resumeSession_restoresUserAndAccessToken() throws {
-        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
-                              accessToken: MockJWKSResponse.idToken)
+        let data = encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: MockJWTs.genericToken,
+            accessToken: MockJWTs.genericToken
+        )
         // GIVEN I have tokens saved in secure store
         try mockAccessControlEncryptedStore.saveItem(item: data,
                                                      itemName: OLString.storedTokens)
@@ -276,12 +283,15 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
-        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWKSResponse.idToken)
+        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
     }
     
     func test_endCurrentSession_clearsDataFromSession() throws {
-        let data = encodeKeys(idToken: MockJWKSResponse.idToken,
-                              accessToken: MockJWKSResponse.idToken)
+        let data = encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: MockJWTs.genericToken,
+            accessToken: MockJWTs.genericToken
+        )
         // GIVEN I have tokens saved in secure store
         try mockAccessControlEncryptedStore.saveItem(item: data,
                                                      itemName: OLString.storedTokens)
@@ -341,9 +351,18 @@ extension PersistentSessionManagerTests {
 }
 
 extension PersistentSessionManagerTests {
-    private func encodeKeys(idToken: String, accessToken: String) -> String {
-        mockStoredTokens = StoredTokens(idToken: idToken, accessToken: accessToken)
-        var keysAsData: String = ""
+    private func encodeKeys(
+        idToken: String,
+        refreshToken: String?,
+        accessToken: String
+    ) -> String {
+        mockStoredTokens = StoredTokens(
+            idToken: idToken,
+            refreshToken: refreshToken,
+            accessToken: accessToken
+        )
+        
+        var keysAsData = String()
         do {
             keysAsData = try JSONEncoder().encode(mockStoredTokens).base64EncodedString()
         } catch {
