@@ -35,7 +35,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard !attestationStore.validAttestation else {
+            guard try !attestationStore.validAttestation else {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
@@ -44,11 +44,11 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             }
             
             do {
-                let appCheck = try await vendor.limitedUseToken()
-                let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
+                let appCheckToken = try await vendor.limitedUseToken()
+                let attestationResponse = try await fetchClientAttestation(appCheckToken: appCheckToken.token)
                 
                 return [
-                    AppIntegrityHeaderKey.attestation.rawValue: attestation.attestationJWT,
+                    AppIntegrityHeaderKey.attestation.rawValue: attestationResponse.clientAttestation,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
                     AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
@@ -180,12 +180,13 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 body: try attestationProofOfPossessionProvider.publicKey
             ))
             
-            let assertionResponse = try JSONDecoder()
-                .decode(ClientAssertionResponse.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let assertionResponse = try decoder.decode(ClientAssertionResponse.self, from: data)
             
-            attestationStore.store(
-                assertionJWT: assertionResponse.attestationJWT,
-                assertionExpiry: assertionResponse.expiryDate
+            try attestationStore.store(
+                clientAttestation: assertionResponse.clientAttestation,
+                attestationExpiry: assertionResponse.expiresIn
             )
             
             return assertionResponse

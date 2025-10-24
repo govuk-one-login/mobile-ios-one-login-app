@@ -1,3 +1,4 @@
+import AppIntegrity
 import Authentication
 import Combine
 import Foundation
@@ -95,7 +96,7 @@ final class PersistentSessionManager: SessionManager {
     
     func startSession(
         _ session: any LoginSession,
-        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
+        using configuration: @Sendable (String?, AttestationStorage) async throws -> LoginSessionConfiguration
     ) async throws {
         guard !isReturningUser || persistentID != nil else {
             // I am a returning user
@@ -112,7 +113,7 @@ final class PersistentSessionManager: SessionManager {
         }
         
         let response = try await session
-            .performLoginFlow(configuration: configuration(persistentID))
+            .performLoginFlow(configuration: configuration(persistentID, secureStoreManager.encryptedStore))
         tokenResponse = response
         
         // update curent state

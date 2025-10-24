@@ -1,11 +1,11 @@
 import Foundation
 
 public protocol AttestationStorage {
-    var validAttestation: Bool { get }
+    var validAttestation: Bool { get throws }
     var attestationJWT: String { get throws }
     
     func store(
-        assertionJWT: String,
-        assertionExpiry: Date
-    )
+        clientAttestation: String,
+        attestationExpiry: String
+    ) throws
 }
