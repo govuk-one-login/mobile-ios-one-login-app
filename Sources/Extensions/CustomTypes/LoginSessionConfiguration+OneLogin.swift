@@ -5,11 +5,11 @@ import Foundation
 extension LoginSessionConfiguration {
     @Sendable
     static func oneLoginSessionConfiguration(
-        persistentSessionID: String?,
-        attestationStore: AttestationStorage
+        persistentSessionID: String?
     ) async throws -> Self {
         let env = AppEnvironment.self
-        let shouldAttestIntegrity = try env.appIntegrityEnabled || attestationStore.validAttestation
+        let integrityService = try FirebaseAppIntegrityService.firebaseAppCheck()
+        let shouldAttestIntegrity = try env.appIntegrityEnabled || integrityService.hasValidAttestation
         return await .init(
             authorizationEndpoint: env.stsAuthorize,
             tokenEndpoint: env.stsToken,
@@ -18,8 +18,7 @@ extension LoginSessionConfiguration {
             redirectURI: env.mobileRedirect.absoluteString,
             locale: env.isLocaleWelsh ? .cy : .en,
             persistentSessionId: persistentSessionID,
-            tokenHeaders: shouldAttestIntegrity ? try await FirebaseAppIntegrityService
-                .firebaseAppCheck(attestationStore: attestationStore).integrityAssertions : nil
+            tokenHeaders: shouldAttestIntegrity ? try await integrityService.integrityAssertions : nil
         )
     }
 }

@@ -1,4 +1,3 @@
-import AppIntegrity
 import Authentication
 import Foundation
 import LocalAuthenticationWrapper
@@ -32,7 +31,7 @@ protocol SessionManager: AnyObject, UserProvider {
     /// Starts a new session from a remote login
     func startSession(
         _ session: LoginSession,
-        using configuration: @Sendable (String?, AttestationStorage) async throws -> LoginSessionConfiguration
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws
 
     /// Resumes an existing session by restoring tokens from on-device storage

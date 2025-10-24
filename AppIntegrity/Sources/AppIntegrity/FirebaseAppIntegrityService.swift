@@ -33,9 +33,15 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         configure(vendorType: AppCheck.self)
     }
     
+    public var hasValidAttestation: Bool {
+        get throws {
+            try !attestationStore.attestationExpired
+        }
+    }
+    
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard try !attestationStore.validAttestation else {
+            guard try hasValidAttestation else {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
@@ -180,13 +186,12 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 body: try attestationProofOfPossessionProvider.publicKey
             ))
             
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let assertionResponse = try decoder.decode(ClientAssertionResponse.self, from: data)
+            let assertionResponse = try JSONDecoder()
+                .decode(ClientAssertionResponse.self, from: data)
             
             try attestationStore.store(
                 clientAttestation: assertionResponse.clientAttestation,
-                attestationExpiry: assertionResponse.expiresIn
+                attestationExpiry: assertionResponse.expiryDate
             )
             
             return assertionResponse

@@ -1,16 +1,15 @@
-import AppIntegrity
 import LocalAuthenticationWrapper
 import SecureStore
 
 protocol SecureStoreManager {
     var accessControlEncryptedStore: SecureStorable { get }
-    var encryptedStore: SecureStorable & AttestationStorage { get }
+    var encryptedStore: SecureStorable { get }
     var localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings { get }
 }
 
 final class OneLoginSecureStoreManager: SecureStoreManager {
     let accessControlEncryptedStore: SecureStorable
-    let encryptedStore: SecureStorable & AttestationStorage
+    let encryptedStore: SecureStorable
     let localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
     
     convenience init(
@@ -29,7 +28,7 @@ final class OneLoginSecureStoreManager: SecureStoreManager {
     
     init(
         accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable & AttestationStorage,
+        encryptedStore: SecureStorable,
         localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
