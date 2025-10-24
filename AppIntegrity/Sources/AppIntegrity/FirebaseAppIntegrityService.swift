@@ -8,6 +8,14 @@ public enum AppIntegrityHeaderKey: String {
     case demonstratingproofOfPossession = "DPoP"
 }
 
+struct AttestationJWT: Codable {
+    let confirmation: JWKs
+
+    enum CodingKeys: String, CodingKey {
+        case confirmation = "cnf"
+    }
+}
+
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let vendor: AppCheckVendor
     private let attestationProofOfPossessionProvider: ProofOfPossessionProvider
@@ -25,6 +33,34 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         #endif
     }
 
+    public var signingKeysMatch: Bool {
+        do {
+            let decoder = JSONDecoder()
+
+            // Check that JWK of our signing key matches the one embedded in the attestation JWT
+            let deviceSigningJWK = try attestationProofOfPossessionProvider.publicKey
+            let deviceSigningKey = try decoder.decode(JWKs.self, from: deviceSigningJWK).jwk
+
+            let attestationJWT = try attestationStore.attestationJWT
+            let body = attestationJWT.split(separator: ".")[1]
+
+            // todo: use URL encoding
+            let data = Data(base64Encoded: String(body + "="))!
+            
+            let decodedJWT = try JSONDecoder()
+                .decode(AttestationJWT.self, from: data)
+            let expectedSigningKey = decodedJWT.confirmation.jwk
+
+            return deviceSigningKey == expectedSigningKey
+        } catch {
+            return false
+        }
+    }
+
+    private var hasValidAttestation: Bool {
+        attestationStore.validAttestation && signingKeysMatch
+    }
+
     static func configure(vendorType: AppCheckVendor.Type) {
         vendorType.setAppCheckProviderFactory(providerFactory)
     }
@@ -32,10 +68,10 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     public static func configure() {
         configure(vendorType: AppCheck.self)
     }
-    
+
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard !attestationStore.validAttestation else {
+            guard !hasValidAttestation else {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
