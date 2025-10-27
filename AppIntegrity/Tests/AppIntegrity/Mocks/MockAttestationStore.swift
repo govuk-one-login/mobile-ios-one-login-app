@@ -2,7 +2,7 @@
 import Foundation
 
 class MockAttestationStore: AttestationStorage {
-    var attestationExpired: Bool = true
+    var attestationExpired: Bool = false
     
     var attestationJWT: String = "testSavedAttestation"
     

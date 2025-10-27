@@ -58,8 +58,8 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
-        mockAttestationStore.attestationExpired = false
-        
+        mockAttestationStore.attestationExpired = true
+                
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(
@@ -104,7 +104,7 @@ struct FirebaseAppIntegrityServiceTests {
         
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
-        
+                
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(

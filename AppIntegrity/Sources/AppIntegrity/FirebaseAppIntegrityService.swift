@@ -5,7 +5,7 @@ import Networking
 public enum AppIntegrityHeaderKey: String {
     case attestation                    = "OAuth-Client-Attestation"
     case attestationProofOfPossession   = "OAuth-Client-Attestation-PoP"
-    case demonstratingproofOfPossession = "DPoP"
+    case demonstratingProofOfPossession = "DPoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
@@ -45,7 +45,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
-                    AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
+                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
             }
             
@@ -56,7 +56,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: attestationResponse.clientAttestation,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
-                    AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
+                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
             } catch let error as NSError where
                         error.domain == AppCheckErrorDomain {
