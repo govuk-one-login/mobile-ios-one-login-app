@@ -350,7 +350,7 @@ extension PersistentSessionManagerTests {
             OLString.accessTokenExpiry: Date.distantPast
         ]
         mockEncryptedStore.savedItems = [
-            OLString.encryptedStore: UUID().uuidString
+            OLString.persistentSessionID: UUID().uuidString
         ]
         sut.registerSessionBoundData([mockUnprotectedStore, mockEncryptedStore])
         // WHEN I clear all session data
