@@ -2,12 +2,16 @@
 import Foundation
 
 class MockAttestationStore: AttestationStorage {
-    var validAttestation: Bool = false
+    var attestationExpired: Bool = true
+    
     var attestationJWT: String = "testSavedAttestation"
     
     var mockStorage = [String: Any]()
     
-    func store(assertionJWT: String, assertionExpiry: Date) {
+    func store(
+        clientAttestation assertionJWT: String,
+        attestationExpiry assertionExpiry: Date
+    ) {
         mockStorage["attestationJWT"] = assertionJWT
         mockStorage["attestationExpiry"] = assertionExpiry
     }

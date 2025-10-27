@@ -58,7 +58,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
-        mockAttestationStore.validAttestation = true
+        mockAttestationStore.attestationExpired = false
         
         let integrityResponse = try await sut.integrityAssertions
         
@@ -339,7 +339,7 @@ struct FirebaseAppIntegrityServiceTests {
         let initialDate = Date()
         let response = try await sut
             .fetchClientAttestation(appCheckToken: UUID().uuidString)
-        #expect(response.attestationJWT == "testAttestation")
+        #expect(response.clientAttestation == "testAttestation")
         
         // Expiry time should be more than a day since before we made the request
         // but less than a day from now

@@ -147,7 +147,7 @@ extension PersistentSessionManagerTests {
         // GIVEN my session has expired
         let persistentSessionID = UUID().uuidString
         try mockEncryptedStore.saveItem(item: persistentSessionID,
-                                        itemName: OLString.persistentSessionID)
+                                        itemName: OLString.encryptedStore)
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
         try await sut.startSession(loginSession, using: LoginSessionConfiguration.oneLoginSessionConfiguration)
@@ -169,7 +169,7 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         sut.registerSessionBoundData([self, mockUnprotectedStore])
         // AND I am unable to re-authenticate because I have no persistent session ID
-        mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
+        mockEncryptedStore.deleteItem(itemName: OLString.encryptedStore)
         // WHEN I start a session
         do {
             let loginSession = await MockLoginSession(window: UIWindow())
@@ -221,13 +221,13 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
         try mockEncryptedStore.saveItem(item: persistentSessionID,
-                                        itemName: OLString.persistentSessionID)
+                                        itemName: OLString.encryptedStore)
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.encryptedStore: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
         // AND the user can be returned to where they left off
         await fulfillment(of: [exp], timeout: 5)
@@ -243,7 +243,7 @@ extension PersistentSessionManagerTests {
         try sut.saveSession()
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.encryptedStore: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
@@ -260,7 +260,7 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(mockSecureStoreManager.didCallRefreshStore)
         // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.encryptedStore: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
@@ -317,7 +317,7 @@ extension PersistentSessionManagerTests {
             OLString.accessTokenExpiry: Date.distantPast
         ]
         mockEncryptedStore.savedItems = [
-            OLString.persistentSessionID: UUID().uuidString
+            OLString.encryptedStore: UUID().uuidString
         ]
         sut.registerSessionBoundData([mockUnprotectedStore, mockEncryptedStore])
         // WHEN I clear all session data

@@ -86,7 +86,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
+        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.encryptedStore)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -144,10 +144,10 @@ final class PersistentSessionManager: SessionManager {
         if let persistentID = user.value?.persistentID {
             try secureStoreManager.encryptedStore.saveItem(
                 item: persistentID,
-                itemName: OLString.persistentSessionID
+                itemName: OLString.encryptedStore
             )
         } else {
-            secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
+            secureStoreManager.encryptedStore.deleteItem(itemName: OLString.encryptedStore)
         }
         
         if let refreshToken = tokenResponse.refreshToken {

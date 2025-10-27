@@ -147,11 +147,11 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
         let encryptedConfiguration = SecureStorageConfiguration(
-            id: OLString.persistentSessionID,
+            id: OLString.encryptedStore,
             accessControlLevel: .open
         )
         let persistentSessionStore = SecureStoreService(configuration: encryptedConfiguration)
-        persistentSessionStore.deleteItem(itemName: OLString.persistentSessionID)
+        persistentSessionStore.deleteItem(itemName: OLString.encryptedStore)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     
