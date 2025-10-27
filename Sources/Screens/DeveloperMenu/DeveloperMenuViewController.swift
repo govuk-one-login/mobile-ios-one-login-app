@@ -151,7 +151,7 @@ final class DeveloperMenuViewController: BaseViewController {
             accessControlLevel: .open
         )
         let persistentSessionStore = SecureStoreService(configuration: encryptedConfiguration)
-        persistentSessionStore.deleteItem(itemName: OLString.encryptedStore)
+        persistentSessionStore.deleteItem(itemName: OLString.persistentSessionID)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     

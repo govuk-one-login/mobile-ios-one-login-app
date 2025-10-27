@@ -59,7 +59,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
         mockAttestationStore.attestationExpired = true
-                
+        
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(
@@ -104,7 +104,7 @@ struct FirebaseAppIntegrityServiceTests {
         
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
-                
+        
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(
@@ -248,7 +248,7 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
-
+        
         await #expect(
             throws: ClientAssertionError(
                 .invalidToken,
@@ -264,7 +264,7 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 500))
         }
-
+        
         await #expect(
             throws: ClientAssertionError(
                 .serverError,

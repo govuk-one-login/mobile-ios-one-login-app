@@ -150,8 +150,10 @@ extension PersistentSessionManagerTests {
     func test_startSession_reauthenticatesTheUser() async throws {
         // GIVEN my session has expired
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedStore.saveItem(item: persistentSessionID,
-                                        itemName: OLString.encryptedStore)
+        try mockEncryptedStore.saveItem(
+            item: persistentSessionID,
+            itemName: OLString.persistentSessionID
+        )
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
         try await sut.startSession(
@@ -176,7 +178,9 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         sut.registerSessionBoundData([self, mockUnprotectedStore])
         // AND I am unable to re-authenticate because I have no persistent session ID
-        mockEncryptedStore.deleteItem(itemName: OLString.encryptedStore)
+        mockEncryptedStore.deleteItem(
+            itemName: OLString.persistentSessionID
+        )
         // WHEN I start a session
         do {
             let loginSession = await MockLoginSession(window: UIWindow())
@@ -236,8 +240,10 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedStore.saveItem(item: persistentSessionID,
-                                        itemName: OLString.encryptedStore)
+        try mockEncryptedStore.saveItem(
+            item: persistentSessionID,
+            itemName: OLString.persistentSessionID
+        )
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(
@@ -246,7 +252,7 @@ extension PersistentSessionManagerTests {
         )
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                       OLString.encryptedStore: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
         // AND the user can be returned to where they left off
         await fulfillment(of: [exp], timeout: 5)
@@ -265,7 +271,7 @@ extension PersistentSessionManagerTests {
         try sut.saveSession()
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                       OLString.encryptedStore: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
@@ -285,7 +291,7 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(mockSecureStoreManager.didCallRefreshStore)
         // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                       OLString.encryptedStore: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
@@ -296,8 +302,10 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedStore.saveItem(item: data,
-                                                     itemName: OLString.storedTokens)
+        try mockAccessControlEncryptedStore.saveItem(
+            item: data,
+            itemName: OLString.storedTokens
+        )
         // AND I am a returning user with local auth enabled
         let date = Date.distantFuture
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
