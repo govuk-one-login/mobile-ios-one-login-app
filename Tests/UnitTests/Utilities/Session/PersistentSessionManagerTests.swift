@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import Authentication
 @testable @preconcurrency import OneLogin
 import XCTest
