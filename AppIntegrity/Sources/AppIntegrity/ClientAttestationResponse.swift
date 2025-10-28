@@ -1,6 +1,6 @@
 import Foundation
 
-struct ClientAssertionResponse: Decodable {
+struct ClientAttestationResponse: Decodable {
     let clientAttestation: String
     let expiryDate: Date
     

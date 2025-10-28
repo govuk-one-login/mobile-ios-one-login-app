@@ -9,7 +9,7 @@ import Testing
 
 // swiftlint:disable type_body_length
 @Suite(.serialized)
-struct FirebaseAppIntegrityServiceTests {
+struct FirebaseAppIntegrityServiceTests: ~Copyable {
     let mockVendor: MockAppCheckVendor
     let mockAttestationProofOfPossessionProvider: MockProofOfPossessionProvider
     let mockAttestationProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
@@ -23,8 +23,6 @@ struct FirebaseAppIntegrityServiceTests {
         configuration.protocolClasses = [
             MockURLProtocol.self
         ]
-        
-        MockURLProtocol.clear()
         
         mockVendor = MockAppCheckVendor()
         mockAttestationProofOfPossessionProvider = MockProofOfPossessionProvider()
@@ -44,6 +42,10 @@ struct FirebaseAppIntegrityServiceTests {
         )
     }
     
+    deinit {
+        MockURLProtocol.clear()
+    }
+    
     @Test("AppCheck provider is correctly configured in debug mode")
     func testConfigureAppCheckProvider() {
         FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
@@ -58,8 +60,8 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
-        mockAttestationStore.attestationExpired = true
-        
+        mockAttestationStore.attestationExpired = false
+                
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(
@@ -104,7 +106,7 @@ struct FirebaseAppIntegrityServiceTests {
         
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
-        
+                
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(

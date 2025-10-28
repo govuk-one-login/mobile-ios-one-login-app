@@ -33,15 +33,9 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         configure(vendorType: AppCheck.self)
     }
     
-    public var hasValidAttestation: Bool {
-        get throws {
-            try !attestationStore.attestationExpired
-        }
-    }
-    
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard try hasValidAttestation else {
+            guard try hasExpiredAttestation else {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
@@ -115,6 +109,12 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
+    public var hasExpiredAttestation: Bool {
+        get throws {
+            try attestationStore.attestationExpired
+        }
+    }
+    
     private var attestationProofOfPossessionToken: String {
         get throws {
             do {
@@ -178,7 +178,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         )
     }
     
-    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
+    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
             let data = try await networkClient.makeRequest(.clientAttestation(
                 baseURL: baseURL,
@@ -186,15 +186,15 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 body: try attestationProofOfPossessionProvider.publicKey
             ))
             
-            let assertionResponse = try JSONDecoder()
-                .decode(ClientAssertionResponse.self, from: data)
+            let attestationResponse = try JSONDecoder()
+                .decode(ClientAttestationResponse.self, from: data)
             
             try attestationStore.store(
-                clientAttestation: assertionResponse.clientAttestation,
-                attestationExpiry: assertionResponse.expiryDate
+                clientAttestation: attestationResponse.clientAttestation,
+                attestationExpiry: attestationResponse.expiryDate
             )
             
-            return assertionResponse
+            return attestationResponse
         } catch let error as ServerError {
             throw error
         } catch let error as DecodingError {

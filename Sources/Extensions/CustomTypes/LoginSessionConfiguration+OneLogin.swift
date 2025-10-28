@@ -9,7 +9,7 @@ extension LoginSessionConfiguration {
     ) async throws -> Self {
         let env = AppEnvironment.self
         let integrityService = try FirebaseAppIntegrityService.firebaseAppCheck()
-        let shouldAttestIntegrity = try env.appIntegrityEnabled || integrityService.hasValidAttestation
+        let shouldAttestIntegrity = try env.appIntegrityEnabled || !integrityService.hasExpiredAttestation
         return await .init(
             authorizationEndpoint: env.stsAuthorize,
             tokenEndpoint: env.stsToken,
