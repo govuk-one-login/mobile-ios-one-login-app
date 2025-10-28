@@ -9,7 +9,9 @@ extension LoginSessionConfiguration {
     ) async throws -> Self {
         let env = AppEnvironment.self
         let integrityService = try FirebaseAppIntegrityService.firebaseAppCheck()
-        let shouldAttestIntegrity = try env.appIntegrityEnabled || !integrityService.hasExpiredAttestation
+        // Integrity assertions should be sent if the feature flag is enabled
+        // OR the user has a valid client attestation which can be used in the flow even in a potential Firebase outage
+        let shouldAttestIntegrity = env.appIntegrityEnabled || !integrityService.hasExpiredAttestation
         return await .init(
             authorizationEndpoint: env.stsAuthorize,
             tokenEndpoint: env.stsToken,

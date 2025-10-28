@@ -22,7 +22,7 @@ struct SecureAttestationStoreTests: ~Copyable {
             clientAttestation: MockJWTs.genericToken,
             attestationExpiry: Date.distantPast
         )
-        #expect(try sut.attestationExpired == true)
+        #expect(sut.attestationExpired == true)
     }
     
     @Test
@@ -31,7 +31,12 @@ struct SecureAttestationStoreTests: ~Copyable {
             clientAttestation: MockJWTs.genericToken,
             attestationExpiry: Date.distantFuture
         )
-        #expect(try sut.attestationExpired == false)
+        #expect(sut.attestationExpired == false)
+    }
+    
+    @Test
+    func attestationMissing() throws {
+        #expect(sut.attestationExpired)
     }
     
     @Test

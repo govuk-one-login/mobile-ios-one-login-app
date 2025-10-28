@@ -32,9 +32,11 @@ final class SecureAttestationStore: AttestationStorage {
     private let secureStore: SecureStorable
     
     var attestationExpired: Bool {
-        get throws {
-            try secureStore.readDate(id: AttestationStorageKey.attestationExpiry.rawValue) <= .now
+        guard let expriyDate = try? secureStore
+            .readDate(id: AttestationStorageKey.attestationExpiry.rawValue) else {
+            return true
         }
+        return expriyDate < .now
     }
     
     var attestationJWT: String {

@@ -16,7 +16,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let attestationStore: AttestationStorage
     private let networkClient: NetworkClient
     private let baseURL: URL
-
+    
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
         AppCheckDebugProviderFactory()
@@ -24,18 +24,18 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         AppAttestProviderFactory()
         #endif
     }
-
+    
     static func configure(vendorType: AppCheckVendor.Type) {
         vendorType.setAppCheckProviderFactory(providerFactory)
     }
-
+    
     public static func configure() {
         configure(vendorType: AppCheck.self)
     }
     
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard try hasExpiredAttestation else {
+            guard hasExpiredAttestation else {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
@@ -110,9 +110,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     }
     
     public var hasExpiredAttestation: Bool {
-        get throws {
-            try attestationStore.attestationExpired
-        }
+        attestationStore.attestationExpired
     }
     
     private var attestationProofOfPossessionToken: String {
@@ -140,7 +138,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             }
         }
     }
-
+    
     init(
         vendor: AppCheckVendor,
         attestationProofOfPossessionProvider: ProofOfPossessionProvider,

@@ -61,7 +61,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
         mockAttestationStore.attestationExpired = false
-                
+        
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(
@@ -106,7 +106,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
-                
+        
         let integrityResponse = try await sut.integrityAssertions
         
         #expect(

@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol AttestationStorage {
-    var attestationExpired: Bool { get throws }
+    var attestationExpired: Bool { get }
     var attestationJWT: String { get throws }
     
     func store(
