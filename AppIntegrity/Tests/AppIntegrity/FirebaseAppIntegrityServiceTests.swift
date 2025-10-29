@@ -9,7 +9,7 @@ import Testing
 
 // swiftlint:disable type_body_length
 @Suite(.serialized)
-struct FirebaseAppIntegrityServiceTests {
+struct FirebaseAppIntegrityServiceTests: ~Copyable {
     let mockVendor: MockAppCheckVendor
     let mockAttestationProofOfPossessionProvider: MockProofOfPossessionProvider
     let mockAttestationProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
@@ -23,8 +23,6 @@ struct FirebaseAppIntegrityServiceTests {
         configuration.protocolClasses = [
             MockURLProtocol.self
         ]
-        
-        MockURLProtocol.clear()
         
         mockVendor = MockAppCheckVendor()
         mockAttestationProofOfPossessionProvider = MockProofOfPossessionProvider()
@@ -44,6 +42,10 @@ struct FirebaseAppIntegrityServiceTests {
         )
     }
     
+    deinit {
+        MockURLProtocol.clear()
+    }
+    
     @Test("AppCheck provider is correctly configured in debug mode")
     func testConfigureAppCheckProvider() {
         FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
@@ -58,7 +60,7 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
-        mockAttestationStore.validAttestation = true
+        mockAttestationStore.attestationExpired = false
         
         let integrityResponse = try await sut.integrityAssertions
         
@@ -248,7 +250,7 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
-
+        
         await #expect(
             throws: ClientAssertionError(
                 .invalidToken,
@@ -264,7 +266,7 @@ struct FirebaseAppIntegrityServiceTests {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 500))
         }
-
+        
         await #expect(
             throws: ClientAssertionError(
                 .serverError,
@@ -339,7 +341,7 @@ struct FirebaseAppIntegrityServiceTests {
         let initialDate = Date()
         let response = try await sut
             .fetchClientAttestation(appCheckToken: UUID().uuidString)
-        #expect(response.attestationJWT == "testAttestation")
+        #expect(response.clientAttestation == "testAttestation")
         
         // Expiry time should be more than a day since before we made the request
         // but less than a day from now

@@ -2,34 +2,19 @@
 import SecureStore
 import Testing
 
-final class OneLoginSecureStoreManagerTests {
-    private var mockAccessControlEncryptedStore: MockSecureStoreService!
-    private var mockEncryptedStore: MockSecureStoreService!
+struct OneLoginSecureStoreManagerTests {
     private var mockLocalAuthentication: MockLocalAuthManager!
     private var sut: OneLoginSecureStoreManager!
     
-    init() {
-        mockAccessControlEncryptedStore = MockSecureStoreService()
-        mockEncryptedStore = MockSecureStoreService()
+    init() throws {
         mockLocalAuthentication = MockLocalAuthManager()
-        sut = OneLoginSecureStoreManager(
-            accessControlEncryptedStore: mockAccessControlEncryptedStore,
-            encryptedStore: mockEncryptedStore,
-            localAuthentication: mockLocalAuthentication
-        )
-    }
-    
-    func convenienceInit() throws {
         sut = try OneLoginSecureStoreManager(
             localAuthentication: mockLocalAuthentication
         )
     }
-}
-
-extension OneLoginSecureStoreManagerTests {
+    
     @Test("Ensure convenience initialiser creates instances of SecureStoreService")
-    func convenienceInitialiser() throws {
-        try convenienceInit()
+    func testConvenienceInitialiser() throws {
         #expect(sut.accessControlEncryptedStore is SecureStoreService)
         #expect(sut.encryptedStore is SecureStoreService)
     }

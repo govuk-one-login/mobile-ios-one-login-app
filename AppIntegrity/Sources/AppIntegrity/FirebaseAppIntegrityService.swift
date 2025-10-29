@@ -5,7 +5,7 @@ import Networking
 public enum AppIntegrityHeaderKey: String {
     case attestation                    = "OAuth-Client-Attestation"
     case attestationProofOfPossession   = "OAuth-Client-Attestation-PoP"
-    case demonstratingproofOfPossession = "DPoP"
+    case demonstratingProofOfPossession = "DPoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
@@ -16,7 +16,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let attestationStore: AttestationStorage
     private let networkClient: NetworkClient
     private let baseURL: URL
-
+    
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
         AppCheckDebugProviderFactory()
@@ -24,33 +24,33 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         AppAttestProviderFactory()
         #endif
     }
-
+    
     static func configure(vendorType: AppCheckVendor.Type) {
         vendorType.setAppCheckProviderFactory(providerFactory)
     }
-
+    
     public static func configure() {
         configure(vendorType: AppCheck.self)
     }
     
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard !attestationStore.validAttestation else {
+            guard hasExpiredAttestation else {
                 return [
                     AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
-                    AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
+                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
             }
             
             do {
-                let appCheck = try await vendor.limitedUseToken()
-                let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
+                let appCheckToken = try await vendor.limitedUseToken()
+                let attestationResponse = try await fetchClientAttestation(appCheckToken: appCheckToken.token)
                 
                 return [
-                    AppIntegrityHeaderKey.attestation.rawValue: attestation.attestationJWT,
+                    AppIntegrityHeaderKey.attestation.rawValue: attestationResponse.clientAttestation,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
-                    AppIntegrityHeaderKey.demonstratingproofOfPossession.rawValue: try demonstratingProofOfPossessionToken
+                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
             } catch let error as NSError where
                         error.domain == AppCheckErrorDomain {
@@ -109,6 +109,10 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
+    public var hasExpiredAttestation: Bool {
+        attestationStore.attestationExpired
+    }
+    
     private var attestationProofOfPossessionToken: String {
         get throws {
             do {
@@ -134,7 +138,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             }
         }
     }
-
+    
     init(
         vendor: AppCheckVendor,
         attestationProofOfPossessionProvider: ProofOfPossessionProvider,
@@ -172,7 +176,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         )
     }
     
-    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
+    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
             let data = try await networkClient.makeRequest(.clientAttestation(
                 baseURL: baseURL,
@@ -180,15 +184,15 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 body: try attestationProofOfPossessionProvider.publicKey
             ))
             
-            let assertionResponse = try JSONDecoder()
-                .decode(ClientAssertionResponse.self, from: data)
+            let attestationResponse = try JSONDecoder()
+                .decode(ClientAttestationResponse.self, from: data)
             
-            attestationStore.store(
-                assertionJWT: assertionResponse.attestationJWT,
-                assertionExpiry: assertionResponse.expiryDate
+            try attestationStore.store(
+                clientAttestation: attestationResponse.clientAttestation,
+                attestationExpiry: attestationResponse.expiryDate
             )
             
-            return assertionResponse
+            return attestationResponse
         } catch let error as ServerError {
             throw error
         } catch let error as DecodingError {

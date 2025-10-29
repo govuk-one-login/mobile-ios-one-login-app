@@ -147,7 +147,7 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
         let encryptedConfiguration = SecureStorageConfiguration(
-            id: OLString.persistentSessionID,
+            id: OLString.insensitiveTokenInfoStore,
             accessControlLevel: .open
         )
         let persistentSessionStore = SecureStoreService(configuration: encryptedConfiguration)
