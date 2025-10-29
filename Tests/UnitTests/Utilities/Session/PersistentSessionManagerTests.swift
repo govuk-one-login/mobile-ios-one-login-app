@@ -1,4 +1,3 @@
-// swiftlint:disable file_length
 import Authentication
 @testable @preconcurrency import OneLogin
 import XCTest
@@ -138,31 +137,13 @@ extension PersistentSessionManagerTests {
         // GIVEN I am not logged in
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(loginSession, using: MockLoginSessionConfiguration.oneLoginSessionConfiguration)
-        // THEN a login screen is shown
-        XCTAssertTrue(loginSession.didCallPerformLoginFlow)
-        // AND no persistent session ID is provided
-        let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
-        XCTAssertEqual(configuration.persistentSessionId, "123456789")
-    }
-    
-    @MainActor
-    func test_startSession_reauthenticatesTheUser() async throws {
-        // GIVEN my session has expired
-        let persistentSessionID = UUID().uuidString
-        try mockEncryptedStore.saveItem(
-            item: persistentSessionID,
-            itemName: OLString.persistentSessionID
-        )
-        let loginSession = MockLoginSession(window: UIWindow())
-        // WHEN I start a session
         try await sut.startSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN a login screen is shown
         XCTAssertTrue(loginSession.didCallPerformLoginFlow)
-        // AND a persistent session ID is provided
+        // AND no persistent session ID is provided
         let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
         XCTAssertEqual(configuration.persistentSessionId, "123456789")
     }

@@ -25,7 +25,7 @@ final class MockLocalAuthContext: LocalAuthContext {
             return biometryPolicyOutcome
         case .deviceOwnerAuthentication:
             return anyPolicyOutcome
-        @unknown default:
+        default:
             return false
         }
     }

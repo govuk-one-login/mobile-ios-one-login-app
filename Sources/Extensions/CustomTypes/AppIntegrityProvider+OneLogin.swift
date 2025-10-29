@@ -7,7 +7,7 @@ import TokenGeneration
 extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
     static func firebaseAppCheck() throws(AppIntegritySigningError) -> FirebaseAppIntegrityService {
         let configuration = CryptoServiceConfiguration(
-            id: OLString.attestation,
+            id: OLString.attestationStore,
             accessControlLevel: .open
         )
         do {
