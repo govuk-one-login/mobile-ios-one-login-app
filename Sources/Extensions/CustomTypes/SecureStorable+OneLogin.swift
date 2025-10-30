@@ -1,4 +1,5 @@
 import LocalAuthenticationWrapper
+import Foundation
 import SecureStore
 
 extension SecureStorable where Self == SecureStoreService {
@@ -24,4 +25,19 @@ extension SecureStorable where Self == SecureStoreService {
     }
 }
 
-extension SecureStoreService: SessionBoundData { }
+extension SecureStorable {
+    func saveDate(id: String, _ date: Date) throws {
+        try saveItem(
+            item: date.timeIntervalSince1970.description,
+            itemName: id
+        )
+    }
+    
+    func readDate(id: String) throws -> Date {
+        let dateString = try readItem(itemName: AttestationStorageKey.attestationExpiry.rawValue)
+        guard let dateDouble = Double(dateString) else {
+            fatalError("Failed to decode date from string: \(dateString)")
+        }
+        return Date(timeIntervalSince1970: dateDouble)
+    }
+}

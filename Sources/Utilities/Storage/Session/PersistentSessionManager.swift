@@ -69,15 +69,15 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var expiryDate: Date? {
-        unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        (try? secureStoreManager.encryptedStore.readDate(id: OLString.refreshTokenExpiry))
+        ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
     }
     
     var isSessionValid: Bool {
         guard let expiryDate else {
             return false
         }
-        // ten second buffer
-        return expiryDate + 10 > .now
+        return expiryDate - 15 > .now
     }
     
     var isReturningUser: Bool {
@@ -151,9 +151,9 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let refreshToken = tokenResponse.refreshToken {
-            try secureStoreManager.encryptedStore.saveItem(
-                item: try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
-                itemName: OLString.refreshTokenExpiry
+            try secureStoreManager.encryptedStore.saveDate(
+                id: OLString.refreshTokenExpiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
             )
         }
         
