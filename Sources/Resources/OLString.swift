@@ -1,8 +1,8 @@
 enum OLString {
     // Store IDs
-    static let oneLoginTokensStore       = "oneLoginTokenStore"
-    static let insensitiveTokenInfoStore = "insensitiveTokenInfoStore"
-    static let attestationStore          = "attestationStore"
+    static let oneLoginTokensStore  = "oneLoginTokensStore"
+    static let publicTokenInfoStore = "publicTokenInfoStore"
+    static let attestationStore     = "attestationStore"
 
     // Token & Login
     static let refreshTokenExpiry  = "refreshTokenExpiry"

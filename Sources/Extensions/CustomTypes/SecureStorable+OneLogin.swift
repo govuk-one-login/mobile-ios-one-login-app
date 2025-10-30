@@ -1,5 +1,5 @@
-import LocalAuthenticationWrapper
 import Foundation
+import LocalAuthenticationWrapper
 import SecureStore
 
 extension SecureStorable where Self == SecureStoreService {
@@ -18,7 +18,7 @@ extension SecureStorable where Self == SecureStoreService {
     
     static func encryptedStore() -> SecureStoreService {
         let encryptedConfiguration = SecureStorageConfiguration(
-            id: OLString.insensitiveTokenInfoStore,
+            id: OLString.publicTokenInfoStore,
             accessControlLevel: .open
         )
         return SecureStoreService(configuration: encryptedConfiguration)
@@ -26,7 +26,10 @@ extension SecureStorable where Self == SecureStoreService {
 }
 
 extension SecureStorable {
-    func saveDate(id: String, _ date: Date) throws {
+    func saveDate(
+        id: String,
+        _ date: Date
+    ) throws {
         try saveItem(
             item: date.timeIntervalSince1970.description,
             itemName: id
@@ -34,10 +37,12 @@ extension SecureStorable {
     }
     
     func readDate(id: String) throws -> Date {
-        let dateString = try readItem(itemName: AttestationStorageKey.attestationExpiry.rawValue)
+        let dateString = try readItem(itemName: id)
         guard let dateDouble = Double(dateString) else {
             fatalError("Failed to decode date from string: \(dateString)")
         }
-        return Date(timeIntervalSince1970: dateDouble)
+        let date = Date(timeIntervalSince1970: dateDouble)
+        print("DATE FROM SECURE STORE:", date)
+        return date
     }
 }
