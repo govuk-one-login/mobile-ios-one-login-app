@@ -7,8 +7,15 @@ extension URLRequest {
         var request = URLRequest(url: baseURL.appendingPathComponent("client-attestation"))
         request.httpMethod = "POST"
 
-        request.addValue(token, forHTTPHeaderField: "X-Firebase-AppCheck")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(
+            token,
+            forHTTPHeaderField: "X-Firebase-AppCheck"
+        )
+        
+        request.addValue(
+            "application/json",
+            forHTTPHeaderField: "Content-Type"
+        )
 
         request.httpBody = body
 

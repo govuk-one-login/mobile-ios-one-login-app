@@ -21,7 +21,12 @@ public final class AppEnvironment {
     }
     
     private static func isFeatureEnabled(for key: FeatureFlagsName) -> Bool {
-        let providers: [FeatureFlagProvider] = [UserDefaults.standard, remoteReleaseFlags, remoteFeatureFlags, localFeatureFlags]
+        let providers: [FeatureFlagProvider] = [
+            UserDefaults.standard,
+            remoteReleaseFlags,
+            remoteFeatureFlags,
+            localFeatureFlags
+        ]
         return providers
             .lazy
             .compactMap { value(for: key.rawValue, provider: $0) }
@@ -39,8 +44,10 @@ public final class AppEnvironment {
         FlagManager(flagFileName: string(for: .featureFlagFile, in: .configuration))
     }
     
-    static func updateFlags(releaseFlags: [String: Bool],
-                            featureFlags: [String: Bool]) {
+    static func updateFlags(
+        releaseFlags: [String: Bool],
+        featureFlags: [String: Bool]
+    ) {
         remoteReleaseFlags.flags = releaseFlags
         remoteFeatureFlags.flags = featureFlags
     }
@@ -53,7 +60,10 @@ public final class AppEnvironment {
         return appConfiguration
     }
     
-    private static func string(for key: PlistRowKey, in dictionary: PlistDictionaryKey) -> String {
+    private static func string(
+        for key: PlistRowKey,
+        in dictionary: PlistDictionaryKey
+    ) -> String {
         guard let string = infoPlistDictionary(name: dictionary)[key.rawValue] else {
             preconditionFailure("'\(key.rawValue)' not found in Info.plist dictionary '\(dictionary.rawValue)")
         }

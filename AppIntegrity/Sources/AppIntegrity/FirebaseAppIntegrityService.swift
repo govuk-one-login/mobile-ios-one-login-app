@@ -2,19 +2,21 @@ import FirebaseAppCheck
 import FirebaseCore
 import Networking
 
-public enum TokenHeaderKey: String {
-    case attestationJWT = "OAuth-Client-Attestation"
-    case attestationProofOfPossession = "OAuth-Client-Attestation-PoP"
+public enum AppIntegrityHeaderKey: String {
+    case attestation                    = "OAuth-Client-Attestation"
+    case attestationProofOfPossession   = "OAuth-Client-Attestation-PoP"
+    case demonstratingProofOfPossession = "DPoP"
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
+    private let vendor: AppCheckVendor
+    private let attestationProofOfPossessionProvider: ProofOfPossessionProvider
+    private let attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
+    private let demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
+    private let attestationStore: AttestationStorage
     private let networkClient: NetworkClient
     private let baseURL: URL
-    private let vendor: AppCheckVendor
-    private let proofOfPossessionProvider: ProofOfPossessionProvider
-    private let proofTokenGenerator: ProofTokenGenerator
-    private let attestationStore: AttestationStorage
-
+    
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
         AppCheckDebugProviderFactory()
@@ -22,31 +24,33 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         AppAttestProviderFactory()
         #endif
     }
-
+    
     static func configure(vendorType: AppCheckVendor.Type) {
         vendorType.setAppCheckProviderFactory(providerFactory)
     }
-
+    
     public static func configure() {
         configure(vendorType: AppCheck.self)
     }
     
     public var integrityAssertions: [String: String] {
         get async throws {
-            guard !attestationStore.validAttestation else {
+            guard hasExpiredAttestation else {
                 return [
-                    TokenHeaderKey.attestationJWT.rawValue: try attestationStore.attestationJWT,
-                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
+                    AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
+                    AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
+                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
             }
             
             do {
-                let appCheck = try await vendor.limitedUseToken()
-                let attestation = try await fetchClientAttestation(appCheckToken: appCheck.token)
+                let appCheckToken = try await vendor.limitedUseToken()
+                let attestationResponse = try await fetchClientAttestation(appCheckToken: appCheckToken.token)
                 
                 return [
-                    TokenHeaderKey.attestationJWT.rawValue: attestation.attestationJWT,
-                    TokenHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossession
+                    AppIntegrityHeaderKey.attestation.rawValue: attestationResponse.clientAttestation,
+                    AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
+                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
             } catch let error as NSError where
                         error.domain == AppCheckErrorDomain {
@@ -105,65 +109,90 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    private var attestationProofOfPossession: String {
+    public var hasExpiredAttestation: Bool {
+        attestationStore.attestationExpired
+    }
+    
+    private var attestationProofOfPossessionToken: String {
         get throws {
             do {
-                return try proofTokenGenerator.token
+                return try attestationProofOfPossessionTokenGenerator.token
             } catch {
-                throw ClientAssertionError(
-                    .cantCreateAttestationProofOfPossession,
+                throw ProofOfPossessionError(
+                    .cantGenerateAttestationProofOfPossessionJWT,
                     errorDescription: error.localizedDescription
                 )
             }
         }
     }
-
-    init(vendor: AppCheckVendor,
-         networkClient: NetworkClient,
-         proofOfPossessionProvider: ProofOfPossessionProvider,
-         baseURL: URL,
-         proofTokenGenerator: ProofTokenGenerator,
-         attestationStore: AttestationStorage) {
-        self.networkClient = networkClient
-        self.vendor = vendor
-        self.proofOfPossessionProvider = proofOfPossessionProvider
-        self.baseURL = baseURL
-        self.proofTokenGenerator = proofTokenGenerator
-        self.attestationStore = attestationStore
+    
+    private var demonstratingProofOfPossessionToken: String {
+        get throws {
+            do {
+                return try demonstratingProofOfPossessionTokenGenerator.token
+            } catch {
+                throw ProofOfPossessionError(
+                    .cantGenerateDemonstratingProofOfPossessionJWT,
+                    errorDescription: error.localizedDescription
+                )
+            }
+        }
     }
     
-    public convenience init(networkClient: NetworkClient,
-                            proofOfPossessionProvider: ProofOfPossessionProvider,
-                            baseURL: URL,
-                            proofTokenGenerator: ProofTokenGenerator,
-                            attestationStore: AttestationStorage) {
+    init(
+        vendor: AppCheckVendor,
+        attestationProofOfPossessionProvider: ProofOfPossessionProvider,
+        attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
+        demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
+        attestationStore: AttestationStorage,
+        networkClient: NetworkClient,
+        baseURL: URL
+    ) {
+        self.vendor = vendor
+        self.attestationProofOfPossessionProvider = attestationProofOfPossessionProvider
+        self.attestationProofOfPossessionTokenGenerator = attestationProofOfPossessionTokenGenerator
+        self.demonstratingProofOfPossessionTokenGenerator = demonstratingProofOfPossessionTokenGenerator
+        self.attestationStore = attestationStore
+        self.networkClient = networkClient
+        self.baseURL = baseURL
+    }
+    
+    public convenience init(
+        attestationProofOfPossessionProvider: ProofOfPossessionProvider,
+        attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
+        demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
+        attestationStore: AttestationStorage,
+        networkClient: NetworkClient,
+        baseURL: URL
+    ) {
         self.init(
             vendor: AppCheck.appCheck(),
+            attestationProofOfPossessionProvider: attestationProofOfPossessionProvider,
+            attestationProofOfPossessionTokenGenerator: attestationProofOfPossessionTokenGenerator,
+            demonstratingProofOfPossessionTokenGenerator: demonstratingProofOfPossessionTokenGenerator,
+            attestationStore: attestationStore,
             networkClient: networkClient,
-            proofOfPossessionProvider: proofOfPossessionProvider,
-            baseURL: baseURL,
-            proofTokenGenerator: proofTokenGenerator,
-            attestationStore: attestationStore
+            baseURL: baseURL
         )
     }
     
-    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAssertionResponse {
+    func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
             let data = try await networkClient.makeRequest(.clientAttestation(
                 baseURL: baseURL,
                 token: appCheckToken,
-                body: try proofOfPossessionProvider.publicKey
+                body: try attestationProofOfPossessionProvider.publicKey
             ))
             
-            let assertionResponse = try JSONDecoder()
-                .decode(ClientAssertionResponse.self, from: data)
+            let attestationResponse = try JSONDecoder()
+                .decode(ClientAttestationResponse.self, from: data)
             
-            attestationStore.store(
-                assertionJWT: assertionResponse.attestationJWT,
-                assertionExpiry: assertionResponse.expiryDate
+            try attestationStore.store(
+                clientAttestation: attestationResponse.clientAttestation,
+                attestationExpiry: attestationResponse.expiryDate
             )
             
-            return assertionResponse
+            return attestationResponse
         } catch let error as ServerError {
             throw error
         } catch let error as DecodingError {
@@ -173,7 +202,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             )
         } catch {
             throw ProofOfPossessionError(
-                .cantGeneratePublicKey,
+                .cantGenerateAttestationPublicKeyJWK,
                 errorDescription: error.localizedDescription
             )
         }

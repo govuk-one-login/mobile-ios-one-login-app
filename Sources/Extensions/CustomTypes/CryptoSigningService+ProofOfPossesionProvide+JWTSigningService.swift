@@ -5,12 +5,12 @@ import TokenGeneration
 
 extension CryptoSigningService: @retroactive ProofOfPossessionProvider, @retroactive JWTSigningService {
     public var publicKey: Data {
-        get throws {
+        get throws(AppIntegritySigningError) {
             do {
                 return try publicKey(format: .jwk)
             } catch {
                 throw AppIntegritySigningError(
-                    errorType: .publicKeyError,
+                    errorType: .publicKeyJWTError,
                     errorDescription: error.localizedDescription
                 )
             }
@@ -21,7 +21,9 @@ extension CryptoSigningService: @retroactive ProofOfPossessionProvider, @retroac
 struct AppIntegritySigningError: Error, LocalizedError {
     enum AppIntegritySigningErrorType: String {
         case initialisationError = "error initialising the crypto signing service"
-        case publicKeyError = "error generating the public key in JWK format"
+        case publicKeyJWTError = "error generating the public key in JWK format"
+        case publicKeyDictionaryError = "error generating the public key as a dictionary"
+        case unknown = "unknown AppIntegritySigningError"
     }
 
     let errorType: AppIntegritySigningErrorType

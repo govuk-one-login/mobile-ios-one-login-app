@@ -119,7 +119,7 @@ final class PersistentSessionManager: SessionManager {
         tokenProvider.update(subjectToken: response.accessToken)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if let idToken = response.idToken {
-            try user.send(IDTokenUserRepresentation(idToken: idToken))
+            user.send(try IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)
         }
@@ -141,21 +141,39 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        let tokens = StoredTokens(idToken: tokenResponse.idToken,
-                                  accessToken: tokenResponse.accessToken)
-        
-        try storeKeyService.save(tokens: tokens)
-        
         if let persistentID = user.value?.persistentID {
-            try secureStoreManager.encryptedStore.saveItem(item: persistentID,
-                                                           itemName: OLString.persistentSessionID)
+            try secureStoreManager.encryptedStore.saveItem(
+                item: persistentID,
+                itemName: OLString.persistentSessionID
+            )
         } else {
             secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
-        unprotectedStore.set(tokenResponse.expiryDate,
-                             forKey: OLString.accessTokenExpiry)
-        unprotectedStore.set(true, forKey: OLString.returningUser)
+        if let refreshToken = tokenResponse.refreshToken {
+            try secureStoreManager.encryptedStore.saveItem(
+                item: try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
+                itemName: OLString.refreshTokenExpiry
+            )
+        }
+        
+        let tokens = StoredTokens(
+            idToken: tokenResponse.idToken,
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken
+        )
+        
+        try storeKeyService.save(tokens: tokens)
+        
+        unprotectedStore.set(
+            tokenResponse.expiryDate,
+            forKey: OLString.accessTokenExpiry
+        )
+        
+        unprotectedStore.set(
+            true,
+            forKey: OLString.returningUser
+        )
     }
     
     func resumeSession() throws {
@@ -164,14 +182,14 @@ final class PersistentSessionManager: SessionManager {
         }
         
         let keys = try storeKeyService.fetch()
+                
         if let idToken = keys.idToken {
             user.send(try IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)
         }
         
-        let accessToken = keys.accessToken
-        tokenProvider.update(subjectToken: accessToken)
+        tokenProvider.update(subjectToken: keys.accessToken)
     }
     
     func endCurrentSession() {

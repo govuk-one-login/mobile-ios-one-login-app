@@ -33,7 +33,12 @@ extension SecureTokenStoreTests {
     }
     
     func test_canFetchStoredTokens() throws {
-        let tokensToSave = StoredTokens(idToken: "idToken", accessToken: "accessToken")
+        let tokensToSave = StoredTokens(
+            idToken: "idToken",
+            refreshToken: "refreshToken",
+            accessToken: "accessToken"
+        )
+        
         try sut.save(tokens: tokensToSave)
         let storedTokens = try sut.fetch()
         XCTAssertEqual(storedTokens.accessToken, tokensToSave.accessToken)
@@ -51,12 +56,17 @@ extension SecureTokenStoreTests {
     }
 
     func test_canSaveKeys() throws {
-        let tokens = StoredTokens(idToken: "idToken", accessToken: "accessToken")
+        let tokensToSave = StoredTokens(
+            idToken: "idToken",
+            refreshToken: "refreshToken",
+            accessToken: "accessToken"
+        )
+        
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .sortedKeys
-        let tokensAsData = try jsonEncoder.encode(tokens).base64EncodedString()
+        let tokensAsData = try jsonEncoder.encode(tokensToSave).base64EncodedString()
         print(tokensAsData)
-        try sut.save(tokens: tokens)
+        try sut.save(tokens: tokensToSave)
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [OLString.storedTokens: tokensAsData])
     }
 

@@ -10,18 +10,22 @@ public enum FirebaseAppCheckErrorType: String {
 }
 
 public enum ClientAssertionErrorType: String {
-    case invalidPublicKey                       = "invalid client attestation public key"
-    case invalidToken                           = "invalid firebase app check token"
-    case serverError                            = "server error"
-    case cantDecodeClientAssertion              = "cant decode client attestation"
-    case cantCreateAttestationProofOfPossession = "cant create attestation proof of possession"
+    case invalidPublicKey          = "invalid client attestation public key"
+    case invalidToken              = "invalid firebase app check token"
+    case serverError               = "server error"
+    case cantDecodeClientAssertion = "cant decode client attestation"
 }
 
 public enum ProofOfPossessionErrorType: String {
-    case cantGeneratePublicKey = "cant generate proof of possession public key"
+    case cantGenerateAttestationPublicKeyJWK           = "cant generate attestation public key JWK"
+    case cantGenerateAttestationProofOfPossessionJWT   = "cant generate attestation proof of possession JWT"
+    case cantGenerateDemonstratingProofOfPossessionJWT = "can't generate demonstrating public key dictionary JWT"
 }
 
-public struct AppIntegrityError<ErrorType: RawRepresentable>: Error, LocalizedError, CustomNSError, Equatable where ErrorType.RawValue == String {
+public struct AppIntegrityError<ErrorType: RawRepresentable>: Error,
+                                                              LocalizedError,
+                                                              CustomNSError,
+                                                              Equatable where ErrorType.RawValue == String {
     public let errorType: ErrorType
     public let errorDescription: String?
     public let failureReason: String?

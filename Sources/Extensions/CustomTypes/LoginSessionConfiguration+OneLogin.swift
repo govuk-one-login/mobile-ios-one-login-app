@@ -8,7 +8,10 @@ extension LoginSessionConfiguration {
         persistentSessionID: String?
     ) async throws -> Self {
         let env = AppEnvironment.self
-        let shouldAttestIntegrity = env.appIntegrityEnabled || UserDefaults.standard.validAttestation
+        let integrityService = try FirebaseAppIntegrityService.firebaseAppCheck()
+        // Integrity assertions should be sent if the feature flag is enabled
+        // OR the user has a valid client attestation which can be used in the flow even in a potential Firebase outage
+        let shouldAttestIntegrity = env.appIntegrityEnabled || !integrityService.hasExpiredAttestation
         return await .init(
             authorizationEndpoint: env.stsAuthorize,
             tokenEndpoint: env.stsToken,
@@ -17,8 +20,8 @@ extension LoginSessionConfiguration {
             redirectURI: env.mobileRedirect.absoluteString,
             locale: env.isLocaleWelsh ? .cy : .en,
             persistentSessionId: persistentSessionID,
-            tokenHeaders: shouldAttestIntegrity ? try await FirebaseAppIntegrityService
-                .firebaseAppCheck().integrityAssertions : nil
+            tokenHeaders: shouldAttestIntegrity ?
+            try await integrityService.integrityAssertions : nil
         )
     }
 }
