@@ -62,27 +62,67 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.sessionState, .nonePresent)
     }
     
-    func test_sessionExpiryDate() {
-        // GIVEN the unprotected store contains a session expiry date
-        let date = Date()
-        mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
+    func test_sessionExpiryDate_refreshToken() throws {
+        // GIVEN the encrypted store contains a refresh token expiry date
+        let date = Date.distantFuture
+        try mockSecureStoreManager.encryptedStore.saveItem(
+            item: date.timeIntervalSince1970.description,
+            itemName: OLString.refreshTokenExpiry
+        )
         // THEN it is exposed by the session manager
         XCTAssertEqual(sut.expiryDate, date)
     }
     
-    func test_sessionIsValidWhenNotExpired() {
-        // GIVEN the unprotected store contains a session expiry date in the future
-        let date = Date.distantFuture
-        mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
+    func test_sessionExpiryDate_accessToken() {
+        // GIVEN the unprotected store contains an access token expiry date
+        let date = Date()
+        mockUnprotectedStore.set(
+            date,
+            forKey: OLString.accessTokenExpiry
+        )
+        // THEN it is exposed by the session manager
+        XCTAssertEqual(sut.expiryDate, date)
+    }
+    
+    func test_sessionIsValid_refreshToken_notExpired() throws {
+        // GIVEN the unprotected store contains a refresh token expiry date in the future
+        try mockSecureStoreManager.encryptedStore.saveItem(
+            item: Date.distantFuture.timeIntervalSince1970.description,
+            itemName: OLString.refreshTokenExpiry
+        )
         // THEN the session is valid
         XCTAssertTrue(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .saved)
     }
     
-    func test_sessionIsInvalidWhenExpired() {
-        // GIVEN the unprotected store contains a session expiry date in the past
-        let date = Date.distantPast
-        mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
+    func test_sessionIsValid_accessToken_notExpired() {
+        // GIVEN the unprotected store contains an access token expiry date in the future
+        mockUnprotectedStore.set(
+            Date.distantFuture,
+            forKey: OLString.accessTokenExpiry
+        )
+        // THEN the session is valid
+        XCTAssertTrue(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .saved)
+    }
+    
+    func test_sessionIsInvalid_refreshToken_Expired() throws {
+        // GIVEN the unprotected store contains a refresh token expiry date in the past
+        try mockSecureStoreManager.encryptedStore.saveItem(
+            item: Date.distantPast.timeIntervalSince1970.description,
+            itemName: OLString.refreshTokenExpiry
+        )
+        // THEN the session is not valid
+        XCTAssertFalse(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .expired)
+    }
+    
+    func test_sessionIsInvalid_accessToken_Expired() {
+        // GIVEN the unprotected store contains an access token expiry date in the past
+        mockUnprotectedStore.set(
+            Date.distantPast,
+            forKey: OLString.accessTokenExpiry
+        )
         // THEN the session is not valid
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .expired)
