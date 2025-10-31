@@ -41,8 +41,6 @@ extension SecureStorable {
         guard let dateDouble = Double(dateString) else {
             throw SecureStoreError.cantDecodeData
         }
-        let date = Date(timeIntervalSince1970: dateDouble)
-        print("DATE FROM SECURE STORE:", date)
-        return date
+        return Date(timeIntervalSince1970: dateDouble)
     }
 }
