@@ -77,6 +77,7 @@ final class PersistentSessionManager: SessionManager {
         guard let expiryDate else {
             return false
         }
+        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
         return expiryDate - 15 > .now
     }
     

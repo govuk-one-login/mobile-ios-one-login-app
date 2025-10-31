@@ -39,7 +39,7 @@ extension SecureStorable {
     func readDate(id: String) throws -> Date {
         let dateString = try readItem(itemName: id)
         guard let dateDouble = Double(dateString) else {
-            fatalError("Failed to decode date from string: \(dateString)")
+            throw SecureStoreError.cantDecodeData
         }
         let date = Date(timeIntervalSince1970: dateDouble)
         print("DATE FROM SECURE STORE:", date)

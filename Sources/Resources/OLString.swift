@@ -5,11 +5,11 @@ enum OLString {
     static let attestationStore     = "attestationStore"
 
     // Token & Login
-    static let refreshTokenExpiry  = "refreshTokenExpiry"
-    static let accessTokenExpiry   = "accessTokenExpiry"
-    static let storedTokens        = "storedTokens"
-    static let persistentSessionID = "persistentSessionID"
-    static let returningUser       = "returningUser"
+    static let refreshTokenExpiry  = UDKeyStrings.refreshTokenExpiry.rawValue
+    static let accessTokenExpiry   = UDKeyStrings.accessTokenExpiry.rawValue
+    static let storedTokens        = UDKeyStrings.storedTokens.rawValue
+    static let persistentSessionID = UDKeyStrings.persistentSessionID.rawValue
+    static let returningUser       = UDKeyStrings.returningUser.rawValue
     
     // Universal Link Component
     static let redirect = "redirect"
@@ -19,5 +19,14 @@ enum OLString {
     static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
     
     // Biometrics
-    static let biometricsPrompt = "localAuthPrompted"
+    static let biometricsPrompt = UDKeyStrings.localAuthPrompted.rawValue
+    
+    enum UDKeyStrings: String, CaseIterable {
+        case refreshTokenExpiry
+        case accessTokenExpiry
+        case storedTokens
+        case persistentSessionID
+        case returningUser
+        case localAuthPrompted
+    }
 }
