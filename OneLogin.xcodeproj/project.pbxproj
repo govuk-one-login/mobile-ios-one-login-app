@@ -121,7 +121,8 @@
 		C811D6582EA05628009909A8 /* AppIntegrityDPoPJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = C811D6572EA05628009909A8 /* AppIntegrityDPoPJWT.swift */; };
 		C811D65A2EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C811D6592EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift */; };
 		C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */; };
-		C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */; };
+		C819C78B2D0B665B00120F2D /* UserDefaults+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C819C78A2D0B665B00120F2D /* UserDefaults+OneLogin.swift */; };
+		C81E8E302EB4C4150055B9A2 /* UserDefaults+ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81E8E2F2EB4C3FD0055B9A2 /* UserDefaults+ExtensionsTests.swift */; };
 		C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */; };
 		C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */; };
 		C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */; };
@@ -431,7 +432,8 @@
 		C811D6572EA05628009909A8 /* AppIntegrityDPoPJWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityDPoPJWT.swift; sourceTree = "<group>"; };
 		C811D6592EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityDPoPJWTTests.swift; sourceTree = "<group>"; };
 		C8178E3D2AEB2CA300059875 /* IntroAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroAnalytics.swift; sourceTree = "<group>"; };
-		C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+AppIntegrity.swift"; sourceTree = "<group>"; };
+		C819C78A2D0B665B00120F2D /* UserDefaults+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OneLogin.swift"; sourceTree = "<group>"; };
+		C81E8E2F2EB4C3FD0055B9A2 /* UserDefaults+ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+ExtensionsTests.swift"; sourceTree = "<group>"; };
 		C81ECB1A2B71709500AFC3A6 /* EnrolmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinator.swift; sourceTree = "<group>"; };
 		C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrolmentCoordinatorTests.swift; sourceTree = "<group>"; };
 		C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenPayload.swift; sourceTree = "<group>"; };
@@ -1004,7 +1006,7 @@
 				7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */,
 				C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */,
 				C851C0FE2D833A8200FC8CA8 /* SDKConformances.swift */,
-				C819C78A2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift */,
+				C819C78A2D0B665B00120F2D /* UserDefaults+OneLogin.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1197,6 +1199,7 @@
 		C8520C2C2AE2C546006790C1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				C81E8E2F2EB4C3FD0055B9A2 /* UserDefaults+ExtensionsTests.swift */,
 				C8B3207A2B063CA100FECDF0 /* WebAuthenticationServiceTests.swift */,
 				C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */,
 				C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */,
@@ -2259,7 +2262,7 @@
 				41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */,
 				7CA719602C846AED00973585 /* URLRequest+Authorization.swift in Sources */,
 				7C47BE162C7883B800DCE5D2 /* JWTProtocols.swift in Sources */,
-				C819C78B2D0B665B00120F2D /* UserDefaults+AppIntegrity.swift in Sources */,
+				C819C78B2D0B665B00120F2D /* UserDefaults+OneLogin.swift in Sources */,
 				7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
 				ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */,
@@ -2343,6 +2346,7 @@
 				D01A72772BE29B51004333F8 /* SettingsCoordinatorTests.swift in Sources */,
 				413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
+				C81E8E302EB4C4150055B9A2 /* UserDefaults+ExtensionsTests.swift in Sources */,
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
