@@ -99,7 +99,7 @@
 
 "app_enableBiometricsBody1" = "Use %@ to:";
 
-"app_enableBiometricsBullet1" = "unlock the app within 30 minutes of signing in with %@";
+"app_enableBiometricsBullet1" = "sign in";
 
 "app_enableBiometricsBullet2" = "view and add documents";
 
@@ -191,7 +191,7 @@
 // MARK: Sign Out Warning screen
 "app_signOutWarningTitle" = "You need to sign in again";
 
-"app_signOutWarningBody" = "It’s been more than 30 minutes since you last signed in to the %@ app.\n\nSign in again to continue.";
+"app_signOutWarningBody" = "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.";
 
 
 // MARK: Data Deletion Warning screen
