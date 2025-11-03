@@ -23,7 +23,7 @@ struct AppIntegrityDPoPJWTTests {
     @Test("Initialise payload from value")
     func initialiseJWTPayload() {
         let payload = AppIntegrityDPoPJWT.payload()
-        let expiryDate = Int(Date().timeIntervalSince1970) + 180
+        let expiryDate = Int(Date().timeIntervalSince1970)
         
         #expect(payload["htm"] as? String == "POST")
         #expect(payload["htu"] as? String == AppEnvironment.stsToken.absoluteString)
