@@ -15,7 +15,7 @@ enum AppIntegrityDPoPJWT {
             [
                 "htm": "POST",
                 "htu": AppEnvironment.stsToken.absoluteString,
-                "iat": Int(Date.now.timeIntervalSince1970) + 180,
+                "iat": Int(Date.now.timeIntervalSince1970),
                 "jti": UUID().uuidString
             ]
         }
