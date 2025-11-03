@@ -36,7 +36,7 @@ final class SecureAttestationStore: AttestationStorage {
             .readDate(id: AttestationStorageKey.attestationExpiry.rawValue) else {
             return true
         }
-        return expriyDate < .now
+        return expriyDate > .now
     }
     
     var attestationJWT: String {
