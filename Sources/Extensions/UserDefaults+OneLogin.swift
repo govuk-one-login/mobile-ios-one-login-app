@@ -2,8 +2,8 @@ import AppIntegrity
 import Foundation
 
 extension UserDefaults: SessionBoundData {
-    func delete() throws {
-        OLString.UDKeyStrings.allCases
+    func clearSessionData() throws {
+        OLString.UnprotectedStoreKeyString.allCases
             .forEach { removeObject(forKey: $0.rawValue) }
     }
 }

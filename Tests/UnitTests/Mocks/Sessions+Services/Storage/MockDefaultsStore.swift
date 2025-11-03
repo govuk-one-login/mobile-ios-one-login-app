@@ -16,7 +16,7 @@ class MockDefaultsStore: DefaultsStorable, SessionBoundData {
         savedData[defaultName] = nil
     }
     
-    func delete() throws {
+    func clearSessionData() throws {
         savedData = [:]
     }
 }

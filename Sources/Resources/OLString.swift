@@ -3,13 +3,6 @@ enum OLString {
     static let oneLoginTokensStore  = "oneLoginTokensStore"
     static let publicTokenInfoStore = "publicTokenInfoStore"
     static let attestationStore     = "attestationStore"
-
-    // Token & Login
-    static let refreshTokenExpiry  = UDKeyStrings.refreshTokenExpiry.rawValue
-    static let accessTokenExpiry   = UDKeyStrings.accessTokenExpiry.rawValue
-    static let storedTokens        = UDKeyStrings.storedTokens.rawValue
-    static let persistentSessionID = UDKeyStrings.persistentSessionID.rawValue
-    static let returningUser       = UDKeyStrings.returningUser.rawValue
     
     // Universal Link Component
     static let redirect = "redirect"
@@ -18,15 +11,28 @@ enum OLString {
     // Release Flags
     static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
     
-    // Biometrics
-    static let biometricsPrompt = UDKeyStrings.localAuthPrompted.rawValue
+    // Unprotected store keys
+    static let returningUser     = UnprotectedStoreKeyString.returningUser.rawValue
+    static let accessTokenExpiry = UnprotectedStoreKeyString.accessTokenExpiry.rawValue
     
-    enum UDKeyStrings: String, CaseIterable {
-        case refreshTokenExpiry
+    // Encrypted store keys
+    static let refreshTokenExpiry  = EncryptedStoreKeyString.refreshTokenExpiry.rawValue
+    static let persistentSessionID = EncryptedStoreKeyString.persistentSessionID.rawValue
+    
+    // Access control encyrpted store keys
+    static let storedTokens = AccessControlEncryptedStoreKeyString.storedTokens.rawValue
+    
+    enum UnprotectedStoreKeyString: String, CaseIterable {
         case accessTokenExpiry
-        case storedTokens
-        case persistentSessionID
         case returningUser
-        case localAuthPrompted
+    }
+    
+    enum EncryptedStoreKeyString: String, CaseIterable {
+        case refreshTokenExpiry
+        case persistentSessionID
+    }
+    
+    enum AccessControlEncryptedStoreKeyString: String, CaseIterable {
+        case storedTokens
     }
 }

@@ -44,3 +44,12 @@ extension SecureStorable {
         return Date(timeIntervalSince1970: dateDouble)
     }
 }
+
+extension SecureStoreService: SessionBoundData {
+    func clearSessionData() {
+        OLString.EncryptedStoreKeyString.allCases
+            .forEach { deleteItem(itemName: $0.rawValue) }
+        OLString.AccessControlEncryptedStoreKeyString.allCases
+            .forEach { deleteItem(itemName: $0.rawValue) }
+    }
+}

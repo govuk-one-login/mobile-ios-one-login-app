@@ -21,8 +21,5 @@ final class OLStringTests: XCTestCase {
         
         // Release Flags
         XCTAssertEqual(OLString.hasAccessedWalletBefore, "hasAccessedWalletBefore")
-        
-        // Biometrics
-        XCTAssertEqual(OLString.biometricsPrompt, "localAuthPrompted")
     }
 }

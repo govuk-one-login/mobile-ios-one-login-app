@@ -44,7 +44,7 @@ struct WalletAvailabilityService: WalletFeatureAvailabilityService {
         return true
     }
     
-    func delete() throws {
+    func clearSessionData() throws {
         Self.hasAccessedBefore = false
     }
 }

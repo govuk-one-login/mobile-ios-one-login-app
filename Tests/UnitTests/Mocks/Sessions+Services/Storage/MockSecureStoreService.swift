@@ -4,6 +4,7 @@ import SecureStore
 final class MockSecureStoreService: SecureStorable, SessionBoundData {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
+    var didCallClearSessionData = false
     
     var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
@@ -38,7 +39,6 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         if let errorFromDeleteItem {
             throw errorFromDeleteItem
         }
-        savedItems = [:]
     }
     
     func checkItemExists(itemName: String) -> Bool {
@@ -46,5 +46,10 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             return true
         }
         return false
+    }
+    
+    func clearSessionData() {
+        didCallClearSessionData = true
+        savedItems = [:]
     }
 }
