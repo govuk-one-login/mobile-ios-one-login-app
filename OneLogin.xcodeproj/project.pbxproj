@@ -134,6 +134,7 @@
 		C826A7242DA8154600832E65 /* FlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BACAFC2B4DD93C00530419 /* FlagManager.swift */; };
 		C829FAC22EB91E14009C84B0 /* UserDefaults+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C829FAC12EB91E0C009C84B0 /* UserDefaults+OneLogin.swift */; };
 		C829FAC42EB92089009C84B0 /* UserDefaults+ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C829FAC32EB92089009C84B0 /* UserDefaults+ExtensionsTests.swift */; };
+		C829FAC82EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C829FAC72EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift */; };
 		C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* OLStringTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83014B32CA19B2200799A32 /* MockWalletError.swift */; };
@@ -443,6 +444,7 @@
 		C826A7252DA8164000832E65 /* OneLoginIntegrationConfig.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginIntegrationConfig.xctestplan; sourceTree = "<group>"; };
 		C829FAC12EB91E0C009C84B0 /* UserDefaults+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+OneLogin.swift"; sourceTree = "<group>"; };
 		C829FAC32EB92089009C84B0 /* UserDefaults+ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+ExtensionsTests.swift"; sourceTree = "<group>"; };
+		C829FAC72EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStoreService+OneLoginTests.swift"; sourceTree = "<group>"; };
 		C82B64512BA47D59000C9524 /* OLStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLStringTests.swift; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C83014B32CA19B2200799A32 /* MockWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletError.swift; sourceTree = "<group>"; };
@@ -1213,6 +1215,7 @@
 				4193D2E42C89F48800073EB8 /* SecureTokenStoreTests.swift */,
 				C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */,
 				C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */,
+				C829FAC72EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2275,6 +2278,7 @@
 				C84E8F622CFF1DF500639098 /* AppIntegrityPoPJWTTests.swift in Sources */,
 				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
 				C8BFE5EB2CB5818B00FA9A35 /* AppUnavailableViewModelTests.swift in Sources */,
+				C829FAC82EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift in Sources */,
 				41FF35AF2B222CAC00419DB3 /* WebAuthenticationServiceTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* BiometricsEnrolmentViewModelTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
