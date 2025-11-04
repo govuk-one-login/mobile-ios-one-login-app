@@ -21,7 +21,7 @@ struct AppIntegrityDPoPJWT: JWTContent {
         ]
     }
     
-    init(jwk: [String : String]) {
+    init(jwk: [String: String]) {
         self.jwk = jwk
     }
 }

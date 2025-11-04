@@ -1,8 +1,8 @@
 import Foundation.NSDate
 import TokenGeneration
 
-struct AppIntegrityPoPJWT:JWTContent {
-    var headers: [String: Any] {
+struct AppIntegrityPoPJWT: JWTContent {
+    var header: [String: Any] {
         [
             "alg": "ES256",
             "typ": "oauth-client-attestation-pop+jwt"
