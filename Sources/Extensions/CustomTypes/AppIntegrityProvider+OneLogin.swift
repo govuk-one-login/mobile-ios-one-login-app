@@ -5,7 +5,7 @@ import Networking
 import TokenGeneration
 
 extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
-    static func firebaseAppCheck(attestationStore: AttestationStorage) throws(AppIntegritySigningError) -> FirebaseAppIntegrityService {
+    static func firebaseAppCheck() throws(AppIntegritySigningError) -> FirebaseAppIntegrityService {
         let configuration = CryptoServiceConfiguration(
             id: OLString.attestationStore,
             accessControlLevel: .open
@@ -27,7 +27,7 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
                 attestationProofOfPossessionProvider: attestationProvider,
                 attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
                 demonstratingProofOfPossessionTokenGenerator: demonstratingPoPTokenGenerator,
-                attestationStore: attestationStore,
+                attestationStore: SecureAttestationStore(),
                 networkClient: NetworkClient(),
                 baseURL: AppEnvironment.mobileBaseURL
             )
