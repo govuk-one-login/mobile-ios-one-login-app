@@ -7,7 +7,7 @@ struct AppIntegrityPoPJWTTests {
           Initialise header from value
           """)
     func initialiseJWTHeader() {
-        let header = AppIntegrityPoPJWT.headers()
+        let header = AppIntegrityPoPJWT().header
 
         #expect(header as? [String: String] == ["alg": "ES256",
                                                 "typ": "oauth-client-attestation-pop+jwt"])
@@ -17,7 +17,7 @@ struct AppIntegrityPoPJWTTests {
            Initialise payload from value
            """)
      func initialiseJWTPayload() {
-         let payload = AppIntegrityPoPJWT.payload()
+         let payload = AppIntegrityPoPJWT().payload
          let expiryDate = Int(Date().timeIntervalSince1970) + 180
 
          #expect(payload["iss"] as? String == AppEnvironment.stsClientID)
