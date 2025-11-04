@@ -1,23 +1,27 @@
 import Foundation.NSDate
+import TokenGeneration
 
-enum AppIntegrityDPoPJWT {
-    case headers(jwk: [String: String]), payload
+struct AppIntegrityDPoPJWT: JWTContent {
+    private let jwk: [String: String]
     
-    func callAsFunction() -> [String: Any] {
-        switch self {
-        case .headers(let jwk):
-            [
-                "alg": "ES256",
-                "typ": "dpop+jwt",
-                "jwk": jwk
-            ]
-        case .payload:
-            [
-                "htm": "POST",
-                "htu": AppEnvironment.stsToken.absoluteString,
-                "iat": Int(Date.now.timeIntervalSince1970),
-                "jti": UUID().uuidString
-            ]
-        }
+    var header: [String: Any] {
+        [
+            "alg": "ES256",
+            "typ": "dpop+jwt",
+            "jwk": jwk
+        ]
+    }
+    
+    var payload: [String: Any] {
+        [
+            "htm": "POST",
+            "htu": AppEnvironment.stsToken.absoluteString,
+            "iat": Int(Date.now.timeIntervalSince1970),
+            "jti": UUID().uuidString
+        ]
+    }
+    
+    init(jwk: [String : String]) {
+        self.jwk = jwk
     }
 }
