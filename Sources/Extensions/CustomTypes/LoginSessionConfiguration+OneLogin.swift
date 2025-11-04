@@ -20,7 +20,8 @@ extension LoginSessionConfiguration {
             redirectURI: env.mobileRedirect.absoluteString,
             locale: env.isLocaleWelsh ? .cy : .en,
             persistentSessionId: persistentSessionID,
-            tokenHeaders: shouldAttestIntegrity ? try await integrityService.integrityAssertions : nil
+            tokenHeaders: shouldAttestIntegrity ?
+            try await integrityService.integrityAssertions : nil
         )
     }
 }
