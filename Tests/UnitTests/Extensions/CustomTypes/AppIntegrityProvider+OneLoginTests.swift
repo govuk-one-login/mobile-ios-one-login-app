@@ -4,12 +4,8 @@ import Foundation.NSDate
 @testable import OneLogin
 import Testing
 
-struct AppIntegrityProviderTests: ~Copyable {
-    let store = SecureAttestationStore()
-
-    deinit {
-        // TODO: clear the store after
-    }
+struct AppIntegrityProviderTests {
+    let store = SecureAttestationStore(secureStore: MockSecureStoreService())
 
     @Test
     func attestationProofOfPossessionJWTsAreGeneratedOnDemand() async throws {
@@ -18,11 +14,11 @@ struct AppIntegrityProviderTests: ~Copyable {
 
         // WHEN I take several moments to login
         let appCheck = try FirebaseAppIntegrityService.firebaseAppCheck()
+        let date = Date()
+
         try await Task.sleep(seconds: 1)
 
         // THEN fresh assertion JWTs are generated
-        let date = Date()
-
         let assertions = try await appCheck.integrityAssertions
 
         // - DPoP JWT was issued _after_ the login attempt finished
@@ -30,14 +26,14 @@ struct AppIntegrityProviderTests: ~Copyable {
             rawString: #require(assertions[AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue])
         )
         let issueTime = try #require(dpopJWT.body.iat)
-        #expect(Int(date.timeIntervalSince1970) <= issueTime)
+        #expect(Int(date.timeIntervalSince1970) < issueTime)
 
         // - PoP JWT will expire more than three minutes _after_ the login attempt
         let popJWT = try ExampleJWT(
             rawString: #require(assertions[AppIntegrityHeaderKey.attestationProofOfPossession.rawValue])
         )
         let expiryTime = try #require(popJWT.body.exp)
-        #expect(Int(date.addingTimeInterval(180).timeIntervalSince1970) <= expiryTime)
+        #expect(Int(date.addingTimeInterval(180).timeIntervalSince1970) < expiryTime)
     }
 }
 
