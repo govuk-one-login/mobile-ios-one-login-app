@@ -14,15 +14,14 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
             let attestationProvider = try CryptoSigningService(configuration: configuration)
             
             // MARK: Attestation Proof of Posession JWT
-            let attestationPoPJWTRepresentation = JWTRepresentation(header: AppIntegrityPoPJWT.headers(),
-                                                                    payload: AppIntegrityPoPJWT.payload())
-            let attestationPoPTokenGenerator = JWTGenerator(jwtRepresentation: attestationPoPJWTRepresentation,
-                                                            signingService: attestationProvider)
-            
+            let attestationPoPTokenGenerator = JWTGenerator(
+                jwtRepresentation: AppIntegrityPoPJWTContent(),
+                signingService: attestationProvider
+            )
+
             // MARK: Demonstrating Proof of Possession JWT
-            let demonstatringPoPJWTRepresentation = JWTRepresentation(
-                header: AppIntegrityDPoPJWT.headers(jwk: try attestationProvider.jwkDictionary)(),
-                payload: AppIntegrityDPoPJWT.payload()
+            let demonstatringPoPJWTRepresentation = AppIntegrityDPoPJWTContent(
+                jwk: try attestationProvider.jwkDictionary
             )
             let demonstatringPoPTokenGenerator = JWTGenerator(jwtRepresentation: demonstatringPoPJWTRepresentation,
                                                               signingService: attestationProvider)
