@@ -4,13 +4,25 @@ import Foundation.NSDate
 @testable import OneLogin
 import Testing
 
-struct AppIntegrityProviderTests {
-    let store = SecureAttestationStore(secureStore: MockSecureStoreService())
+struct AppIntegrityProviderTests: ~Copyable {
+    let attestationStore: SecureAttestationStore
+    
+    init() {
+        self.attestationStore = SecureAttestationStore()
+    }
+    
+    deinit {
+        attestationStore.removeAttestationInfo()
+        try? attestationStore.delete()
+    }
 
     @Test
     func attestationProofOfPossessionJWTsAreGeneratedOnDemand() async throws {
         // GIVEN I have a valid attestation
-        try store.store(clientAttestation: "example.mock.jwt", attestationExpiry: .distantFuture)
+        try attestationStore.store(
+            clientAttestation: "example.mock.jwt",
+            attestationExpiry: .distantFuture
+        )
 
         // WHEN I take several moments to login
         let appCheck = try FirebaseAppIntegrityService.firebaseAppCheck()

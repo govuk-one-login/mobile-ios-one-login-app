@@ -45,6 +45,17 @@ final class SecureAttestationStore: AttestationStorage {
         }
     }
     
+    init(
+        secureStore: SecureStorable = SecureStoreService(
+            configuration: SecureStorageConfiguration(
+                id: OLString.attestationStore,
+                accessControlLevel: .open
+            )
+        )
+    ) {
+        self.secureStore = secureStore
+    }
+    
     func store(
         clientAttestation: String,
         attestationExpiry: Date
@@ -59,14 +70,12 @@ final class SecureAttestationStore: AttestationStorage {
         )
     }
     
-    init(
-        secureStore: SecureStorable = SecureStoreService(
-            configuration: SecureStorageConfiguration(
-                id: OLString.attestationStore,
-                accessControlLevel: .open
-            )
-        )
-    ) {
-        self.secureStore = secureStore
+    func delete() throws {
+        try secureStore.delete()
+    }
+    
+    func removeAttestationInfo() {
+        secureStore.deleteItem(itemName: AttestationStorageKey.attestationExpiry.rawValue)
+        secureStore.deleteItem(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
     }
 }
