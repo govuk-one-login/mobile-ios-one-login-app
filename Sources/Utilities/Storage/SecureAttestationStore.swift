@@ -2,7 +2,7 @@ import AppIntegrity
 import Foundation
 import SecureStore
 
-enum AttestationStorageKey: String {
+enum AttestationStorageKey: String, CaseIterable {
     case clientAttestationJWT
     case attestationExpiry
 }
@@ -32,17 +32,28 @@ final class SecureAttestationStore: AttestationStorage {
     private let secureStore: SecureStorable
     
     var attestationExpired: Bool {
-        guard let expriyDate = try? secureStore
+        guard let expiryDate = try? secureStore
             .readDate(id: AttestationStorageKey.attestationExpiry.rawValue) else {
             return true
         }
-        return expriyDate < .now
+        return expiryDate < .now
     }
     
     var attestationJWT: String {
         get throws {
             try secureStore.readItem(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
         }
+    }
+    
+    init(
+        secureStore: SecureStorable = SecureStoreService(
+            configuration: SecureStorageConfiguration(
+                id: OLString.attestationStore,
+                accessControlLevel: .open
+            )
+        )
+    ) {
+        self.secureStore = secureStore
     }
     
     func store(
@@ -59,14 +70,10 @@ final class SecureAttestationStore: AttestationStorage {
         )
     }
     
-    init(
-        secureStore: SecureStorable = SecureStoreService(
-            configuration: SecureStorageConfiguration(
-                id: OLString.attestationStore,
-                accessControlLevel: .open
-            )
-        )
-    ) {
-        self.secureStore = secureStore
+    func delete() throws {
+        AttestationStorageKey.allCases.forEach {
+            secureStore.deleteItem(itemName: $0.rawValue)
+        }
+        try secureStore.delete()
     }
 }
