@@ -12,7 +12,6 @@ struct AppIntegrityProviderTests: ~Copyable {
     }
     
     deinit {
-        attestationStore.removeAttestationInfo()
         try? attestationStore.delete()
     }
 

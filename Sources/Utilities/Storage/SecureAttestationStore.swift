@@ -71,12 +71,9 @@ final class SecureAttestationStore: AttestationStorage {
     }
     
     func delete() throws {
-        try secureStore.delete()
-    }
-    
-    func removeAttestationInfo() {
         AttestationStorageKey.allCases.forEach {
             secureStore.deleteItem(itemName: $0.rawValue)
         }
+        try secureStore.delete()
     }
 }
