@@ -2,7 +2,7 @@ import AppIntegrity
 import Foundation
 import SecureStore
 
-enum AttestationStorageKey: String {
+enum AttestationStorageKey: String, CaseIterable {
     case clientAttestationJWT
     case attestationExpiry
 }
@@ -75,7 +75,8 @@ final class SecureAttestationStore: AttestationStorage {
     }
     
     func removeAttestationInfo() {
-        secureStore.deleteItem(itemName: AttestationStorageKey.attestationExpiry.rawValue)
-        secureStore.deleteItem(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
+        AttestationStorageKey.allCases.forEach {
+            secureStore.deleteItem(itemName: $0.rawValue)
+        }
     }
 }
