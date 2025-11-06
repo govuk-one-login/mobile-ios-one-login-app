@@ -26,8 +26,8 @@ final class SceneDelegate: UIResponder,
             let accessControlEncryptedSecureStoreManager = try AccessControlEncryptedSecureStoreManager()
             let encryptedStoreManager = EncryptedSecureStoreManager()
             let manager = PersistentSessionManager(
-                accessControlEncryptedStore: accessControlEncryptedStore,
-                encryptedStore: encryptedStore
+                accessControlEncryptedStoreManager: accessControlEncryptedSecureStoreManager,
+                encryptedStoreManager: encryptedStoreManager
             )
             networkClient.authorizationProvider = manager.tokenProvider
             
@@ -36,8 +36,8 @@ final class SceneDelegate: UIResponder,
                     WalletSessionData(),
                     WalletAvailabilityService(),
                     analyticsPreferenceStore,
-                    accessControlEncryptedStore,
-                    encryptedStore,
+                    accessControlEncryptedSecureStoreManager,
+                    encryptedStoreManager,
                     UserDefaults.standard
                 ]
             )
