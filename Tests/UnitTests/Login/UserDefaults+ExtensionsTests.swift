@@ -22,7 +22,7 @@ struct UserDefaultsTests: ~Copyable {
         userDefaults.removeSuite(named: "unitTestSuite")
     }
     
-    @Test()
+    @Test("Clear session data deletes the access token expiry date and returning user flag")
     func callDelete() throws {
         #expect(userDefaults.object(forKey: OLString.accessTokenExpiry) as? String == OLString.accessTokenExpiry)
         #expect(userDefaults.object(forKey: OLString.returningUser) as? String == OLString.returningUser)
