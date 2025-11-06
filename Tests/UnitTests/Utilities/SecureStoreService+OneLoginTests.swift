@@ -30,7 +30,7 @@ struct SecureStoreServiceTests: ~Copyable {
         try? sut.delete()
     }
 
-    @Test
+    @Test("Clear session data deletes the refresh token, persistentSessionID and tokens")
     func delete() throws {
         #expect(try sut.readItem(itemName: OLString.refreshTokenExpiry) == "testRefreshTokenExpiry")
         #expect(try sut.readItem(itemName: OLString.persistentSessionID) == "testPersistentSessionID")
