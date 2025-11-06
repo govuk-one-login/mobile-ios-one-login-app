@@ -103,7 +103,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_enableBiometricsBody1".getWelshString(),
                        "Defnyddiwch %@ i:")
         XCTAssertEqual("app_enableBiometricsBullet1".getWelshString(),
-                       "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda %@")
+                       "mewngofnodi")
         XCTAssertEqual("app_enableBiometricsBullet2".getWelshString(),
                        "gweld ac ychwanegu dogfennau")
     }
@@ -199,7 +199,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
                        "Mae angen i chi fewngofnodi eto")
         XCTAssertEqual("app_signOutWarningBody".getWelshString(),
-                       "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap %@.\n\nMewngofnodwch eto i barhau.")
+                       "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
     }
     
     func test_dataDeletedWarningPageKeys() {

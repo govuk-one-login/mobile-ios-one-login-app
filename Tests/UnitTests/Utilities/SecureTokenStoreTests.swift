@@ -65,7 +65,6 @@ extension SecureTokenStoreTests {
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokensToSave).base64EncodedString()
-        print(tokensAsData)
         try sut.save(tokens: tokensToSave)
         XCTAssertEqual(accessControlEncryptedStore.savedItems, [OLString.storedTokens: tokensAsData])
     }
