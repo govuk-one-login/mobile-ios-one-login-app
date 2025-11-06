@@ -1,8 +1,10 @@
 enum OLString {
     // Store IDs
-    static let oneLoginTokensStore  = "oneLoginTokensStore"
-    static let publicTokenInfoStore = "publicTokenInfoStore"
-    static let attestationStore     = "attestationStore"
+    static let v12TokensStore    = "oneLoginTokens"
+    static let v13TokensStore    = "oneLoginTokenStore"
+    static let v12TokenInfoStore = "insensitiveTokenInfoStore"
+    static let v13TokenInfoStore = "persistentSessionID"
+    static let attestationStore  = "attestationStore"
     
     // Universal Link Component
     static let redirect = "redirect"

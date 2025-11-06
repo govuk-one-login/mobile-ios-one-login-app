@@ -3,11 +3,11 @@ import LocalAuthenticationWrapper
 import SecureStore
 
 extension SecureStorable where Self == SecureStoreService {
-    static func accessControlEncryptedStore(
+    static func v12AccessControlEncryptedStore(
         localAuthManager: LocalAuthenticationContextStrings
     ) throws -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
-            id: OLString.oneLoginTokensStore,
+            id: OLString.v12TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
             localAuthStrings: try localAuthManager.oneLoginStrings
         )
@@ -16,28 +16,49 @@ extension SecureStorable where Self == SecureStoreService {
         )
     }
     
-    static func encryptedStore() -> SecureStoreService {
+    static func v13AccessControlEncryptedStore(
+        localAuthManager: LocalAuthenticationContextStrings
+    ) throws -> SecureStoreService {
+        let accessControlConfiguration = SecureStorageConfiguration(
+            id: OLString.v13TokensStore,
+            accessControlLevel: .anyBiometricsOrPasscode,
+            localAuthStrings: try localAuthManager.oneLoginStrings
+        )
+        return SecureStoreService(
+            configuration: accessControlConfiguration
+        )
+    }
+    
+    static func v12EncryptedStore() -> SecureStoreService {
         let encryptedConfiguration = SecureStorageConfiguration(
-            id: OLString.publicTokenInfoStore,
+            id: OLString.v12TokenInfoStore,
+            accessControlLevel: .open
+        )
+        return SecureStoreService(configuration: encryptedConfiguration)
+    }
+    
+    static func v13EncryptedStore() -> SecureStoreService {
+        let encryptedConfiguration = SecureStorageConfiguration(
+            id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
         return SecureStoreService(configuration: encryptedConfiguration)
     }
 }
 
-extension SecureStorable {
+extension SecureStoreManaging {
     func saveDate(
         id: String,
         _ date: Date
     ) throws {
         try saveItem(
-            item: date.timeIntervalSince1970.description,
+            date.timeIntervalSince1970.description,
             itemName: id
         )
     }
     
     func readDate(id: String) throws -> Date {
-        let dateString = try readItem(itemName: id)
+        let dateString = try readItem(id)
         guard let dateDouble = Double(dateString) else {
             throw SecureStoreError.cantDecodeData
         }
