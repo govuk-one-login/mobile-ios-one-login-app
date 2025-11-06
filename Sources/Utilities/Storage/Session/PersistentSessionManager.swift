@@ -4,7 +4,8 @@ import Foundation
 import LocalAuthenticationWrapper
 
 final class PersistentSessionManager: SessionManager {
-    private let secureStoreManager: SecureStoreManager
+    private let accessControlEncryptedStoreManager: SecureStoreManaging
+    private let encryptedStoreManager: SecureStoreManaging
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
     
@@ -18,20 +19,28 @@ final class PersistentSessionManager: SessionManager {
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
-    convenience init(secureStoreManager: SecureStoreManager) {
+    convenience init(
+        accessControlEncryptedStoreManager: SecureStoreManaging,
+        encryptedStoreManager: SecureStoreManaging
+    ) {
         self.init(
-            secureStoreManager: secureStoreManager,
+            accessControlEncryptedStoreManager: accessControlEncryptedStoreManager,
+            encryptedStoreManager: encryptedStoreManager,
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
         )
     }
     
-    init(secureStoreManager: SecureStoreManager,
-         unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthManaging) {
-        self.secureStoreManager = secureStoreManager
+    init(
+        accessControlEncryptedStoreManager: SecureStoreManaging,
+        encryptedStoreManager: SecureStoreManaging,
+        unprotectedStore: DefaultsStorable,
+        localAuthentication: LocalAuthManaging
+    ) {
+        self.accessControlEncryptedStoreManager = accessControlEncryptedStoreManager
+        self.encryptedStoreManager = encryptedStoreManager
         self.storeKeyService = SecureTokenStore(
-            accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore
+            accessControlEncryptedStoreManager: accessControlEncryptedStoreManager
         )
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
@@ -69,7 +78,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var expiryDate: Date? {
-        unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        (try? encryptedStoreManager.readDate(id: OLString.refreshTokenExpiry))
+        ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
     }
     
     var isSessionValid: Bool {
@@ -86,7 +96,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
+        try? encryptedStoreManager.readItem(OLString.persistentSessionID)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -142,18 +152,18 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let persistentID = user.value?.persistentID {
-            try secureStoreManager.encryptedStore.saveItem(
-                item: persistentID,
+            try encryptedStoreManager.saveItem(
+                persistentID,
                 itemName: OLString.persistentSessionID
             )
         } else {
-            secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
+            encryptedStoreManager.deleteItem(OLString.persistentSessionID)
         }
         
         if let refreshToken = tokenResponse.refreshToken {
-            try secureStoreManager.encryptedStore.saveItem(
-                item: try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
-                itemName: OLString.refreshTokenExpiry
+            try encryptedStoreManager.saveDate(
+                id: OLString.refreshTokenExpiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
             )
         }
         

@@ -22,8 +22,12 @@ final class SceneDelegate: UIResponder,
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         do {
-            let secureStoreManager = try OneLoginSecureStoreManager()
-            let manager = PersistentSessionManager(secureStoreManager: secureStoreManager)
+            let accessControlEncryptedSecureStoreManager = try AccessControlEncryptedSecureStoreManager()
+            let encryptedStoreManager = EncryptedSecureStoreManager()
+            let manager = PersistentSessionManager(
+                accessControlEncryptedStore: accessControlEncryptedStore,
+                encryptedStore: encryptedStore
+            )
             networkClient.authorizationProvider = manager.tokenProvider
             
             manager.registerSessionBoundData(

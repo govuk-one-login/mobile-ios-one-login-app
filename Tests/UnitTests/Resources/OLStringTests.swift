@@ -4,8 +4,8 @@ import XCTest
 final class OLStringTests: XCTestCase {
     func test_tokenAndLogin_strings() throws {
         // Store IDs
-        XCTAssertEqual(OLString.oneLoginTokensStore, "oneLoginTokenStore")
-        XCTAssertEqual(OLString.insensitiveTokenInfoStore, "insensitiveTokenInfoStore")
+        XCTAssertEqual(OLString.v12TokensStore, "oneLoginTokensStore")
+        XCTAssertEqual(OLString.v12TokenInfoStore, "publicTokenInfoStore")
         XCTAssertEqual(OLString.attestationStore, "attestationStore")
 
         // Token & Login
