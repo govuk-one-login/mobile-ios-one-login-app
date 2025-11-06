@@ -35,16 +35,12 @@ struct EncryptedSecureStoreManagerTests: ~Copyable {
     func delete() throws {
         #expect(try sut.readItem(OLString.refreshTokenExpiry) == "testRefreshTokenExpiry")
         #expect(try sut.readItem(OLString.persistentSessionID) == "testPersistentSessionID")
-        #expect(try sut.readItem(OLString.storedTokens) == "testStoredTokens")
         sut.clearSessionData()
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
             try sut.readItem(OLString.refreshTokenExpiry)
         }
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
             try sut.readItem(OLString.persistentSessionID)
-        }
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
-            try sut.readItem(OLString.storedTokens)
         }
     }
 }
