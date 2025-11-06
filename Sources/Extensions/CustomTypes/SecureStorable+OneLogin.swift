@@ -45,31 +45,22 @@ extension SecureStorable where Self == SecureStoreService {
     }
 }
 
-extension SecureStoreManaging {
+extension SecureStorable {
     func saveDate(
         id: String,
         _ date: Date
     ) throws {
         try saveItem(
-            date.timeIntervalSince1970.description,
+            item: date.timeIntervalSince1970.description,
             itemName: id
         )
     }
     
     func readDate(id: String) throws -> Date {
-        let dateString = try readItem(id)
+        let dateString = try readItem(itemName: id)
         guard let dateDouble = Double(dateString) else {
             throw SecureStoreError.cantDecodeData
         }
         return Date(timeIntervalSince1970: dateDouble)
-    }
-}
-
-extension SecureStoreService: SessionBoundData {
-    func clearSessionData() {
-        OLString.EncryptedStoreKeyString.allCases
-            .forEach { deleteItem(itemName: $0.rawValue) }
-        OLString.AccessControlEncryptedStoreKeyString.allCases
-            .forEach { deleteItem(itemName: $0.rawValue) }
     }
 }
