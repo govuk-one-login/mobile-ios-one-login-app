@@ -23,10 +23,10 @@ final class SceneDelegate: UIResponder,
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreManager = try AccessControlEncryptedSecureStoreManager()
-            let encryptedStoreManager = EncryptedSecureStoreManager()
+            let encryptedSecureStoreManager = EncryptedSecureStoreManager()
             let manager = PersistentSessionManager(
-                accessControlEncryptedStoreManager: accessControlEncryptedSecureStoreManager,
-                encryptedStoreManager: encryptedStoreManager
+                accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager,
+                encryptedSecureStoreManager: encryptedSecureStoreManager
             )
             networkClient.authorizationProvider = manager.tokenProvider
             
@@ -36,7 +36,7 @@ final class SceneDelegate: UIResponder,
                     WalletAvailabilityService(),
                     analyticsPreferenceStore,
                     accessControlEncryptedSecureStoreManager,
-                    encryptedStoreManager,
+                    encryptedSecureStoreManager,
                     UserDefaults.standard
                 ]
             )

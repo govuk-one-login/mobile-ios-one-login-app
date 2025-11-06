@@ -19,18 +19,18 @@ public protocol TokenStore {
 }
 
 final class SecureTokenStore: TokenStore {
-    private let accessControlEncryptedStoreManager: SecureStoreManaging
+    private let accessControlEncryptedSecureStoreManager: SecureStoreManaging
 
-    init(accessControlEncryptedStoreManager: SecureStoreManaging) {
-        self.accessControlEncryptedStoreManager = accessControlEncryptedStoreManager
+    init(accessControlEncryptedSecureStoreManager: SecureStoreManaging) {
+        self.accessControlEncryptedSecureStoreManager = accessControlEncryptedSecureStoreManager
     }
     
     var hasLoginTokens: Bool {
-        accessControlEncryptedStoreManager.checkItemExists(OLString.storedTokens)
+        accessControlEncryptedSecureStoreManager.checkItemExists(OLString.storedTokens)
     }
     
     func fetch() throws -> StoredTokens {
-        let storedTokens = try accessControlEncryptedStoreManager.readItem(OLString.storedTokens)
+        let storedTokens = try accessControlEncryptedSecureStoreManager.readItem(OLString.storedTokens)
         guard let tokensAsData = Data(base64Encoded: storedTokens) else {
             throw StoredTokenError.unableToDecodeTokens
         }
@@ -43,13 +43,13 @@ final class SecureTokenStore: TokenStore {
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
-        try accessControlEncryptedStoreManager.saveItem(
+        try accessControlEncryptedSecureStoreManager.saveItem(
             encodedTokens,
             itemName: OLString.storedTokens
         )
     }
 
     func deleteTokens() {
-        accessControlEncryptedStoreManager.deleteItem(OLString.storedTokens)
+        accessControlEncryptedSecureStoreManager.deleteItem(OLString.storedTokens)
     }
 }

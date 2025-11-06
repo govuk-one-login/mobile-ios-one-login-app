@@ -3,14 +3,14 @@ import Foundation
 import XCTest
 
 final class SecureTokenStoreTests: XCTestCase {
-    private var accessControlEncryptedStore: MockSecureStoreService!
+    private var accessControlEncryptedStore: MockSecureStoreManager!
     private var sut: SecureTokenStore!
 
     override func setUp() {
         super.setUp()
         
-        accessControlEncryptedStore = MockSecureStoreService()
-        sut = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
+        accessControlEncryptedStore = MockSecureStoreManager()
+        sut = SecureTokenStore(accessControlEncryptedSecureStoreManager: accessControlEncryptedStore)
     }
 
     override func tearDown() {
@@ -23,7 +23,10 @@ final class SecureTokenStoreTests: XCTestCase {
 
 extension SecureTokenStoreTests {
     func test_hasLoginTokens() throws {
-        try accessControlEncryptedStore.saveItem(item: "storedTokens", itemName: OLString.storedTokens)
+        try accessControlEncryptedStore.saveItem(
+            "storedTokens",
+            itemName: OLString.storedTokens
+        )
         XCTAssertTrue(sut.hasLoginTokens)
     }
     

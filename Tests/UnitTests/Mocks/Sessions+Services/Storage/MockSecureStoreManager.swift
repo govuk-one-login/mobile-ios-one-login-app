@@ -1,23 +1,25 @@
-import LocalAuthenticationWrapper
 @testable import OneLogin
-import SecureStore
 
-class MockSecureStoreManager: SecureStoreManager {
-    var accessControlEncryptedStore: SecureStorable
-    var encryptedStore: SecureStorable
-    var localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings
+final class MockSecureStoreManager: SecureStoreManaging, SessionBoundData {
+    var savedItems = [String: String]()
     
-    var didCallRefreshStore = false
-    
-    init(accessControlEncryptedStore: SecureStorable,
-         encryptedStore: SecureStorable,
-         localAuthentication: LocalAuthManaging & LocalAuthenticationContextStrings) {
-        self.accessControlEncryptedStore = accessControlEncryptedStore
-        self.encryptedStore = encryptedStore
-        self.localAuthentication = localAuthentication
+    func clearSessionData() async throws {
+        
     }
     
-    func refreshStore() throws {
-        didCallRefreshStore = true
+    func checkItemExists(_ itemName: String) -> Bool {
+        true
+    }
+    
+    func saveItem(_ item: String, itemName: String) throws {
+        
+    }
+    
+    func readItem(_ itemName: String) throws -> String {
+        ""
+    }
+    
+    func deleteItem(_ itemName: String) {
+        
     }
 }
