@@ -38,7 +38,7 @@ extension AnalyticsServiceV2 {
 }
 
 extension UserDefaultsPreferenceStore: SessionBoundData {
-    func delete() throws {
+    func clearSessionData() throws {
         hasAcceptedAnalytics = nil
     }
 }

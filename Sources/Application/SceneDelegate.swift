@@ -1,5 +1,6 @@
 import GAnalytics
 import LocalAuthentication
+import LocalAuthenticationWrapper
 import Logging
 import Networking
 import SecureStore
@@ -22,8 +23,16 @@ final class SceneDelegate: UIResponder,
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         do {
-            let secureStoreManager = try OneLoginSecureStoreManager()
-            let manager = PersistentSessionManager(secureStoreManager: secureStoreManager)
+            let accessControlEncryptedStore: SecureStoreService = try .accessControlEncryptedStore(
+                localAuthManager: LocalAuthenticationWrapper(
+                    localAuthStrings: .oneLogin
+                )
+            )
+            let encryptedStore: SecureStoreService = .encryptedStore()
+            let manager = PersistentSessionManager(
+                accessControlEncryptedStore: accessControlEncryptedStore,
+                encryptedStore: encryptedStore
+            )
             networkClient.authorizationProvider = manager.tokenProvider
             
             manager.registerSessionBoundData(
@@ -31,6 +40,8 @@ final class SceneDelegate: UIResponder,
                     WalletSessionData(),
                     WalletAvailabilityService(),
                     analyticsPreferenceStore,
+                    accessControlEncryptedStore,
+                    encryptedStore,
                     UserDefaults.standard
                 ]
             )

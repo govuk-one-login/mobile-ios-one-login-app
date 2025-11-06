@@ -2,9 +2,11 @@ import Authentication
 import Combine
 import Foundation
 import LocalAuthenticationWrapper
+import SecureStore
 
 final class PersistentSessionManager: SessionManager {
-    private let secureStoreManager: SecureStoreManager
+    private let accessControlEncryptedStore: SecureStorable
+    private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
     
@@ -18,20 +20,28 @@ final class PersistentSessionManager: SessionManager {
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
-    convenience init(secureStoreManager: SecureStoreManager) {
+    convenience init(
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable
+    ) {
         self.init(
-            secureStoreManager: secureStoreManager,
+            accessControlEncryptedStore: accessControlEncryptedStore,
+            encryptedStore: encryptedStore,
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
         )
     }
     
-    init(secureStoreManager: SecureStoreManager,
-         unprotectedStore: DefaultsStorable,
-         localAuthentication: LocalAuthManaging) {
-        self.secureStoreManager = secureStoreManager
+    init(
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
+        unprotectedStore: DefaultsStorable,
+        localAuthentication: LocalAuthManaging
+    ) {
+        self.accessControlEncryptedStore = accessControlEncryptedStore
+        self.encryptedStore = encryptedStore
         self.storeKeyService = SecureTokenStore(
-            accessControlEncryptedStore: secureStoreManager.accessControlEncryptedStore
+            accessControlEncryptedStore: accessControlEncryptedStore
         )
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
@@ -69,15 +79,16 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var expiryDate: Date? {
-        unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        (try? encryptedStore.readDate(id: OLString.refreshTokenExpiry))
+        ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
     }
     
     var isSessionValid: Bool {
         guard let expiryDate else {
             return false
         }
-        // ten second buffer
-        return expiryDate + 10 > .now
+        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
+        return expiryDate - 15 > .now
     }
     
     var isReturningUser: Bool {
@@ -86,7 +97,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? secureStoreManager.encryptedStore.readItem(itemName: OLString.persistentSessionID)
+        try? encryptedStore.readItem(itemName: OLString.persistentSessionID)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -142,18 +153,18 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let persistentID = user.value?.persistentID {
-            try secureStoreManager.encryptedStore.saveItem(
+            try encryptedStore.saveItem(
                 item: persistentID,
                 itemName: OLString.persistentSessionID
             )
         } else {
-            secureStoreManager.encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
+            encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
         if let refreshToken = tokenResponse.refreshToken {
-            try secureStoreManager.encryptedStore.saveItem(
-                item: try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate,
-                itemName: OLString.refreshTokenExpiry
+            try encryptedStore.saveDate(
+                id: OLString.refreshTokenExpiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
             )
         }
         
@@ -202,7 +213,7 @@ final class PersistentSessionManager: SessionManager {
     
     func clearAllSessionData(restartLoginFlow: Bool) async throws {
         for each in sessionBoundData {
-            try await each.delete()
+            try await each.clearSessionData()
         }
         
         endCurrentSession()
@@ -239,5 +250,5 @@ enum PersistentSessionError: Error, Equatable {
 }
 
 protocol SessionBoundData {
-    func delete() async throws
+    func clearSessionData() async throws
 }
