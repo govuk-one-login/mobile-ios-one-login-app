@@ -1,8 +1,8 @@
 import Foundation
 
 final class RefreshTokenRepresentation: RefreshToken {
-    var expiryDate: String {
-        refreshTokenPayload.exp.value.timeIntervalSince1970.description
+    var expiryDate: Date {
+        refreshTokenPayload.exp.value
     }
 
     private var refreshTokenPayload: RefreshTokenPayload

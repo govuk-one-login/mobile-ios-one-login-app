@@ -4,10 +4,11 @@ import XCTest
 final class OLStringTests: XCTestCase {
     func test_tokenAndLogin_strings() throws {
         // Store IDs
-        XCTAssertEqual(OLString.oneLoginTokensStore, "oneLoginTokenStore")
-        XCTAssertEqual(OLString.insensitiveTokenInfoStore, "insensitiveTokenInfoStore")
-        XCTAssertEqual(OLString.attestationStore, "attestationStore")
-
+        XCTAssertEqual(OLString.v12TokensStore, "oneLoginTokens")
+        XCTAssertEqual(OLString.v13TokensStore, "oneLoginTokenStore")
+        XCTAssertEqual(OLString.v12TokenInfoStore, "persistentSessionID")
+        XCTAssertEqual(OLString.v13TokenInfoStore, "insensitiveTokenInfoStore")
+        
         // Token & Login
         XCTAssertEqual(OLString.refreshTokenExpiry, "refreshTokenExpiry")
         XCTAssertEqual(OLString.accessTokenExpiry, "accessTokenExpiry")
@@ -21,8 +22,5 @@ final class OLStringTests: XCTestCase {
         
         // Release Flags
         XCTAssertEqual(OLString.hasAccessedWalletBefore, "hasAccessedWalletBefore")
-        
-        // Biometrics
-        XCTAssertEqual(OLString.biometricsPrompt, "localAuthPrompted")
     }
 }
