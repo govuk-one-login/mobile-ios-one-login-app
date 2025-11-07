@@ -1,6 +1,8 @@
 import Foundation
 import SecureStore
 
+// This protocol and conforming types will be removed following an agreed end to the migration period
+// based on information from Firebase Crashlytics
 protocol SecureStoreMigrationManaging {
     func checkItemExists(_ itemName: String) -> Bool
     func saveItemToNewStoreRemoveFromOldStore(_ item: String, itemName: String) throws
