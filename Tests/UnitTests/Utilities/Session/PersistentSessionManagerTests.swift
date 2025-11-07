@@ -60,7 +60,7 @@ extension PersistentSessionManagerTests {
     func test_sessionExpiryDate_refreshToken() throws {
         // GIVEN the encrypted store contains a refresh token expiry date
         let date = Date.distantFuture
-        try mockEncryptedSecureStoreManager.saveItem(
+        try mockEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             date.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -81,7 +81,7 @@ extension PersistentSessionManagerTests {
     
     func test_sessionIsValid_refreshToken_notExpired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the future
-        try mockEncryptedSecureStoreManager.saveItem(
+        try mockEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             Date.distantFuture.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -103,7 +103,7 @@ extension PersistentSessionManagerTests {
     
     func test_sessionIsInvalid_refreshToken_Expired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the past
-        try mockEncryptedSecureStoreManager.saveItem(
+        try mockEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             Date.distantPast.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -258,7 +258,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedSecureStoreManager.saveItem(
+        try mockEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             persistentSessionID,
             itemName: OLString.persistentSessionID
         )
@@ -296,7 +296,7 @@ extension PersistentSessionManagerTests {
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
-        try mockAccessControlEncryptedSecureStoreManager.saveItem("storedTokens", itemName: OLString.storedTokens)
+        try mockAccessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12("storedTokens", itemName: OLString.storedTokens)
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(
@@ -318,7 +318,7 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreManager.saveItem(
+        try mockAccessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             data,
             itemName: OLString.storedTokens
         )
@@ -342,7 +342,7 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreManager.saveItem(
+        try mockAccessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             data,
             itemName: OLString.storedTokens
         )

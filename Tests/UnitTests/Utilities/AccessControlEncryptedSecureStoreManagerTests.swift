@@ -8,22 +8,15 @@ struct AccessControlEncryptedSecureStoreManagerTests: ~Copyable {
     init() throws {
         let mockv12AccessControlEncryptedSecureStore = MockSecureStoreService()
         let mockv13AccessControlEncryptedSecureStore = MockSecureStoreService()
+        let mockAnalyticsService = MockAnalyticsService()
         sut = AccessControlEncryptedSecureStoreManager(
             v12AccessControlEncryptedSecureStore: mockv12AccessControlEncryptedSecureStore,
-            v13AccessControlEncryptedSecureStore: mockv13AccessControlEncryptedSecureStore
+            v13AccessControlEncryptedSecureStore: mockv13AccessControlEncryptedSecureStore,
+            analyticsService: mockAnalyticsService
         )
         
-        try sut.saveItem(
-            "testRefreshTokenExpiry",
-            itemName: OLString.refreshTokenExpiry
-        )
-        try sut.saveItem(
-            "testPersistentSessionID",
-            itemName: OLString.persistentSessionID
-        )
-        try sut.saveItem(
-            "testStoredTokens",
-            itemName: OLString.storedTokens
+        try sut.saveItemTov13RemoveFromv12(
+            "testStoredTokens"
         )
     }
     
@@ -31,12 +24,12 @@ struct AccessControlEncryptedSecureStoreManagerTests: ~Copyable {
         sut.clearSessionData()
     }
 
-    @Test("Clear session data deletes the refresh token, persistentSessionID and tokens")
+    @Test("Clear session data deletes the log in tokens")
     func delete() throws {
-        #expect(try sut.readItem(OLString.storedTokens) == "testStoredTokens")
+        #expect(try sut.readItem() == "testStoredTokens")
         sut.clearSessionData()
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
-            try sut.readItem(OLString.storedTokens)
+            try sut.readItem()
         }
     }
 }
