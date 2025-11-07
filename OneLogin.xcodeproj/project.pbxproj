@@ -153,7 +153,7 @@
 		C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */; };
 		C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */; };
 		C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */; };
-		C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */; };
+		C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift */; };
 		C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */; };
 		C84960012EBDFC6F0065CA40 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960002EBDFC6F0065CA40 /* UserDefaultsTests.swift */; };
 		C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */; };
@@ -467,7 +467,7 @@
 		C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWallet.swift; sourceTree = "<group>"; };
 		C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWalletTests.swift; sourceTree = "<group>"; };
 		C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessControlEncryptedSecureStoreMigrator.swift; sourceTree = "<group>"; };
-		C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSecureStoreManager.swift; sourceTree = "<group>"; };
+		C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSecureStoreMigrator.swift; sourceTree = "<group>"; };
 		C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreMigrationError.swift; sourceTree = "<group>"; };
 		C84960002EBDFC6F0065CA40 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
 		C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessControlEncryptedSecureStoreManagerTests.swift; sourceTree = "<group>"; };
@@ -1607,7 +1607,7 @@
 			isa = PBXGroup;
 			children = (
 				C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */,
-				C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */,
+				C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift */,
 				C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */,
 				7C47BE142C787FD100DCE5D2 /* Session */,
 				C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */,
@@ -2251,7 +2251,7 @@
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
-				C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift in Sources */,
+				C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift in Sources */,
 				C8F092E42DA465110046F6EA /* OneLoginEnrolmentManager.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,

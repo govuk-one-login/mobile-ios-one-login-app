@@ -7,14 +7,14 @@ struct EncryptedSecureStoreManagerTests {
     let mockV12EncryptedSecureStore: MockSecureStoreService
     let mockV13EncryptedSecureStore: MockSecureStoreService
     let mockAnalyticsService: MockAnalyticsService
-    let sut: EncryptedSecureStoreManager
+    let sut: EncryptedSecureStoreMigrator
     
     init() {
         mockV12EncryptedSecureStore = MockSecureStoreService()
         mockV13EncryptedSecureStore = MockSecureStoreService()
         mockAnalyticsService = MockAnalyticsService()
         
-        self.sut = EncryptedSecureStoreManager(
+        self.sut = EncryptedSecureStoreMigrator(
             v12EncryptedSecureStore: mockV12EncryptedSecureStore,
             v13EncryptedSecureStore: mockV13EncryptedSecureStore,
             analyticsService: mockAnalyticsService
@@ -51,7 +51,6 @@ struct EncryptedSecureStoreManagerTests {
         )
         
         #expect(mockV13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
-        #expect(mockV12EncryptedSecureStore.savedItems.isEmpty)
     }
     
     @Test("read item migrates data to the v13 store if required")
@@ -63,7 +62,6 @@ struct EncryptedSecureStoreManagerTests {
         let item = try sut.readItem(itemName: OLString.persistentSessionID)
         
         #expect(mockV13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
-        #expect(mockV12EncryptedSecureStore.savedItems.isEmpty)
         #expect(item == "testItem")
     }
     

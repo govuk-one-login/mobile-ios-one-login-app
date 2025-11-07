@@ -48,7 +48,6 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         try sut.saveItem(item: "testItem")
         
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
-        #expect(mockV12AccessControlEncryptedSecureStore.savedItems.isEmpty)
     }
     
     @Test("read item migrates data to the v13 store if required")
@@ -60,7 +59,6 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         let item = try sut.readItem()
         
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
-        #expect(mockV12AccessControlEncryptedSecureStore.savedItems.isEmpty)
         #expect(item == "testItem")
     }
     

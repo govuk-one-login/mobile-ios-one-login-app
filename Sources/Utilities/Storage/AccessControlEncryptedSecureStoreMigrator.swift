@@ -45,12 +45,12 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
             item: item,
             itemName: itemName
         )
-        v12AccessControlEncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
     func readItem(itemName: String = OLString.storedTokens) throws -> String {
         do {
             let v12LoginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+            // overwrite the token which exists in local storage
             try saveItem(item: v12LoginTokens)
             // log migrated secure store instances
             analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)

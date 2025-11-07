@@ -23,7 +23,7 @@ final class SceneDelegate: UIResponder,
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreManager = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
-            let encryptedSecureStoreManager = EncryptedSecureStoreManager(analyticsService: analyticsService)
+            let encryptedSecureStoreManager = EncryptedSecureStoreMigrator(analyticsService: analyticsService)
             let manager = PersistentSessionManager(
                 accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager,
                 encryptedSecureStoreManager: encryptedSecureStoreManager

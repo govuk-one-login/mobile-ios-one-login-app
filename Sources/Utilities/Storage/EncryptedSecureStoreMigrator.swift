@@ -1,6 +1,6 @@
 import SecureStore
 
-final class EncryptedSecureStoreManager: SecureStorable, SessionBoundData {
+final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     let v12EncryptedSecureStore: SecureStorable
     let v13EncryptedSecureStore: SecureStorable
     let analyticsService: OneLoginAnalyticsService
@@ -36,12 +36,12 @@ final class EncryptedSecureStoreManager: SecureStorable, SessionBoundData {
             item: item,
             itemName: itemName
         )
-        v12EncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
     func readItem(itemName: String) throws -> String {
         do {
             let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
+            // overwrite the token which exists in local storage
             try saveItem(item: v12Item, itemName: itemName)
             // log migrated secure store instances
             analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
