@@ -28,7 +28,7 @@ final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBo
         v13EncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItemTov13RemoveFromv12(
+    func saveItemToNewStoreRemoveFromOldStore(
         _ item: String,
         itemName: String
     ) throws {
@@ -42,7 +42,7 @@ final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBo
     func readItem(_ itemName: String) throws -> String {
         do {
             let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
-            try saveItemTov13RemoveFromv12(v12Item, itemName: itemName)
+            try saveItemToNewStoreRemoveFromOldStore(v12Item, itemName: itemName)
             // log migrated secure store instances
             analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
             return v12Item

@@ -43,7 +43,7 @@ final class SecureTokenStore: TokenStore {
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
-        try accessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
+        try accessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
             encodedTokens,
             itemName: OLString.storedTokens
         )

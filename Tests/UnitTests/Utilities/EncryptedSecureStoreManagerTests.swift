@@ -4,26 +4,26 @@ import SecureStore
 import Testing
 
 struct EncryptedSecureStoreManagerTests {
-    let mockv12EncryptedSecureStore: MockSecureStoreService
-    let mockv13EncryptedSecureStore: MockSecureStoreService
+    let mockV12EncryptedSecureStore: MockSecureStoreService
+    let mockV13EncryptedSecureStore: MockSecureStoreService
     let mockAnalyticsService: MockAnalyticsService
     let sut: EncryptedSecureStoreManager
     
     init() {
-        mockv12EncryptedSecureStore = MockSecureStoreService()
-        mockv13EncryptedSecureStore = MockSecureStoreService()
+        mockV12EncryptedSecureStore = MockSecureStoreService()
+        mockV13EncryptedSecureStore = MockSecureStoreService()
         mockAnalyticsService = MockAnalyticsService()
         
         self.sut = EncryptedSecureStoreManager(
-            v12EncryptedSecureStore: mockv12EncryptedSecureStore,
-            v13EncryptedSecureStore: mockv13EncryptedSecureStore,
+            v12EncryptedSecureStore: mockV12EncryptedSecureStore,
+            v13EncryptedSecureStore: mockV13EncryptedSecureStore,
             analyticsService: mockAnalyticsService
         )
     }
 
     @Test("check that v12 store `itemExists` returns true when the item exists")
-    func checkItemExistsInv12() throws {
-        try mockv12EncryptedSecureStore.saveItem(
+    func checkItemExistsInV12() throws {
+        try mockV12EncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.persistentSessionID
         )
@@ -31,8 +31,8 @@ struct EncryptedSecureStoreManagerTests {
     }
     
     @Test("check that v13 store `itemExists` returns true when the item exists")
-    func checkItemExistsInv13() throws {
-        try mockv13EncryptedSecureStore.saveItem(
+    func checkItemExistsInV13() throws {
+        try mockV13EncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.persistentSessionID
         )
@@ -40,43 +40,45 @@ struct EncryptedSecureStoreManagerTests {
     }
     
     @Test("check data item is successfully migrated from v12 to v13")
-    func saveItemTov13RemoveFromv12() throws {
-        try mockv12EncryptedSecureStore.saveItem(
+    func saveItemToV13RemoveFromV12() throws {
+        try mockV12EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
-        try sut.saveItemTov13RemoveFromv12("testItem", itemName: OLString.persistentSessionID)
+        try sut.saveItemToNewStoreRemoveFromOldStore("testItem", itemName: OLString.persistentSessionID)
         
-        #expect(mockv13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
-        #expect(mockv12EncryptedSecureStore.savedItems.isEmpty)
+        #expect(mockV13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
+        #expect(mockV12EncryptedSecureStore.savedItems.isEmpty)
     }
     
     @Test("read item migrates data to the v13 store if required")
-    func readItemv12MigratesTov13() throws {
-        try mockv12EncryptedSecureStore.saveItem(
+    func readItemV12MigratesToV13() throws {
+        try mockV12EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
         let item = try sut.readItem(OLString.persistentSessionID)
         
-        #expect(mockv13EncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
-        #expect(mockv12EncryptedSecureStore.savedItems.isEmpty)
+        #expect(mockV13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
+        #expect(mockV12EncryptedSecureStore.savedItems.isEmpty)
+        #expect(item == "testItem")
     }
     
     @Test("read item logs to crashlytics if a migration is required")
-    func readItemv12LogsCrash() throws {
-        try mockv12EncryptedSecureStore.saveItem(
+    func readItemV12LogsCrash() throws {
+        try mockV12EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
-        let item = try sut.readItem(OLString.persistentSessionID)
+        _ = try sut.readItem(OLString.persistentSessionID)
         
         #expect(mockAnalyticsService.crashesLogged.count == 1)
+        #expect(mockAnalyticsService.crashesLogged.first == SecureStoreMigrationError.migratedFromv12Tov13 as NSError)
     }
     
     @Test("read item returns the v12 value if no v13 value exists")
-    func readItemv13() throws {
-        try mockv13EncryptedSecureStore.saveItem(
+    func readItemV13() throws {
+        try mockV13EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
@@ -94,11 +96,11 @@ struct EncryptedSecureStoreManagerTests {
     
     @Test("ensure items are deleted from both stores")
     func deleteItem() throws {
-        try mockv13EncryptedSecureStore.saveItem(
+        try mockV13EncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.refreshTokenExpiry
         )
-        try mockv13EncryptedSecureStore.saveItem(
+        try mockV13EncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.persistentSessionID
         )
@@ -111,11 +113,11 @@ struct EncryptedSecureStoreManagerTests {
     
     @Test("clearSessionData deletes items from both stores")
     func clearSessionData() throws {
-        try mockv13EncryptedSecureStore.saveItem(
+        try mockV13EncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.refreshTokenExpiry
         )
-        try mockv12EncryptedSecureStore.saveItem(
+        try mockV12EncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.persistentSessionID
         )

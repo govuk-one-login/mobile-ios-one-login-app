@@ -223,7 +223,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
+        try mockEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
             persistentSessionID,
             itemName: OLString.persistentSessionID
         )
@@ -261,7 +261,7 @@ extension PersistentSessionManagerTests {
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
-        try mockAccessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
+        try mockAccessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
             "storedTokens",
             itemName: OLString.storedTokens
         )
@@ -289,7 +289,7 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
+        try mockAccessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
             data,
             itemName: OLString.storedTokens
         )
@@ -313,7 +313,7 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
+        try mockAccessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
             data,
             itemName: OLString.storedTokens
         )

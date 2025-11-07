@@ -37,7 +37,7 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
         v13AccessControlEncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItemTov13RemoveFromv12(
+    func saveItemToNewStoreRemoveFromOldStore(
         _ item: String,
         itemName: String = OLString.storedTokens
     ) throws {
@@ -51,7 +51,7 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
     func readItem(_ itemName: String = OLString.storedTokens) throws -> String {
         do {
             let v12LoginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
-            try saveItemTov13RemoveFromv12(v12LoginTokens)
+            try saveItemToNewStoreRemoveFromOldStore(v12LoginTokens)
             // log migrated secure store instances
             analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
             return v12LoginTokens

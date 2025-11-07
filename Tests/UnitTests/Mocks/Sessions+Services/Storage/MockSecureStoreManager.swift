@@ -11,7 +11,7 @@ final class MockSecureStoreManager: SecureStoreMigrationManaging, SessionBoundDa
     var errorFromDeleteItem: Error?
     var returnFromCheckItemExists = true
 
-    func saveItemTov13RemoveFromv12(_ item: String, itemName: String) throws {
+    func saveItemToNewStoreRemoveFromOldStore(_ item: String, itemName: String) throws {
         if let errorFromSaveItem {
             throw errorFromSaveItem
         } else {
