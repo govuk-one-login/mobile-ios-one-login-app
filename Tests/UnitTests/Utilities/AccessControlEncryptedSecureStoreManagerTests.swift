@@ -21,7 +21,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         )
     }
 
-    @Test("check that the item exists in v12 store")
+    @Test("check that v12 store `itemExists` returns true when the item exists")
     func checkItemExistsInv12() throws {
         try mockv12AccessControlEncryptedSecureStore.saveItem(
             item: "testV12Item",
@@ -30,7 +30,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         #expect(try sut.checkItemExists())
     }
     
-    @Test("check that the item exists in v13 store")
+    @Test("check that v13 store `itemExists` returns true when the item exists")
     func checkItemExistsInv13() throws {
         try mockv13AccessControlEncryptedSecureStore.saveItem(
             item: "testV13Item",
@@ -39,7 +39,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         #expect(try sut.checkItemExists())
     }
     
-    @Test("check item is saved in v13 and removed from v12")
+    @Test("check data item is successfully migrated from v12 to v13")
     func saveItemTov13RemoveFromv12() throws {
         try mockv12AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",

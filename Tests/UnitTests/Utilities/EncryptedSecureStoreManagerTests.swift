@@ -21,7 +21,7 @@ struct EncryptedSecureStoreManagerTests {
         )
     }
 
-    @Test("check that the item exists in v12 store")
+    @Test("check that v12 store `itemExists` returns true when the item exists")
     func checkItemExistsInv12() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testV12Item",
@@ -30,7 +30,7 @@ struct EncryptedSecureStoreManagerTests {
         #expect(try sut.checkItemExists(OLString.persistentSessionID))
     }
     
-    @Test("check that the item exists in v13 store")
+    @Test("check that v13 store `itemExists` returns true when the item exists")
     func checkItemExistsInv13() throws {
         try mockv13EncryptedSecureStore.saveItem(
             item: "testV13Item",
@@ -39,7 +39,7 @@ struct EncryptedSecureStoreManagerTests {
         #expect(try sut.checkItemExists(OLString.persistentSessionID))
     }
     
-    @Test("check item is saved in v13 and removed from v12")
+    @Test("check data item is successfully migrated from v12 to v13")
     func saveItemTov13RemoveFromv12() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testItem",
@@ -48,6 +48,7 @@ struct EncryptedSecureStoreManagerTests {
         try sut.saveItemTov13RemoveFromv12("testItem", itemName: OLString.persistentSessionID)
         
         #expect(mockv13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
+        #expect(mockv12EncryptedSecureStore.savedItems.isEmpty)
     }
     
     @Test("read item from the v12 secure store, save it in v13 secure store, log a crash, remove from v12 store and then return value")
