@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import Authentication
 @testable @preconcurrency import OneLogin
 import XCTest
@@ -5,9 +6,8 @@ import XCTest
 final class PersistentSessionManagerTests: XCTestCase {
     private var mockAccessControlEncryptedSecureStoreManager: MockSecureStoreManager!
     private var mockEncryptedSecureStoreManager: MockSecureStoreManager!
-    private var mockLocalAuthentication: MockLocalAuthManager!
-    private var mockSecureStoreManager: MockSecureStoreManager!
     private var mockUnprotectedStore: MockDefaultsStore!
+    private var mockLocalAuthentication: MockLocalAuthManager!
     private var mockStoredTokens: StoredTokens!
     private var sut: PersistentSessionManager!
     private var didCall_deleteSessionBoundData = false
@@ -19,6 +19,7 @@ final class PersistentSessionManagerTests: XCTestCase {
         mockAccessControlEncryptedSecureStoreManager = MockSecureStoreManager()
         mockEncryptedSecureStoreManager = MockSecureStoreManager()
         mockUnprotectedStore = MockDefaultsStore()
+        mockLocalAuthentication = MockLocalAuthManager()
         
         sut = PersistentSessionManager(
             accessControlEncryptedSecureStoreManager: mockAccessControlEncryptedSecureStoreManager,
@@ -36,9 +37,8 @@ final class PersistentSessionManagerTests: XCTestCase {
         
         mockAccessControlEncryptedSecureStoreManager = nil
         mockEncryptedSecureStoreManager = nil
-        mockLocalAuthentication = nil
-        mockSecureStoreManager = nil
         mockUnprotectedStore = nil
+        mockLocalAuthentication = nil
         mockStoredTokens = nil
         
         sut = nil
@@ -60,7 +60,10 @@ extension PersistentSessionManagerTests {
     func test_sessionExpiryDate() {
         // GIVEN the unprotected store contains a session expiry date
         let date = Date()
-        mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
+        mockUnprotectedStore.set(
+            date,
+            forKey: OLString.accessTokenExpiry
+        )
         // THEN it is exposed by the session manager
         XCTAssertEqual(sut.expiryDate, date)
     }
@@ -68,7 +71,10 @@ extension PersistentSessionManagerTests {
     func test_sessionIsValidWhenNotExpired() {
         // GIVEN the unprotected store contains a session expiry date in the future
         let date = Date.distantFuture
-        mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
+        mockUnprotectedStore.set(
+            date,
+            forKey: OLString.accessTokenExpiry
+        )
         // THEN the session is valid
         XCTAssertTrue(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .saved)
@@ -77,7 +83,10 @@ extension PersistentSessionManagerTests {
     func test_sessionIsInvalidWhenExpired() {
         // GIVEN the unprotected store contains a session expiry date in the past
         let date = Date.distantPast
-        mockUnprotectedStore.set(date, forKey: OLString.accessTokenExpiry)
+        mockUnprotectedStore.set(
+            date,
+            forKey: OLString.accessTokenExpiry
+        )
         // THEN the session is not valid
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .expired)
