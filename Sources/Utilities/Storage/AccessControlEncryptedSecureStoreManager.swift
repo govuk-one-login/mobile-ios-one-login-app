@@ -37,7 +37,10 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
         v13AccessControlEncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItemTov13RemoveFromv12(_ item: String, itemName: String = OLString.storedTokens) throws {
+    func saveItemTov13RemoveFromv12(
+        _ item: String,
+        itemName: String = OLString.storedTokens
+    ) throws {
         try v13AccessControlEncryptedSecureStore.saveItem(
             item: item,
             itemName: itemName

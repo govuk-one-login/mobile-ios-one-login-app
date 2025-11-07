@@ -156,6 +156,8 @@
 		C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */; };
 		C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift */; };
 		C84960012EBDFC6F0065CA40 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960002EBDFC6F0065CA40 /* UserDefaultsTests.swift */; };
+		C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */; };
+		C84960052EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */; };
 		C84E8F622CFF1DF500639098 /* AppIntegrityPoPJWTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84E8F602CFF1DF500639098 /* AppIntegrityPoPJWTTests.swift */; };
 		C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */; };
 		C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */; };
@@ -468,6 +470,8 @@
 		C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSecureStoreManager.swift; sourceTree = "<group>"; };
 		C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreMigrationManaging.swift; sourceTree = "<group>"; };
 		C84960002EBDFC6F0065CA40 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
+		C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessControlEncryptedSecureStoreManagerTests.swift; sourceTree = "<group>"; };
+		C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSecureStoreManagerTests.swift; sourceTree = "<group>"; };
 		C84E8F602CFF1DF500639098 /* AppIntegrityPoPJWTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityPoPJWTTests.swift; sourceTree = "<group>"; };
 		C8514F672C09E133008E1433 /* SettingsTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabAnalytics.swift; sourceTree = "<group>"; };
 		C8514F6C2C09EC18008E1433 /* HomeTabAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabAnalytics.swift; sourceTree = "<group>"; };
@@ -1239,6 +1243,8 @@
 				4193D2E42C89F48800073EB8 /* SecureTokenStoreTests.swift */,
 				C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */,
 				C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */,
+				C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */,
+				C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2329,6 +2335,7 @@
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
 				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
+				C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
@@ -2350,6 +2357,7 @@
 				C80D77462E97C6A200082040 /* BackupDisablerTests.swift in Sources */,
 				41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */,
+				C84960052EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */,
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,

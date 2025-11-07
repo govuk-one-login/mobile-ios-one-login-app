@@ -28,7 +28,10 @@ final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBo
         v13EncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItemTov13RemoveFromv12(_ item: String, itemName: String) throws {
+    func saveItemTov13RemoveFromv12(
+        _ item: String,
+        itemName: String
+    ) throws {
         try v13EncryptedSecureStore.saveItem(
             item: item,
             itemName: itemName
