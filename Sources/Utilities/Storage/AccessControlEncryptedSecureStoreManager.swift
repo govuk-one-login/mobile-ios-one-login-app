@@ -60,7 +60,7 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
         }
     }
     
-    func deleteItem(_ itemName: String) {
+    func deleteItem(_ itemName: String = OLString.storedTokens) {
         v12AccessControlEncryptedSecureStore.deleteItem(itemName: itemName)
         v13AccessControlEncryptedSecureStore.deleteItem(itemName: itemName)
     }

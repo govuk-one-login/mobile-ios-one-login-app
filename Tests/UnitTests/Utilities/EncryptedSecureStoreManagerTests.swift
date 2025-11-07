@@ -21,8 +21,8 @@ struct EncryptedSecureStoreManagerTests {
         )
     }
 
-    @Test
-    func first() throws {
+    @Test("check that the item exists in v12 store")
+    func checkItemExistsInv12() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.persistentSessionID
@@ -30,8 +30,8 @@ struct EncryptedSecureStoreManagerTests {
         #expect(try sut.checkItemExists(OLString.persistentSessionID))
     }
     
-    @Test
-    func second() throws {
+    @Test("check that the item exists in v13 store")
+    func checkItemExistsInv13() throws {
         try mockv13EncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.persistentSessionID
@@ -39,8 +39,8 @@ struct EncryptedSecureStoreManagerTests {
         #expect(try sut.checkItemExists(OLString.persistentSessionID))
     }
     
-    @Test
-    func third() throws {
+    @Test("check item is saved in v13 and removed from v12")
+    func saveItemTov13RemoveFromv12() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
@@ -50,8 +50,8 @@ struct EncryptedSecureStoreManagerTests {
         #expect(mockv13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
     }
     
-    @Test
-    func fourth() throws {
+    @Test("read item from the v12 secure store, save it in v13 secure store, log a crash, remove from v12 store and then return value")
+    func readItemv12() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
@@ -63,8 +63,8 @@ struct EncryptedSecureStoreManagerTests {
         #expect(item == "testItem")
     }
     
-    @Test
-    func fifth() throws {
+    @Test("read item from v13 if there is no item in v12")
+    func readItemv13() throws {
         try mockv13EncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.persistentSessionID
@@ -74,15 +74,15 @@ struct EncryptedSecureStoreManagerTests {
         #expect(item == "testItem")
     }
     
-    @Test
-    func sixth() throws {
+    @Test("throw error from read item if the value does not exist in either store")
+    func readItemNeitherStore() throws {
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
             try sut.readItem(OLString.persistentSessionID)
         }
     }
     
-    @Test
-    func seventh() throws {
+    @Test("ensure items are deleted from both stores")
+    func deleteItem() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.persistentSessionID
@@ -98,8 +98,8 @@ struct EncryptedSecureStoreManagerTests {
         }
     }
     
-    @Test
-    func eighth() throws {
+    @Test("clearSessionData deletes items from both stores")
+    func clearSessionData() throws {
         try mockv12EncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.persistentSessionID
