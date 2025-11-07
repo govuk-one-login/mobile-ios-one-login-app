@@ -23,7 +23,7 @@ final class SecureTokenStoreTests: XCTestCase {
 
 extension SecureTokenStoreTests {
     func test_hasLoginTokens() throws {
-        try accessControlEncryptedStore.saveItem(
+        try accessControlEncryptedStore.saveItemTov13RemoveFromv12(
             "storedTokens",
             itemName: OLString.storedTokens
         )

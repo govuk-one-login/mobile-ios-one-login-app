@@ -8,20 +8,22 @@ struct EncryptedSecureStoreManagerTests: ~Copyable {
     init() throws {
         let mockv12AccessControlEncryptedSecureStore = MockSecureStoreService()
         let mockv13AccessControlEncryptedSecureStore = MockSecureStoreService()
+        let mockAnalyticsService = MockAnalyticsService()
         sut = EncryptedSecureStoreManager(
             v12EncryptedSecureStore: mockv12AccessControlEncryptedSecureStore,
-            v13EncryptedSecureStore: mockv13AccessControlEncryptedSecureStore
+            v13EncryptedSecureStore: mockv13AccessControlEncryptedSecureStore,
+            analyticsService: mockAnalyticsService
         )
         
-        try sut.saveItem(
+        try sut.saveItemTov13RemoveFromv12(
             "testRefreshTokenExpiry",
             itemName: OLString.refreshTokenExpiry
         )
-        try sut.saveItem(
+        try sut.saveItemTov13RemoveFromv12(
             "testPersistentSessionID",
             itemName: OLString.persistentSessionID
         )
-        try sut.saveItem(
+        try sut.saveItemTov13RemoveFromv12(
             "testStoredTokens",
             itemName: OLString.storedTokens
         )
@@ -31,7 +33,7 @@ struct EncryptedSecureStoreManagerTests: ~Copyable {
         sut.clearSessionData()
     }
 
-    @Test("Clear session data deletes the refresh token, persistentSessionID and tokens")
+    @Test("Clear session data deletes the refresh token and persistentSessionID")
     func delete() throws {
         #expect(try sut.readItem(OLString.refreshTokenExpiry) == "testRefreshTokenExpiry")
         #expect(try sut.readItem(OLString.persistentSessionID) == "testPersistentSessionID")

@@ -1,38 +1,48 @@
 import SecureStore
 
-final class EncryptedSecureStoreManager: SecureStoreManaging, SessionBoundData {
+final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBoundData {
     let v12EncryptedSecureStore: SecureStorable
     let v13EncryptedSecureStore: SecureStorable
+    let analyticsService: OneLoginAnalyticsService
     
-    convenience init() {
+    convenience init(analyticsService: OneLoginAnalyticsService) {
         self.init(
             v12EncryptedSecureStore: .v12EncryptedStore(),
-            v13EncryptedSecureStore: .v13EncryptedStore()
+            v13EncryptedSecureStore: .v13EncryptedStore(),
+            analyticsService: analyticsService
         )
     }
     
     init(
         v12EncryptedSecureStore: SecureStorable,
-        v13EncryptedSecureStore: SecureStorable
+        v13EncryptedSecureStore: SecureStorable,
+        analyticsService: OneLoginAnalyticsService
     ) {
         self.v12EncryptedSecureStore = v12EncryptedSecureStore
         self.v13EncryptedSecureStore = v13EncryptedSecureStore
+        self.analyticsService = analyticsService
     }
     
     func checkItemExists(_ itemName: String) -> Bool {
+        v12EncryptedSecureStore.checkItemExists(itemName: itemName) ||
         v13EncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItem(_ item: String, itemName: String) throws {
+    func saveItemTov13RemoveFromv12(_ item: String, itemName: String) throws {
         try v13EncryptedSecureStore.saveItem(
             item: item,
             itemName: itemName
         )
+        v12EncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
     func readItem(_ itemName: String) throws -> String {
         do {
-            return try v12EncryptedSecureStore.readItem(itemName: itemName)
+            let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
+            try saveItemTov13RemoveFromv12(v12Item, itemName: itemName)
+            // log migrated secure store instances
+            analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
+            return v12Item
         } catch {
             return try v13EncryptedSecureStore.readItem(itemName: itemName)
         }

@@ -4,8 +4,8 @@ import Foundation
 import LocalAuthenticationWrapper
 
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedSecureStoreManager: SecureStoreManaging
-    private let encryptedSecureStoreManager: SecureStoreManaging
+    private let accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging
+    private let encryptedSecureStoreManager: SecureStoreMigrationManaging
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
     
@@ -20,8 +20,8 @@ final class PersistentSessionManager: SessionManager {
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
     convenience init(
-        accessControlEncryptedSecureStoreManager: SecureStoreManaging,
-        encryptedSecureStoreManager: SecureStoreManaging
+        accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging,
+        encryptedSecureStoreManager: SecureStoreMigrationManaging
     ) {
         self.init(
             accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager,
@@ -32,8 +32,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedSecureStoreManager: SecureStoreManaging,
-        encryptedSecureStoreManager: SecureStoreManaging,
+        accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging,
+        encryptedSecureStoreManager: SecureStoreMigrationManaging,
         unprotectedStore: DefaultsStorable,
         localAuthentication: LocalAuthManaging
     ) {
@@ -152,7 +152,7 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let persistentID = user.value?.persistentID {
-            try encryptedSecureStoreManager.saveItem(
+            try encryptedSecureStoreManager.saveItemTov13RemoveFromv12(
                 persistentID,
                 itemName: OLString.persistentSessionID
             )

@@ -1,19 +1,19 @@
 import Foundation
 import SecureStore
 
-protocol SecureStoreManaging {
+protocol SecureStoreMigrationManaging {
     func checkItemExists(_ itemName: String) -> Bool
-    func saveItem(_ item: String, itemName: String) throws
+    func saveItemTov13RemoveFromv12(_ item: String, itemName: String) throws
     func readItem(_ itemName: String) throws -> String
     func deleteItem(_ itemName: String)
 }
 
-extension SecureStoreManaging {
+extension SecureStoreMigrationManaging {
     func saveDate(
         id: String,
         _ date: Date
     ) throws {
-        try saveItem(
+        try saveItemTov13RemoveFromv12(
             date.timeIntervalSince1970.description,
             itemName: id
         )
@@ -26,4 +26,8 @@ extension SecureStoreManaging {
         }
         return Date(timeIntervalSince1970: dateDouble)
     }
+}
+
+enum SecureStoreMigrationError: Error {
+    case migratedFromv12Tov13
 }

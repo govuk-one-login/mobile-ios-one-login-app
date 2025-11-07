@@ -19,9 +19,9 @@ public protocol TokenStore {
 }
 
 final class SecureTokenStore: TokenStore {
-    private let accessControlEncryptedSecureStoreManager: SecureStoreManaging
+    private let accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging
 
-    init(accessControlEncryptedSecureStoreManager: SecureStoreManaging) {
+    init(accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging) {
         self.accessControlEncryptedSecureStoreManager = accessControlEncryptedSecureStoreManager
     }
     
@@ -43,7 +43,7 @@ final class SecureTokenStore: TokenStore {
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
-        try accessControlEncryptedSecureStoreManager.saveItem(
+        try accessControlEncryptedSecureStoreManager.saveItemTov13RemoveFromv12(
             encodedTokens,
             itemName: OLString.storedTokens
         )
