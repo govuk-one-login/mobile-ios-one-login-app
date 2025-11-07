@@ -1,5 +1,13 @@
 enum OLString {
     // Store IDs
+    //
+    // The v12 and v13 differences here come from a change in store names.
+    // These values should NOT change without agreed migration to a singular value.
+    //
+    // Original change can be seen here
+    // https://github.com/govuk-one-login/mobile-ios-one-login-app/pull/579/files#diff-36a8fe27d5aaeae29cb4a3668b76bae17e290e25e9aaa41d58e0012b54ed2d67L1-L18
+    // Ticket for the change is here
+    // https://govukverify.atlassian.net/browse/DCMAW-16644
     static let v12TokensStore    = "oneLoginTokens"
     static let v13TokensStore    = "oneLoginTokenStore"
     static let v12TokenInfoStore = "persistentSessionID"

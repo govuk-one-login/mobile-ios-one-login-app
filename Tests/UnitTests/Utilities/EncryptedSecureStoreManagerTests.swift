@@ -83,9 +83,9 @@ struct EncryptedSecureStoreManagerTests {
     
     @Test("ensure items are deleted from both stores")
     func deleteItem() throws {
-        try mockv12EncryptedSecureStore.saveItem(
-            item: "testV12Item",
-            itemName: OLString.persistentSessionID
+        try mockv13EncryptedSecureStore.saveItem(
+            item: "testV13Item",
+            itemName: OLString.refreshTokenExpiry
         )
         try mockv13EncryptedSecureStore.saveItem(
             item: "testV13Item",
@@ -100,12 +100,12 @@ struct EncryptedSecureStoreManagerTests {
     
     @Test("clearSessionData deletes items from both stores")
     func clearSessionData() throws {
-        try mockv12EncryptedSecureStore.saveItem(
-            item: "testV12Item",
-            itemName: OLString.persistentSessionID
-        )
         try mockv13EncryptedSecureStore.saveItem(
             item: "testV13Item",
+            itemName: OLString.refreshTokenExpiry
+        )
+        try mockv12EncryptedSecureStore.saveItem(
+            item: "testV12Item",
             itemName: OLString.persistentSessionID
         )
         sut.clearSessionData()

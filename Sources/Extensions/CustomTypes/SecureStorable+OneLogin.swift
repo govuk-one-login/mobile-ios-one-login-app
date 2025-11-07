@@ -15,7 +15,7 @@ extension SecureStorable where Self == SecureStoreService {
             configuration: accessControlConfiguration
         )
     }
-
+    
     static func v13AccessControlEncryptedStore(
         localAuthManager: LocalAuthenticationContextStrings
     ) throws -> SecureStoreService {
