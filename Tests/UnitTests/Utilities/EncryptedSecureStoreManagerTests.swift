@@ -27,7 +27,7 @@ struct EncryptedSecureStoreManagerTests {
             item: "testV12Item",
             itemName: OLString.persistentSessionID
         )
-        #expect(try sut.checkItemExists(OLString.persistentSessionID))
+        #expect(try sut.checkItemExists(itemName: OLString.persistentSessionID))
     }
     
     @Test("check that v13 store `itemExists` returns true when the item exists")
@@ -36,7 +36,7 @@ struct EncryptedSecureStoreManagerTests {
             item: "testV13Item",
             itemName: OLString.persistentSessionID
         )
-        #expect(try sut.checkItemExists(OLString.persistentSessionID))
+        #expect(try sut.checkItemExists(itemName: OLString.persistentSessionID))
     }
     
     @Test("check data item is successfully migrated from v12 to v13")
@@ -45,7 +45,10 @@ struct EncryptedSecureStoreManagerTests {
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
-        try sut.saveItemToNewStoreRemoveFromOldStore("testItem", itemName: OLString.persistentSessionID)
+        try sut.saveItem(
+            item: "testItem",
+            itemName: OLString.persistentSessionID
+        )
         
         #expect(mockV13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
         #expect(mockV12EncryptedSecureStore.savedItems.isEmpty)
@@ -57,7 +60,7 @@ struct EncryptedSecureStoreManagerTests {
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
-        let item = try sut.readItem(OLString.persistentSessionID)
+        let item = try sut.readItem(itemName: OLString.persistentSessionID)
         
         #expect(mockV13EncryptedSecureStore.savedItems == [OLString.persistentSessionID: "testItem"])
         #expect(mockV12EncryptedSecureStore.savedItems.isEmpty)
@@ -70,7 +73,7 @@ struct EncryptedSecureStoreManagerTests {
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
-        _ = try sut.readItem(OLString.persistentSessionID)
+        _ = try sut.readItem(itemName: OLString.persistentSessionID)
         
         #expect(mockAnalyticsService.crashesLogged.count == 1)
         #expect(mockAnalyticsService.crashesLogged.first == SecureStoreMigrationError.migratedFromv12Tov13 as NSError)
@@ -82,7 +85,7 @@ struct EncryptedSecureStoreManagerTests {
             item: "testItem",
             itemName: OLString.persistentSessionID
         )
-        let item = try sut.readItem(OLString.persistentSessionID)
+        let item = try sut.readItem(itemName: OLString.persistentSessionID)
         
         #expect(item == "testItem")
     }
@@ -90,7 +93,7 @@ struct EncryptedSecureStoreManagerTests {
     @Test("throw error from read item if the value does not exist in either store")
     func readItemNeitherStore() throws {
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
-            try sut.readItem(OLString.persistentSessionID)
+            try sut.readItem(itemName: OLString.persistentSessionID)
         }
     }
     
@@ -104,10 +107,10 @@ struct EncryptedSecureStoreManagerTests {
             item: "testV13Item",
             itemName: OLString.persistentSessionID
         )
-        sut.deleteItem(OLString.persistentSessionID)
+        sut.deleteItem(itemName: OLString.persistentSessionID)
         
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
-            try sut.readItem(OLString.persistentSessionID)
+            try sut.readItem(itemName: OLString.persistentSessionID)
         }
     }
     
@@ -124,7 +127,7 @@ struct EncryptedSecureStoreManagerTests {
         sut.clearSessionData()
         
         #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
-            try sut.readItem(OLString.persistentSessionID)
+            try sut.readItem(itemName: OLString.persistentSessionID)
         }
     }
 }

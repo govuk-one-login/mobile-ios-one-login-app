@@ -2,10 +2,11 @@ import Authentication
 import Combine
 import Foundation
 import LocalAuthenticationWrapper
+import SecureStore
 
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging
-    private let encryptedSecureStoreManager: SecureStoreMigrationManaging
+    private let accessControlEncryptedSecureStoreManager: SecureStorable
+    private let encryptedSecureStoreManager: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStorable
     
@@ -20,8 +21,8 @@ final class PersistentSessionManager: SessionManager {
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
     convenience init(
-        accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging,
-        encryptedSecureStoreManager: SecureStoreMigrationManaging
+        accessControlEncryptedSecureStoreManager: SecureStorable,
+        encryptedSecureStoreManager: SecureStorable
     ) {
         self.init(
             accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager,
@@ -32,8 +33,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging,
-        encryptedSecureStoreManager: SecureStoreMigrationManaging,
+        accessControlEncryptedSecureStoreManager: SecureStorable,
+        encryptedSecureStoreManager: SecureStorable,
         unprotectedStore: DefaultsStorable,
         localAuthentication: LocalAuthManaging
     ) {
@@ -95,7 +96,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? encryptedSecureStoreManager.readItem(OLString.persistentSessionID)
+        try? encryptedSecureStoreManager.readItem(itemName: OLString.persistentSessionID)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -151,12 +152,12 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let persistentID = user.value?.persistentID {
-            try encryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
-                persistentID,
+            try encryptedSecureStoreManager.saveItem(
+                item: persistentID,
                 itemName: OLString.persistentSessionID
             )
         } else {
-            encryptedSecureStoreManager.deleteItem(OLString.persistentSessionID)
+            encryptedSecureStoreManager.deleteItem(itemName: OLString.persistentSessionID)
         }
         
         if let refreshToken = tokenResponse.refreshToken {

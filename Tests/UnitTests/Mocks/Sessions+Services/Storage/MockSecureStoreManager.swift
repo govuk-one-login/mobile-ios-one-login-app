@@ -1,7 +1,7 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStoreManager: SecureStoreMigrationManaging, SessionBoundData {
+final class MockSecureStoreManager: SecureStorable, SessionBoundData {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
     var didCallClearSessionData = false
@@ -11,7 +11,7 @@ final class MockSecureStoreManager: SecureStoreMigrationManaging, SessionBoundDa
     var errorFromDeleteItem: Error?
     var returnFromCheckItemExists = true
 
-    func saveItemToNewStoreRemoveFromOldStore(_ item: String, itemName: String) throws {
+    func saveItem(item: String, itemName: String) throws {
         if let errorFromSaveItem {
             throw errorFromSaveItem
         } else {
@@ -19,7 +19,7 @@ final class MockSecureStoreManager: SecureStoreMigrationManaging, SessionBoundDa
         }
     }
 
-    func readItem(_ itemName: String) throws -> String {
+    func readItem(itemName: String) throws -> String {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
@@ -30,7 +30,7 @@ final class MockSecureStoreManager: SecureStoreMigrationManaging, SessionBoundDa
         }
     }
     
-    func deleteItem(_ itemName: String) {
+    func deleteItem(itemName: String) {
         savedItems[itemName] = nil
     }
     
@@ -41,7 +41,7 @@ final class MockSecureStoreManager: SecureStoreMigrationManaging, SessionBoundDa
         }
     }
     
-    func checkItemExists(_ itemName: String) -> Bool {
+    func checkItemExists(itemName: String) -> Bool {
         if savedItems[itemName] != nil {
             return true
         }

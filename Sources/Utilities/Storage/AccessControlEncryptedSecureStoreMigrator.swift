@@ -1,7 +1,7 @@
 import LocalAuthenticationWrapper
 import SecureStore
 
-final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBoundData {
+final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     let v12AccessControlEncryptedSecureStore: SecureStorable
     let v13AccessControlEncryptedSecureStore: SecureStorable
     let analyticsService: OneLoginAnalyticsService
@@ -32,13 +32,13 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
         self.analyticsService = analyticsService
     }
     
-    func checkItemExists(_ itemName: String = OLString.storedTokens) -> Bool {
+    func checkItemExists(itemName: String = OLString.storedTokens) -> Bool {
         v12AccessControlEncryptedSecureStore.checkItemExists(itemName: itemName) ||
         v13AccessControlEncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItemToNewStoreRemoveFromOldStore(
-        _ item: String,
+    func saveItem(
+        item: String,
         itemName: String = OLString.storedTokens
     ) throws {
         try v13AccessControlEncryptedSecureStore.saveItem(
@@ -48,10 +48,10 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
         v12AccessControlEncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
-    func readItem(_ itemName: String = OLString.storedTokens) throws -> String {
+    func readItem(itemName: String = OLString.storedTokens) throws -> String {
         do {
             let v12LoginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
-            try saveItemToNewStoreRemoveFromOldStore(v12LoginTokens)
+            try saveItem(item: v12LoginTokens)
             // log migrated secure store instances
             analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
             return v12LoginTokens
@@ -60,13 +60,18 @@ final class AccessControlEncryptedSecureStoreManager: SecureStoreMigrationManagi
         }
     }
     
-    func deleteItem(_ itemName: String = OLString.storedTokens) {
+    func deleteItem(itemName: String = OLString.storedTokens) {
         v12AccessControlEncryptedSecureStore.deleteItem(itemName: itemName)
         v13AccessControlEncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
+    func delete() throws {
+        try v12AccessControlEncryptedSecureStore.delete()
+        try v13AccessControlEncryptedSecureStore.delete()
+    }
+    
     func clearSessionData() {
         OLString.AccessControlEncryptedStoreKeyString.allCases
-            .forEach { deleteItem($0.rawValue) }
+            .forEach { deleteItem(itemName: $0.rawValue) }
     }
 }

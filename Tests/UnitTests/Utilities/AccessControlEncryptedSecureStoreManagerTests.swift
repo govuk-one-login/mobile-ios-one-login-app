@@ -7,14 +7,14 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     let mockV12AccessControlEncryptedSecureStore: MockSecureStoreService
     let mockV13AccessControlEncryptedSecureStore: MockSecureStoreService
     let mockAnalyticsService: MockAnalyticsService
-    let sut: AccessControlEncryptedSecureStoreManager
+    let sut: AccessControlEncryptedSecureStoreMigrator
     
     init() {
         mockV12AccessControlEncryptedSecureStore = MockSecureStoreService()
         mockV13AccessControlEncryptedSecureStore = MockSecureStoreService()
         mockAnalyticsService = MockAnalyticsService()
         
-        self.sut = AccessControlEncryptedSecureStoreManager(
+        self.sut = AccessControlEncryptedSecureStoreMigrator(
             v12AccessControlEncryptedSecureStore: mockV12AccessControlEncryptedSecureStore,
             v13AccessControlEncryptedSecureStore: mockV13AccessControlEncryptedSecureStore,
             analyticsService: mockAnalyticsService
@@ -45,7 +45,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
             item: "testItem",
             itemName: OLString.storedTokens
         )
-        try sut.saveItemToNewStoreRemoveFromOldStore("testItem")
+        try sut.saveItem(item: "testItem")
         
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
         #expect(mockV12AccessControlEncryptedSecureStore.savedItems.isEmpty)

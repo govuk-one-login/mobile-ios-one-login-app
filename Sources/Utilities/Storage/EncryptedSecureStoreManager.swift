@@ -1,6 +1,6 @@
 import SecureStore
 
-final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBoundData {
+final class EncryptedSecureStoreManager: SecureStorable, SessionBoundData {
     let v12EncryptedSecureStore: SecureStorable
     let v13EncryptedSecureStore: SecureStorable
     let analyticsService: OneLoginAnalyticsService
@@ -23,13 +23,13 @@ final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBo
         self.analyticsService = analyticsService
     }
     
-    func checkItemExists(_ itemName: String) -> Bool {
+    func checkItemExists(itemName: String) -> Bool {
         v12EncryptedSecureStore.checkItemExists(itemName: itemName) ||
         v13EncryptedSecureStore.checkItemExists(itemName: itemName)
     }
     
-    func saveItemToNewStoreRemoveFromOldStore(
-        _ item: String,
+    func saveItem(
+        item: String,
         itemName: String
     ) throws {
         try v13EncryptedSecureStore.saveItem(
@@ -39,10 +39,10 @@ final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBo
         v12EncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
-    func readItem(_ itemName: String) throws -> String {
+    func readItem(itemName: String) throws -> String {
         do {
             let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
-            try saveItemToNewStoreRemoveFromOldStore(v12Item, itemName: itemName)
+            try saveItem(item: v12Item, itemName: itemName)
             // log migrated secure store instances
             analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
             return v12Item
@@ -51,13 +51,18 @@ final class EncryptedSecureStoreManager: SecureStoreMigrationManaging, SessionBo
         }
     }
     
-    func deleteItem(_ itemName: String) {
+    func deleteItem(itemName: String) {
         v12EncryptedSecureStore.deleteItem(itemName: itemName)
         v13EncryptedSecureStore.deleteItem(itemName: itemName)
     }
     
+    func delete() throws {
+        try v12EncryptedSecureStore.delete()
+        try v13EncryptedSecureStore.delete()
+    }
+    
     func clearSessionData() {
         OLString.EncryptedStoreKeyString.allCases
-            .forEach { deleteItem($0.rawValue) }
+            .forEach { deleteItem(itemName: $0.rawValue) }
     }
 }

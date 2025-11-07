@@ -152,9 +152,9 @@
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
 		C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */; };
 		C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */; };
-		C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreManager.swift */; };
+		C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */; };
 		C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */; };
-		C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift */; };
+		C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */; };
 		C84960012EBDFC6F0065CA40 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960002EBDFC6F0065CA40 /* UserDefaultsTests.swift */; };
 		C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */; };
 		C84960052EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */; };
@@ -466,9 +466,9 @@
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWallet.swift; sourceTree = "<group>"; };
 		C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWalletTests.swift; sourceTree = "<group>"; };
-		C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessControlEncryptedSecureStoreManager.swift; sourceTree = "<group>"; };
+		C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessControlEncryptedSecureStoreMigrator.swift; sourceTree = "<group>"; };
 		C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSecureStoreManager.swift; sourceTree = "<group>"; };
-		C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreMigrationManaging.swift; sourceTree = "<group>"; };
+		C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreMigrationError.swift; sourceTree = "<group>"; };
 		C84960002EBDFC6F0065CA40 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
 		C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessControlEncryptedSecureStoreManagerTests.swift; sourceTree = "<group>"; };
 		C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSecureStoreManagerTests.swift; sourceTree = "<group>"; };
@@ -1606,9 +1606,9 @@
 		C8BADD332B88CBBA00385FE7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift */,
+				C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */,
 				C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreManager.swift */,
-				C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreManager.swift */,
+				C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */,
 				7C47BE142C787FD100DCE5D2 /* Session */,
 				C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */,
 				C80DEBDF2EAF7C0B00FF18B5 /* SecureAttestationStore.swift */,
@@ -2199,7 +2199,7 @@
 				7CD66F7F2C9070B9008513F4 /* AppLocalAuthState.swift in Sources */,
 				C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */,
 				C8BFE5E92CB57FD800FA9A35 /* AppUnavailableViewModel.swift in Sources */,
-				C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreManager.swift in Sources */,
+				C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift in Sources */,
 				7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */,
 				C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */,
@@ -2207,7 +2207,7 @@
 				C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */,
 				ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */,
 				C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */,
-				C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationManaging.swift in Sources */,
+				C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationError.swift in Sources */,
 				7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */,
 				C8C057DE2EA190C200A77DE3 /* RefreshTokenRepresentation.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,

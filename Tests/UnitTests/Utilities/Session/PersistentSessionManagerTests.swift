@@ -163,7 +163,7 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         sut.registerSessionBoundData([self, mockUnprotectedStore])
         // AND I am unable to re-authenticate because I have no persistent session ID
-        mockEncryptedSecureStoreManager.deleteItem(OLString.persistentSessionID)
+        mockEncryptedSecureStoreManager.deleteItem(itemName: OLString.persistentSessionID)
         // WHEN I start a session
         do {
             let loginSession = await MockLoginSession(window: UIWindow())
@@ -223,8 +223,8 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
-            persistentSessionID,
+        try mockEncryptedSecureStoreManager.saveItem(
+            item: persistentSessionID,
             itemName: OLString.persistentSessionID
         )
         // WHEN I re-authenticate
@@ -261,8 +261,8 @@ extension PersistentSessionManagerTests {
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
-        try mockAccessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
-            "storedTokens",
+        try mockAccessControlEncryptedSecureStoreManager.saveItem(
+            item: "storedTokens",
             itemName: OLString.storedTokens
         )
         // AND I have logged in
@@ -289,8 +289,8 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
-            data,
+        try mockAccessControlEncryptedSecureStoreManager.saveItem(
+            item: data,
             itemName: OLString.storedTokens
         )
         // AND I am a returning user with local auth enabled
@@ -313,8 +313,8 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreManager.saveItemToNewStoreRemoveFromOldStore(
-            data,
+        try mockAccessControlEncryptedSecureStoreManager.saveItem(
+            item: data,
             itemName: OLString.storedTokens
         )
         // AND I am a returning user with local auth enabled
