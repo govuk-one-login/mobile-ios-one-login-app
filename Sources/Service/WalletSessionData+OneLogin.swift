@@ -1,7 +1,7 @@
 import Wallet
 
 struct WalletSessionData: SessionBoundData {
-    func delete() async throws {
+    func clearSessionData() async throws {
         try await WalletSDK.deleteData()
     }
 }

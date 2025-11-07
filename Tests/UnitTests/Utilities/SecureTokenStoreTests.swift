@@ -3,18 +3,18 @@ import Foundation
 import XCTest
 
 final class SecureTokenStoreTests: XCTestCase {
-    private var accessControlEncryptedStore: MockSecureStoreService!
+    private var accessControlEncryptedSecureStoreManager: MockSecureStoreManager!
     private var sut: SecureTokenStore!
 
     override func setUp() {
         super.setUp()
         
-        accessControlEncryptedStore = MockSecureStoreService()
-        sut = SecureTokenStore(accessControlEncryptedStore: accessControlEncryptedStore)
+        accessControlEncryptedSecureStoreManager = MockSecureStoreManager()
+        sut = SecureTokenStore(accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager)
     }
 
     override func tearDown() {
-        accessControlEncryptedStore = nil
+        accessControlEncryptedSecureStoreManager = nil
         sut = nil
 
         super.tearDown()
@@ -23,12 +23,15 @@ final class SecureTokenStoreTests: XCTestCase {
 
 extension SecureTokenStoreTests {
     func test_hasLoginTokens() throws {
-        try accessControlEncryptedStore.saveItem(item: "storedTokens", itemName: OLString.storedTokens)
+        try accessControlEncryptedSecureStoreManager.saveItem(
+            item: "storedTokens",
+            itemName: OLString.storedTokens
+        )
         XCTAssertTrue(sut.hasLoginTokens)
     }
     
     func test_doesNotHaveLoginTokens() throws {
-        accessControlEncryptedStore.savedItems = [:]
+        accessControlEncryptedSecureStoreManager.savedItems = [:]
         XCTAssertFalse(sut.hasLoginTokens)
     }
     
@@ -46,7 +49,7 @@ extension SecureTokenStoreTests {
     }
 
     func test_fetchThrowsErrorIfTokensHaveIncorrectFormat() throws {
-        accessControlEncryptedStore.savedItems = [OLString.storedTokens: "normal string"]
+        accessControlEncryptedSecureStoreManager.savedItems = [OLString.storedTokens: "normal string"]
         do {
             _ = try sut.fetch()
             XCTFail("Expected to recieve token error")
@@ -67,12 +70,12 @@ extension SecureTokenStoreTests {
         let tokensAsData = try jsonEncoder.encode(tokensToSave).base64EncodedString()
         print(tokensAsData)
         try sut.save(tokens: tokensToSave)
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [OLString.storedTokens: tokensAsData])
+        XCTAssertEqual(accessControlEncryptedSecureStoreManager.savedItems, [OLString.storedTokens: tokensAsData])
     }
 
     func test_deletesTokens() throws {
-        accessControlEncryptedStore.savedItems = [OLString.storedTokens: "tokens"]
+        accessControlEncryptedSecureStoreManager.savedItems = [OLString.storedTokens: "tokens"]
         sut.deleteTokens()
-        XCTAssertEqual(accessControlEncryptedStore.savedItems, [:])
+        XCTAssertEqual(accessControlEncryptedSecureStoreManager.savedItems, [:])
     }
 }
