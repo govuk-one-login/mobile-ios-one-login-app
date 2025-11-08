@@ -50,6 +50,7 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
             item: item,
             itemName: itemName
         )
+        // store "saved in new store" for use next time user needs to read from store
         migrationStore.set(true, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
     }
     

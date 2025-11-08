@@ -41,7 +41,7 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
             item: item,
             itemName: itemName
         )
-        // store saved in new store for use next time need to read store
+        // store "saved in new store" for use next time user needs to read from store
         migrationStore.set(true, forKey: OLString.migratedEncryptedStoreToV13)
     }
     
@@ -50,7 +50,10 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
             do {
                 let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
                 // overwrite the token which exists in local storage
-                try saveItem(item: v12Item, itemName: itemName)
+                try saveItem(
+                    item: v12Item,
+                    itemName: itemName
+                )
                 // log migrated secure store instances
                 analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
                 return v12Item

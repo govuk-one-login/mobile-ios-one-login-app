@@ -6,17 +6,20 @@ import Testing
 struct AccessControlEncryptedSecureStoreManagerTests {
     let mockV12AccessControlEncryptedSecureStore: MockSecureStoreService
     let mockV13AccessControlEncryptedSecureStore: MockSecureStoreService
+    let mockMigrationStore: MockDefaultsStore
     let mockAnalyticsService: MockAnalyticsService
     let sut: AccessControlEncryptedSecureStoreMigrator
     
     init() {
         mockV12AccessControlEncryptedSecureStore = MockSecureStoreService()
         mockV13AccessControlEncryptedSecureStore = MockSecureStoreService()
+        mockMigrationStore = MockDefaultsStore()
         mockAnalyticsService = MockAnalyticsService()
         
         self.sut = AccessControlEncryptedSecureStoreMigrator(
             v12AccessControlEncryptedSecureStore: mockV12AccessControlEncryptedSecureStore,
             v13AccessControlEncryptedSecureStore: mockV13AccessControlEncryptedSecureStore,
+            migrationStore: mockMigrationStore,
             analyticsService: mockAnalyticsService
         )
     }
@@ -27,7 +30,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
             item: "testV12Item",
             itemName: OLString.storedTokens
         )
-        #expect(try sut.checkItemExists())
+        #expect(sut.checkItemExists())
     }
     
     @Test("check that v13 store `itemExists` returns true when the item exists")
@@ -36,11 +39,11 @@ struct AccessControlEncryptedSecureStoreManagerTests {
             item: "testV13Item",
             itemName: OLString.storedTokens
         )
-        #expect(try sut.checkItemExists())
+        #expect(sut.checkItemExists())
     }
     
     @Test("check data item is successfully migrated from v12 to v13")
-    func saveItemToV13RemoveFromV12() throws {
+    func saveItemToV13OverwritesV12() throws {
         try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens
@@ -48,6 +51,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         try sut.saveItem(item: "testItem")
         
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
+        #expect(mockMigrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13))
     }
     
     @Test("read item migrates data to the v13 store if required")
@@ -74,8 +78,23 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         #expect(mockAnalyticsService.crashesLogged.first == SecureStoreMigrationError.migratedFromv12Tov13 as NSError)
     }
     
-    @Test("read item returns the v12 value if no v13 value exists")
+    @Test("read item returns the v13 value if no v12 value exists")
     func readItemV13() throws {
+        try mockV13AccessControlEncryptedSecureStore.saveItem(
+            item: "testItem",
+            itemName: OLString.storedTokens
+        )
+        let item = try sut.readItem()
+        
+        #expect(item == "testItem")
+    }
+    
+    @Test("read item returns the v13 if value has been migrated")
+    func readItemV13IfMigrated() throws {
+        mockMigrationStore.set(
+            true,
+            forKey: OLString.migratedAccessControlEncryptedStoreToV13
+        )
         try mockV13AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens

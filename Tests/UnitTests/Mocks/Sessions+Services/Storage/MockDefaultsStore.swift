@@ -12,6 +12,14 @@ class MockDefaultsStore: DefaultsStoring, SessionBoundData {
         savedData[key]
     }
     
+    func string(forKey: String) -> String? {
+        savedData[forKey] as? String
+    }
+    
+    func bool(forKey: String) -> Bool {
+        savedData[forKey] as? Bool ?? false
+    }
+    
     func removeObject(forKey defaultName: String) {
         savedData[defaultName] = nil
     }
