@@ -1,7 +1,7 @@
 import Foundation
 @testable import OneLogin
 
-class MockDefaultsStore: DefaultsStorable, SessionBoundData {
+class MockDefaultsStore: DefaultsStoring, SessionBoundData {
     var savedData = [String: Any]()
     
     func set(_ value: Any?, forKey defaultName: String) {

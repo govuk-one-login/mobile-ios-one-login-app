@@ -212,7 +212,7 @@
 		C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD212B8652F200385FE7 /* TokenHolder.swift */; };
 		C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */; };
 		C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD282B87D89000385FE7 /* SessionManager.swift */; };
-		C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */; };
+		C8BADD2B2B87D8FD00385FE7 /* DefaultsStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2A2B87D8FD00385FE7 /* DefaultsStoring.swift */; };
 		C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BADD2C2B87D9C800385FE7 /* PersistentSessionManager.swift */; };
 		C8BEC2942BFFA8C800C9775A /* LoginLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BEC2932BFFA8C800C9775A /* LoginLoadingViewModel.swift */; };
 		C8BFE5E52CB579EB00FA9A35 /* AnalyticsPreferenceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BFE5E42CB579DB00FA9A35 /* AnalyticsPreferenceViewModelTests.swift */; };
@@ -526,7 +526,7 @@
 		C8BADD212B8652F200385FE7 /* TokenHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolder.swift; sourceTree = "<group>"; };
 		C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecureStoreService.swift; sourceTree = "<group>"; };
 		C8BADD282B87D89000385FE7 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsStorable.swift; sourceTree = "<group>"; };
+		C8BADD2A2B87D8FD00385FE7 /* DefaultsStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsStoring.swift; sourceTree = "<group>"; };
 		C8BADD2C2B87D9C800385FE7 /* PersistentSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentSessionManager.swift; sourceTree = "<group>"; };
 		C8BADD2E2B889CB900385FE7 /* MockSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSessionManager.swift; sourceTree = "<group>"; };
 		C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDefaultsStore.swift; sourceTree = "<group>"; };
@@ -1610,7 +1610,7 @@
 				C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift */,
 				C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */,
 				7C47BE142C787FD100DCE5D2 /* Session */,
-				C8BADD2A2B87D8FD00385FE7 /* DefaultsStorable.swift */,
+				C8BADD2A2B87D8FD00385FE7 /* DefaultsStoring.swift */,
 				C80DEBDF2EAF7C0B00FF18B5 /* SecureAttestationStore.swift */,
 				4193D2E22C89BB6100073EB8 /* SecureTokenStore.swift */,
 			);
@@ -2210,7 +2210,7 @@
 				C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationError.swift in Sources */,
 				7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */,
 				C8C057DE2EA190C200A77DE3 /* RefreshTokenRepresentation.swift in Sources */,
-				C8BADD2B2B87D8FD00385FE7 /* DefaultsStorable.swift in Sources */,
+				C8BADD2B2B87D8FD00385FE7 /* DefaultsStoring.swift in Sources */,
 				D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */,

@@ -1,14 +1,17 @@
+import Foundation
 import SecureStore
 
 final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     let v12EncryptedSecureStore: SecureStorable
     let v13EncryptedSecureStore: SecureStorable
+    let migrationStore: DefaultsStoring
     let analyticsService: OneLoginAnalyticsService
     
     convenience init(analyticsService: OneLoginAnalyticsService) {
         self.init(
             v12EncryptedSecureStore: .v12EncryptedStore(),
             v13EncryptedSecureStore: .v13EncryptedStore(),
+            migrationStore: UserDefaults.standard,
             analyticsService: analyticsService
         )
     }
@@ -16,10 +19,12 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     init(
         v12EncryptedSecureStore: SecureStorable,
         v13EncryptedSecureStore: SecureStorable,
+        migrationStore: DefaultsStoring,
         analyticsService: OneLoginAnalyticsService
     ) {
         self.v12EncryptedSecureStore = v12EncryptedSecureStore
         self.v13EncryptedSecureStore = v13EncryptedSecureStore
+        self.migrationStore = migrationStore
         self.analyticsService = analyticsService
     }
     
@@ -36,19 +41,24 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
             item: item,
             itemName: itemName
         )
+        // store saved in new store for use next time need to read store
+        migrationStore.set(true, forKey: OLString.migratedEncryptedStoreToV13)
     }
     
     func readItem(itemName: String) throws -> String {
-        do {
-            let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
-            // overwrite the token which exists in local storage
-            try saveItem(item: v12Item, itemName: itemName)
-            // log migrated secure store instances
-            analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
-            return v12Item
-        } catch {
-            return try v13EncryptedSecureStore.readItem(itemName: itemName)
+        guard migrationStore.bool(forKey: OLString.migratedEncryptedStoreToV13) else {
+            do {
+                let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
+                // overwrite the token which exists in local storage
+                try saveItem(item: v12Item, itemName: itemName)
+                // log migrated secure store instances
+                analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
+                return v12Item
+            } catch {
+                return try v13EncryptedSecureStore.readItem(itemName: itemName)
+            }
         }
+        return try v13EncryptedSecureStore.readItem(itemName: itemName)
     }
     
     func deleteItem(itemName: String) {

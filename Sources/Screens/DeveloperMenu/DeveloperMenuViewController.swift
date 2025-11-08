@@ -12,12 +12,12 @@ final class DeveloperMenuViewController: BaseViewController {
     private let sessionManager: SessionManager
     private let helloWorldProvider: HelloWorldProvider
 
-    private let defaultsStore: DefaultsStorable
+    private let defaultsStore: DefaultsStoring
 
     init(viewModel: DeveloperMenuViewModel,
          sessionManager: SessionManager,
          helloWorldProvider: HelloWorldProvider,
-         defaultsStore: DefaultsStorable = UserDefaults.standard) {
+         defaultsStore: DefaultsStoring = UserDefaults.standard) {
         self.viewModel = viewModel
         self.sessionManager = sessionManager
         self.helloWorldProvider = helloWorldProvider

@@ -1,9 +1,11 @@
+import Foundation
 import LocalAuthenticationWrapper
 import SecureStore
 
 final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     let v12AccessControlEncryptedSecureStore: SecureStorable
     let v13AccessControlEncryptedSecureStore: SecureStorable
+    let migrationStore: DefaultsStoring
     let analyticsService: OneLoginAnalyticsService
     
     convenience init(analyticsService: OneLoginAnalyticsService) throws {
@@ -18,6 +20,7 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
                     localAuthStrings: .oneLogin
                 )
             ),
+            migrationStore: UserDefaults.standard,
             analyticsService: analyticsService
         )
     }
@@ -25,10 +28,12 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
     init(
         v12AccessControlEncryptedSecureStore: SecureStorable,
         v13AccessControlEncryptedSecureStore: SecureStorable,
+        migrationStore: DefaultsStoring,
         analyticsService: OneLoginAnalyticsService
     ) {
         self.v12AccessControlEncryptedSecureStore = v12AccessControlEncryptedSecureStore
         self.v13AccessControlEncryptedSecureStore = v13AccessControlEncryptedSecureStore
+        self.migrationStore = migrationStore
         self.analyticsService = analyticsService
     }
     
@@ -45,19 +50,23 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
             item: item,
             itemName: itemName
         )
+        migrationStore.set(true, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
     }
     
     func readItem(itemName: String = OLString.storedTokens) throws -> String {
-        do {
-            let v12LoginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
-            // overwrite the token which exists in local storage
-            try saveItem(item: v12LoginTokens)
-            // log migrated secure store instances
-            analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
-            return v12LoginTokens
-        } catch {
-            return try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+        guard migrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13) else {
+            do {
+                let v12LoginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+                // overwrite the token which exists in local storage
+                try saveItem(item: v12LoginTokens)
+                // log migrated secure store instances
+                analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
+                return v12LoginTokens
+            } catch {
+                return try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+            }
         }
+        return try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
     }
     
     func deleteItem(itemName: String = OLString.storedTokens) {

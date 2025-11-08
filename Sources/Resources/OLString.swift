@@ -22,8 +22,10 @@ enum OLString {
     static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
 
     /// Unprotected store keys
-    static let returningUser     = UnprotectedStoreKeyString.returningUser.rawValue
-    static let accessTokenExpiry = UnprotectedStoreKeyString.accessTokenExpiry.rawValue
+    static let accessTokenExpiry                        = UnprotectedStoreKeyString.accessTokenExpiry.rawValue
+    static let returningUser                            = UnprotectedStoreKeyString.returningUser.rawValue
+    static let migratedAccessControlEncryptedStoreToV13 = UnprotectedStoreKeyString.migratedAccessControlEncryptedStoreToV13.rawValue
+    static let migratedEncryptedStoreToV13              = UnprotectedStoreKeyString.migratedEncryptedStoreToV13.rawValue
     
     /// Encrypted store keys
     static let refreshTokenExpiry  = EncryptedStoreKeyString.refreshTokenExpiry.rawValue
@@ -35,6 +37,8 @@ enum OLString {
     enum UnprotectedStoreKeyString: String, CaseIterable {
         case accessTokenExpiry
         case returningUser
+        case migratedAccessControlEncryptedStoreToV13
+        case migratedEncryptedStoreToV13
     }
     
     enum EncryptedStoreKeyString: String, CaseIterable {
