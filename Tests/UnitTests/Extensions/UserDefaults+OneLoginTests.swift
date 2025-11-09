@@ -17,11 +17,11 @@ struct UserDefaultsTests: ~Copyable {
             forKey: OLString.returningUser
         )
         userDefaults.set(
-            OLString.accessTokenExpiry,
+            OLString.migratedEncryptedStoreToV13,
             forKey: OLString.migratedEncryptedStoreToV13
         )
         userDefaults.set(
-            OLString.returningUser,
+            OLString.migratedAccessControlEncryptedStoreToV13,
             forKey: OLString.migratedAccessControlEncryptedStoreToV13
         )
     }
