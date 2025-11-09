@@ -86,6 +86,7 @@ struct EncryptedSecureStoreManagerTests {
         let item = try sut.readItem(itemName: OLString.persistentSessionID)
         
         #expect(item == "testItem")
+        #expect(mockMigrationStore.bool(forKey: OLString.migratedEncryptedStoreToV13))
     }
     
     @Test("read item returns the v13 if value has been migrated")

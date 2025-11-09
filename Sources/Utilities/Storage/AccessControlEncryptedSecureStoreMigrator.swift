@@ -64,7 +64,9 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
                 analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
                 return v12LoginTokens
             } catch {
-                return try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+                let v12LoginTokens = try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+                migrationStore.set(true, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
+                return v12LoginTokens
             }
         }
         return try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)

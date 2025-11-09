@@ -87,6 +87,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         let item = try sut.readItem()
         
         #expect(item == "testItem")
+        #expect(mockMigrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13))
     }
     
     @Test("read item returns the v13 if value has been migrated")

@@ -58,7 +58,9 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
                 analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
                 return v12Item
             } catch {
-                return try v13EncryptedSecureStore.readItem(itemName: itemName)
+                let v12Item = try v13EncryptedSecureStore.readItem(itemName: itemName)
+                migrationStore.set(true, forKey: OLString.migratedEncryptedStoreToV13)
+                return v12Item
             }
         }
         return try v13EncryptedSecureStore.readItem(itemName: itemName)
