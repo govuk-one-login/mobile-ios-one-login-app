@@ -127,6 +127,14 @@ struct EncryptedSecureStoreManagerTests {
         }
     }
     
+    @Test("delete deletes both stores")
+    func delete() throws {
+        try sut.delete()
+        
+        #expect(mockV12EncryptedSecureStore.didCallDeleteStore)
+        #expect(mockV13EncryptedSecureStore.didCallDeleteStore)
+    }
+    
     @Test("clearSessionData deletes items from both stores")
     func clearSessionData() throws {
         try mockV13EncryptedSecureStore.saveItem(

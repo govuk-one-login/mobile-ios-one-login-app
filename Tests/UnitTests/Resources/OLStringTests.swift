@@ -15,6 +15,8 @@ final class OLStringTests: XCTestCase {
         XCTAssertEqual(OLString.storedTokens, "storedTokens")
         XCTAssertEqual(OLString.persistentSessionID, "persistentSessionID")
         XCTAssertEqual(OLString.returningUser, "returningUser")
+        XCTAssertEqual(OLString.migratedEncryptedStoreToV13, "migratedEncryptedStoreToV13")
+        XCTAssertEqual(OLString.migratedAccessControlEncryptedStoreToV13, "migratedAccessControlEncryptedStoreToV13")
 
         // Universal Link Component
         XCTAssertEqual(OLString.redirect, "redirect")

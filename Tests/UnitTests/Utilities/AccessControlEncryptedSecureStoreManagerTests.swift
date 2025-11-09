@@ -128,6 +128,14 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         }
     }
     
+    @Test("delete deletes both stores")
+    func delete() throws {
+        try sut.delete()
+        
+        #expect(mockV12AccessControlEncryptedSecureStore.didCallDeleteStore)
+        #expect(mockV13AccessControlEncryptedSecureStore.didCallDeleteStore)
+    }
+    
     @Test("clearSessionData deletes items from both stores")
     func clearSessionData() throws {
         try mockV12AccessControlEncryptedSecureStore.saveItem(
