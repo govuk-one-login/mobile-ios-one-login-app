@@ -7,6 +7,15 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     let migrationStore: DefaultsStoring
     let analyticsService: OneLoginAnalyticsService
     
+    var hasMigrated: Bool {
+        get {
+            migrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13)
+        }
+        set {
+            migrationStore.set(true, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
+        }
+    }
+    
     convenience init(analyticsService: OneLoginAnalyticsService) {
         self.init(
             v12EncryptedSecureStore: .v12EncryptedStore(),
@@ -42,11 +51,11 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
             itemName: itemName
         )
         // store "saved in new store" for use next time user needs to read from store
-        migrationStore.set(true, forKey: OLString.migratedEncryptedStoreToV13)
+        hasMigrated = true
     }
     
     func readItem(itemName: String) throws -> String {
-        guard migrationStore.bool(forKey: OLString.migratedEncryptedStoreToV13) else {
+        guard hasMigrated else {
             do {
                 let item = try v12EncryptedSecureStore.readItem(itemName: itemName)
                 // overwrite the token which exists in local storage
@@ -59,7 +68,7 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
                 return item
             } catch {
                 let item = try v13EncryptedSecureStore.readItem(itemName: itemName)
-                migrationStore.set(true, forKey: OLString.migratedEncryptedStoreToV13)
+                hasMigrated = true
                 return item
             }
         }
