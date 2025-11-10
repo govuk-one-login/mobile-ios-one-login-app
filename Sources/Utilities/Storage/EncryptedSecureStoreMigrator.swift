@@ -12,7 +12,7 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
             migrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13)
         }
         set {
-            migrationStore.set(true, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
+            migrationStore.set(newValue, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
         }
     }
     
