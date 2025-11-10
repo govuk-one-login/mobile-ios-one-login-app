@@ -74,7 +74,7 @@ struct EncryptedSecureStoreManagerTests {
         _ = try sut.readItem(itemName: OLString.persistentSessionID)
         
         #expect(mockAnalyticsService.crashesLogged.count == 1)
-        #expect(mockAnalyticsService.crashesLogged.first == SecureStoreMigrationError.migratedFromv12Tov13 as NSError)
+        #expect(mockAnalyticsService.crashesLogged.first == SecureStoreMigrationError.migratedFromV12ToV13 as NSError)
     }
     
     @Test("read item returns the v13 value if no v12 value exists")

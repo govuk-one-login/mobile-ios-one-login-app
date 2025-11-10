@@ -61,7 +61,7 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
                 // overwrite the token which exists in local storage
                 try saveItem(item: v12LoginTokens)
                 // log migrated secure store instances
-                analyticsService.logCrash(SecureStoreMigrationError.migratedFromv12Tov13)
+                analyticsService.logCrash(SecureStoreMigrationError.migratedFromV12ToV13)
                 return v12LoginTokens
             } catch {
                 let v12LoginTokens = try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
