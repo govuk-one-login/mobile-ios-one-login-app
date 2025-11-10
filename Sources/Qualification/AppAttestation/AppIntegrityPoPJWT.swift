@@ -1,22 +1,20 @@
 import Foundation.NSDate
+import TokenGeneration
 
-enum AppIntegrityPoPJWT {
-    case headers, payload
+struct AppIntegrityPoPJWT: JWTContent {
+    var header: [String: Any] {
+        [
+            "alg": "ES256",
+            "typ": "oauth-client-attestation-pop+jwt"
+        ]
+    }
     
-    func callAsFunction() -> [String: Any] {
-        switch self {
-        case .headers:
-            [
-                "alg": "ES256",
-                "typ": "oauth-client-attestation-pop+jwt"
-            ]
-        case .payload:
-            [
-                "iss": AppEnvironment.stsClientID,
-                "aud": AppEnvironment.stsBaseURL.absoluteString,
-                "exp": Int(Date.now.timeIntervalSince1970) + 180,
-                "jti": UUID().uuidString
-            ]
-        }
+    var payload: [String: Any] {
+        [
+            "iss": AppEnvironment.stsClientID,
+            "aud": AppEnvironment.stsBaseURL.absoluteString,
+            "exp": Int(Date.now.timeIntervalSince1970) + 180,
+            "jti": UUID().uuidString
+        ]
     }
 }

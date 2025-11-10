@@ -5,12 +5,12 @@ import Testing
 struct AppIntegrityDPoPJWTTests {
     @Test("Initialise header from value")
     func initialiseJWTHeader() {
-        let header = AppIntegrityDPoPJWT.headers(
+        let header = AppIntegrityDPoPJWT(
             jwk: [
                 "test_key_1": "test_value_1",
                 "test_key_2": "test_value_2"
             ]
-        )()
+        ).header
         
         #expect(header["alg"] as? String == "ES256")
         #expect(header["typ"] as? String == "dpop+jwt")
@@ -22,8 +22,8 @@ struct AppIntegrityDPoPJWTTests {
     
     @Test("Initialise payload from value")
     func initialiseJWTPayload() {
-        let payload = AppIntegrityDPoPJWT.payload()
-        let expiryDate = Int(Date().timeIntervalSince1970) + 180
+        let payload = AppIntegrityDPoPJWT(jwk: [:]).payload
+        let expiryDate = Int(Date().timeIntervalSince1970)
         
         #expect(payload["htm"] as? String == "POST")
         #expect(payload["htu"] as? String == AppEnvironment.stsToken.absoluteString)

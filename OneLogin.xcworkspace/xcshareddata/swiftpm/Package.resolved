@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "7b538750e13d7710d7315511d7cabaee9b8da694",
-        "version" : "3.3.0"
+        "revision" : "854423afb6600ee31470c3bc9cc775ce8c003421",
+        "version" : "3.3.1"
       }
     },
     {
