@@ -212,11 +212,12 @@ final class PersistentSessionManager: SessionManager {
         } else {
             user.send(nil)
         }
-        
-        try await tokenExchangeManager.getUpdatedTokens(
-            refreshToken: keys.refreshToken,
-            integrityHeaders: try FirebaseAppIntegrityService.firebaseAppCheck()
-        )
+        if let refreshToken = keys.refreshToken {
+            _ = try await tokenExchangeManager.getUpdatedTokens(
+                refreshToken: refreshToken,
+                integrityHeaders: try FirebaseAppIntegrityService.firebaseAppCheck()
+            )
+        }
         
         tokenProvider.update(subjectToken: keys.accessToken)
     }
