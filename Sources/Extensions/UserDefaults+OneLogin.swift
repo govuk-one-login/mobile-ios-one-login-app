@@ -3,7 +3,8 @@ import Foundation
 
 extension UserDefaults: SessionBoundData {
     func clearSessionData() throws {
-        removeObject(forKey: OLString.returningUser)
-        removeObject(forKey: OLString.accessTokenExpiry)
+        OLString.UnprotectedStoreKeyString.allCases.forEach {
+            removeObject(forKey: $0.rawValue)
+        }
     }
 }

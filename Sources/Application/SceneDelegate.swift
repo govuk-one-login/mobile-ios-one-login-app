@@ -22,11 +22,11 @@ final class SceneDelegate: UIResponder,
     private lazy var networkClient = NetworkClient()
     private lazy var sessionManager = {
         do {
-            let accessControlEncryptedSecureStoreManager = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
-            let encryptedSecureStoreManager = EncryptedSecureStoreManager(analyticsService: analyticsService)
+            let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
+            let encryptedSecureStoreMigrator = EncryptedSecureStoreMigrator(analyticsService: analyticsService)
             let manager = PersistentSessionManager(
-                accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager,
-                encryptedSecureStoreManager: encryptedSecureStoreManager
+                accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreMigrator,
+                encryptedSecureStoreManager: encryptedSecureStoreMigrator
             )
             networkClient.authorizationProvider = manager.tokenProvider
             
@@ -35,8 +35,8 @@ final class SceneDelegate: UIResponder,
                     WalletSessionData(),
                     WalletAvailabilityService(),
                     analyticsPreferenceStore,
-                    accessControlEncryptedSecureStoreManager,
-                    encryptedSecureStoreManager,
+                    accessControlEncryptedSecureStoreMigrator,
+                    encryptedSecureStoreMigrator,
                     UserDefaults.standard
                 ]
             )

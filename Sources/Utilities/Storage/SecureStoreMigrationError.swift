@@ -2,5 +2,5 @@ import Foundation
 import SecureStore
 
 enum SecureStoreMigrationError: Error {
-    case migratedFromv12Tov13
+    case migratedFromV12ToV13
 }

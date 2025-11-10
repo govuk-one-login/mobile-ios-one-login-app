@@ -16,6 +16,14 @@ struct UserDefaultsTests: ~Copyable {
             OLString.returningUser,
             forKey: OLString.returningUser
         )
+        userDefaults.set(
+            OLString.migratedEncryptedStoreToV13,
+            forKey: OLString.migratedEncryptedStoreToV13
+        )
+        userDefaults.set(
+            OLString.migratedAccessControlEncryptedStoreToV13,
+            forKey: OLString.migratedAccessControlEncryptedStoreToV13
+        )
     }
     
     deinit {
@@ -26,8 +34,12 @@ struct UserDefaultsTests: ~Copyable {
     func callDelete() throws {
         #expect(userDefaults.object(forKey: OLString.accessTokenExpiry) as? String == OLString.accessTokenExpiry)
         #expect(userDefaults.object(forKey: OLString.returningUser) as? String == OLString.returningUser)
+        #expect(userDefaults.object(forKey: OLString.migratedEncryptedStoreToV13) as? String == OLString.migratedEncryptedStoreToV13)
+        #expect(userDefaults.object(forKey: OLString.migratedAccessControlEncryptedStoreToV13) as? String == OLString.migratedAccessControlEncryptedStoreToV13)
         try userDefaults.clearSessionData()
         #expect(userDefaults.object(forKey: OLString.accessTokenExpiry) == nil)
         #expect(userDefaults.object(forKey: OLString.returningUser) == nil)
+        #expect(userDefaults.object(forKey: OLString.migratedEncryptedStoreToV13) == nil)
+        #expect(userDefaults.object(forKey: OLString.migratedAccessControlEncryptedStoreToV13) == nil)
     }
 }
