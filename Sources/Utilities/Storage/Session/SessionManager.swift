@@ -35,7 +35,7 @@ protocol SessionManager: AnyObject, UserProvider {
     ) async throws
 
     /// Resumes an existing session by restoring tokens from on-device storage
-    func resumeSession() throws
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws
 
     /// Saves session details by storing tokens in on-device storage
     func saveSession() throws

@@ -1,4 +1,5 @@
 import Authentication
+import AppIntegrity
 import Combine
 import Foundation
 import LocalAuthenticationWrapper
@@ -186,18 +187,23 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
-    func resumeSession() throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws {
         guard hasNotRemovedLocalAuth else {
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
         let keys = try storeKeyService.fetch()
-                
+        
         if let idToken = keys.idToken {
             user.send(try IDTokenUserRepresentation(idToken: idToken))
         } else {
             user.send(nil)
         }
+        
+        try await tokenExchangeManager.getUpdatedTokens(
+            refreshToken: keys.refreshToken,
+            integrityHeaders: try FirebaseAppIntegrityService.firebaseAppCheck()
+        )
         
         tokenProvider.update(subjectToken: keys.accessToken)
     }
