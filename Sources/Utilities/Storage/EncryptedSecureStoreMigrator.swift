@@ -9,10 +9,10 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     
     var hasMigrated: Bool {
         get {
-            migrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13)
+            migrationStore.bool(forKey: OLString.migratedEncryptedStoreToV13)
         }
         set {
-            migrationStore.set(newValue, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
+            migrationStore.set(newValue, forKey: OLString.migratedEncryptedStoreToV13)
         }
     }
     
