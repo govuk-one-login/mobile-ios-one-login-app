@@ -48,19 +48,19 @@ final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
     func readItem(itemName: String) throws -> String {
         guard migrationStore.bool(forKey: OLString.migratedEncryptedStoreToV13) else {
             do {
-                let v12Item = try v12EncryptedSecureStore.readItem(itemName: itemName)
+                let item = try v12EncryptedSecureStore.readItem(itemName: itemName)
                 // overwrite the token which exists in local storage
                 try saveItem(
-                    item: v12Item,
+                    item: item,
                     itemName: itemName
                 )
                 // log migrated secure store instances
                 analyticsService.logCrash(SecureStoreMigrationError.migratedFromV12ToV13)
-                return v12Item
+                return item
             } catch {
-                let v12Item = try v13EncryptedSecureStore.readItem(itemName: itemName)
+                let item = try v13EncryptedSecureStore.readItem(itemName: itemName)
                 migrationStore.set(true, forKey: OLString.migratedEncryptedStoreToV13)
-                return v12Item
+                return item
             }
         }
         return try v13EncryptedSecureStore.readItem(itemName: itemName)

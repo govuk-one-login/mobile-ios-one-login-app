@@ -57,16 +57,16 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBo
     func readItem(itemName: String = OLString.storedTokens) throws -> String {
         guard migrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13) else {
             do {
-                let v12LoginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+                let loginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)
                 // overwrite the token which exists in local storage
-                try saveItem(item: v12LoginTokens)
+                try saveItem(item: loginTokens)
                 // log migrated secure store instances
                 analyticsService.logCrash(SecureStoreMigrationError.migratedFromV12ToV13)
-                return v12LoginTokens
+                return loginTokens
             } catch {
-                let v12LoginTokens = try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
+                let loginTokens = try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
                 migrationStore.set(true, forKey: OLString.migratedAccessControlEncryptedStoreToV13)
-                return v12LoginTokens
+                return loginTokens
             }
         }
         return try v13AccessControlEncryptedSecureStore.readItem(itemName: itemName)
