@@ -83,6 +83,7 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
+    @MainActor
     func evaluateUser() async {
         guard appInfoState == .qualified else {
             // Do not continue with local auth unless app info qualifies
@@ -98,10 +99,8 @@ final class AppQualifyingService: QualifyingService {
             userState = .loggedIn
         case .saved:
             do {
-                try await MainActor.run {
-                    try sessionManager.resumeSession()
-                    userState = .loggedIn
-                }
+                try await sessionManager.resumeSession(tokenExchangeManager: RefreshTokenExchangeManager())
+                userState = .loggedIn
             } catch SecureStoreError.biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
                 //
