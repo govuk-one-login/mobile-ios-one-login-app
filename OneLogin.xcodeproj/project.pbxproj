@@ -175,6 +175,7 @@
 		C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */; };
 		C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */; };
 		C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */; };
+		C868EF3C2EC247B9005E6A45 /* RefreshTokenExchanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C868EF3B2EC247B2005E6A45 /* RefreshTokenExchanger.swift */; };
 		C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */; };
 		C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */; };
 		C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */; };
@@ -491,6 +492,7 @@
 		C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifier.swift; sourceTree = "<group>"; };
 		C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifierTests.swift; sourceTree = "<group>"; };
+		C868EF3B2EC247B2005E6A45 /* RefreshTokenExchanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenExchanger.swift; sourceTree = "<group>"; };
 		C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalButtonIconViewModel.swift; sourceTree = "<group>"; };
 		C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPreferenceViewModel.swift; sourceTree = "<group>"; };
 		C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewControllerTests.swift; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 		7C47BE142C787FD100DCE5D2 /* Session */ = {
 			isa = PBXGroup;
 			children = (
+				C868EF3B2EC247B2005E6A45 /* RefreshTokenExchanger.swift */,
 				7CA7195E2C846AD500973585 /* Authorization */,
 				7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */,
 				C8C057DD2EA190C200A77DE3 /* RefreshTokenRepresentation.swift */,
@@ -2257,6 +2260,7 @@
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
 				C32436CF2DCB6E7D00CC3FCC /* PurposeTileViewModel.swift in Sources */,
 				C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */,
+				C868EF3C2EC247B9005E6A45 /* RefreshTokenExchanger.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
