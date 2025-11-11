@@ -152,7 +152,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am not logged in
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
@@ -173,7 +173,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am not logged in
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
@@ -203,7 +203,7 @@ extension PersistentSessionManagerTests {
         // WHEN I start a session
         do {
             let loginSession = await MockLoginSession(window: UIWindow())
-            try await sut.startSession(
+            try await sut.startAuthSession(
                 loginSession,
                 using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
             )
@@ -225,7 +225,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
@@ -240,7 +240,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am not logged in
         let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
@@ -265,7 +265,7 @@ extension PersistentSessionManagerTests {
         )
         // WHEN I re-authenticate
         let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
@@ -282,12 +282,12 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // WHEN I attempt to save my session
-        try sut.saveSession()
+        try sut.saveAuthSession()
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
                                                                      OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
@@ -303,12 +303,12 @@ extension PersistentSessionManagerTests {
         )
         // AND I have logged in
         let loginSession = await MockLoginSession(window: UIWindow())
-        try await sut.startSession(
+        try await sut.startAuthSession(
             loginSession,
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // WHEN I attempt to save my session
-        try sut.saveSession()
+        try sut.saveAuthSession()
         // THEN the secure store manager is not refreshed
         XCTAssertFalse(mockAccessControlEncryptedSecureStoreMigrator.didCallClearSessionData)
         XCTAssertFalse(mockEncryptedSecureStoreMigrator.didCallClearSessionData)

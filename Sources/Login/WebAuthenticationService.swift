@@ -22,7 +22,7 @@ final class WebAuthenticationService: AuthenticationService {
     
     func startWebSession() async throws {
         do {
-            try await sessionManager.startSession(
+            try await sessionManager.startAuthSession(
                 session,
                 using: LoginSessionConfiguration.oneLoginSessionConfiguration
             )

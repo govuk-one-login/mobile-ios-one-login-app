@@ -41,7 +41,7 @@ final class MockSessionManager: SessionManager {
         self.sessionState = sessionState
     }
 
-    func startSession(
+    func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) throws {
