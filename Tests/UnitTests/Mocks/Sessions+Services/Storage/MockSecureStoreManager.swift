@@ -1,23 +1,16 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStoreService: SecureStorable, SessionBoundData {
+final class MockSecureStoreManager: SecureStorable, SessionBoundData {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
     var didCallClearSessionData = false
-    
+
     var errorFromSaveItem: Error?
     var errorFromReadItem: Error?
-    var errorFromClearSessionData: Error?
+    var errorFromDeleteItem: Error?
     var returnFromCheckItemExists = true
-    
-    func checkItemExists(itemName: String) -> Bool {
-        if savedItems[itemName] != nil {
-            return true
-        }
-        return false
-    }
-    
+
     func saveItem(item: String, itemName: String) throws {
         if let errorFromSaveItem {
             throw errorFromSaveItem
@@ -25,7 +18,7 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             savedItems[itemName] = item
         }
     }
-    
+
     func readItem(itemName: String) throws -> String {
         if let errorFromReadItem {
             throw errorFromReadItem
@@ -43,13 +36,16 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     
     func delete() throws {
         didCallDeleteStore = true
-        savedItems = [:]
+        if let errorFromDeleteItem {
+            throw errorFromDeleteItem
+        }
     }
     
-    func clearSessionData() throws {
-        if let errorFromClearSessionData {
-            throw errorFromClearSessionData
+    func checkItemExists(itemName: String) -> Bool {
+        if savedItems[itemName] != nil {
+            return true
         }
+        return false
     }
     
     func clearSessionData() {
