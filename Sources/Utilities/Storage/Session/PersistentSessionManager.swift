@@ -8,7 +8,7 @@ final class PersistentSessionManager: SessionManager {
     private let accessControlEncryptedStore: SecureStorable
     private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
-    private let unprotectedStore: DefaultsStorable
+    private let unprotectedStore: DefaultsStoring
     
     let localAuthentication: LocalAuthManaging
     let tokenProvider: TokenHolder
@@ -35,7 +35,7 @@ final class PersistentSessionManager: SessionManager {
     init(
         accessControlEncryptedStore: SecureStorable,
         encryptedStore: SecureStorable,
-        unprotectedStore: DefaultsStorable,
+        unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
@@ -92,8 +92,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var isReturningUser: Bool {
-        unprotectedStore.value(forKey: OLString.returningUser) as? Bool
-        ?? false
+        unprotectedStore.bool(forKey: OLString.returningUser)
     }
     
     var persistentID: String? {

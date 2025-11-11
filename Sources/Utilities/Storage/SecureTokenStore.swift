@@ -20,7 +20,7 @@ public protocol TokenStore {
 
 final class SecureTokenStore: TokenStore {
     private let accessControlEncryptedStore: SecureStorable
-
+    
     init(accessControlEncryptedStore: SecureStorable) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
@@ -48,7 +48,7 @@ final class SecureTokenStore: TokenStore {
             itemName: OLString.storedTokens
         )
     }
-
+    
     func deleteTokens() {
         accessControlEncryptedStore.deleteItem(itemName: OLString.storedTokens)
     }
