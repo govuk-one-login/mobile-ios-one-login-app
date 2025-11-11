@@ -26,8 +26,8 @@ final class SceneDelegate: UIResponder,
             let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
             let encryptedSecureStoreMigrator = EncryptedSecureStoreMigrator(analyticsService: analyticsService)
             let manager = PersistentSessionManager(
-                accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreMigrator,
-                encryptedSecureStoreManager: encryptedSecureStoreMigrator
+                accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
+                encryptedStore: encryptedSecureStoreMigrator
             )
             networkClient.authorizationProvider = manager.tokenProvider
             

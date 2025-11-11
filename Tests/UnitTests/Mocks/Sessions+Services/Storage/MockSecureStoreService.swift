@@ -50,9 +50,6 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         if let errorFromClearSessionData {
             throw errorFromClearSessionData
         }
-    }
-    
-    func clearSessionData() {
         didCallClearSessionData = true
         savedItems = [:]
     }
