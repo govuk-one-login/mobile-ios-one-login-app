@@ -1,5 +1,5 @@
-import Foundation
 import AppIntegrity
+import Foundation
 
 enum RefreshExchangeError: Error {
     case cantExtractAppIntegrityHeaders

@@ -11,7 +11,7 @@ final class MockAuthenticationService: AuthenticationService {
     }
     
     func startWebSession() async throws {
-        try await sessionManager.startSession(
+        try await sessionManager.startAuthSession(
             MockLoginSession(window: UIWindow())) { _ in
                 try await MockLoginSessionConfiguration.oneLoginSessionConfiguration()
             }
