@@ -1,5 +1,5 @@
-import Authentication
 import AppIntegrity
+import Authentication
 import Combine
 import Foundation
 import LocalAuthenticationWrapper
@@ -105,7 +105,7 @@ final class PersistentSessionManager: SessionManager {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
-    func startSession(
+    func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
@@ -154,12 +154,12 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        try saveSession()
+        try saveAuthSession()
         
         NotificationCenter.default.post(name: .enrolmentComplete)
     }
     
-    func saveSession() throws {
+    func saveAuthSession() throws {
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
             return
@@ -174,24 +174,9 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
-        if let refreshToken = tokenResponse.refreshToken {
-            try encryptedStore.saveDate(
-                id: OLString.refreshTokenExpiry,
-                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
-            )
-        }
-        
-        let tokens = StoredTokens(
-            idToken: tokenResponse.idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken
-        )
-        
-        try storeKeyService.save(tokens: tokens)
-        
-        unprotectedStore.set(
-            tokenResponse.expiryDate,
-            forKey: OLString.accessTokenExpiry
+        try saveLoginTokens(
+            tokenResponse: tokenResponse,
+            idToken: tokenResponse.idToken
         )
         
         unprotectedStore.set(
@@ -200,22 +185,59 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
+    private func saveLoginTokens(
+        tokenResponse: TokenResponse,
+        idToken: String?
+    ) throws {
+        if let refreshToken = tokenResponse.refreshToken {
+            try encryptedStore.saveDate(
+                id: OLString.refreshTokenExpiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
+            )
+        }
+        
+        let tokens = StoredTokens(
+            idToken: idToken,
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken
+        )
+        
+        try storeKeyService.save(tokens: tokens)
+        
+        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        
+        unprotectedStore.set(
+            tokenResponse.expiryDate,
+            forKey: OLString.accessTokenExpiry
+        )
+    }
+    
     func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws {
         guard hasNotRemovedLocalAuth else {
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
+        guard persistentID != nil else {
+            try await clearAllSessionData(restartLoginFlow: true)
+            return
+        }
+        
         let keys = try storeKeyService.fetch()
         
-        if let idToken = keys.idToken {
-            user.send(try IDTokenUserRepresentation(idToken: idToken))
-        } else {
-            user.send(nil)
+        guard let idToken = keys.idToken else {
+            try await clearAllSessionData(restartLoginFlow: true)
+            return
         }
+        
         if let refreshToken = keys.refreshToken {
-            _ = try await tokenExchangeManager.getUpdatedTokens(
+            let tokenResponse = try await tokenExchangeManager.getUpdatedTokens(
                 refreshToken: refreshToken,
-                integrityHeaders: try FirebaseAppIntegrityService.firebaseAppCheck()
+                appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+            )
+            
+            try saveLoginTokens(
+                tokenResponse: tokenResponse,
+                idToken: idToken
             )
         }
         
