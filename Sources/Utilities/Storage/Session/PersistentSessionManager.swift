@@ -122,8 +122,7 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.sessionMismatch
         }
         
-        let response = try await session
-            .performLoginFlow(configuration: configuration(persistentID))
+        let response = try await session.performLoginFlow(configuration: configuration(persistentID))
         tokenResponse = response
         
         // update curent state
@@ -162,10 +161,8 @@ final class PersistentSessionManager: SessionManager {
         }
         
         try saveLoginTokens(
-            idToken: tokenResponse.idToken,
-            accessToken: tokenResponse.accessToken,
-            refreshToken: tokenResponse.refreshToken,
-            expiryDate: tokenResponse.expiryDate
+            tokenResponse: tokenResponse,
+            idToken: tokenResponse.idToken
         )
         
         unprotectedStore.set(
@@ -175,12 +172,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private func saveLoginTokens(
-        idToken: String?,
-        accessToken: String,
-        refreshToken: String?,
-        expiryDate: Date
+        tokenResponse: TokenResponse,
+        idToken: String?
     ) throws {
-        if let refreshToken {
+        if let refreshToken = tokenResponse.refreshToken {
             try encryptedStore.saveDate(
                 id: OLString.refreshTokenExpiry,
                 try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
@@ -189,13 +184,13 @@ final class PersistentSessionManager: SessionManager {
         
         let tokens = StoredTokens(
             idToken: idToken,
-            refreshToken: refreshToken,
-            accessToken: accessToken
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken
         )
         
         try storeKeyService.save(tokens: tokens)
         
-        tokenProvider.update(subjectToken: accessToken)
+        tokenProvider.update(subjectToken: tokenResponse.accessToken)
         
         unprotectedStore.set(
             expiryDate,
@@ -227,10 +222,8 @@ final class PersistentSessionManager: SessionManager {
             )
             
             try saveLoginTokens(
-                idToken: idToken,
-                accessToken: tokenResponse.accessToken,
-                refreshToken: tokenResponse.refreshToken,
-                expiryDate: tokenResponse.expiryDate
+                tokenResponse: tokenResponse,
+                idToken: idToken
             )
         }
         
