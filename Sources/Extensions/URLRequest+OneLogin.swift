@@ -49,34 +49,3 @@ extension URLRequest {
         return request
     }
 }
-
-struct RefreshTokenExchangeResponse: Decodable {
-    public let accessToken: String
-    public let refreshToken: String
-    public let expiryDate: Date
-    
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case refreshToken = "refresh_token"
-        case expiresIn = "expires_in"
-    }
-    
-    init(from decoder: any Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        accessToken = try values.decode(
-            String.self,
-            forKey: .accessToken
-        )
-        
-        refreshToken = try values.decode(
-            String.self,
-            forKey: .refreshToken
-        )
-
-        let expiresIn = try values.decode(
-            Double.self,
-            forKey: .expiresIn
-        )
-        expiryDate = Date(timeIntervalSinceNow: expiresIn)
-    }
-}
