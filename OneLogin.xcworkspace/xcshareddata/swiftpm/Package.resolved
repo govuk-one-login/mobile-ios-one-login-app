@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "f68210cfad0683bb8333993dda7f520c6dbe1043",
-        "version" : "2.3.1"
+        "branch" : "feature/dcmaw-16194-refresh-token-exchange",
+        "revision" : "da5f9c93c105486944d546cc129dff57af1ab867"
       }
     },
     {

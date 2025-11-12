@@ -56,7 +56,6 @@
 		7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */; };
 		7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */; };
 		7C9CEA6F2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9CEA6A2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift */; };
-		7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719612C846CA400973585 /* ServiceTokenResponse.swift */; };
 		7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */; };
 		7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719662C846E5100973585 /* TokenHolderTests.swift */; };
 		7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */; };
@@ -379,7 +378,6 @@
 		7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentSessionManagerTests.swift; sourceTree = "<group>"; };
 		7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+OneLogin.swift"; sourceTree = "<group>"; };
 		7C9CEA6A2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppIntegrityProvider+OneLoginTests.swift"; sourceTree = "<group>"; };
-		7CA719612C846CA400973585 /* ServiceTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceTokenResponse.swift; sourceTree = "<group>"; };
 		7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+AuthorizationTests.swift"; sourceTree = "<group>"; };
 		7CA719662C846E5100973585 /* TokenHolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
 		7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
@@ -906,7 +904,6 @@
 			isa = PBXGroup;
 			children = (
 				C80D77432E97C65500082040 /* AppFileManager.swift */,
-				7CA719612C846CA400973585 /* ServiceTokenResponse.swift */,
 				C8BADD212B8652F200385FE7 /* TokenHolder.swift */,
 			);
 			path = Authorization;
@@ -2271,7 +2268,6 @@
 				C851C0FF2D833A8B00FC8CA8 /* SDKConformances.swift in Sources */,
 				C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */,
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
-				7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */,
 				C868EF3E2EC24B9B005E6A45 /* URLRequest+OneLogin.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */,
 				C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */,
@@ -3899,8 +3895,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				branch = "feature/dcmaw-16194-refresh-token-exchange";
+				kind = branch;
 			};
 		};
 		C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */ = {

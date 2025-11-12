@@ -30,7 +30,7 @@ extension TokenHolder: AuthorizationProvider {
         try await exchangeToken(scope: scope).accessToken
     }
 
-    private func exchangeToken(scope: String) async throws -> ServiceTokenResponse {
+    private func exchangeToken(scope: String) async throws -> TokenResponse {
         guard let subjectToken else {
             throw TokenError.bearerNotPresent
         }
@@ -41,14 +41,10 @@ extension TokenHolder: AuthorizationProvider {
                 scope: scope
             )
         )
-        return try decodeServiceToken(data: serviceTokenResponse)
-    }
-
-    private func decodeServiceToken(data: Data) throws -> ServiceTokenResponse {
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         do {
-            return try jsonDecoder.decode(ServiceTokenResponse.self, from: data)
+            return try JSONDecoder()
+                .decode(TokenResponse.self, from: serviceTokenResponse)
         } catch {
             throw TokenError.unableToDecodeServiceTokenResponse
         }

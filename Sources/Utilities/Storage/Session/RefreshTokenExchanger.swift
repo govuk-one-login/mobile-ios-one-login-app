@@ -7,7 +7,7 @@ protocol TokenExchangeManaging {
     func getUpdatedTokens(
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
-    ) async throws -> RefreshTokenExchangeResponse
+    ) async throws -> TokenResponse
 }
 
 struct RefreshTokenExchangeManager: TokenExchangeManaging {
@@ -20,14 +20,14 @@ struct RefreshTokenExchangeManager: TokenExchangeManaging {
     func getUpdatedTokens(
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
-    ) async throws -> RefreshTokenExchangeResponse {
-        let exhcnageResponse = try await networkClient.makeRequest(
+    ) async throws -> TokenResponse {
+        let exchangeResponse = try await networkClient.makeRequest(
             .refreshTokenExchange(
                 token: refreshToken,
                 appIntegrityProvider: appIntegrityProvider
             )
         )
         return try JSONDecoder()
-            .decode(RefreshTokenExchangeResponse.self, from: exhcnageResponse)
+            .decode(TokenResponse.self, from: exchangeResponse)
     }
 }
