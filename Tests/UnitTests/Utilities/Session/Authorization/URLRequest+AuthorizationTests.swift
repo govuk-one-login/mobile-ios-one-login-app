@@ -3,7 +3,7 @@ import XCTest
 
 final class URLRequestTests: XCTestCase {
     func test_tokenExchange() throws {
-        let tokenRequest = URLRequest.tokenExchange(
+        let tokenRequest = URLRequest.serviceTokenExchange(
             subjectToken: "tesSubjectToken",
             scope: "testScope"
         )
