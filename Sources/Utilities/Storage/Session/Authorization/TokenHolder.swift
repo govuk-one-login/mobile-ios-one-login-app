@@ -34,12 +34,13 @@ extension TokenHolder: AuthorizationProvider {
         guard let subjectToken else {
             throw TokenError.bearerNotPresent
         }
-        let serviceTokenRequest = URLRequest.tokenExchange(
-            subjectToken: subjectToken,
-            scope: scope
-        )
         
-        let serviceTokenResponse = try await client.makeRequest(serviceTokenRequest)
+        let serviceTokenResponse = try await client.makeRequest(
+            .serviceTokenExchange(
+                subjectToken: subjectToken,
+                scope: scope
+            )
+        )
         return try decodeServiceToken(data: serviceTokenResponse)
     }
 

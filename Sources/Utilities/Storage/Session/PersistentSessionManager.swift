@@ -162,8 +162,10 @@ final class PersistentSessionManager: SessionManager {
         }
         
         try saveLoginTokens(
-            tokenResponse: tokenResponse,
-            idToken: tokenResponse.idToken
+            idToken: tokenResponse.idToken,
+            accessToken: tokenResponse.accessToken,
+            refreshToken: tokenResponse.refreshToken,
+            expiryDate: tokenResponse.expiryDate
         )
         
         unprotectedStore.set(
@@ -173,10 +175,12 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private func saveLoginTokens(
-        tokenResponse: TokenResponse,
-        idToken: String?
+        idToken: String?,
+        accessToken: String,
+        refreshToken: String?,
+        expiryDate: Date
     ) throws {
-        if let refreshToken = tokenResponse.refreshToken {
+        if let refreshToken {
             try encryptedStore.saveDate(
                 id: OLString.refreshTokenExpiry,
                 try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
@@ -185,16 +189,16 @@ final class PersistentSessionManager: SessionManager {
         
         let tokens = StoredTokens(
             idToken: idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken
+            refreshToken: refreshToken,
+            accessToken: accessToken
         )
         
         try storeKeyService.save(tokens: tokens)
         
-        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        tokenProvider.update(subjectToken: accessToken)
         
         unprotectedStore.set(
-            tokenResponse.expiryDate,
+            expiryDate,
             forKey: OLString.accessTokenExpiry
         )
     }
@@ -223,8 +227,10 @@ final class PersistentSessionManager: SessionManager {
             )
             
             try saveLoginTokens(
-                tokenResponse: tokenResponse,
-                idToken: idToken
+                idToken: idToken,
+                accessToken: tokenResponse.accessToken,
+                refreshToken: tokenResponse.refreshToken,
+                expiryDate: tokenResponse.expiryDate
             )
         }
         
