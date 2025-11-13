@@ -354,7 +354,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
     }
     
-    func test_endCurrentSession_clearsDataFromSession() throws {
+    func test_endCurrentSession_clearsDataFromSession() async throws {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
