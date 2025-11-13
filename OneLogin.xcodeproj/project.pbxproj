@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
-		1E4D9CAD2EC5FEBF00B2A8BB /* RefreshTokenExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4D9CAC2EC5FEB200B2A8BB /* RefreshTokenExchangeTests.swift */; };
 		1E88606F2EC4A9E700364BCF /* MockRefreshTokenExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
 		1E9411AB2ED4765800C76349 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1E9411AA2ED4765800C76349 /* AppIcon.icon */; };
@@ -322,7 +321,6 @@
 
 /* Begin PBXFileReference section */
 		1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
-		1E4D9CAC2EC5FEB200B2A8BB /* RefreshTokenExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenExchangeTests.swift; sourceTree = "<group>"; };
 		1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRefreshTokenExchangeManager.swift; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
 		1E9411AA2ED4765800C76349 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
@@ -881,7 +879,6 @@
 		7C81ADD42C78A8F500A73010 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				1E4D9CAC2EC5FEB200B2A8BB /* RefreshTokenExchangeTests.swift */,
 				7CA719632C846E2300973585 /* Authorization */,
 				7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */,
 			);
@@ -2329,7 +2326,6 @@
 				41FF35AF2B222CAC00419DB3 /* WebAuthenticationServiceTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* BiometricsEnrolmentViewModelTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
-				1E4D9CAD2EC5FEBF00B2A8BB /* RefreshTokenExchangeTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
