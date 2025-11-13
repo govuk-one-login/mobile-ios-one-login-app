@@ -9,9 +9,10 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var mockEncryptedStore: MockSecureStoreService!
     private var mockUnprotectedStore: MockDefaultsStore!
     private var mockLocalAuthentication: MockLocalAuthManager!
+    private var mockRefreshTokenExchangeManager: MockRefreshTokenExchangeManager!
     private var mockStoredTokens: StoredTokens!
-    private var mockRefreshTokenExchangeManager: TokenExchangeManaging!
     private var sut: PersistentSessionManager!
+    
     private var didCall_deleteSessionBoundData = false
     
     @MainActor
@@ -42,9 +43,10 @@ final class PersistentSessionManagerTests: XCTestCase {
         mockEncryptedStore = nil
         mockUnprotectedStore = nil
         mockLocalAuthentication = nil
+        mockRefreshTokenExchangeManager = nil
         mockStoredTokens = nil
-        
         sut = nil
+        
         didCall_deleteSessionBoundData = false
         
         super.tearDown()
@@ -308,7 +310,7 @@ extension PersistentSessionManagerTests {
         )
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                                     OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
         // AND the user can be returned to where they left off
         await fulfillment(of: [exp], timeout: 5)
@@ -327,7 +329,7 @@ extension PersistentSessionManagerTests {
         try sut.saveAuthSession()
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                                     OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
@@ -351,33 +353,32 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(mockEncryptedStore.didCallClearSessionData)
         // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
-                                                                     OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
+                                                       OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
     func test_resumeSession_restoresUserAndAccessToken() async throws {
+        // AND I am a returning user with local auth enabled
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
+        mockUnprotectedStore.savedData = [OLString.returningUser: true]
+        
+        // AND I have a persistentSessionID saved in secure store
+        try mockEncryptedStore.saveItem(
+            item: UUID().uuidString,
+            itemName: OLString.persistentSessionID
+        )
+        
+        // GIVEN I have tokens saved in secure store
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
-            refreshToken: MockJWTs.genericToken,
+            refreshToken: nil,
             accessToken: MockJWTs.genericToken
         )
-        // GIVEN I have tokens saved in secure store
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
-        // AND I am a returning user with local auth enabled
-        let date = Date.distantFuture
-        mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
-        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         // WHEN I return to the app and authenticate successfully
-        
-        let persistentSessionID = UUID().uuidString
-        try mockEncryptedStore.saveItem(
-            item: persistentSessionID,
-            itemName: OLString.persistentSessionID
-        )
-        
         try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
         // THEN my session data is re-populated
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
