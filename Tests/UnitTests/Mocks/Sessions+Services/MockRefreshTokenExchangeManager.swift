@@ -8,8 +8,8 @@ struct MockRefreshTokenExchangeManager: TokenExchangeManaging {
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
     ) async throws -> TokenResponse {
-        return  TokenResponse(accessToken: "access_token",
-                              refreshToken: "refresh_token",
+        return  TokenResponse(accessToken: MockJWTs.genericToken,
+                              refreshToken: MockJWTs.genericToken,
                               tokenType: "token_type",
                               expiryDate: Date.distantFuture)
     }
