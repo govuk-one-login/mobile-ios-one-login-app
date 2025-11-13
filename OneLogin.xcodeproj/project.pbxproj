@@ -3899,8 +3899,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
-				branch = "feature/dcmaw-16194-refresh-token-exchange";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
 			};
 		};
 		C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */ = {
