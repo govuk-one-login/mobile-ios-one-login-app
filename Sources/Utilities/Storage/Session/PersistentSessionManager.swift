@@ -231,13 +231,13 @@ final class PersistentSessionManager: SessionManager {
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         if let refreshToken = storedTokens.refreshToken {
-            let tokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+            let exchangetokenResponse = try await tokenExchangeManager.getUpdatedTokens(
                 refreshToken: refreshToken,
                 appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
             )
             
             try saveLoginTokens(
-                tokenResponse: tokenResponse,
+                tokenResponse: exchangetokenResponse,
                 idToken: idToken
             )
         }
