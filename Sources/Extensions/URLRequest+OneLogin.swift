@@ -2,7 +2,7 @@ import AppIntegrity
 import Foundation
 
 enum RefreshExchangeError: Error {
-    case cantExtractAppIntegrityHeaders
+    case cantExtractAppIntegrityHeaders // not used
 }
 
 extension URLRequest {
