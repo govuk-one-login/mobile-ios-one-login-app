@@ -740,8 +740,8 @@
 				C86B706D2B8F5EF200F4C9BF /* Firebase */,
 				C8BACAED2B4DCBE200530419 /* SupportingFiles */,
 				3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */,
-				C80D77412E97C62D00082040 /* BackupDisabler.swift */,
 				3BBF28E62A9F7D3200491BB1 /* Assets.xcassets */,
+				C80D77412E97C62D00082040 /* BackupDisabler.swift */,
 				C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */,
 				3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */,
 				C851FFA12BADA4B200A7B73D /* SceneLifecycle.swift */,
@@ -752,8 +752,8 @@
 		41279DD32BFDD9A700E16537 /* SignOut */ = {
 			isa = PBXGroup;
 			children = (
-				C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */,
 				41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */,
+				C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -804,8 +804,8 @@
 		41E1A90F2BE126910034B6C7 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				C8A9E57B2EA288CC0059DFDA /* MockJWTs.swift */,
 				D0BE24462BEBD2E400759529 /* MockJWKs.swift */,
+				C8A9E57B2EA288CC0059DFDA /* MockJWTs.swift */,
 				41E1A9122BE1278F0034B6C7 /* MockNetworkMonitor.swift */,
 				41E1A9142BE128610034B6C7 /* MockURLOpener.swift */,
 			);
@@ -846,10 +846,10 @@
 			children = (
 				7CA7195E2C846AD500973585 /* Authorization */,
 				7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */,
-				C8C057DD2EA190C200A77DE3 /* RefreshTokenRepresentation.swift */,
-				C8BADD2C2B87D9C800385FE7 /* PersistentSessionManager.swift */,
-				C8BADD282B87D89000385FE7 /* SessionManager.swift */,
 				7C47BE152C7883B800DCE5D2 /* JWTProtocols.swift */,
+				C8BADD2C2B87D9C800385FE7 /* PersistentSessionManager.swift */,
+				C8C057DD2EA190C200A77DE3 /* RefreshTokenRepresentation.swift */,
+				C8BADD282B87D89000385FE7 /* SessionManager.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -890,8 +890,8 @@
 		7C9CEA6D2EBA5ADE0074EB18 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C84960002EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift */,
 				7C9CEA6B2EBA5ADE0074EB18 /* CustomTypes */,
+				C84960002EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1224,10 +1224,10 @@
 		C8520C2C2AE2C546006790C1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				C8B3207A2B063CA100FECDF0 /* WebAuthenticationServiceTests.swift */,
 				C81ECB1F2B71768500AFC3A6 /* EnrolmentCoordinatorTests.swift */,
 				C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */,
 				C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */,
+				C8B3207A2B063CA100FECDF0 /* WebAuthenticationServiceTests.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1236,16 +1236,16 @@
 			isa = PBXGroup;
 			children = (
 				7C81ADD42C78A8F500A73010 /* Session */,
+				C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */,
+				C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
 				C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */,
 				C8F092E52DA472A20046F6EA /* OneLoginEnrolmentManagerTests.swift */,
 				C80DEC052EAFE1B800FF18B5 /* SecureAttestationStoreTests.swift */,
+				C829FAC72EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift */,
 				4193D2E42C89F48800073EB8 /* SecureTokenStoreTests.swift */,
 				C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */,
 				C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */,
-				C829FAC72EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift */,
-				C84960022EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift */,
-				C84960042EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1607,12 +1607,12 @@
 		C8BADD332B88CBBA00385FE7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */,
-				C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift */,
-				C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */,
 				7C47BE142C787FD100DCE5D2 /* Session */,
+				C8495FFA2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift */,
 				C8BADD2A2B87D8FD00385FE7 /* DefaultsStoring.swift */,
+				C8495FFC2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift */,
 				C80DEBDF2EAF7C0B00FF18B5 /* SecureAttestationStore.swift */,
+				C8495FFE2EBDFC030065CA40 /* SecureStoreMigrationError.swift */,
 				4193D2E22C89BB6100073EB8 /* SecureTokenStore.swift */,
 			);
 			path = Storage;
@@ -1629,9 +1629,9 @@
 		C8BADD352B88CC0100385FE7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				C80D77492E97C6DB00082040 /* MockFileManager.swift */,
 				C80D77472E97C6C400082040 /* MockBackupDisabler.swift */,
 				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
+				C80D77492E97C6DB00082040 /* MockFileManager.swift */,
 				C8BADD262B87AEEA00385FE7 /* MockSecureStoreService.swift */,
 				41C0F5B82C8F45DA0055C571 /* MockSecureTokenStore.swift */,
 				C8BADD2E2B889CB900385FE7 /* MockSessionManager.swift */,
@@ -1662,8 +1662,8 @@
 		C8BFE5E32CB5792F00FA9A35 /* SignOut */ = {
 			isa = PBXGroup;
 			children = (
-				C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */,
 				41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */,
+				C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -1710,8 +1710,8 @@
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				7C9CEA6D2EBA5ADE0074EB18 /* Extensions */,
 				C81ECB1E2B71767500AFC3A6 /* Application */,
+				7C9CEA6D2EBA5ADE0074EB18 /* Extensions */,
 				C8520C2C2AE2C546006790C1 /* Login */,
 				21FA1C4A2AE183830052136E /* Mocks */,
 				7CD66F822C90A880008513F4 /* Qualification */,
@@ -1790,11 +1790,11 @@
 			isa = PBXGroup;
 			children = (
 				D03B04D22BEE734900418C0B /* IdTokenPayload.swift */,
-				C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */,
 				D0BE24422BEBB06700759529 /* JWKInfo.swift */,
 				D0BE24402BEBAEF100759529 /* JWTVerifier.swift */,
 				D03B04D42BF221BD00418C0B /* JWTVerifierError.swift */,
 				D03B04CE2BECDB5C00418C0B /* KeyVerifier.swift */,
+				C82238792E9E7D10001716BB /* RefreshTokenPayload.swift */,
 				D0275CBE2BFF876800AF9A50 /* TokenVerifier.swift */,
 			);
 			path = JWT;
@@ -2187,42 +2187,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift in Sources */,
 				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
 				C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
+				C80D77442E97C65B00082040 /* AppFileManager.swift in Sources */,
 				7CD66F812C9070D8008513F4 /* AppInformationState.swift in Sources */,
+				C811D6582EA05628009909A8 /* AppIntegrityDPoPJWT.swift in Sources */,
 				C8DC472B2CF01B660022A24A /* AppIntegrityPoPJWT.swift in Sources */,
 				C8DC472E2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift in Sources */,
 				7CD66F7F2C9070B9008513F4 /* AppLocalAuthState.swift in Sources */,
 				C823CA122C8616A4000BDD5D /* AppQualifyingService.swift in Sources */,
 				C8BFE5E92CB57FD800FA9A35 /* AppUnavailableViewModel.swift in Sources */,
-				C8495FFB2EBDFBC30065CA40 /* AccessControlEncryptedSecureStoreMigrator.swift in Sources */,
 				7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */,
 				C825C02C2D5E288300112918 /* AuthenticationService.swift in Sources */,
+				C80D77422E97C63200082040 /* BackupDisabler.swift in Sources */,
 				41C8E4312B73A0160063B8A3 /* BiometricEnrolmentAnalytics.swift in Sources */,
 				41C8E42C2B7252A70063B8A3 /* BiometricsEnrolmentViewModel.swift in Sources */,
 				C80C58052CB001AC00021D4F /* ContentTileCell.swift in Sources */,
 				ABD7A0BC2CEF8802006D6C7A /* CryptoSigningService+ProofOfPossesionProvide+JWTSigningService.swift in Sources */,
 				C8D678202C519B7E000AA26C /* DataDeletedWarningViewModel.swift in Sources */,
-				C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationError.swift in Sources */,
 				7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */,
-				C8C057DE2EA190C200A77DE3 /* RefreshTokenRepresentation.swift in Sources */,
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStoring.swift in Sources */,
 				D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
 				C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */,
+				C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
-				C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
 				41FF35AC2B21F1AA00419DB3 /* GenericErrorViewModel.swift in Sources */,
 				C8ECA1242BB4805900722218 /* HomeCoordinator.swift in Sources */,
-				C80D77422E97C63200082040 /* BackupDisabler.swift in Sources */,
 				C8514F6D2C09EC18008E1433 /* HomeTabAnalytics.swift in Sources */,
 				C80C58032CB0017300021D4F /* HomeViewController.swift in Sources */,
 				D03B04D32BEE734900418C0B /* IdTokenPayload.swift in Sources */,
@@ -2231,6 +2231,7 @@
 				C8178E3E2AEB2CA300059875 /* IntroAnalytics.swift in Sources */,
 				D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */,
 				ABD7A0C22CEF8A99006D6C7A /* JWTGenerator+ProofTokenGenerator.swift in Sources */,
+				7C47BE162C7883B800DCE5D2 /* JWTProtocols.swift in Sources */,
 				D0BE24412BEBAEF100759529 /* JWTVerifier.swift in Sources */,
 				D03B04D52BF221BD00418C0B /* JWTVerifierError.swift in Sources */,
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
@@ -2251,17 +2252,20 @@
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
-				C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift in Sources */,
 				C8F092E42DA465110046F6EA /* OneLoginEnrolmentManager.swift in Sources */,
 				C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */,
 				C8BADD2D2B87D9C800385FE7 /* PersistentSessionManager.swift in Sources */,
 				C32436CF2DCB6E7D00CC3FCC /* PurposeTileViewModel.swift in Sources */,
 				C823CA102C85D97D000BDD5D /* QualifyingCoordinator.swift in Sources */,
 				C8AA11D82B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift in Sources */,
+				C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */,
+				C8C057DE2EA190C200A77DE3 /* RefreshTokenRepresentation.swift in Sources */,
 				3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */,
 				C851FFA22BADA4B200A7B73D /* SceneLifecycle.swift in Sources */,
 				C851C0FF2D833A8B00FC8CA8 /* SDKConformances.swift in Sources */,
+				C80DEBE02EAF7C0B00FF18B5 /* SecureAttestationStore.swift in Sources */,
 				C8FC38E62D5A0B980006B974 /* SecureStorable+OneLogin.swift in Sources */,
+				C8495FFF2EBDFC030065CA40 /* SecureStoreMigrationError.swift in Sources */,
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
 				7CA719622C846CA400973585 /* ServiceTokenResponse.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */,
@@ -2270,11 +2274,11 @@
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
 				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
+				41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */,
 				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
-				C80D77442E97C65B00082040 /* AppFileManager.swift in Sources */,
 				D08B0B832BDC0F4100769CEA /* TabbedViewCellModel.swift in Sources */,
 				D08B0B762BDA95F600769CEA /* TabbedViewModel.swift in Sources */,
 				D08B0B8F2BE1231A00769CEA /* TabbedViewSectionFactory.swift in Sources */,
@@ -2286,12 +2290,10 @@
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
-				C811D6582EA05628009909A8 /* AppIntegrityDPoPJWT.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
 				ABC6B2C82E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift in Sources */,
 				41CCE1332C7764C000FFBE64 /* UpdateAppViewModel.swift in Sources */,
 				7CA719602C846AED00973585 /* URLRequest+Authorization.swift in Sources */,
-				7C47BE162C7883B800DCE5D2 /* JWTProtocols.swift in Sources */,
 				C819C78B2D0B665B00120F2D /* UserDefaults+OneLogin.swift in Sources */,
 				7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
@@ -2299,8 +2301,6 @@
 				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
 				C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */,
 				7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */,
-				C80DEBE02EAF7C0B00FF18B5 /* SecureAttestationStore.swift in Sources */,
-				41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* WebAuthenticationService.swift in Sources */,
 				AB51B3752D771E9500348FB6 /* WelcomeTileViewModel.swift in Sources */,
 			);
@@ -2310,17 +2310,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */,
 				C8BFE5E52CB579EB00FA9A35 /* AnalyticsPreferenceViewModelTests.swift in Sources */,
 				C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */,
+				C811D65A2EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift in Sources */,
 				C84E8F622CFF1DF500639098 /* AppIntegrityPoPJWTTests.swift in Sources */,
+				7C9CEA6F2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift in Sources */,
 				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
 				C8BFE5EB2CB5818B00FA9A35 /* AppUnavailableViewModelTests.swift in Sources */,
-				C829FAC82EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift in Sources */,
-				41FF35AF2B222CAC00419DB3 /* WebAuthenticationServiceTests.swift in Sources */,
+				C80D77462E97C6A200082040 /* BackupDisablerTests.swift in Sources */,
 				41C8E42F2B72920F0063B8A3 /* BiometricsEnrolmentViewModelTests.swift in Sources */,
 				C8D678222C540297000AA26C /* DataDeletedWarningViewModelTests.swift in Sources */,
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
+				C84960052EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
@@ -2332,21 +2335,20 @@
 				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
 				C8B05F452B7AA7B3009D4283 /* LocalizedEnglishStringTests.swift in Sources */,
-				C80D77482E97C6CB00082040 /* MockBackupDisabler.swift in Sources */,
 				C8B05F472B7AA816009D4283 /* LocalizedWelshStringTests.swift in Sources */,
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
-				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
-				C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,
 				C8C385562DA939D300520E69 /* MockAuthenticationProvider.swift in Sources */,
 				C8C385572DA939D300520E69 /* MockAuthenticationService.swift in Sources */,
+				C80D77482E97C6CB00082040 /* MockBackupDisabler.swift in Sources */,
 				C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */,
-				C811D65A2EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
+				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
 				7CDC2EC42C8B247300EAA592 /* MockHelloWorldService.swift in Sources */,
+				C8A9E57C2EA288CC0059DFDA /* MockJWTs.swift in Sources */,
 				C844943F2D9DEF0E003554E7 /* MockLocalAuthManager.swift in Sources */,
 				21FA1C4D2AE183D20052136E /* MockLoginSession.swift in Sources */,
 				C8A94C4D2D07558700303578 /* MockLoginSessionConfiguration.swift in Sources */,
@@ -2354,10 +2356,8 @@
 				7CD66F872C90A96A008513F4 /* MockQualifyingService.swift in Sources */,
 				C8E6A3EB2BBC05FA005015AF /* MockSceneDelegate.swift in Sources */,
 				C8BADD272B87AEEA00385FE7 /* MockSecureStoreService.swift in Sources */,
-				C80D77462E97C6A200082040 /* BackupDisablerTests.swift in Sources */,
 				41C0F5B92C8F45DA0055C571 /* MockSecureTokenStore.swift in Sources */,
 				C8B825C42B98D3E600336146 /* MockSessionManager.swift in Sources */,
-				C84960052EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */,
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,
@@ -2372,20 +2372,19 @@
 				7CD66F842C90A890008513F4 /* QualifyingCoordinatorTests.swift in Sources */,
 				410464F62B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift in Sources */,
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
-				C8A9E57C2EA288CC0059DFDA /* MockJWTs.swift in Sources */,
+				C80DEC062EAFE1BF00FF18B5 /* SecureAttestationStoreTests.swift in Sources */,
+				C829FAC82EB974D8009C84B0 /* SecureStoreService+OneLoginTests.swift in Sources */,
 				4193D2E52C89F48800073EB8 /* SecureTokenStoreTests.swift in Sources */,
 				D01A72772BE29B51004333F8 /* SettingsCoordinatorTests.swift in Sources */,
 				413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
+				41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */,
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
-				C80DEC062EAFE1BF00FF18B5 /* SecureAttestationStoreTests.swift in Sources */,
 				7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */,
-				C3C9BA492E3A337800CC6278 /* WalletNetworkClientWrapperTests.swift in Sources */,
-				7C9CEA6F2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift in Sources */,
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
@@ -2393,10 +2392,11 @@
 				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
 				7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */,
+				C84960012EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift in Sources */,
 				7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
-				C84960012EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift in Sources */,
-				41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */,
+				C3C9BA492E3A337800CC6278 /* WalletNetworkClientWrapperTests.swift in Sources */,
+				41FF35AF2B222CAC00419DB3 /* WebAuthenticationServiceTests.swift in Sources */,
 				AB51B3772D78824F00348FB6 /* WelcomeTileViewModelTests.swift in Sources */,
 				C8B5EFC52B0E53EE004EA4D4 /* XCTestCase+TestExtensions.swift in Sources */,
 			);
