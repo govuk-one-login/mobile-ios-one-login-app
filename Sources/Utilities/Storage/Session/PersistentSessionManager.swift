@@ -208,16 +208,16 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        let keys = try storeKeyService.fetch()
+        let storedTokens = try storeKeyService.fetch()
         
-        guard let idToken = keys.idToken else {
+        guard let idToken = storedTokens.idToken else {
             try await clearAllSessionData(restartLoginFlow: true)
             return
         }
 
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
-        if let refreshToken = keys.refreshToken {
+        if let refreshToken = storedTokens.refreshToken {
             let tokenResponse = try await tokenExchangeManager.getUpdatedTokens(
                 refreshToken: refreshToken,
                 appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
@@ -229,7 +229,7 @@ final class PersistentSessionManager: SessionManager {
             )
         }
         
-        tokenProvider.update(subjectToken: keys.accessToken)
+        tokenProvider.update(subjectToken: storedTokens.accessToken)
     }
     
     func endCurrentSession() {
