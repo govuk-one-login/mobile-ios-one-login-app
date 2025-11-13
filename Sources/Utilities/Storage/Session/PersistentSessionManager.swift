@@ -227,6 +227,8 @@ final class PersistentSessionManager: SessionManager {
             try await clearAllSessionData(restartLoginFlow: true)
             return
         }
+
+        user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         if let refreshToken = keys.refreshToken {
             let tokenResponse = try await tokenExchangeManager.getUpdatedTokens(

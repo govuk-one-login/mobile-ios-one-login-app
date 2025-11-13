@@ -55,7 +55,7 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func saveSession() throws {
+    func saveAuthSession() throws {
         defer {
             didCallSaveSession = true
         }
@@ -64,7 +64,7 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func resumeSession() throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) throws {
         defer {
             didCallResumeSession = true
         }
