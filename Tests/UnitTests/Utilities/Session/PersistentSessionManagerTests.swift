@@ -4,11 +4,12 @@ import Authentication
 import XCTest
 
 final class PersistentSessionManagerTests: XCTestCase {
-    private var mockAccessControlEncryptedSecureStoreMigrator: MockSecureStoreService!
-    private var mockEncryptedSecureStoreMigrator: MockSecureStoreService!
+    private var mockAccessControlEncryptedStore: MockSecureStoreService!
+    private var mockEncryptedStore: MockSecureStoreService!
     private var mockUnprotectedStore: MockDefaultsStore!
     private var mockLocalAuthentication: MockLocalAuthManager!
     private var mockStoredTokens: StoredTokens!
+    private var mockRefreshTokenExchangeManager: TokenExchangeManaging!
     private var sut: PersistentSessionManager!
     private var didCall_deleteSessionBoundData = false
     
@@ -16,14 +17,15 @@ final class PersistentSessionManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        mockAccessControlEncryptedSecureStoreMigrator = MockSecureStoreService()
-        mockEncryptedSecureStoreMigrator = MockSecureStoreService()
+        mockAccessControlEncryptedStore = MockSecureStoreService()
+        mockEncryptedStore = MockSecureStoreService()
         mockUnprotectedStore = MockDefaultsStore()
         mockLocalAuthentication = MockLocalAuthManager()
+        mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManager()
         
         sut = PersistentSessionManager(
-            accessControlEncryptedStore: mockAccessControlEncryptedSecureStoreMigrator,
-            encryptedStore: mockEncryptedSecureStoreMigrator,
+            accessControlEncryptedStore: mockAccessControlEncryptedStore,
+            encryptedStore: mockEncryptedStore,
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication
         )
@@ -35,8 +37,8 @@ final class PersistentSessionManagerTests: XCTestCase {
             featureFlags: [:]
         )
         
-        mockAccessControlEncryptedSecureStoreMigrator = nil
-        mockEncryptedSecureStoreMigrator = nil
+        mockAccessControlEncryptedStore = nil
+        mockEncryptedStore = nil
         mockUnprotectedStore = nil
         mockLocalAuthentication = nil
         mockStoredTokens = nil
@@ -60,7 +62,7 @@ extension PersistentSessionManagerTests {
     func test_sessionExpiryDate_refreshToken() throws {
         // GIVEN the encrypted store contains a refresh token expiry date
         let date = Date.distantFuture
-        try mockEncryptedSecureStoreMigrator.saveItem(
+        try mockEncryptedStore.saveItem(
             item: date.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -79,9 +81,11 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.expiryDate, date)
     }
     
+    // Test - if theres both accessToken and refreshToken saved, refreshToken is read
+    
     func test_sessionIsValid_refreshToken_notExpired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the future
-        try mockEncryptedSecureStoreMigrator.saveItem(
+        try mockEncryptedStore.saveItem(
             item: Date.distantFuture.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -102,9 +106,10 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.sessionState, .saved)
     }
     
+    // AC1
     func test_sessionIsInvalid_refreshToken_Expired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the past
-        try mockEncryptedSecureStoreMigrator.saveItem(
+        try mockEncryptedStore.saveItem(
             item: Date.distantPast.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -195,11 +200,11 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         sut.registerSessionBoundData([
             self,
-            mockEncryptedSecureStoreMigrator,
+            mockEncryptedStore,
             mockUnprotectedStore
         ])
         // AND I am unable to re-authenticate because I have no persistent session ID
-        mockEncryptedSecureStoreMigrator.deleteItem(itemName: OLString.persistentSessionID)
+        mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         // WHEN I start a session
         do {
             let loginSession = await MockLoginSession(window: UIWindow())
@@ -245,7 +250,7 @@ extension PersistentSessionManagerTests {
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN my session data is not saved
-        XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [:])
+        XCTAssertEqual(mockEncryptedStore.savedItems, [:])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
     }
     
@@ -259,7 +264,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedSecureStoreMigrator.saveItem(
+        try mockEncryptedStore.saveItem(
             item: persistentSessionID,
             itemName: OLString.persistentSessionID
         )
@@ -270,7 +275,7 @@ extension PersistentSessionManagerTests {
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN my session data is updated in the store
-        XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
                                                                      OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
         // AND the user can be returned to where they left off
@@ -289,7 +294,7 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to save my session
         try sut.saveAuthSession()
         // THEN my session data is updated in the store
-        XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
                                                                      OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
@@ -297,7 +302,7 @@ extension PersistentSessionManagerTests {
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
-        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(
+        try mockAccessControlEncryptedStore.saveItem(
             item: "storedTokens",
             itemName: OLString.storedTokens
         )
@@ -310,22 +315,22 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to save my session
         try sut.saveAuthSession()
         // THEN the secure store manager is not refreshed
-        XCTAssertFalse(mockAccessControlEncryptedSecureStoreMigrator.didCallClearSessionData)
-        XCTAssertFalse(mockEncryptedSecureStoreMigrator.didCallClearSessionData)
+        XCTAssertFalse(mockAccessControlEncryptedStore.didCallClearSessionData)
+        XCTAssertFalse(mockEncryptedStore.didCallClearSessionData)
         // THEN the session data is updated in the store
-        XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
+        XCTAssertEqual(mockEncryptedStore.savedItems, [OLString.refreshTokenExpiry: "1719397758.0",
                                                                      OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
-    func test_resumeSession_restoresUserAndAccessToken() throws {
+    func test_resumeSession_restoresUserAndAccessToken() async throws {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
@@ -334,7 +339,14 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         // WHEN I return to the app and authenticate successfully
-        try sut.resumeSession()
+        
+        let persistentSessionID = UUID().uuidString
+        try mockEncryptedStore.saveItem(
+            item: persistentSessionID,
+            itemName: OLString.persistentSessionID
+        )
+        
+        try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
         // THEN my session data is re-populated
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
@@ -349,7 +361,7 @@ extension PersistentSessionManagerTests {
             accessToken: MockJWTs.genericToken
         )
         // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
@@ -358,14 +370,14 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         
-        try sut.resumeSession()
+        try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
         // WHEN I end the session
         sut.endCurrentSession()
         // THEN my data is cleared
         XCTAssertNil(sut.tokenProvider.subjectToken)
         XCTAssertNil(sut.user.value)
         
-        XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [:])
+        XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])
     }
     
     func test_endCurrentSession_clearsAllPersistedData() async throws {
@@ -374,34 +386,37 @@ extension PersistentSessionManagerTests {
             OLString.returningUser: true,
             OLString.accessTokenExpiry: Date.distantPast
         ]
-        mockEncryptedSecureStoreMigrator.savedItems = [
+        mockEncryptedStore.savedItems = [
             OLString.persistentSessionID: UUID().uuidString
         ]
         sut.registerSessionBoundData([
             mockUnprotectedStore,
-            mockAccessControlEncryptedSecureStoreMigrator,
-            mockEncryptedSecureStoreMigrator
+            mockAccessControlEncryptedStore,
+            mockEncryptedStore
         ])
         // WHEN I clear all session data
         try await sut.clearAllSessionData(restartLoginFlow: true)
         // THEN my session data is deleted
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
-        XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [:])
+        XCTAssertEqual(mockEncryptedStore.savedItems, [:])
     }
     
-    func test_hasNotRemovedLocalAuth_throwsError_whenPasscodeRemoved() throws {
+    func test_hasNotRemovedLocalAuth_throwsError_whenPasscodeRemoved() async throws {
         // GIVEN I am a returning user with an active session
         let date = Date.distantFuture
         mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
         // WHEN remove my passcode
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
-        // AND I try to resume a session
-        XCTAssertThrowsError(try sut.resumeSession()) { error in
-            // THEN an error is thrown
-            guard case PersistentSessionError.userRemovedLocalAuth = error else {
-                XCTFail("Expected local auth removed error")
-                return
-            }
+        
+        do {
+            try await sut.resumeSession(
+                tokenExchangeManager: mockRefreshTokenExchangeManager
+            )
+            XCTFail("Expected local auth removed error")
+        } catch let error as PersistentSessionError {
+            XCTAssertTrue(error == PersistentSessionError.userRemovedLocalAuth)
+        } catch {
+            XCTFail("Expected local auth removed error")
         }
     }
 }
