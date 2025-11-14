@@ -83,6 +83,18 @@
 	<dict>
 		<key>NSPinnedDomains</key>
 		<dict>
+			<key>credential-issuer.dvla.gov.uk</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSPinnedCAIdentities</key>
+				<array>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>i7WTqTvh0OioIruIfFR4kMPnBqrS2rdiVPl/s2uC/CY=</string>
+					</dict>
+				</array>
+			</dict>
 			<key>vvrc-credential-issuance.service.mod.gov.uk</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
