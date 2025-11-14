@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
 		1E4738EA2EC65F3800803940 /* RefreshTokenExchangeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */; };
+		1E4738EC2EC7322200803940 /* MockAppIntegrityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */; };
 		1E88606F2EC4A9E700364BCF /* MockRefreshTokenExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
 		1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */; };
@@ -322,6 +323,7 @@
 /* Begin PBXFileReference section */
 		1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
 		1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenExchangeManagerTests.swift; sourceTree = "<group>"; };
+		1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppIntegrityProvider.swift; sourceTree = "<group>"; };
 		1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRefreshTokenExchangeManager.swift; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
 		1EB56D6E2B7CDE6D00BD548E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -878,9 +880,9 @@
 		7C81ADD42C78A8F500A73010 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */,
 				7CA719632C846E2300973585 /* Authorization */,
 				7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */,
+				1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -1275,6 +1277,7 @@
 				41E1A90F2BE126910034B6C7 /* Networking */,
 				C8BADD352B88CC0100385FE7 /* Storage */,
 				ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */,
+				1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */,
 				C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */,
 				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 				1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */,
@@ -2330,6 +2333,7 @@
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
 				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
+				1E4738EC2EC7322200803940 /* MockAppIntegrityProvider.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,

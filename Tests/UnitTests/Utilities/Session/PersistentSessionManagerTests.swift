@@ -128,7 +128,6 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.sessionState, .saved)
     }
     
-    // AC 1
     func test_sessionIsInvalid_refreshToken_Expired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the past
         try mockEncryptedStore.saveItem(
@@ -345,7 +344,6 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
-    // AC 3b
     func test_resumeSession_restoresUserAndAccessToken() async throws {
         // GIVEN I am a returning user with tokens stored
         try setUpNeededForResumeSession()
@@ -359,7 +357,6 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
     }
     
-    // AC 2
     func test_resumeSession_refreshTokenExchange_noPersistentSessionID() async throws {
         let exp = XCTNSNotificationExpectation(
             name: .systemLogUserOut,
@@ -389,7 +386,6 @@ extension PersistentSessionManagerTests {
         }
     }
     
-    // AC 3a - does app try to get new client attestation
     func test_resumeSession_refreshTokenExchange_clientattestationError() async throws {
         // GIVEN I am a returning user with tokens stored
         try setUpNeededForResumeSession()

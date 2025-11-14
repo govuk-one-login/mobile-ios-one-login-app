@@ -24,7 +24,6 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
         super.tearDown()
     }
     
-    // AC 9b - ensuring grant type is correct
     func test_refreshTokenExchangeURL() async throws {
         // GIVEN I am connected to the internet
         let exp = expectation(description: "Received a network request")
@@ -48,6 +47,7 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
         await fulfillment(of: [exp], timeout: 5)
         
         let request = try XCTUnwrap(MockURLProtocol.requests.first)
+        
         XCTAssertEqual(request.url?.absoluteString,
                        "https://token.build.account.gov.uk/token")
         XCTAssertEqual(request.httpMethod, "POST")
@@ -56,7 +56,6 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
         
         let data = try XCTUnwrap(request.httpBodyData())
         let body = String(data: data, encoding: .utf8)
-        
         var components = URLComponents()
         components.query = body
 
@@ -93,7 +92,6 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
         XCTAssertNil(exchangeResponse.idToken)
     }
     
-    // AC 9a - valid test ?
     func test_appIntegrityProvider_accountIntervention() async throws {
         do {
             let error = ClientAssertionError.init(
@@ -108,21 +106,6 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
             // expected path
         } catch {
             XCTFail("Expected `` error to be thrown")
-        }
-    }
-}
-
-final class MockAppIntegrityProvider: AppIntegrityProvider {
-    var integrityAssertions: [String: String]
-    var errorThrownAssertingIntegrity: Error?
-    
-    init(errorThrownAssertingIntegrity: Error? = nil) throws {
-        self.errorThrownAssertingIntegrity = errorThrownAssertingIntegrity
-        
-        if let error = errorThrownAssertingIntegrity {
-            throw error
-        } else {
-            self.integrityAssertions = [:]
         }
     }
 }
