@@ -1,4 +1,4 @@
-import DesignSystem
+import enum DesignSystem.DesignSystem
 import GDSAnalytics
 import GDSCommon
 import Logging
