@@ -550,7 +550,7 @@ extension PersistentSessionManagerTests {
         // AND I have tokens saved in secure store
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
-            refreshToken: nil,
+            refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
         try mockAccessControlEncryptedStore.saveItem(
