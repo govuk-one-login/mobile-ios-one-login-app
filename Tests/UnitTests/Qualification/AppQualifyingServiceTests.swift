@@ -258,7 +258,7 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.userState == .notLoggedIn)
     }
     
-    func test_resumeSession_idTokenNotStored_clearSessionDaat() {
+    func test_resumeSession_idTokenNotStoredError_clearSessionDaat() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = PersistentSessionError.idTokenNotStored
