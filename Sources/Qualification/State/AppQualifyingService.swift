@@ -152,6 +152,6 @@ extension AppQualifyingService {
     }
     
     @objc private func systemLogUserOut() {
-        userState = .notLoggedIn
+        userState = .systemLogOut
     }
 }

@@ -174,33 +174,6 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
-    private func saveLoginTokens(
-        tokenResponse: TokenResponse,
-        idToken: String?
-    ) throws {
-        if let refreshToken = tokenResponse.refreshToken {
-            try encryptedStore.saveDate(
-                id: OLString.refreshTokenExpiry,
-                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
-            )
-        }
-        
-        let tokens = StoredTokens(
-            idToken: idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken
-        )
-        
-        try storeKeyService.save(tokens: tokens)
-        
-        tokenProvider.update(subjectToken: tokenResponse.accessToken)
-        
-        unprotectedStore.set(
-            expiryDate,
-            forKey: OLString.accessTokenExpiry
-        )
-    }
-    
     func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws {
         guard hasNotRemovedLocalAuth else {
             throw PersistentSessionError.userRemovedLocalAuth
@@ -232,6 +205,33 @@ final class PersistentSessionManager: SessionManager {
         }
         
         tokenProvider.update(subjectToken: storedTokens.accessToken)
+    }
+    
+    private func saveLoginTokens(
+        tokenResponse: TokenResponse,
+        idToken: String?
+    ) throws {
+        if let refreshToken = tokenResponse.refreshToken {
+            try encryptedStore.saveDate(
+                id: OLString.refreshTokenExpiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
+            )
+        }
+        
+        let tokens = StoredTokens(
+            idToken: idToken,
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken
+        )
+        
+        try storeKeyService.save(tokens: tokens)
+        
+        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        
+        unprotectedStore.set(
+            tokenResponse.expiryDate,
+            forKey: OLString.accessTokenExpiry
+        )
     }
     
     func endCurrentSession() {
