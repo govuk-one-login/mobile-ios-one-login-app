@@ -97,7 +97,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? encryptedStore.readItem(itemName: OLString.persistentSessionID)
+        guard let persistenID = try? encryptedStore
+            .readItem(itemName: OLString.persistentSessionID),
+              !persistenID.isEmpty else { return nil }
+        return persistenID
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -209,20 +212,21 @@ final class PersistentSessionManager: SessionManager {
         
         let storedTokens = try storeKeyService.fetch()
         
-        guard let idToken = storedTokens.idToken else {
+        guard let idToken = storedTokens.idToken,
+              !idToken.isEmpty else {
             throw PersistentSessionError.idTokenNotStored
         }
 
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         if let refreshToken = storedTokens.refreshToken {
-            let exchangetokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+            let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
                 refreshToken: refreshToken,
                 appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
             )
             
             try saveLoginTokens(
-                tokenResponse: exchangetokenResponse,
+                tokenResponse: exchangeTokenResponse,
                 idToken: idToken
             )
         }

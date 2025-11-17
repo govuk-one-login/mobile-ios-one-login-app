@@ -74,7 +74,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         #expect(exchangeResponse.accessToken == "accessToken")
         #expect(exchangeResponse.refreshToken == "refreshToken")
         #expect(exchangeResponse.tokenType == "bearer")
-        #expect(exchangeResponse.expiryDate <= Date(timeIntervalSinceNow: 180))
+        #expect(exchangeResponse.expiryDate.description == Date(timeIntervalSinceNow: 180).description)
         #expect(exchangeResponse.idToken == nil)
     }
     
