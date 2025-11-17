@@ -4,7 +4,7 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
     var errorThrownAssertingIntegrity: Error?
     
     var integrityAssertions: [String: String] {
-        get async throws {
+        get throws {
             if let errorThrownAssertingIntegrity {
                 throw errorThrownAssertingIntegrity
             }
