@@ -5,11 +5,12 @@ import MockNetworking
 @testable import OneLogin
 import Testing
 
+@Suite(.serialized)
 struct RefreshTokenExchangeManagerTests: ~Copyable {
     let sut: RefreshTokenExchangeManager
     
     init() {
-        let configuration = URLSessionConfiguration.default
+        let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
         let client = NetworkClient(configuration: configuration)
