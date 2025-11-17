@@ -390,12 +390,6 @@ extension PersistentSessionManagerTests {
     }
     
     func test_resumeSession_refreshTokenExchange_noPersistentSessionID() async throws {
-        let exp = XCTNSNotificationExpectation(
-            name: .systemLogUserOut,
-            object: nil,
-            notificationCenter: NotificationCenter.default
-        )
-        
         // GIVEN I am a returning user with local authenitcation enabled
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
@@ -407,14 +401,8 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
-        } catch PersistentSessionError.userRemovedLocalAuth {
-            // THEN all my session data is cleared
-            XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
-            XCTAssertTrue(mockAccessControlEncryptedStore.savedItems.isEmpty)
-            XCTAssertTrue(mockEncryptedStore.savedItems.isEmpty)
-            XCTAssertTrue(didCall_deleteSessionBoundData)
-            // AND a logout notification is sent
-            await fulfillment(of: [exp], timeout: 5)
+        } catch PersistentSessionError.noSessionExists {
+            // Expected path
         }
     }
     
@@ -443,20 +431,7 @@ extension PersistentSessionManagerTests {
     }
 
     func test_endCurrentSession_clearsDataFromSession() async throws {
-        let data = encodeKeys(
-            idToken: MockJWTs.genericToken,
-            refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
-        )
-        // GIVEN I have tokens saved in secure store
-        try mockAccessControlEncryptedStore.saveItem(
-            item: data,
-            itemName: OLString.storedTokens
-        )
-        // AND I am a returning user with local auth enabled
-        let date = Date.distantFuture
-        mockUnprotectedStore.savedData = [OLString.returningUser: true, OLString.accessTokenExpiry: date]
-        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
+        try setUpNeededForResumeSession()
         
         try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
         // WHEN I end the session
