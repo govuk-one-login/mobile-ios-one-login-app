@@ -240,6 +240,40 @@ extension AppQualifyingServiceTests {
         
         XCTAssert(self.userState == .failed(MockWalletError.cantDelete))
     }
+    
+    func test_resumeSession_noPersistentSessionError_clearSessionDaat() {
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = PersistentSessionError.noSessionExists
+        sut.delegate = self
+        sut.initiate()
+        
+        waitForTruth(
+            self.appState == .qualified,
+            timeout: 5
+        )
+
+        XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .noSessionExists)
+        XCTAssert(sessionManager.didCallClearAllSessionData)
+        XCTAssert(self.userState == .notLoggedIn)
+    }
+    
+    func test_resumeSession_idTokenNotStored_clearSessionDaat() {
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = PersistentSessionError.idTokenNotStored
+        sut.delegate = self
+        sut.initiate()
+        
+        waitForTruth(
+            self.appState == .qualified,
+            timeout: 5
+        )
+
+        XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .idTokenNotStored)
+        XCTAssert(sessionManager.didCallClearAllSessionData)
+        XCTAssert(self.userState == .notLoggedIn)
+    }
 }
 
 // MARK: - Subscription Tests

@@ -204,15 +204,13 @@ final class PersistentSessionManager: SessionManager {
         }
         
         guard persistentID != nil else {
-            try await clearAllSessionData(restartLoginFlow: true)
-            return
+            throw PersistentSessionError.noSessionExists
         }
         
         let storedTokens = try storeKeyService.fetch()
         
         guard let idToken = storedTokens.idToken else {
-            try await clearAllSessionData(restartLoginFlow: true)
-            return
+            throw PersistentSessionError.idTokenNotStored
         }
 
         user.send(try IDTokenUserRepresentation(idToken: idToken))
@@ -264,13 +262,15 @@ enum PersistentSessionError: Error, Equatable {
     case userRemovedLocalAuth
     case sessionMismatch
     case cannotDeleteData(Error)
+    case idTokenNotStored
     
     static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
         switch (lhs, rhs) {
         case (.noSessionExists, .noSessionExists),
             (.userRemovedLocalAuth, .userRemovedLocalAuth),
             (.sessionMismatch, .sessionMismatch),
-            (.cannotDeleteData, .cannotDeleteData):
+            (.cannotDeleteData, .cannotDeleteData),
+            (.idTokenNotStored, .idTokenNotStored):
             true
         default:
             false
