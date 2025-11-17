@@ -401,8 +401,27 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
-        } catch PersistentSessionError.noSessionExists {
-            // Expected path
+        } catch let error as PersistentSessionError {
+            XCTAssertEqual(error, .noSessionExists)
+        }
+    }
+    
+    func test_resumeSession_refreshTokenExchange_idTokenNotStored() async throws {
+        // GIVEN I am a returning user with local authenitcation enabled
+        try setUpNeededForResumeSession()
+        
+        let tokens = encodeKeys(
+            idToken: "",
+            refreshToken: "refreshToken",
+            accessToken: "accessToken"
+        )
+        
+        try mockAccessControlEncryptedStore.saveItem(item: tokens, itemName: OLString.storedTokens)
+        // WHEN I attempt to resume my session
+        do {
+            try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+        } catch let error as PersistentSessionError {
+            XCTAssertEqual(error, .idTokenNotStored)
         }
     }
     
@@ -413,7 +432,8 @@ extension PersistentSessionManagerTests {
         // AND a client attesation error has been thrown
         mockRefreshTokenExchangeManager.errorFromRefreshTokenExchange = ClientAssertionError(
             .invalidToken,
-            errorDescription: "test")
+            errorDescription: "test"
+        )
         
         do {
             // WHEN I attempt to resume my session
