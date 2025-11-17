@@ -223,7 +223,7 @@ extension AppQualifyingServiceTests {
         let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreError)
         XCTAssert(error.kind == .unableToRetrieveFromUserDefaults)
         XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.userState == .notLoggedIn)
+        XCTAssert(self.userState == .systemLogOut)
     }
     
     func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
@@ -256,7 +256,7 @@ extension AppQualifyingServiceTests {
 
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .noSessionExists)
         XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.userState == .notLoggedIn)
+        XCTAssert(self.userState == .systemLogOut)
     }
     
     func test_resumeSession_idTokenNotStoredError_clearSessionDaat() {
@@ -273,7 +273,7 @@ extension AppQualifyingServiceTests {
 
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .idTokenNotStored)
         XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.userState == .notLoggedIn)
+        XCTAssert(self.userState == .systemLogOut)
     }
 }
 
@@ -303,7 +303,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         NotificationCenter.default.post(name: .systemLogUserOut)
-        waitForTruth(self.userState == .notLoggedIn, timeout: 5)
+        waitForTruth(self.userState == .systemLogOut, timeout: 5)
     }
 }
 

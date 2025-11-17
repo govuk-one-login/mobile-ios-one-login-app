@@ -688,7 +688,7 @@ extension LoginCoordinatorTests {
     func test_promptForAnalyticsPermissions() {
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
-        sut.promptForAnalyticsPermissions()
+        sut.loginCoordinatorDidDisplay()
         // THEN the OnboardingCoordinator should be launched
         XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
@@ -700,7 +700,7 @@ extension LoginCoordinatorTests {
         // GIVEN the user has accepted analytics permissions
         mockAnalyticsService.analyticsPreferenceStore.hasAcceptedAnalytics = true
         // WHEN the promptForAnalyticsPermissions method is called
-        sut.promptForAnalyticsPermissions()
+        sut.loginCoordinatorDidDisplay()
         // THEN the OnboardingCoordinator should not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
@@ -717,7 +717,7 @@ extension LoginCoordinatorTests {
                                authState: .userLogOut)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
-        sut.promptForAnalyticsPermissions()
+        sut.loginCoordinatorDidDisplay()
         // THEN the log out confirmation screen should be shown
         XCTAssertTrue(sut.root.presentedViewController is GDSInformationViewController)
         XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel)
