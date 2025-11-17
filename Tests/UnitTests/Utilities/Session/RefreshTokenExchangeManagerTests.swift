@@ -1,71 +1,66 @@
 import AppIntegrity
+import Foundation
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
-import XCTest
+import Testing
 
-final class RefreshTokenExchangeManagerTests: XCTestCase {
-    var sut: RefreshTokenExchangeManager!
+final class RefreshTokenExchangeManagerTests {
+    var sut: RefreshTokenExchangeManager
     
-    override func setUp() {
-        super.setUp()
-        
+    init() {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
-        
+
         let client = NetworkClient(configuration: configuration)
         
         sut = RefreshTokenExchangeManager(networkClient: client)
     }
     
-    override func tearDown() {
+    deinit {
         MockURLProtocol.clear()
-        sut = nil
-        super.tearDown()
+        // sut = nil
     }
     
-    func test_refreshTokenExchangeURL() async throws {
+    @Test("refresh token exchange URL is correct")
+    func refreshTokenExchange_URL() async throws {
+        let refreshToken = "token"
+        
         // GIVEN I am connected to the internet
-        let exp = expectation(description: "Received a network request")
-        exp.assertForOverFulfill = true
-
-        MockURLProtocol.handler = {
-            exp.fulfill()
-            return (Data(), HTTPURLResponse(statusCode: 200))
-        }
-
-        // AND I have an valid refresh token
-        let refreshToken = UUID().uuidString
-        Task {
-            _ = try await sut.getUpdatedTokens(
-                refreshToken: refreshToken,
-                appIntegrityProvider: MockAppIntegrityProvider()
-            )
+        await confirmation("Received a network request") { exp in
+            MockURLProtocol.handler = {
+                exp()
+                return (Data(), HTTPURLResponse(statusCode: 200))
+            }
+            
+            // AND I have an valid refresh token
+            Task {
+                _ = try await sut.getUpdatedTokens(
+                    refreshToken: refreshToken,
+                    appIntegrityProvider: MockAppIntegrityProvider()
+                )
+            }
         }
         
-        // THEN a request is made to exchange the access token
-        await fulfillment(of: [exp], timeout: 5)
+        let request = try #require(MockURLProtocol.requests.first)
         
-        let request = try XCTUnwrap(MockURLProtocol.requests.first)
+        #expect(request.url?.absoluteString == "https://token.build.account.gov.uk/token")
+        #expect(request.httpMethod == "POST")
+        #expect(request.value(forHTTPHeaderField: "Content-Type") == "application/x-www-form-urlencoded")
         
-        XCTAssertEqual(request.url?.absoluteString,
-                       "https://token.build.account.gov.uk/token")
-        XCTAssertEqual(request.httpMethod, "POST")
-        XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"),
-                       "application/x-www-form-urlencoded")
-        
-        let data = try XCTUnwrap(request.httpBodyData())
+        let data = try #require(request.httpBodyData())
         let body = String(data: data, encoding: .utf8)
         var components = URLComponents()
         components.query = body
-
-        XCTAssertEqual(components.queryItems, [
+        
+        #expect(components.queryItems == [
             URLQueryItem(name: "grant_type", value: "refresh_token"),
             URLQueryItem(name: "refresh_token", value: refreshToken)
         ])
     }
     
-    func test_returnsTokenResponse() async throws {
+    @Test("TokenResponse returned from exchange has correct values")
+    func refreshTokenExchange_returnsTokenResponse() async throws {
         MockURLProtocol.handler = {
             let response = """
             {
@@ -84,15 +79,15 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
             appIntegrityProvider: MockAppIntegrityProvider()
         )
         
-        // THEN the expected TokenResponse values are populated
-        XCTAssertNotNil(exchangeResponse.accessToken)
-        XCTAssertNotNil(exchangeResponse.refreshToken)
-        XCTAssertNotNil(exchangeResponse.tokenType)
-        XCTAssertNotNil(exchangeResponse.expiryDate)
-        XCTAssertNil(exchangeResponse.idToken)
+        #expect(exchangeResponse.accessToken == "accessToken")
+        #expect(exchangeResponse.refreshToken == "refreshToken")
+        #expect(exchangeResponse.tokenType == "bearer")
+        #expect(exchangeResponse.expiryDate <= Date(timeIntervalSinceNow: 180))
+        #expect(exchangeResponse.idToken == nil)
     }
     
-    func test_appIntegrityProvider_accountIntervention() async throws {
+    @Test("If account intervention occurs during refresh token exchange, an error is thrown")
+    func refreshTokenExchange_accountIntervention() async throws {
         do {
             let error = ClientAssertionError.init(
                 .invalidPublicKey,
@@ -105,7 +100,7 @@ final class RefreshTokenExchangeManagerTests: XCTestCase {
         } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey {
             // expected path
         } catch {
-            XCTFail("Expected `` error to be thrown")
+            Issue.record("Expected `` error to be thrown")
         }
     }
 }
