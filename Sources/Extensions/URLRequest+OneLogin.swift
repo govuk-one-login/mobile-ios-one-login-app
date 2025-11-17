@@ -1,10 +1,6 @@
 import AppIntegrity
 import Foundation
 
-enum RefreshExchangeError: Error {
-    case cantExtractAppIntegrityHeaders
-}
-
 extension URLRequest {
     static func refreshTokenExchange(
         token: String,
