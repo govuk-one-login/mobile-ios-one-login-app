@@ -14,8 +14,8 @@ final class MockRefreshTokenExchangeManager: TokenExchangeManaging {
             throw errorFromRefreshTokenExchange
         } else {
             TokenResponse(
-                accessToken: "testAccessToken",
-                refreshToken: "testRefreshToken",
+                accessToken: MockJWTs.genericToken,
+                refreshToken: MockJWTs.genericToken,
                 tokenType: "token_type",
                 expiryDate: Date.distantFuture
             )
