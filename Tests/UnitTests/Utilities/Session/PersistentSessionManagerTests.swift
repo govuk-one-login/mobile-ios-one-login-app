@@ -239,9 +239,10 @@ extension PersistentSessionManagerTests {
         // THEN a login screen is shown
         XCTAssertTrue(loginSession.didCallPerformLoginFlow)
         // AND no persistent session ID is provided
-        let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
-        XCTAssertNil(configuration.tokenHeaders)
-        XCTAssertNil(configuration.tokenParameters)
+        let tokenHeaders = try await loginSession.sessionConfiguration?.tokenHeaders()
+        let tokenParameters = try await loginSession.sessionConfiguration?.tokenParameters()
+        XCTAssertNil(tokenHeaders)
+        XCTAssertNil(tokenParameters)
     }
     
     @MainActor
@@ -506,30 +507,22 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND my refresh token expiry date is saved
-        XCTAssertEqual(try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry),
-                       "1719397758.0")
+        XCTAssertEqual(try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry), "1719397758.0")
         
         // AND my tokens are saved
-        let tokens = StoredTokens(idToken: MockJWTs.genericToken,
-                                  refreshToken: MockJWTs.genericToken,
-                                  accessToken: MockJWTs.genericToken)
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .sortedKeys
-        let tokensAsData = try jsonEncoder.encode(tokens)
-        let encodedTokens = tokensAsData.base64EncodedString()
-        XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens),
-                       encodedTokens)
+        let tokens = encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: MockJWTs.genericToken,
+            accessToken: MockJWTs.genericToken
+        )
+        XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens), tokens)
        
         // AND the token provider access token is updated
         XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
         
         // AND my access token expiry is updated
-        let accessTokenExpiryDateString = "2024-06-26 10:29:18 +0000"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-        let expiryDate = dateFormatter.date(from: accessTokenExpiryDateString)!
-        XCTAssertEqual(mockUnprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date,
-                       expiryDate)
+        let expiryDate = mockUnprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        XCTAssertEqual(expiryDate?.timeIntervalSince1970.description, "64092211200.0")
     }
 
     func test_endCurrentSession_clearsDataFromSession() async throws {
@@ -587,7 +580,9 @@ extension PersistentSessionManagerTests {
         
         var keysAsData = String()
         do {
-            keysAsData = try JSONEncoder().encode(mockStoredTokens).base64EncodedString()
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .sortedKeys
+            keysAsData = try encoder.encode(mockStoredTokens).base64EncodedString()
         } catch {
             print("error")
         }

@@ -175,12 +175,18 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func promptForAnalyticsPermissions() {
+    func loginCoordinatorDidDisplay() {
         guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
               root.topViewController is IntroViewController else {
             return
         }
-        if authState == .userLogOut {
+        switch authState {
+        case .expired, .loggedIn, .failed:
+            return
+        case .notLoggedIn:
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
+                                                   urlOpener: UIApplication.shared))
+        case .userLogOut:
             let viewModel = SignOutSuccessfulViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
@@ -190,9 +196,19 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
-        } else {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
-                                                   urlOpener: UIApplication.shared))
+        case .systemLogOut:
+            let viewModel = RecoverableLoginErrorViewModel(
+                analyticsService: analyticsService,
+                errorDescription: "system log out"
+            ) { [unowned self] in
+                root.dismiss(animated: true) { [unowned self] in
+                    openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
+                                                           urlOpener: UIApplication.shared))
+                }
+            }
+            let signOutSuccessful = GDSErrorScreen(viewModel: viewModel)
+            signOutSuccessful.modalPresentationStyle = .overFullScreen
+            root.present(signOutSuccessful, animated: false)
         }
     }
     
@@ -208,7 +224,7 @@ extension LoginCoordinator {
         let viewModel = DataDeletedWarningViewModel { [unowned self] in
             authState = .notLoggedIn
             start()
-            promptForAnalyticsPermissions()
+            loginCoordinatorDidDisplay()
         }
         let vc = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)

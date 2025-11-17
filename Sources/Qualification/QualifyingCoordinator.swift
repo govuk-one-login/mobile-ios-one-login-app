@@ -96,7 +96,7 @@ final class QualifyingCoordinator: NSObject,
         switch userState {
         case .loggedIn:
             launchTabManagerCoordinator()
-        case .notLoggedIn, .expired, .userLogOut:
+        case .notLoggedIn, .expired, .userLogOut, .systemLogOut:
             launchLoginCoordinator(userState: userState)
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(
@@ -186,7 +186,7 @@ extension QualifyingCoordinator {
         Task {
             for await coordinator in updateStream.stream {
                 if let loginCoordinator = coordinator as? LoginCoordinator {
-                    loginCoordinator.promptForAnalyticsPermissions()
+                    loginCoordinator.loginCoordinatorDidDisplay()
                 } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
                           let deeplink {
                     await tabCoordinator.handleUniversalLink(deeplink)
