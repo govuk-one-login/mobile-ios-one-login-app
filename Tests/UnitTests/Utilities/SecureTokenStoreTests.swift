@@ -3,18 +3,18 @@ import Foundation
 import XCTest
 
 final class SecureTokenStoreTests: XCTestCase {
-    private var accessControlEncryptedSecureStoreManager: MockSecureStoreManager!
+    private var mockAccessControlEncryptedSecureStoreMigrator: MockSecureStoreService!
     private var sut: SecureTokenStore!
 
     override func setUp() {
         super.setUp()
         
-        accessControlEncryptedSecureStoreManager = MockSecureStoreManager()
-        sut = SecureTokenStore(accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager)
+        mockAccessControlEncryptedSecureStoreMigrator = MockSecureStoreService()
+        sut = SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedSecureStoreMigrator)
     }
 
     override func tearDown() {
-        accessControlEncryptedSecureStoreManager = nil
+        mockAccessControlEncryptedSecureStoreMigrator = nil
         sut = nil
 
         super.tearDown()
@@ -23,7 +23,7 @@ final class SecureTokenStoreTests: XCTestCase {
 
 extension SecureTokenStoreTests {
     func test_hasLoginTokens() throws {
-        try accessControlEncryptedSecureStoreManager.saveItem(
+        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(
             item: "storedTokens",
             itemName: OLString.storedTokens
         )
@@ -31,7 +31,7 @@ extension SecureTokenStoreTests {
     }
     
     func test_doesNotHaveLoginTokens() throws {
-        accessControlEncryptedSecureStoreManager.savedItems = [:]
+        mockAccessControlEncryptedSecureStoreMigrator.savedItems = [:]
         XCTAssertFalse(sut.hasLoginTokens)
     }
     
@@ -49,7 +49,7 @@ extension SecureTokenStoreTests {
     }
 
     func test_fetchThrowsErrorIfTokensHaveIncorrectFormat() throws {
-        accessControlEncryptedSecureStoreManager.savedItems = [OLString.storedTokens: "normal string"]
+        mockAccessControlEncryptedSecureStoreMigrator.savedItems = [OLString.storedTokens: "normal string"]
         do {
             _ = try sut.fetch()
             XCTFail("Expected to recieve token error")
@@ -68,14 +68,13 @@ extension SecureTokenStoreTests {
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokensToSave).base64EncodedString()
-        print(tokensAsData)
         try sut.save(tokens: tokensToSave)
-        XCTAssertEqual(accessControlEncryptedSecureStoreManager.savedItems, [OLString.storedTokens: tokensAsData])
+        XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [OLString.storedTokens: tokensAsData])
     }
 
     func test_deletesTokens() throws {
-        accessControlEncryptedSecureStoreManager.savedItems = [OLString.storedTokens: "tokens"]
+        mockAccessControlEncryptedSecureStoreMigrator.savedItems = [OLString.storedTokens: "tokens"]
         sut.deleteTokens()
-        XCTAssertEqual(accessControlEncryptedSecureStoreManager.savedItems, [:])
+        XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [:])
     }
 }

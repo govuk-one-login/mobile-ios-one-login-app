@@ -103,7 +103,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_enableBiometricsBody1".getEnglishString(),
                        "Use %@ to:")
         XCTAssertEqual("app_enableBiometricsBullet1".getEnglishString(),
-                       "unlock the app within 30 minutes of signing in with %@")
+                       "sign in")
         XCTAssertEqual("app_enableBiometricsBullet2".getEnglishString(),
                        "view and add documents")
     }
@@ -199,7 +199,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_signOutWarningTitle".getEnglishString(),
                        "You need to sign in again")
         XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
-                       "It’s been more than 30 minutes since you last signed in to the %@ app.\n\nSign in again to continue.")
+                       "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.")
     }
     
     func test_dataDeletedWarningPageKeys() {

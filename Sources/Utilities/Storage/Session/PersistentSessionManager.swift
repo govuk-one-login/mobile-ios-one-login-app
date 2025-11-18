@@ -5,8 +5,8 @@ import LocalAuthenticationWrapper
 import SecureStore
 
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedSecureStoreManager: SecureStorable
-    private let encryptedSecureStoreManager: SecureStorable
+    private let accessControlEncryptedStore: SecureStorable
+    private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     
@@ -21,27 +21,27 @@ final class PersistentSessionManager: SessionManager {
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
     convenience init(
-        accessControlEncryptedSecureStoreManager: SecureStorable,
-        encryptedSecureStoreManager: SecureStorable
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable
     ) {
         self.init(
-            accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager,
-            encryptedSecureStoreManager: encryptedSecureStoreManager,
+            accessControlEncryptedStore: accessControlEncryptedStore,
+            encryptedStore: encryptedStore,
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
         )
     }
     
     init(
-        accessControlEncryptedSecureStoreManager: SecureStorable,
-        encryptedSecureStoreManager: SecureStorable,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging
     ) {
-        self.accessControlEncryptedSecureStoreManager = accessControlEncryptedSecureStoreManager
-        self.encryptedSecureStoreManager = encryptedSecureStoreManager
+        self.accessControlEncryptedStore = accessControlEncryptedStore
+        self.encryptedStore = encryptedStore
         self.storeKeyService = SecureTokenStore(
-            accessControlEncryptedSecureStoreManager: accessControlEncryptedSecureStoreManager
+            accessControlEncryptedStore: accessControlEncryptedStore
         )
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
@@ -79,15 +79,16 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var expiryDate: Date? {
-        unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        (try? encryptedStore.readDate(id: OLString.refreshTokenExpiry))
+        ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
     }
     
     var isSessionValid: Bool {
         guard let expiryDate else {
             return false
         }
-        // ten second buffer
-        return expiryDate + 10 > .now
+        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
+        return expiryDate - 15 > .now
     }
     
     var isReturningUser: Bool {
@@ -95,7 +96,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? encryptedSecureStoreManager.readItem(itemName: OLString.persistentSessionID)
+        try? encryptedStore.readItem(itemName: OLString.persistentSessionID)
     }
     
     private var hasNotRemovedLocalAuth: Bool {
@@ -151,16 +152,16 @@ final class PersistentSessionManager: SessionManager {
         }
         
         if let persistentID = user.value?.persistentID {
-            try encryptedSecureStoreManager.saveItem(
+            try encryptedStore.saveItem(
                 item: persistentID,
                 itemName: OLString.persistentSessionID
             )
         } else {
-            encryptedSecureStoreManager.deleteItem(itemName: OLString.persistentSessionID)
+            encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
         if let refreshToken = tokenResponse.refreshToken {
-            try encryptedSecureStoreManager.saveDate(
+            try encryptedStore.saveDate(
                 id: OLString.refreshTokenExpiry,
                 try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
             )

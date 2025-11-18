@@ -34,7 +34,7 @@ extension SignOutWarningViewModelTests {
         XCTAssertEqual(sut.title.value, "You need to sign in again")
         XCTAssertEqual(sut.body?.stringKey, "app_signOutWarningBody")
         XCTAssertEqual(sut.body?.variableKeys, ["app_nameString"])
-        XCTAssertEqual(sut.body?.value, "It’s been more than 30 minutes since you last signed in to the GOV.UK One Login app.\n\nSign in again to continue.")
+        XCTAssertEqual(sut.body?.value, "Sign in with your GOV.UK One Login details to continue.\n\nThis is to keep your information secure.")
         XCTAssertNil(sut.rightBarButtonTitle)
         XCTAssertTrue(sut.backButtonIsHidden)
     }

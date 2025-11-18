@@ -99,7 +99,7 @@
 
 "app_enableBiometricsBody1" = "Defnyddiwch %@ i:";
 
-"app_enableBiometricsBullet1" = "ddatgloi'r ap o fewn 30 munud ar ôl mewngofnodi gyda %@";
+"app_enableBiometricsBullet1" = "mewngofnodi";
 
 "app_enableBiometricsBullet2" = "gweld ac ychwanegu dogfennau";
 
@@ -191,7 +191,7 @@
 // MARK: Sign Out Warning screen
 "app_signOutWarningTitle" = "Mae angen i chi fewngofnodi eto";
 
-"app_signOutWarningBody" = "Mae mwy na 30 munud wedi mynd heibio ers i chi fewngofnodi ddiwethaf i ap %@.\n\nMewngofnodwch eto i barhau.";
+"app_signOutWarningBody" = "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
 
 
 // MARK: Data Deletion Warning screen

@@ -37,6 +37,7 @@ enum OLString {
     enum UnprotectedStoreKeyString: String, CaseIterable {
         case accessTokenExpiry
         case returningUser
+
         case migratedAccessControlEncryptedStoreToV13
         case migratedEncryptedStoreToV13
     }
