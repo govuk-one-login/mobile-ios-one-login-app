@@ -30,7 +30,7 @@ final class WebAuthenticationService: AuthenticationService {
             analyticsService.logEvent(ButtonEvent(textKey: "back"))
             throw error
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
-            try await sessionManager.clearAllSessionData(restartLoginFlow: true)
+            try await sessionManager.clearAllSessionData(restartLoginFlow: false)
             throw error
         } catch {
             analyticsService.logCrash(error)
