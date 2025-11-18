@@ -5,6 +5,7 @@ import Authentication
 import MockNetworking
 import Networking
 @testable @preconcurrency import OneLogin
+import SecureStore
 import XCTest
 
 final class PersistentSessionManagerTests: XCTestCase {
@@ -523,6 +524,46 @@ extension PersistentSessionManagerTests {
         // AND my access token expiry is updated
         let expiryDate = mockUnprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
         XCTAssertEqual(expiryDate?.timeIntervalSince1970.description, "64092211200.0")
+    }
+    
+    func test_resumeSession_withoutRefreshToken() async throws {
+        // GIVEN I am a returning user with local auth enabled
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
+        mockUnprotectedStore.savedData = [OLString.returningUser: true]
+        
+        // AND I have a persistentSessionID saved in secure store
+        try mockEncryptedStore.saveItem(
+            item: UUID().uuidString,
+            itemName: OLString.persistentSessionID
+        )
+        
+        // AND I have no refresh token saved in secure store
+        let data = encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: nil,
+            accessToken: MockJWTs.genericToken
+        )
+        try mockAccessControlEncryptedStore.saveItem(
+            item: data,
+            itemName: OLString.storedTokens
+        )
+        
+        // WHEN I return to the app and authenticate successfully
+        try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+        
+        // THEN my user session data is repopulated
+        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.email, "mock@email.com")
+        
+        // AND the token provider access token is updated
+        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
+        
+        // AND no refresh token expiry date is saved
+        do {
+            _ = try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry)
+        } catch let error as SecureStoreError {
+            XCTAssertTrue(error == .unableToRetrieveFromUserDefaults)
+        }
     }
 
     func test_endCurrentSession_clearsDataFromSession() async throws {
