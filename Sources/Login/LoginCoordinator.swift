@@ -22,7 +22,7 @@ final class LoginCoordinator: NSObject,
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
     
-    private var authState: AppSessionState
+    private var sessionState: AppSessionState
     private var serverErrorCounter = 0
     
     private var loginTask: Task<Void, Never>? {
@@ -44,7 +44,7 @@ final class LoginCoordinator: NSObject,
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
-        self.authState = authState
+        self.sessionState = authState
     }
     
     deinit {
@@ -54,7 +54,7 @@ final class LoginCoordinator: NSObject,
     func start() {
         let rootViewController: UIViewController
         
-        if authState == .expired {
+        if sessionState == .expired {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
@@ -180,7 +180,7 @@ final class LoginCoordinator: NSObject,
               root.topViewController is IntroViewController else {
             return
         }
-        switch authState {
+        switch sessionState {
         case .expired, .loggedIn, .failed, .localAuthCancelled:
             return
         case .notLoggedIn:
@@ -219,7 +219,7 @@ final class LoginCoordinator: NSObject,
 extension LoginCoordinator {
     private func showDataDeletedWarningScreen() {
         let viewModel = DataDeletedWarningViewModel { [unowned self] in
-            authState = .notLoggedIn
+            sessionState = .notLoggedIn
             start()
             loginCoordinatorDidDisplay()
         }

@@ -737,8 +737,8 @@ extension LoginCoordinatorTests {
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
         // THEN the log out confirmation screen should be shown
-        XCTAssertTrue(sut.root.presentedViewController is GDSInformationViewController)
-        XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is DataDeletedWarningViewModel)
+        XCTAssertTrue(sut.root.presentedViewController is GDSErrorScreen)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is DataDeletedWarningViewModel)
     }
     
     @MainActor

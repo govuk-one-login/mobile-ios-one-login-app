@@ -202,7 +202,7 @@ final class PersistentSessionManager: SessionManager {
               !idToken.isEmpty else {
             throw PersistentSessionError.idTokenNotStored
         }
-
+        
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         if let refreshToken = storedTokens.refreshToken {
