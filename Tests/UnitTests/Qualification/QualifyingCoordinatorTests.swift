@@ -114,7 +114,7 @@ extension QualifyingCoordinatorTests {
     @MainActor
     func test_confirmedUser_displaysMainView() throws {
         // WHEN I authenticate as a valid user
-        sut.didChangeUserState(state: .loggedIn)
+        sut.didChangeSessionState(state: .loggedIn)
         // THEN I am shown the Main View
         let tabManagerCoordinator = try XCTUnwrap(sut.childCoordinators
             .lazy
@@ -127,7 +127,7 @@ extension QualifyingCoordinatorTests {
     @MainActor
     func test_unconfirmedUser_seesTheLoginScreen() throws {
         // WHEN I have no session
-        sut.didChangeUserState(state: .notLoggedIn)
+        sut.didChangeSessionState(state: .notLoggedIn)
         // THEN I am shown the Login Coordinator
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators
             .lazy
@@ -139,7 +139,7 @@ extension QualifyingCoordinatorTests {
     @MainActor
     func test_expiredUser_seesTheLoginScreen() throws {
         // WHEN my session has expired
-        sut.didChangeUserState(state: .expired)
+        sut.didChangeSessionState(state: .expired)
         // THEN I am shown the Login Coordinator
         let loginCoordinator = try XCTUnwrap(sut.childCoordinators
             .lazy
@@ -159,7 +159,7 @@ extension QualifyingCoordinatorTests {
             }
         }
         
-        sut.didChangeUserState(state: .failed(MockLoginError.failed))
+        sut.didChangeSessionState(state: .failed(MockLoginError.failed))
         // THEN I am shown the Login Error screen
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSErrorScreen
@@ -178,7 +178,7 @@ extension QualifyingCoordinatorTests {
         // THEN the wallet deeplink should be stored
         XCTAssertEqual(sut.deeplink, deeplink)
         // GIVEN the user has authenticated
-        sut.didChangeUserState(state: .loggedIn)
+        sut.didChangeSessionState(state: .loggedIn)
         // THEN the deeplink should be consumed
         waitForTruth(self.sut.deeplink == nil, timeout: 5)
     }

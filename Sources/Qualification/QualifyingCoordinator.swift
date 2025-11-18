@@ -39,7 +39,7 @@ final class QualifyingCoordinator: NSObject,
     lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
             Task {
-                await appQualifyingService.evaluateUser()
+                await appQualifyingService.evaluateUserSession()
             }
         }
         return UnlockScreenViewController(viewModel: viewModel)
@@ -87,13 +87,14 @@ final class QualifyingCoordinator: NSObject,
             )
             displayViewController(updateAppScreen)
         case .qualified:
-            // End loading state and enable button
-            unlockViewController.isLoading = false
+            return
         }
     }
     
-    func didChangeUserState(state userState: AppLocalAuthState) {
+    func didChangeSessionState(state userState: AppSessionState) {
         switch userState {
+        case .localAuthCancelled:
+            unlockViewController.isLoading = false
         case .loggedIn:
             launchTabManagerCoordinator()
         case .notLoggedIn, .expired, .userLogOut, .systemLogOut:
@@ -111,7 +112,7 @@ final class QualifyingCoordinator: NSObject,
         }
     }
     
-    func launchLoginCoordinator(userState: AppLocalAuthState) {
+    func launchLoginCoordinator(userState: AppSessionState) {
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {

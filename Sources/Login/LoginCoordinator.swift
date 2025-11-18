@@ -22,7 +22,7 @@ final class LoginCoordinator: NSObject,
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
     
-    private var authState: AppLocalAuthState
+    private var authState: AppSessionState
     private var serverErrorCounter = 0
     
     private var loginTask: Task<Void, Never>? {
@@ -37,7 +37,7 @@ final class LoginCoordinator: NSObject,
          sessionManager: SessionManager,
          networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
          authService: AuthenticationService,
-         authState: AppLocalAuthState) {
+         authState: AppSessionState) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsService = analyticsService
@@ -181,7 +181,7 @@ final class LoginCoordinator: NSObject,
             return
         }
         switch authState {
-        case .expired, .loggedIn, .failed:
+        case .expired, .loggedIn, .failed, .localAuthCancelled:
             return
         case .notLoggedIn:
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,

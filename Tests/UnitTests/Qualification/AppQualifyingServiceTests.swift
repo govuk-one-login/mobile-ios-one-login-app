@@ -10,7 +10,7 @@ final class AppQualifyingServiceTests: XCTestCase {
     private var sut: AppQualifyingService!
 
     private var appState: AppInformationState?
-    private var userState: AppLocalAuthState?
+    private var sessionState: AppSessionState?
 
     override func setUp() {
         super.setUp()
@@ -30,7 +30,7 @@ final class AppQualifyingServiceTests: XCTestCase {
         appInformationProvider = nil
 
         appState = nil
-        userState = nil
+        sessionState = nil
 
         sut = nil
 
@@ -150,7 +150,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.userState == .loggedIn)
+        XCTAssert(self.sessionState == .loggedIn)
     }
     
     func test_noExpiryDate_userUnconfirmed() {
@@ -162,7 +162,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.userState == .notLoggedIn)
+        XCTAssert(self.sessionState == .notLoggedIn)
     }
     
     func test_sessionInvalid_userExpired() {
@@ -176,7 +176,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.userState == .expired)
+        XCTAssert(self.sessionState == .expired)
     }
     
     func test_resumeSession_userConfirmed() {
@@ -190,7 +190,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.userState == .loggedIn)
+        XCTAssert(self.sessionState == .loggedIn)
     }
     
     func test_resumeSession_userCancelledBiometrics_error() {
@@ -205,7 +205,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssertNil(self.userState)
+        XCTAssertNil(self.sessionState)
     }
     
     func test_resumeSession_nonCantDecryptData_error() throws {
@@ -223,7 +223,7 @@ extension AppQualifyingServiceTests {
         let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreError)
         XCTAssert(error.kind == .unableToRetrieveFromUserDefaults)
         XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.userState == .systemLogOut)
+        XCTAssert(self.sessionState == .systemLogOut)
     }
     
     func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
@@ -239,7 +239,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.userState == .failed(MockWalletError.cantDelete))
+        XCTAssert(self.sessionState == .failed(MockWalletError.cantDelete))
     }
     
     func test_resumeSession_noPersistentSessionError_clearSessionDaat() {
@@ -256,7 +256,7 @@ extension AppQualifyingServiceTests {
 
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .noSessionExists)
         XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.userState == .systemLogOut)
+        XCTAssert(self.sessionState == .systemLogOut)
     }
     
     func test_resumeSession_idTokenNotStoredError_clearSessionDaat() {
@@ -273,7 +273,7 @@ extension AppQualifyingServiceTests {
 
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .idTokenNotStored)
         XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.userState == .systemLogOut)
+        XCTAssert(self.sessionState == .systemLogOut)
     }
 }
 
@@ -285,7 +285,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         NotificationCenter.default.post(name: .enrolmentComplete)
-        waitForTruth(self.userState == .loggedIn, timeout: 5)
+        waitForTruth(self.sessionState == .loggedIn, timeout: 5)
     }
     
     func test_sessionExpiry_changesUserState() {
@@ -294,7 +294,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
 
         NotificationCenter.default.post(name: .sessionExpired)
-        waitForTruth(self.userState == .expired, timeout: 5)
+        waitForTruth(self.sessionState == .expired, timeout: 5)
     }
     
     func test_logOut_changesUserState() {
@@ -303,7 +303,7 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         
         NotificationCenter.default.post(name: .systemLogUserOut)
-        waitForTruth(self.userState == .systemLogOut, timeout: 5)
+        waitForTruth(self.sessionState == .systemLogOut, timeout: 5)
     }
 }
 
@@ -312,7 +312,7 @@ extension AppQualifyingServiceTests: AppQualifyingServiceDelegate {
         self.appState = appInfoState
     }
     
-    func didChangeUserState(state userState: AppLocalAuthState) {
-        self.userState = userState
+    func didChangeSessionState(state sessionState: AppSessionState) {
+        self.sessionState = sessionState
     }
 }
