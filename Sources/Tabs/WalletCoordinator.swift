@@ -27,9 +27,11 @@ final class WalletCoordinator: NSObject,
         sessionManager: sessionManager
     )
     
-    init(analyticsService: OneLoginAnalyticsService,
-         networkClient: NetworkClient,
-         sessionManager: SessionManager) {
+    init(
+        analyticsService: OneLoginAnalyticsService,
+        networkClient: NetworkClient,
+        sessionManager: SessionManager
+    ) {
         self.analyticsService = analyticsService
         self.networkClient = networkClient
         self.sessionManager = sessionManager

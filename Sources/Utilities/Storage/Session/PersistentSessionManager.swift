@@ -250,9 +250,7 @@ final class PersistentSessionManager: SessionManager {
         endCurrentSession()
         
         if restartLoginFlow {
-            NotificationCenter.default.post(
-                name: .systemLogUserOut
-            )
+            NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
     

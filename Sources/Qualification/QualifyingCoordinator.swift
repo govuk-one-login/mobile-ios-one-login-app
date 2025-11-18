@@ -45,11 +45,13 @@ final class QualifyingCoordinator: NSObject,
         return UnlockScreenViewController(viewModel: viewModel)
     }()
     
-    init(appWindow: UIWindow,
-         appQualifyingService: QualifyingService,
-         analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager,
-         networkClient: NetworkClient) {
+    init(
+        appWindow: UIWindow,
+        appQualifyingService: QualifyingService,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        networkClient: NetworkClient
+    ) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsService = analyticsService
@@ -143,7 +145,8 @@ extension QualifyingCoordinator {
                 root: OrientationLockingTabBarController(),
                 analyticsService: analyticsService,
                 networkClient: networkClient,
-                sessionManager: sessionManager)
+                sessionManager: sessionManager
+            )
             displayChildCoordinator(tabManagerCoordinator)
         }
     }
