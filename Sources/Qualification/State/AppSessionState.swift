@@ -1,6 +1,6 @@
 import Foundation
 
-enum AppLocalAuthState: Equatable {
+enum AppSessionState: Equatable {
     /// An error occurred in local authentication
     case failed(_ error: Error)
     /// User session expired
@@ -11,10 +11,12 @@ enum AppLocalAuthState: Equatable {
     case systemLogOut
     /// User explicitly logged out of the app
     case userLogOut
+    /// User cancelled local auth for session
+    case localAuthCancelled
     /// User session exists, has not expired and retrieved into memory
     case loggedIn
 
-    static func == (lhs: AppLocalAuthState, rhs: AppLocalAuthState) -> Bool {
+    static func == (lhs: AppSessionState, rhs: AppSessionState) -> Bool {
         switch (lhs, rhs) {
         case (.failed, .failed),
             (.expired, .expired),
