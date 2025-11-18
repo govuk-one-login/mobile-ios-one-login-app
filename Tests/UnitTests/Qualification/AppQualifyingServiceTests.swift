@@ -205,7 +205,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssertNil(self.sessionState)
+        XCTAssert(self.sessionState == .localAuthCancelled)
     }
     
     func test_resumeSession_nonCantDecryptData_error() throws {
