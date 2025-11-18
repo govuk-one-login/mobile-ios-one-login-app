@@ -37,9 +37,11 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    init(analyticsService: OneLoginAnalyticsService,
-         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-         sessionManager: SessionManager) {
+    init(
+        analyticsService: OneLoginAnalyticsService,
+        updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
+        sessionManager: SessionManager
+    ) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
