@@ -724,6 +724,24 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
+    func test_showSystemLogOutConfirmation() {
+        // WHEN the LoginCoordinator is started with a userLogOut authState
+        sut = LoginCoordinator(appWindow: appWindow,
+                               root: navigationController,
+                               analyticsService: mockAnalyticsService,
+                               sessionManager: mockSessionManager,
+                               networkMonitor: mockNetworkMonitor,
+                               authService: mockAuthenticationService,
+                               authState: .systemLogOut)
+        sut.start()
+        // WHEN the promptForAnalyticsPermissions method is called
+        sut.loginCoordinatorDidDisplay()
+        // THEN the log out confirmation screen should be shown
+        XCTAssertTrue(sut.root.presentedViewController is GDSInformationViewController)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is DataDeletedWarningViewModel)
+    }
+    
+    @MainActor
     func test_launchEnrolmentCoordinator() {
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator()

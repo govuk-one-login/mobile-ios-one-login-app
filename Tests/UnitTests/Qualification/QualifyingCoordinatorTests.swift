@@ -5,11 +5,11 @@ import Networking
 import XCTest
 
 final class QualifyingCoordinatorTests: XCTestCase {
-    private var qualifyingService: MockQualifyingService!
-    private var mockAnalyticsService: MockAnalyticsService!
-    private var sessionManager: MockSessionManager!
-    private var networkClient: NetworkClient!
     private var window: UIWindow!
+    private var mockQualifyingService: MockQualifyingService!
+    private var mockAnalyticsService: MockAnalyticsService!
+    private var mockSessionManager: MockSessionManager!
+    private var networkClient: NetworkClient!
     
     private var sut: QualifyingCoordinator!
     
@@ -18,23 +18,26 @@ final class QualifyingCoordinatorTests: XCTestCase {
         super.setUp()
         
         window = UIWindow()
-        sessionManager = MockSessionManager()
+        mockQualifyingService = MockQualifyingService()
         mockAnalyticsService = MockAnalyticsService()
+        mockSessionManager = MockSessionManager()
         networkClient = NetworkClient()
         networkClient.authorizationProvider = MockAuthenticationProvider()
-        qualifyingService = MockQualifyingService()
+        
         sut = QualifyingCoordinator(appWindow: window,
-                                    appQualifyingService: qualifyingService,
+                                    appQualifyingService: mockQualifyingService,
                                     analyticsService: mockAnalyticsService,
-                                    sessionManager: sessionManager,
+                                    sessionManager: mockSessionManager,
                                     networkClient: networkClient)
     }
     
     override func tearDown() {
-        sessionManager = nil
-        networkClient = nil
-        qualifyingService = nil
         window = nil
+        mockQualifyingService = nil
+        mockAnalyticsService = nil
+        mockSessionManager = nil
+        networkClient = nil
+        
         sut = nil
         
         super.tearDown()
@@ -105,7 +108,7 @@ extension QualifyingCoordinatorTests {
         )
         _ = vc.viewModel.buttonViewModels[0].action()
         
-        XCTAssertTrue(qualifyingService.didCallInitiate)
+        XCTAssertTrue(mockQualifyingService.didCallInitiate)
     }
 }
 
