@@ -197,10 +197,7 @@ final class LoginCoordinator: NSObject,
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
         case .systemLogOut:
-            let viewModel = RecoverableLoginErrorViewModel(
-                analyticsService: analyticsService,
-                errorDescription: "system log out"
-            ) { [unowned self] in
+            let viewModel = DataDeletedWarningViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                            urlOpener: UIApplication.shared))
