@@ -23,6 +23,7 @@ enum AppSessionState: Equatable {
             (.notLoggedIn, .notLoggedIn),
             (.systemLogOut, .systemLogOut),
             (.userLogOut, .userLogOut),
+            (.localAuthCancelled, .localAuthCancelled),
             (.loggedIn, .loggedIn):
             return true
         default:
