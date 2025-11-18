@@ -12,9 +12,11 @@ final class WebAuthenticationService: AuthenticationService {
     private let sessionManager: SessionManager
     private let analyticsService: OneLoginAnalyticsService
     
-    init(sessionManager: SessionManager,
-         session: LoginSession,
-         analyticsService: OneLoginAnalyticsService) {
+    init(
+        sessionManager: SessionManager,
+        session: LoginSession,
+        analyticsService: OneLoginAnalyticsService
+    ) {
         self.sessionManager = sessionManager
         self.session = session
         self.analyticsService = analyticsService

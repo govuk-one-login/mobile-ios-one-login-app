@@ -31,13 +31,15 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    init(appWindow: UIWindow,
-         root: UINavigationController,
-         analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager,
-         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
-         authService: AuthenticationService,
-         authState: AppSessionState) {
+    init(
+        appWindow: UIWindow,
+        root: UINavigationController,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
+        authService: AuthenticationService,
+        authState: AppSessionState
+    ) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsService = analyticsService
