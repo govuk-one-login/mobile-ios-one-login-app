@@ -38,7 +38,7 @@ final class LoginCoordinator: NSObject,
         sessionManager: SessionManager,
         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
         authService: AuthenticationService,
-        authState: AppSessionState
+        sessionState: AppSessionState
     ) {
         self.appWindow = appWindow
         self.root = root
@@ -46,7 +46,7 @@ final class LoginCoordinator: NSObject,
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
-        self.sessionState = authState
+        self.sessionState = sessionState
     }
     
     deinit {
