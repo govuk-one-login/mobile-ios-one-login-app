@@ -1,6 +1,7 @@
 import AppIntegrity
 import Authentication
 import Foundation
+import MobilePlatformServices
 import Networking
 
 protocol OneLoginNetworkClient {
@@ -12,7 +13,7 @@ protocol OneLoginNetworkClient {
     ) async throws -> Data
 }
 
-final class NetworkService: OneLoginNetworkClient, TokenExchangeManaging {
+final class NetworkService: OneLoginNetworkClient, TokenExchangeManaging, MPTServicesNetworkClient {
     let networkClient: NetworkClient
     
     init(networkClient: NetworkClient = NetworkClient()) {

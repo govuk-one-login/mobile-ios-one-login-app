@@ -47,3 +47,70 @@ struct OneLoginCRIURLs: CRIURLs {
     let readIDURLString: String = AppEnvironment.readIDURLString
     let iProovURLString: String = AppEnvironment.iProovURLString
 }
+
+final class WalletAuthorizedHTTPLogger: WalletTxMALogger {
+    /// `URL` address for sending HTTP requests
+    let loggingURL: URL
+    /// `NetworkClient` from the Networking package dependency to handle HTTP networking
+    let networkService: OneLoginNetworkService
+    /// Scope for service access token
+    let scope: String
+    /// callback to handle possible errors resulting from `NetworkClient`'s `makeRequest` method
+    let handleError: ((Error) -> Void)?
+
+    init(
+        url: URL,
+        networkService: OneLoginNetworkService,
+        scope: String,
+        handleError: ((Error) -> Void)? = nil
+    ) {
+        loggingURL = url
+        self.scope = scope
+        self.networkService = networkService
+        self.handleError = handleError
+    }
+    
+    func logEvent(_ event: any WalletTxMAEvent) async {
+        await logEvent(requestBody: event)
+    }
+
+    /// Sends HTTP POST request to designated URL, handling errors received back from `NetworkClient`'s `makeAuthorizedRequest` method
+    /// - Parameters:
+    ///     - event: the encodable object to be logged in the request body as JSON
+    @discardableResult
+    public func logEvent(requestBody: any Encodable) -> Task<Void, Never>? {
+        guard let jsonData = try? JSONEncoder().encode(requestBody) else {
+            assertionFailure("Failed to encode object")
+            return nil
+        }
+
+        return Task {
+            await createAndMakeRequest(data: jsonData)
+        }
+    }
+    
+    public func logEvent(requestBody: any Encodable) async {
+        guard let jsonData = try? JSONEncoder().encode(requestBody) else {
+            assertionFailure("Failed to encode object")
+            return
+        }
+        
+        await createAndMakeRequest(data: jsonData)
+    }
+    
+    private func createAndMakeRequest(data: Data) async {
+        var request = URLRequest(url: loggingURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = data
+        
+        do {
+            _ = try await networkService.makeAuthorizedRequest(
+                scope: scope,
+                request: request
+            )
+        } catch {
+            handleError?(error)
+        }
+    }
+}
