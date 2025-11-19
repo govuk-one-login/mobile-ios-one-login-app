@@ -25,9 +25,9 @@ enum AppSessionState: Equatable {
             (.userLogOut, .userLogOut),
             (.localAuthCancelled, .localAuthCancelled),
             (.loggedIn, .loggedIn):
-            return true
+            true
         default:
-            return false
+            false
         }
     }
 }

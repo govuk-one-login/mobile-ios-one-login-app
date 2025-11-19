@@ -17,14 +17,14 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     
     private var analyticsService: OneLoginAnalyticsService
-    private let networkClient: NetworkClient
+    private let networkService: OneLoginNetworkClient
     
     init(
         analyticsService: OneLoginAnalyticsService,
-        networkClient: NetworkClient
+        networkService: OneLoginNetworkClient
     ) {
         self.analyticsService = analyticsService
-        self.networkClient = networkClient
+        self.networkService = networkService
     }
     
     func start() {

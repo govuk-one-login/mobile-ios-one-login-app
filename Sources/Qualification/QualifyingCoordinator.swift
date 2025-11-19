@@ -26,7 +26,7 @@ final class QualifyingCoordinator: NSObject,
     private let appQualifyingService: QualifyingService
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let networkClient: NetworkClient
+    private let networkService: OneLoginNetworkService
     
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
@@ -50,13 +50,13 @@ final class QualifyingCoordinator: NSObject,
         appQualifyingService: QualifyingService,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager,
-        networkClient: NetworkClient
+        networkService: OneLoginNetworkService
     ) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
-        self.networkClient = networkClient
+        self.networkService = networkService
         super.init()
         self.appQualifyingService.delegate = self
     }
@@ -114,7 +114,19 @@ final class QualifyingCoordinator: NSObject,
         }
     }
     
-    func launchLoginCoordinator(sessionState: AppSessionState) {
+    func didChangeServiceState(state serviceState: RemoteServiceState) {
+        switch serviceState {
+        case .accountIntervention:
+            launchLoginCoordinator(serviceState: serviceState)
+        case .activeService:
+            return
+        }
+    }
+    
+    func launchLoginCoordinator(
+        sessionState: AppSessionState? = nil,
+        serviceState: RemoteServiceState? = nil
+    ) {
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
@@ -128,7 +140,8 @@ final class QualifyingCoordinator: NSObject,
                     session: AppAuthSessionV2(window: appWindow),
                     analyticsService: analyticsService
                 ),
-                sessionState: sessionState
+                sessionState: sessionState,
+                serviceState: serviceState
             )
             displayChildCoordinator(loginCoordinator)
         }
@@ -144,7 +157,7 @@ extension QualifyingCoordinator {
             let tabManagerCoordinator = TabManagerCoordinator(
                 root: OrientationLockingTabBarController(),
                 analyticsService: analyticsService,
-                networkClient: networkClient,
+                networkService: networkService,
                 sessionManager: sessionManager
             )
             displayChildCoordinator(tabManagerCoordinator)

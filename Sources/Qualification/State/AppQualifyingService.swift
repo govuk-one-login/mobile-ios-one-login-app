@@ -13,6 +13,7 @@ protocol QualifyingService: AnyObject {
 protocol AppQualifyingServiceDelegate: AnyObject {
     func didChangeAppInfoState(state appInfoState: AppInformationState)
     func didChangeSessionState(state sessionState: AppSessionState)
+    func didChangeServiceState(state serviceState: RemoteServiceState)
 }
 
 final class AppQualifyingService: QualifyingService {
@@ -33,6 +34,14 @@ final class AppQualifyingService: QualifyingService {
         didSet {
             Task {
                 await delegate?.didChangeSessionState(state: sessionState)
+            }
+        }
+    }
+    
+    private var serviceState: RemoteServiceState = .activeService {
+        didSet {
+            Task {
+                await delegate?.didChangeServiceState(state: serviceState)
             }
         }
     }
@@ -101,7 +110,7 @@ final class AppQualifyingService: QualifyingService {
             sessionState = .loggedIn
         case .saved:
             do {
-                try await sessionManager.resumeSession(tokenExchangeManager: RefreshTokenExchangeManager())
+                try await sessionManager.resumeSession(tokenExchangeManager: NetworkService())
                 sessionState = .loggedIn
             } catch SecureStoreError.biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
@@ -142,6 +151,10 @@ extension AppQualifyingService {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(systemLogUserOut),
                                                name: .systemLogUserOut)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(accountIntervention),
+                                               name: .accountIntervention)
     }
 
     @objc private func enrolmentComplete() {
@@ -158,5 +171,12 @@ extension AppQualifyingService {
     
     @objc private func systemLogUserOut() {
         sessionState = .systemLogOut
+    }
+}
+
+// MARK: - Respond to service events
+extension AppQualifyingService {
+    @objc private func accountIntervention() {
+        serviceState = .accountIntervention
     }
 }

@@ -19,7 +19,7 @@ final class WalletCoordinator: NSObject,
     
     private var analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let networkClient: NetworkClient
+    private let networkService: OneLoginNetworkService
     
     private lazy var walletAuthService = LocalAuthServiceWallet(
         walletCoordinator: self,
@@ -29,11 +29,11 @@ final class WalletCoordinator: NSObject,
     
     init(
         analyticsService: OneLoginAnalyticsService,
-        networkClient: NetworkClient,
+        networkService: OneLoginNetworkService,
         sessionManager: SessionManager
     ) {
         self.analyticsService = analyticsService
-        self.networkClient = networkClient
+        self.networkService = networkService
         self.sessionManager = sessionManager
     }
     
@@ -49,14 +49,12 @@ final class WalletCoordinator: NSObject,
             persistentSessionID: sessionManager.persistentID
         )
         let walletServices = WalletServices(
-            networkClient: WalletNetworkClientWrapper(
-                networkClient: networkClient,
-                sessionManager: sessionManager
-            ),
+            networkClient: networkService,
             localAuthService: walletAuthService,
+            // TODO: Wrap AuthorizedHTTPLogger with type which conforms to TxMALogger from wallet
             txmaLogger: AuthorizedHTTPLogger(
                 url: AppEnvironment.txma,
-                networkClient: networkClient,
+                networkClient: networkService,
                 scope: "mobile.txma-event.write"
             ),
             analyticsService: analyticsService
