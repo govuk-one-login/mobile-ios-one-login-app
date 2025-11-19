@@ -52,9 +52,9 @@ final class WalletCoordinator: NSObject,
             networkClient: networkService,
             localAuthService: walletAuthService,
             // TODO: Wrap AuthorizedHTTPLogger with type which conforms to TxMALogger from wallet
-            txmaLogger: AuthorizedHTTPLogger(
+            txmaLogger: WalletAuthorizedHTTPLogger(
                 url: AppEnvironment.txma,
-                networkClient: networkService,
+                networkService: networkService,
                 scope: "mobile.txma-event.write"
             ),
             analyticsService: analyticsService
