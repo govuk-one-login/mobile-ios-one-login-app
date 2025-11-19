@@ -33,7 +33,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               authState: .notLoggedIn)
+                               sessionState: .notLoggedIn)
     }
     
     override func tearDown() {
@@ -57,7 +57,7 @@ final class LoginCoordinatorTests: XCTestCase {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               authState: .expired)
+                               sessionState: .expired)
     }
 }
 
@@ -714,7 +714,7 @@ extension LoginCoordinatorTests {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               authState: .userLogOut)
+                               sessionState: .userLogOut)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
@@ -732,7 +732,7 @@ extension LoginCoordinatorTests {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               authState: .systemLogOut)
+                               sessionState: .systemLogOut)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
