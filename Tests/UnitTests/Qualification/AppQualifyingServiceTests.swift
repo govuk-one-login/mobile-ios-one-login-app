@@ -278,7 +278,7 @@ extension AppQualifyingServiceTests {
 
 // MARK: - Subscription Tests
 extension AppQualifyingServiceTests {
-    func test_enrolmentComplete_changesUserState() {
+    func test_enrolmentComplete_changesSessionState() {
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
         sut.initiate()
@@ -287,7 +287,7 @@ extension AppQualifyingServiceTests {
         waitForTruth(self.sessionState == .loggedIn, timeout: 5)
     }
     
-    func test_sessionExpiry_changesUserState() {
+    func test_sessionExpiry_changesSessionState() {
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
         sut.initiate()
@@ -296,7 +296,7 @@ extension AppQualifyingServiceTests {
         waitForTruth(self.sessionState == .expired, timeout: 5)
     }
     
-    func test_logOut_changesUserState() {
+    func test_logOut_changesSessionState() {
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         sut.delegate = self
         sut.initiate()

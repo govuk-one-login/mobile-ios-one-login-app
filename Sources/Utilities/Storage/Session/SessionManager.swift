@@ -2,11 +2,6 @@ import Authentication
 import Foundation
 import LocalAuthenticationWrapper
 
-enum UserState {
-    case authenticated
-    case notAuthenticated
-}
-
 enum SessionState {
     case nonePresent
     case enrolling
