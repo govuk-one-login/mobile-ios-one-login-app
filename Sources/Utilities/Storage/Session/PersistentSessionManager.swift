@@ -192,19 +192,20 @@ final class PersistentSessionManager: SessionManager {
         
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
-        if let refreshToken = storedTokens.refreshToken {
-            let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
-                refreshToken: refreshToken,
-                appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
-            )
-            
-            try saveLoginTokens(
-                tokenResponse: exchangeTokenResponse,
-                idToken: idToken
-            )
+        guard let refreshToken = storedTokens.refreshToken else {
+            tokenProvider.update(subjectToken: storedTokens.accessToken)
+            return
         }
         
-        tokenProvider.update(subjectToken: storedTokens.accessToken)
+        let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+            refreshToken: refreshToken,
+            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+        )
+        
+        try saveLoginTokens(
+            tokenResponse: exchangeTokenResponse,
+            idToken: idToken
+        )
     }
     
     private func saveLoginTokens(
