@@ -13,7 +13,7 @@ protocol OneLoginNetworkClient {
     ) async throws -> Data
 }
 
-final class NetworkService: OneLoginNetworkClient, TokenExchangeManaging, MPTServicesNetworkClient {
+final class NetworkService: OneLoginNetworkService, TokenExchangeManaging {
     let networkClient: NetworkClient
     
     init(networkClient: NetworkClient = NetworkClient()) {

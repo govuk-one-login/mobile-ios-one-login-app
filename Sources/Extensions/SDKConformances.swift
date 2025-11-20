@@ -13,13 +13,10 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
     }
 }
 
-extension NetworkClient: @retroactive WalletNetworkClient { }
-
 extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
 
 // TODO: add IDCheckNetworkClient when branch feature/dcmaw-16211-one-login-network-client-service merges in ID Check SDK
-extension NetworkService: WalletNetworkClient { }
-typealias OneLoginNetworkService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient
+typealias OneLoginNetworkService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService
 
@@ -36,6 +33,8 @@ extension WalletEnvironment {
         }
     }
 }
+
+extension CRIOrchestrator: CRIOrchestration { }
 
 struct OneLoginCRIURLs: CRIURLs {
     let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
@@ -64,7 +63,7 @@ final class WalletAuthorizedHTTPLogger: WalletTxMALogger {
         scope: String,
         handleError: ((Error) -> Void)? = nil
     ) {
-        loggingURL = url
+        self.loggingURL = url
         self.scope = scope
         self.networkService = networkService
         self.handleError = handleError
