@@ -101,25 +101,25 @@ final class LoginCoordinator: NSObject,
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as LoginErrorV2 where error.reason == .authorizationInvalidRequest,
-                    let error as LoginErrorV2 where error.reason == .authorizationUnauthorizedClient,
-                    let error as LoginErrorV2 where error.reason == .authorizationUnsupportedResponseType,
-                    let error as LoginErrorV2 where error.reason == .authorizationInvalidScope,
-                    let error as LoginErrorV2 where error.reason == .authorizationTemporarilyUnavailable,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidRequest,
-                    let error as LoginErrorV2 where error.reason == .tokenUnauthorizedClient,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidScope,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidClient,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidGrant,
-                    let error as LoginErrorV2 where error.reason == .tokenUnsupportedGrantType,
-                    let error as LoginErrorV2 where error.reason == .tokenClientError {
+            } catch let error as LoginErrorV2 where error.reason == .authorizationInvalidRequest
+                        || error.reason == .authorizationUnauthorizedClient
+                        || error.reason == .authorizationUnsupportedResponseType
+                        || error.reason == .authorizationInvalidScope
+                        || error.reason == .authorizationTemporarilyUnavailable
+                        || error.reason == .tokenInvalidRequest
+                        || error.reason == .tokenUnauthorizedClient
+                        || error.reason == .tokenInvalidScope
+                        || error.reason == .tokenInvalidClient
+                        || error.reason == .tokenInvalidGrant
+                        || error.reason == .tokenUnsupportedGrantType
+                        || error.reason == .tokenClientError {
                 showUnrecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
-                    let error as LoginErrorV2 where error.reason == .tokenUnknownError,
-                    let error as LoginErrorV2 where error.reason == .safariOpenError {
+            } catch let error as LoginErrorV2 where error.reason == .authorizationUnknownError
+                        || error.reason == .tokenUnknownError
+                        || error.reason == .safariOpenError {
                 showRecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
-                    let error as LoginErrorV2 where error.reason == .generalServerError {
+            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError
+                        || error.reason == .generalServerError {
                 self.serverErrorCounter += 1
                 if serverErrorCounter < 3 {
                     showRecoverableErrorScreen(error)
@@ -132,16 +132,16 @@ final class LoginCoordinator: NSObject,
                 showNetworkConnectionErrorScreen { [unowned self] in
                     returnFromErrorScreen()
                 }
-            } catch let error as FirebaseAppCheckError where error.errorType == .unknown,
-                    let error as FirebaseAppCheckError where error.errorType == .generic {
+            } catch let error as FirebaseAppCheckError where error.errorType == .unknown
+                        || error.errorType == .generic {
                 showRecoverableErrorScreen(error)
-            } catch let error as ClientAssertionError where error.errorType == .invalidToken,
-                    let error as ClientAssertionError where error.errorType == .serverError,
-                    let error as ClientAssertionError where error.errorType == .cantDecodeClientAssertion {
+            } catch let error as ClientAssertionError where error.errorType == .invalidToken
+                        || error.errorType == .serverError
+                        || error.errorType == .cantDecodeClientAssertion {
                 showRecoverableErrorScreen(error)
-            } catch let error as FirebaseAppCheckError where error.errorType == .notSupported,
-                    let error as FirebaseAppCheckError where error.errorType == .keychainAccess,
-                    let error as FirebaseAppCheckError where error.errorType == .invalidConfiguration {
+            } catch let error as FirebaseAppCheckError where error.errorType == .notSupported
+                        || error.errorType == .keychainAccess
+                        || error.errorType == .invalidConfiguration {
                 showUnrecoverableErrorScreen(error)
             } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey {
                 showUnrecoverableErrorScreen(error)

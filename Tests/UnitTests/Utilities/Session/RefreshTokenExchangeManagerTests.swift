@@ -98,4 +98,96 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             Issue.record("Expected `` error to be thrown")
         }
     }
+    
+    @Test("If account intervention occurs during refresh token exchange, an error is thrown")
+    func refreshTokenExchange_firebaseGenericError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
+            .generic,
+            errorDescription: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.appIntegrityRetryError {
+            #expect(sut.errorRetries == 3)
+        }
+    }
+    
+    @Test("If account intervention occurs during refresh token exchange, an error is thrown")
+    func refreshTokenExchange_firebaseUnknownError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
+            .unknown,
+            errorDescription: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.appIntegrityRetryError {
+            #expect(sut.errorRetries == 3)
+        }
+    }
+    
+    @Test("If account intervention occurs during refresh token exchange, an error is thrown")
+    func refreshTokenExchange_firebaseNetworkError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
+            .network,
+            errorDescription: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // expected path
+        } catch {
+            Issue.record("Expected `` error to be thrown")
+        }
+    }
+    
+    @Test("If account intervention occurs during refresh token exchange, an error is thrown")
+    func refreshTokenExchange_notConnectedToInternet() async throws {
+        MockURLProtocol.handler = {
+            throw URLError(.notConnectedToInternet)
+        }
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // expected path
+        } catch {
+            Issue.record("Expected `` error to be thrown")
+        }
+    }
+    
+    @Test("If account intervention occurs during refresh token exchange, an error is thrown")
+    func refreshTokenExchange_networkConnectionLost() async throws {
+        MockURLProtocol.handler = {
+            throw URLError(.networkConnectionLost)
+        }
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // expected path
+        } catch {
+            Issue.record("Expected `` error to be thrown")
+        }
+    }
 }
