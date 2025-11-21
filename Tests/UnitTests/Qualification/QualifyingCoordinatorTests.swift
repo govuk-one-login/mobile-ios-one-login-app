@@ -28,7 +28,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
                                     appQualifyingService: mockQualifyingService,
                                     analyticsService: mockAnalyticsService,
                                     sessionManager: mockSessionManager,
-                                    networkClient: networkClient)
+                                    networkingService: networkClient)
     }
     
     override func tearDown() {
