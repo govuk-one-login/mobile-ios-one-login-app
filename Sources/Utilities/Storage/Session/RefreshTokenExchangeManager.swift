@@ -10,8 +10,10 @@ protocol TokenExchangeManaging {
     ) async throws -> TokenResponse
 }
 
-struct RefreshTokenExchangeManager: TokenExchangeManaging {
+final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
+    
+    private(set) var errorRetries = 0
     
     init(networkClient: NetworkClient = NetworkClient()) {
         self.networkClient = networkClient
@@ -21,13 +23,35 @@ struct RefreshTokenExchangeManager: TokenExchangeManaging {
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
     ) async throws -> TokenResponse {
-        let exchangeResponse = try await networkClient.makeRequest(
-            .refreshTokenExchange(
-                token: refreshToken,
+        do {
+            let exchangeResponse = try await networkClient.makeRequest(
+                .refreshTokenExchange(
+                    token: refreshToken,
+                    appIntegrityProvider: appIntegrityProvider
+                )
+            )
+            return try JSONDecoder()
+                .decode(TokenResponse.self, from: exchangeResponse)
+        } catch let error as FirebaseAppCheckError where error.errorType == .generic
+                    || error.errorType == .unknown {
+            guard errorRetries < 3 else {
+                throw RefreshTokenExchangeError.appIntegrityRetryError
+            }
+            errorRetries += 1
+            return try await getUpdatedTokens(
+                refreshToken: refreshToken,
                 appIntegrityProvider: appIntegrityProvider
             )
-        )
-        return try JSONDecoder()
-            .decode(TokenResponse.self, from: exchangeResponse)
+        } catch let error as FirebaseAppCheckError where error.errorType == .network {
+            throw RefreshTokenExchangeError.noInternet
+        } catch let error as URLError where error.code == .notConnectedToInternet
+                    || error.code == .networkConnectionLost {
+            throw RefreshTokenExchangeError.noInternet
+        }
     }
+}
+    
+enum RefreshTokenExchangeError: Error {
+    case noInternet
+    case appIntegrityRetryError
 }

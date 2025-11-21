@@ -111,7 +111,10 @@ final class AppQualifyingService: QualifyingService {
                 analyticsService.logCrash(error)
                 
                 sessionState = .localAuthCancelled
+            } catch RefreshTokenExchangeError.noInternet {
+                appInfoState = .offline
             } catch {
+                // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors RefreshTokenExchangeManager
                 analyticsService.logCrash(error)
                 do {
                     try await sessionManager.clearAllSessionData(restartLoginFlow: true)
