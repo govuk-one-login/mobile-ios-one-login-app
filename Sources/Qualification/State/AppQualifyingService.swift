@@ -110,7 +110,7 @@ final class AppQualifyingService: QualifyingService {
             sessionState = .loggedIn
         case .saved:
             do {
-                try await sessionManager.resumeSession(tokenExchangeManager: NetworkService())
+                try await sessionManager.resumeSession(tokenExchangeManager: NetworkingService())
                 sessionState = .loggedIn
             } catch SecureStoreError.biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.

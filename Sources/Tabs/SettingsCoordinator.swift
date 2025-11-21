@@ -17,18 +17,18 @@ final class SettingsCoordinator: NSObject,
     
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager & UserProvider
-    private let networkService: OneLoginNetworkService
+    private let networkingService: OneLoginNetworkingService
     private let urlOpener: URLOpener
     
     init(
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager & UserProvider,
-        networkService: OneLoginNetworkService,
+        networkingService: OneLoginNetworkingService,
         urlOpener: URLOpener
     ) {
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
-        self.networkService = networkService
+        self.networkingService = networkingService
         self.urlOpener = urlOpener
     }
     
@@ -104,7 +104,7 @@ final class SettingsCoordinator: NSObject,
     func openDeveloperMenu() {
         let viewModel = DeveloperMenuViewModel()
         let service = HelloWorldService(
-            networkService: networkService,
+            networkingService: networkingService,
             baseURL: AppEnvironment.stsHelloWorld
         )
         let devMenuViewController = DeveloperMenuViewController(

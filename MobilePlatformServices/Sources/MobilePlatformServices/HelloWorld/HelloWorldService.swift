@@ -11,32 +11,32 @@ public protocol MPTServicesNetworkClient {
 }
 
 public final class HelloWorldService: HelloWorldProvider {
-    private let networkService: MPTServicesNetworkClient
+    private let networkingService: MPTServicesNetworkClient
     private let baseURL: URL
 
     public init(
-        networkService: MPTServicesNetworkClient,
+        networkingService: MPTServicesNetworkClient,
         baseURL: URL
     ) {
-        self.networkService = networkService
+        self.networkingService = networkingService
         self.baseURL = baseURL
     }
 
     public func requestHelloWorld() async throws -> String {
-        let data = try await networkService
+        let data = try await networkingService
             .makeAuthorizedRequest(scope: "sts-test.hello-world.read",
                                    request: URLRequest(url: baseURL))
         return "Success: \(String(data: data, encoding: .utf8) ?? "Couldn't decode data")"
     }
 
     public func requestHelloWorldWrongScope() async throws {
-        _ = try await networkService
+        _ = try await networkingService
             .makeAuthorizedRequest(scope: "sts-test.hello-world",
                                    request: URLRequest(url: baseURL))
     }
 
     public func requestHelloWorldWrongEndpoint() async throws {
-        _ = try await networkService
+        _ = try await networkingService
             .makeAuthorizedRequest(scope: "sts-test.hello-world.read",
                                    request: URLRequest(url: baseURL.appendingPathComponent("error")))
     }

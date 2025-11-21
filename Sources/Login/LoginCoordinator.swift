@@ -24,6 +24,7 @@ final class LoginCoordinator: NSObject,
     
     private var sessionState: AppSessionState?
     private var serviceState: RemoteServiceState?
+    
     private var serverErrorCounter = 0
     
     private var loginTask: Task<Void, Never>? {
@@ -185,11 +186,11 @@ final class LoginCoordinator: NSObject,
               root.topViewController is IntroViewController else {
             return
         }
-        switch sessionState {
-        case .notLoggedIn:
+        switch (sessionState, serviceState) {
+        case (.notLoggedIn, _):
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
-        case .userLogOut:
+        case (.userLogOut, _):
             let viewModel = SignOutSuccessfulViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
@@ -199,7 +200,7 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
-        case .systemLogOut:
+        case (.systemLogOut, _), (_, .accountIntervention):
             let viewModel = DataDeletedWarningViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
@@ -209,7 +210,7 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSErrorScreen(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
-        case .none, .expired, .loggedIn, .failed, .localAuthCancelled:
+        case (.none, .none), (.expired, _), (.loggedIn, _), (.failed, _), (.localAuthCancelled, _), (_, .activeService):
             return
         }
     }
