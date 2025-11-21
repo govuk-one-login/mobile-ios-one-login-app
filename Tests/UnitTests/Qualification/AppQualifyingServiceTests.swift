@@ -208,6 +208,19 @@ extension AppQualifyingServiceTests {
         XCTAssert(self.sessionState == .localAuthCancelled)
     }
     
+    func test_resumeSession_noInternet_error() {
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = RefreshTokenExchangeError.noInternet
+        sut.delegate = self
+        sut.initiate()
+        
+        waitForTruth(
+            self.appState == .offline,
+            timeout: 5
+        )
+    }
+    
     func test_resumeSession_nonCantDecryptData_error() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved

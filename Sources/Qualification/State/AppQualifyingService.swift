@@ -109,7 +109,10 @@ final class AppQualifyingService: QualifyingService {
                 // In this instance, the user would have the option to retry the local auth prompt
                 // As such, no additional action is required.
                 sessionState = .localAuthCancelled
+            } catch RefreshTokenExchangeError.noInternet {
+                appInfoState = .offline
             } catch {
+                // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors RefreshTokenExchangeManager
                 analyticsService.logCrash(error)
                 do {
                     try await sessionManager.clearAllSessionData(restartLoginFlow: true)
