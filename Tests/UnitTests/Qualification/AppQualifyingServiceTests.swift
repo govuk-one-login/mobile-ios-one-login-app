@@ -11,6 +11,7 @@ final class AppQualifyingServiceTests: XCTestCase {
 
     private var appState: AppInformationState?
     private var sessionState: AppSessionState?
+    private var serviceState: RemoteServiceState?
 
     override func setUp() {
         super.setUp()
@@ -326,5 +327,9 @@ extension AppQualifyingServiceTests: AppQualifyingServiceDelegate {
     
     func didChangeSessionState(state sessionState: AppSessionState) {
         self.sessionState = sessionState
+    }
+    
+    func didChangeServiceState(state serviceState: OneLogin.RemoteServiceState) {
+        self.serviceState = serviceState
     }
 }

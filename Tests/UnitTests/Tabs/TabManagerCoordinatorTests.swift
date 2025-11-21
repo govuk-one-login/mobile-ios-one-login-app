@@ -19,7 +19,7 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         sut = TabManagerCoordinator(root: tabBarController,
                                     analyticsService: mockAnalyticsService,
-                                    networkClient: NetworkClient(),
+                                    networkingService: NetworkClient(),
                                     sessionManager: mockSessionManager)
     }
     

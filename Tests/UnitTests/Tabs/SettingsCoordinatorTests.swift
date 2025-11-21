@@ -23,7 +23,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         urlOpener = MockURLOpener()
         sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                   sessionManager: mockSessionManager,
-                                  networkClient: mockNetworkClient,
+                                  networkingService: mockNetworkClient,
                                   urlOpener: urlOpener)
         let window = UIWindow()
         window.rootViewController = sut.root
