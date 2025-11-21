@@ -11,8 +11,10 @@ final class OnboardingCoordinator: NSObject,
     private var analyticsPreferenceStore: AnalyticsPreferenceStore
     private let urlOpener: URLOpener
     
-    init(analyticsPreferenceStore: AnalyticsPreferenceStore,
-         urlOpener: URLOpener) {
+    init(
+        analyticsPreferenceStore: AnalyticsPreferenceStore,
+        urlOpener: URLOpener
+    ) {
         self.analyticsPreferenceStore = analyticsPreferenceStore
         self.urlOpener = urlOpener
     }

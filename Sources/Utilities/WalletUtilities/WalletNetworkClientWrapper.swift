@@ -32,6 +32,9 @@ public final class WalletNetworkClientWrapper: WalletNetworkClient {
             NotificationCenter.default.post(name: .sessionExpired)
             throw SessionError.expired
         }
-        return try await networkClient.makeAuthorizedRequest(scope: scope, request: request)
+        return try await networkClient.makeAuthorizedRequest(
+            scope: scope,
+            request: request
+        )
     }
 }

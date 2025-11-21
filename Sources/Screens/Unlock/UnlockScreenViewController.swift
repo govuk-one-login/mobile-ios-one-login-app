@@ -51,6 +51,7 @@ class UnlockScreenViewController: BaseViewController {
     
     @IBAction private func unlockScreenButton(_ sender: Any) {
         viewModel.primaryButtonViewModel.action()
+        isLoading = true
     }
     
     @IBOutlet private var loadingStackView: UIStackView! {

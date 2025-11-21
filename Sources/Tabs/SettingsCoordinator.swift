@@ -20,10 +20,12 @@ final class SettingsCoordinator: NSObject,
     private let networkClient: NetworkClient
     private let urlOpener: URLOpener
     
-    init(analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager & UserProvider,
-         networkClient: NetworkClient,
-         urlOpener: URLOpener) {
+    init(
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager & UserProvider,
+        networkClient: NetworkClient,
+        urlOpener: URLOpener
+    ) {
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkClient = networkClient

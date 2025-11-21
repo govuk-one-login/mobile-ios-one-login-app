@@ -1,3 +1,4 @@
+import AppIntegrity
 import Authentication
 import Combine
 import Foundation
@@ -96,14 +97,17 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var persistentID: String? {
-        try? encryptedStore.readItem(itemName: OLString.persistentSessionID)
+        guard let persistenID = try? encryptedStore
+            .readItem(itemName: OLString.persistentSessionID),
+              !persistenID.isEmpty else { return nil }
+        return persistenID
     }
     
     private var hasNotRemovedLocalAuth: Bool {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
-    func startSession(
+    func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
@@ -121,8 +125,7 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.sessionMismatch
         }
         
-        let response = try await session
-            .performLoginFlow(configuration: configuration(persistentID))
+        let response = try await session.performLoginFlow(configuration: configuration(persistentID))
         tokenResponse = response
         
         // update curent state
@@ -140,12 +143,12 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        try saveSession()
+        try saveAuthSession()
         
         NotificationCenter.default.post(name: .enrolmentComplete)
     }
     
-    func saveSession() throws {
+    func saveAuthSession() throws {
         guard let tokenResponse else {
             assertionFailure("Could not save session as token response was not set")
             return
@@ -160,24 +163,9 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
-        if let refreshToken = tokenResponse.refreshToken {
-            try encryptedStore.saveDate(
-                id: OLString.refreshTokenExpiry,
-                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
-            )
-        }
-        
-        let tokens = StoredTokens(
-            idToken: tokenResponse.idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken
-        )
-        
-        try storeKeyService.save(tokens: tokens)
-        
-        unprotectedStore.set(
-            tokenResponse.expiryDate,
-            forKey: OLString.accessTokenExpiry
+        try saveLoginTokens(
+            tokenResponse: tokenResponse,
+            idToken: tokenResponse.idToken
         )
         
         unprotectedStore.set(
@@ -186,20 +174,65 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
-    func resumeSession() throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws {
         guard hasNotRemovedLocalAuth else {
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
-        let keys = try storeKeyService.fetch()
-                
-        if let idToken = keys.idToken {
-            user.send(try IDTokenUserRepresentation(idToken: idToken))
-        } else {
-            user.send(nil)
+        guard persistentID != nil else {
+            throw PersistentSessionError.noSessionExists
         }
         
-        tokenProvider.update(subjectToken: keys.accessToken)
+        let storedTokens = try storeKeyService.fetch()
+        
+        guard let idToken = storedTokens.idToken,
+              !idToken.isEmpty else {
+            throw PersistentSessionError.idTokenNotStored
+        }
+        
+        user.send(try IDTokenUserRepresentation(idToken: idToken))
+        
+        guard let refreshToken = storedTokens.refreshToken else {
+            tokenProvider.update(subjectToken: storedTokens.accessToken)
+            return
+        }
+        
+        let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+            refreshToken: refreshToken,
+            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+        )
+        
+        try saveLoginTokens(
+            tokenResponse: exchangeTokenResponse,
+            idToken: idToken
+        )
+    }
+    
+    private func saveLoginTokens(
+        tokenResponse: TokenResponse,
+        idToken: String?
+    ) throws {
+        if let refreshToken = tokenResponse.refreshToken {
+            try encryptedStore.saveDate(
+                id: OLString.refreshTokenExpiry,
+                try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
+            )
+        }
+        
+        let tokens = StoredTokens(
+            idToken: idToken,
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken
+        )
+        
+        try storeKeyService.save(tokens: tokens)
+        
+        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        
+        unprotectedStore.set(
+            tokenResponse.expiryDate,
+            forKey: OLString.accessTokenExpiry
+        )
     }
     
     func endCurrentSession() {
@@ -218,9 +251,7 @@ final class PersistentSessionManager: SessionManager {
         endCurrentSession()
         
         if restartLoginFlow {
-            NotificationCenter.default.post(
-                name: .systemLogUserOut
-            )
+            NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
     
@@ -234,13 +265,15 @@ enum PersistentSessionError: Error, Equatable {
     case userRemovedLocalAuth
     case sessionMismatch
     case cannotDeleteData(Error)
+    case idTokenNotStored
     
     static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
         switch (lhs, rhs) {
         case (.noSessionExists, .noSessionExists),
             (.userRemovedLocalAuth, .userRemovedLocalAuth),
             (.sessionMismatch, .sessionMismatch),
-            (.cannotDeleteData, .cannotDeleteData):
+            (.cannotDeleteData, .cannotDeleteData),
+            (.idTokenNotStored, .idTokenNotStored):
             true
         default:
             false

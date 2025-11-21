@@ -34,10 +34,12 @@ final class TabManagerCoordinator: NSObject,
     
     private(set) var addTabTask: Task<Void, Never>?
     
-    init(root: UITabBarController,
-         analyticsService: OneLoginAnalyticsService,
-         networkClient: NetworkClient,
-         sessionManager: SessionManager) {
+    init(
+        root: UITabBarController,
+        analyticsService: OneLoginAnalyticsService,
+        networkClient: NetworkClient,
+        sessionManager: SessionManager
+    ) {
         self.root = root
         self.analyticsService = analyticsService
         self.networkClient = networkClient

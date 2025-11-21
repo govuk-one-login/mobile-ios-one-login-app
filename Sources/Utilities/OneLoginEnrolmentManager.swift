@@ -42,7 +42,7 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
                     return
                 }
                 do {
-                    try sessionManager.saveSession()
+                    try sessionManager.saveAuthSession()
                     completeEnrolment(isWalletEnrolment: isWalletEnrolment, completion: completion)
                 } catch {
                     analyticsService.logCrash(error)
