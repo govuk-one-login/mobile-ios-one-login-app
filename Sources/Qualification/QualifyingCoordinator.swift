@@ -26,7 +26,7 @@ final class QualifyingCoordinator: NSObject,
     private let appQualifyingService: QualifyingService
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
-    private let networkService: OneLoginNetworkService
+    private let networkingService: OneLoginNetworkingService
     
     private var loginCoordinator: LoginCoordinator? {
         childCoordinators.firstInstanceOf(LoginCoordinator.self)
@@ -50,13 +50,13 @@ final class QualifyingCoordinator: NSObject,
         appQualifyingService: QualifyingService,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager,
-        networkService: OneLoginNetworkService
+        networkingService: OneLoginNetworkingService
     ) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
-        self.networkService = networkService
+        self.networkingService = networkingService
         super.init()
         self.appQualifyingService.delegate = self
     }
@@ -157,7 +157,7 @@ extension QualifyingCoordinator {
             let tabManagerCoordinator = TabManagerCoordinator(
                 root: OrientationLockingTabBarController(),
                 analyticsService: analyticsService,
-                networkService: networkService,
+                networkingService: networkingService,
                 sessionManager: sessionManager
             )
             displayChildCoordinator(tabManagerCoordinator)

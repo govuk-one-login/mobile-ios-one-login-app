@@ -21,7 +21,7 @@ final class SceneDelegate: UIResponder,
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
     private lazy var networkClient = NetworkClient()
-    private lazy var networkService = NetworkService(networkClient: networkClient)
+    private lazy var networkingService = NetworkingService(networkClient: networkClient)
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
@@ -62,7 +62,7 @@ final class SceneDelegate: UIResponder,
             appQualifyingService: appQualifyingService,
             analyticsService: analyticsService,
             sessionManager: sessionManager,
-            networkService: networkService
+            networkingService: networkingService
         )
         rootCoordinator?.start()
         setUpBasicUI()

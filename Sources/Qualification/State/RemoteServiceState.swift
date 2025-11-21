@@ -1,8 +1,9 @@
 import Foundation
 
 enum RemoteServiceState: Equatable {
+    /// The service is active and usable
     case activeService
-    /// An error occurred in local authentication
+    /// An intervention is flagged on the user's account
     case accountIntervention
 
     static func == (lhs: RemoteServiceState, rhs: RemoteServiceState) -> Bool {

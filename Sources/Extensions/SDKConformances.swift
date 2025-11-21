@@ -16,7 +16,7 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
 extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
 
 // TODO: add IDCheckNetworkClient when branch feature/dcmaw-16211-one-login-network-client-service merges in ID Check SDK
-typealias OneLoginNetworkService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient
+typealias OneLoginNetworkingService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService
 
@@ -51,7 +51,7 @@ final class WalletAuthorizedHTTPLogger: WalletTxMALogger {
     /// `URL` address for sending HTTP requests
     let loggingURL: URL
     /// `NetworkClient` from the Networking package dependency to handle HTTP networking
-    let networkService: OneLoginNetworkService
+    let networkingService: OneLoginNetworkingService
     /// Scope for service access token
     let scope: String
     /// callback to handle possible errors resulting from `NetworkClient`'s `makeRequest` method
@@ -59,13 +59,13 @@ final class WalletAuthorizedHTTPLogger: WalletTxMALogger {
 
     init(
         url: URL,
-        networkService: OneLoginNetworkService,
+        networkingService: OneLoginNetworkingService,
         scope: String,
         handleError: ((Error) -> Void)? = nil
     ) {
         self.loggingURL = url
         self.scope = scope
-        self.networkService = networkService
+        self.networkingService = networkingService
         self.handleError = handleError
     }
     
@@ -104,7 +104,7 @@ final class WalletAuthorizedHTTPLogger: WalletTxMALogger {
         request.httpBody = data
         
         do {
-            _ = try await networkService.makeAuthorizedRequest(
+            _ = try await networkingService.makeAuthorizedRequest(
                 scope: scope,
                 request: request
             )

@@ -17,14 +17,14 @@ final class HomeCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     
     private var analyticsService: OneLoginAnalyticsService
-    private let networkService: OneLoginNetworkService
+    private let networkingService: OneLoginNetworkingService
     
     init(
         analyticsService: OneLoginAnalyticsService,
-        networkService: OneLoginNetworkService
+        networkingService: OneLoginNetworkingService
     ) {
         self.analyticsService = analyticsService
-        self.networkService = networkService
+        self.networkingService = networkingService
     }
     
     func start() {
@@ -35,7 +35,7 @@ final class HomeCoordinator: NSObject,
         )
         let criOrchestrator = CRIOrchestrator(
             analyticsService: analyticsService,
-            networkClient: networkService,
+            networkClient: networkingService,
             criURLs: OneLoginCRIURLs()
         )
         let hc = HomeViewController(

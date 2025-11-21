@@ -21,7 +21,7 @@ final class TabManagerCoordinator: NSObject,
     weak var parentCoordinator: ParentCoordinator?
     var childCoordinators = [ChildCoordinator]()
     private let analyticsService: OneLoginAnalyticsService
-    private let networkService: OneLoginNetworkService
+    private let networkingService: OneLoginNetworkingService
     private let sessionManager: SessionManager
     
     lazy var delegate: TabCoordinatorDelegate? = TabCoordinatorDelegate(coordinator: self)
@@ -37,12 +37,12 @@ final class TabManagerCoordinator: NSObject,
     init(
         root: UITabBarController,
         analyticsService: OneLoginAnalyticsService,
-        networkService: OneLoginNetworkService,
+        networkingService: OneLoginNetworkingService,
         sessionManager: SessionManager
     ) {
         self.root = root
         self.analyticsService = analyticsService
-        self.networkService = networkService
+        self.networkingService = networkingService
         self.sessionManager = sessionManager
     }
     
@@ -76,7 +76,7 @@ final class TabManagerCoordinator: NSObject,
         
         let hc = HomeCoordinator(
             analyticsService: analyticsService,
-            networkService: networkService
+            networkingService: networkingService
         )
         addTab(hc)
     }
@@ -92,7 +92,7 @@ final class TabManagerCoordinator: NSObject,
         
         let wc = WalletCoordinator(
             analyticsService: analyticsService,
-            networkService: networkService,
+            networkingService: networkingService,
             sessionManager: sessionManager
         )
         addTab(wc)
@@ -111,7 +111,7 @@ final class TabManagerCoordinator: NSObject,
         let pc = SettingsCoordinator(
             analyticsService: analyticsService,
             sessionManager: sessionManager,
-            networkService: networkService,
+            networkingService: networkingService,
             urlOpener: UIApplication.shared
         )
         addTab(pc)
