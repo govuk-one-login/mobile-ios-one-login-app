@@ -1,7 +1,10 @@
 import Foundation
 
 protocol DefaultsCache {
-    func set(_ value: Any?, forKey defaultName: String)
+    func set(
+        _ value: Any?,
+        forKey defaultName: String
+    )
     func data(forKey key: String) -> Data?
 }
 

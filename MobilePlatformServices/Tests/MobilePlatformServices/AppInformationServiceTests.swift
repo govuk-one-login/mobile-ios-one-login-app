@@ -9,9 +9,11 @@ final class AppInformationServiceTests: XCTestCase {
     private var configuration: URLSessionConfiguration!
     private var client: NetworkClient!
     private var mockCache: MockAppInfoCache!
-    private func createMock(available: Bool = true,
-                            minimumVersion: String = "1.0.0",
-                            releaseFlags: [Bool] = [true, false]) -> Data {
+    private func createMock(
+        available: Bool = true,
+        minimumVersion: String = "1.0.0",
+        releaseFlags: [Bool] = [true, false]
+    ) -> Data {
         Data("""
                 {
                     "apps": {
@@ -48,7 +50,11 @@ final class AppInformationServiceTests: XCTestCase {
         mockCache = MockAppInfoCache()
 
         let url = URL(string: "https://mobile.build.account.gov.uk/appInfo")!
-        sut = .init(client: client, baseURL: url, cache: mockCache)
+        sut = AppInformationService(
+            networkingService: client,
+            baseURL: url,
+            cache: mockCache
+        )
     }
     
     override func tearDown() {
