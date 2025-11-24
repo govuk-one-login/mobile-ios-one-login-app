@@ -59,7 +59,7 @@
 		7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */; };
 		7C81ADD92C78ABB900A73010 /* Date+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */; };
 		7C9CEA6F2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9CEA6A2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift */; };
-		7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */; };
+		7CA719682C846E7600973585 /* URLRequest+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719642C846E3800973585 /* URLRequest+OneLoginTests.swift */; };
 		7CA719692C846E7800973585 /* TokenHolderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA719662C846E5100973585 /* TokenHolderTests.swift */; };
 		7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */; };
 		7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */; };
@@ -384,7 +384,7 @@
 		7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentSessionManagerTests.swift; sourceTree = "<group>"; };
 		7C81ADD72C78AB5D00A73010 /* Date+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+OneLogin.swift"; sourceTree = "<group>"; };
 		7C9CEA6A2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppIntegrityProvider+OneLoginTests.swift"; sourceTree = "<group>"; };
-		7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+AuthorizationTests.swift"; sourceTree = "<group>"; };
+		7CA719642C846E3800973585 /* URLRequest+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+OneLoginTests.swift"; sourceTree = "<group>"; };
 		7CA719662C846E5100973585 /* TokenHolderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHolderTests.swift; sourceTree = "<group>"; };
 		7CB5BD8D2C946EFD00ABAE4C /* UserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvider.swift; sourceTree = "<group>"; };
 		7CB5BD8F2C948C7200ABAE4C /* AppQualifyingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppQualifyingServiceTests.swift; sourceTree = "<group>"; };
@@ -903,6 +903,7 @@
 			children = (
 				C84960002EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift */,
 				7C9CEA6B2EBA5ADE0074EB18 /* CustomTypes */,
+				7CA719642C846E3800973585 /* URLRequest+OneLoginTests.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -920,7 +921,6 @@
 			isa = PBXGroup;
 			children = (
 				7CA719662C846E5100973585 /* TokenHolderTests.swift */,
-				7CA719642C846E3800973585 /* URLRequest+AuthorizationTests.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -2407,7 +2407,7 @@
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
 				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
-				7CA719682C846E7600973585 /* URLRequest+AuthorizationTests.swift in Sources */,
+				7CA719682C846E7600973585 /* URLRequest+OneLoginTests.swift in Sources */,
 				7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
 				C84960012EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift in Sources */,
