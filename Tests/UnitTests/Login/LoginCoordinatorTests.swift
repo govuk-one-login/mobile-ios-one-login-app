@@ -144,6 +144,19 @@ extension LoginCoordinatorTests {
     }
     
     @MainActor
+    func test_launchAuthenticationService_idTokenNotStored() throws {
+        // GIVEN the authentication session returns a idTokenNotStored error
+        mockSessionManager.errorFromStartSession = PersistentSessionError.idTokenNotStored
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the GenericErrorViewModel
+        XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
+    }
+    
+    @MainActor
     func test_launchAuthenticationService_accessDenied() throws {
         // GIVEN the authentication session returns an access denied error
         mockSessionManager.errorFromStartSession = LoginErrorV2(reason: .authorizationAccessDenied)
