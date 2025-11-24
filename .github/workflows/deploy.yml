@@ -12,7 +12,7 @@ on:
 jobs:
   deploy_app:
     name: ${{ inputs.configuration }}
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
@@ -40,7 +40,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
         run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.0.1.app
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.app
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@00943011d9042930efac3dcd3a170e4273319bc8 # pin@v5.1.0
