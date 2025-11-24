@@ -22,6 +22,7 @@
   "defaultOptions" : {
     "codeCoverage" : false,
     "diagnosticCollectionPolicy" : "Always",
+    "maximumTestRepetitions" : 3,
     "testExecutionOrdering" : "random",
     "testRepetitionMode" : "retryOnFailure"
   },
