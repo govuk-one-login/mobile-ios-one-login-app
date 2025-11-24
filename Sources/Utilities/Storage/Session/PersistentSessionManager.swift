@@ -256,7 +256,6 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    
     func clearAppForLogin() async throws {
         for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
             try await each.clearSessionData()
@@ -264,15 +263,15 @@ final class PersistentSessionManager: SessionManager {
         
         endCurrentSession()
     }
-    
-    func clearAllSessionData(restartLoginFlow: Bool) async throws {
+
+    func clearAllSessionData(presentSystemLogOut: Bool) async throws {
         for each in sessionBoundData {
             try await each.clearSessionData()
         }
         
         endCurrentSession()
         
-        if restartLoginFlow {
+        if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
