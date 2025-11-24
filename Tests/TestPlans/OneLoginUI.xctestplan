@@ -10,6 +10,7 @@
             "value" : "$(APP_CHECK_DEBUG_TOKEN)"
           }
         ],
+        "maximumTestRepetitions" : 3,
         "targetForVariableExpansion" : {
           "containerPath" : "container:OneLogin.xcodeproj",
           "identifier" : "219601E62A976302008F3427",
