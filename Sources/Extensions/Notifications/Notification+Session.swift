@@ -10,6 +10,7 @@ extension NotificationCenter {
     }
 }
 
+/// Session state notifications
 extension Notification.Name {
     static var enrolmentComplete: Self {
         Notification.Name("onelogin:enrolment-complete")
@@ -27,5 +28,12 @@ extension Notification.Name {
     /// Posted when the system detects that a user should be automatically logged out
     static var systemLogUserOut: Self {
         Notification.Name("onelogin:system-log-user-out")
+    }
+}
+
+/// Service state notifications
+extension Notification.Name {
+    static var accountIntervention: Self {
+        Notification.Name("onelogin:accountIntervention")
     }
 }

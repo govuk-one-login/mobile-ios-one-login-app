@@ -20,7 +20,10 @@ final class HelloWorldServiceTests: XCTestCase {
         client.authorizationProvider = self
 
         let url = URL(string: "https://hello-world.mobile.build.account.gov.uk/hello-world")!
-        sut = HelloWorldService(client: client, baseURL: url)
+        sut = HelloWorldService(
+            networkingService: client,
+            baseURL: url
+        )
     }
 
     override func tearDown() {
