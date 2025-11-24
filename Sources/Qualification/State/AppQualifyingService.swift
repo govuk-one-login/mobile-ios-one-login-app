@@ -117,7 +117,7 @@ final class AppQualifyingService: QualifyingService {
                 // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors RefreshTokenExchangeManager
                 analyticsService.logCrash(error)
                 do {
-                    try await sessionManager.clearAllSessionData(restartLoginFlow: true)
+                    try await sessionManager.clearAllSessionData(presentSystemLogOut: true)
                 } catch {
                     sessionState = .failed(error)
                 }
