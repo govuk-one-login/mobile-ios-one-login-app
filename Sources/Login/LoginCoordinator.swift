@@ -217,12 +217,12 @@ extension LoginCoordinator {
     
     private func handlePersistentSessionError(_ error: PersistentSessionError) {
         switch error {
-        case .noSessionExists:
+        case .sessionMismatch:
             showDataDeletedWarningScreen()
         case .cannotDeleteData(let error):
             showRecoverableErrorScreen(error)
         case .userRemovedLocalAuth,
-                .sessionMismatch,
+                .noSessionExists,
                 .idTokenNotStored:
             showGenericErrorScreen(error)
         }
@@ -235,7 +235,7 @@ extension LoginCoordinator {
                 returnFromErrorScreen()
             }
         case .unknown, .generic:
-            showUnrecoverableErrorScreen(error)
+            showRecoverableErrorScreen(error)
         case .invalidConfiguration,
                 .keychainAccess,
                 .notSupported:
