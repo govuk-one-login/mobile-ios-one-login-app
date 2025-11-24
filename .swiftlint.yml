@@ -4,6 +4,7 @@ excluded:
 - Frameworks
 - Dependencies
 - SnapshotHelper.swift
+- mobile-wallet-ios
 
 disabled_rules:
 - cyclomatic_complexity
