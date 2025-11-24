@@ -75,14 +75,14 @@ final class MockSessionManager: SessionManager {
         didCallEndCurrentSession = true
     }
     
-    func clearAllSessionData(restartLoginFlow: Bool = true) throws {
+    func clearAllSessionData(presentSystemLogOut: Bool = true) throws {
         defer {
             didCallClearAllSessionData = true
         }
         if let errorFromClearAllSessionData {
             throw errorFromClearAllSessionData
         }
-        if restartLoginFlow {
+        if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         } else {
             NotificationCenter.default.post(name: .userDidLogout)

@@ -537,7 +537,7 @@ extension PersistentSessionManagerTests {
             mockEncryptedStore
         ])
         // WHEN I clear all session data
-        try await sut.clearAllSessionData(restartLoginFlow: true)
+        try await sut.clearAllSessionData(presentSystemLogOut: true)
         // THEN my session data is deleted
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
         XCTAssertEqual(mockEncryptedStore.savedItems, [:])

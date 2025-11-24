@@ -117,7 +117,7 @@ final class PersistentSessionManager: SessionManager {
             //
             // I need to delete my session & Wallet data before I can login
             do {
-                try await clearAllSessionData(restartLoginFlow: true)
+                try await clearAllSessionData(presentSystemLogOut: true)
             } catch {
                 throw PersistentSessionError.cannotDeleteData(error)
             }
@@ -243,14 +243,14 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    func clearAllSessionData(restartLoginFlow: Bool) async throws {
+    func clearAllSessionData(presentSystemLogOut: Bool) async throws {
         for each in sessionBoundData {
             try await each.clearSessionData()
         }
         
         endCurrentSession()
         
-        if restartLoginFlow {
+        if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
