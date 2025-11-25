@@ -179,18 +179,8 @@ extension LocalAuthServiceWalletTests {
         XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.none))
     }
     
-    func test_isEnrolled_none() {
-        mockLocalAuthManager.type = .none
-        mockSessionManager.persistentID = "123456789"
-        
-        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
-        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
-        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.none))
-    }
-    
     func test_isEnrolled_none_noPersistenID() {
         mockLocalAuthManager.type = .none
-        mockSessionManager.persistentID = nil
         
         XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
         XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
