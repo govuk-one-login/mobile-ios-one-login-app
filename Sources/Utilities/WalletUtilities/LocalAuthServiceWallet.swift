@@ -100,9 +100,9 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             let type = try localAuthentication.type
             switch minimumAuth {
             case .biometrics:
-                return (type == .touchID || type == .faceID) && localAuthentication.hasBeenPrompted()
+                return (type == .touchID || type == .faceID) && sessionManager.persistentID != nil
             default:
-                return (type == .touchID || type == .faceID || type == .passcode) && localAuthentication.hasBeenPrompted()
+                return (type == .touchID || type == .faceID || type == .passcode) && sessionManager.persistentID != nil
             }
         } catch {
             preconditionFailure()
