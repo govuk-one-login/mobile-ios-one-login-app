@@ -2,6 +2,7 @@ import Authentication
 import Combine
 import Foundation
 import LocalAuthenticationWrapper
+import Logging
 import SecureStore
 
 final class PersistentSessionManager: SessionManager {
@@ -107,18 +108,36 @@ final class PersistentSessionManager: SessionManager {
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
-        guard !isReturningUser || persistentID != nil else {
-            // I am a returning user
-            // but cannot reauthenticate because I don't have a persistent session ID
-            //
-            // I need to delete my session & Wallet data before I can login
-            do {
-                try await clearAllSessionData(restartLoginFlow: true)
-            } catch {
-                throw PersistentSessionError.cannotDeleteData(error)
+        if persistentID == nil {
+            if isReturningUser {
+                // I am a returning user
+                // but cannot reauthenticate because I don't have a persistent session ID
+                //
+                // I need to delete my session & Wallet data before I can login
+                do {
+                    try await clearAllSessionData(
+                        clearAnalyticsPermissions: true,
+                        restartLoginFlow: true
+                    )
+                } catch {
+                    throw PersistentSessionError.cannotDeleteData(error)
+                }
+                
+                throw PersistentSessionError.sessionMismatch
+            } else {
+                // I am a first time user
+                // I don't have a persistent session ID
+                //
+                // I need to delete my session (but not analytics permissions) & Wallet data before I can login
+                do {
+                    try await clearAllSessionData(
+                        clearAnalyticsPermissions: false,
+                        restartLoginFlow: false
+                    )
+                } catch {
+                    throw PersistentSessionError.cannotDeleteData(error)
+                }
             }
-            
-            throw PersistentSessionError.sessionMismatch
         }
         
         let response = try await session
@@ -210,9 +229,22 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    func clearAllSessionData(restartLoginFlow: Bool) async throws {
-        for each in sessionBoundData {
-            try await each.clearSessionData()
+    func clearAllSessionData(
+        clearAnalyticsPermissions: Bool,
+        restartLoginFlow: Bool
+    ) async throws {
+        if clearAnalyticsPermissions {
+            for each in sessionBoundData {
+                try await each.clearSessionData()
+            }
+        } else {
+            for each in sessionBoundData {
+                if each is UserDefaultsPreferenceStore {
+                    continue
+                } else {
+                    try await each.clearSessionData()
+                }
+            }
         }
         
         endCurrentSession()
