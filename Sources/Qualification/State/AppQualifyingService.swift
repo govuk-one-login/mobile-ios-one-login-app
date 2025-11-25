@@ -112,7 +112,7 @@ final class AppQualifyingService: QualifyingService {
                 analyticsService.logCrash(error)
                 do {
                     try await sessionManager.clearAllSessionData(
-                        clearAnalyticsPermissions: true,
+                        includeAnalyticsPermissions: true,
                         restartLoginFlow: true
                     )
                 } catch {

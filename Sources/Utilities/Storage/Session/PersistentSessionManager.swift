@@ -116,7 +116,7 @@ final class PersistentSessionManager: SessionManager {
                 // I need to delete my session & Wallet data before I can login
                 do {
                     try await clearAllSessionData(
-                        clearAnalyticsPermissions: true,
+                        includeAnalyticsPermissions: true,
                         restartLoginFlow: true
                     )
                 } catch {
@@ -131,7 +131,7 @@ final class PersistentSessionManager: SessionManager {
                 // I need to delete my session (but not analytics permissions) & Wallet data before I can login
                 do {
                     try await clearAllSessionData(
-                        clearAnalyticsPermissions: false,
+                        includeAnalyticsPermissions: false,
                         restartLoginFlow: false
                     )
                 } catch {
@@ -230,10 +230,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAllSessionData(
-        clearAnalyticsPermissions: Bool,
+        includeAnalyticsPermissions: Bool,
         restartLoginFlow: Bool
     ) async throws {
-        if clearAnalyticsPermissions {
+        if includeAnalyticsPermissions {
             for each in sessionBoundData {
                 try await each.clearSessionData()
             }

@@ -84,7 +84,7 @@ final class SettingsCoordinator: NSObject,
         Task {
             do {
                 try await sessionManager.clearAllSessionData(
-                    clearAnalyticsPermissions: true,
+                    includeAnalyticsPermissions: true,
                     restartLoginFlow: false
                 )
                 finish()

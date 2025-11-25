@@ -31,7 +31,7 @@ final class WebAuthenticationService: AuthenticationService {
             throw error
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
             try await sessionManager.clearAllSessionData(
-                clearAnalyticsPermissions: true,
+                includeAnalyticsPermissions: true,
                 restartLoginFlow: true
             )
             throw error

@@ -45,7 +45,7 @@ protocol SessionManager: AnyObject, UserProvider {
 
     /// Completely removes all user session data (including the persistent session and Wallet data) from the device
     func clearAllSessionData(
-        clearAnalyticsPermissions: Bool,
+        includeAnalyticsPermissions: Bool,
         restartLoginFlow: Bool
     ) async throws
 }
