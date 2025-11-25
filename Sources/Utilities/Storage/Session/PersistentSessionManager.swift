@@ -238,12 +238,8 @@ final class PersistentSessionManager: SessionManager {
                 try await each.clearSessionData()
             }
         } else {
-            for each in sessionBoundData {
-                if each is UserDefaultsPreferenceStore {
-                    continue
-                } else {
-                    try await each.clearSessionData()
-                }
+            for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
+                try await each.clearSessionData()
             }
         }
         
