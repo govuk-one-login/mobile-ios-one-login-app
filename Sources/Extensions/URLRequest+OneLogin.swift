@@ -17,8 +17,7 @@ extension URLRequest {
             )
         }
         
-        request.httpBody = TokenQueryItem
-            .makeRefreshTokenExchangeQueryString(for: token)?.data(using: .utf8)
+        request.httpBody = makeRefreshTokenExchangeQueryString(for: token)?.data(using: .utf8)
         
         return request
     }
@@ -31,7 +30,7 @@ extension URLRequest {
         
         request.asXWWWFormURLEncoded()
         
-        request.httpBody = TokenQueryItem.makeServiceTokenQueryString(
+        request.httpBody = makeServiceTokenQueryString(
             subjectToken: subjectToken,
             scope: scope
         )?.data(using: .utf8)
@@ -39,7 +38,7 @@ extension URLRequest {
         return request
     }
     
-    mutating func asXWWWFormURLEncoded() {
+    private mutating func asXWWWFormURLEncoded() {
         self.httpMethod = "POST"
         
         self.setValue(
@@ -47,72 +46,70 @@ extension URLRequest {
             forHTTPHeaderField: "Content-Type"
         )
     }
+    
+    private static func makeRefreshTokenExchangeQueryString(for token: String) -> String? {
+        var urlComponents = URLComponents()
+        
+        urlComponents.queryItems = [
+            .grantType(.refreshToken),
+            .refreshToken(token)
+        ]
+        
+        return urlComponents.percentEncodedQuery
+    }
+    
+    private static func makeServiceTokenQueryString(subjectToken: String, scope: String) -> String? {
+        var urlComponents = URLComponents()
+        
+        urlComponents.queryItems = [
+            .subjectTokenType,
+            .grantType(.tokenExchange),
+            .subjectToken(subjectToken),
+            .scope(scope)
+        ]
+        
+        return urlComponents.percentEncodedQuery
+    }
 }
 
-enum TokenQueryItem {
-    case grantTypeRefreshToken
-    case refresh(token: String)
-    case subjectTokenType
-    case grantTypeTokenExchange
-    case subject(token: String)
-    case scope(String)
-    
-    var queryItem: URLQueryItem {
-        switch self {
-        case .grantTypeRefreshToken:
-            URLQueryItem(
-                name: "grant_type",
-                value: "refresh_token"
-            )
-        case .refresh(token: let token):
-            URLQueryItem(
-                name: "refresh_token",
-                value: token
-            )
-        case .subjectTokenType:
-            URLQueryItem(
-                name: "subject_token_type",
-                value: "urn:ietf:params:oauth:token-type:access_token"
-            )
-        case .grantTypeTokenExchange:
-            URLQueryItem(
-                name: "grant_type",
-                value: "urn:ietf:params:oauth:grant-type:token-exchange"
-            )
-        case .subject(token: let token):
-            URLQueryItem(
-                name: "subject_token",
-                value: token
-            )
-        case .scope(let scope):
-            URLQueryItem(
-                name: "scope",
-                value: scope
-            )
-        }
+extension URLQueryItem {
+    enum GrantType: String {
+        case refreshToken = "refresh_token"
+        case tokenExchange = "urn:ietf:params:oauth:grant-type:token-exchange"
     }
     
-    static func makeRefreshTokenExchangeQueryString(for token: String) -> String? {
-        var urlComponents = URLComponents()
-        
-        urlComponents.queryItems = [
-            TokenQueryItem.grantTypeRefreshToken,
-            TokenQueryItem.refresh(token: token)
-        ].map(\.queryItem)
-        
-        return urlComponents.percentEncodedQuery
+    static func grantType(_ grantType: GrantType) -> Self {
+        URLQueryItem(
+            name: "grant_type",
+            value: grantType.rawValue
+        )
     }
     
-    static func makeServiceTokenQueryString(subjectToken: String, scope: String) -> String? {
-        var urlComponents = URLComponents()
-        
-        urlComponents.queryItems = [
-            TokenQueryItem.subjectTokenType,
-            TokenQueryItem.grantTypeTokenExchange,
-            TokenQueryItem.subject(token: subjectToken),
-            TokenQueryItem.scope(scope)
-        ].map(\.queryItem)
-        
-        return urlComponents.percentEncodedQuery
+    static func refreshToken(_ token: String) -> Self {
+        URLQueryItem(
+            name: "refresh_token",
+            value: token
+        )
+    }
+    
+    static var subjectTokenType: Self {
+        URLQueryItem(
+            name: "subject_token_type",
+            value: "urn:ietf:params:oauth:token-type:access_token"
+        )
+    }
+    
+    static func subjectToken(_ token: String) -> Self {
+        URLQueryItem(
+            name: "subject_token",
+            value: token
+        )
+    }
+    
+    static func scope(_ scope: String) -> Self {
+        URLQueryItem(
+            name: "scope",
+            value: scope
+        )
     }
 }
