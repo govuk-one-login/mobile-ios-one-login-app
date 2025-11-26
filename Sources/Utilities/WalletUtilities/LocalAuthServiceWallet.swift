@@ -97,7 +97,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
         }
         
         do {
-            // persistentID is the marker for a user having enrolled the app in local auth by their login information being saved
+            // persistentID being stored is the marker for a user having enrolled in local auth during their session 
             let type = try localAuthentication.type
             switch minimumAuth {
             case .biometrics:
