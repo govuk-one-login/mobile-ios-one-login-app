@@ -125,15 +125,66 @@ extension LocalAuthServiceWalletTests {
         XCTAssertTrue(isEnrolled)
     }
     
-    func test_isEnrolled() {
+    func test_isEnrolled_faceID() {
+        mockLocalAuthManager.type = .faceID
+        mockSessionManager.persistentID = "123456789"
+        
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.none))
+    }
+    
+    func test_isEnrolled_faceID_noPersistenID() {
+        mockLocalAuthManager.type = .faceID
+        mockSessionManager.persistentID = nil
+        
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.none))
+    }
+    
+    func test_isEnrolled_touchID() {
+        mockLocalAuthManager.type = .touchID
+        mockSessionManager.persistentID = "123456789"
+        
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.none))
+    }
+    
+    func test_isEnrolled_touchID_noPersistenID() {
+        mockLocalAuthManager.type = .touchID
+        mockSessionManager.persistentID = nil
+        
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.none))
+    }
+    
+    func test_isEnrolled_passcode() {
         mockLocalAuthManager.type = .passcode
-        mockLocalAuthManager.userPromptedForLocalAuth = false
-        XCTAssertFalse(mockLocalAuthManager.hasBeenPrompted())
-        mockLocalAuthManager.userPromptedForLocalAuth = true
+        mockSessionManager.persistentID = "123456789"
         
         XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
         XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
         XCTAssertTrue(sut.isEnrolledToLocalAuth(LocalAuth.none))
+    }
+    
+    func test_isEnrolled_passcode_noPersistenID() {
+        mockLocalAuthManager.type = .passcode
+        mockSessionManager.persistentID = nil
+        
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.none))
+    }
+    
+    func test_isEnrolled_none_noPersistenID() {
+        mockLocalAuthManager.type = .none
+        
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.biometrics))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.passcode))
+        XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.none))
     }
     
     func test_primaryButtonActionWithBiometrics() throws {

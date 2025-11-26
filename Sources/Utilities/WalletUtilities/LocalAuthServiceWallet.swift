@@ -97,12 +97,13 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
         }
         
         do {
+            // persistentID being stored is the marker for a user having enrolled in local auth during their session 
             let type = try localAuthentication.type
             switch minimumAuth {
             case .biometrics:
-                return (type == .touchID || type == .faceID) && localAuthentication.hasBeenPrompted()
+                return (type == .touchID || type == .faceID) && sessionManager.persistentID != nil
             default:
-                return (type == .touchID || type == .faceID || type == .passcode) && localAuthentication.hasBeenPrompted()
+                return (type == .touchID || type == .faceID || type == .passcode) && sessionManager.persistentID != nil
             }
         } catch {
             preconditionFailure()
