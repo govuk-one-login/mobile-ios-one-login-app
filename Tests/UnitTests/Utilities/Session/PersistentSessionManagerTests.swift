@@ -237,7 +237,6 @@ extension PersistentSessionManagerTests {
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         
-        // THEN a session mismatch error is thrown
         // AND my session data is cleared
         waitForTruth(self.didCall_deleteSessionBoundData, timeout: 5)
         XCTAssertTrue(mockEncryptedSecureStoreMigrator.savedItems.isEmpty)
