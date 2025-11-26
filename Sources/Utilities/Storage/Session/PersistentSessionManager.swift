@@ -231,7 +231,6 @@ final class PersistentSessionManager: SessionManager {
         endCurrentSession()
     }
     
-    
     func clearAllSessionData(restartLoginFlow: Bool) async throws {
         for each in sessionBoundData {
             try await each.clearSessionData()

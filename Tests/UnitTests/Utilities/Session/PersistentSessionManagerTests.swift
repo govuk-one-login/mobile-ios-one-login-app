@@ -224,13 +224,13 @@ extension PersistentSessionManagerTests {
     @MainActor
     func test_startSession_clearAppForLogin() async throws {
         // GIVEN I am a returning user
-        mockEncryptedSecureStoreMigrator.deleteItem(itemName: OLString.persistentSessionID)
         sut.registerSessionBoundData([
             self,
             mockEncryptedSecureStoreMigrator,
             mockUnprotectedStore
         ])
         // AND I am unable to re-authenticate because I have no persistent session ID
+        mockEncryptedSecureStoreMigrator.deleteItem(itemName: OLString.persistentSessionID)
         // WHEN I start a session
         try await sut.startSession(
             MockLoginSession(window: UIWindow()),
@@ -242,7 +242,6 @@ extension PersistentSessionManagerTests {
         waitForTruth(self.didCall_deleteSessionBoundData, timeout: 5)
         XCTAssertTrue(mockEncryptedSecureStoreMigrator.savedItems.isEmpty)
         XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
-        // AND a logout notification is sent
     }
     
     @MainActor
