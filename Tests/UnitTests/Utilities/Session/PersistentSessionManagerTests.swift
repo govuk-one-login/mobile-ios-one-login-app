@@ -1,5 +1,6 @@
 // swiftlint:disable file_length
 import Authentication
+@testable import Logging
 @testable @preconcurrency import OneLogin
 import XCTest
 
@@ -222,25 +223,34 @@ extension PersistentSessionManagerTests {
     }
     
     @MainActor
-    func test_startSession_clearAppForLogin() async throws {
-        // GIVEN I am a returning user
+    func test_startSession_clearAppForLogin_exceptAnalyticsPreference() async throws {
+        let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
+        mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
+        
+        // GIVEN I am a returning user who previously accepted analytics
         sut.registerSessionBoundData([
             self,
             mockEncryptedSecureStoreMigrator,
-            mockUnprotectedStore
+            mockUnprotectedStore,
+            mockAnalyticsPrefernceStore
         ])
+        
         // AND I am unable to re-authenticate because I have no persistent session ID
         mockEncryptedSecureStoreMigrator.deleteItem(itemName: OLString.persistentSessionID)
+        
         // WHEN I start a session
         try await sut.startSession(
             MockLoginSession(window: UIWindow()),
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         
-        // AND my session data is cleared
+        // THEN my session data is cleared
         waitForTruth(self.didCall_deleteSessionBoundData, timeout: 5)
         XCTAssertTrue(mockEncryptedSecureStoreMigrator.savedItems.isEmpty)
         XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
+        
+        // AND my analytics preference is still set
+        XCTAssertEqual(mockAnalyticsPrefernceStore.hasAcceptedAnalytics, true)
     }
     
     @MainActor
