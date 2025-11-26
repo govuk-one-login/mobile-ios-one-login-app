@@ -184,13 +184,13 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(configuration.persistentSessionId, "123456789")
     }
     
+    @MainActor
     func test_startSession_cannotReauthenticateWithoutPersistentSessionID() async throws {
         let exp = XCTNSNotificationExpectation(
             name: .systemLogUserOut,
             object: nil,
             notificationCenter: NotificationCenter.default
         )
-        
         // GIVEN I am a returning user
         mockUnprotectedStore.set(true, forKey: OLString.returningUser)
         sut.registerSessionBoundData([
@@ -202,9 +202,8 @@ extension PersistentSessionManagerTests {
         mockEncryptedSecureStoreMigrator.deleteItem(itemName: OLString.persistentSessionID)
         // WHEN I start a session
         do {
-            let loginSession = await MockLoginSession(window: UIWindow())
             try await sut.startSession(
-                loginSession,
+                MockLoginSession(window: UIWindow()),
                 using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
             )
             
@@ -212,6 +211,7 @@ extension PersistentSessionManagerTests {
         } catch PersistentSessionError.sessionMismatch {
             // THEN a session mismatch error is thrown
             // AND my session data is cleared
+            XCTAssertTrue(mockEncryptedSecureStoreMigrator.savedItems.isEmpty)
             XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
             XCTAssertTrue(didCall_deleteSessionBoundData)
             // AND a logout notification is sent
@@ -221,12 +221,36 @@ extension PersistentSessionManagerTests {
         }
     }
     
-    func test_startSession_exposesUserAndAccessToken() async throws {
-        // GIVEN I am logged in
-        let loginSession = await MockLoginSession(window: UIWindow())
+    @MainActor
+    func test_startSession_clearAppForLogin() async throws {
+        // GIVEN I am a returning user
+        mockEncryptedSecureStoreMigrator.deleteItem(itemName: OLString.persistentSessionID)
+        sut.registerSessionBoundData([
+            self,
+            mockEncryptedSecureStoreMigrator,
+            mockUnprotectedStore
+        ])
+        // AND I am unable to re-authenticate because I have no persistent session ID
         // WHEN I start a session
         try await sut.startSession(
-            loginSession,
+            MockLoginSession(window: UIWindow()),
+            using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
+        )
+        
+        // THEN a session mismatch error is thrown
+        // AND my session data is cleared
+        waitForTruth(self.didCall_deleteSessionBoundData, timeout: 5)
+        XCTAssertTrue(mockEncryptedSecureStoreMigrator.savedItems.isEmpty)
+        XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
+        // AND a logout notification is sent
+    }
+    
+    @MainActor
+    func test_startSession_exposesUserAndAccessToken() async throws {
+        // GIVEN I am logged in
+        // WHEN I start a session
+        try await sut.startSession(
+            MockLoginSession(window: UIWindow()),
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN my User details
@@ -236,12 +260,12 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
     }
     
+    @MainActor
     func test_startSession_skipsSavingTokensForNewUsers() async throws {
         // GIVEN I am not logged in
-        let loginSession = await MockLoginSession(window: UIWindow())
         // WHEN I start a session
         try await sut.startSession(
-            loginSession,
+            MockLoginSession(window: UIWindow()),
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN my session data is not saved
@@ -249,6 +273,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
     }
     
+    @MainActor
     func test_startSession_savesTokensForReturningUsers() async throws {
         let exp = XCTNSNotificationExpectation(
             name: .enrolmentComplete,
@@ -264,9 +289,8 @@ extension PersistentSessionManagerTests {
             itemName: OLString.persistentSessionID
         )
         // WHEN I re-authenticate
-        let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(
-            loginSession,
+            MockLoginSession(window: UIWindow()),
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN my session data is updated in the store
@@ -277,13 +301,13 @@ extension PersistentSessionManagerTests {
         await fulfillment(of: [exp], timeout: 5)
     }
     
+    @MainActor
     func test_saveSession_enrolsLocalAuthenticationForNewUsers() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
         // AND I have logged in
-        let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(
-            loginSession,
+            MockLoginSession(window: UIWindow()),
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // WHEN I attempt to save my session
@@ -294,6 +318,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
     
+    @MainActor
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
@@ -302,9 +327,8 @@ extension PersistentSessionManagerTests {
             itemName: OLString.storedTokens
         )
         // AND I have logged in
-        let loginSession = await MockLoginSession(window: UIWindow())
         try await sut.startSession(
-            loginSession,
+            MockLoginSession(window: UIWindow()),
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // WHEN I attempt to save my session
@@ -383,10 +407,7 @@ extension PersistentSessionManagerTests {
             mockEncryptedSecureStoreMigrator
         ])
         // WHEN I clear all session data
-        try await sut.clearAllSessionData(
-            includeAnalyticsPermissions: true,
-            restartLoginFlow: true
-        )
+        try await sut.clearAllSessionData(restartLoginFlow: true)
         // THEN my session data is deleted
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
         XCTAssertEqual(mockEncryptedSecureStoreMigrator.savedItems, [:])

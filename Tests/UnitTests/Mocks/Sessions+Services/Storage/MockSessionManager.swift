@@ -21,10 +21,12 @@ final class MockSessionManager: SessionManager {
     var didCallResumeSession = false
     var didCallEndCurrentSession = false
     var didCallClearAllSessionData = false
+    var didCallClearAppForLogin = false
 
     var errorFromStartSession: Error?
     var errorFromResumeSession: Error?
     var errorFromClearAllSessionData: Error?
+    var errorFromClearAppForLogin: Error?
     var errorFromSaveSession: Error?
 
     var localAuthentication: LocalAuthManaging = MockLocalAuthManager()
@@ -75,10 +77,7 @@ final class MockSessionManager: SessionManager {
         didCallEndCurrentSession = true
     }
     
-    func clearAllSessionData(
-        includeAnalyticsPermissions: Bool,
-        restartLoginFlow: Bool
-    ) async throws {
+    func clearAllSessionData(restartLoginFlow: Bool) async throws {
         defer {
             didCallClearAllSessionData = true
         }
@@ -91,7 +90,16 @@ final class MockSessionManager: SessionManager {
             NotificationCenter.default.post(name: .userDidLogout)
         }
     }
-
+    
+    func clearAppForLogin() async throws {
+        defer {
+            didCallClearAppForLogin = true
+        }
+        if let errorFromClearAppForLogin {
+            throw errorFromClearAppForLogin
+        }
+    }
+    
     func setupSession(returningUser: Bool = true, expired: Bool = false) throws {
         let tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
         tokenProvider.update(subjectToken: tokenResponse.accessToken)

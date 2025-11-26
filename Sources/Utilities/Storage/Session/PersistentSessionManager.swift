@@ -115,10 +115,7 @@ final class PersistentSessionManager: SessionManager {
                 //
                 // I need to delete my session & Wallet data before I can login
                 do {
-                    try await clearAllSessionData(
-                        includeAnalyticsPermissions: true,
-                        restartLoginFlow: true
-                    )
+                    try await clearAllSessionData(restartLoginFlow: true)
                 } catch {
                     throw PersistentSessionError.cannotDeleteData(error)
                 }
@@ -130,10 +127,7 @@ final class PersistentSessionManager: SessionManager {
                 //
                 // I need to delete my session (but not analytics permissions) & Wallet data before I can login
                 do {
-                    try await clearAllSessionData(
-                        includeAnalyticsPermissions: false,
-                        restartLoginFlow: false
-                    )
+                    try await clearAppForLogin()
                 } catch {
                     throw PersistentSessionError.cannotDeleteData(error)
                 }
@@ -229,18 +223,19 @@ final class PersistentSessionManager: SessionManager {
         user.send(nil)
     }
     
-    func clearAllSessionData(
-        includeAnalyticsPermissions: Bool,
-        restartLoginFlow: Bool
-    ) async throws {
-        if includeAnalyticsPermissions {
-            for each in sessionBoundData {
-                try await each.clearSessionData()
-            }
-        } else {
-            for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
-                try await each.clearSessionData()
-            }
+    
+    func clearAppForLogin() async throws {
+        for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
+            try await each.clearSessionData()
+        }
+        
+        endCurrentSession()
+    }
+    
+    
+    func clearAllSessionData(restartLoginFlow: Bool) async throws {
+        for each in sessionBoundData {
+            try await each.clearSessionData()
         }
         
         endCurrentSession()

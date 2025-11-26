@@ -83,10 +83,7 @@ final class SettingsCoordinator: NSObject,
     private func logOut() {
         Task {
             do {
-                try await sessionManager.clearAllSessionData(
-                    includeAnalyticsPermissions: true,
-                    restartLoginFlow: false
-                )
+                try await sessionManager.clearAllSessionData(restartLoginFlow: false)
                 finish()
             } catch {
                 let viewModel = SignOutErrorViewModel(
