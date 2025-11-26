@@ -104,7 +104,7 @@ public struct LocalAuthenticationWrapper: LocalAuthManaging {
         return localAuthPromptStore.previouslyPrompted
     }
     
-    public func promptForPermission() async throws -> Bool {
+    public func promptForFaceIDPermission() async throws -> Bool {
         guard try type == .faceID &&
                 !localAuthPromptStore.previouslyPrompted else {
             return true

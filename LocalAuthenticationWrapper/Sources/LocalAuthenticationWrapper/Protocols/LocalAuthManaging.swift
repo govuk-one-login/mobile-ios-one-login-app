@@ -4,6 +4,6 @@ public protocol LocalAuthManaging {
     var canUseAnyLocalAuth: Bool { get throws }
     
     func checkLevelSupported(_ requiredLevel: RequiredLocalAuthLevel) throws -> Bool
-    func promptForPermission() async throws -> Bool
+    func promptForFaceIDPermission() async throws -> Bool
     func hasBeenPrompted() -> Bool
 }
