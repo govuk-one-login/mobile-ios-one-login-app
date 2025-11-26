@@ -124,8 +124,14 @@ struct LocalAuthenticationWrapperTests {
         #expect(try sut.checkLevelSupported(.none))
     }
     
+    @Test("Check prompt for permission passcode returns true")
+    func enrolLocalAuthNone() async throws {
+        mockLocalAuthContext.biometryType = .none
+        #expect(try await sut.promptForPermission())
+    }
+    
     @Test("Check prompt for permission touchID returns true")
-    func enrolLocalAuthNotFaceID() async throws {
+    func enrolLocalAuthTouchID() async throws {
         mockLocalAuthContext.biometryType = .touchID
         #expect(try await sut.promptForPermission())
     }
@@ -135,6 +141,14 @@ struct LocalAuthenticationWrapperTests {
         mockLocalAuthContext.biometryType = .faceID
         mockAuthPromptStore.recordPrompt()
         #expect(try await sut.promptForPermission())
+    }
+    
+    @Test("Check prompt for permission faceID not previously prompted returns false")
+    func enrolLocalAuthNotPrompted() async throws {
+        mockLocalAuthContext.biometryType = .faceID
+        mockLocalAuthContext.biometryPolicyOutcome = true
+        #expect(try await sut.promptForPermission())
+        #expect(mockAuthPromptStore.previouslyPrompted)
     }
     
     @Test("Check prompt for permission faceID sets localized strings")
