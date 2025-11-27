@@ -109,7 +109,17 @@ final class PersistentSessionManager: SessionManager {
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
         if persistentID == nil {
-            guard !isReturningUser else {
+            if isReturningUser {
+                // I am a first time user
+                // I don't have a persistent session ID
+                //
+                // I need to delete my session (but not analytics permissions) & Wallet data before I can login
+                do {
+                    try await clearAppForLogin()
+                } catch {
+                    throw PersistentSessionError.cannotDeleteData(error)
+                }
+            } else {
                 // I am a returning user
                 // but cannot reauthenticate because I don't have a persistent session ID
                 //
@@ -121,15 +131,6 @@ final class PersistentSessionManager: SessionManager {
                 }
                 
                 throw PersistentSessionError.sessionMismatch
-            }
-            // I am a first time user
-            // I don't have a persistent session ID
-            //
-            // I need to delete my session (but not analytics permissions) & Wallet data before I can login
-            do {
-                try await clearAppForLogin()
-            } catch {
-                throw PersistentSessionError.cannotDeleteData(error)
             }
         }
         
