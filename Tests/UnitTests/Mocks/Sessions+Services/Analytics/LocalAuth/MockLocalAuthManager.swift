@@ -27,7 +27,7 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
         return userPromptedForLocalAuth
     }
     
-    func promptForPermission() async throws -> Bool {
+    func promptForFaceIDPermission() async throws -> Bool {
         defer {
             didCallEnrolFaceIDIfAvailable = true
         }
