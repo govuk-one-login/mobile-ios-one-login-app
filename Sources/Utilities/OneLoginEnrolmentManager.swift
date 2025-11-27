@@ -38,7 +38,7 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
         // Unit tests or running on device
         Task {
             do {
-                guard try await localAuthContext.promptForPermission() else {
+                guard try await localAuthContext.promptForFaceIDPermission() else {
                     return
                 }
                 do {

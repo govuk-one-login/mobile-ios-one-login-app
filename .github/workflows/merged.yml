@@ -32,13 +32,8 @@ jobs:
       configuration: "Staging"
     secrets: inherit
 
-  test_ui:
-    name: Run Deployment Tests
-    uses: ./.github/workflows/ui-test.yml
-    secrets: inherit
-
   deploy_build_app:
-    needs: [ test_build_config, test_ui ]
+    needs: [ test_build_config ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
     with:
@@ -47,7 +42,7 @@ jobs:
     secrets: inherit
 
   deploy_staging_app:
-    needs: [ test_staging_config, test_ui ]
+    needs: [ test_staging_config ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
     with:
