@@ -147,11 +147,11 @@ final class DeveloperMenuViewController: BaseViewController {
     
     @IBAction private func deletePersistentSessionIDAction(_ sender: Any) {
         let encryptedConfiguration = SecureStorageConfiguration(
-            id: OLString.v12TokenInfoStore,
+            id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
-        let persistentSessionStore = SecureStoreService(configuration: encryptedConfiguration)
-        persistentSessionStore.deleteItem(itemName: OLString.persistentSessionID)
+        let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
+        encyrptedStore.deleteItem(itemName: OLString.persistentSessionID)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     
@@ -172,6 +172,24 @@ final class DeveloperMenuViewController: BaseViewController {
         sessionManager.tokenProvider.update(subjectToken: expiredToken)
         UserDefaults.standard.set(Date.distantPast, forKey: OLString.accessTokenExpiry)
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
+    }
+    
+    @IBOutlet private var expireRefreshTokenButton: RoundedButton! {
+        didSet {
+            expireRefreshTokenButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            expireRefreshTokenButton.setTitle("Expire Refresh Token", for: .normal)
+            expireRefreshTokenButton.accessibilityIdentifier = "sts-expire-refresh-token-button"
+        }
+    }
+    
+    @IBAction private func expireRefreshTokenAction(_ sender: Any) {
+        let encryptedConfiguration = SecureStorageConfiguration(
+            id: OLString.v13TokenInfoStore,
+            accessControlLevel: .open
+        )
+        let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
+        try? encyrptedStore.saveItem(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
+        expireRefreshTokenButton.backgroundColor = .gdsBrightPurple
     }
 }
 

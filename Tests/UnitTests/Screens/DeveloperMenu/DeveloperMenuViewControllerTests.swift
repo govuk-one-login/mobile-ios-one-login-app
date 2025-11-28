@@ -109,6 +109,15 @@ extension DeveloperMenuViewControllerTests {
         // THEN the button becomes purple
         XCTAssertTrue(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
     }
+    
+    func test_expireRefreshTokenButton() throws {
+        // GIVEN I have an active session
+        try mockSessionManager.setupSession()
+        // WHEN I tap the expire refresh token button
+        try sut.expireRefreshTokenButton.sendActions(for: .touchUpInside)
+        // THEN the button becomes purple
+        XCTAssertTrue(try sut.expireRefreshTokenButton.backgroundColor == .gdsBrightPurple)
+    }
 }
 
 extension DeveloperMenuViewController {
@@ -157,6 +166,12 @@ extension DeveloperMenuViewController {
     var expireAccessTokenButton: UIButton {
         get throws {
             try XCTUnwrap(view[child: "sts-expire-access-token-button"])
+        }
+    }
+    
+    var expireRefreshTokenButton: UIButton {
+        get throws {
+            try XCTUnwrap(view[child: "sts-expire-refresh-token-button"])
         }
     }
 }

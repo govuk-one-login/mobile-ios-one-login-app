@@ -43,7 +43,7 @@ final class MockSessionManager: SessionManager {
         self.sessionState = sessionState
     }
 
-    func startSession(
+    func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) throws {
@@ -55,7 +55,7 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func saveSession() throws {
+    func saveAuthSession() throws {
         defer {
             didCallSaveSession = true
         }
@@ -64,7 +64,7 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func resumeSession() throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) throws {
         defer {
             didCallResumeSession = true
         }
@@ -77,14 +77,14 @@ final class MockSessionManager: SessionManager {
         didCallEndCurrentSession = true
     }
     
-    func clearAllSessionData(restartLoginFlow: Bool) async throws {
+    func clearAllSessionData(presentSystemLogOut: Bool = true) throws {
         defer {
             didCallClearAllSessionData = true
         }
         if let errorFromClearAllSessionData {
             throw errorFromClearAllSessionData
         }
-        if restartLoginFlow {
+        if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         } else {
             NotificationCenter.default.post(name: .userDidLogout)
