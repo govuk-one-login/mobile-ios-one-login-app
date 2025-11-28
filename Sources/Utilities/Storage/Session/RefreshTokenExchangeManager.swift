@@ -51,7 +51,3 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
     }
 }
     
-enum RefreshTokenExchangeError: Error {
-    case noInternet
-    case appIntegrityRetryError
-}
