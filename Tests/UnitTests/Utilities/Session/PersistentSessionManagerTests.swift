@@ -248,6 +248,9 @@ extension PersistentSessionManagerTests {
     
     @MainActor
     func test_startSession_cannotReauthenticateWithoutPersistentSessionID() async throws {
+        let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
+        mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
+        
         let exp = XCTNSNotificationExpectation(
             name: .systemLogUserOut,
             object: nil,
@@ -258,7 +261,12 @@ extension PersistentSessionManagerTests {
             true,
             forKey: OLString.returningUser
         )
-        sut.registerSessionBoundData([self])
+        sut.registerSessionBoundData([
+            self,
+            mockEncryptedStore,
+            mockUnprotectedStore,
+            mockAnalyticsPrefernceStore
+        ])
         // AND I am unable to re-authenticate because I have no persistent session ID
         mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         // WHEN I start a session
@@ -271,9 +279,10 @@ extension PersistentSessionManagerTests {
         } catch PersistentSessionError.sessionMismatch {
             // THEN a session mismatch error is thrown
             // AND my session data is cleared
+            XCTAssertTrue(didCall_deleteSessionBoundData)
             XCTAssertTrue(mockEncryptedStore.savedItems.isEmpty)
             XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
-            XCTAssertTrue(didCall_deleteSessionBoundData)
+            XCTAssertNil(mockAnalyticsPrefernceStore.hasAcceptedAnalytics)
             // AND a logout notification is sent
             await fulfillment(of: [exp], timeout: 5)
         } catch {
