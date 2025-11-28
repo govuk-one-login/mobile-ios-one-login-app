@@ -60,7 +60,7 @@ final class LoginCoordinator: NSObject,
     func start() {
         let rootViewController: UIViewController
         
-        if sessionState == .expired || serviceState == .accountIntervention {
+        if sessionState == .expired || serviceState == .accountIntervention || serviceState == .reAuthenticationRequired {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
@@ -163,7 +163,7 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSErrorScreen(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
-        case (_, .accountIntervention):
+        case (_, .accountIntervention), (_, .reAuthenticationRequired):
             serviceState = .accountIntervention
             start()
         case (.none, .none), (.expired, _), (.loggedIn, _), (.failed, _), (.localAuthCancelled, _), (_, .activeService):
