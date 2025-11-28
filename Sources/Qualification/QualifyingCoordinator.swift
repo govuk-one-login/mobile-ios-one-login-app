@@ -114,7 +114,19 @@ final class QualifyingCoordinator: NSObject,
         }
     }
     
-    func launchLoginCoordinator(sessionState: AppSessionState) {
+    func didChangeServiceState(state serviceState: RemoteServiceState) {
+        switch serviceState {
+        case .accountIntervention:
+            launchLoginCoordinator(serviceState: serviceState)
+        case .activeService:
+            return
+        }
+    }
+    
+    func launchLoginCoordinator(
+        sessionState: AppSessionState? = nil,
+        serviceState: RemoteServiceState? = nil
+    ) {
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
@@ -128,7 +140,8 @@ final class QualifyingCoordinator: NSObject,
                     session: AppAuthSessionV2(window: appWindow),
                     analyticsService: analyticsService
                 ),
-                sessionState: sessionState
+                sessionState: sessionState,
+                serviceState: serviceState
             )
             displayChildCoordinator(loginCoordinator)
         }
