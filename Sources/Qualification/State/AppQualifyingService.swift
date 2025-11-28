@@ -155,6 +155,10 @@ extension AppQualifyingService {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(accountIntervention),
                                                name: .accountIntervention)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reAuthenticationRequired),
+                                               name: .reAuthenticationRequired)
     }
 
     @objc private func enrolmentComplete() {
@@ -178,5 +182,9 @@ extension AppQualifyingService {
 extension AppQualifyingService {
     @objc private func accountIntervention() {
         serviceState = .accountIntervention
+    }
+    
+    @objc private func reAuthenticationRequired() {
+        serviceState = .reAuthenticationRequired
     }
 }
