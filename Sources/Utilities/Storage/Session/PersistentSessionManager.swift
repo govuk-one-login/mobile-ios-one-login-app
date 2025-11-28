@@ -80,6 +80,42 @@ final class PersistentSessionManager: SessionManager {
         tokenProvider.subjectToken != nil && !isReturningUser
     }
     
+    var isAccessTokenValid: Bool {
+        let expiryDate = unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        
+        guard let expiryDate else {
+            return false
+        }
+        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
+        return expiryDate - 15 > .now
+    }
+    
+    var isRefreshTokenValid: Bool {
+        let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
+        
+        guard let expiryDate else {
+            return false
+        }
+        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
+        return expiryDate - 15 > .now
+    }
+    
+    var refreshToken: String? {
+        guard let storedTokens = try? storeKeyService.fetch() else {
+            return nil // fix can't return nil
+        }
+        
+        return storedTokens.refreshToken
+    }
+    
+    var idToken: String? {
+        guard let storedTokens = try? storeKeyService.fetch() else {
+            return nil // fix can't return nil
+        }
+        
+        return storedTokens.idToken
+    }
+    
     var expiryDate: Date? {
         (try? encryptedStore.readDate(id: OLString.refreshTokenExpiry))
         ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
@@ -210,6 +246,7 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
+        // needs to use refresh exchange in NetworkService
         let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
@@ -221,7 +258,7 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
-    private func saveLoginTokens(
+    func saveLoginTokens(
         tokenResponse: TokenResponse,
         idToken: String?
     ) throws {

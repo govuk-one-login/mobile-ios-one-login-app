@@ -17,15 +17,19 @@ enum RefreshTokenExchangeError: Error {
     case accountIntervention
     case appIntegrityRetryError
     case noInternet
+    case reAuthenticationRequired
 }
 
 final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging {
     let networkClient: NetworkClient
+    let persistentSessionManager: PersistentSessionManager
     
     private(set) var errorRetries = 0
     
-    init(networkClient: NetworkClient = NetworkClient()) {
+    init(networkClient: NetworkClient = NetworkClient(),
+         persistentSessionManager: PersistentSessionManager) {
         self.networkClient = networkClient
+        self.persistentSessionManager = persistentSessionManager
     }
     
     func getUpdatedTokens(
@@ -60,6 +64,8 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
         } catch let error as ServerError where error.errorCode == 400 {
             NotificationCenter.default.post(name: .accountIntervention)
             throw RefreshTokenExchangeError.accountIntervention
+        } catch {
+            throw error
         }
     }
     
@@ -77,12 +83,44 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
         request: URLRequest
     ) async throws -> Data {
         do {
+            // Check if theres a valid access token
+            guard persistentSessionManager.isAccessTokenValid else {
+                // Check if theres valid refresh token
+                if persistentSessionManager.isRefreshTokenValid {
+                    // Yes - do refresh exchange to get new access token
+                    if let refreshToken = persistentSessionManager.refreshToken {
+                        let tokens = try await getUpdatedTokens(
+                            refreshToken: refreshToken,
+                            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+                        )
+                        
+                        // Update tokens in persistent session manager
+                        try persistentSessionManager.saveLoginTokens(
+                            tokenResponse: tokens,
+                            idToken: persistentSessionManager.idToken
+                        )
+                        
+                        return try await networkClient.makeAuthorizedRequest(
+                            scope: scope,
+                            request: request
+                        )
+                    }
+                } else {
+                    // no valid access & refresh token
+                    NotificationCenter.default.post(name: .reAuthenticationRequired)
+                    throw RefreshTokenExchangeError.reAuthenticationRequired
+                }
+            }
+            
+            // If yes - make call to protected api
             return try await networkClient.makeAuthorizedRequest(
                 scope: scope,
                 request: request
             )
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
+            throw error
+        } catch {
             throw error
         }
     }
