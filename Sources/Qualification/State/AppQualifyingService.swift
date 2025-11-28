@@ -114,7 +114,7 @@ final class AppQualifyingService: QualifyingService {
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline
             } catch {
-                // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors RefreshTokenExchangeManager
+                // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors from RefreshTokenExchangeManager
                 analyticsService.logCrash(error)
                 do {
                     try await sessionManager.clearAllSessionData(presentSystemLogOut: true)
