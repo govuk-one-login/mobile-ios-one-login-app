@@ -1,8 +1,17 @@
 import Foundation
 import Networking
 
+public protocol MPTServicesNetworkClient {
+    func makeRequest(_ request: URLRequest) async throws -> Data
+
+    func makeAuthorizedRequest(
+        scope: String,
+        request: URLRequest
+    ) async throws -> Data
+}
+
 public final class HelloWorldService: HelloWorldProvider {
-    private let client: NetworkClient
+    private let client: MPTServicesNetworkClient
     private let baseURL: URL
 
     public init(client: NetworkClient, baseURL: URL) {

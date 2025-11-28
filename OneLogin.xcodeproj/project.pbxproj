@@ -190,6 +190,8 @@
 		C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */; };
 		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
 		C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */; };
+		C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989872ED9C16200C9B534 /* RemoteServiceState.swift */; };
+		C899898A2ED9C24F00C9B534 /* OneLoginNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */; };
 		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
 		C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA82AFBD0CC00FCBD36 /* GAnalytics */; };
 		C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */; };
@@ -511,6 +513,8 @@
 		C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthPromptStrings+OneLogin.swift"; sourceTree = "<group>"; };
 		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
+		C89989872ED9C16200C9B534 /* RemoteServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteServiceState.swift; sourceTree = "<group>"; };
+		C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginNetworkClient.swift; sourceTree = "<group>"; };
 		C8A842292DCBCD31002E73C2 /* OneLoginReleaseAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginReleaseAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEnvironment+InternalTypes.swift"; sourceTree = "<group>"; };
 		C8A94C4C2D07558100303578 /* MockLoginSessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSessionConfiguration.swift; sourceTree = "<group>"; };
@@ -936,6 +940,7 @@
 		7CD66F7D2C9070A6008513F4 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				C89989872ED9C16200C9B534 /* RemoteServiceState.swift */,
 				7CD66F802C9070D8008513F4 /* AppInformationState.swift */,
 				7CD66F7E2C9070B9008513F4 /* AppSessionState.swift */,
 				C823CA112C8616A4000BDD5D /* AppQualifyingService.swift */,
@@ -965,6 +970,7 @@
 		ABB941FD2C6CAD840007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */,
 				ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */,
 				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 			);
@@ -2226,6 +2232,7 @@
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
+				C899898A2ED9C24F00C9B534 /* OneLoginNetworkClient.swift in Sources */,
 				C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,
@@ -2295,6 +2302,7 @@
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
+				C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				C811D6582EA05628009909A8 /* AppIntegrityDPoPJWT.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
@@ -3879,8 +3887,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
-				kind = exactVersion;
-				version = 8.37.1;
+				branch = "chore/update-network-client-type";
+				kind = branch;
 			};
 		};
 		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {

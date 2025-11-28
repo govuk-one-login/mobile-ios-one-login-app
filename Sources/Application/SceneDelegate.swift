@@ -21,6 +21,8 @@ final class SceneDelegate: UIResponder,
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
     private lazy var networkClient = NetworkClient()
+    private lazy var networkingService = NetworkingService(networkClient: networkClient)
+
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
