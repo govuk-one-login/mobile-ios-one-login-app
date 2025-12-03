@@ -8,7 +8,7 @@ on:
 jobs:
   unit_test:
     name: Run Unit Tests and Send Coverage Report
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
       - name: Add Path Globally
@@ -43,7 +43,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
         run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.2.app
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.app
 
       - name: Build App, Run Unit Tests and Send Coverage Report for Branch
         env:
