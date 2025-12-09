@@ -146,7 +146,7 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_secureStoreError() async {
-        mockSessionManager.errorFromStartSession = SecureStoreError.cantDecodeData
+        mockSessionManager.errorFromStartSession = SecureStoreError(.cantDecodeData)
         
         do {
             try await sut.startWebSession()
@@ -155,7 +155,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
-            XCTAssertTrue(error == .cantDecodeData)
+            XCTAssertTrue(error.kind == .cantDecodeData)
             XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         }
     }
