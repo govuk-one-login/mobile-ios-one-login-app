@@ -3915,7 +3915,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
-				branch = "background-local-auth-fix";
+				branch = "fear/dcmaw-17186-improve-secure-store-error-logging";
 				kind = branch;
 			};
 		};
