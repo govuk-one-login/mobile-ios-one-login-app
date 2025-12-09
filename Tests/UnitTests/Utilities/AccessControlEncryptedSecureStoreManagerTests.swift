@@ -107,7 +107,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("throw error from read item if the value does not exist in either store")
     func readItemNeitherStore() throws {
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
+        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem()
         }
     }
@@ -124,7 +124,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         )
         sut.deleteItem()
         
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
+        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem()
         }
     }
@@ -149,7 +149,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         )
         sut.clearSessionData()
         
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
+        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem()
         }
     }

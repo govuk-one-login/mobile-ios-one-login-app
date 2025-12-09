@@ -102,11 +102,13 @@ final class AppQualifyingService: QualifyingService {
                     try sessionManager.resumeSession()
                     userState = .loggedIn
                 }
-            } catch SecureStoreError.biometricsCancelled {
+            } catch let error as SecureStoreError where error.kind == .biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
                 //
                 // In this instance, the user would have the option to retry the local auth prompt
                 // As such, no additional action is required.
+                analyticsService.logCrash(error)
+                
                 return
             } catch {
                 analyticsService.logCrash(error)
