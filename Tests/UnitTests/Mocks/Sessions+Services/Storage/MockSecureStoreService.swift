@@ -31,7 +31,7 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             throw errorFromReadItem
         } else {
             guard let savedItem = savedItems[itemName] else {
-                throw SecureStoreError.unableToRetrieveFromUserDefaults
+                throw SecureStoreError(.unableToRetrieveFromUserDefaults)
             }
             return savedItem
         }

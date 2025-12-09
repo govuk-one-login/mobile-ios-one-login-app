@@ -36,13 +36,13 @@ struct SecureStoreServiceTests: ~Copyable {
         #expect(try sut.readItem(itemName: OLString.persistentSessionID) == "testPersistentSessionID")
         #expect(try sut.readItem(itemName: OLString.storedTokens) == "testStoredTokens")
         sut.clearSessionData()
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
+        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.refreshTokenExpiry)
         }
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
+        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.persistentSessionID)
         }
-        #expect(throws: SecureStoreError.unableToRetrieveFromUserDefaults) {
+        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.storedTokens)
         }
     }
