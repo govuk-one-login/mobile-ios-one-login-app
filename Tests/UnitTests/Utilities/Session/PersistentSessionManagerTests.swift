@@ -573,7 +573,7 @@ extension PersistentSessionManagerTests {
         do {
             _ = try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry)
         } catch let error as SecureStoreError {
-            XCTAssertTrue(error == .unableToRetrieveFromUserDefaults)
+            XCTAssertTrue(error.kind == .unableToRetrieveFromUserDefaults)
         }
     }
 

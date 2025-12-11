@@ -221,7 +221,7 @@ extension AppQualifyingServiceTests {
         )
     }
     
-    func test_resumeSession_nonCantDecryptData_error() {)
+    func test_resumeSession_nonCantDecryptData_error() throws {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreError(.unableToRetrieveFromUserDefaults)
