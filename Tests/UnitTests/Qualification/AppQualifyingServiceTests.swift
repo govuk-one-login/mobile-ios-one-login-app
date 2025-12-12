@@ -196,7 +196,7 @@ extension AppQualifyingServiceTests {
     func test_resumeSession_userCancelledBiometrics_error() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreError.biometricsCancelled
+        sessionManager.errorFromResumeSession = SecureStoreError(.biometricsCancelled)
         sut.delegate = self
         sut.initiate()
         
@@ -208,10 +208,10 @@ extension AppQualifyingServiceTests {
         XCTAssertNil(self.userState)
     }
     
-    func test_resumeSession_nonCantDecryptData_error() {
+    func test_resumeSession_nonCantDecryptData_error() throws {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
+        sessionManager.errorFromResumeSession = SecureStoreError(.unableToRetrieveFromUserDefaults)
         sut.delegate = self
         sut.initiate()
         
@@ -220,7 +220,8 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
 
-        XCTAssert(analyticsService.crashesLogged.first as? SecureStoreError == .unableToRetrieveFromUserDefaults)
+        let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreError)
+        XCTAssert(error.kind == .unableToRetrieveFromUserDefaults)
         XCTAssert(sessionManager.didCallClearAllSessionData)
         XCTAssert(self.userState == .notLoggedIn)
     }
@@ -228,7 +229,7 @@ extension AppQualifyingServiceTests {
     func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreError.unableToRetrieveFromUserDefaults
+        sessionManager.errorFromResumeSession = SecureStoreError(.unableToRetrieveFromUserDefaults)
         sessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         sut.delegate = self
         sut.initiate()

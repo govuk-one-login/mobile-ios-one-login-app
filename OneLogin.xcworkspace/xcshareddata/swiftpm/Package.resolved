@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "1cce11cf94d27e2fc194112cc7ad51e8fb279230",
-        "version" : "12.3.0"
+        "revision" : "087bb95235f676c1a37e928769a5b6645dcbd325",
+        "version" : "12.6.0"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk",
       "state" : {
-        "revision" : "c7d04b7592d3a1d6f8b7ce4e103cfbcbd766f419",
-        "version" : "3.0.0"
+        "revision" : "35b601a60fbbea2de3ea461f604deaaa4d8bbd0c",
+        "version" : "3.2.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "34f5306ed8c9d9493f6390b4c2a18f19ecad1da4",
-        "version" : "12.3.0"
+        "revision" : "c2d59acf17a8ba7ed80a763593c67c9c7c006ad1",
+        "version" : "12.5.0"
       }
     },
     {
@@ -176,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "88028c650cc924c51d1101d1ef655e8b6bb88f9b",
-        "version" : "5.0.3"
+        "revision" : "680e188729c9795bda2120b75837e4818fb277c8",
+        "version" : "5.1.2"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "d14e38414bdcd19b4480023c89a0215b33e81e31",
-        "version" : "1.5.1"
+        "revision" : "b1bdb252059f873a14f5cf309a77fe3e858c8d74",
+        "version" : "2.0.0"
       }
     },
     {
