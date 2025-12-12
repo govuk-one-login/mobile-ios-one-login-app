@@ -19,8 +19,10 @@ final class HomeCoordinator: NSObject,
     private var analyticsService: OneLoginAnalyticsService
     private let networkClient: NetworkClient
     
-    init(analyticsService: OneLoginAnalyticsService,
-         networkClient: NetworkClient) {
+    init(
+        analyticsService: OneLoginAnalyticsService,
+        networkClient: NetworkClient
+    ) {
         self.analyticsService = analyticsService
         self.networkClient = networkClient
     }

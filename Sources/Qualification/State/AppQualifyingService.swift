@@ -6,13 +6,13 @@ import SecureStore
 protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
     func initiate()
-    func evaluateUser() async
+    func evaluateUserSession() async
 }
 
 @MainActor
 protocol AppQualifyingServiceDelegate: AnyObject {
     func didChangeAppInfoState(state appInfoState: AppInformationState)
-    func didChangeUserState(state userState: AppLocalAuthState)
+    func didChangeSessionState(state sessionState: AppSessionState)
 }
 
 final class AppQualifyingService: QualifyingService {
@@ -29,17 +29,19 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    private var userState: AppLocalAuthState = .notLoggedIn {
+    private var sessionState: AppSessionState = .notLoggedIn {
         didSet {
             Task {
-                await delegate?.didChangeUserState(state: userState)
+                await delegate?.didChangeSessionState(state: sessionState)
             }
         }
     }
     
-    init(analyticsService: OneLoginAnalyticsService,
-         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-         sessionManager: SessionManager) {
+    init(
+        analyticsService: OneLoginAnalyticsService,
+        updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
+        sessionManager: SessionManager
+    ) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
@@ -49,7 +51,7 @@ final class AppQualifyingService: QualifyingService {
     public func initiate() {
         Task {
             await qualifyAppVersion()
-            await evaluateUser()
+            await evaluateUserSession()
         }
     }
     
@@ -83,7 +85,8 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    func evaluateUser() async {
+    @MainActor
+    func evaluateUserSession() async {
         guard appInfoState == .qualified else {
             // Do not continue with local auth unless app info qualifies
             return
@@ -91,17 +94,15 @@ final class AppQualifyingService: QualifyingService {
         
         switch sessionManager.sessionState {
         case .expired:
-            userState = .expired
+            sessionState = .expired
         case .enrolling, .nonePresent:
-            userState = .notLoggedIn
+            sessionState = .notLoggedIn
         case .oneTime:
-            userState = .loggedIn
+            sessionState = .loggedIn
         case .saved:
             do {
-                try await MainActor.run {
-                    try sessionManager.resumeSession()
-                    userState = .loggedIn
-                }
+                try await sessionManager.resumeSession(tokenExchangeManager: RefreshTokenExchangeManager())
+                sessionState = .loggedIn
             } catch let error as SecureStoreError where error.kind == .biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
                 //
@@ -109,13 +110,16 @@ final class AppQualifyingService: QualifyingService {
                 // As such, no additional action is required.
                 analyticsService.logCrash(error)
                 
-                return
+                sessionState = .localAuthCancelled
+            } catch RefreshTokenExchangeError.noInternet {
+                appInfoState = .offline
             } catch {
+                // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors from RefreshTokenExchangeManager
                 analyticsService.logCrash(error)
                 do {
-                    try await sessionManager.clearAllSessionData(restartLoginFlow: true)
+                    try await sessionManager.clearAllSessionData(presentSystemLogOut: true)
                 } catch {
-                    userState = .failed(error)
+                    sessionState = .failed(error)
                 }
             }
         }
@@ -143,18 +147,18 @@ extension AppQualifyingService {
     }
 
     @objc private func enrolmentComplete() {
-        userState = .loggedIn
+        sessionState = .loggedIn
     }
     
     @objc private func sessionDidExpire() {
-        userState = .expired
+        sessionState = .expired
     }
 
     @objc private func userDidLogout() {
-        userState = .userLogOut
+        sessionState = .userLogOut
     }
     
     @objc private func systemLogUserOut() {
-        userState = .notLoggedIn
+        sessionState = .systemLogOut
     }
 }
