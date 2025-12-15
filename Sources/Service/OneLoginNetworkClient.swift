@@ -18,6 +18,7 @@ enum RefreshTokenExchangeError: Error {
     case appIntegrityRetryError
     case noInternet
     case reAuthenticationRequired
+    case noValidAccessToken
 }
 
 final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging {
@@ -110,6 +111,7 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
                     NotificationCenter.default.post(name: .reAuthenticationRequired)
                     throw RefreshTokenExchangeError.reAuthenticationRequired
                 }
+                throw RefreshTokenExchangeError.noValidAccessToken
             }
             
             // If yes - make call to protected api
