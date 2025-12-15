@@ -34,7 +34,7 @@ extension Notification.Name {
         Notification.Name("onelogin:account-intervention")
     }
     
-    static var reAuthenticationRequired: Self {
+    static var reauthenticationRequired: Self {
         Notification.Name("onelogin:re-authentication-required")
     }
 }
