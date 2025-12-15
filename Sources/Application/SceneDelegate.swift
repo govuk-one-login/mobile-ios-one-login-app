@@ -23,7 +23,7 @@ final class SceneDelegate: UIResponder,
     private lazy var networkClient = NetworkClient()
     private lazy var networkingService = NetworkingService(
         networkClient: networkClient,
-        persistentSessionManager: sessionManager
+        sessionManager: sessionManager
     )
 
     private lazy var sessionManager = {

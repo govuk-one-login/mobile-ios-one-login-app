@@ -17,6 +17,10 @@ protocol SessionManager: AnyObject, UserProvider {
     var isReturningUser: Bool { get }
     var isEnrolling: Bool { get set }
 
+    var isAccessTokenValid: Bool { get }
+    var returnRefreshTokenIfValid: String? { get }
+    var idToken: String? { get }
+    
     var tokenProvider: TokenHolder { get }
 
     var localAuthentication: LocalAuthManaging { get }
@@ -29,9 +33,15 @@ protocol SessionManager: AnyObject, UserProvider {
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws
     
-    /// Saves session details by storing tokens in on-device storage
+    /// Saves session details by storing tokens
     func saveAuthSession() throws
-
+    
+    /// Saves tokens in on-device storage
+    func saveLoginTokens(
+        tokenResponse: TokenResponse,
+        idToken: String?
+    ) throws
+    
     /// Resumes an existing session by restoring tokens from on-device storage
     func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws
 

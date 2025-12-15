@@ -22,14 +22,14 @@ enum RefreshTokenExchangeError: Error {
 
 final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging {
     let networkClient: NetworkClient
-    let persistentSessionManager: PersistentSessionManager
+    let sessionManager: SessionManager
     
     private(set) var errorRetries = 0
     
     init(networkClient: NetworkClient = NetworkClient(),
-         persistentSessionManager: PersistentSessionManager) {
+         sessionManager: SessionManager) {
         self.networkClient = networkClient
-        self.persistentSessionManager = persistentSessionManager
+        self.sessionManager = sessionManager
     }
     
     func makeRequest(_ request: URLRequest) async throws -> Data {
@@ -46,8 +46,8 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
         request: URLRequest
     ) async throws -> Data {
         do {
-            guard persistentSessionManager.isAccessTokenValid else {
-                if let refreshToken = persistentSessionManager.returnRefreshTokenIfValid {
+            guard sessionManager.isAccessTokenValid else {
+                if let refreshToken = sessionManager.returnRefreshTokenIfValid {
                     try await performRefreshExchangeAndSaveTokens(with: refreshToken)
                     
                     return try await networkClient.makeAuthorizedRequest(
@@ -75,6 +75,19 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
 }
 
 extension NetworkingService {
+    private func performRefreshExchangeAndSaveTokens(with refreshToken: String) async throws {
+        let tokens = try await getUpdatedTokens(
+            refreshToken: refreshToken,
+            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+        )
+        
+        // Save new tokens
+        try sessionManager.saveLoginTokens(
+            tokenResponse: tokens,
+            idToken: sessionManager.idToken
+        )
+    }
+    
     func getUpdatedTokens(
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
@@ -110,18 +123,5 @@ extension NetworkingService {
         } catch {
             throw error
         }
-    }
-    
-    private func performRefreshExchangeAndSaveTokens(with refreshToken: String) async throws {
-        let tokens = try await getUpdatedTokens(
-            refreshToken: refreshToken,
-            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
-        )
-        
-        // Save new tokens
-        try persistentSessionManager.saveLoginTokens(
-            tokenResponse: tokens,
-            idToken: persistentSessionManager.idToken
-        )
     }
 }
