@@ -86,33 +86,26 @@ final class PersistentSessionManager: SessionManager {
         guard let expiryDate else {
             return false
         }
-        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
         return expiryDate - 15 > .now
     }
     
-    var isRefreshTokenValid: Bool {
+    var returnRefreshTokenIfValid: String? {
         let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
         
-        guard let expiryDate else {
-            return false
+        guard let actualExpiryDate = expiryDate, actualExpiryDate - 15 > .now else {
+            return nil
         }
-        // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
-        return expiryDate - 15 > .now
-    }
-    
-    var refreshToken: String? {
-        guard let storedTokens = try? storeKeyService.fetch() else {
-            return nil // fix can't return nil
+        guard let storedTokens = try? storeKeyService.fetch(),
+              let token = storedTokens.refreshToken else {
+            return nil
         }
-        
-        return storedTokens.refreshToken
+        return token
     }
     
     var idToken: String? {
         guard let storedTokens = try? storeKeyService.fetch() else {
-            return nil // fix can't return nil
+            return nil
         }
-        
         return storedTokens.idToken
     }
     
