@@ -6,7 +6,7 @@ import Networking
 
 protocol OneLoginNetworkClient {
     func makeRequest(_ request: URLRequest) async throws -> Data
-
+    
     func makeAuthorizedRequest(
         scope: String,
         request: URLRequest
@@ -85,31 +85,18 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
     ) async throws -> Data {
         do {
             guard persistentSessionManager.isAccessTokenValid else {
-                if persistentSessionManager.isRefreshTokenValid {
-                    // Do refresh token exchange to get new access token
-                    if let refreshToken = persistentSessionManager.refreshToken {
-                        let tokens = try await getUpdatedTokens(
-                            refreshToken: refreshToken,
-                            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
-                        )
-                        
-                        // Save new tokens in persistent session manager
-                        try persistentSessionManager.saveLoginTokens(
-                            tokenResponse: tokens,
-                            idToken: persistentSessionManager.idToken
-                        )
-                        
-                        return try await networkClient.makeAuthorizedRequest(
-                            scope: scope,
-                            request: request
-                        )
-                    }
+                if let refreshToken = persistentSessionManager.returnRefreshTokenIfValid {
+                    try await performRefreshExchangeAndSaveTokens(with: refreshToken)
+                    
+                    return try await networkClient.makeAuthorizedRequest(
+                        scope: scope,
+                        request: request
+                    )
                 } else {
                     // No valid access or refresh token, user must reauthenticate
                     NotificationCenter.default.post(name: .reauthenticationRequired)
                     throw RefreshTokenExchangeError.reauthenticationRequired
                 }
-                throw RefreshTokenExchangeError.noValidAccessToken
             }
             
             return try await networkClient.makeAuthorizedRequest(
@@ -122,5 +109,18 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
         } catch {
             throw error
         }
+    }
+    
+    private func performRefreshExchangeAndSaveTokens(with refreshToken: String) async throws {
+        let tokens = try await getUpdatedTokens(
+            refreshToken: refreshToken,
+            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+        )
+        
+        // Save new tokens in persistent session manager
+        try persistentSessionManager.saveLoginTokens(
+            tokenResponse: tokens,
+            idToken: persistentSessionManager.idToken
+        )
     }
 }
