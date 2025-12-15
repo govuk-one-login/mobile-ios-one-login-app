@@ -117,7 +117,7 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
         )
         
-        // Save new tokens in persistent session manager
+        // Save new tokens
         try persistentSessionManager.saveLoginTokens(
             tokenResponse: tokens,
             idToken: persistentSessionManager.idToken
