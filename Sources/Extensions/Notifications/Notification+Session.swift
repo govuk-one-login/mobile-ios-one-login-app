@@ -34,6 +34,7 @@ extension Notification.Name {
         Notification.Name("onelogin:account-intervention")
     }
     
+    /// Posted when users access & refresh tokens are expired and they attempt to call a protected api
     static var reauthenticationRequired: Self {
         Notification.Name("onelogin:re-authentication-required")
     }

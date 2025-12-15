@@ -6,13 +6,13 @@ enum RemoteServiceState: Equatable {
     /// An intervention is flagged on the user's account
     case accountIntervention
     /// User needs to reauthenticate
-    case reAuthenticationRequired
+    case reauthenticationRequired
 
     static func == (lhs: RemoteServiceState, rhs: RemoteServiceState) -> Bool {
         switch (lhs, rhs) {
         case (.activeService, .activeService),
             (.accountIntervention, .accountIntervention),
-            (.reAuthenticationRequired, .reAuthenticationRequired):
+            (.reauthenticationRequired, .reauthenticationRequired):
             true
         default:
             false
