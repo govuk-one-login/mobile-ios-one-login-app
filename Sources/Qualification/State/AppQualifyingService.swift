@@ -159,7 +159,7 @@ extension AppQualifyingService {
                                                name: .accountIntervention)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reAuthenticationRequired),
+                                               selector: #selector(reauthenticationRequired),
                                                name: .reauthenticationRequired)
     }
 
@@ -186,7 +186,7 @@ extension AppQualifyingService {
         serviceState = .accountIntervention
     }
     
-    @objc private func reAuthenticationRequired() {
-        serviceState = .reAuthenticationRequired
+    @objc private func reauthenticationRequired() {
+        serviceState = .reauthenticationRequired
     }
 }

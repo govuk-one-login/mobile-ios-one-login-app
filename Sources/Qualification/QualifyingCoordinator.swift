@@ -116,7 +116,7 @@ final class QualifyingCoordinator: NSObject,
     
     func didChangeServiceState(state serviceState: RemoteServiceState) {
         switch serviceState {
-        case .accountIntervention, .reAuthenticationRequired:
+        case .accountIntervention, .reauthenticationRequired:
             launchLoginCoordinator(serviceState: serviceState)
         case .activeService:
             return
