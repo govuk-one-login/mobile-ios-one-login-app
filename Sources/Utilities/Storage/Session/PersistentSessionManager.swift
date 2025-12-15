@@ -239,7 +239,7 @@ final class PersistentSessionManager: SessionManager {
             return
         }
         
-        // needs to use refresh exchange in NetworkService
+        // TODO: needs to use refresh exchange in NetworkingService
         let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()

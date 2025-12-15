@@ -10,7 +10,7 @@ protocol TokenExchangeManaging {
     ) async throws -> TokenResponse
 }
 
-// Needs to be deleted ?
+// TODO: To be deleted and replaced by NetworkingService.getUpdatedTokens
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
@@ -31,6 +31,7 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
                     appIntegrityProvider: appIntegrityProvider
                 )
             )
+            
             return try JSONDecoder()
                 .decode(TokenResponse.self, from: exchangeResponse)
         } catch let error as FirebaseAppCheckError where error.errorType == .generic
@@ -48,6 +49,11 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
             throw RefreshTokenExchangeError.noInternet
+        } catch let error as ServerError where error.errorCode == 400 {
+            NotificationCenter.default.post(name: .accountIntervention)
+            throw RefreshTokenExchangeError.accountIntervention
+        } catch {
+            throw error
         }
     }
 }
