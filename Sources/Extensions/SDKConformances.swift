@@ -17,7 +17,6 @@ extension NetworkClient: @retroactive WalletNetworkClient { }
 
 extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
 
-// TODO: add IDCheckNetworkClient when branch feature/dcmaw-16211-one-login-network-client-service merges in ID Check SDK
 typealias OneLoginNetworkingService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService

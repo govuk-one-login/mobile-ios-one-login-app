@@ -17,7 +17,7 @@ enum RefreshTokenExchangeError: Error {
     case accountIntervention
     case appIntegrityRetryError
     case noInternet
-    case reAuthenticationRequired
+    case reauthenticationRequired
     case noValidAccessToken
 }
 
@@ -84,18 +84,16 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
         request: URLRequest
     ) async throws -> Data {
         do {
-            // Check if theres a valid access token
             guard persistentSessionManager.isAccessTokenValid else {
-                // Check if theres valid refresh token
                 if persistentSessionManager.isRefreshTokenValid {
-                    // Yes - do refresh exchange to get new access token
+                    // Do refresh token exchange to get new access token
                     if let refreshToken = persistentSessionManager.refreshToken {
                         let tokens = try await getUpdatedTokens(
                             refreshToken: refreshToken,
                             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
                         )
                         
-                        // Update tokens in persistent session manager
+                        // Save new tokens in persistent session manager
                         try persistentSessionManager.saveLoginTokens(
                             tokenResponse: tokens,
                             idToken: persistentSessionManager.idToken
@@ -107,14 +105,13 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
                         )
                     }
                 } else {
-                    // no valid access & refresh token
-                    NotificationCenter.default.post(name: .reAuthenticationRequired)
-                    throw RefreshTokenExchangeError.reAuthenticationRequired
+                    // No valid access or refresh token, user must reauthenticate
+                    NotificationCenter.default.post(name: .reauthenticationRequired)
+                    throw RefreshTokenExchangeError.reauthenticationRequired
                 }
                 throw RefreshTokenExchangeError.noValidAccessToken
             }
             
-            // If yes - make call to protected api
             return try await networkClient.makeAuthorizedRequest(
                 scope: scope,
                 request: request
