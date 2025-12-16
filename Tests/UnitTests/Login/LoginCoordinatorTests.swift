@@ -33,7 +33,8 @@ final class LoginCoordinatorTests: XCTestCase {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               sessionState: .notLoggedIn)
+                               sessionState: .notLoggedIn,
+                               serviceState: nil)
     }
     
     override func tearDown() {
@@ -57,7 +58,8 @@ final class LoginCoordinatorTests: XCTestCase {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               sessionState: .expired)
+                               sessionState: .expired,
+                               serviceState: nil)
     }
 }
 
@@ -727,7 +729,8 @@ extension LoginCoordinatorTests {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               sessionState: .userLogOut)
+                               sessionState: .userLogOut,
+                               serviceState: nil)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
@@ -745,7 +748,8 @@ extension LoginCoordinatorTests {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               sessionState: .systemLogOut)
+                               sessionState: .systemLogOut,
+                               serviceState: nil)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
