@@ -690,24 +690,39 @@ extension PersistentSessionManagerTests {
     }
     
     func test_endCurrentSession_clearsAllPersistedData() async throws {
-        // GIVEN I have an expired session
+        // GIVEN I have an access token expiry stored
         mockUnprotectedStore.savedData = [
             OLString.returningUser: true,
             OLString.accessTokenExpiry: Date.distantPast
         ]
+        // AND a persistentSessionID stored
         mockEncryptedStore.savedItems = [
             OLString.persistentSessionID: UUID().uuidString
         ]
+        // AND tokens stored
+        let data = encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: MockJWTs.genericToken,
+            accessToken: MockJWTs.genericToken
+        )
+        try mockAccessControlEncryptedStore.saveItem(
+            item: data,
+            itemName: OLString.storedTokens
+        )
+        
         sut.registerSessionBoundData([
             mockUnprotectedStore,
             mockAccessControlEncryptedStore,
             mockEncryptedStore
         ])
+        
         // WHEN I clear all session data
         try await sut.clearAllSessionData(presentSystemLogOut: true)
+        
         // THEN my session data is deleted
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 0)
         XCTAssertEqual(mockEncryptedStore.savedItems, [:])
+        XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])
     }
 }
 
