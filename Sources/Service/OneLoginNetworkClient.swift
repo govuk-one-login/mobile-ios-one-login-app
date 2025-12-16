@@ -20,15 +20,16 @@ enum RefreshTokenExchangeError: Error {
     case reauthenticationRequired
 }
 
-final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging {
+final class NetworkingService: OneLoginNetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
-    
-    private(set) var errorRetries = 0
+    let refreshExchangeManager: TokenExchangeManaging
     
     init(networkClient: NetworkClient = NetworkClient(),
+         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
          sessionManager: SessionManager) {
         self.networkClient = networkClient
+        self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
     }
     
@@ -75,8 +76,8 @@ final class NetworkingService: OneLoginNetworkingService, TokenExchangeManaging 
 }
 
 extension NetworkingService {
-    private func performRefreshExchangeAndSaveTokens(with refreshToken: String) async throws {
-        let tokens = try await getUpdatedTokens(
+    func performRefreshExchangeAndSaveTokens(with refreshToken: String) async throws {
+        let tokens = try await refreshExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
         )
@@ -86,42 +87,5 @@ extension NetworkingService {
             tokenResponse: tokens,
             idToken: sessionManager.idToken
         )
-    }
-    
-    func getUpdatedTokens(
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
-    ) async throws -> TokenResponse {
-        do {
-            let exchangeResponse = try await makeRequest(
-                .refreshTokenExchange(
-                    token: refreshToken,
-                    appIntegrityProvider: appIntegrityProvider
-                )
-            )
-            
-            return try JSONDecoder()
-                .decode(TokenResponse.self, from: exchangeResponse)
-        } catch let error as FirebaseAppCheckError where error.errorType == .generic
-                    || error.errorType == .unknown {
-            guard errorRetries < 3 else {
-                throw RefreshTokenExchangeError.appIntegrityRetryError
-            }
-            errorRetries += 1
-            return try await getUpdatedTokens(
-                refreshToken: refreshToken,
-                appIntegrityProvider: appIntegrityProvider
-            )
-        } catch let error as FirebaseAppCheckError where error.errorType == .network {
-            throw RefreshTokenExchangeError.noInternet
-        } catch let error as URLError where error.code == .notConnectedToInternet
-                    || error.code == .networkConnectionLost {
-            throw RefreshTokenExchangeError.noInternet
-        } catch let error as ServerError where error.errorCode == 400 {
-            NotificationCenter.default.post(name: .accountIntervention)
-            throw RefreshTokenExchangeError.accountIntervention
-        } catch {
-            throw error
-        }
     }
 }
