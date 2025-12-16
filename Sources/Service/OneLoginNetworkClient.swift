@@ -69,8 +69,6 @@ final class NetworkingService: OneLoginNetworkingService {
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
             throw error
-        } catch {
-            throw error
         }
     }
 }

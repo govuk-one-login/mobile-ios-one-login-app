@@ -51,8 +51,6 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
             throw RefreshTokenExchangeError.noInternet
-        } catch {
-            throw error
         }
     }
 }
