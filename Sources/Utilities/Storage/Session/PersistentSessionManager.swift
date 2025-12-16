@@ -102,11 +102,15 @@ final class PersistentSessionManager: SessionManager {
         return token
     }
     
-    var idToken: String? {
-        guard let storedTokens = try? storeKeyService.fetch() else {
-            return nil
+    func getIDToken() throws -> String? {
+        let storedTokens = try storeKeyService.fetch()
+                
+        guard let idToken = storedTokens.idToken,
+              !idToken.isEmpty else {
+            throw PersistentSessionError.idTokenNotStored
         }
-        return storedTokens.idToken
+       
+        return idToken
     }
     
     var expiryDate: Date? {

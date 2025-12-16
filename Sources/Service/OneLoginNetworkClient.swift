@@ -85,7 +85,7 @@ extension NetworkingService {
         // Save new tokens
         try sessionManager.saveLoginTokens(
             tokenResponse: tokens,
-            idToken: sessionManager.idToken
+            idToken: sessionManager.getIDToken()
         )
     }
 }

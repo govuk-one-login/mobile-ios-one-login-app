@@ -13,7 +13,6 @@ final class MockSessionManager: SessionManager {
     
     var isAccessTokenValid: Bool
     var returnRefreshTokenIfValid: String?
-    var idToken: String?
 
     var persistentID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
@@ -42,7 +41,6 @@ final class MockSessionManager: SessionManager {
          isReturningUser: Bool = false,
          isAccessTokenValid: Bool = false,
          returnRefreshTokenIfValid: String? = nil,
-         idToken: String? = nil,
          sessionState: SessionState = .nonePresent,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
@@ -50,9 +48,12 @@ final class MockSessionManager: SessionManager {
         self.isReturningUser = isReturningUser
         self.isAccessTokenValid = isAccessTokenValid
         self.returnRefreshTokenIfValid = returnRefreshTokenIfValid
-        self.idToken = idToken
         self.tokenProvider = tokenProvider
         self.sessionState = sessionState
+    }
+    
+    func getIDToken() throws -> String? {
+        return "idToken"
     }
 
     func startAuthSession(
