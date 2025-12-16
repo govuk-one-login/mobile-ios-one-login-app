@@ -10,7 +10,6 @@ protocol TokenExchangeManaging {
     ) async throws -> TokenResponse
 }
 
-// TODO: To be deleted and replaced by NetworkingService.getUpdatedTokens
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
@@ -44,14 +43,14 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
                 refreshToken: refreshToken,
                 appIntegrityProvider: appIntegrityProvider
             )
+        } catch let error as ServerError where error.errorCode == 400 {
+            NotificationCenter.default.post(name: .accountIntervention)
+            throw RefreshTokenExchangeError.accountIntervention
         } catch let error as FirebaseAppCheckError where error.errorType == .network {
             throw RefreshTokenExchangeError.noInternet
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
             throw RefreshTokenExchangeError.noInternet
-        } catch let error as ServerError where error.errorCode == 400 {
-            NotificationCenter.default.post(name: .accountIntervention)
-            throw RefreshTokenExchangeError.accountIntervention
         } catch {
             throw error
         }
