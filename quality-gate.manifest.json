@@ -1,0 +1,62 @@
+{
+  "$schema": "https://raw.githubusercontent.com/govuk-one-login/quality-gates/refs/tags/v0.1.0/schemas/schema.json",
+  "services": [
+    {
+      "service-tag": "one-login-ios",
+      "quality-gates": [
+        {
+          "check-types": [
+            "lint",
+            "unit test",
+            "code quality checks"
+          ],
+          "config": {
+            "file": ".github/workflows/pull-request.yml",
+            "name": "Verify code base when pull request is published/updated (into develop)",
+            "path": "jobs.run_unit_tests"
+          },
+          "phase": "pre-merge",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "unit test (only for not release/*)",
+            "code quality checks (only for not release/*)",
+            "build config test",
+            "staging config test"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Test and Deploy Build and Staging (merge on develop or raise release/*)",
+            "path": "jobs.deploy_build_app"
+          },
+          "phase": "build",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "integration config test",
+            "prod config test"
+          ],
+          "config": {
+            "file": ".github/workflows/pull-request-main.yml",
+            "name": "Verify code base when pull request is published/updated (into main)",
+            "path": "jobs.test_release_config"
+          },
+          "phase": "pre-merge",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [],
+          "config": {
+            "file": ".github/workflows/merged-main.yml",
+            "name": "Deploy Integration and Production (merge on main)",
+            "path": "jobs.deploy_release_app"
+          },
+          "phase": "production",
+          "provider": "GitHub"
+        }
+      ]
+    }
+  ]
+}
