@@ -175,6 +175,6 @@ struct NetworkingSerivceTests {
 
 extension NetworkingSerivceTests: AuthorizationProvider {
     func fetchToken(withScope scope: String) async throws -> String {
-        return "mock_token"
+        "mock_token"
     }
 }
