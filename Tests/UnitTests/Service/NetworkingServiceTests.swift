@@ -8,7 +8,7 @@ import Testing
 @Suite(.serialized)
 struct NetworkingSerivceTests {
     let sut: NetworkingService
-    let mockSessionManager = MockSessionManager()
+    let mockSessionManager: MockSessionManager
     
     init() {
         MockURLProtocol.clear()
@@ -16,6 +16,7 @@ struct NetworkingSerivceTests {
         configuration.protocolClasses = [MockURLProtocol.self]
         
         let networkClient = NetworkClient(configuration: configuration)
+        mockSessionManager = MockSessionManager()
     
         sut = NetworkingService(
             networkClient: networkClient,

@@ -10,6 +10,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
     let sut: RefreshTokenExchangeManager
     
     init() {
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
