@@ -19,7 +19,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:AppIntegrity",
         "identifier" : "AppIntegrityTests",
@@ -41,6 +40,7 @@
       }
     },
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:OneLogin.xcodeproj",
         "identifier" : "219601FC2A976305008F3427",
