@@ -12,7 +12,7 @@
           ],
           "config": {
             "file": ".github/workflows/pull-request.yml",
-            "name": "Verify code base when pull request is published/updated (into develop)",
+            "name": "Verify code base when pull request is published/updated (into 'develop' or 'release/*' branches)",
             "path": "jobs.run_unit_tests"
           },
           "phase": "pre-merge",
@@ -20,14 +20,14 @@
         },
         {
           "check-types": [
-            "unit test (only for not release/*)",
-            "code quality checks (only for not release/*)",
+            "unit test (runs on 'develop' but not 'release/*' branches)",
+            "code quality checks (runs on 'develop' but not 'release/*' branches)",
             "build config test",
             "staging config test"
           ],
           "config": {
             "file": ".github/workflows/merged.yml",
-            "name": "Test and Deploy Build and Staging (merge on develop or raise release/*)",
+            "name": "Test and Deploy Build and Staging apps (merge into 'develop' or raise 'release/*' branch)",
             "path": "jobs.deploy_build_app"
           },
           "phase": "build",
@@ -40,7 +40,7 @@
           ],
           "config": {
             "file": ".github/workflows/pull-request-main.yml",
-            "name": "Verify code base when pull request is published/updated (into main)",
+            "name": "Verify code base when pull request is published/updated (into 'main')",
             "path": "jobs.test_release_config"
           },
           "phase": "pre-merge",
@@ -50,7 +50,7 @@
           "check-types": [],
           "config": {
             "file": ".github/workflows/merged-main.yml",
-            "name": "Deploy Integration and Production (merge on main)",
+            "name": "Deploy Integration and Production apps (merge into 'main')",
             "path": "jobs.deploy_release_app"
           },
           "phase": "production",
