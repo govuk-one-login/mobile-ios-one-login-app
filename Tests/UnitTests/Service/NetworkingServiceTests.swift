@@ -110,6 +110,8 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with invalid tokens leads to reauthentication")
     func test_makeAuthorizedRequest_invalidTokens() async throws {
+        let notification = NotificationCenter.default.notifications(named: .reauthenticationRequired)
+        let iterator = notification.makeAsyncIterator()
         mockSessionManager.isAccessTokenValid = false
         mockSessionManager.returnRefreshTokenIfValid = nil
         
@@ -124,9 +126,10 @@ struct NetworkingSerivceTests {
                 request: URLRequest(url: URL(string: "testurl.com")!)
             )
             
-            // TODO: DCMAW-16211 check notification is being posted here
+            Issue.record("Expected `.reauthenticationRequired` error to be thrown")
         } catch RefreshTokenExchangeError.reauthenticationRequired {
             // Expected path
+            _ = await iterator.next()
         } catch {
             Issue.record("Expected `.reauthenticationRequired` error to be thrown")
         }
