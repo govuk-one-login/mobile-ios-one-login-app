@@ -15,11 +15,11 @@
       "identifier" : "219601E62A976302008F3427",
       "name" : "OneLogin"
     },
-    "testExecutionOrdering" : "random",
-    "testRepetitionMode" : "retryOnFailure"
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:AppIntegrity",
         "identifier" : "AppIntegrityTests",
