@@ -11,14 +11,17 @@ struct NetworkingSerivceTests {
     let mockSessionManager = MockSessionManager()
     
     init() {
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         
         let networkClient = NetworkClient(configuration: configuration)
     
-        sut = NetworkingService(networkClient: networkClient,
-                                refreshExchangeManager: MockRefreshTokenExchangeManager(),
-                                sessionManager: mockSessionManager)
+        sut = NetworkingService(
+            networkClient: networkClient,
+            refreshExchangeManager: MockRefreshTokenExchangeManager(),
+            sessionManager: mockSessionManager
+        )
         
         networkClient.authorizationProvider = self
     }
