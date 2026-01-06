@@ -81,11 +81,10 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var isAccessTokenValid: Bool {
-        let expiryDate = unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
-        
-        guard let expiryDate else {
+        guard let expiryDate = unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date else {
             return false
         }
+        
         return expiryDate - 15 > .now
     }
     
