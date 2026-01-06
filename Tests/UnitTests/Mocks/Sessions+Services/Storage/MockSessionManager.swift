@@ -13,7 +13,7 @@ final class MockSessionManager: SessionManager {
     var isReturningUser: Bool
     
     var isAccessTokenValid: Bool
-    var returnRefreshTokenIfValid: (refreshToken: String, idToken: String)?
+    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)?
 
     var persistentID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
@@ -41,14 +41,14 @@ final class MockSessionManager: SessionManager {
          isEnrolling: Bool = false,
          isReturningUser: Bool = false,
          isAccessTokenValid: Bool = false,
-         returnRefreshTokenIfValid: (String, String)? = nil,
+         validTokensForRefreshExchange: (String, String)? = nil,
          sessionState: SessionState = .nonePresent,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
         self.isEnrolling = isEnrolling
         self.isReturningUser = isReturningUser
         self.isAccessTokenValid = isAccessTokenValid
-        self.returnRefreshTokenIfValid = returnRefreshTokenIfValid
+        self.validTokensForRefreshExchange = validTokensForRefreshExchange
         self.tokenProvider = tokenProvider
         self.sessionState = sessionState
     }

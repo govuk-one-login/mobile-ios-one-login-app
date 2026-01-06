@@ -88,7 +88,7 @@ struct NetworkingSerivceTests {
     @Test("Test makeAuthorisedRequest() with invalid accessToken and valid refreshToken")
     func test_makeAuthorisedRequest_invalidAccessToken() async throws {
         mockSessionManager.isAccessTokenValid = false
-        mockSessionManager.returnRefreshTokenIfValid = ("refreshToken", "idToken")
+        mockSessionManager.validTokensForRefreshExchange = ("refreshToken", "idToken")
         
         #expect(mockSessionManager.didCallSaveLoginTokens == false)
         
@@ -113,7 +113,7 @@ struct NetworkingSerivceTests {
         let notification = NotificationCenter.default.notifications(named: .reauthenticationRequired)
         let iterator = notification.makeAsyncIterator()
         mockSessionManager.isAccessTokenValid = false
-        mockSessionManager.returnRefreshTokenIfValid = nil
+        mockSessionManager.validTokensForRefreshExchange = nil
         
         MockURLProtocol.handler = {
             let data = Data("NetworkingService Test".utf8)

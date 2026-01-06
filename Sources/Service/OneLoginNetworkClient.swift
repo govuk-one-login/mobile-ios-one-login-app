@@ -48,7 +48,8 @@ final class NetworkingService: OneLoginNetworkingService {
     ) async throws -> Data {
         do {
             guard sessionManager.isAccessTokenValid else {
-                if let tokens = sessionManager.returnRefreshTokenIfValid {
+                if let tokens = try sessionManager.validTokensForRefreshExchange {
+                    // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
                     try await performRefreshExchangeAndSaveTokens(
                         refreshToken: tokens.refreshToken,
                         idToken: tokens.idToken
@@ -59,7 +60,7 @@ final class NetworkingService: OneLoginNetworkingService {
                         request: request
                     )
                 } else {
-                    // No valid access or refresh token, user must reauthenticate
+                    // No refresh token or id token, user must reauthenticate
                     NotificationCenter.default.post(name: .reauthenticationRequired)
                     throw RefreshTokenExchangeError.reauthenticationRequired
                 }

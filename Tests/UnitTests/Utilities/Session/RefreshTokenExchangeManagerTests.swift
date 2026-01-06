@@ -118,6 +118,8 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
     
     @Test("If account intervention occurs during refresh token exchange, an error is thrown")
     func refreshTokenExchange_accountIntervention() async throws {
+        let notification = NotificationCenter.default.notifications(named: .accountIntervention)
+        let iterator = notification.makeAsyncIterator()
         MockURLProtocol.handler = {
             (Data("""
             """.utf8),
@@ -129,10 +131,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
-            
-            // TODO: DCMAW-16211 check notification is being posted here
         } catch RefreshTokenExchangeError.accountIntervention {
-            // expected path
+            let received = await iterator.next()?.name == .accountIntervention
+            if received == false {
+                Issue.record("Expected accountIntervention notification to be posted")
+            }
         } catch {
             Issue.record("Expected `` error to be thrown")
         }

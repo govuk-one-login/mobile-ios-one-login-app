@@ -74,7 +74,7 @@ extension PersistentSessionManagerTests {
             itemName: OLString.refreshTokenExpiry
         )
         // THEN it is exposed by the session manager
-        XCTAssertEqual(sut.expiryDate, date)
+        XCTAssertEqual(sut.expiryDate, date.withFifteenSecondBuffer)
     }
     
     func test_sessionExpiryDate_bothTokensSet() throws {
@@ -93,7 +93,7 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN date exposed by the session manager matches refresh token expiry date
-        XCTAssertEqual(sut.expiryDate, refreshTokenExpiryDate)
+        XCTAssertEqual(sut.expiryDate, refreshTokenExpiryDate.withFifteenSecondBuffer)
     }
     
     func test_sessionExpiryDate_accessToken() {
@@ -104,7 +104,7 @@ extension PersistentSessionManagerTests {
             forKey: OLString.accessTokenExpiry
         )
         // THEN it is exposed by the session manager
-        XCTAssertEqual(sut.expiryDate, date)
+        XCTAssertEqual(sut.expiryDate, date.withFifteenSecondBuffer)
     }
     
     func test_sessionIsValid_refreshToken_notExpired() throws {
@@ -191,8 +191,8 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN a refresh token is returned
-        XCTAssertEqual(sut.returnRefreshTokenIfValid?.refreshToken, MockJWTs.genericToken)
-        XCTAssertEqual(sut.returnRefreshTokenIfValid?.idToken, MockJWTs.genericToken)
+        XCTAssertEqual(try sut.validTokensForRefreshExchange?.refreshToken, MockJWTs.genericToken)
+        XCTAssertEqual(try sut.validTokensForRefreshExchange?.idToken, MockJWTs.genericToken)
     }
     
     func test_returnRefreshTokenIfValid_expired() throws {
@@ -214,7 +214,7 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN no refresh token is returned
-        XCTAssertNil(sut.returnRefreshTokenIfValid)
+        XCTAssertNil(try sut.validTokensForRefreshExchange)
     }
     
     func test_isReturningUserPullsFromStore() {
