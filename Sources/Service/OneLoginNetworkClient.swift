@@ -48,8 +48,11 @@ final class NetworkingService: OneLoginNetworkingService {
     ) async throws -> Data {
         do {
             guard sessionManager.isAccessTokenValid else {
-                if let refreshToken = sessionManager.returnRefreshTokenIfValid {
-                    try await performRefreshExchangeAndSaveTokens(with: refreshToken)
+                if let tokens = sessionManager.returnRefreshTokenIfValid {
+                    try await performRefreshExchangeAndSaveTokens(
+                        refreshToken: tokens.refreshToken,
+                        idToken: tokens.idToken
+                    )
                     
                     return try await networkClient.makeAuthorizedRequest(
                         scope: scope,
@@ -74,7 +77,10 @@ final class NetworkingService: OneLoginNetworkingService {
 }
 
 extension NetworkingService {
-    func performRefreshExchangeAndSaveTokens(with refreshToken: String) async throws {
+    func performRefreshExchangeAndSaveTokens(
+        refreshToken: String,
+        idToken: String
+    ) async throws {
         let tokens = try await refreshExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
@@ -83,7 +89,7 @@ extension NetworkingService {
         // Save new tokens
         try sessionManager.saveLoginTokens(
             tokenResponse: tokens,
-            idToken: sessionManager.getIDToken()
+            idToken: idToken
         )
     }
 }

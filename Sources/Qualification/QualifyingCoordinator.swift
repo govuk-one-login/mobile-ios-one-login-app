@@ -95,12 +95,12 @@ final class QualifyingCoordinator: NSObject,
     
     func didChangeSessionState(state sessionState: AppSessionState) {
         switch sessionState {
-        case .localAuthCancelled:
-            unlockViewController.isLoading = false
         case .loggedIn:
             launchTabManagerCoordinator()
         case .notLoggedIn, .expired, .userLogOut, .systemLogOut:
             launchLoginCoordinator(sessionState: sessionState)
+        case .localAuthCancelled:
+            unlockViewController.isLoading = false
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(
                 analyticsService: analyticsService,

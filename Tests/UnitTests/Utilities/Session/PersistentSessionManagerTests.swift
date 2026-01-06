@@ -191,7 +191,8 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN a refresh token is returned
-        XCTAssertEqual(sut.returnRefreshTokenIfValid, MockJWTs.genericToken)
+        XCTAssertEqual(sut.returnRefreshTokenIfValid?.refreshToken, MockJWTs.genericToken)
+        XCTAssertEqual(sut.returnRefreshTokenIfValid?.idToken, MockJWTs.genericToken)
     }
     
     func test_returnRefreshTokenIfValid_expired() throws {
@@ -214,41 +215,6 @@ extension PersistentSessionManagerTests {
         
         // THEN no refresh token is returned
         XCTAssertNil(sut.returnRefreshTokenIfValid)
-    }
-    
-    func test_idToken() throws {
-        // GIVEN an id token is stored
-        let data = encodeKeys(
-            idToken: MockJWTs.genericToken,
-            refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
-        )
-        try mockAccessControlEncryptedStore.saveItem(
-            item: data,
-            itemName: OLString.storedTokens
-        )
-        
-        // THEN it can be fetched
-        XCTAssertEqual(try sut.getIDToken(), MockJWTs.genericToken)
-    }
-    
-    func test_idToken_notPresent() throws {
-        // GIVEN an id token is stored
-        let data = encodeKeys(
-            idToken: "",
-            refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
-        )
-        try mockAccessControlEncryptedStore.saveItem(
-            item: data,
-            itemName: OLString.storedTokens
-        )
-        
-        do {
-            _ = try sut.getIDToken()
-        } catch PersistentSessionError.idTokenNotStored {
-            // Expected path
-        }
     }
     
     func test_isReturningUserPullsFromStore() {

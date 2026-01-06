@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "f989066f1b5b969f90926ad61813897dc1c7a812",
-        "version" : "8.46.1"
+        "revision" : "b8fe7da79386e89559cf080094719d2c40193168",
+        "version" : "8.37.1"
       }
     },
     {
@@ -230,7 +230,7 @@
       "kind" : "registry",
       "location" : "",
       "state" : {
-        "version" : "4.120.0"
+        "version" : "4.118.1"
       }
     },
     {

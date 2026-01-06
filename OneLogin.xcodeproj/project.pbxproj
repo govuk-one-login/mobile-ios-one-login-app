@@ -3891,8 +3891,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.46.0;
+				kind = exactVersion;
+				version = 8.37.1;
 			};
 		};
 		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {

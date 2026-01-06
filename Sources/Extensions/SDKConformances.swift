@@ -17,7 +17,7 @@ extension NetworkClient: @retroactive WalletNetworkClient { }
 
 extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
 
-typealias OneLoginNetworkingService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient
+typealias OneLoginNetworkingService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService
 

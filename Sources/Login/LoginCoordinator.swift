@@ -169,7 +169,7 @@ final class LoginCoordinator: NSObject,
         case (_, .reauthenticationRequired):
             serviceState = .reauthenticationRequired
             start()
-        case (.none, .none), (.expired, _), (.loggedIn, _), (.failed, _), (.localAuthCancelled, _), (_, .activeService):
+        case (_, _):
             return
         }
     }

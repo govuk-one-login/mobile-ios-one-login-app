@@ -18,8 +18,7 @@ protocol SessionManager: AnyObject, UserProvider {
     var isEnrolling: Bool { get set }
 
     var isAccessTokenValid: Bool { get }
-    var returnRefreshTokenIfValid: String? { get }
-    func getIDToken() throws -> String?
+    var returnRefreshTokenIfValid: (refreshToken: String, idToken: String)? { get }
     
     var tokenProvider: TokenHolder { get }
 

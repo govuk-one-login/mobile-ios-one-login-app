@@ -88,28 +88,19 @@ final class PersistentSessionManager: SessionManager {
         return expiryDate - 15 > .now
     }
     
-    var returnRefreshTokenIfValid: String? {
+    var returnRefreshTokenIfValid: (refreshToken: String, idToken: String)? {
         let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
         
         guard let actualExpiryDate = expiryDate, actualExpiryDate - 15 > .now else {
             return nil
         }
+        
         guard let storedTokens = try? storeKeyService.fetch(),
-              let token = storedTokens.refreshToken else {
+              let refreshToken = storedTokens.refreshToken,
+              let idToken = storedTokens.idToken else {
             return nil
         }
-        return token
-    }
-    
-    func getIDToken() throws -> String? {
-        let storedTokens = try storeKeyService.fetch()
-                
-        guard let idToken = storedTokens.idToken,
-              !idToken.isEmpty else {
-            throw PersistentSessionError.idTokenNotStored
-        }
-       
-        return idToken
+        return (refreshToken, idToken)
     }
     
     var expiryDate: Date? {

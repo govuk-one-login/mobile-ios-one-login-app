@@ -88,7 +88,7 @@ struct NetworkingSerivceTests {
     @Test("Test makeAuthorisedRequest() with invalid accessToken and valid refreshToken")
     func test_makeAuthorisedRequest_invalidAccessToken() async throws {
         mockSessionManager.isAccessTokenValid = false
-        mockSessionManager.returnRefreshTokenIfValid = "refreshToken"
+        mockSessionManager.returnRefreshTokenIfValid = ("refreshToken", "idToken")
         
         #expect(mockSessionManager.didCallSaveLoginTokens == false)
         
@@ -129,7 +129,10 @@ struct NetworkingSerivceTests {
             Issue.record("Expected `.reauthenticationRequired` error to be thrown")
         } catch RefreshTokenExchangeError.reauthenticationRequired {
             // Expected path
-            _ = await iterator.next()
+            let received = await iterator.next()?.name == .reauthenticationRequired
+            if received == false {
+                Issue.record("Expected reauthenticationRequired notification to be posted")
+            }
         } catch {
             Issue.record("Expected `.reauthenticationRequired` error to be thrown")
         }
