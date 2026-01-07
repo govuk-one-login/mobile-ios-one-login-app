@@ -25,7 +25,7 @@ final class NetworkingService: OneLoginNetworkingService {
     let sessionManager: SessionManager
     let refreshExchangeManager: TokenExchangeManaging
     
-    init(networkClient: NetworkClient = NetworkClient(),
+    init(networkClient: NetworkClient,
          refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
          sessionManager: SessionManager) {
         self.networkClient = networkClient

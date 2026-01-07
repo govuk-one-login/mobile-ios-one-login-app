@@ -5,7 +5,6 @@ import LocalAuthenticationWrapper
 @testable import OneLogin
 
 final class MockSessionManager: SessionManager {
-    
     var sessionState: SessionState
 
     var expiryDate: Date?
