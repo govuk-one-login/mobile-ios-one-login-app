@@ -95,12 +95,12 @@ final class QualifyingCoordinator: NSObject,
     
     func didChangeSessionState(state sessionState: AppSessionState) {
         switch sessionState {
-        case .localAuthCancelled:
-            unlockViewController.isLoading = false
         case .loggedIn:
             launchTabManagerCoordinator()
         case .notLoggedIn, .expired, .userLogOut, .systemLogOut:
             launchLoginCoordinator(sessionState: sessionState)
+        case .localAuthCancelled:
+            unlockViewController.isLoading = false
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(
                 analyticsService: analyticsService,
@@ -114,7 +114,19 @@ final class QualifyingCoordinator: NSObject,
         }
     }
     
-    func launchLoginCoordinator(sessionState: AppSessionState) {
+    func didChangeServiceState(state serviceState: RemoteServiceState) {
+        switch serviceState {
+        case .accountIntervention, .reauthenticationRequired:
+            launchLoginCoordinator(serviceState: serviceState)
+        case .activeService:
+            return
+        }
+    }
+    
+    func launchLoginCoordinator(
+        sessionState: AppSessionState? = nil,
+        serviceState: RemoteServiceState? = nil
+    ) {
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
@@ -128,7 +140,8 @@ final class QualifyingCoordinator: NSObject,
                     session: AppAuthSessionV2(window: appWindow),
                     analyticsService: analyticsService
                 ),
-                sessionState: sessionState
+                sessionState: sessionState,
+                serviceState: serviceState
             )
             displayChildCoordinator(loginCoordinator)
         }

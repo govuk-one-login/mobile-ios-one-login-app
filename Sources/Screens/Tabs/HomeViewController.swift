@@ -15,14 +15,11 @@ protocol CRIOrchestration {
     ) -> UIViewController
 }
 
-extension CRIOrchestrator: CRIOrchestration { }
-
 final class HomeViewController: BaseViewController {
     override var nibName: String? { "HomeView" }
     
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
-    private let networkClient: NetworkClient
     private let criOrchestrator: CRIOrchestration
     let spaceBetweenSections: CGFloat = 16
     
@@ -30,13 +27,11 @@ final class HomeViewController: BaseViewController {
     private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
     
     init(analyticsService: OneLoginAnalyticsService,
-         networkClient: NetworkClient,
          criOrchestrator: CRIOrchestration) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.home,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        self.networkClient = networkClient
         self.criOrchestrator = criOrchestrator
         super.init(viewModel: nil,
                    nibName: "HomeView",

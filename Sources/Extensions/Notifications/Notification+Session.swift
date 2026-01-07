@@ -28,4 +28,14 @@ extension Notification.Name {
     static var systemLogUserOut: Self {
         Notification.Name("onelogin:system-log-user-out")
     }
+    
+    /// Posted when there is an account intervention
+    static var accountIntervention: Self {
+        Notification.Name("onelogin:account-intervention")
+    }
+    
+    /// Posted when a user attempts to call a protected api with expired access & refresh tokens
+    static var reauthenticationRequired: Self {
+        Notification.Name("onelogin:re-authentication-required")
+    }
 }

@@ -22,7 +22,9 @@ final class LoginCoordinator: NSObject,
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
     
-    private var sessionState: AppSessionState
+    private var sessionState: AppSessionState?
+    private var serviceState: RemoteServiceState?
+
     private var serverErrorCounter = 0
     
     private var loginTask: Task<Void, Never>? {
@@ -38,7 +40,8 @@ final class LoginCoordinator: NSObject,
         sessionManager: SessionManager,
         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
         authService: AuthenticationService,
-        sessionState: AppSessionState
+        sessionState: AppSessionState?,
+        serviceState: RemoteServiceState?
     ) {
         self.appWindow = appWindow
         self.root = root
@@ -47,6 +50,7 @@ final class LoginCoordinator: NSObject,
         self.networkMonitor = networkMonitor
         self.authService = authService
         self.sessionState = sessionState
+        self.serviceState = serviceState
     }
     
     deinit {
@@ -56,7 +60,7 @@ final class LoginCoordinator: NSObject,
     func start() {
         let rootViewController: UIViewController
         
-        if sessionState == .expired {
+        if sessionState == .expired || serviceState == .accountIntervention || serviceState == .reauthenticationRequired {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
@@ -135,13 +139,11 @@ final class LoginCoordinator: NSObject,
               root.topViewController is IntroViewController else {
             return
         }
-        switch sessionState {
-        case .expired, .loggedIn, .failed, .localAuthCancelled:
-            return
-        case .notLoggedIn:
+        switch (sessionState, serviceState) {
+        case (.notLoggedIn, _):
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
-        case .userLogOut:
+        case (.userLogOut, _):
             let viewModel = SignOutSuccessfulViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
@@ -151,7 +153,7 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
-        case .systemLogOut:
+        case (.systemLogOut, _):
             let viewModel = DataDeletedWarningViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
@@ -161,6 +163,14 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSErrorScreen(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
+        case (_, .accountIntervention):
+            serviceState = .accountIntervention
+            start()
+        case (_, .reauthenticationRequired):
+            serviceState = .reauthenticationRequired
+            start()
+        case (_, _):
+            return
         }
     }
     

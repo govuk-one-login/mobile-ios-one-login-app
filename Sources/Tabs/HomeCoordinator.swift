@@ -40,7 +40,6 @@ final class HomeCoordinator: NSObject,
         )
         let hc = HomeViewController(
             analyticsService: analyticsService,
-            networkClient: networkClient,
             criOrchestrator: criOrchestrator
         )
         root.setViewControllers([hc], animated: true)

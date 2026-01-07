@@ -19,6 +19,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
@@ -37,6 +38,7 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
             releaseFlags: [:],
             featureFlags: [:]
         )
+        MockURLProtocol.clear()
         devMenuViewModel = nil
         mockSessionManager = nil
         sut = nil

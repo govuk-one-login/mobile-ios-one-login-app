@@ -3,6 +3,7 @@ import Foundation
 import GAnalytics
 import HTTPLogging
 import Logging
+import MobilePlatformServices
 import Networking
 import Wallet
 
@@ -15,6 +16,8 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
 extension NetworkClient: @retroactive WalletNetworkClient { }
 
 extension GAnalyticsV2: @retroactive WalletAnalyticsService & IDCheckAnalyticsService { }
+
+typealias OneLoginNetworkingService = OneLoginNetworkClient & MPTServicesNetworkClient & WalletNetworkClient
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & IDCheckAnalyticsService & WalletAnalyticsService
 
@@ -31,6 +34,8 @@ extension WalletEnvironment {
         }
     }
 }
+
+extension CRIOrchestrator: CRIOrchestration { }
 
 struct OneLoginCRIURLs: CRIURLs {
     let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
