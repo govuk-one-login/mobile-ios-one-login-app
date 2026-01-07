@@ -172,7 +172,7 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.isAccessTokenValid)
     }
     
-    func test_returnRefreshTokenIfValid() throws {
+    func test_returnTokensIfValid() throws {
         // GIVEN the unprotected store contains an access token expiry date in the future
         try mockEncryptedStore.saveItem(
             item: Date.distantFuture.timeIntervalSince1970.description,
@@ -190,12 +190,12 @@ extension PersistentSessionManagerTests {
             itemName: OLString.storedTokens
         )
         
-        // THEN a refresh token is returned
+        // THEN a refresh and id token is returned
         XCTAssertEqual(try sut.validTokensForRefreshExchange?.refreshToken, MockJWTs.genericToken)
         XCTAssertEqual(try sut.validTokensForRefreshExchange?.idToken, MockJWTs.genericToken)
     }
     
-    func test_returnRefreshTokenIfValid_expired() throws {
+    func test_returnTokensIfValid_expired() throws {
         // GIVEN the unprotected store contains an access token expiry date in the past
         try mockEncryptedStore.saveItem(
             item: Date.distantPast.timeIntervalSince1970.description,

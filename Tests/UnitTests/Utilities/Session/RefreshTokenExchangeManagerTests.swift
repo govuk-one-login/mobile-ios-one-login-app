@@ -134,10 +134,10 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         } catch RefreshTokenExchangeError.accountIntervention {
             let received = await iterator.next()?.name == .accountIntervention
             if received == false {
-                Issue.record("Expected accountIntervention notification to be posted")
+                Issue.record("Expected `.accountIntervention` notification to be posted")
             }
         } catch {
-            Issue.record("Expected `` error to be thrown")
+            Issue.record("Expected `.accountIntervention` error to be thrown")
         }
     }
     
@@ -157,7 +157,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         } catch RefreshTokenExchangeError.noInternet {
             // expected path
         } catch {
-            Issue.record("Expected `` error to be thrown")
+            Issue.record("Expected `.noInternet` error to be thrown")
         }
     }
     
@@ -175,7 +175,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         } catch RefreshTokenExchangeError.noInternet {
             // expected path
         } catch {
-            Issue.record("Expected `` error to be thrown")
+            Issue.record("Expected `.noInternet` error to be thrown")
         }
     }
     
@@ -193,7 +193,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         } catch RefreshTokenExchangeError.noInternet {
             // expected path
         } catch {
-            Issue.record("Expected `` error to be thrown")
+            Issue.record("Expected `.networkConnectionLost` error to be thrown")
         }
     }
 }
