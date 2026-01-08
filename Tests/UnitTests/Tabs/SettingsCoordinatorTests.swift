@@ -37,8 +37,6 @@ final class SettingsCoordinatorTests: XCTestCase {
         urlOpener = nil
         sut = nil
         
-        WalletAvailabilityService.hasAccessedBefore = false
-        
         super.tearDown()
     }
     

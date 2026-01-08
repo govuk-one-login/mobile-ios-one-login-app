@@ -3,11 +3,6 @@ import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
 
-public enum EnrolmentJourney {
-    case login
-    case wallet
-}
-
 final class EnrolmentCoordinator: NSObject,
                                   ChildCoordinator,
                                   NavigationCoordinator {
@@ -16,7 +11,6 @@ final class EnrolmentCoordinator: NSObject,
     private let analyticsService: OneLoginAnalyticsService
     private let sessionManager: SessionManager
     private let localAuthContext: LocalAuthManaging
-    private let enrolmentJourney: EnrolmentJourney
     
     private lazy var localAuthManager = OneLoginEnrolmentManager(
         localAuthContext: localAuthContext,
@@ -29,14 +23,12 @@ final class EnrolmentCoordinator: NSObject,
         root: UINavigationController,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager,
-        localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
-        enrolmentJourney: EnrolmentJourney = .login
+        localAuthContext: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
     ) {
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.localAuthContext = localAuthContext
-        self.enrolmentJourney = enrolmentJourney
         self.sessionManager.isEnrolling = true
     }
 
@@ -50,8 +42,7 @@ final class EnrolmentCoordinator: NSObject,
             switch biometricsType {
             case .touchID, .faceID:
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
-                                                             biometricsType: biometricsType,
-                                                             enrolmentJourney: enrolmentJourney) { [unowned self] in
+                                                             biometricsType: biometricsType) { [unowned self] in
                     localAuthManager.saveSession()
                 } secondaryButtonAction: { [unowned self] in
                     localAuthManager.completeEnrolment()

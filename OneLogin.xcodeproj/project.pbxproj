@@ -53,7 +53,6 @@
 		7C47BE162C7883B800DCE5D2 /* JWTProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C47BE152C7883B800DCE5D2 /* JWTProtocols.swift */; };
 		7C47BE182C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */; };
 		7C59BFA42C986E6800F1C37A /* Array+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */; };
-		7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A763D2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift */; };
 		7C7A76412C945B1500EE85CB /* Notification+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A76402C945B0D00EE85CB /* Notification+Session.swift */; };
 		7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD22C78A5B000A73010 /* MockUser.swift */; };
 		7C81ADD62C78A90100A73010 /* PersistentSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */; };
@@ -379,7 +378,6 @@
 		7C47BE152C7883B800DCE5D2 /* JWTProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTProtocols.swift; sourceTree = "<group>"; };
 		7C47BE172C7883DB00DCE5D2 /* IDTokenUserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDTokenUserRepresentation.swift; sourceTree = "<group>"; };
 		7C59BFA32C986E6800F1C37A /* Array+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+OneLogin.swift"; sourceTree = "<group>"; };
-		7C7A763D2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityServiceTests.swift; sourceTree = "<group>"; };
 		7C7A76402C945B0D00EE85CB /* Notification+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Session.swift"; sourceTree = "<group>"; };
 		7C81ADD22C78A5B000A73010 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		7C81ADD52C78A90100A73010 /* PersistentSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentSessionManagerTests.swift; sourceTree = "<group>"; };
@@ -869,7 +867,6 @@
 			isa = PBXGroup;
 			children = (
 				1E69F8722EF08A4100D8A292 /* NetworkingServiceTests.swift */,
-				7C7A763D2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -2412,7 +2409,6 @@
 				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
 				7CA719682C846E7600973585 /* URLRequest+OneLoginTests.swift in Sources */,
-				7C7A763E2C9433C400EE85CB /* WalletAvailabilityServiceTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
 				C84960012EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift in Sources */,
 				41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */,

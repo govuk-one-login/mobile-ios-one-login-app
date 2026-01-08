@@ -78,8 +78,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_FaceID".getEnglishString(),
                        "Face ID")
-        XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
-                       "You can use Face ID to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.")
+   
         XCTAssertEqual("app_enableBiometricsFaceIDBody2".getEnglishString(),
                        "If you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone settings.")
     }
@@ -87,15 +86,12 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_TouchID".getEnglishString(),
                        "Touch ID")
-        XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),
-                       "You can use your fingerprint to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
+   
         XCTAssertEqual("app_enableBiometricsTouchIDBody2".getEnglishString(),
                        "If you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
     
     func test_biometricsEnrolmentScreen_commonKeys() throws {
-        XCTAssertEqual("app_enableLoginBiometricsTitle".getEnglishString(),
-                       "Unlock the app with %@")
         XCTAssertEqual("app_enableBiometricsButton".getEnglishString(),
                        "Allow %@")
         XCTAssertEqual("app_enableBiometricsTitle".getEnglishString(),
