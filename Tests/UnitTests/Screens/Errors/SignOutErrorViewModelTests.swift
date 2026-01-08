@@ -28,7 +28,7 @@ final class SignOutErrorViewModelTests: XCTestCase {
 }
 
 extension SignOutErrorViewModelTests {
-    func test_pageWithWallet() throws {
+    func test_page() throws {
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
                                     error: MockWalletError.cantDelete) { self.didCallButtonAction = true }
         XCTAssertEqual(sut.image, .error)

@@ -45,7 +45,7 @@ final class BiometricsEnrolmentViewModelTests: XCTestCase {
 }
 
 extension BiometricsEnrolmentViewModelTests {
-    func test_WalletEnrolment_FaceID_page() {
+    func test_faceID_page() {
         sut = makeSut()
         XCTAssertEqual(sut.image, "faceid")
         XCTAssertEqual(sut.biometricsTypeString, "app_FaceID")
@@ -60,7 +60,7 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertTrue(sut.backButtonIsHidden)
     }
     
-    func test_WalletEnrolment_TouchID_page() {
+    func test_touchID_page() {
         sut = makeSut(biometricsType: .touchID)
         XCTAssertEqual(sut.image, "touchid")
         XCTAssertEqual(sut.biometricsTypeString, "app_TouchID")

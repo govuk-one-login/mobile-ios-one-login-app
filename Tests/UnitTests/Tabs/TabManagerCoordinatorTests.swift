@@ -35,7 +35,7 @@ final class TabManagerCoordinatorTests: XCTestCase {
 
 @MainActor
 extension TabManagerCoordinatorTests {
-    func test_start_performsSetUpWithWallet() async {
+    func test_start() async {
         // WHEN the TabManagerCoordinator is started
         sut.start()
         await sut.addTabTask?.value
