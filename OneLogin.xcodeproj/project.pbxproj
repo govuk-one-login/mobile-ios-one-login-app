@@ -84,7 +84,6 @@
 		AB51B3772D78824F00348FB6 /* WelcomeTileViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51B3762D78824F00348FB6 /* WelcomeTileViewModelTests.swift */; };
 		AB90DC7C2D8831E000070B0F /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = AB90DC7B2D8831E000070B0F /* GDSCommon */; };
 		AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB90DC7D2D8875EA00070B0F /* GDSAnalytics */; };
-		ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
 		ABC6B2C82E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */; };
 		ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */; };
@@ -401,7 +400,6 @@
 		AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModel.swift; sourceTree = "<group>"; };
 		AB51B3742D771E9500348FB6 /* WelcomeTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTileViewModel.swift; sourceTree = "<group>"; };
 		AB51B3762D78824F00348FB6 /* WelcomeTileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTileViewModelTests.swift; sourceTree = "<group>"; };
-		ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAvailabilityService.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
 		ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnrecoverableLoginErrorViewModel.swift; sourceTree = "<group>"; };
@@ -974,7 +972,6 @@
 			isa = PBXGroup;
 			children = (
 				C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */,
-				ABAFD44B2C7DF30800E00A88 /* WalletAvailabilityService.swift */,
 				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 			);
 			path = Service;
@@ -2315,7 +2312,6 @@
 				C819C78B2D0B665B00120F2D /* UserDefaults+OneLogin.swift in Sources */,
 				7CB5BD8E2C946EFD00ABAE4C /* UserProvider.swift in Sources */,
 				D01A72792BE37B86004333F8 /* ViewIdentifiable.swift in Sources */,
-				ABAFD44C2C7DF30800E00A88 /* WalletAvailabilityService.swift in Sources */,
 				C8ECA12A2BB5957500722218 /* WalletCoordinator.swift in Sources */,
 				C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */,
 				7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */,

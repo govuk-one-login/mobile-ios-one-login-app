@@ -4,18 +4,6 @@ import MobilePlatformServices
 public final class AppEnvironment {
     // MARK: - Feature Flags
     
-    static var walletVisibleViaDeepLink: Bool {
-        isFeatureEnabled(for: .enableWalletVisibleViaDeepLink)
-    }
-    
-    static var walletVisibleIfExists: Bool {
-        isFeatureEnabled(for: .enableWalletVisibleIfExists)
-    }
-    
-    static var walletVisibleToAll: Bool {
-        isFeatureEnabled(for: .enableWalletVisibleToAll)
-    }
-    
     static var appIntegrityEnabled: Bool {
         isFeatureEnabled(for: .appCheckEnabled)
     }
