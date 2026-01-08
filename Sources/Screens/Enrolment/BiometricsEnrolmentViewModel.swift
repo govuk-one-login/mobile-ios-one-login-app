@@ -20,23 +20,22 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     let secondaryButtonViewModel: ButtonViewModel
     let analyticsService: OneLoginAnalyticsService
     let isFaceID: Bool
-    let enrolmentJourney: EnrolmentJourney
     let biometricsTypeString: String
-    var childView: UIView = UIView()
+    var childView: UIView {
+        configureWalletEnrolmentView()
+    }
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService,
          biometricsType: LocalAuthType,
-         enrolmentJourney: EnrolmentJourney,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        self.enrolmentJourney = enrolmentJourney
         self.isFaceID = biometricsType == .faceID
         self.biometricsTypeString = isFaceID ? "app_FaceID" : "app_TouchID"
         self.image = isFaceID ? "faceid" : "touchid"
@@ -50,26 +49,18 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
                                                                  analyticsService: analyticsService) {
             secondaryButtonAction()
         }
-        
-        if enrolmentJourney == .wallet {
-            self.title = GDSLocalisedString(stringKey: "app_enableBiometricsTitle", biometricsTypeString)
-            self.childView = configureWalletEnrolmentView()
-        } else {
-            self.title = GDSLocalisedString(stringKey: "app_enableLoginBiometricsTitle", biometricsTypeString)
-            self.body = isFaceID ?
-            GDSLocalisedString(stringKey: "app_enableFaceIDBody", "app_nameString") :
-            GDSLocalisedString(stringKey: "app_enableTouchIDBody", "app_nameString")
-        }
+        self.title = GDSLocalisedString(stringKey: "app_enableBiometricsTitle", biometricsTypeString)
     }
     
     private func configureWalletEnrolmentView() -> UIView {
-        let bulletView: BulletView = BulletView(title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1",
-                                                                          biometricsTypeString).value,
-                                                text: [
-                                                    GDSLocalisedString(stringKey: "app_enableBiometricsBullet1").value,
-                                                    GDSLocalisedString(stringLiteral: "app_enableBiometricsBullet2").value
-                                                ],
-                                                titleFont: .body)
+        let bulletView: BulletView = BulletView(
+            title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1", biometricsTypeString).value,
+            text: [
+                GDSLocalisedString(stringKey: "app_enableBiometricsBullet1").value,
+                GDSLocalisedString(stringKey: "app_enableBiometricsBullet2").value
+            ],
+            titleFont: .body
+        )
         bulletView.accessibilityIdentifier = "biometrics-enrolment-bullet-list"
         
         let body2Text = isFaceID ? "app_enableBiometricsFaceIDBody2" : "app_enableBiometricsTouchIDBody2"
@@ -94,23 +85,16 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     }
     
     func didAppear() {
-        let id = switch enrolmentJourney {
-        case .login:
-            isFaceID ?
-            BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
-            BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
-        case .wallet:
-            isFaceID ?
+        let screenID = isFaceID ?
             BiometricEnrolmentAnalyticsScreenID.faceIDWalletEnrolment.rawValue :
             BiometricEnrolmentAnalyticsScreenID.touchIDWalletEnrolment.rawValue
-        }
         
-        let screenID = isFaceID ?
+        let screenName = isFaceID ?
         BiometricEnrolmentAnalyticsScreen.faceIDEnrolment :
         BiometricEnrolmentAnalyticsScreen.touchIDEnrolment
         
-        let screen = ScreenView(id: id,
-                                screen: screenID,
+        let screen = ScreenView(id: screenID,
+                                screen: screenName,
                                 titleKey: title.stringKey,
                                 variableKeys: [biometricsTypeString])
         analyticsService.trackScreen(screen)
