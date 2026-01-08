@@ -53,10 +53,6 @@ final class TabManagerCoordinator: NSObject,
     func handleUniversalLink(_ url: URL) async {
         await addTabTask?.value
         
-        guard WalletAvailabilityService.shouldShowFeatureOnUniversalLink else {
-            return
-        }
-        
         root.selectedIndex = 1
         walletCoordinator?.handleUniversalLink(url)
     }
@@ -82,10 +78,6 @@ final class TabManagerCoordinator: NSObject,
     }
     
     private func addWalletTab() {
-        guard WalletAvailabilityService.shouldShowFeature else {
-            return
-        }
-        
         guard childCoordinators.firstInstanceOf(WalletCoordinator.self) == nil else {
             return
         }
@@ -100,7 +92,6 @@ final class TabManagerCoordinator: NSObject,
         root.viewControllers?.sort {
             $0.tabBarItem.tag < $1.tabBarItem.tag
         }
-        WalletAvailabilityService.hasAccessedBefore = true
     }
     
     private func addSettingsTab() {
