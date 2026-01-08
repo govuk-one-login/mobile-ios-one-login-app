@@ -3,6 +3,7 @@ import GDSCommon
 import Logging
 import UIKit
 
+// No analytics events for this screen as users analytics preference will have been deleted
 struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel,
                                    GDSCentreAlignedViewModelWithPrimaryButton {
     let title: GDSLocalisedString = "app_signedOutTitle"
