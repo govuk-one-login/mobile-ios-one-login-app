@@ -148,7 +148,7 @@
 "app_signOutButton" = "Allgofnodi";
 
 
-// MARK: Sign Out Confirmation screen with Wallet
+// MARK: Sign Out Confirmation screen
 "app_signOutConfirmationTitle" = "Ydych chi'n siwr eich bod chi eisiau allgofnodi?";
 
 "app_signOutConfirmationBody1" = "Os byddwch yn allgofnodi, bydd y wybodaeth a gedwir yn eich ap yn cael ei dileu. Mae hyn er mwyn lleihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.";

@@ -22,7 +22,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     let isFaceID: Bool
     let biometricsTypeString: String
     var childView: UIView {
-        configureWalletEnrolmentView()
+        configureChildView()
     }
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
@@ -52,7 +52,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
         self.title = GDSLocalisedString(stringKey: "app_enableBiometricsTitle", biometricsTypeString)
     }
     
-    private func configureWalletEnrolmentView() -> UIView {
+    private func configureChildView() -> UIView {
         let bulletView: BulletView = BulletView(
             title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1", biometricsTypeString).value,
             text: [
@@ -86,8 +86,8 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
     
     func didAppear() {
         let screenID = isFaceID ?
-            BiometricEnrolmentAnalyticsScreenID.faceIDWalletEnrolment.rawValue :
-            BiometricEnrolmentAnalyticsScreenID.touchIDWalletEnrolment.rawValue
+            BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
+            BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
         
         let screenName = isFaceID ?
         BiometricEnrolmentAnalyticsScreen.faceIDEnrolment :
