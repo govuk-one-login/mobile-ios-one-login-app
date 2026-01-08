@@ -5,14 +5,7 @@ import Logging
 struct DataDeletedWarningViewModel: GDSErrorViewModelV3,
                                     BaseViewModel {
     let title: GDSLocalisedString = "app_dataDeletionWarningTitle"
-    var bodyContent: [ScreenBodyItem] {
-        if WalletAvailabilityService.shouldShowFeature {
-            [BodyTextViewModel(text: "app_dataDeletionWarningBody")]
-        } else {
-            [BodyTextViewModel(text: "app_dataDeletionWarningBodyNoWallet")]
-        }
-        
-    }
+    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_dataDeletionWarningBody")]
     let buttonViewModels: [ButtonViewModel]
     let image: ErrorScreenImage = .error
     

@@ -208,9 +208,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
         
         XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
                        "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
-        
-        XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getEnglishString(),
-                       "We could not confirm your sign in details.\n\nTo keep your information secure, your preference for using Touch ID or Face ID to unlock the app has been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")
     }
 
     func test_updateAppPageKeys() {
