@@ -148,7 +148,7 @@
 "app_signOutButton" = "Sign out";
 
 
-// MARK: Sign Out Confirmation screen with Wallet
+// MARK: Sign Out Confirmation screen
 "app_signOutConfirmationTitle" = "Are you sure you want to sign out?";
 
 "app_signOutConfirmationBody1" = "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.";

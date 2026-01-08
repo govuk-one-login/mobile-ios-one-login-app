@@ -104,7 +104,7 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
-        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDWalletEnrolment.rawValue,
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.faceIDEnrolment,
                                 titleKey: "app_enableBiometricsTitle",
                                 variableKeys: ["app_FaceID"])
@@ -117,7 +117,7 @@ extension BiometricsEnrolmentViewModelTests {
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.didAppear()
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
-        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDWalletEnrolment.rawValue,
+        let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.touchIDEnrolment,
                                 titleKey: "app_enableBiometricsTitle",
                                 variableKeys: ["app_TouchID"])
