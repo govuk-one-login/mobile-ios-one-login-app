@@ -6,7 +6,7 @@ public enum FeatureFlagsName: String {
     /// case enableFeatureFlag = "EnableFeatureFlag"
     /// ```
     
-    case appCheckEnabled = "appCheckEnabled"
+    case appCheckEnabled
 }
 
 struct FlagManager {
