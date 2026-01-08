@@ -30,17 +30,26 @@ extension TabbedViewSectionModel {
     
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
         var tabs: [TabbedViewCellModel] = [
-            .init(cellTitle: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : GDSLocalisedString(stringKey: "app_appGuidanceLink",
-                                                                                                                            "app_nameString"),
+            .init(cellTitle: "app_proveYourIdentityLink",
                   accessoryView: linkDisclosureArrow,
                   accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
                       urlOpener.open(url: AppEnvironment.appHelpURL)
-                      let event = LinkEvent(textKey: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : "app_appGuidanceLink",
-                                            variableKeys: WalletAvailabilityService.shouldShowFeature ? "" : "app_nameString",
+                      let event = LinkEvent(textKey: "app_proveYourIdentityLink",
                                             linkDomain: AppEnvironment.appHelpURL.absoluteString,
                                             external: .false)
                       analyticsService.logEvent(event)
                   },
+            
+            .init(cellTitle: "app_addDocumentsLink",
+                  accessoryView: linkDisclosureArrow,
+                  accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
+                      urlOpener.open(url: AppEnvironment.addingDocumentsURL)
+                      let event = LinkEvent(textKey: "app_addDocumentsLink",
+                                            linkDomain: AppEnvironment.addingDocumentsURL.absoluteString,
+                                            external: .false)
+                      analyticsService.logEvent(event)
+                  },
+            
             .init(cellTitle: GDSLocalisedString(stringKey: "app_contactLink",
                                                 "app_nameString"),
                   accessoryView: linkDisclosureArrow,
@@ -53,17 +62,6 @@ extension TabbedViewSectionModel {
                       analyticsService.logEvent(event)
                   }]
         
-        if WalletAvailabilityService.shouldShowFeature {
-            tabs.insert(.init(cellTitle: "app_addDocumentsLink",
-                              accessoryView: linkDisclosureArrow,
-                              accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
-                urlOpener.open(url: AppEnvironment.addingDocumentsURL)
-                let event = LinkEvent(textKey: "app_addDocumentsLink",
-                                      linkDomain: AppEnvironment.addingDocumentsURL.absoluteString,
-                                      external: .false)
-                analyticsService.logEvent(event)
-            }, at: 1)
-        }
         return TabbedViewSectionModel(sectionTitle: "app_settingsSubtitle1",
                                       sectionFooter: nil,
                                       tabModels: tabs)
@@ -78,7 +76,7 @@ extension TabbedViewSectionModel {
     }
     
     static func notices(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var tabs: [TabbedViewCellModel] = [.init(cellTitle: GDSLocalisedString(stringKey: "app_privacyNoticeLink2",
+        let tabs: [TabbedViewCellModel] = [.init(cellTitle: GDSLocalisedString(stringKey: "app_privacyNoticeLink2",
                                                                                "app_nameString"),
                                                  accessoryView: linkDisclosureArrow,
                                                  accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
@@ -97,18 +95,16 @@ extension TabbedViewSectionModel {
                                   linkDomain: AppEnvironment.accessibilityStatementURL.absoluteString,
                                   external: .false)
             analyticsService.logEvent(event)
+        },
+                                           .init(cellTitle: "app_termsAndConditionsLink",
+                                                 accessoryView: linkDisclosureArrow,
+                                                 accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
+            urlOpener.open(url: AppEnvironment.termsAndConditionsURL)
+            let event = LinkEvent(textKey: "app_termsAndConditionsLink",
+                                  linkDomain: AppEnvironment.termsAndConditionsURL.absoluteString,
+                                  external: .false)
+            analyticsService.logEvent(event)
         }]
-        if WalletAvailabilityService.shouldShowFeature {
-            tabs.append(.init(cellTitle: "app_termsAndConditionsLink",
-                              accessoryView: linkDisclosureArrow,
-                              accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
-                urlOpener.open(url: AppEnvironment.termsAndConditionsURL)
-                let event = LinkEvent(textKey: "app_termsAndConditionsLink",
-                                      linkDomain: AppEnvironment.termsAndConditionsURL.absoluteString,
-                                      external: .false)
-                analyticsService.logEvent(event)
-            })
-        }
         return TabbedViewSectionModel(sectionTitle: nil,
                                       sectionFooter: nil,
                                       tabModels: tabs)
