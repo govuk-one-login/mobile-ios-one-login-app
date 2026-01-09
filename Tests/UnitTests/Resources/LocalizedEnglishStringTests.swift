@@ -78,8 +78,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_FaceID".getEnglishString(),
                        "Face ID")
-        XCTAssertEqual("app_enableFaceIDBody".getEnglishString(),
-                       "You can use Face ID to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.")
         XCTAssertEqual("app_enableBiometricsFaceIDBody2".getEnglishString(),
                        "If you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone settings.")
     }
@@ -87,15 +85,11 @@ final class LocalizedEnglishStringTests: XCTestCase {
     func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_TouchID".getEnglishString(),
                        "Touch ID")
-        XCTAssertEqual("app_enableTouchIDBody".getEnglishString(),
-                       "You can use your fingerprint to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
         XCTAssertEqual("app_enableBiometricsTouchIDBody2".getEnglishString(),
                        "If you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
     
     func test_biometricsEnrolmentScreen_commonKeys() throws {
-        XCTAssertEqual("app_enableLoginBiometricsTitle".getEnglishString(),
-                       "Unlock the app with %@")
         XCTAssertEqual("app_enableBiometricsButton".getEnglishString(),
                        "Allow %@")
         XCTAssertEqual("app_enableBiometricsTitle".getEnglishString(),
@@ -186,7 +180,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
     }
     
-    func test_signOutErrorWithWalletPageKeys() {
+    func test_signOutErrorPageKeys() {
         XCTAssertEqual("app_signOutErrorTitle".getEnglishString(),
                        "There was a problem signing you out")
         XCTAssertEqual("app_signOutErrorBody".getEnglishString(),
@@ -208,9 +202,6 @@ final class LocalizedEnglishStringTests: XCTestCase {
         
         XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
                        "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
-        
-        XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getEnglishString(),
-                       "We could not confirm your sign in details.\n\nTo keep your information secure, your preference for using Touch ID or Face ID to unlock the app has been reset.\n\nYou need to sign in and set your preferences again to continue using the app.")
     }
 
     func test_updateAppPageKeys() {

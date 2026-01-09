@@ -18,9 +18,6 @@ enum OLString {
     static let redirect = "redirect"
     static let wallet   = "wallet"
 
-    /// Release Flags
-    static let hasAccessedWalletBefore = "hasAccessedWalletBefore"
-
     /// Unprotected store keys
     static let accessTokenExpiry                        = UnprotectedStoreKeyString.accessTokenExpiry.rawValue
     static let returningUser                            = UnprotectedStoreKeyString.returningUser.rawValue

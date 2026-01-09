@@ -17,6 +17,4 @@ IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 
 STS_CLIENT_ID = ctQpngJQrFFCrppZtYQFFoklHaq
 
-FEATURE_FLAG_FILE = FeatureFlagsStaging
-
 CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginStaging.entitlements
