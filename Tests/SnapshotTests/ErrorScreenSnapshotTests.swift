@@ -4,7 +4,6 @@ import LocalAuthenticationWrapper
 @testable import OneLogin
 import Testing
 
-
 @MainActor
 struct ErrorScreenSnapshotTests {
     let analyticsService = MockAnalyticsService()
