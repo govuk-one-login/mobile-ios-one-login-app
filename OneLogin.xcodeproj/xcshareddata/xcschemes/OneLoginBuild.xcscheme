@@ -39,7 +39,7 @@
             reference = "container:Tests/TestPlans/OneLoginUI.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:Tests/TestPlans/OneLoginSnapshotTestPlan.xctestplan">
+            reference = "container:Tests/TestPlans/OneLoginSnapshot.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
