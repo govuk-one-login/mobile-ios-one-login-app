@@ -85,13 +85,13 @@ struct InstructionScreenSnapshotTests {
     func test_settingsScreen() {
         let sut = SettingsTabViewModel(
             analyticsService: analyticsService,
-            userProvider: MockSessionManager(),
+            userProvider: MockUserProvider(),
             urlOpener: MockURLOpener(),
             openSignOutPage: {},
             openDeveloperMenu: {})
         let vc = SettingsViewController(
             viewModel: sut,
-            userProvider: MockSessionManager(),
+            userProvider: MockUserProvider(),
             analyticsPreference: analyticsService.analyticsPreferenceStore)
         
         vc.assertSnapshot()
