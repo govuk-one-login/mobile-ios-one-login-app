@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "087bb95235f676c1a37e928769a5b6645dcbd325",
-        "version" : "12.6.0"
+        "revision" : "45210bd1ea695779e6de016ab00fea8c0b7eb2ef",
+        "version" : "12.7.0"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "b8fe7da79386e89559cf080094719d2c40193168",
-        "version" : "8.37.1"
+        "revision" : "c7b90d1f604bde97aaf9302d9baa8b64a48edf59",
+        "version" : "8.51.0"
       }
     },
     {
@@ -176,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "680e188729c9795bda2120b75837e4818fb277c8",
-        "version" : "5.1.2"
+        "revision" : "ecbd183f6b771c748e12d38841c6dad0de17248e",
+        "version" : "6.0.0"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "b1bdb252059f873a14f5cf309a77fe3e858c8d74",
-        "version" : "2.0.0"
+        "revision" : "0f4a5c80d233ec5b7c24a220a506c9d84bdac840",
+        "version" : "2.0.1"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "revision" : "c2f377ca36418b850af01e6393cb2317b0f87fca",
-        "version" : "0.16.2"
+        "revision" : "3797bc24b0869844474db43cba9e7ef9175d9669",
+        "version" : "0.21.1"
       }
     },
     {
@@ -230,7 +230,7 @@
       "kind" : "registry",
       "location" : "",
       "state" : {
-        "version" : "4.118.1"
+        "version" : "4.119.0"
       }
     },
     {
