@@ -33,6 +33,7 @@ struct InstructionScreenSnapshotTests {
         vc.assertSnapshot()
     }
 
+    @Test
     func test_biometricsEnrolmentScreen_faceID() {
         let sut = BiometricsEnrolmentViewModel(
             analyticsService: analyticsService,
