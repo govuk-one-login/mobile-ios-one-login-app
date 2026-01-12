@@ -81,8 +81,9 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var expiryDate: Date? {
-        (try? encryptedStore.readDate(id: OLString.refreshTokenExpiry))
-        ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
+        ((try? encryptedStore.readDate(id: OLString.refreshTokenExpiry))
+         ?? unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date)?
+            .withFifteenSecondBuffer
     }
     
     var isSessionValid: Bool {
@@ -90,7 +91,35 @@ final class PersistentSessionManager: SessionManager {
             return false
         }
         // Fifteen second buffer for access token expiry when user comes in to perform an ID Check
-        return expiryDate - 15 > .now
+        return expiryDate > .now
+    }
+    
+    var isAccessTokenValid: Bool {
+        guard let expiryDate = unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date else {
+            return false
+        }
+        
+        return expiryDate.withFifteenSecondBuffer > .now
+    }
+    
+    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)? {
+        get throws {
+            let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
+            
+            guard let actualExpiryDate = expiryDate,
+                  actualExpiryDate.withFifteenSecondBuffer > .now else {
+                return nil
+            }
+            
+            let storedTokens = try storeKeyService.fetch()
+            
+            guard let refreshToken = storedTokens.refreshToken,
+                  let idToken = storedTokens.idToken else {
+                return nil
+            }
+            
+            return (refreshToken, idToken)
+        }
     }
     
     var isReturningUser: Bool {
@@ -221,7 +250,7 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
-    private func saveLoginTokens(
+    func saveLoginTokens(
         tokenResponse: TokenResponse,
         idToken: String?
     ) throws {

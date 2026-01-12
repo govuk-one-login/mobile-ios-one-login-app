@@ -9,6 +9,7 @@ final class TokenHolderTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
