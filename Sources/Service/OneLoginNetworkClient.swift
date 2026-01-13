@@ -3,16 +3,6 @@ import Authentication
 import Foundation
 import MobilePlatformServices
 import Networking
-
-protocol OneLoginNetworkClient {
-    func makeRequest(_ request: URLRequest) async throws -> Data
-    
-    func makeAuthorizedRequest(
-        scope: String,
-        request: URLRequest
-    ) async throws -> Data
-}
-
 enum RefreshTokenExchangeError: Error {
     case accountIntervention
     case appIntegrityRetryError
