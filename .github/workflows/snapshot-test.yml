@@ -1,0 +1,60 @@
+on:
+  workflow_call:
+    inputs:
+      pr:
+        required: false
+        type: boolean
+
+jobs:
+  unit_test:
+    name: Run Snapshot Tests
+    runs-on: macos-15
+
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # pin@v4
+        with:
+          lfs: 'true'
+          submodules: 'true'
+          fetch-depth: 0
+          token: ${{ secrets.MODULE_FETCH_TOKEN }}
+
+      - name: Lint
+        if: inputs.pr
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
+        run: |
+          ./scripts-configs/store-access-token.sh
+
+      - name: Import AppCheck Secret
+        run: |
+          touch ../secrets.xcconfig
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.4.app
+
+      - name: Build App, Run Unit Tests and Send Coverage Report for Branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+        run: |
+          bundle install
+
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginSnapshot" \
+            configuration:"Debug" \
+            testplan:OneLoginSnapshot
