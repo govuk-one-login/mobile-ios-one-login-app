@@ -3892,7 +3892,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
 				kind = exactVersion;
-				version = 8.51.0;
+				version = 8.37.1;
 			};
 		};
 		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
@@ -3924,7 +3924,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 5.0.0;
 			};
 		};
 		C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {
