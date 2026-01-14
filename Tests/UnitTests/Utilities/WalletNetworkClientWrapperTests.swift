@@ -20,6 +20,8 @@ final class WalletNetworkClientWrapperTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         networkClient = NetworkClient(configuration: configuration)
         networkClient.authorizationProvider = self
+        MockURLProtocol.clear()
+        
         sut = WalletNetworkClientWrapper(networkClient: networkClient,
                                          sessionManager: mockSessionManager)
     }

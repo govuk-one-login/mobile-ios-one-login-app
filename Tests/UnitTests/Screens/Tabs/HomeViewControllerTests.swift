@@ -20,7 +20,6 @@ final class HomeViewControllerTests: XCTestCase {
         
         mockCRIOrchestrator = MockCRIOrchestrator()
         sut = HomeViewController(analyticsService: mockAnalyticsService,
-                                 networkClient: mockNetworkClient,
                                  criOrchestrator: mockCRIOrchestrator)
     }
     

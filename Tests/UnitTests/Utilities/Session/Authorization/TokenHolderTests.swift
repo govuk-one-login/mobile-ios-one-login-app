@@ -9,6 +9,7 @@ final class TokenHolderTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
@@ -86,49 +87,39 @@ extension TokenHolderTests {
         components.query = body
 
         XCTAssertEqual(components.queryItems, [
+            URLQueryItem(name: "subject_token_type", value: "urn:ietf:params:oauth:token-type:access_token"),
             URLQueryItem(name: "grant_type", value: "urn:ietf:params:oauth:grant-type:token-exchange"),
-            URLQueryItem(name: "scope", value: scope),
             URLQueryItem(name: "subject_token", value: subjectToken),
-            URLQueryItem(name: "subject_token_type", value: "urn:ietf:params:oauth:token-type:access_token")
+            URLQueryItem(name: "scope", value: scope)
         ])
     }
 
     func test_fetchToken_returnsExpectedToken() async throws {
         // GIVEN I am connected to the internet
-        let exp = expectation(description: "Received a network request")
-        exp.assertForOverFulfill = true
-
         let expectedToken = UUID().uuidString
         MockURLProtocol.handler = {
             let response = """
             {
-                "accessToken": "\(expectedToken)",
-                "tokenType": "jwt",
-                "expiresIn": 180
+                "access_token": "\(expectedToken)",
+                "token_type": "token",
+                "expires_in": 180
             }
             """
             return (Data(response.utf8), HTTPURLResponse(statusCode: 200))
         }
-
+        
         // AND I have an valid access token
-        let subjectToken = UUID().uuidString
-        sut.update(subjectToken: subjectToken)
-
+        sut.update(subjectToken: expectedToken)
+        
         // WHEN the a scoped token is requested
-        Task {
-            do {
-                let token = try await sut
-                    .fetchToken(withScope: "sts.hello-world.read")
-
-                // THEN the expected token is returned
-                XCTAssertEqual(token, expectedToken)
-            } catch {
-                XCTFail("Expected success but error (\(error)) occurred")
-            }
-
-            exp.fulfill()
+        do {
+            let token = try await sut
+                .fetchToken(withScope: "sts.hello-world.read")
+            
+            // THEN the expected token is returned
+            XCTAssertEqual(token, expectedToken)
+        } catch {
+            XCTFail("Expected success but error (\(error)) occurred")
         }
-
-        await fulfillment(of: [exp], timeout: 5)
     }
 }

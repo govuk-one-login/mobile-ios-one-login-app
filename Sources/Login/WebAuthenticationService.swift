@@ -12,9 +12,11 @@ final class WebAuthenticationService: AuthenticationService {
     private let sessionManager: SessionManager
     private let analyticsService: OneLoginAnalyticsService
     
-    init(sessionManager: SessionManager,
-         session: LoginSession,
-         analyticsService: OneLoginAnalyticsService) {
+    init(
+        sessionManager: SessionManager,
+        session: LoginSession,
+        analyticsService: OneLoginAnalyticsService
+    ) {
         self.sessionManager = sessionManager
         self.session = session
         self.analyticsService = analyticsService
@@ -22,7 +24,7 @@ final class WebAuthenticationService: AuthenticationService {
     
     func startWebSession() async throws {
         do {
-            try await sessionManager.startSession(
+            try await sessionManager.startAuthSession(
                 session,
                 using: LoginSessionConfiguration.oneLoginSessionConfiguration
             )
@@ -30,7 +32,7 @@ final class WebAuthenticationService: AuthenticationService {
             analyticsService.logEvent(ButtonEvent(textKey: "back"))
             throw error
         } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
-            try await sessionManager.clearAllSessionData(restartLoginFlow: true)
+            try await sessionManager.clearAllSessionData(presentSystemLogOut: false)
             throw error
         } catch {
             analyticsService.logCrash(error)

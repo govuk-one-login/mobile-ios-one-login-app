@@ -19,6 +19,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     let sut: FirebaseAppIntegrityService
     
     init() throws {
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [
             MockURLProtocol.self
