@@ -55,6 +55,6 @@ jobs:
         run: |
           bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLoginSnapshot" \
+          bundle exec fastlane testWithoutCoverage scheme:"OneLoginBuild" \
             configuration:"Debug" \
             testplan:OneLoginSnapshot
