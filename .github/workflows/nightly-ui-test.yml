@@ -8,7 +8,5 @@ on:
 jobs:
   test_ui:
     name: Run UI Tests
-    uses: ./.github/workflows/ui-test.yml
-    with:
-      test_branch: '${{ github.ref_name }}'
+    uses: ./.github/workflows/snapshot-test.yml
     secrets: inherit
