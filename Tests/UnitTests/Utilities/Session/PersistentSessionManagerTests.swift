@@ -586,7 +586,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user with local auth enabled and tokens stored
         try setUpNeededForResumeSession()
         
-        // AND have no internet
+        // AND I have no internet
         MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
@@ -613,7 +613,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user with local auth enabled and tokens stored
         try setUpNeededForResumeSession()
         
-        // AND have no internet
+        // AND I have no internet
         MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
@@ -640,23 +640,15 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user with local auth enabled and tokens stored
         try setUpNeededForResumeSession()
         
-        // AND have no internet
-        MockURLProtocol.clear()
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let client = NetworkClient(configuration: configuration)
-        
-        MockURLProtocol.handler = {
-            throw FirebaseAppCheckError(.network, errorDescription: "")
-        }
-        
-        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
+        // AND I have no internet
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, errorDescription: "test")
         
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: refreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: RefreshTokenExchangeManager(),
+                appIntegrityProvider: mockAppIntegrityProvider
             )
         } catch RefreshTokenExchangeError.noInternet {
             // Expected path
