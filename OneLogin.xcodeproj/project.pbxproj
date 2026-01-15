@@ -476,6 +476,7 @@
 		C83E06C82DCC0944007FDE0D /* OneLoginReleaseConfigTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginReleaseConfigTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83E18112C05DDDB00B451D6 /* LoginLoadingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLoadingViewModelTests.swift; sourceTree = "<group>"; };
 		C84040CC2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthenticationWrapper+OneLogin.swift"; sourceTree = "<group>"; };
+		C841575E2F19179E007E11BD /* OneLoginSnapshot.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginSnapshot.xctestplan; sourceTree = "<group>"; };
 		C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OneLogin.swift"; sourceTree = "<group>"; };
 		C84302682D9167A60002B4B1 /* OLTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLTaxonomy.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -1774,6 +1775,7 @@
 				C873B1D62AF82403002C39E8 /* OneLoginStagingConfig.xctestplan */,
 				C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */,
 				C873B1D72AF82403002C39E8 /* OneLoginUnit.xctestplan */,
+				C841575E2F19179E007E11BD /* OneLoginSnapshot.xctestplan */,
 			);
 			path = TestPlans;
 			sourceTree = "<group>";
