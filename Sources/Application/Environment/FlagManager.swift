@@ -6,10 +6,7 @@ public enum FeatureFlagsName: String {
     /// case enableFeatureFlag = "EnableFeatureFlag"
     /// ```
     
-    case enableWalletVisibleViaDeepLink = "walletVisibleViaDeepLink"
-    case enableWalletVisibleIfExists = "walletVisibleIfExists"
-    case enableWalletVisibleToAll = "walletVisibleToAll"
-    case appCheckEnabled = "appCheckEnabled"
+    case appCheckEnabled
 }
 
 struct FlagManager {

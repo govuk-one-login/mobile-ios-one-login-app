@@ -80,17 +80,9 @@
 "app_genericErrorPageBody" = "Try again later.";
 
 
-// MARK: Biometrics Login enrolment screen
-"app_enableLoginBiometricsTitle" = "Unlock the app with %@";
-
-"app_enableFaceIDBody" = "You can use Face ID to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.";
-
-"app_enableTouchIDBody" = "You can use your fingerprint to unlock the app within 30 minutes of signing in with %@.\n\nIf you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
-
+// MARK: Biometrics enrolment screen
 "app_enableBiometricsButton" = "Allow %@";
 
-
-// MARK: Biometrics enrolment screen
 "app_FaceID" = "Face ID";
 
 "app_TouchID" = "Touch ID";
@@ -156,7 +148,7 @@
 "app_signOutButton" = "Sign out";
 
 
-// MARK: Sign Out Confirmation screen with Wallet
+// MARK: Sign Out Confirmation screen
 "app_signOutConfirmationTitle" = "Are you sure you want to sign out?";
 
 "app_signOutConfirmationBody1" = "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.";
@@ -197,12 +189,6 @@
 // MARK: Data Deletion Warning screen
 "app_dataDeletionWarningTitle" = "Something went wrong";
 
-
-// MARK: Data Deletion Warning No Wallet screen
-"app_dataDeletionWarningBodyNoWallet" = "We could not confirm your sign in details.\n\nTo keep your information secure, your preference for using Touch ID or Face ID to unlock the app has been reset.\n\nYou need to sign in and set your preferences again to continue using the app.";
-
-
-// MARK: Data Deletion Warning With Wallet screen
 "app_dataDeletionWarningBody" = "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.";
 
 

@@ -78,8 +78,6 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_faceIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_FaceID".getWelshString(),
                        "Face ID")
-        XCTAssertEqual("app_enableFaceIDBody".getWelshString(),
-                       "Gallwch ddefnyddio Face ID i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda %@.\n\nOs ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
         XCTAssertEqual("app_enableBiometricsFaceIDBody2".getWelshString(),
                        "Os ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
     }
@@ -87,15 +85,11 @@ final class LocalizedWelshStringTests: XCTestCase {
     func test_touchIDEnrolmentScreen_keys() throws {
         XCTAssertEqual("app_TouchID".getWelshString(),
                        "Touch ID")
-        XCTAssertEqual("app_enableTouchIDBody".getWelshString(),
-                       "Gallwch ddefnyddio eich olion bysedd i ddatgloi'r ap o fewn 30 munud o fewngofnodi gyda %@.\n\nOs ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
         XCTAssertEqual("app_enableBiometricsTouchIDBody2".getWelshString(),
                        "Os ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
     
     func test_biometricsEnrolmentScreen_commonKeys() throws {
-        XCTAssertEqual("app_enableLoginBiometricsTitle".getWelshString(),
-                       "Datgloi'r ap gyda %@")
         XCTAssertEqual("app_enableBiometricsButton".getWelshString(),
                        "Caniatáu %@")
         XCTAssertEqual("app_enableBiometricsTitle".getWelshString(),
@@ -186,7 +180,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
     }
     
-    func test_signOutErrorWithWalletPageKeys() {
+    func test_signOutErrorPageKeys() {
         XCTAssertEqual("app_signOutErrorTitle".getWelshString(),
                        "Roedd problem wrth eich allgofnodi")
         XCTAssertEqual("app_signOutErrorBody".getWelshString(),
@@ -208,9 +202,6 @@ final class LocalizedWelshStringTests: XCTestCase {
         
         XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
                        "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw eich gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich ap wedi cael eu dileu ac mae eich dewisiadau wedi cael eu hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
-        
-        XCTAssertEqual("app_dataDeletionWarningBodyNoWallet".getWelshString(),
-                       "Nid oeddem yn gallu cadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw'ch gwybodaeth yn ddiogel, mae eich dewis o ddefnyddio Touch ID neu Face ID i ddatgloi'r ap wedi'i ailosod.\n\nMae angen i chi fewngofnodi a gosod eich dewisiadau eto i barhau i ddefnyddio'r ap.")
     }
 
     func test_updateAppPageKeys() {

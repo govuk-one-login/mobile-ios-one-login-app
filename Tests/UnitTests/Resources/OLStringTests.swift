@@ -21,8 +21,5 @@ final class OLStringTests: XCTestCase {
         // Universal Link Component
         XCTAssertEqual(OLString.redirect, "redirect")
         XCTAssertEqual(OLString.wallet, "wallet")
-        
-        // Release Flags
-        XCTAssertEqual(OLString.hasAccessedWalletBefore, "hasAccessedWalletBefore")
     }
 }

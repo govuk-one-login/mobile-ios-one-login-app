@@ -9,13 +9,6 @@ final class OneLoginIntegrationAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(Bundle.main.infoDictionary?["MinimumOSVersion"] as? String, "16.7")
     }
     
-    func test_appEnvironment_featureFlags() {
-        // Feature Flags
-        XCTAssertFalse(sut.walletVisibleViaDeepLink)
-        XCTAssertFalse(sut.walletVisibleIfExists)
-        XCTAssertFalse(sut.walletVisibleToAll)
-    }
-    
     func test_appEnvironment_helpers() {
         // Helpers
         XCTAssertEqual(sut.buildConfiguration, "Integration")

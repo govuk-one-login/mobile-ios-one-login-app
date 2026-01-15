@@ -42,8 +42,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             switch biometricsType {
             case .touchID, .faceID:
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
-                                                             biometricsType: biometricsType,
-                                                             enrolmentJourney: .wallet) { [unowned self] in
+                                                             biometricsType: biometricsType) { [unowned self] in
                     acceptedBiometrics(completion: completion)
                 } secondaryButtonAction: { [unowned self] in
                     let viewModel = LocalAuthBiometricsErrorViewModel(analyticsService: analyticsService, localAuthType: biometricsType) { [unowned self] in

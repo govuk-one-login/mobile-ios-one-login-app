@@ -172,8 +172,7 @@ extension SettingsViewControllerTests {
         try sut.tabbedTableView.reloadData()
         sut.tableView(try XCTUnwrap(sut.tabbedTableView), didSelectRowAt: indexPath)
         
-        let event = LinkEvent(textKey: WalletAvailabilityService.shouldShowFeature ? "app_proveYourIdentityLink" : GDSLocalisedString(stringKey: "app_appGuidanceLink",
-                                                                                                                                      "app_nameString").value,
+        let event = LinkEvent(textKey: "app_proveYourIdentityLink",
                               linkDomain: AppEnvironment.appHelpURL.absoluteString,
                               external: .false)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)

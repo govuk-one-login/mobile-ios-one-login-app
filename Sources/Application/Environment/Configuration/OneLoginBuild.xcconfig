@@ -19,6 +19,4 @@ IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 
 STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ
 
-FEATURE_FLAG_FILE = FeatureFlagsBuild
-
 CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginBuild.entitlements

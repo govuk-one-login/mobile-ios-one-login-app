@@ -5,14 +5,14 @@ import Logging
 import UIKit
 
 struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
-    let title = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationTitle")
-    let body = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
+    let title = GDSLocalisedString(stringLiteral: "app_signOutConfirmationTitle")
+    let body = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody1").value
     var childView = UIView()
-    let buttonViewModel: any ButtonViewModel
-    let secondaryButtonViewModel: (any ButtonViewModel)? = nil
+    let buttonViewModel: ButtonViewModel
+    let secondaryButtonViewModel: ButtonViewModel? = nil
     let analyticsService: OneLoginAnalyticsService
     
-    let rightBarButtonTitle: GDSCommon.GDSLocalisedString? = "app_cancelButton"
+    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
     
     init(analyticsService: OneLoginAnalyticsService,
@@ -30,8 +30,8 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     }
     
     func didAppear() {
-        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreenWithWallet.rawValue,
-                                screen: SettingsAnalyticsScreen.signOutScreenWithWallet,
+        let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreen.rawValue,
+                                screen: SettingsAnalyticsScreen.signOutScreen,
                                 titleKey: title.stringKey)
         analyticsService.trackScreen(screen)
     }
@@ -44,7 +44,7 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
     private func configureStackView() -> UIView {
         let body2Label = {
             let label = UILabel()
-            label.text = GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
+            label.text = GDSLocalisedString(stringLiteral: "app_signOutConfirmationBody2").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
@@ -54,17 +54,17 @@ struct SignOutPageViewModel: GDSInstructionsViewModel, BaseViewModel {
         
         let bulletView = BulletView(title: nil,
                                     text: [
-                                        GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
-                                                                     "app_walletString").value,
-                                        GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
-                                        GDSCommon.GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
+                                        GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1",
+                                                           "app_walletString").value,
+                                        GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2").value,
+                                        GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3").value
                                     ])
         bulletView.accessibilityIdentifier = "sign-out-bullet-list"
         
         let body3Label = {
             let label = UILabel()
-            label.text = GDSCommon.GDSLocalisedString(stringKey: "app_signOutConfirmationBody3",
-                                                      "app_walletString").value
+            label.text = GDSLocalisedString(stringKey: "app_signOutConfirmationBody3",
+                                            "app_walletString").value
             label.adjustsFontForContentSizeCategory = true
             label.numberOfLines = 0
             label.font = .body
