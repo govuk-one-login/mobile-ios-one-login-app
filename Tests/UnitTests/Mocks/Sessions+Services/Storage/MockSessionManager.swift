@@ -1,3 +1,4 @@
+import AppIntegrity
 import Authentication
 import Combine
 import Foundation
@@ -82,7 +83,8 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func resumeSession(tokenExchangeManager: TokenExchangeManaging) throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging,
+                       appIntegrityProvider: AppIntegrityProvider) throws {
         defer {
             didCallResumeSession = true
         }
