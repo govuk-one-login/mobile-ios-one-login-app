@@ -609,7 +609,6 @@ extension PersistentSessionManagerTests {
         }
     }
     
-    
     func test_resumeSession_offlineWallet_networkConnectionLost() async throws {
         // GIVEN I am a returning user with local auth enabled and tokens stored
         try setUpNeededForResumeSession()
