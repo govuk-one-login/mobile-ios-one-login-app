@@ -4,16 +4,10 @@ import Foundation
 @testable import OneLogin
 
 final class MockRefreshTokenExchangeManager: TokenExchangeManaging {
-    var errorFromGetUpdatedTokens: Error?
-    
     func getUpdatedTokens(
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
     ) async throws -> TokenResponse {
-        if let errorFromGetUpdatedTokens {
-            throw errorFromGetUpdatedTokens
-        }
-        
         return TokenResponse(
             accessToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,

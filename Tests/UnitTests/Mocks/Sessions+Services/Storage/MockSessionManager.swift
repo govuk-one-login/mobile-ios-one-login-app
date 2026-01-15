@@ -83,8 +83,10 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func resumeSession(tokenExchangeManager: TokenExchangeManaging,
-                       appIntegrityProvider: AppIntegrityProvider) throws {
+    func resumeSession(
+        tokenExchangeManager: TokenExchangeManaging,
+        appIntegrityProvider: AppIntegrityProvider
+    ) throws {
         defer {
             didCallResumeSession = true
         }
