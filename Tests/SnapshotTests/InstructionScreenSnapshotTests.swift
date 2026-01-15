@@ -31,7 +31,7 @@ struct InstructionScreenSnapshotTests {
         
         vc.assertSnapshot()
     }
-
+    
     @Test
     func test_biometricsEnrolmentScreen_faceID() {
         let sut = BiometricsEnrolmentViewModel(
@@ -87,7 +87,8 @@ struct InstructionScreenSnapshotTests {
             userProvider: MockUserProvider(),
             urlOpener: MockURLOpener(),
             openSignOutPage: {},
-            openDeveloperMenu: {})
+            openDeveloperMenu: {}
+        )
         let vc = SettingsViewController(
             viewModel: sut,
             userProvider: MockUserProvider(),
