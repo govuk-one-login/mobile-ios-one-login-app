@@ -24,7 +24,6 @@ struct InstructionScreenSnapshotTests {
         let sut = BiometricsEnrolmentViewModel(
             analyticsService: analyticsService,
             biometricsType: .touchID,
-            enrolmentJourney: .wallet,
             primaryButtonAction: {},
             secondaryButtonAction: {}
         )
@@ -38,7 +37,6 @@ struct InstructionScreenSnapshotTests {
         let sut = BiometricsEnrolmentViewModel(
             analyticsService: analyticsService,
             biometricsType: .faceID,
-            enrolmentJourney: .wallet,
             primaryButtonAction: {},
             secondaryButtonAction: {}
         )
