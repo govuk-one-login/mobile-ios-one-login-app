@@ -1,9 +1,5 @@
 on:
-  workflow_call:
-    inputs:
-      pr:
-        required: false
-        type: boolean
+  workflow_dispatch:
 
 jobs:
   unit_test:
@@ -21,12 +17,6 @@ jobs:
           submodules: 'true'
           fetch-depth: 0
           token: ${{ secrets.MODULE_FETCH_TOKEN }}
-
-      - name: Lint
-        if: inputs.pr
-        run: |
-          brew install swiftlint
-          swiftlint --strict
 
       - name: Configure Private Repo Access
         env:
