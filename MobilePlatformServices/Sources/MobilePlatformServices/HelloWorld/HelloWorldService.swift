@@ -14,7 +14,7 @@ public final class HelloWorldService: HelloWorldProvider {
     private let client: MPTServicesNetworkClient
     private let baseURL: URL
 
-    public init(client: NetworkClient, baseURL: URL) {
+    public init(client: MPTServicesNetworkClient, baseURL: URL) {
         self.client = client
         self.baseURL = baseURL
     }

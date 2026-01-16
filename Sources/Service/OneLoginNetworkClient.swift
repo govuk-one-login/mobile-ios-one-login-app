@@ -10,7 +10,7 @@ enum RefreshTokenExchangeError: Error {
     case reauthenticationRequired
 }
 
-final class NetworkingService: OneLoginNetworkingService {
+final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
     let refreshExchangeManager: TokenExchangeManaging
@@ -21,6 +21,7 @@ final class NetworkingService: OneLoginNetworkingService {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
+        self.networkClient.authorizationProvider = sessionManager.tokenProvider
     }
     
     func makeRequest(_ request: URLRequest) async throws -> Data {

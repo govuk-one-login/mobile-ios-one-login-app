@@ -12,7 +12,7 @@ public enum AppInfoError: Error {
 }
 
 public final class AppInformationService: AppInformationProvider {
-    private let client: NetworkClient
+    private let client: MPTServicesNetworkClient
     private let baseURL: URL
     private let cache: DefaultsCache
     
@@ -20,10 +20,10 @@ public final class AppInformationService: AppInformationProvider {
     ///
     /// - Parameter baseURL: the host of the AppInformationService API
     public convenience init(baseURL: URL) {
-        self.init(client: .init(), baseURL: baseURL)
+        self.init(client: NetworkClient(), baseURL: baseURL, cache: UserDefaults.standard)
     }
     
-    init(client: NetworkClient, baseURL: URL, cache: DefaultsCache = UserDefaults.standard) {
+    init(client: MPTServicesNetworkClient, baseURL: URL, cache: DefaultsCache = UserDefaults.standard) {
         self.client = client
         self.baseURL = baseURL
         self.cache = cache

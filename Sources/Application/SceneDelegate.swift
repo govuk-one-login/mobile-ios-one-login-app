@@ -20,7 +20,7 @@ final class SceneDelegate: UIResponder,
     }()
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
-    private lazy var networkClient = NetworkClient()
+    private lazy var networkingService = NetworkingService(networkClient: NetworkClient(), sessionManager: sessionManager)
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
@@ -29,7 +29,6 @@ final class SceneDelegate: UIResponder,
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
                 encryptedStore: encryptedSecureStoreMigrator
             )
-            networkClient.authorizationProvider = manager.tokenProvider
             
             manager.registerSessionBoundData(
                 [
@@ -60,7 +59,7 @@ final class SceneDelegate: UIResponder,
             appQualifyingService: appQualifyingService,
             analyticsService: analyticsService,
             sessionManager: sessionManager,
-            networkClient: networkClient
+            networkingService: networkingService
         )
         rootCoordinator?.start()
         setUpBasicUI()

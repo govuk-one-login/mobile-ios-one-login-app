@@ -1,7 +1,7 @@
 // swiftlint:disable file_length
 import AppIntegrity
 import Authentication
-@testable import Logging
+import Logging
 import MockNetworking
 import Networking
 @testable @preconcurrency import OneLogin

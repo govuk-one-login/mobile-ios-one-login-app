@@ -15,7 +15,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     let mockAttestationProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
     let mockDemonstratingProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
     let mockAttestationStore: MockAttestationStore
-    let networkClient: NetworkClient
+    let networkClient: AppIntegrityNetworkClient
     let sut: FirebaseAppIntegrityService
     
     init() throws {
