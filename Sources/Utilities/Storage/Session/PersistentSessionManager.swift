@@ -216,7 +216,10 @@ final class PersistentSessionManager: SessionManager {
         )
     }
     
-    func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws {
+    func resumeSession(
+        tokenExchangeManager: TokenExchangeManaging,
+        appIntegrityProvider: AppIntegrityProvider
+    ) async throws {
         guard hasNotRemovedLocalAuth else {
             throw PersistentSessionError.userRemovedLocalAuth
         }
@@ -236,18 +239,25 @@ final class PersistentSessionManager: SessionManager {
         
         guard let refreshToken = storedTokens.refreshToken else {
             tokenProvider.update(subjectToken: storedTokens.accessToken)
+            // Enables offline wallet for users that only have access tokens
             return
         }
         
-        let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
-            refreshToken: refreshToken,
-            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
-        )
+        do {
+            let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+                refreshToken: refreshToken,
+                appIntegrityProvider: appIntegrityProvider
+            )
+            
+            try saveLoginTokens(
+                tokenResponse: exchangeTokenResponse,
+                idToken: idToken
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // Enables offline wallet for users that have valid refresh tokens
+            return
+        }
         
-        try saveLoginTokens(
-            tokenResponse: exchangeTokenResponse,
-            idToken: idToken
-        )
     }
     
     func saveLoginTokens(
