@@ -37,7 +37,10 @@ final class NetworkingService {
         scope: String,
         request: URLRequest
     ) async throws -> Data {
-        guard sessionManager.isAccessTokenValid else {
+        // if user is not ernolled to local auth, they have an access token so they should be able to make an authorised request
+        // this covers first time users that skip biometrics
+        // access token is only saved to user defaults after user enrolls to biometrics
+        guard sessionManager.isAccessTokenValid || !sessionManager.isReturningUser else {
             if let tokens = try sessionManager.validTokensForRefreshExchange {
                 // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
                 try await performRefreshExchangeAndSaveTokens(
@@ -50,7 +53,7 @@ final class NetworkingService {
                     request: request
                 )
             } else {
-                // No refresh token or id token, user must reauthenticate
+                // No refresh token or id token or valid access token, user must reauthenticate
                 NotificationCenter.default.post(name: .reauthenticationRequired)
                 throw RefreshTokenExchangeError.reauthenticationRequired
             }
