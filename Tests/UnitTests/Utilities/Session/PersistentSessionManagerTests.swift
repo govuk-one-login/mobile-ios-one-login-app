@@ -800,7 +800,7 @@ extension PersistentSessionManagerTests {
             idToken: idToken,
             refreshToken: refreshToken,
             accessToken: accessToken,
-            accessTokenExpiry: nil
+            accessTokenExpiry: Date.distantFuture
         )
         
         var keysAsData = String()
