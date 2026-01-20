@@ -62,7 +62,7 @@ extension TokenHolderTests {
 
         // AND I have an valid access token
         let subjectToken = UUID().uuidString
-        sut.update(subjectToken: subjectToken)
+        sut.update(subjectToken: subjectToken, expiryDate: Date())
 
         // WHEN the a scoped token is requested
         let scope = UUID().uuidString
@@ -109,7 +109,7 @@ extension TokenHolderTests {
         }
         
         // AND I have an valid access token
-        sut.update(subjectToken: expectedToken)
+        sut.update(subjectToken: expectedToken, expiryDate: Date())
         
         // WHEN the a scoped token is requested
         do {

@@ -39,7 +39,8 @@ extension SecureTokenStoreTests {
         let tokensToSave = StoredTokens(
             idToken: "idToken",
             refreshToken: "refreshToken",
-            accessToken: "accessToken"
+            accessToken: "accessToken",
+            accessTokenExpiry: Date()
         )
         
         try sut.save(tokens: tokensToSave)
@@ -62,7 +63,8 @@ extension SecureTokenStoreTests {
         let tokensToSave = StoredTokens(
             idToken: "idToken",
             refreshToken: "refreshToken",
-            accessToken: "accessToken"
+            accessToken: "accessToken",
+            accessTokenExpiry: Date()
         )
         
         let jsonEncoder = JSONEncoder()

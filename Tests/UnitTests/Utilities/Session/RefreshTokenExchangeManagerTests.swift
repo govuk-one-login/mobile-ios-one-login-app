@@ -131,7 +131,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
-        } catch RefreshTokenExchangeError.accountIntervention {
+        } catch let error as ServerError where error.errorCode == 400 {
             let received = await iterator.next()?.name == .accountIntervention
             if received == false {
                 Issue.record("Expected `.accountIntervention` notification to be posted")

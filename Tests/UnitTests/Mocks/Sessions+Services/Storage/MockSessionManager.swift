@@ -124,7 +124,7 @@ final class MockSessionManager: SessionManager {
     
     func setupSession(returningUser: Bool = true, expired: Bool = false) throws {
         let tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
-        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        tokenProvider.update(subjectToken: tokenResponse.accessToken, expiryDate: Date())
 
         user.send(MockUser())
         isReturningUser = returningUser

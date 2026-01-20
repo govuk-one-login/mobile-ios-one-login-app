@@ -40,7 +40,7 @@ final class NetworkingService {
         // if user is not ernolled to local auth, they have an access token so they should be able to make an authorised request
         // this covers first time users that skip biometrics
         // access token is only saved to user defaults after user enrolls to biometrics
-        guard sessionManager.isAccessTokenValid || !sessionManager.isReturningUser else {
+        guard sessionManager.tokenProvider.isAccessTokenValid else {
             if let tokens = try sessionManager.validTokensForRefreshExchange {
                 // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
                 try await performRefreshExchangeAndSaveTokens(

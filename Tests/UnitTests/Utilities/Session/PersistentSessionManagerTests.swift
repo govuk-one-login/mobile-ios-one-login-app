@@ -183,7 +183,8 @@ extension PersistentSessionManagerTests {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
+            accessToken: MockJWTs.genericToken,
+            exipryDate: Date()
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -206,7 +207,8 @@ extension PersistentSessionManagerTests {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
+            accessToken: MockJWTs.genericToken,
+            exipryDate: Date()
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -563,7 +565,8 @@ extension PersistentSessionManagerTests {
         let tokens = encodeKeys(
             idToken: "",
             refreshToken: "refreshToken",
-            accessToken: "accessToken"
+            accessToken: "accessToken",
+            exipryDate: Date()
         )
         
         try mockAccessControlEncryptedStore.saveItem(
@@ -676,7 +679,8 @@ extension PersistentSessionManagerTests {
         let tokens = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
+            accessToken: MockJWTs.genericToken,
+            exipryDate: Date()
         )
         XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens), tokens)
        
@@ -703,7 +707,8 @@ extension PersistentSessionManagerTests {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: nil,
-            accessToken: MockJWTs.genericToken
+            accessToken: MockJWTs.genericToken,
+            exipryDate: Date()
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -761,7 +766,8 @@ extension PersistentSessionManagerTests {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
+            accessToken: MockJWTs.genericToken,
+            exipryDate: Date()
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -794,12 +800,14 @@ extension PersistentSessionManagerTests {
     private func encodeKeys(
         idToken: String,
         refreshToken: String?,
-        accessToken: String
+        accessToken: String,
+        exipryDate: Date?
     ) -> String {
         mockStoredTokens = StoredTokens(
             idToken: idToken,
             refreshToken: refreshToken,
-            accessToken: accessToken
+            accessToken: accessToken,
+            accessTokenExpiry: exipryDate
         )
         
         var keysAsData = String()
@@ -828,7 +836,8 @@ extension PersistentSessionManagerTests {
         let data = encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
+            accessToken: MockJWTs.genericToken,
+            exipryDate: Date()
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
