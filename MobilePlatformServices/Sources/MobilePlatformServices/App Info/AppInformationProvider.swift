@@ -20,7 +20,7 @@ public final class AppInformationService: AppInformationProvider {
     ///
     /// - Parameter baseURL: the host of the AppInformationService API
     public convenience init(baseURL: URL) {
-        self.init(client: NetworkClient(), baseURL: baseURL, cache: UserDefaults.standard)
+        self.init(client: NetworkClient(), baseURL: baseURL)
     }
     
     init(client: MPTServicesNetworkClient, baseURL: URL, cache: DefaultsCache = UserDefaults.standard) {
