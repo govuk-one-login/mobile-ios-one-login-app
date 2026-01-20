@@ -16,9 +16,10 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
 
 extension NetworkingService: OneLoginNetworkingService { }
 
+typealias OneLoginNetworkingService = MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient & AppIntegrityNetworkClient & HTTPLoggingNetworkClient
+
 extension GAnalyticsV2: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService { }
 
-typealias OneLoginNetworkingService = MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient & AppIntegrityNetworkClient & HTTPLoggingNetworkClient
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & WalletAnalyticsService & IDCheckAnalyticsService
 
 extension WalletEnvironment {
