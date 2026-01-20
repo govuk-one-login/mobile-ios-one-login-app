@@ -184,7 +184,7 @@ extension PersistentSessionManagerTests {
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken,
-            exipryDate: Date()
+            expiryDate: nil
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -208,7 +208,7 @@ extension PersistentSessionManagerTests {
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken,
-            exipryDate: Date()
+            expiryDate: nil
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -566,7 +566,7 @@ extension PersistentSessionManagerTests {
             idToken: "",
             refreshToken: "refreshToken",
             accessToken: "accessToken",
-            exipryDate: Date()
+            expiryDate: nil
         )
         
         try mockAccessControlEncryptedStore.saveItem(
@@ -680,7 +680,7 @@ extension PersistentSessionManagerTests {
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken,
-            exipryDate: Date()
+            expiryDate: Date()
         )
         XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens), tokens)
        
@@ -708,7 +708,7 @@ extension PersistentSessionManagerTests {
             idToken: MockJWTs.genericToken,
             refreshToken: nil,
             accessToken: MockJWTs.genericToken,
-            exipryDate: Date()
+            expiryDate: nil
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -767,7 +767,7 @@ extension PersistentSessionManagerTests {
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken,
-            exipryDate: Date()
+            expiryDate: nil
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
@@ -801,13 +801,13 @@ extension PersistentSessionManagerTests {
         idToken: String,
         refreshToken: String?,
         accessToken: String,
-        exipryDate: Date?
+        expiryDate: Date?
     ) -> String {
         mockStoredTokens = StoredTokens(
             idToken: idToken,
             refreshToken: refreshToken,
             accessToken: accessToken,
-            accessTokenExpiry: exipryDate
+            accessTokenExpiry: expiryDate
         )
         
         var keysAsData = String()
@@ -837,7 +837,7 @@ extension PersistentSessionManagerTests {
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken,
-            exipryDate: Date()
+            expiryDate: nil
         )
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
