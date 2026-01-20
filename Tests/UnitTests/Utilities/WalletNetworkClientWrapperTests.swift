@@ -22,7 +22,7 @@ final class WalletNetworkClientWrapperTests: XCTestCase {
         networkClient.authorizationProvider = self
         MockURLProtocol.clear()
         
-        sut = WalletNetworkClientWrapper(networkClient: networkClient,
+        sut = WalletNetworkClientWrapper(networkingService: networkClient,
                                          sessionManager: mockSessionManager)
     }
     

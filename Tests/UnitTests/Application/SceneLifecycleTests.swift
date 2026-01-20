@@ -17,7 +17,7 @@ final class SceneLifecycleTests: XCTestCase {
         mockSessionManager = MockSessionManager()
         mockTabManagerCoordinator = TabManagerCoordinator(root: UITabBarController(),
                                                           analyticsService: mockAnalyticsService,
-                                                          networkClient: NetworkClient(),
+                                                          networkingService: NetworkClient(),
                                                           sessionManager: mockSessionManager)
         sut = MockSceneDelegate(coordinator: mockTabManagerCoordinator,
                                 analyticsService: mockAnalyticsService)

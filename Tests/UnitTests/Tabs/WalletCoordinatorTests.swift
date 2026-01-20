@@ -16,7 +16,7 @@ final class WalletCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         sut = WalletCoordinator(analyticsService: mockAnalyticsService,
-                                networkClient: NetworkClient(),
+                                networkingService: NetworkClient(),
                                 sessionManager: mockSessionManager)
     }
     

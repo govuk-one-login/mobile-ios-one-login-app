@@ -1,4 +1,5 @@
+import CRIOrchestrator
 import Networking
-@testable import OneLogin
+import Wallet
 
-extension NetworkClient: @retroactive OneLoginNetworkingService {}
+extension NetworkClient: @retroactive IDCheckNetworkClient, @retroactive WalletNetworkClient {}
