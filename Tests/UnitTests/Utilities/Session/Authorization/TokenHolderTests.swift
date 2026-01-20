@@ -122,4 +122,19 @@ extension TokenHolderTests {
             XCTFail("Expected success but error (\(error)) occurred")
         }
     }
+    
+    func testIsAccessTokenValid() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let client = NetworkClient(configuration: configuration)
+        let sut = TokenHolder(client: client)
+        
+        sut.update(subjectToken: MockJWTs.genericToken, expiryDate: Date.distantFuture)
+
+        XCTAssertTrue(sut.isAccessTokenValid)
+        
+        sut.update(subjectToken: MockJWTs.genericToken, expiryDate: Date.distantPast)
+        
+        XCTAssertFalse(sut.isAccessTokenValid)
+    }
 }
