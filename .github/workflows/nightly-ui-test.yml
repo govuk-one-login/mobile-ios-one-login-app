@@ -7,8 +7,9 @@ on:
 
 jobs:
   test_ui:
-    name: Run UI Tests
-    uses: ./.github/workflows/ui-test.yml
+    name: Run Deployment Tests
+    uses: ./.github/workflows/config-test.yml
     with:
-      test_branch: '${{ github.ref_name }}'
+      configuration: "Build"
+      app_check: true
     secrets: inherit
