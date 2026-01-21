@@ -62,7 +62,7 @@ extension TokenHolderTests {
 
         // AND I have an valid access token
         let subjectToken = UUID().uuidString
-        sut.update(subjectToken: subjectToken, expiryDate: Date())
+        sut.update(accessToken: subjectToken, accessTokenExpiry: Date())
 
         // WHEN the a scoped token is requested
         let scope = UUID().uuidString
@@ -109,8 +109,8 @@ extension TokenHolderTests {
         }
         
         // AND I have an valid access token
-        sut.update(subjectToken: expectedToken, expiryDate: Date())
-        
+        sut.update(accessToken: expectedToken, accessTokenExpiry: Date())
+
         // WHEN the a scoped token is requested
         do {
             let token = try await sut
@@ -129,11 +129,11 @@ extension TokenHolderTests {
         let client = NetworkClient(configuration: configuration)
         let sut = TokenHolder(client: client)
         
-        sut.update(subjectToken: MockJWTs.genericToken, expiryDate: Date.distantFuture)
+        sut.update(accessToken: MockJWTs.genericToken, accessTokenExpiry: Date.distantFuture)
 
         XCTAssertTrue(sut.isAccessTokenValid)
         
-        sut.update(subjectToken: MockJWTs.genericToken, expiryDate: Date.distantPast)
+        sut.update(accessToken: MockJWTs.genericToken, accessTokenExpiry: Date.distantPast)
         
         XCTAssertFalse(sut.isAccessTokenValid)
     }

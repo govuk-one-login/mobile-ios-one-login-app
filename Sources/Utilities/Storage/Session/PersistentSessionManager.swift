@@ -17,7 +17,6 @@ final class PersistentSessionManager: SessionManager {
     
     var isEnrolling: Bool = false
     
-    private var tokenResponse: TokenResponse?
     private var sessionBoundData = [SessionBoundData]()
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
@@ -70,14 +69,14 @@ final class PersistentSessionManager: SessionManager {
     }
     
     private var isValidEnrolment: Bool {
-        guard let tokenResponse else {
+        guard let accessTokenExpiry = tokenProvider.accessTokenExpiry else {
             return false
         }
-        return isEnrolling && tokenResponse.expiryDate > .now
+        return isEnrolling && accessTokenExpiry > .now
     }
     
     private var isOneTimeUser: Bool {
-        tokenProvider.subjectToken != nil && !isReturningUser
+        tokenProvider.accessToken != nil && !isReturningUser
     }
     
     var expiryDate: Date? {
@@ -94,7 +93,7 @@ final class PersistentSessionManager: SessionManager {
         return expiryDate > .now
     }
     
-    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)? {
+    var validTokensForRefreshExchange: (idToken: String, refreshToken: String)? {
         get throws {
             let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
             
@@ -105,12 +104,12 @@ final class PersistentSessionManager: SessionManager {
             
             let storedTokens = try storeKeyService.fetch()
             
-            guard let refreshToken = storedTokens.refreshToken,
-                  let idToken = storedTokens.idToken else {
+            guard let idToken = storedTokens.idToken,
+                  let refreshToken = storedTokens.refreshToken else {
                 return nil
             }
             
-            return (refreshToken, idToken)
+            return (idToken: idToken, refreshToken: refreshToken)
         }
     }
     
@@ -159,11 +158,17 @@ final class PersistentSessionManager: SessionManager {
             }
         }
         
-        let response = try await session.performLoginFlow(configuration: configuration(persistentID))
-        tokenResponse = response
+        let response = try await session.performLoginFlow(
+            configuration: configuration(persistentID)
+        )
         
-        // update curent state
-        tokenProvider.update(subjectToken: response.accessToken, expiryDate: response.expiryDate)
+        tokenProvider.update(
+            idToken: response.idToken,
+            refreshToken: response.refreshToken,
+            accessToken: response.accessToken,
+            accessTokenExpiry: response.expiryDate
+        )
+        
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if let idToken = response.idToken {
             user.send(try IDTokenUserRepresentation(idToken: idToken))
@@ -183,11 +188,6 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func saveAuthSession() throws {
-        guard let tokenResponse else {
-            assertionFailure("Could not save session as token response was not set")
-            return
-        }
-        
         if let persistentID = user.value?.persistentID {
             try encryptedStore.saveItem(
                 item: persistentID,
@@ -198,8 +198,10 @@ final class PersistentSessionManager: SessionManager {
         }
         
         try saveLoginTokens(
-            tokenResponse: tokenResponse,
-            idToken: tokenResponse.idToken
+            idToken: tokenProvider.idToken,
+            refreshToken: tokenProvider.refreshToken,
+            accessToken: tokenProvider.accessToken,
+            accessTokenExpiry: tokenProvider.accessTokenExpiry
         )
         
         unprotectedStore.set(
@@ -230,8 +232,11 @@ final class PersistentSessionManager: SessionManager {
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         guard let refreshToken = storedTokens.refreshToken else {
-            tokenProvider.update(subjectToken: storedTokens.accessToken, expiryDate: storedTokens.accessTokenExpiry)
             // Enables offline wallet for users that only have access tokens
+            tokenProvider.update(
+                accessToken: storedTokens.accessToken,
+                accessTokenExpiry: storedTokens.accessTokenExpiry
+            )
             return
         }
         
@@ -242,21 +247,24 @@ final class PersistentSessionManager: SessionManager {
             )
             
             try saveLoginTokens(
-                tokenResponse: exchangeTokenResponse,
-                idToken: idToken
+                idToken: storedTokens.idToken,
+                refreshToken: exchangeTokenResponse.refreshToken,
+                accessToken: exchangeTokenResponse.accessToken,
+                accessTokenExpiry: exchangeTokenResponse.expiryDate
             )
         } catch RefreshTokenExchangeError.noInternet {
             // Enables offline wallet for users that have valid refresh tokens
             return
         }
-        
     }
     
     func saveLoginTokens(
-        tokenResponse: TokenResponse,
-        idToken: String?
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?
     ) throws {
-        if let refreshToken = tokenResponse.refreshToken {
+        if let refreshToken {
             try encryptedStore.saveDate(
                 id: OLString.refreshTokenExpiry,
                 try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
@@ -265,17 +273,20 @@ final class PersistentSessionManager: SessionManager {
         
         let tokens = StoredTokens(
             idToken: idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken,
-            accessTokenExpiry: tokenResponse.expiryDate
+            refreshToken: refreshToken,
+            accessToken: accessToken,
+            accessTokenExpiry: accessTokenExpiry
         )
         
         try storeKeyService.save(tokens: tokens)
         
-        tokenProvider.update(subjectToken: tokenResponse.accessToken, expiryDate: tokenResponse.expiryDate)
+        tokenProvider.update(
+            accessToken: tokens.accessToken,
+            accessTokenExpiry: tokens.accessTokenExpiry
+        )
         
         unprotectedStore.set(
-            tokenResponse.expiryDate,
+            accessTokenExpiry,
             forKey: OLString.accessTokenExpiry
         )
     }
@@ -284,7 +295,6 @@ final class PersistentSessionManager: SessionManager {
         storeKeyService.deleteTokens()
         
         tokenProvider.clear()
-        tokenResponse = nil
         user.send(nil)
     }
     

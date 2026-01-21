@@ -9,30 +9,48 @@ enum TokenError: Error {
 }
 
 final class TokenHolder {
-    let client: NetworkClient
-    private(set) var subjectToken: String?
-    private var expiryDate: Date?
-
+    private let client: NetworkClient
+    private var subjectToken: String? { accessToken }
+    
+    private(set) var idToken: String?
+    private(set) var refreshToken: String?
+    private(set) var accessToken: String?
+    private(set) var accessTokenExpiry: Date?
+    
     var isAccessTokenValid: Bool {
-        guard let expiryDate = expiryDate else {
+        guard let accessTokenExpiry else {
             return false
         }
         
-        return expiryDate.withFifteenSecondBuffer > .now
+        return accessTokenExpiry.withFifteenSecondBuffer > .now
     }
     
     init(client: NetworkClient = NetworkClient()) {
         self.client = client
     }
 
-    func update(subjectToken: String, expiryDate: Date?) {
-        self.subjectToken = subjectToken
-        self.expiryDate = expiryDate
+    func update(
+        idToken: String? = nil,
+        refreshToken: String? = nil,
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) {
+        self.idToken = idToken
+        self.refreshToken = refreshToken
+        self.accessToken = accessToken
+        self.accessTokenExpiry = accessTokenExpiry
     }
 
     func clear() {
-        subjectToken = nil
-        expiryDate = nil
+        idToken = nil
+        refreshToken = nil
+        accessToken = nil
+        accessTokenExpiry = nil
+    }
+    
+    func clearAfterLogin() {
+        idToken = nil
+        refreshToken = nil
     }
 }
 

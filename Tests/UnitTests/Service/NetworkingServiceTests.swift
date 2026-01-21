@@ -70,7 +70,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with valid accessToken")
     func test_makeAuthorisedRequest_validAccessToken() async throws {
-        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(3600))
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
         
         MockURLProtocol.handler = {
             let data = Data("NetworkingService Test".utf8)
@@ -112,7 +112,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with invalid accessToken and valid refreshToken")
     func test_makeAuthorisedRequest_invalidAccessToken() async throws {
-        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(-3600))
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
         mockSessionManager.validTokensForRefreshExchange = ("refreshToken", "idToken")
         
         #expect(mockSessionManager.didCallSaveLoginTokens == false)
@@ -137,7 +137,7 @@ struct NetworkingSerivceTests {
     func test_makeAuthorizedRequest_invalidTokens() async throws {
         let notification = NotificationCenter.default.notifications(named: .reauthenticationRequired)
         let iterator = notification.makeAsyncIterator()
-        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(-3600))
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
         mockSessionManager.validTokensForRefreshExchange = nil
         
         MockURLProtocol.handler = {
@@ -165,7 +165,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with no internet")
     func test_makeAuthorizedRequest_noInternet() async throws {
-        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(3600))
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
        
         MockURLProtocol.handler = {
             throw URLError(.notConnectedToInternet)
@@ -185,7 +185,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with network connection lost")
     func test_makeAuthorizedRequest_networkConnectionLost() async throws {
-        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(3600))
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
        
         MockURLProtocol.handler = {
             throw URLError(.networkConnectionLost)
