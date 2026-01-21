@@ -281,8 +281,8 @@ final class PersistentSessionManager: SessionManager {
         try storeKeyService.save(tokens: tokens)
         
         tokenProvider.update(
-            accessToken: tokens.accessToken,
-            accessTokenExpiry: tokens.accessTokenExpiry
+            accessToken: accessToken,
+            accessTokenExpiry: accessTokenExpiry
         )
         
         unprotectedStore.set(
