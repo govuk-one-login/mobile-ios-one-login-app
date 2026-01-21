@@ -4,13 +4,6 @@ import Foundation
 import MobilePlatformServices
 import Networking
 
-enum RefreshTokenExchangeError: Error {
-    case accountIntervention
-    case appIntegrityRetryError
-    case noInternet
-    case reauthenticationRequired
-}
-
 final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
