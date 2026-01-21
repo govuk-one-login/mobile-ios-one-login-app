@@ -87,7 +87,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with valid accessToken but 400 server error with invalid_grant")
     func test_makeAuthorisedRequest_validAccessTokenButServerErrorWithInvalidGrant() async throws {
-        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(3600))
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
         let notification = NotificationCenter.default.notifications(named: .accountIntervention)
         let iterator = notification.makeAsyncIterator()
         
