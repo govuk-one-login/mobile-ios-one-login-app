@@ -209,4 +209,3 @@ extension NetworkingSerivceTests: AuthorizationProvider {
         "mock_token"
     }
 }
-
