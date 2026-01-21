@@ -85,6 +85,31 @@ struct NetworkingSerivceTests {
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
     
+    @Test("Test makeAuthorisedRequest() with valid accessToken but 400 server error with invalid_grant")
+    func test_makeAuthorisedRequest_validAccessTokenButServerErrorWithInvalidGrant() async throws {
+        mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(3600))
+        let notification = NotificationCenter.default.notifications(named: .accountIntervention)
+        let iterator = notification.makeAsyncIterator()
+        
+        let jsonResponse = """
+            { "error": "invalid_grant" }
+            """
+        
+        MockURLProtocol.handler = {
+            let data = Data(jsonResponse.utf8)
+            return (data, HTTPURLResponse(statusCode: 400))
+        }
+        
+        do {
+            _ = try await sut.makeAuthorizedRequest(scope: "", request: URLRequest(url: URL(string: "testurl.com")!))
+            Issue.record("Expect 400 error, but no error thrown")
+        } catch {
+            #expect((error as? ServerError)?.errorCode == 400)
+            let received = await iterator.next()?.name == .accountIntervention
+            #expect(received == true)
+        }
+    }
+    
     @Test("Test makeAuthorisedRequest() with invalid accessToken and valid refreshToken")
     func test_makeAuthorisedRequest_invalidAccessToken() async throws {
         mockSessionManager.tokenProvider.update(subjectToken: "token", expiryDate: Date().addingTimeInterval(-3600))
@@ -184,3 +209,4 @@ extension NetworkingSerivceTests: AuthorizationProvider {
         "mock_token"
     }
 }
+
