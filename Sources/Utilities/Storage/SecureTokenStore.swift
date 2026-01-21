@@ -9,6 +9,7 @@ public struct StoredTokens: Codable {
     let idToken: String?
     let refreshToken: String?
     let accessToken: String
+    let accessTokenExpiry: Date?
 }
 
 public protocol TokenStore {

@@ -7,12 +7,12 @@ enum SessionError: Error {
 }
 
 public final class WalletNetworkClientWrapper: WalletNetworkClient {
-    private let networkClient: NetworkClient
+    private let networkingService: OneLoginNetworkingService
     private let sessionManager: SessionManager
     
-    init(networkClient: NetworkClient,
+    init(networkingService: OneLoginNetworkingService,
          sessionManager: SessionManager) {
-        self.networkClient = networkClient
+        self.networkingService = networkingService
         self.sessionManager = sessionManager
     }
     
@@ -21,7 +21,7 @@ public final class WalletNetworkClientWrapper: WalletNetworkClient {
             NotificationCenter.default.post(name: .sessionExpired)
             throw SessionError.expired
         }
-        return try await networkClient.makeRequest(request)
+        return try await networkingService.makeRequest(request)
     }
     
     public func makeAuthorizedRequest(
@@ -32,7 +32,7 @@ public final class WalletNetworkClientWrapper: WalletNetworkClient {
             NotificationCenter.default.post(name: .sessionExpired)
             throw SessionError.expired
         }
-        return try await networkClient.makeAuthorizedRequest(
+        return try await networkingService.makeAuthorizedRequest(
             scope: scope,
             request: request
         )

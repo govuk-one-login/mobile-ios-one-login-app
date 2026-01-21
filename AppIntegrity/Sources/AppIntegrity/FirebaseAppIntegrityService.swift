@@ -8,13 +8,17 @@ public enum AppIntegrityHeaderKey: String {
     case demonstratingProofOfPossession = "DPoP"
 }
 
+public protocol AppIntegrityNetworkClient {
+    func makeRequest(_ request: URLRequest) async throws -> Data
+}
+
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let vendor: AppCheckVendor
     private let attestationProofOfPossessionProvider: ProofOfPossessionProvider
     private let attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
     private let demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator
     private let attestationStore: AttestationStorage
-    private let networkClient: NetworkClient
+    private let networkClient: AppIntegrityNetworkClient
     private let baseURL: URL
     
     private static var providerFactory: AppCheckProviderFactory {
@@ -145,7 +149,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
         demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
         attestationStore: AttestationStorage,
-        networkClient: NetworkClient,
+        networkClient: AppIntegrityNetworkClient,
         baseURL: URL
     ) {
         self.vendor = vendor
@@ -162,7 +166,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
         demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
         attestationStore: AttestationStorage,
-        networkClient: NetworkClient,
+        networkClient: AppIntegrityNetworkClient,
         baseURL: URL
     ) {
         self.init(

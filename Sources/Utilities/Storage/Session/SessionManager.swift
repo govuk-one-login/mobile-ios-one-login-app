@@ -18,7 +18,6 @@ protocol SessionManager: AnyObject, UserProvider {
     var isReturningUser: Bool { get }
     var isEnrolling: Bool { get set }
 
-    var isAccessTokenValid: Bool { get }
     var validTokensForRefreshExchange: (refreshToken: String, idToken: String)? { get throws }
     
     var tokenProvider: TokenHolder { get }

@@ -94,14 +94,6 @@ final class PersistentSessionManager: SessionManager {
         return expiryDate > .now
     }
     
-    var isAccessTokenValid: Bool {
-        guard let expiryDate = unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date else {
-            return false
-        }
-        
-        return expiryDate.withFifteenSecondBuffer > .now
-    }
-    
     var validTokensForRefreshExchange: (refreshToken: String, idToken: String)? {
         get throws {
             let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
@@ -171,7 +163,7 @@ final class PersistentSessionManager: SessionManager {
         tokenResponse = response
         
         // update curent state
-        tokenProvider.update(subjectToken: response.accessToken)
+        tokenProvider.update(subjectToken: response.accessToken, expiryDate: response.expiryDate)
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if let idToken = response.idToken {
             user.send(try IDTokenUserRepresentation(idToken: idToken))
@@ -238,7 +230,7 @@ final class PersistentSessionManager: SessionManager {
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         guard let refreshToken = storedTokens.refreshToken else {
-            tokenProvider.update(subjectToken: storedTokens.accessToken)
+            tokenProvider.update(subjectToken: storedTokens.accessToken, expiryDate: storedTokens.accessTokenExpiry)
             // Enables offline wallet for users that only have access tokens
             return
         }
@@ -274,12 +266,13 @@ final class PersistentSessionManager: SessionManager {
         let tokens = StoredTokens(
             idToken: idToken,
             refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken
+            accessToken: tokenResponse.accessToken,
+            accessTokenExpiry: tokenResponse.expiryDate
         )
         
         try storeKeyService.save(tokens: tokens)
         
-        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        tokenProvider.update(subjectToken: tokenResponse.accessToken, expiryDate: tokenResponse.expiryDate)
         
         unprotectedStore.set(
             tokenResponse.expiryDate,

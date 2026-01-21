@@ -29,7 +29,7 @@ final class LocalAuthServiceWalletTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
        
         walletCoordinator =  WalletCoordinator(analyticsService: mockAnalyticsService,
-                                               networkClient: NetworkClient(),
+                                               networkingService: NetworkClient(),
                                                sessionManager: mockSessionManager)
         navigationController = walletCoordinator.root
         sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,

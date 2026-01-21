@@ -1,7 +1,7 @@
 // swiftlint:disable file_length
 import AppIntegrity
 import Authentication
-@testable import Logging
+import Logging
 import MockNetworking
 @testable import Networking
 @testable @preconcurrency import OneLogin
@@ -150,26 +150,6 @@ extension PersistentSessionManagerTests {
         // THEN the session is not valid
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .expired)
-    }
-    
-    func test_isAccessTokenValid() {
-        // GIVEN the unprotected store contains an access token expiry date in the future
-        mockUnprotectedStore.set(
-            Date.distantFuture,
-            forKey: OLString.accessTokenExpiry
-        )
-        // THEN the session is not valid
-        XCTAssertTrue(sut.isAccessTokenValid)
-    }
-    
-    func test_isAccessTokenValid_expired() {
-        // GIVEN the unprotected store contains an access token expiry date in the past
-        mockUnprotectedStore.set(
-            Date.distantPast,
-            forKey: OLString.accessTokenExpiry
-        )
-        // THEN the session is not valid
-        XCTAssertFalse(sut.isAccessTokenValid)
     }
     
     func test_returnTokensIfValid() throws {
@@ -799,7 +779,8 @@ extension PersistentSessionManagerTests {
         mockStoredTokens = StoredTokens(
             idToken: idToken,
             refreshToken: refreshToken,
-            accessToken: accessToken
+            accessToken: accessToken,
+            accessTokenExpiry: Date.distantFuture
         )
         
         var keysAsData = String()

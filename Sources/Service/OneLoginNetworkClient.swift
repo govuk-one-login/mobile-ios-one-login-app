@@ -3,24 +3,19 @@ import Authentication
 import Foundation
 import MobilePlatformServices
 import Networking
-enum RefreshTokenExchangeError: Error {
-    case accountIntervention
-    case appIntegrityRetryError
-    case noInternet
-    case reauthenticationRequired
-}
 
-final class NetworkingService: OneLoginNetworkingService {
+final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
     let refreshExchangeManager: TokenExchangeManaging
     
-    init(networkClient: NetworkClient,
+    init(networkClient: NetworkClient = NetworkClient(),
          refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
          sessionManager: SessionManager) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
+        self.networkClient.authorizationProvider = sessionManager.tokenProvider
     }
     
     func makeRequest(_ request: URLRequest) async throws -> Data {
@@ -36,39 +31,49 @@ final class NetworkingService: OneLoginNetworkingService {
         scope: String,
         request: URLRequest
     ) async throws -> Data {
-        do {
-            guard sessionManager.isAccessTokenValid else {
-                if let tokens = try sessionManager.validTokensForRefreshExchange {
-                    // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
-                    try await performRefreshExchangeAndSaveTokens(
-                        refreshToken: tokens.refreshToken,
-                        idToken: tokens.idToken
-                    )
-                    
-                    return try await networkClient.makeAuthorizedRequest(
-                        scope: scope,
-                        request: request
-                    )
-                } else {
-                    // No refresh token or id token, user must reauthenticate
-                    NotificationCenter.default.post(name: .reauthenticationRequired)
-                    throw RefreshTokenExchangeError.reauthenticationRequired
-                }
+        guard sessionManager.tokenProvider.isAccessTokenValid else {
+            if let tokens = try sessionManager.validTokensForRefreshExchange {
+                // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
+                try await performRefreshExchangeAndSaveTokens(
+                    refreshToken: tokens.refreshToken,
+                    idToken: tokens.idToken
+                )
+                
+                return try await makeAuthorizedRequestRealiseAccountIntervention(
+                    scope: scope,
+                    request: request
+                )
+            } else {
+                // No refresh token or id token or valid access token, user must reauthenticate
+                NotificationCenter.default.post(name: .reauthenticationRequired)
+                throw RefreshTokenExchangeError.reauthenticationRequired
             }
-            
-            return try await networkClient.makeAuthorizedRequest(
-                scope: scope,
-                request: request
-            )
-        } catch let error as URLError where error.code == .notConnectedToInternet
-                    || error.code == .networkConnectionLost {
-            throw error
         }
+        
+        return try await makeAuthorizedRequestRealiseAccountIntervention(
+            scope: scope,
+            request: request
+        )
     }
 }
 
 extension NetworkingService {
-    func performRefreshExchangeAndSaveTokens(
+    private func makeAuthorizedRequestRealiseAccountIntervention(
+        scope: String,
+        request: URLRequest
+    ) async throws -> Data {
+        do {
+            return try await networkClient.makeAuthorizedRequest(
+                scope: scope,
+                request: request
+            )
+        } catch let error as ServerError where error.errorCode == 400 {
+            handleServerError(error)
+            throw error
+        }
+    }
+    
+    private func performRefreshExchangeAndSaveTokens(
         refreshToken: String,
         idToken: String
     ) async throws {
@@ -82,5 +87,15 @@ extension NetworkingService {
             tokenResponse: tokens,
             idToken: idToken
         )
+    }
+    
+    private func handleServerError(_ error: ServerError) {
+        guard let data = error.response,
+              let errorType = try? JSONDecoder().decode(ServerErrorResponse.self, from: data),
+              errorType.error == .invalidGrant else {
+            // Build environment throws 400 invalid_target so we shouldn't log the user out in that case
+            return
+        }
+        NotificationCenter.default.post(name: .accountIntervention)
     }
 }

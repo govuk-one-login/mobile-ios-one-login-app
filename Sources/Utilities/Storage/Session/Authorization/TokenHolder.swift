@@ -11,17 +11,28 @@ enum TokenError: Error {
 final class TokenHolder {
     let client: NetworkClient
     private(set) var subjectToken: String?
+    private var expiryDate: Date?
 
+    var isAccessTokenValid: Bool {
+        guard let expiryDate = expiryDate else {
+            return false
+        }
+        
+        return expiryDate.withFifteenSecondBuffer > .now
+    }
+    
     init(client: NetworkClient = NetworkClient()) {
         self.client = client
     }
 
-    func update(subjectToken: String) {
+    func update(subjectToken: String, expiryDate: Date?) {
         self.subjectToken = subjectToken
+        self.expiryDate = expiryDate
     }
 
     func clear() {
         subjectToken = nil
+        expiryDate = nil
     }
 }
 
