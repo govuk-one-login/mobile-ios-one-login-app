@@ -91,9 +91,7 @@ struct NetworkingSerivceTests {
         let notification = NotificationCenter.default.notifications(named: .accountIntervention)
         let iterator = notification.makeAsyncIterator()
         
-        let jsonResponse = """
-            { "error": "invalid_grant" }
-            """
+        let jsonResponse = #"{ "error": "invalid_grant" }"#
         
         MockURLProtocol.handler = {
             let data = Data(jsonResponse.utf8)
