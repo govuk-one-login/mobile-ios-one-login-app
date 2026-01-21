@@ -96,6 +96,7 @@
 		ABFE5E302DB9A54D0093E86E /* LocalAuthErrorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorListView.swift */; };
 		ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF42DBA663F0093E86E /* LocalAuthSettingsErrorViewModelTests.swift */; };
 		ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorListViewTests.swift */; };
+		C30D5F7C2F20E35D001412CF /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */; };
 		C32436CF2DCB6E7D00CC3FCC /* PurposeTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32436CE2DCB6E6500CC3FCC /* PurposeTileViewModel.swift */; };
 		C32436D12DCB906900CC3FCC /* PurposeTileViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32436D02DCB906000CC3FCC /* PurposeTileViewModelTests.swift */; };
 		C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33BF4F42E3A111700F6724F /* WalletNetworkClientWrapper.swift */; };
@@ -665,6 +666,7 @@
 		ABFE5E2F2DB9A5420093E86E /* LocalAuthErrorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorListView.swift; sourceTree = "<group>"; };
 		ABFE5EF42DBA663F0093E86E /* LocalAuthSettingsErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModelTests.swift; sourceTree = "<group>"; };
 		ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorListViewTests.swift; sourceTree = "<group>"; };
+		C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
 		C32436CE2DCB6E6500CC3FCC /* PurposeTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTileViewModel.swift; sourceTree = "<group>"; };
 		C32436D02DCB906000CC3FCC /* PurposeTileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTileViewModelTests.swift; sourceTree = "<group>"; };
 		C3381D2D2DFAE1240007B594 /* OneLoginRelease-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginRelease-Info.plist"; sourceTree = "<group>"; };
@@ -1486,6 +1488,7 @@
 		ABB941FD2C6CAD840007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */,
 				C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */,
 				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 			);
@@ -3393,6 +3396,7 @@
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
+				C30D5F7C2F20E35D001412CF /* ErrorTypes.swift in Sources */,
 				C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				C811D6582EA05628009909A8 /* AppIntegrityDPoPJWT.swift in Sources */,
@@ -5167,7 +5171,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.3.0;
+				minimumVersion = 3.4.0;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {

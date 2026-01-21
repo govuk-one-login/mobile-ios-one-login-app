@@ -3,19 +3,13 @@ import Authentication
 import Foundation
 import MobilePlatformServices
 import Networking
-enum RefreshTokenExchangeError: Error {
-    case accountIntervention
-    case appIntegrityRetryError
-    case noInternet
-    case reauthenticationRequired
-}
 
 final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
     let refreshExchangeManager: TokenExchangeManaging
     
-    init(networkClient: NetworkClient,
+    init(networkClient: NetworkClient = NetworkClient(),
          refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
          sessionManager: SessionManager) {
         self.networkClient = networkClient
@@ -74,7 +68,7 @@ extension NetworkingService {
                 request: request
             )
         } catch let error as ServerError where error.errorCode == 400 {
-            NotificationCenter.default.post(name: .accountIntervention)
+            handleServerError(error)
             throw error
         }
     }
@@ -93,5 +87,15 @@ extension NetworkingService {
             tokenResponse: tokens,
             idToken: idToken
         )
+    }
+    
+    private func handleServerError(_ error: ServerError) {
+        guard let data = error.response,
+              let errorType = try? JSONDecoder().decode(ServerErrorResponse.self, from: data),
+              errorType.error == .invalidGrant else {
+            // Build environment throws 400 invalid_target so we shouldn't log the user out in that case
+            return
+        }
+        NotificationCenter.default.post(name: .accountIntervention)
     }
 }
