@@ -11,7 +11,7 @@ enum TokenError: Error {
 final class TokenHolder {
     let client: NetworkClient
     private(set) var subjectToken: String?
-    private(set) var expiryDate: Date?
+    private var expiryDate: Date?
 
     var isAccessTokenValid: Bool {
         guard let expiryDate = expiryDate else {

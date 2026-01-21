@@ -94,14 +94,6 @@ final class PersistentSessionManager: SessionManager {
         return expiryDate > .now
     }
     
-    var isAccessTokenValid: Bool {
-        guard let expiryDate = unprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date else {
-            return false
-        }
-        
-        return expiryDate.withFifteenSecondBuffer > .now
-    }
-    
     var validTokensForRefreshExchange: (refreshToken: String, idToken: String)? {
         get throws {
             let expiryDate = try? encryptedStore.readDate(id: OLString.refreshTokenExpiry)
