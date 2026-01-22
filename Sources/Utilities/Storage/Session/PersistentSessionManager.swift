@@ -231,12 +231,13 @@ final class PersistentSessionManager: SessionManager {
         
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
+        // Enables offline wallet for users that only have access tokens
+        tokenProvider.update(
+            accessToken: storedTokens.accessToken,
+            accessTokenExpiry: storedTokens.accessTokenExpiry
+        )
+        
         guard let refreshToken = storedTokens.refreshToken else {
-            // Enables offline wallet for users that only have access tokens
-            tokenProvider.update(
-                accessToken: storedTokens.accessToken,
-                accessTokenExpiry: storedTokens.accessTokenExpiry
-            )
             return
         }
         
