@@ -8,7 +8,7 @@ enum StoredTokenError: Error {
 public struct StoredTokens: Codable {
     let idToken: String?
     let refreshToken: String?
-    let accessToken: String
+    let accessToken: String?
     let accessTokenExpiry: Date?
 }
 

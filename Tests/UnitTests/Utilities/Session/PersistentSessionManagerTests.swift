@@ -378,7 +378,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         // AND access token are populated
-        XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
+        XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
     }
     
     @MainActor
@@ -661,7 +661,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens), tokens)
        
         // AND the token provider access token is updated
-        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
+        XCTAssertEqual(sut.tokenProvider.accessToken, MockJWTs.genericToken)
         
         // AND my access token expiry is updated
         let expiryDate = mockUnprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
@@ -701,7 +701,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND the token provider access token is updated
-        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
+        XCTAssertEqual(sut.tokenProvider.accessToken, MockJWTs.genericToken)
         
         // AND no refresh token expiry date is saved
         do {
@@ -721,7 +721,7 @@ extension PersistentSessionManagerTests {
         // WHEN I end the session
         sut.endCurrentSession()
         // THEN my data is cleared
-        XCTAssertNil(sut.tokenProvider.subjectToken)
+        XCTAssertNil(sut.tokenProvider.accessToken)
         XCTAssertNil(sut.user.value)
         
         XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])

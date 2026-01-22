@@ -12,7 +12,7 @@ final class MockSessionManager: SessionManager {
     var isEnrolling: Bool
     var isReturningUser: Bool
     
-    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)?
+    var validTokensForRefreshExchange: (idToken: String, refreshToken: String)?
 
     var persistentID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
@@ -71,7 +71,12 @@ final class MockSessionManager: SessionManager {
         }
     }
     
-    func saveLoginTokens(tokenResponse: TokenResponse, idToken: String?) throws {
+    func saveLoginTokens(
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) throws {
         defer {
             didCallSaveLoginTokens = true
         }
@@ -121,7 +126,7 @@ final class MockSessionManager: SessionManager {
     
     func setupSession(returningUser: Bool = true, expired: Bool = false) throws {
         let tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
-        tokenProvider.update(subjectToken: tokenResponse.accessToken, expiryDate: Date())
+        tokenProvider.update(accessToken: tokenResponse.accessToken, accessTokenExpiry: Date())
 
         user.send(MockUser())
         isReturningUser = returningUser

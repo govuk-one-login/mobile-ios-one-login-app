@@ -9,9 +9,11 @@ final class NetworkingService {
     let sessionManager: SessionManager
     let refreshExchangeManager: TokenExchangeManaging
     
-    init(networkClient: NetworkClient = NetworkClient(),
-         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
-         sessionManager: SessionManager) {
+    init(
+        networkClient: NetworkClient = NetworkClient(),
+        refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
+        sessionManager: SessionManager
+    ) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
@@ -35,8 +37,8 @@ final class NetworkingService {
             if let tokens = try sessionManager.validTokensForRefreshExchange {
                 // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
                 try await performRefreshExchangeAndSaveTokens(
-                    refreshToken: tokens.refreshToken,
-                    idToken: tokens.idToken
+                    idToken: tokens.idToken,
+                    refreshToken: tokens.refreshToken
                 )
                 
                 return try await makeAuthorizedRequestRealiseAccountIntervention(
@@ -74,18 +76,20 @@ extension NetworkingService {
     }
     
     private func performRefreshExchangeAndSaveTokens(
-        refreshToken: String,
-        idToken: String
+        idToken: String,
+        refreshToken: String
     ) async throws {
-        let tokens = try await refreshExchangeManager.getUpdatedTokens(
+        let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
             appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
         )
         
         // Save new tokens
         try sessionManager.saveLoginTokens(
-            tokenResponse: tokens,
-            idToken: idToken
+            idToken: idToken,
+            refreshToken: tokenResponse.refreshToken,
+            accessToken: tokenResponse.accessToken,
+            accessTokenExpiry: tokenResponse.expiryDate
         )
     }
     
