@@ -247,7 +247,7 @@ final class PersistentSessionManager: SessionManager {
             )
             
             try saveLoginTokens(
-                idToken: storedTokens.idToken,
+                idToken: idToken,
                 refreshToken: exchangeTokenResponse.refreshToken,
                 accessToken: exchangeTokenResponse.accessToken,
                 accessTokenExpiry: exchangeTokenResponse.expiryDate

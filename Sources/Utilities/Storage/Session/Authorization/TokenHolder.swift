@@ -10,7 +10,6 @@ enum TokenError: Error {
 
 final class TokenHolder {
     private let client: NetworkClient
-    private var subjectToken: String? { accessToken }
     
     private(set) var idToken: String?
     private(set) var refreshToken: String?
@@ -60,13 +59,13 @@ extension TokenHolder: AuthorizationProvider {
     }
 
     private func exchangeToken(scope: String) async throws -> TokenResponse {
-        guard let subjectToken else {
+        guard let accessToken else {
             throw TokenError.bearerNotPresent
         }
         
         let serviceTokenResponse = try await client.makeRequest(
             .serviceTokenExchange(
-                subjectToken: subjectToken,
+                subjectToken: accessToken,
                 scope: scope
             )
         )
