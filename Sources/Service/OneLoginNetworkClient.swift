@@ -71,7 +71,7 @@ extension NetworkingService {
             )
         } catch let error as ServerError where error.errorCode == 400 {
             handleServerError(error)
-            throw error
+            throw OneLoginError(.accountIntervention)
         }
     }
     
