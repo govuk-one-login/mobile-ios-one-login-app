@@ -70,7 +70,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with valid accessToken")
     func test_makeAuthorisedRequest_validAccessToken() async throws {
-        mockSessionManager.isAccessTokenValid = true
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
         
         MockURLProtocol.handler = {
             let data = Data("NetworkingService Test".utf8)
@@ -85,9 +85,32 @@ struct NetworkingSerivceTests {
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
     
+    @Test("Test makeAuthorisedRequest() with valid accessToken but 400 server error with invalid_grant")
+    func test_makeAuthorisedRequest_validAccessTokenButServerErrorWithInvalidGrant() async throws {
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
+        let notification = NotificationCenter.default.notifications(named: .accountIntervention)
+        let iterator = notification.makeAsyncIterator()
+        
+        let jsonResponse = #"{ "error": "invalid_grant" }"#
+        
+        MockURLProtocol.handler = {
+            let data = Data(jsonResponse.utf8)
+            return (data, HTTPURLResponse(statusCode: 400))
+        }
+        
+        do {
+            _ = try await sut.makeAuthorizedRequest(scope: "", request: URLRequest(url: URL(string: "testurl.com")!))
+            Issue.record("Expect 400 error, but no error thrown")
+        } catch {
+            #expect((error as? ServerError)?.errorCode == 400)
+            let received = await iterator.next()?.name == .accountIntervention
+            #expect(received == true)
+        }
+    }
+    
     @Test("Test makeAuthorisedRequest() with invalid accessToken and valid refreshToken")
     func test_makeAuthorisedRequest_invalidAccessToken() async throws {
-        mockSessionManager.isAccessTokenValid = false
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
         mockSessionManager.validTokensForRefreshExchange = ("refreshToken", "idToken")
         
         #expect(mockSessionManager.didCallSaveLoginTokens == false)
@@ -112,7 +135,7 @@ struct NetworkingSerivceTests {
     func test_makeAuthorizedRequest_invalidTokens() async throws {
         let notification = NotificationCenter.default.notifications(named: .reauthenticationRequired)
         let iterator = notification.makeAsyncIterator()
-        mockSessionManager.isAccessTokenValid = false
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
         mockSessionManager.validTokensForRefreshExchange = nil
         
         MockURLProtocol.handler = {
@@ -140,7 +163,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with no internet")
     func test_makeAuthorizedRequest_noInternet() async throws {
-        mockSessionManager.isAccessTokenValid = true
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
        
         MockURLProtocol.handler = {
             throw URLError(.notConnectedToInternet)
@@ -160,7 +183,7 @@ struct NetworkingSerivceTests {
     
     @Test("Test makeAuthorisedRequest() with network connection lost")
     func test_makeAuthorizedRequest_networkConnectionLost() async throws {
-        mockSessionManager.isAccessTokenValid = true
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
        
         MockURLProtocol.handler = {
             throw URLError(.networkConnectionLost)

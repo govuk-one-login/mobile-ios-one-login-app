@@ -1,3 +1,4 @@
+import AppIntegrity
 import Foundation
 import Logging
 import MobilePlatformServices
@@ -110,7 +111,10 @@ final class AppQualifyingService: QualifyingService {
             sessionState = .loggedIn
         case .saved:
             do {
-                try await sessionManager.resumeSession(tokenExchangeManager: RefreshTokenExchangeManager())
+                try await sessionManager.resumeSession(
+                    tokenExchangeManager: RefreshTokenExchangeManager(),
+                    appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+                )
                 sessionState = .loggedIn
             } catch let error as SecureStoreError where error.kind == .biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.

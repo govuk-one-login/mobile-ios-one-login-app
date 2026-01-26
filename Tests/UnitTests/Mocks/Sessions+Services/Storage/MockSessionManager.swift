@@ -1,3 +1,4 @@
+import AppIntegrity
 import Authentication
 import Combine
 import Foundation
@@ -11,8 +12,7 @@ final class MockSessionManager: SessionManager {
     var isEnrolling: Bool
     var isReturningUser: Bool
     
-    var isAccessTokenValid: Bool
-    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)?
+    var validTokensForRefreshExchange: (idToken: String, refreshToken: String)?
 
     var persistentID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
@@ -39,14 +39,12 @@ final class MockSessionManager: SessionManager {
     init(expiryDate: Date? = nil,
          isEnrolling: Bool = false,
          isReturningUser: Bool = false,
-         isAccessTokenValid: Bool = false,
          validTokensForRefreshExchange: (String, String)? = nil,
          sessionState: SessionState = .nonePresent,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
         self.isEnrolling = isEnrolling
         self.isReturningUser = isReturningUser
-        self.isAccessTokenValid = isAccessTokenValid
         self.validTokensForRefreshExchange = validTokensForRefreshExchange
         self.tokenProvider = tokenProvider
         self.sessionState = sessionState
@@ -73,7 +71,12 @@ final class MockSessionManager: SessionManager {
         }
     }
     
-    func saveLoginTokens(tokenResponse: TokenResponse, idToken: String?) throws {
+    func saveLoginTokens(
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) throws {
         defer {
             didCallSaveLoginTokens = true
         }
@@ -82,7 +85,10 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func resumeSession(tokenExchangeManager: TokenExchangeManaging) throws {
+    func resumeSession(
+        tokenExchangeManager: TokenExchangeManaging,
+        appIntegrityProvider: AppIntegrityProvider
+    ) throws {
         defer {
             didCallResumeSession = true
         }
@@ -120,7 +126,7 @@ final class MockSessionManager: SessionManager {
     
     func setupSession(returningUser: Bool = true, expired: Bool = false) throws {
         let tokenResponse = try MockTokenResponse().getJSONData(outdated: expired)
-        tokenProvider.update(subjectToken: tokenResponse.accessToken)
+        tokenProvider.update(accessToken: tokenResponse.accessToken, accessTokenExpiry: Date())
 
         user.send(MockUser())
         isReturningUser = returningUser

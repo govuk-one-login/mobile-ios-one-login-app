@@ -9,19 +9,47 @@ enum TokenError: Error {
 }
 
 final class TokenHolder {
-    let client: NetworkClient
-    private(set) var subjectToken: String?
-
+    private let client: NetworkClient
+    
+    private(set) var idToken: String?
+    private(set) var refreshToken: String?
+    private(set) var accessToken: String?
+    private(set) var accessTokenExpiry: Date?
+    
+    var isAccessTokenValid: Bool {
+        guard let accessTokenExpiry else {
+            return false
+        }
+        
+        return accessTokenExpiry.withFifteenSecondBuffer > .now
+    }
+    
     init(client: NetworkClient = NetworkClient()) {
         self.client = client
     }
 
-    func update(subjectToken: String) {
-        self.subjectToken = subjectToken
+    func update(
+        idToken: String? = nil,
+        refreshToken: String? = nil,
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) {
+        self.idToken = idToken
+        self.refreshToken = refreshToken
+        self.accessToken = accessToken
+        self.accessTokenExpiry = accessTokenExpiry
     }
 
     func clear() {
-        subjectToken = nil
+        idToken = nil
+        refreshToken = nil
+        accessToken = nil
+        accessTokenExpiry = nil
+    }
+    
+    func clearAfterLogin() {
+        idToken = nil
+        refreshToken = nil
     }
 }
 
@@ -31,13 +59,13 @@ extension TokenHolder: AuthorizationProvider {
     }
 
     private func exchangeToken(scope: String) async throws -> TokenResponse {
-        guard let subjectToken else {
+        guard let accessToken else {
             throw TokenError.bearerNotPresent
         }
         
         let serviceTokenResponse = try await client.makeRequest(
             .serviceTokenExchange(
-                subjectToken: subjectToken,
+                subjectToken: accessToken,
                 scope: scope
             )
         )

@@ -16,7 +16,7 @@ final class HomeCoordinatorTests: XCTestCase {
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
         sut = HomeCoordinator(analyticsService: mockAnalyticsService,
-                              networkClient: mockNetworkClient)
+                              networkingService: mockNetworkClient)
     }
     
     override func tearDown() {

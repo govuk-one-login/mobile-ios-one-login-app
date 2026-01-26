@@ -169,7 +169,12 @@ final class DeveloperMenuViewController: BaseViewController {
         eyJhbGciOiJFUzI1NiIsInR5cCI6ImF0K0pXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.eyJpc3MiOiJodHRwczovL3Rva2VuLmJ1aWxkLmFjY291bnQuZ292LnVrIiwic3ViIjoiMDc5NGJmZWMtZjg0Yy00NzI2LWI5MzYtZDEyZTZhNDU2Y2I4IiwiYXVkIjoiaHR0cHM6Ly90b2tlbi5idWlsZC5hY2NvdW50Lmdvdi51ayIsIm5vbmNlIjoiXy1GN0RxZkVDUWR4QWR5eVdwLXV3VFFPcTRRcEM5TzFfamtkVFBuaVEyRSIsImlhdCI6MTcyNTAzMjcwMiwiZXhwIjoxNzI1MDM0NTAyfQ.bIfKSKu3HG5F50fTVw1FR9Xqxc5EjwCFZ3efj24mOaKH4kBDWfTI7rrJAXZi6158oU02xPU6gqNJOYzhXHYKDQ
         """
         // swiftlint:enable line_length
-        sessionManager.tokenProvider.update(subjectToken: expiredToken)
+        sessionManager.tokenProvider.update(
+            idToken: expiredToken,
+            refreshToken: expiredToken,
+            accessToken: expiredToken,
+            accessTokenExpiry: Date.distantPast
+        )
         UserDefaults.standard.set(Date.distantPast, forKey: OLString.accessTokenExpiry)
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
