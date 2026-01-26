@@ -208,6 +208,15 @@
       }
     },
     {
+      "identity" : "mobile-ios-utilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-utilities.git",
+      "state" : {
+        "branch" : "feat/dcmaw-18125-creat-gds-error",
+        "revision" : "ce678acaa83d4b0f676aee2af67fa6b73b593e5c"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
