@@ -18,7 +18,7 @@ jobs:
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # pin@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # pin@v4
         with:
           lfs: 'true'
           submodules: 'true'
@@ -43,7 +43,7 @@ jobs:
           ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.4.app
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@00943011d9042930efac3dcd3a170e4273319bc8 # pin@v5.1.0
+        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # pin@v5.1.1
         with:
           aws-region: eu-west-2
           role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}

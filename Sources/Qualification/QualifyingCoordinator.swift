@@ -39,17 +39,19 @@ final class QualifyingCoordinator: NSObject,
     lazy var unlockViewController = {
         let viewModel = UnlockScreenViewModel(analyticsService: analyticsService) { [unowned self] in
             Task {
-                await appQualifyingService.evaluateUser()
+                await appQualifyingService.evaluateUserSession()
             }
         }
         return UnlockScreenViewController(viewModel: viewModel)
     }()
     
-    init(appWindow: UIWindow,
-         appQualifyingService: QualifyingService,
-         analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager,
-         networkClient: NetworkClient) {
+    init(
+        appWindow: UIWindow,
+        appQualifyingService: QualifyingService,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        networkClient: NetworkClient
+    ) {
         self.appWindow = appWindow
         self.appQualifyingService = appQualifyingService
         self.analyticsService = analyticsService
@@ -87,17 +89,18 @@ final class QualifyingCoordinator: NSObject,
             )
             displayViewController(updateAppScreen)
         case .qualified:
-            // End loading state and enable button
-            unlockViewController.isLoading = false
+            return
         }
     }
     
-    func didChangeUserState(state userState: AppLocalAuthState) {
-        switch userState {
+    func didChangeSessionState(state sessionState: AppSessionState) {
+        switch sessionState {
         case .loggedIn:
             launchTabManagerCoordinator()
-        case .notLoggedIn, .expired, .userLogOut:
-            launchLoginCoordinator(userState: userState)
+        case .notLoggedIn, .expired, .userLogOut, .systemLogOut:
+            launchLoginCoordinator(sessionState: sessionState)
+        case .localAuthCancelled:
+            unlockViewController.isLoading = false
         case .failed(let error):
             let viewModel = RecoverableLoginErrorViewModel(
                 analyticsService: analyticsService,
@@ -111,7 +114,19 @@ final class QualifyingCoordinator: NSObject,
         }
     }
     
-    func launchLoginCoordinator(userState: AppLocalAuthState) {
+    func didChangeServiceState(state serviceState: RemoteServiceState) {
+        switch serviceState {
+        case .accountIntervention, .reauthenticationRequired:
+            launchLoginCoordinator(serviceState: serviceState)
+        case .activeService:
+            return
+        }
+    }
+    
+    func launchLoginCoordinator(
+        sessionState: AppSessionState? = nil,
+        serviceState: RemoteServiceState? = nil
+    ) {
         if let loginCoordinator {
             displayViewController(loginCoordinator.root)
         } else {
@@ -125,7 +140,8 @@ final class QualifyingCoordinator: NSObject,
                     session: AppAuthSessionV2(window: appWindow),
                     analyticsService: analyticsService
                 ),
-                authState: userState
+                sessionState: sessionState,
+                serviceState: serviceState
             )
             displayChildCoordinator(loginCoordinator)
         }
@@ -142,7 +158,8 @@ extension QualifyingCoordinator {
                 root: OrientationLockingTabBarController(),
                 analyticsService: analyticsService,
                 networkClient: networkClient,
-                sessionManager: sessionManager)
+                sessionManager: sessionManager
+            )
             displayChildCoordinator(tabManagerCoordinator)
         }
     }
@@ -186,7 +203,7 @@ extension QualifyingCoordinator {
         Task {
             for await coordinator in updateStream.stream {
                 if let loginCoordinator = coordinator as? LoginCoordinator {
-                    loginCoordinator.promptForAnalyticsPermissions()
+                    loginCoordinator.loginCoordinatorDidDisplay()
                 } else if let tabCoordinator = coordinator as? TabManagerCoordinator,
                           let deeplink {
                     await tabCoordinator.handleUniversalLink(deeplink)

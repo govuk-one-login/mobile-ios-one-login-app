@@ -10,11 +10,13 @@ final class JWTVerifierTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        
+        MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
-        
         networkClient = NetworkClient(configuration: configuration)
         networkClient.authorizationProvider = MockAuthenticationProvider()
+        
         sut = JWTVerifier(networkClient: networkClient)
     }
 

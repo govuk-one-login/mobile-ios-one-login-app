@@ -10,6 +10,9 @@ final class MockSessionManager: SessionManager {
     var expiryDate: Date?
     var isEnrolling: Bool
     var isReturningUser: Bool
+    
+    var isAccessTokenValid: Bool
+    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)?
 
     var persistentID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
@@ -18,32 +21,38 @@ final class MockSessionManager: SessionManager {
 
     var didCallStartSession = false
     var didCallSaveSession = false
+    var didCallSaveLoginTokens = false
     var didCallResumeSession = false
     var didCallEndCurrentSession = false
     var didCallClearAllSessionData = false
     var didCallClearAppForLogin = false
 
     var errorFromStartSession: Error?
+    var errorFromSaveSession: Error?
+    var errorFromSaveLoginTokens: Error?
     var errorFromResumeSession: Error?
     var errorFromClearAllSessionData: Error?
     var errorFromClearAppForLogin: Error?
-    var errorFromSaveSession: Error?
 
     var localAuthentication: LocalAuthManaging = MockLocalAuthManager()
 
     init(expiryDate: Date? = nil,
          isEnrolling: Bool = false,
          isReturningUser: Bool = false,
+         isAccessTokenValid: Bool = false,
+         validTokensForRefreshExchange: (String, String)? = nil,
          sessionState: SessionState = .nonePresent,
          tokenProvider: TokenHolder = TokenHolder()) {
         self.expiryDate = expiryDate
         self.isEnrolling = isEnrolling
         self.isReturningUser = isReturningUser
+        self.isAccessTokenValid = isAccessTokenValid
+        self.validTokensForRefreshExchange = validTokensForRefreshExchange
         self.tokenProvider = tokenProvider
         self.sessionState = sessionState
     }
-
-    func startSession(
+    
+    func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) throws {
@@ -55,7 +64,7 @@ final class MockSessionManager: SessionManager {
         }
     }
 
-    func saveSession() throws {
+    func saveAuthSession() throws {
         defer {
             didCallSaveSession = true
         }
@@ -63,8 +72,17 @@ final class MockSessionManager: SessionManager {
             throw errorFromSaveSession
         }
     }
+    
+    func saveLoginTokens(tokenResponse: TokenResponse, idToken: String?) throws {
+        defer {
+            didCallSaveLoginTokens = true
+        }
+        if let errorFromSaveLoginTokens {
+            throw errorFromSaveLoginTokens
+        }
+    }
 
-    func resumeSession() throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) throws {
         defer {
             didCallResumeSession = true
         }
@@ -77,14 +95,14 @@ final class MockSessionManager: SessionManager {
         didCallEndCurrentSession = true
     }
     
-    func clearAllSessionData(restartLoginFlow: Bool) async throws {
+    func clearAllSessionData(presentSystemLogOut: Bool = true) throws {
         defer {
             didCallClearAllSessionData = true
         }
         if let errorFromClearAllSessionData {
             throw errorFromClearAllSessionData
         }
-        if restartLoginFlow {
+        if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         } else {
             NotificationCenter.default.post(name: .userDidLogout)

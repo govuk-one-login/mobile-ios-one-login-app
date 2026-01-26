@@ -22,7 +22,9 @@ final class LoginCoordinator: NSObject,
     private let networkMonitor: NetworkMonitoring
     private let authService: AuthenticationService
     
-    private var authState: AppLocalAuthState
+    private var sessionState: AppSessionState?
+    private var serviceState: RemoteServiceState?
+
     private var serverErrorCounter = 0
     
     private var loginTask: Task<Void, Never>? {
@@ -31,20 +33,24 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    init(appWindow: UIWindow,
-         root: UINavigationController,
-         analyticsService: OneLoginAnalyticsService,
-         sessionManager: SessionManager,
-         networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
-         authService: AuthenticationService,
-         authState: AppLocalAuthState) {
+    init(
+        appWindow: UIWindow,
+        root: UINavigationController,
+        analyticsService: OneLoginAnalyticsService,
+        sessionManager: SessionManager,
+        networkMonitor: NetworkMonitoring = NetworkMonitor.shared,
+        authService: AuthenticationService,
+        sessionState: AppSessionState?,
+        serviceState: RemoteServiceState?
+    ) {
         self.appWindow = appWindow
         self.root = root
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkMonitor = networkMonitor
         self.authService = authService
-        self.authState = authState
+        self.sessionState = sessionState
+        self.serviceState = serviceState
     }
     
     deinit {
@@ -54,7 +60,7 @@ final class LoginCoordinator: NSObject,
     func start() {
         let rootViewController: UIViewController
         
-        if authState == .expired {
+        if sessionState == .expired || serviceState == .accountIntervention || serviceState == .reauthenticationRequired {
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
@@ -82,67 +88,20 @@ final class LoginCoordinator: NSObject,
         launchAuthenticationService()
     }
     
-    // swiftlint:disable:next function_body_length
     func launchAuthenticationService() {
         loginTask = Task {
             do {
                 try await triggerAuthFlow()
-            } catch PersistentSessionError.sessionMismatch {
-                showDataDeletedWarningScreen()
-            } catch PersistentSessionError.cannotDeleteData(let error) {
-                showRecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
-                showDataDeletedWarningScreen()
-            } catch let error as LoginErrorV2 where error.reason == .userCancelled {
-                enableAuthButton()
-            } catch let error as LoginErrorV2 where error.reason == .network {
-                showNetworkConnectionErrorScreen { [unowned self] in
-                    returnFromErrorScreen()
-                }
-            } catch let error as LoginErrorV2 where error.reason == .authorizationInvalidRequest,
-                    let error as LoginErrorV2 where error.reason == .authorizationUnauthorizedClient,
-                    let error as LoginErrorV2 where error.reason == .authorizationUnsupportedResponseType,
-                    let error as LoginErrorV2 where error.reason == .authorizationInvalidScope,
-                    let error as LoginErrorV2 where error.reason == .authorizationTemporarilyUnavailable,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidRequest,
-                    let error as LoginErrorV2 where error.reason == .tokenUnauthorizedClient,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidScope,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidClient,
-                    let error as LoginErrorV2 where error.reason == .tokenInvalidGrant,
-                    let error as LoginErrorV2 where error.reason == .tokenUnsupportedGrantType,
-                    let error as LoginErrorV2 where error.reason == .tokenClientError {
-                showUnrecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationUnknownError,
-                    let error as LoginErrorV2 where error.reason == .tokenUnknownError,
-                    let error as LoginErrorV2 where error.reason == .safariOpenError {
-                showRecoverableErrorScreen(error)
-            } catch let error as LoginErrorV2 where error.reason == .authorizationServerError,
-                    let error as LoginErrorV2 where error.reason == .generalServerError {
-                self.serverErrorCounter += 1
-                if serverErrorCounter < 3 {
-                    showRecoverableErrorScreen(error)
-                } else {
-                    showUnrecoverableErrorScreen(error)
-                }
+            } catch let error as PersistentSessionError {
+                handlePersistentSessionError(error)
+            } catch let error as LoginErrorV2 {
+                handleLoginV2Error(error)
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
-            } catch let error as FirebaseAppCheckError where error.errorType == .network {
-                showNetworkConnectionErrorScreen { [unowned self] in
-                    returnFromErrorScreen()
-                }
-            } catch let error as FirebaseAppCheckError where error.errorType == .unknown,
-                    let error as FirebaseAppCheckError where error.errorType == .generic {
-                showRecoverableErrorScreen(error)
-            } catch let error as ClientAssertionError where error.errorType == .invalidToken,
-                    let error as ClientAssertionError where error.errorType == .serverError,
-                    let error as ClientAssertionError where error.errorType == .cantDecodeClientAssertion {
-                showRecoverableErrorScreen(error)
-            } catch let error as FirebaseAppCheckError where error.errorType == .notSupported,
-                    let error as FirebaseAppCheckError where error.errorType == .keychainAccess,
-                    let error as FirebaseAppCheckError where error.errorType == .invalidConfiguration {
-                showUnrecoverableErrorScreen(error)
-            } catch let error as ClientAssertionError where error.errorType == .invalidPublicKey {
-                showUnrecoverableErrorScreen(error)
+            } catch let error as FirebaseAppCheckError {
+                handleFirebaseAppCheckError(error)
+            } catch let error as ClientAssertionError {
+                handleClientAssertionError(error)
             } catch let error as ProofOfPossessionError {
                 showUnrecoverableErrorScreen(error)
             } catch {
@@ -175,12 +134,16 @@ final class LoginCoordinator: NSObject,
         }
     }
     
-    func promptForAnalyticsPermissions() {
+    func loginCoordinatorDidDisplay() {
         guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
               root.topViewController is IntroViewController else {
             return
         }
-        if authState == .userLogOut {
+        switch (sessionState, serviceState) {
+        case (.notLoggedIn, _):
+            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
+                                                   urlOpener: UIApplication.shared))
+        case (.userLogOut, _):
             let viewModel = SignOutSuccessfulViewModel { [unowned self] in
                 root.dismiss(animated: true) { [unowned self] in
                     openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
@@ -190,9 +153,24 @@ final class LoginCoordinator: NSObject,
             let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
-        } else {
-            openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
-                                                   urlOpener: UIApplication.shared))
+        case (.systemLogOut, _):
+            let viewModel = DataDeletedWarningViewModel { [unowned self] in
+                root.dismiss(animated: true) { [unowned self] in
+                    openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
+                                                           urlOpener: UIApplication.shared))
+                }
+            }
+            let signOutSuccessful = GDSErrorScreen(viewModel: viewModel)
+            signOutSuccessful.modalPresentationStyle = .overFullScreen
+            root.present(signOutSuccessful, animated: false)
+        case (_, .accountIntervention):
+            serviceState = .accountIntervention
+            start()
+        case (_, .reauthenticationRequired):
+            serviceState = .reauthenticationRequired
+            start()
+        case (_, _):
+            return
         }
     }
     
@@ -204,11 +182,93 @@ final class LoginCoordinator: NSObject,
 }
 
 extension LoginCoordinator {
+    private func handleLoginV2Error(_ error: LoginErrorV2) {
+        switch error.reason {
+        case .authorizationAccessDenied:
+            showDataDeletedWarningScreen()
+        case .userCancelled:
+            enableAuthButton()
+        case .network:
+            showNetworkConnectionErrorScreen { [unowned self] in
+                returnFromErrorScreen()
+            }
+        case .authorizationInvalidRequest,
+                .authorizationUnauthorizedClient,
+                .authorizationUnsupportedResponseType,
+                .authorizationInvalidScope,
+                .authorizationTemporarilyUnavailable,
+                .tokenInvalidRequest,
+                .tokenUnauthorizedClient,
+                .tokenInvalidScope,
+                .tokenInvalidClient,
+                .tokenInvalidGrant,
+                .tokenUnsupportedGrantType,
+                .tokenClientError:
+            showUnrecoverableErrorScreen(error)
+        case .authorizationUnknownError,
+                .tokenUnknownError,
+                .safariOpenError:
+            showRecoverableErrorScreen(error)
+        case .authorizationServerError,
+                .generalServerError:
+            self.serverErrorCounter += 1
+            if serverErrorCounter < 3 {
+                showRecoverableErrorScreen(error)
+            } else {
+                showUnrecoverableErrorScreen(error)
+            }
+        case .invalidRedirectURL,
+                .programCancelled,
+                .authorizationClientError,
+                .generic:
+            showGenericErrorScreen(error)
+        }
+    }
+    
+    private func handlePersistentSessionError(_ error: PersistentSessionError) {
+        switch error {
+        case .sessionMismatch:
+            showDataDeletedWarningScreen()
+        case .cannotDeleteData(let error):
+            showRecoverableErrorScreen(error)
+        case .userRemovedLocalAuth,
+                .noSessionExists,
+                .idTokenNotStored:
+            showGenericErrorScreen(error)
+        }
+    }
+    
+    private func handleFirebaseAppCheckError(_ error: FirebaseAppCheckError) {
+        switch error.errorType {
+        case .network:
+            showNetworkConnectionErrorScreen { [unowned self] in
+                returnFromErrorScreen()
+            }
+        case .unknown, .generic:
+            showRecoverableErrorScreen(error)
+        case .invalidConfiguration,
+                .keychainAccess,
+                .notSupported:
+            showUnrecoverableErrorScreen(error)
+        }
+    }
+    
+    private func handleClientAssertionError(_ error: ClientAssertionError) {
+        switch error.errorType {
+        case .invalidPublicKey:
+            showUnrecoverableErrorScreen(error)
+        case .invalidToken,
+                .serverError,
+                .cantDecodeClientAssertion:
+            showRecoverableErrorScreen(error)
+        }
+    }
+    
     private func showDataDeletedWarningScreen() {
         let viewModel = DataDeletedWarningViewModel { [unowned self] in
-            authState = .notLoggedIn
+            sessionState = .notLoggedIn
             start()
-            promptForAnalyticsPermissions()
+            loginCoordinatorDidDisplay()
         }
         let vc = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)

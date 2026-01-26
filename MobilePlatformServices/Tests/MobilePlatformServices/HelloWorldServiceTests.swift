@@ -14,6 +14,7 @@ final class HelloWorldServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+        MockURLProtocol.clear()
         configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         client = NetworkClient(configuration: configuration)
