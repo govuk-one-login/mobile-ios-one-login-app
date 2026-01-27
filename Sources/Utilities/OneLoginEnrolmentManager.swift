@@ -62,7 +62,6 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
         if !isWalletEnrolment {
             NotificationCenter.default.post(name: .enrolmentComplete)
         }
-        sessionManager.tokenProvider.clearAfterLogin()
         completion?()
         coordinator?.finish()
     }
