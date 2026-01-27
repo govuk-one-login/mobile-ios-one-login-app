@@ -46,11 +46,6 @@ final class TokenHolder {
         accessToken = nil
         accessTokenExpiry = nil
     }
-    
-    func clearAfterLogin() {
-        idToken = nil
-        refreshToken = nil
-    }
 }
 
 extension TokenHolder: AuthorizationProvider {
