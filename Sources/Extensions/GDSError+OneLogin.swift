@@ -1,37 +1,44 @@
 import GDSUtilities
 
-extension ErrorKind {
-    public enum OneLogin: String, AnyErrorKind {
-        case accountIntervention = "User has an account intervention in place"
-    }
+enum OneLoginErrorKind: String, GDSErrorKind {
+    case accountIntervention = "User has an account intervention in place"
 }
 
-public typealias OneLoginError = GDSError<ErrorKind.OneLogin>
+typealias OneLoginError = OneLoginGDSError<OneLoginErrorKind>
 
-extension OneLoginError where Kind == ErrorKind.OneLogin {
-    public init(
-        _ kind: ErrorKind.OneLogin,
+struct OneLoginGDSError<Kind: GDSErrorKind>: GDSError {
+    let kind: Kind
+    let reason: String?
+    let endpoint: String?
+    let statusCode: Int?
+    let file: String
+    let function: String
+    let line: Int
+    let resolvable: Bool
+    let originalError: (any Error)?
+    let additionalParameters: [String: any Sendable]
+
+    init(
+        _ kind: Kind,
         reason: String? = nil,
         endpoint: String? = nil,
         statusCode: Int? = nil,
         file: String = #file,
         function: String = #function,
         line: Int = #line,
-        resolvable: Bool = true,
-        originalError: Error? = nil,
+        resolvable: Bool = false,
+        originalError: (any Error)? = nil,
         additionalParameters: [String: any Sendable] = [:]
     ) {
-        self.init(
-            kind: kind,
-            reason: reason,
-            endpoint: endpoint,
-            statusCode: statusCode,
-            file: file,
-            function: function,
-            line: line,
-            resolvable: resolvable,
-            originalError: originalError,
-            additionalParameters: additionalParameters
-        )
+        self.kind = kind
+        self.reason = reason
+        self.endpoint = endpoint
+        self.statusCode = statusCode
+        self.file = file
+        self.function = function
+        self.line = line
+        self.resolvable = resolvable
+        self.originalError = originalError
+        self.additionalParameters = additionalParameters
     }
 }
