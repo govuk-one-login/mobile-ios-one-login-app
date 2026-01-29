@@ -12,7 +12,7 @@ on:
 jobs:
   deploy_app:
     name: ${{ inputs.configuration }}
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
