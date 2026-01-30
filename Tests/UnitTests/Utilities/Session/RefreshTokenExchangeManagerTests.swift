@@ -1,5 +1,6 @@
 import AppIntegrity
 import Foundation
+import GDSUtilities
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
@@ -131,7 +132,8 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
-        } catch let error as ServerError where error.errorCode == 400 {
+        } catch let error as any GDSError {
+            #expect(error.kind.rawValue == OneLoginErrorKind.accountIntervention.rawValue)
             let received = await iterator.next()?.name == .accountIntervention
             if received == false {
                 Issue.record("Expected `.accountIntervention` notification to be posted")

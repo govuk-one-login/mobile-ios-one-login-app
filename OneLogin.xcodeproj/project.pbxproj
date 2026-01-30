@@ -443,7 +443,7 @@
 		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
 		C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */; };
 		C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989872ED9C16200C9B534 /* RemoteServiceState.swift */; };
-		C899898A2ED9C24F00C9B534 /* OneLoginNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */; };
+		C899898A2ED9C24F00C9B534 /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989892ED9C24F00C9B534 /* NetworkingService.swift */; };
 		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
 		C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA82AFBD0CC00FCBD36 /* GAnalytics */; };
 		C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CAA2AFBD0CC00FCBD36 /* HTTPLogging */; };
@@ -1023,7 +1023,7 @@
 		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
 		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
 		C89989872ED9C16200C9B534 /* RemoteServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteServiceState.swift; sourceTree = "<group>"; };
-		C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginNetworkClient.swift; sourceTree = "<group>"; };
+		C89989892ED9C24F00C9B534 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		C8A842292DCBCD31002E73C2 /* OneLoginReleaseAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginReleaseAppEnvironmentTests.swift; sourceTree = "<group>"; };
 		C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEnvironment+InternalTypes.swift"; sourceTree = "<group>"; };
 		C8A94C4C2D07558100303578 /* MockLoginSessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginSessionConfiguration.swift; sourceTree = "<group>"; };
@@ -1493,7 +1493,7 @@
 			isa = PBXGroup;
 			children = (
 				C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */,
-				C89989892ED9C24F00C9B534 /* OneLoginNetworkClient.swift */,
+				C89989892ED9C24F00C9B534 /* NetworkingService.swift */,
 				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
 			);
 			path = Service;
@@ -3333,7 +3333,7 @@
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
 				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
-				C899898A2ED9C24F00C9B534 /* OneLoginNetworkClient.swift in Sources */,
+				C899898A2ED9C24F00C9B534 /* NetworkingService.swift in Sources */,
 				C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */,
 				C8BACAFF2B4DE1C300530419 /* Flag.swift in Sources */,
 				C8BACAFD2B4DD93C00530419 /* FlagManager.swift in Sources */,

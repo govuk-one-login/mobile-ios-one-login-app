@@ -1,5 +1,6 @@
 import AppIntegrity
 import Foundation
+import GDSUtilities
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
@@ -101,8 +102,8 @@ struct NetworkingSerivceTests {
         do {
             _ = try await sut.makeAuthorizedRequest(scope: "", request: URLRequest(url: URL(string: "testurl.com")!))
             Issue.record("Expect 400 error, but no error thrown")
-        } catch {
-            #expect((error as? ServerError)?.errorCode == 400)
+        } catch let error as any GDSError {
+            #expect(error.kind.rawValue == OneLoginErrorKind.accountIntervention.rawValue)
             let received = await iterator.next()?.name == .accountIntervention
             #expect(received == true)
         }
