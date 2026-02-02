@@ -212,7 +212,7 @@ extension AppQualifyingServiceTests {
     func test_resumeSession_userCancelledBiometrics_error() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreError(.biometricsCancelled)
+        sessionManager.errorFromResumeSession = SecureStoreError(.userCancelled)
         sut.delegate = self
         sut.initiate()
         
@@ -251,11 +251,11 @@ extension AppQualifyingServiceTests {
 
         let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreError)
         XCTAssert(error.kind == .unableToRetrieveFromUserDefaults)
-        XCTAssert(sessionManager.didCallClearAllSessionData)
-        XCTAssert(self.sessionState == .systemLogOut)
+        XCTAssertFalse(sessionManager.didCallClearAllSessionData)
+        XCTAssert(self.sessionState == .localAuthCancelled)
     }
     
-    func test_resumeSession_nonCantDecryptData_error_clearSessionData_error() {
+    func test_resumeSession_nonCantDecryptData_error_keepsSessionData() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreError(.unableToRetrieveFromUserDefaults)
@@ -268,7 +268,7 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
         
-        XCTAssert(self.sessionState == .failed(MockWalletError.cantDelete))
+        XCTAssertFalse(self.sessionState == .failed(MockWalletError.cantDelete))
     }
     
     func test_resumeSession_noPersistentSessionError_clearSessionDaat() {
