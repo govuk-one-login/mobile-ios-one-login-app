@@ -24,7 +24,7 @@ final class SecureAttestationStore: AttestationStorage {
     
     var attestationJWT: String {
         get throws {
-            try secureStore.readItem(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
+            try secureStore.readItemV2(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
         }
     }
     
@@ -43,7 +43,7 @@ final class SecureAttestationStore: AttestationStorage {
         clientAttestation: String,
         attestationExpiry: Date
     ) throws {
-        try secureStore.saveItem(
+        try secureStore.saveItemV2(
             item: clientAttestation,
             itemName: AttestationStorageKey.clientAttestationJWT.rawValue
         )

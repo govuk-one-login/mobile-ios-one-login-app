@@ -128,7 +128,7 @@ final class PersistentSessionManager: SessionManager {
     
     var persistentID: String? {
         guard let persistenID = try? encryptedStore
-            .readItem(itemName: OLString.persistentSessionID),
+            .readItemV2(itemName: OLString.persistentSessionID),
               !persistenID.isEmpty else { return nil }
         return persistenID
     }
@@ -198,7 +198,7 @@ final class PersistentSessionManager: SessionManager {
     
     func saveAuthSession() throws {
         if let persistentID = user.value?.persistentID {
-            try encryptedStore.saveItem(
+            try encryptedStore.saveItemV2(
                 item: persistentID,
                 itemName: OLString.persistentSessionID
             )

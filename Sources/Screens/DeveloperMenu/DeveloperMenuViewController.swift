@@ -193,7 +193,7 @@ final class DeveloperMenuViewController: BaseViewController {
             accessControlLevel: .open
         )
         let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
-        try? encyrptedStore.saveItem(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
+        try? encyrptedStore.saveItemV2(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
         expireRefreshTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

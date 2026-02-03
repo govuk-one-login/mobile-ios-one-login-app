@@ -18,6 +18,25 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         return false
     }
     
+    func saveItemV2(item: String, itemName: String) throws {
+        if let errorFromSaveItem {
+            throw errorFromSaveItem
+        } else {
+            savedItems[itemName] = item
+        }
+    }
+    
+    func readItemV2(itemName: String) throws -> String {
+        if let errorFromReadItem {
+            throw errorFromReadItem
+        } else {
+            guard let savedItem = savedItems[itemName] else {
+                throw SecureStoreError(.unableToRetrieveFromUserDefaults)
+            }
+            return savedItem
+        }
+    }
+    
     func saveItem(item: String, itemName: String) throws {
         if let errorFromSaveItem {
             throw errorFromSaveItem

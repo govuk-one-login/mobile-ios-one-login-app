@@ -121,21 +121,21 @@ final class AppQualifyingService: QualifyingService {
                 appInfoState = .offline
             } catch let error as ServerError where error.errorCode == 400 {
                 return
-            } catch let error as SecureStoreError where
+            } catch let error as SecureStoreErrorV2 where
                         error.kind == .noLocalAuthEnrolled {
                 analyticsService.logCrash(error)
                 
                 // DataDeletedWarningViewModel displayed
                 // Users data is deleted and they will need to log in
                 sessionState = .systemLogOut
-            } catch let error as SecureStoreError where
+            } catch let error as SecureStoreErrorV2 where
                         error.kind == .unrecoverable {
                 analyticsService.logCrash(error)
                 
                 // SignOutWarningViewModel displayed
                 // User will need to reauthenticate
                 sessionState = .expired
-            } catch let error as SecureStoreError {
+            } catch let error as SecureStoreErrorV2 {
                 analyticsService.logCrash(error)
                 
                 // For SecureStoreError `.recoverable`, `.userCancelled` and any other SecureStoreError

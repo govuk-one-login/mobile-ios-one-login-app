@@ -5211,7 +5211,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
-				branch = "feat/stragetic-fix-for-secure-store-errors";
+				branch = "feat/dcmaw-17510-non-breaking-secure-store-update";
 				kind = branch;
 			};
 		};
