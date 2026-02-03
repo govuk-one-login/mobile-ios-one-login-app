@@ -62,7 +62,7 @@ extension SecureStorable {
     ) throws -> Date {
         let dateString = try readItemV2(itemName: id)
         guard let dateDouble = Double(dateString) else {
-            throw SecureStoreError(.cantDecodeData)
+            throw SecureStoreErrorV2(.cantDecodeData)
         }
         return Date(timeIntervalSince1970: dateDouble)
     }

@@ -50,7 +50,7 @@ struct SecureAttestationStoreTests: ~Copyable {
     
     @Test
     func nonDateErrorEExpiredAttestation() throws {
-        try mockSecureStore.saveItem(
+        try mockSecureStore.saveItemV2(
             item: "nonDateString",
             itemName: AttestationStorageKey.attestationExpiry.rawValue
         )
