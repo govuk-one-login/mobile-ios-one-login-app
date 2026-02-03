@@ -20,9 +20,9 @@ public protocol TokenStore {
 }
 
 final class SecureTokenStore: TokenStore {
-    private let accessControlEncryptedStore: SecureStorable
+    private let accessControlEncryptedStore: SecureStorableV2
     
-    init(accessControlEncryptedStore: SecureStorable) {
+    init(accessControlEncryptedStore: SecureStorableV2) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
@@ -31,7 +31,7 @@ final class SecureTokenStore: TokenStore {
     }
     
     func fetch() throws -> StoredTokens {
-        let storedTokens = try accessControlEncryptedStore.readItemV2(itemName: OLString.storedTokens)
+        let storedTokens = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
         guard let tokensAsData = Data(base64Encoded: storedTokens) else {
             throw StoredTokenError.unableToDecodeTokens
         }
@@ -44,7 +44,7 @@ final class SecureTokenStore: TokenStore {
         jsonEncoder.outputFormatting = .sortedKeys
         let tokensAsData = try jsonEncoder.encode(tokens)
         let encodedTokens = tokensAsData.base64EncodedString()
-        try accessControlEncryptedStore.saveItemV2(
+        try accessControlEncryptedStore.saveItem(
             item: encodedTokens,
             itemName: OLString.storedTokens
         )

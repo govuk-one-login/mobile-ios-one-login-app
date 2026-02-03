@@ -3,24 +3,24 @@ import SecureStore
 import Testing
 
 struct SecureStoreServiceTests: ~Copyable {
-    var sut: SecureStoreService!
+    var sut: SecureStoreServiceV2!
     
     init() throws {
         let config = SecureStorageConfiguration(
             id: "testConfig",
             accessControlLevel: .open
         )
-        sut = SecureStoreService(configuration: config)
+        sut = SecureStoreServiceV2(configuration: config)
         
-        try sut.saveItemV2(
+        try sut.saveItem(
             item: "testRefreshTokenExpiry",
             itemName: OLString.refreshTokenExpiry
         )
-        try sut.saveItemV2(
+        try sut.saveItem(
             item: "testPersistentSessionID",
             itemName: OLString.persistentSessionID
         )
-        try sut.saveItemV2(
+        try sut.saveItem(
             item: "testStoredTokens",
             itemName: OLString.storedTokens
         )
@@ -32,18 +32,18 @@ struct SecureStoreServiceTests: ~Copyable {
 
     @Test("Clear session data deletes the refresh token, persistentSessionID and tokens")
     func delete() throws {
-        #expect(try sut.readItemV2(itemName: OLString.refreshTokenExpiry) == "testRefreshTokenExpiry")
-        #expect(try sut.readItemV2(itemName: OLString.persistentSessionID) == "testPersistentSessionID")
-        #expect(try sut.readItemV2(itemName: OLString.storedTokens) == "testStoredTokens")
+        #expect(try sut.readItem(itemName: OLString.refreshTokenExpiry) == "testRefreshTokenExpiry")
+        #expect(try sut.readItem(itemName: OLString.persistentSessionID) == "testPersistentSessionID")
+        #expect(try sut.readItem(itemName: OLString.storedTokens) == "testStoredTokens")
         sut.clearSessionData()
         #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
-            try sut.readItemV2(itemName: OLString.refreshTokenExpiry)
+            try sut.readItem(itemName: OLString.refreshTokenExpiry)
         }
         #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
-            try sut.readItemV2(itemName: OLString.persistentSessionID)
+            try sut.readItem(itemName: OLString.persistentSessionID)
         }
         #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
-            try sut.readItemV2(itemName: OLString.storedTokens)
+            try sut.readItem(itemName: OLString.storedTokens)
         }
     }
 }

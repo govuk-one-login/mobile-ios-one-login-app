@@ -69,7 +69,7 @@ extension PersistentSessionManagerTests {
     func test_sessionExpiryDate_refreshToken() throws {
         // GIVEN the encrypted store contains a refresh token expiry date
         let date = Date.distantFuture
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: date.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -80,7 +80,7 @@ extension PersistentSessionManagerTests {
     func test_sessionExpiryDate_bothTokensSet() throws {
         // GIVEN the encrypted store contains a refresh token expiry date
         let refreshTokenExpiryDate = Date.distantFuture
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: refreshTokenExpiryDate.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -109,7 +109,7 @@ extension PersistentSessionManagerTests {
     
     func test_sessionIsValid_refreshToken_notExpired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the future
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: Date.distantFuture.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -132,7 +132,7 @@ extension PersistentSessionManagerTests {
     
     func test_sessionIsInvalid_refreshToken_Expired() throws {
         // GIVEN the unprotected store contains a refresh token expiry date in the past
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: Date.distantPast.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -154,7 +154,7 @@ extension PersistentSessionManagerTests {
     
     func test_returnTokensIfValid() throws {
         // GIVEN the unprotected store contains an access token expiry date in the future
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: Date.distantFuture.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -165,7 +165,7 @@ extension PersistentSessionManagerTests {
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
@@ -177,7 +177,7 @@ extension PersistentSessionManagerTests {
     
     func test_returnTokensIfValid_expired() throws {
         // GIVEN the unprotected store contains an access token expiry date in the past
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: Date.distantPast.timeIntervalSince1970.description,
             itemName: OLString.refreshTokenExpiry
         )
@@ -188,7 +188,7 @@ extension PersistentSessionManagerTests {
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
@@ -206,7 +206,7 @@ extension PersistentSessionManagerTests {
     }
     
     func test_persistentID() throws {
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: "123456789",
             itemName: OLString.persistentSessionID
         )
@@ -218,7 +218,7 @@ extension PersistentSessionManagerTests {
     }
     
     func test_persistentID_empty() throws {
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: "",
             itemName: OLString.persistentSessionID
         )
@@ -405,7 +405,7 @@ extension PersistentSessionManagerTests {
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: persistentSessionID,
             itemName: OLString.persistentSessionID
         )
@@ -448,7 +448,7 @@ extension PersistentSessionManagerTests {
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: "storedTokens",
             itemName: OLString.storedTokens
         )
@@ -546,7 +546,7 @@ extension PersistentSessionManagerTests {
             accessToken: "accessToken"
         )
         
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: tokens,
             itemName: OLString.storedTokens
         )
@@ -650,7 +650,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND my refresh token expiry date is saved
-        XCTAssertEqual(try mockEncryptedStore.readItemV2(itemName: OLString.refreshTokenExpiry), "1719397758.0")
+        XCTAssertEqual(try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry), "1719397758.0")
         
         // AND my tokens are saved
         let tokens = encodeKeys(
@@ -658,7 +658,7 @@ extension PersistentSessionManagerTests {
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
-        XCTAssertEqual(try mockAccessControlEncryptedStore.readItemV2(itemName: OLString.storedTokens), tokens)
+        XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens), tokens)
        
         // AND the token provider access token is updated
         XCTAssertEqual(sut.tokenProvider.accessToken, MockJWTs.genericToken)
@@ -674,7 +674,7 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         
         // AND I have a persistentSessionID saved in secure store
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: UUID().uuidString,
             itemName: OLString.persistentSessionID
         )
@@ -685,7 +685,7 @@ extension PersistentSessionManagerTests {
             refreshToken: nil,
             accessToken: MockJWTs.genericToken
         )
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
@@ -705,7 +705,7 @@ extension PersistentSessionManagerTests {
         
         // AND no refresh token expiry date is saved
         do {
-            _ = try mockEncryptedStore.readItemV2(itemName: OLString.refreshTokenExpiry)
+            _ = try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry)
         } catch let error as SecureStoreErrorV2 {
             XCTAssertTrue(error.kind == .unableToRetrieveFromUserDefaults)
         }
@@ -743,7 +743,7 @@ extension PersistentSessionManagerTests {
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )
@@ -800,7 +800,7 @@ extension PersistentSessionManagerTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         
         // AND I have a persistentSessionID saved in secure store
-        try mockEncryptedStore.saveItemV2(
+        try mockEncryptedStore.saveItem(
             item: UUID().uuidString,
             itemName: OLString.persistentSessionID
         )
@@ -811,7 +811,7 @@ extension PersistentSessionManagerTests {
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
         )
-        try mockAccessControlEncryptedStore.saveItemV2(
+        try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
         )

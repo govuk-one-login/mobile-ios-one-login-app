@@ -150,7 +150,7 @@ final class DeveloperMenuViewController: BaseViewController {
             id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
-        let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
+        let encyrptedStore = SecureStoreServiceV2(configuration: encryptedConfiguration)
         encyrptedStore.deleteItem(itemName: OLString.persistentSessionID)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
@@ -192,8 +192,8 @@ final class DeveloperMenuViewController: BaseViewController {
             id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
-        let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
-        try? encyrptedStore.saveItemV2(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
+        let encyrptedStore = SecureStoreServiceV2(configuration: encryptedConfiguration)
+        try? encyrptedStore.saveItem(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
         expireRefreshTokenButton.backgroundColor = .gdsBrightPurple
     }
 }

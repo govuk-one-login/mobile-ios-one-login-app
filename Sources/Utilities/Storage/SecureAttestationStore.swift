@@ -12,7 +12,7 @@ enum AttestationStorageError: Error {
 }
 
 final class SecureAttestationStore: AttestationStorage {
-    private let secureStore: SecureStorable
+    private let secureStore: SecureStorableV2
     
     var attestationExpired: Bool {
         guard let expiryDate = try? secureStore
@@ -24,12 +24,12 @@ final class SecureAttestationStore: AttestationStorage {
     
     var attestationJWT: String {
         get throws {
-            try secureStore.readItemV2(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
+            try secureStore.readItem(itemName: AttestationStorageKey.clientAttestationJWT.rawValue)
         }
     }
     
     init(
-        secureStore: SecureStorable = SecureStoreService(
+        secureStore: SecureStorableV2 = SecureStoreServiceV2(
             configuration: SecureStorageConfiguration(
                 id: OLString.attestationStore,
                 accessControlLevel: .open
@@ -43,7 +43,7 @@ final class SecureAttestationStore: AttestationStorage {
         clientAttestation: String,
         attestationExpiry: Date
     ) throws {
-        try secureStore.saveItemV2(
+        try secureStore.saveItem(
             item: clientAttestation,
             itemName: AttestationStorageKey.clientAttestationJWT.rawValue
         )

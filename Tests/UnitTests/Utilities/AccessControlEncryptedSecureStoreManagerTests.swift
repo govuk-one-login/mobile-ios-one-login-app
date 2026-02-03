@@ -26,7 +26,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
 
     @Test("check that v12 store `itemExists` returns true when the item exists")
     func checkItemExistsInV12() throws {
-        try mockV12AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.storedTokens
         )
@@ -35,7 +35,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("check that v13 store `itemExists` returns true when the item exists")
     func checkItemExistsInV13() throws {
-        try mockV13AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV13AccessControlEncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.storedTokens
         )
@@ -44,11 +44,11 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("check data item is successfully migrated from v12 to v13")
     func saveItemToV13OverwritesV12() throws {
-        try mockV12AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens
         )
-        try sut.saveItemV2(item: "testItem")
+        try sut.saveItem(item: "testItem")
         
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
         #expect(mockMigrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13))
@@ -56,11 +56,11 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("read item migrates data to the v13 store if required")
     func readItemV12MigratesToV13() throws {
-        try mockV12AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens
         )
-        let item = try sut.readItemV2()
+        let item = try sut.readItem()
         
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
         #expect(item == "testItem")
@@ -68,11 +68,11 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("read item logs to crashlytics if a migration is required")
     func readItemV12LogsCrash() throws {
-        try mockV12AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens
         )
-        _ = try sut.readItemV2()
+        _ = try sut.readItem()
         
         #expect(mockAnalyticsService.crashesLogged.count == 1)
         #expect(mockAnalyticsService.crashesLogged.first == SecureStoreMigrationError.migratedFromV12ToV13 as NSError)
@@ -80,11 +80,11 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("read item returns the v13 value if no v12 value exists")
     func readItemV13() throws {
-        try mockV13AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV13AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens
         )
-        let item = try sut.readItemV2()
+        let item = try sut.readItem()
         
         #expect(item == "testItem")
         #expect(mockMigrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13))
@@ -96,11 +96,11 @@ struct AccessControlEncryptedSecureStoreManagerTests {
             true,
             forKey: OLString.migratedAccessControlEncryptedStoreToV13
         )
-        try mockV13AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV13AccessControlEncryptedSecureStore.saveItem(
             item: "testItem",
             itemName: OLString.storedTokens
         )
-        let item = try sut.readItemV2()
+        let item = try sut.readItem()
         
         #expect(item == "testItem")
     }
@@ -108,24 +108,24 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     @Test("throw error from read item if the value does not exist in either store")
     func readItemNeitherStore() throws {
         #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
-            try sut.readItemV2()
+            try sut.readItem()
         }
     }
     
     @Test("ensure items are deleted from both stores")
     func deleteItem() throws {
-        try mockV12AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.storedTokens
         )
-        try mockV13AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV13AccessControlEncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.storedTokens
         )
         sut.deleteItem()
         
         #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
-            try sut.readItemV2()
+            try sut.readItem()
         }
     }
     
@@ -139,18 +139,18 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("clearSessionData deletes items from both stores")
     func clearSessionData() throws {
-        try mockV12AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV12AccessControlEncryptedSecureStore.saveItem(
             item: "testV12Item",
             itemName: OLString.storedTokens
         )
-        try mockV13AccessControlEncryptedSecureStore.saveItemV2(
+        try mockV13AccessControlEncryptedSecureStore.saveItem(
             item: "testV13Item",
             itemName: OLString.storedTokens
         )
         sut.clearSessionData()
         
         #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
-            try sut.readItemV2()
+            try sut.readItem()
         }
     }
 }

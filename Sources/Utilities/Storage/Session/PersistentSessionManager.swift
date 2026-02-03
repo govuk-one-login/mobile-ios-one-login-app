@@ -8,8 +8,8 @@ import SecureStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedStore: SecureStorable
-    private let encryptedStore: SecureStorable
+    private let accessControlEncryptedStore: SecureStorableV2
+    private let encryptedStore: SecureStorableV2
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     
@@ -23,8 +23,8 @@ final class PersistentSessionManager: SessionManager {
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
     convenience init(
-        accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable
+        accessControlEncryptedStore: SecureStorableV2,
+        encryptedStore: SecureStorableV2
     ) {
         self.init(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -35,8 +35,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable,
+        accessControlEncryptedStore: SecureStorableV2,
+        encryptedStore: SecureStorableV2,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging
     ) {
@@ -128,7 +128,7 @@ final class PersistentSessionManager: SessionManager {
     
     var persistentID: String? {
         guard let persistenID = try? encryptedStore
-            .readItemV2(itemName: OLString.persistentSessionID),
+            .readItem(itemName: OLString.persistentSessionID),
               !persistenID.isEmpty else { return nil }
         return persistenID
     }
@@ -198,7 +198,7 @@ final class PersistentSessionManager: SessionManager {
     
     func saveAuthSession() throws {
         if let persistentID = user.value?.persistentID {
-            try encryptedStore.saveItemV2(
+            try encryptedStore.saveItem(
                 item: persistentID,
                 itemName: OLString.persistentSessionID
             )

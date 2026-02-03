@@ -23,7 +23,7 @@ final class SecureTokenStoreTests: XCTestCase {
 
 extension SecureTokenStoreTests {
     func test_hasLoginTokens() throws {
-        try mockAccessControlEncryptedSecureStoreMigrator.saveItemV2(
+        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(
             item: "storedTokens",
             itemName: OLString.storedTokens
         )
