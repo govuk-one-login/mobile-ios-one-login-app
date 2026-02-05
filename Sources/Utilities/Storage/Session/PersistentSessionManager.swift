@@ -6,6 +6,7 @@ import LocalAuthenticationWrapper
 import Logging
 import SecureStore
 
+// swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
     private let accessControlEncryptedStore: SecureStorable
     private let encryptedStore: SecureStorable
