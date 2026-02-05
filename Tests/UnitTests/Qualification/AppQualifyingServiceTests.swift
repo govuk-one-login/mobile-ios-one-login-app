@@ -212,7 +212,7 @@ extension AppQualifyingServiceTests {
     func test_resumeSession_userCancelledBiometrics_error() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreErrorV2(.userCancelled)
+        sessionManager.errorFromResumeSession = SecureStoreErrorV2(.appCancel)
         sut.delegate = self
         sut.initiate()
         

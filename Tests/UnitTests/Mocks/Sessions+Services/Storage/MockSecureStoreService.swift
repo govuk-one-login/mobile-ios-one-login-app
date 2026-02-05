@@ -7,7 +7,7 @@ final class MockSecureStoreService: SecureStorableV2, SessionBoundData {
     var didCallClearSessionData = false
     
     var errorFromSaveItem: Error?
-    var errorFromReadItem: Error?
+    var errorFromReadItem: SecureStoreErrorV2?
     var errorFromClearSessionData: Error?
     var returnFromCheckItemExists = true
     
@@ -26,7 +26,7 @@ final class MockSecureStoreService: SecureStorableV2, SessionBoundData {
         }
     }
     
-    func readItem(itemName: String) throws -> String {
+    func readItem(itemName: String) throws (SecureStoreErrorV2) -> String {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {

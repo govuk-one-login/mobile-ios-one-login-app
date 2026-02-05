@@ -122,24 +122,24 @@ final class AppQualifyingService: QualifyingService {
             } catch let error as ServerError where error.errorCode == 400 {
                 return
             } catch let error as SecureStoreErrorV2 where
-                        error.kind == .noLocalAuthEnrolled {
+                        error.kind == .passcodeNotSet {
                 analyticsService.logCrash(error)
                 
-                // DataDeletedWarningViewModel displayed
-                // Users data is deleted and they will need to log in
+                // This error is treated as unrecoverable
+                // Users' data is deleted and they will need to log in
                 sessionState = .systemLogOut
             } catch let error as SecureStoreErrorV2 where
-                        error.kind == .unrecoverable {
+                        error.kind == .cantDecryptData {
                 analyticsService.logCrash(error)
                 
-                // SignOutWarningViewModel displayed
-                // User will need to reauthenticate
+                // This error is treated as unrecoverable
+                // Users' data is not delete but they will need to reauthenticate
                 sessionState = .expired
             } catch let error as SecureStoreErrorV2 {
                 analyticsService.logCrash(error)
                 
-                // For SecureStoreError `.recoverable`, `.userCancelled` and any other SecureStoreError
-                // User will stay on unlock screen and can attempt local auth again
+                // All other SecureStoreErrors are treated as recoverable
+                // Users' will stay on unlock screen and can attempt local auth again
                 sessionState = .localAuthCancelled
             } catch {
                 // This will catch PersistentSessionErrors or any uncaught errors from RefreshTokenExchangeManager

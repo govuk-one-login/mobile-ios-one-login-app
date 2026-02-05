@@ -65,7 +65,7 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorableV2, Session
     
     func readItem(
         itemName: String = OLString.storedTokens
-    ) throws -> String {
+    ) throws (SecureStoreErrorV2) -> String {
         guard hasMigrated else {
             do {
                 let loginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)

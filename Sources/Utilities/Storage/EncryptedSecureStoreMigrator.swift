@@ -56,7 +56,7 @@ final class EncryptedSecureStoreMigrator: SecureStorableV2, SessionBoundData {
     
     func readItem(
         itemName: String
-    ) throws -> String {
+    ) throws (SecureStoreErrorV2) -> String {
         guard hasMigrated else {
             do {
                 let item = try v12EncryptedSecureStore.readItem(itemName: itemName)
