@@ -2,6 +2,7 @@ import AppIntegrity
 import Foundation
 import Logging
 import MobilePlatformServices
+import Networking
 import SecureStore
 
 protocol QualifyingService: AnyObject {
@@ -126,6 +127,8 @@ final class AppQualifyingService: QualifyingService {
                 sessionState = .localAuthCancelled
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline
+            } catch let error as ServerError where error.errorCode == 400 {
+                return
             } catch {
                 // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors from RefreshTokenExchangeManager
                 analyticsService.logCrash(error)

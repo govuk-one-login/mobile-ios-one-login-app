@@ -114,7 +114,15 @@ final class PersistentSessionManager: SessionManager {
     }
     
     var isReturningUser: Bool {
-        unprotectedStore.bool(forKey: OLString.returningUser)
+        get {
+            unprotectedStore.bool(forKey: OLString.returningUser)
+        }
+        set {
+            unprotectedStore.set(
+                newValue,
+                forKey: OLString.returningUser
+            )
+        }
     }
     
     var persistentID: String? {
@@ -204,10 +212,7 @@ final class PersistentSessionManager: SessionManager {
             accessTokenExpiry: tokenProvider.accessTokenExpiry
         )
         
-        unprotectedStore.set(
-            true,
-            forKey: OLString.returningUser
-        )
+        isReturningUser = true
     }
     
     func resumeSession(
