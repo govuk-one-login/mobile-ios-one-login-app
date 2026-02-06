@@ -716,8 +716,8 @@ extension LoginCoordinatorTests {
         mockAnalyticsService.analyticsPreferenceStore.hasAcceptedAnalytics = true
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
-        // THEN the OnboardingCoordinator should not be launched
-        XCTAssertEqual(sut.childCoordinators.count, 0)
+        // THEN the OnboardingCoordinator will be launched
+        XCTAssertEqual(sut.childCoordinators.count, 1)
     }
     
     @MainActor
