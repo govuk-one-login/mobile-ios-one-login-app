@@ -26,7 +26,7 @@ final class MockSecureStoreService: SecureStorableV2, SessionBoundData {
         }
     }
     
-    func readItem(itemName: String) throws (SecureStoreErrorV2) -> String {
+    func readItem(itemName: String) throws(SecureStoreErrorV2) -> String {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
