@@ -126,13 +126,13 @@ final class AppQualifyingService: QualifyingService {
                 analyticsService.logCrash(error)
                 
                 // This error is treated as unrecoverable
-                // Users' data is deleted and they will need to log in
+                // Users' data is deleted and they will need to log in and readd Wallet credentials
                 sessionState = .systemLogOut
             } catch let error as SecureStoreErrorV2 where
                         error.kind == .cantDecryptData {
                 analyticsService.logCrash(error)
                 
-                // This error is treated as unrecoverable
+                // This error is treated as recoverable
                 // Users' data is not delete but they will need to reauthenticate
                 sessionState = .expired
             } catch let error as SecureStoreErrorV2 {
