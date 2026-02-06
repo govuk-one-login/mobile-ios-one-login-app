@@ -65,11 +65,6 @@ final class LoginCoordinator: NSObject,
                 authenticate()
             }
             rootViewController = GDSInformationViewController(viewModel: viewModel)
-        } else if sessionState == .systemLogOut {
-            let viewModel = DataDeletedWarningViewModel { [unowned self] in
-                authenticate()
-            }
-            rootViewController = GDSErrorScreen(viewModel: viewModel)
         } else {
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
@@ -140,8 +135,7 @@ final class LoginCoordinator: NSObject,
     }
     
     func loginCoordinatorDidDisplay() {
-        guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
-              root.topViewController is IntroViewController else {
+        guard root.topViewController is IntroViewController else {
             return
         }
         switch (sessionState, serviceState) {
