@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "branch" : "feat/dcmaw-17510-non-breaking-secure-store-update",
-        "revision" : "cd8ccf27802fbc3de9fa67c6ee5f6c2887cb7a7d"
+        "revision" : "398a10c0592825d054acac5122177bb7c248f0c1",
+        "version" : "2.1.0"
       }
     },
     {
