@@ -706,8 +706,10 @@ extension PersistentSessionManagerTests {
         // AND no refresh token expiry date is saved
         do {
             _ = try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry)
-        } catch where error.kind.rawValue == SecureStoreErrorKind.unableToRetrieveFromUserDefaults.rawValue {
-            // Expected path
+        } catch {
+            if error.kind == .unableToRetrieveFromUserDefaults {
+                // Expected path
+            }
         }
     }
 
