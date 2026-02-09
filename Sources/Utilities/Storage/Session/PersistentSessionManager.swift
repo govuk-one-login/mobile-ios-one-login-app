@@ -102,6 +102,7 @@ final class PersistentSessionManager: SessionManager {
                 return nil
             }
             
+            // Displays local auth prompt to fetch tokens, this can throw SecureStoreErrors
             let storedTokens = try storeKeyService.fetch()
             
             guard let idToken = storedTokens.idToken,
@@ -222,6 +223,7 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.noSessionExists
         }
         
+        // Displays local auth prompt to fetch tokens, this can throw SecureStoreErrors
         let storedTokens = try storeKeyService.fetch()
         
         guard let idToken = storedTokens.idToken,

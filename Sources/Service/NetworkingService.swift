@@ -39,8 +39,8 @@ final class NetworkingService {
         request: URLRequest
     ) async throws -> Data {
         guard sessionManager.tokenProvider.isAccessTokenValid else {
+            // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
             if let tokens = try sessionManager.validTokensForRefreshExchange {
-                // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
                 try await performRefreshExchangeAndSaveTokens(
                     idToken: tokens.idToken,
                     refreshToken: tokens.refreshToken
@@ -75,8 +75,7 @@ extension NetworkingService {
                 request: request
             )
         } catch let error as ServerError where error.errorCode == 400 {
-            let error = handleServerError(error)
-            throw error
+            throw handleServerError(error)
         } catch {
             throw OneLoginError(
                 .requestFailed,
@@ -111,6 +110,11 @@ extension NetworkingService {
                 .requestFailed,
                 originalError: RefreshTokenExchangeError.appIntegrityRetryError
             )
+        } catch {
+            throw OneLoginError(
+                .requestFailed,
+                originalError: error
+            )
         }
     }
     
@@ -119,7 +123,10 @@ extension NetworkingService {
               let errorType = try? JSONDecoder().decode(ServerErrorResponse.self, from: data),
               errorType.error == .invalidGrant else {
             // Build environment throws 400 invalid_target so we shouldn't log the user out in that case
-            return error // TODO: Should i keep this error or transform to OneLoginError(.requestFailed)
+            return OneLoginError(
+                .requestFailed,
+                originalError: error
+            )
         }
         NotificationCenter.default.post(name: .accountIntervention)
         return OneLoginError(.reauthenticationRequired)
