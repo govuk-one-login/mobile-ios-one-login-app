@@ -96,10 +96,11 @@ extension NetworkingService {
                 accessToken: tokenResponse.accessToken,
                 accessTokenExpiry: tokenResponse.expiryDate
             )
-        } catch _ as RefreshTokenExchangeError {
-            throw OneLoginError(.requestFailed)
+        } catch RefreshTokenExchangeError.noInternet {
+            throw OneLoginError(.network)
+        } catch let error as FirebaseAppCheckError where error.errorType == .network {
+            throw OneLoginError(.network)
         }
-        
     }
     
     private func handleServerError(_ error: ServerError) -> Error {

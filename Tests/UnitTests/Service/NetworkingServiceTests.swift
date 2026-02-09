@@ -103,7 +103,7 @@ struct NetworkingSerivceTests {
             _ = try await sut.makeAuthorizedRequest(scope: "", request: URLRequest(url: URL(string: "testurl.com")!))
             Issue.record("Expect 400 error, but no error thrown")
         } catch let error as any GDSError {
-            #expect(error.kind.rawValue == OneLoginErrorKind.accountIntervention.rawValue)
+            #expect(error.kind.rawValue == OneLoginErrorKind.reauthenticationRequired.rawValue)
             let received = await iterator.next()?.name == .accountIntervention
             #expect(received == true)
         }

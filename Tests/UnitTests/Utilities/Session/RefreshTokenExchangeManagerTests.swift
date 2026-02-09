@@ -133,7 +133,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
         } catch let error as any GDSError {
-            #expect(error.kind.rawValue == OneLoginErrorKind.accountIntervention.rawValue)
+            #expect(error.kind.rawValue == OneLoginErrorKind.reauthenticationRequired.rawValue)
             let received = await iterator.next()?.name == .accountIntervention
             if received == false {
                 Issue.record("Expected `.accountIntervention` notification to be posted")
