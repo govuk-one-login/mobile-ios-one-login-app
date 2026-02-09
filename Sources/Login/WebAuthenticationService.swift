@@ -28,11 +28,24 @@ final class WebAuthenticationService: AuthenticationService {
                 session,
                 using: LoginSessionConfiguration.oneLoginSessionConfiguration
             )
-        } catch let error as LoginErrorV2 where error.reason == .userCancelled {
-            analyticsService.logEvent(ButtonEvent(textKey: "back"))
-            throw error
-        } catch let error as LoginErrorV2 where error.reason == .authorizationAccessDenied {
-            try await sessionManager.clearAllSessionData(presentSystemLogOut: false)
+        } catch let error as LoginErrorV2 {
+            switch error.reason {
+            case .userCancelled:
+                analyticsService.logEvent(ButtonEvent(textKey: "back"))
+            case .authorizationAccessDenied:
+                try await sessionManager.clearAllSessionData(presentSystemLogOut: false)
+            case .invalidRedirectURL:
+                if let underlyingReason = error.underlyingReason,
+                   underlyingReason.starts(with: "access_denied") {
+                    try await sessionManager.clearAllSessionData(presentSystemLogOut: false)
+                    throw LoginErrorV2(
+                        reason: .authorizationAccessDenied,
+                        underlyingReason: underlyingReason
+                    )
+                }
+            default:
+                analyticsService.logCrash(error)
+            }
             throw error
         } catch {
             analyticsService.logCrash(error)
