@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-utilities.git",
       "state" : {
-        "branch" : "feat/dcmaw-18125-creat-gds-error",
-        "revision" : "692741082a6cf1863aa7183adb54bf1876da2a1b"
+        "revision" : "5d927095528f7d50f597fa65badc9a9f90255c6d",
+        "version" : "0.1.1"
       }
     },
     {
