@@ -27,7 +27,10 @@ final class NetworkingService {
                     || error.code == .networkConnectionLost {
             throw OneLoginError(.network)
         } catch {
-            throw OneLoginError(.requestFailed)
+            throw OneLoginError(
+                .requestFailed,
+                originalError: error
+            )
         }
     }
     
@@ -75,7 +78,10 @@ extension NetworkingService {
             let error = handleServerError(error)
             throw error
         } catch {
-            throw OneLoginError(.requestFailed)
+            throw OneLoginError(
+                .requestFailed,
+                originalError: error
+            )
         }
     }
     
