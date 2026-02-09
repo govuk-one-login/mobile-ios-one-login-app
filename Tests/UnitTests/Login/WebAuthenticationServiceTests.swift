@@ -58,7 +58,7 @@ extension WebAuthenticationServiceTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, userCancelledEvent.parameters)
     }
     
-    func test_loginError_accessDenied() async {
+    func test_tokenError_accessDenied() async {
         mockSessionManager.errorFromStartSession = LoginErrorV2(reason: .authorizationAccessDenied)
         
         do {
@@ -71,6 +71,45 @@ extension WebAuthenticationServiceTests {
             XCTAssertTrue(error == LoginErrorV2(reason: .authorizationAccessDenied))
         }
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
+    }
+    
+    func test_authorizeError_accessDenied() async {
+        mockSessionManager.errorFromStartSession = LoginErrorV2(
+            reason: .invalidRedirectURL,
+            underlyingReason: "access_denied: account deleted"
+        )
+        
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? LoginErrorV2 else {
+                XCTFail("Error should be a LoginError")
+                return
+            }
+            XCTAssertEqual(
+                error,
+                LoginErrorV2(
+                    reason: .authorizationAccessDenied,
+                    underlyingReason: "access_denied: account deleted"
+                )
+            )
+        }
+        XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
+    }
+    
+    func test_loginError_invalidRedirectURL() async {
+        mockSessionManager.errorFromStartSession = LoginErrorV2(reason: .invalidRedirectURL)
+        
+        do {
+            try await sut.startWebSession()
+        } catch {
+            guard let error = error as? LoginErrorV2 else {
+                XCTFail("Error should be a LoginError")
+                return
+            }
+            XCTAssertTrue(error == LoginErrorV2(reason: .invalidRedirectURL))
+        }
+        XCTAssertNotNil(mockAnalyticsService.crashesLogged)
     }
     
     func test_appIntegritySigningError() async {

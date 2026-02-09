@@ -42,6 +42,8 @@ final class WebAuthenticationService: AuthenticationService {
                         reason: .authorizationAccessDenied,
                         underlyingReason: underlyingReason
                     )
+                } else {
+                    analyticsService.logCrash(error)
                 }
             default:
                 analyticsService.logCrash(error)
