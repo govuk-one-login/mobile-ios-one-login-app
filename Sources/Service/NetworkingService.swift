@@ -102,10 +102,15 @@ extension NetworkingService {
                 accessToken: tokenResponse.accessToken,
                 accessTokenExpiry: tokenResponse.expiryDate
             )
-        } catch RefreshTokenExchangeError.noInternet {
-            throw OneLoginError(.network)
         } catch let error as FirebaseAppCheckError where error.errorType == .network {
             throw OneLoginError(.network)
+        } catch RefreshTokenExchangeError.noInternet {
+            throw OneLoginError(.network)
+        } catch RefreshTokenExchangeError.appIntegrityRetryError {
+            throw OneLoginError(
+                .requestFailed,
+                originalError: RefreshTokenExchangeError.appIntegrityRetryError
+            )
         }
     }
     
