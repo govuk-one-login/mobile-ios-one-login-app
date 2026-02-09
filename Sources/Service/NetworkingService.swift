@@ -25,7 +25,9 @@ final class NetworkingService {
             return try await networkClient.makeRequest(request)
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
-            throw error
+            throw OneLoginError(.network)
+        } catch {
+            throw OneLoginError(.requestFailed)
         }
     }
     
@@ -48,7 +50,7 @@ final class NetworkingService {
             } else {
                 // No refresh token or id token or valid access token, user must reauthenticate
                 NotificationCenter.default.post(name: .reauthenticationRequired)
-                throw RefreshTokenExchangeError.reauthenticationRequired
+                throw OneLoginError(.reauthenticationRequired)
             }
         }
         
@@ -70,8 +72,10 @@ extension NetworkingService {
                 request: request
             )
         } catch let error as ServerError where error.errorCode == 400 {
-            handleServerError(error)
-            throw OneLoginError(.accountIntervention)
+            let error = handleServerError(error)
+            throw error
+        } catch {
+            throw OneLoginError(.requestFailed)
         }
     }
     
@@ -79,27 +83,33 @@ extension NetworkingService {
         idToken: String,
         refreshToken: String
     ) async throws {
-        let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
-            refreshToken: refreshToken,
-            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
-        )
+        do {
+            let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
+                refreshToken: refreshToken,
+                appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+            )
+            
+            // Save new tokens
+            try sessionManager.saveLoginTokens(
+                idToken: idToken,
+                refreshToken: tokenResponse.refreshToken,
+                accessToken: tokenResponse.accessToken,
+                accessTokenExpiry: tokenResponse.expiryDate
+            )
+        } catch _ as RefreshTokenExchangeError {
+            throw OneLoginError(.requestFailed)
+        }
         
-        // Save new tokens
-        try sessionManager.saveLoginTokens(
-            idToken: idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken,
-            accessTokenExpiry: tokenResponse.expiryDate
-        )
     }
     
-    private func handleServerError(_ error: ServerError) {
+    private func handleServerError(_ error: ServerError) -> Error {
         guard let data = error.response,
               let errorType = try? JSONDecoder().decode(ServerErrorResponse.self, from: data),
               errorType.error == .invalidGrant else {
             // Build environment throws 400 invalid_target so we shouldn't log the user out in that case
-            return
+            return error // TODO: Should i keep this error or transform to OneLoginError(.requestFailed)
         }
         NotificationCenter.default.post(name: .accountIntervention)
+        return OneLoginError(.reauthenticationRequired)
     }
 }

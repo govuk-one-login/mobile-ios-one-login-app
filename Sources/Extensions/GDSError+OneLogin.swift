@@ -1,7 +1,9 @@
 import GDSUtilities
 
 enum OneLoginErrorKind: String, GDSErrorKind {
-    case accountIntervention = "User has an account intervention in place"
+    case network = "User has no network connection or it was lost"
+    case reauthenticationRequired = "User needs to reauthenticate"
+    case requestFailed = "Network request has failed"
 }
 
 typealias OneLoginError = OneLoginGDSError<OneLoginErrorKind>
