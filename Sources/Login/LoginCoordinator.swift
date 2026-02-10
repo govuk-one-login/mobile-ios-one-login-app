@@ -266,6 +266,7 @@ extension LoginCoordinator {
     
     private func showDataDeletedWarningScreen() {
         let viewModel = DataDeletedWarningViewModel { [unowned self] in
+            serviceState = nil
             sessionState = .notLoggedIn
             start()
             loginCoordinatorDidDisplay()
