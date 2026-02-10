@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "398a10c0592825d054acac5122177bb7c248f0c1",
-        "version" : "2.1.0"
+        "revision" : "eb99ce9b071f685ca712b0bffd05f675141dcb25",
+        "version" : "2.1.1"
       }
     },
     {
@@ -210,7 +210,7 @@
     {
       "identity" : "mobile-ios-utilities",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-utilities",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-utilities.git",
       "state" : {
         "revision" : "5d927095528f7d50f597fa65badc9a9f90255c6d",
         "version" : "0.1.1"
