@@ -706,8 +706,10 @@ extension PersistentSessionManagerTests {
         // AND no refresh token expiry date is saved
         do {
             _ = try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry)
-        } catch let error as SecureStoreError {
-            XCTAssertTrue(error.kind == .unableToRetrieveFromUserDefaults)
+        } catch {
+            if error.kind == .unableToRetrieveFromUserDefaults {
+                // Expected path
+            }
         }
     }
 

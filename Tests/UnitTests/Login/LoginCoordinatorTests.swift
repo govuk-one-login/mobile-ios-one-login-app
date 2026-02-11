@@ -712,11 +712,11 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_skip_promptForAnalyticsPermissions() {
         sut.start()
-        // GIVEN the user has accepted analytics permissions
+        // GIVEN the the user has accepted analytics permissions and sessionState = .notLoggedIn
         mockAnalyticsService.analyticsPreferenceStore.hasAcceptedAnalytics = true
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
-        // THEN the OnboardingCoordinator should not be launched
+        // THEN the OnboardingCoordinator will not be launched
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     

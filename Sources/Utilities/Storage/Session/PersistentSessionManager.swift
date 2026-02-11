@@ -8,8 +8,8 @@ import SecureStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedStore: SecureStorable
-    private let encryptedStore: SecureStorable
+    private let accessControlEncryptedStore: SecureStorableV2
+    private let encryptedStore: SecureStorableV2
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     
@@ -23,8 +23,8 @@ final class PersistentSessionManager: SessionManager {
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
     convenience init(
-        accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable
+        accessControlEncryptedStore: SecureStorableV2,
+        encryptedStore: SecureStorableV2
     ) {
         self.init(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -35,8 +35,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable,
+        accessControlEncryptedStore: SecureStorableV2,
+        encryptedStore: SecureStorableV2,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging
     ) {
@@ -221,6 +221,8 @@ final class PersistentSessionManager: SessionManager {
         appIntegrityProvider: AppIntegrityProvider
     ) async throws {
         guard hasNotRemovedLocalAuth else {
+            // Underlying error here is LAError.passcodeNotSet
+            // This error will result in user being signed out and their data deleted
             throw PersistentSessionError.userRemovedLocalAuth
         }
         

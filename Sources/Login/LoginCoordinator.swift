@@ -135,12 +135,13 @@ final class LoginCoordinator: NSObject,
     }
     
     func loginCoordinatorDidDisplay() {
-        guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
-              root.topViewController is IntroViewController else {
-            return
-        }
         switch (sessionState, serviceState) {
         case (.notLoggedIn, _):
+            guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
+                  root.topViewController is IntroViewController else {
+                return
+            }
+            
             openChildModally(OnboardingCoordinator(analyticsPreferenceStore: analyticsService.analyticsPreferenceStore,
                                                    urlOpener: UIApplication.shared))
         case (.userLogOut, _):
