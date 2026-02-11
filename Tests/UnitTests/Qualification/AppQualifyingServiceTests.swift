@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import MobilePlatformServices
 import Networking
 @testable import OneLogin
