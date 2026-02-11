@@ -9,18 +9,52 @@ extension UniversalLinkQualifierTests {
     func test_loginUniversalLink() throws {
         let oneLoginRedirectUrl = URL(string: "https://mobile.account.gov.uk/redirect?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
-        XCTAssertEqual(appRoute, AppRoute.login)
+        if case .login = appRoute {
+            // success
+        } else {
+            XCTFail("Expected .login but got \(appRoute)")
+        }
+    }
+    
+    func test_loginUniversalLinkBaseRedirectURI() throws {
+        let oneLoginRedirectUrl = AppEnvironment.mobileRedirect
+        let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
+        if case let .login(url) = appRoute {
+            XCTAssertEqual(oneLoginRedirectUrl, url)
+        } else {
+            XCTFail("Expected .login but got \(appRoute)")
+        }
+    }
+    
+    func test_loginUniversalLinkAlternateRedirectURI() throws {
+        let oneLoginRedirectUrl = URL(string: "https://app.mobile.account.gov.uk/redirect?code=testCode")!
+        let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
+        
+        let expectedRedirectUrl = URL(string: AppEnvironment.mobileRedirect.absoluteString + "?code=testCode")!
+        if case let .login(url) = appRoute {
+            XCTAssertEqual(expectedRedirectUrl, url)
+        } else {
+            XCTFail("Expected .login but got \(appRoute)")
+        }
     }
 
     func test_walletUniversalLink_last() throws {
         let oneLoginWalletUrl = URL(string: "https://mobile.account.gov.uk/wallet?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginWalletUrl)
-        XCTAssertEqual(appRoute, AppRoute.wallet)
+        if case .wallet = appRoute {
+            // success
+        } else {
+            XCTFail("Expected .wallet but got \(appRoute)")
+        }
     }
 
     func test_walletUniversalLink_any() throws {
         let oneLoginWalletUrl = URL(string: "https://mobile.account.gov.uk/wallet/test/paths?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginWalletUrl)
-        XCTAssertEqual(appRoute, AppRoute.wallet)
+        if case .wallet = appRoute {
+            // success
+        } else {
+            XCTFail("Expected .wallet but got \(appRoute)")
+        }
     }
 }
