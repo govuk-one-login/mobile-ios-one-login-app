@@ -122,13 +122,6 @@ final class AppQualifyingService: QualifyingService {
             } catch let error as ServerError where error.errorCode == 400 {
                 return
             } catch let error as SecureStoreErrorV2 where
-                        error.kind == .passcodeNotSet {
-                analyticsService.logCrash(error)
-                
-                // This error is treated as unrecoverable
-                // Users' data is deleted and they will need to log in and readd Wallet credentials
-                sessionState = .systemLogOut
-            } catch let error as SecureStoreErrorV2 where
                         error.kind == .cantDecryptData {
                 analyticsService.logCrash(error)
                 
@@ -142,8 +135,11 @@ final class AppQualifyingService: QualifyingService {
                 // Users' will stay on unlock screen and can attempt local auth again
                 sessionState = .localAuthCancelled
             } catch {
-                // This will catch PersistentSessionErrors or any uncaught errors from RefreshTokenExchangeManager
                 analyticsService.logCrash(error)
+                // This will catch PersistentSessionErrors or any uncaught errors from RefreshTokenExchangeManager
+                // These errors are treated as unrecoverable
+                
+                // Users' data is deleted and they will need to log in and readd Wallet credentials
                 do {
                     try await sessionManager.clearAllSessionData(presentSystemLogOut: true)
                 } catch {

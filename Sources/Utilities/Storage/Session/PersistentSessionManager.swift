@@ -221,6 +221,8 @@ final class PersistentSessionManager: SessionManager {
         appIntegrityProvider: AppIntegrityProvider
     ) async throws {
         guard hasNotRemovedLocalAuth else {
+            // Underlying error here is LAError.passcodeNotSet
+            // This error will result in user being signed out and their data deleted
             throw PersistentSessionError.userRemovedLocalAuth
         }
         

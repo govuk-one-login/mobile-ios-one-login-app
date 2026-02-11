@@ -236,20 +236,6 @@ extension AppQualifyingServiceTests {
         )
     }
     
-    func test_resumeSession_secureStoreError_passcodeNotSet() {
-        sessionManager.expiryDate = .distantFuture
-        sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreErrorV2(.passcodeNotSet)
-        sut.delegate = self
-        sut.initiate()
-        
-        waitForTruth(
-            self.appState == .qualified,
-            timeout: 5
-        )
-        
-        XCTAssert(self.sessionState == .systemLogOut)
-    }
     
     func test_resumeSession_secureStoreError_cantDecryptData() {
         sessionManager.expiryDate = .distantFuture
@@ -298,6 +284,23 @@ extension AppQualifyingServiceTests {
         )
         
         XCTAssertFalse(self.sessionState == .failed(MockWalletError.cantDelete))
+    }
+    
+    func test_resumeSession_userRemovedLocalAuth_clearSessionData() {
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = PersistentSessionError.userRemovedLocalAuth
+        sut.delegate = self
+        sut.initiate()
+        
+        waitForTruth(
+            self.appState == .qualified,
+            timeout: 5
+        )
+
+        XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == .userRemovedLocalAuth)
+        XCTAssert(sessionManager.didCallClearAllSessionData)
+        XCTAssert(self.sessionState == .systemLogOut)
     }
     
     func test_resumeSession_noPersistentSessionError_clearSessionData() {
