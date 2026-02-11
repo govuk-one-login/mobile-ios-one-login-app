@@ -166,7 +166,7 @@ extension QualifyingCoordinator {
     
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
-        case .login:
+        case .login(let url):
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
             deeplink = url
