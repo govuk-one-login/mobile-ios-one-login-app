@@ -6,18 +6,8 @@ final class UniversalLinkQualifierTests: XCTestCase {
 }
 
 extension UniversalLinkQualifierTests {
-    func test_loginUniversalLink() throws {
-        let oneLoginRedirectUrl = URL(string: "https://mobile.account.gov.uk/redirect?code=testCode")!
-        let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
-        if case .login = appRoute {
-            // success
-        } else {
-            XCTFail("Expected .login but got \(appRoute)")
-        }
-    }
-    
     func test_loginUniversalLinkBaseRedirectURI() throws {
-        let oneLoginRedirectUrl = AppEnvironment.mobileRedirect
+        let oneLoginRedirectUrl = URL(string: AppEnvironment.mobileRedirect.absoluteString + "?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
         if case let .login(url) = appRoute {
             XCTAssertEqual(oneLoginRedirectUrl, url)
