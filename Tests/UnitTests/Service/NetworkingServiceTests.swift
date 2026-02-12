@@ -39,18 +39,18 @@ struct NetworkingSerivceTests {
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
     
-    @Test("Test makeRequest() handles no internet")
-    func test_makeRequest_noInternet() async throws {
+    @Test("Test makeRequest() handles no internet error")
+    func test_makeRequest_noInternetError() async throws {
         MockURLProtocol.handler = {
             throw URLError(.notConnectedToInternet)
         }
         
         do {
             _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
-        } catch URLError.notConnectedToInternet {
+        } catch OneLoginError(.network) {
             // Expected path
         } catch {
-            Issue.record("Expected `.notConnectedToInternet` error to be thrown")
+            Issue.record("Expected OneLoginError(.network) error to be thrown")
         }
     }
     
@@ -62,10 +62,28 @@ struct NetworkingSerivceTests {
         
         do {
             _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
-        } catch URLError.networkConnectionLost {
+        } catch OneLoginError(.network) {
             // Expected path
         } catch {
-            Issue.record("Expected `.networkConnectionLost` error to be thrown")
+            Issue.record("Expected OneLoginError(.network) error to be thrown")
+        }
+    }
+    
+    @Test("Test makeRequest() handles unexpected error")
+    func test_makeRequest_anyError() async throws {
+        let orignalError = URLError(.badURL)
+        
+        MockURLProtocol.handler = {
+            throw orignalError
+        }
+        
+        do {
+            _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
+        } catch let error as OneLoginError where error.kind == .requestFailed {
+            #expect (error.errorUserInfo["originalError"] as? String ==
+                     "The operation couldn’t be completed. (NSURLErrorDomain error -1000.)")
+        } catch {
+            Issue.record("Expected OneLoginError(.requestFailed) error to be thrown")
         }
     }
     
@@ -151,7 +169,7 @@ struct NetworkingSerivceTests {
             )
             
             Issue.record("Expected `.reauthenticationRequired` error to be thrown")
-        } catch RefreshTokenExchangeError.reauthenticationRequired {
+        } catch OneLoginError(.reauthenticationRequired) {
             // Expected path
             let received = await iterator.next()?.name == .reauthenticationRequired
             if received == false {
@@ -175,7 +193,7 @@ struct NetworkingSerivceTests {
                 scope: "",
                 request: URLRequest(url: URL(string: "testurl.com")!)
             )
-        } catch URLError.notConnectedToInternet {
+        } catch OneLoginError(.network) {
             // expected path
         } catch {
             Issue.record("Expected `.notConnectedToInternet` error to be thrown")
@@ -195,7 +213,7 @@ struct NetworkingSerivceTests {
                 scope: "",
                 request: URLRequest(url: URL(string: "testurl.com")!)
             )
-        } catch URLError.networkConnectionLost {
+        } catch OneLoginError(.network) {
             // expected path
         } catch {
             Issue.record("Expected `.networkConnectionLost` error to be thrown")

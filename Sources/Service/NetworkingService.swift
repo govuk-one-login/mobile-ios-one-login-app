@@ -76,6 +76,9 @@ extension NetworkingService {
             )
         } catch let error as ServerError where error.errorCode == 400 {
             throw handleServerError(error)
+        } catch let error as URLError where error.code == .notConnectedToInternet
+                    || error.code == .networkConnectionLost {
+            throw OneLoginError(.network)
         } catch {
             throw OneLoginError(
                 .requestFailed,
