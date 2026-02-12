@@ -63,51 +63,51 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 case 0:
                     throw FirebaseAppCheckError(
                         .unknown,
-                        errorDescription: error.localizedDescription
+                        originalError: error
                     )
                 case 1:
                     throw FirebaseAppCheckError(
                         .network,
-                        errorDescription: error.localizedDescription
+                        originalError: error
                     )
                 case 2:
                     throw FirebaseAppCheckError(
                         .invalidConfiguration,
-                        errorDescription: error.localizedDescription
+                        originalError: error
                     )
                 case 3:
                     throw FirebaseAppCheckError(
                         .keychainAccess,
-                        errorDescription: error.localizedDescription
+                        originalError: error
                     )
                 case 4:
                     throw FirebaseAppCheckError(
                         .notSupported,
-                        errorDescription: error.localizedDescription
+                        originalError: error
                     )
                 default:
                     throw FirebaseAppCheckError(
                         .generic,
-                        errorDescription: error.localizedDescription
+                        originalError: error
                     )
                 }
             } catch let error as ServerError where
                         error.errorCode == 400 {
                 throw ClientAssertionError(
                     .invalidPublicKey,
-                    errorDescription: error.localizedDescription
+                    originalError: error
                 )
             } catch let error as ServerError where
                         error.errorCode == 401 {
                 throw ClientAssertionError(
                     .invalidToken,
-                    errorDescription: error.localizedDescription
+                    originalError: error
                 )
             } catch let error as ServerError where
                         error.errorCode == 500 {
                 throw ClientAssertionError(
                     .serverError,
-                    errorDescription: error.localizedDescription
+                    originalError: error
                 )
             }
         }
@@ -124,7 +124,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             } catch {
                 throw ProofOfPossessionError(
                     .cantGenerateAttestationProofOfPossessionJWT,
-                    errorDescription: error.localizedDescription
+                    originalError: error
                 )
             }
         }
@@ -137,7 +137,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             } catch {
                 throw ProofOfPossessionError(
                     .cantGenerateDemonstratingProofOfPossessionJWT,
-                    errorDescription: error.localizedDescription
+                    originalError: error
                 )
             }
         }
@@ -202,12 +202,12 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         } catch let error as DecodingError {
             throw ClientAssertionError(
                 .cantDecodeClientAssertion,
-                errorDescription: error.localizedDescription
+                originalError: error
             )
         } catch {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
-                errorDescription: error.localizedDescription
+                originalError: error
             )
         }
     }

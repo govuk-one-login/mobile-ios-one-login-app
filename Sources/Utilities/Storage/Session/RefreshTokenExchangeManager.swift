@@ -33,8 +33,8 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             
             return try JSONDecoder()
                 .decode(TokenResponse.self, from: exchangeResponse)
-        } catch let error as FirebaseAppCheckError where error.errorType == .generic
-                    || error.errorType == .unknown {
+        } catch let error as FirebaseAppCheckError where error.kind == .generic
+                    || error.kind == .unknown {
             guard errorRetries < 3 else {
                 throw RefreshTokenExchangeError.appIntegrityRetryError
             }
@@ -46,7 +46,7 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         } catch let error as ServerError where error.errorCode == 400 {
             NotificationCenter.default.post(name: .accountIntervention)
             throw error
-        } catch let error as FirebaseAppCheckError where error.errorType == .network {
+        } catch let error as FirebaseAppCheckError where error.kind == .network {
             throw RefreshTokenExchangeError.noInternet
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {

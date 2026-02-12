@@ -153,7 +153,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: FirebaseAppCheckError(
                 .unknown,
-                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 0.)"
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 0.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -167,7 +167,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: FirebaseAppCheckError(
                 .network,
-                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -181,7 +181,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: FirebaseAppCheckError(
                 .invalidConfiguration,
-                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 2.)"
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 2.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -195,7 +195,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: FirebaseAppCheckError(
                 .keychainAccess,
-                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 3.)"
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 3.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -209,7 +209,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: FirebaseAppCheckError(
                 .notSupported,
-                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 4.)"
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 4.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -223,7 +223,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: FirebaseAppCheckError(
                 .generic,
-                errorDescription: "The operation couldn’t be completed. (com.firebase.appCheck error 5.)"
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 5.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -239,7 +239,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ClientAssertionError(
                 .invalidPublicKey,
-                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
+                reason: "The operation couldn’t be completed. (Networking.ServerError error 400.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -255,7 +255,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ClientAssertionError(
                 .invalidToken,
-                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
+                reason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -271,7 +271,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ClientAssertionError(
                 .serverError,
-                errorDescription: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
+                reason: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -295,7 +295,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ProofOfPossessionError(
                 .cantGenerateAttestationProofOfPossessionJWT,
-                errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
+                reason: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -319,7 +319,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ProofOfPossessionError(
                 .cantGenerateDemonstratingProofOfPossessionJWT,
-                errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
+                reason: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
             try await sut.integrityAssertions
@@ -378,7 +378,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ClientAssertionError(
                 .cantDecodeClientAssertion,
-                errorDescription: "The data couldn’t be read because it isn’t in the correct format."
+                reason: "The data couldn’t be read because it isn’t in the correct format."
             )
         ) {
             try await sut
@@ -393,7 +393,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
-                errorDescription: "The operation couldn’t be completed. (test domain error 0.)"
+                reason: "The operation couldn’t be completed. (test domain error 0.)"
             )
         ) {
             try await sut

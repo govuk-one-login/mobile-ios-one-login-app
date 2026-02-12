@@ -17,12 +17,17 @@ let package = Package(
         .package(
             url: "https://github.com/govuk-one-login/mobile-ios-networking",
             from: "3.3.0"
+        ),
+        .package(
+            url: "https://github.com/govuk-one-login/mobile-ios-utilities",
+            from: "0.1.1"
         )
     ],
     targets: [
         .target(name: "AppIntegrity", dependencies: [
             .product(name: "Networking", package: "mobile-ios-networking"),
-            .product(name: "FirebaseAppCheck", package: "firebase-ios-sdk")
+            .product(name: "FirebaseAppCheck", package: "firebase-ios-sdk"),
+            .product(name: "GDSUtilities", package: "mobile-ios-utilities")
         ]),
         .testTarget(name: "AppIntegrityTests", dependencies: [
             "AppIntegrity",

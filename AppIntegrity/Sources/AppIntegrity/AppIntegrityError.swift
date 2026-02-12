@@ -1,6 +1,7 @@
 import Foundation
+import GDSUtilities
 
-public enum FirebaseAppCheckErrorType: String {
+public enum FirebaseAppCheckErrorType: String, GDSErrorKind {
     case unknown              = "unknown firebase app check service error"
     case network              = "network error in firebase app check service"
     case invalidConfiguration = "invalid configuration for firebase app check service"
@@ -9,38 +10,53 @@ public enum FirebaseAppCheckErrorType: String {
     case generic              = "generic firebase app check service error"
 }
 
-public enum ClientAssertionErrorType: String {
+public enum ClientAssertionErrorType: String, GDSErrorKind {
     case invalidPublicKey          = "invalid client attestation public key"
     case invalidToken              = "invalid firebase app check token"
     case serverError               = "server error"
     case cantDecodeClientAssertion = "cant decode client attestation"
 }
 
-public enum ProofOfPossessionErrorType: String {
+public enum ProofOfPossessionErrorType: String, GDSErrorKind {
     case cantGenerateAttestationPublicKeyJWK           = "cant generate attestation public key JWK"
     case cantGenerateAttestationProofOfPossessionJWT   = "cant generate attestation proof of possession JWT"
     case cantGenerateDemonstratingProofOfPossessionJWT = "can't generate demonstrating public key dictionary JWT"
 }
 
-public struct AppIntegrityError<ErrorType: RawRepresentable>: Error,
-                                                              LocalizedError,
-                                                              CustomNSError,
-                                                              Equatable where ErrorType.RawValue == String {
-    public let errorType: ErrorType
-    public let errorDescription: String?
-    public let failureReason: String?
-    
+public struct AppIntegrityError<Kind: GDSErrorKind>: GDSError {
+    public let kind: Kind
+    public let reason: String?
+    public let endpoint: String?
+    public let statusCode: Int?
+    public let file: String
+    public let function: String
+    public let line: Int
+    public let resolvable: Bool
+    public let originalError: (any Error)?
+    public let additionalParameters: [String: any Sendable]
+
     public init(
-        _ errorType: ErrorType,
-        errorDescription: String
+        _ kind: Kind,
+        reason: String? = nil,
+        endpoint: String? = nil,
+        statusCode: Int? = nil,
+        file: String = #file,
+        function: String = #function,
+        line: Int = #line,
+        resolvable: Bool = false,
+        originalError: (any Error)? = nil,
+        additionalParameters: [String: any Sendable] = [:]
     ) {
-        self.errorType = errorType
-        self.errorDescription = errorDescription
-        self.failureReason = errorType.rawValue
-    }
-    
-    public static func == (lhs: AppIntegrityError<ErrorType>, rhs: AppIntegrityError<ErrorType>) -> Bool {
-        lhs.errorType == rhs.errorType && lhs.errorDescription == rhs.errorDescription
+        self.kind = kind
+        self.reason = reason
+        self.endpoint = endpoint
+        self.statusCode = statusCode
+        self.file = file
+        self.function = function
+        self.line = line
+        self.resolvable = resolvable
+        self.originalError = originalError
+        self.additionalParameters = additionalParameters
     }
 }
 

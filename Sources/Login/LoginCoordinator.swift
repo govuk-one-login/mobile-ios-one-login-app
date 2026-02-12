@@ -240,7 +240,7 @@ extension LoginCoordinator {
     }
     
     private func handleFirebaseAppCheckError(_ error: FirebaseAppCheckError) {
-        switch error.errorType {
+        switch error.kind {
         case .network:
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
@@ -255,7 +255,7 @@ extension LoginCoordinator {
     }
     
     private func handleClientAssertionError(_ error: ClientAssertionError) {
-        switch error.errorType {
+        switch error.kind {
         case .invalidPublicKey:
             showUnrecoverableErrorScreen(error)
         case .invalidToken,

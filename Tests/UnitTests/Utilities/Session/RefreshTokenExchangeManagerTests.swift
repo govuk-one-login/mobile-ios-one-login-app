@@ -85,7 +85,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
             .generic,
-            errorDescription: "test description"
+            reason: "test description"
         )
         
         do {
@@ -103,7 +103,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
             .unknown,
-            errorDescription: "test description"
+            reason: "test description"
         )
         
         do {
@@ -146,7 +146,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
             .network,
-            errorDescription: "test description"
+            reason: "test description"
         )
         
         do {
