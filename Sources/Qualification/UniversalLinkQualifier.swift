@@ -18,7 +18,7 @@ struct UniversalLinkQualifier {
             if urlHost == appHost {
                 return .login(url: url)
             } else {
-                // The alternate domain is used for redirection (e.g. if user used Apple UI to login). Redirect URI will not match the one present in the initial /authorize request.
+                // An alternate domain is used for redirection (e.g. user used Apple UI to login). Redirect URI will not match the one present in the initial /authorize request.
                 // To proceed, we will use the base redirect URI with the current redirect's query parameters to ensure that they match.
                 guard let incomingURL = URLComponents(url: url, resolvingAgainstBaseURL: false),
                       var baseRedirectURL = URLComponents(url: AppEnvironment.mobileRedirect, resolvingAgainstBaseURL: false) else {
