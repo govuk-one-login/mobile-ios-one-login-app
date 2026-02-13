@@ -1,3 +1,4 @@
+import AppIntegrity
 import CRIOrchestrator
 import Foundation
 import GAnalytics
@@ -13,11 +14,11 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
     }
 }
 
-extension NetworkClient: @retroactive WalletNetworkClient, @retroactive IDCheckNetworkClient { }
+extension NetworkingService: OneLoginNetworkingService { }
+
+typealias OneLoginNetworkingService = MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient & AppIntegrityNetworkClient & HTTPLoggingNetworkClient
 
 extension GAnalyticsV2: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService { }
-
-typealias OneLoginNetworkingService = MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient
 
 typealias OneLoginAnalyticsService = AnalyticsServiceV2 & WalletAnalyticsService & IDCheckAnalyticsService
 

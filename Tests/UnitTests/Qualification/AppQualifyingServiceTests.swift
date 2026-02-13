@@ -1,4 +1,5 @@
 import MobilePlatformServices
+import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -122,6 +123,20 @@ extension AppQualifyingServiceTests {
         // THEN the offline state is set
         waitForTruth(
             self.appState == .offline,
+            timeout: 5
+        )
+    }
+    
+    func test_accountIntervention_returns() {
+        // GIVEN the a receives an account intervention
+        appInformationProvider.errorFromFetchAppInfo = ServerError(endpoint: "test", errorCode: 400)
+
+        sut.delegate = self
+        sut.initiate()
+
+        // THEN the original session state is maintained
+        waitForTruth(
+            self.sessionState == nil,
             timeout: 5
         )
     }

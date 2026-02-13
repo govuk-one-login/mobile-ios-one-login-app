@@ -9,13 +9,6 @@ final class OneLoginStagingAppEnvironmentTests: XCTestCase {
         XCTAssertEqual(Bundle.main.infoDictionary?["MinimumOSVersion"] as? String, "16.7")
     }
     
-    func test_appEnvironment_featureFlags() {
-        // Feature Flags
-        XCTAssertTrue(sut.walletVisibleViaDeepLink)
-        XCTAssertTrue(sut.walletVisibleIfExists)
-        XCTAssertTrue(sut.walletVisibleToAll)
-    }
-    
     func test_appEnvironment_helpers() {
         // Helpers
         XCTAssertEqual(sut.buildConfiguration, "Staging")

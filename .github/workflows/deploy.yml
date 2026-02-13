@@ -12,13 +12,13 @@ on:
 jobs:
   deploy_app:
     name: ${{ inputs.configuration }}
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # pin@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pin@v4
         with:
           lfs: 'true'
           submodules: 'true'
@@ -40,10 +40,10 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
         run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.4.app
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.1.app
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # pin@v5.1.1
+        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # pin@v6.0.0
         with:
           aws-region: eu-west-2
           role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}

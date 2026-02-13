@@ -8,13 +8,13 @@ on:
 jobs:
   run_ui_tests:
     name: Run UI Tests
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Add Path Globally
         run: echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # pin@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pin@v4
         with:
           ref: ${{ inputs.test_branch }}
           submodules: 'true'
@@ -37,7 +37,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
         run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_16.4.app
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.1.app
 
       - name: Build App, Run UI Tests
         env:

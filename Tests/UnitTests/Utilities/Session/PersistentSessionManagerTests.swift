@@ -1,9 +1,9 @@
 // swiftlint:disable file_length
 import AppIntegrity
 import Authentication
-@testable import Logging
+import Logging
 import MockNetworking
-import Networking
+@testable import Networking
 @testable @preconcurrency import OneLogin
 import SecureStore
 import XCTest
@@ -150,26 +150,6 @@ extension PersistentSessionManagerTests {
         // THEN the session is not valid
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .expired)
-    }
-    
-    func test_isAccessTokenValid() {
-        // GIVEN the unprotected store contains an access token expiry date in the future
-        mockUnprotectedStore.set(
-            Date.distantFuture,
-            forKey: OLString.accessTokenExpiry
-        )
-        // THEN the session is not valid
-        XCTAssertTrue(sut.isAccessTokenValid)
-    }
-    
-    func test_isAccessTokenValid_expired() {
-        // GIVEN the unprotected store contains an access token expiry date in the past
-        mockUnprotectedStore.set(
-            Date.distantPast,
-            forKey: OLString.accessTokenExpiry
-        )
-        // THEN the session is not valid
-        XCTAssertFalse(sut.isAccessTokenValid)
     }
     
     func test_returnTokensIfValid() throws {
@@ -398,7 +378,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         // AND access token are populated
-        XCTAssertEqual(sut.tokenProvider.subjectToken, "accessTokenResponse")
+        XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
     }
     
     @MainActor
@@ -500,7 +480,10 @@ extension PersistentSessionManagerTests {
         
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+            try await sut.resumeSession(
+                tokenExchangeManager: mockRefreshTokenExchangeManager,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
         } catch let error as PersistentSessionError {
             // THEN an error is catch
             XCTAssertEqual(error, .userRemovedLocalAuth)
@@ -518,7 +501,8 @@ extension PersistentSessionManagerTests {
         
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager
+                tokenExchangeManager: mockRefreshTokenExchangeManager,
+                appIntegrityProvider: MockAppIntegrityProvider()
             )
             XCTFail("Expected local auth removed error")
         } catch let error as PersistentSessionError {
@@ -542,7 +526,10 @@ extension PersistentSessionManagerTests {
         
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+            try await sut.resumeSession(
+                tokenExchangeManager: mockRefreshTokenExchangeManager,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
         } catch let error as PersistentSessionError {
             XCTAssertEqual(error, .noSessionExists)
         }
@@ -565,10 +552,86 @@ extension PersistentSessionManagerTests {
         )
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+            try await sut.resumeSession(
+                tokenExchangeManager: mockRefreshTokenExchangeManager,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
         } catch let error as PersistentSessionError {
             // THEN an error is thrown
             XCTAssertEqual(error, .idTokenNotStored)
+        }
+    }
+    
+    func test_resumeSession_offlineWallet_noInternet() async throws {
+        // GIVEN I am a returning user with local auth enabled and tokens stored
+        try setUpNeededForResumeSession()
+        
+        // AND I have no internet
+        MockURLProtocol.clear()
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let client = NetworkClient(configuration: configuration)
+        
+        MockURLProtocol.handler = {
+            throw URLError(.notConnectedToInternet)
+        }
+        
+        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
+        
+        // WHEN I attempt to resume my session
+        do {
+            try await sut.resumeSession(
+                tokenExchangeManager: refreshTokenExchangeManager,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // Expected path
+        }
+    }
+    
+    func test_resumeSession_offlineWallet_networkConnectionLost() async throws {
+        // GIVEN I am a returning user with local auth enabled and tokens stored
+        try setUpNeededForResumeSession()
+        
+        // AND I have no internet
+        MockURLProtocol.clear()
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let client = NetworkClient(configuration: configuration)
+        
+        MockURLProtocol.handler = {
+            throw URLError(.networkConnectionLost)
+        }
+        
+        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
+        
+        // WHEN I attempt to resume my session
+        do {
+            try await sut.resumeSession(
+                tokenExchangeManager: refreshTokenExchangeManager,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // Expected path
+        }
+    }
+    
+    func test_resumeSession_offlineWallet_firebaseNetworkError() async throws {
+        // GIVEN I am a returning user with local auth enabled and tokens stored
+        try setUpNeededForResumeSession()
+        
+        // AND I have no internet
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, errorDescription: "test")
+        
+        // WHEN I attempt to resume my session
+        do {
+            try await sut.resumeSession(
+                tokenExchangeManager: RefreshTokenExchangeManager(),
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // Expected path
         }
     }
     
@@ -577,7 +640,10 @@ extension PersistentSessionManagerTests {
         try setUpNeededForResumeSession()
         
         // WHEN I return to the app and authenticate successfully
-        try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+        try await sut.resumeSession(
+            tokenExchangeManager: mockRefreshTokenExchangeManager,
+            appIntegrityProvider: MockAppIntegrityProvider()
+        )
         
         // THEN my user session data is repopulated
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
@@ -595,7 +661,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(try mockAccessControlEncryptedStore.readItem(itemName: OLString.storedTokens), tokens)
        
         // AND the token provider access token is updated
-        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
+        XCTAssertEqual(sut.tokenProvider.accessToken, MockJWTs.genericToken)
         
         // AND my access token expiry is updated
         let expiryDate = mockUnprotectedStore.value(forKey: OLString.accessTokenExpiry) as? Date
@@ -625,14 +691,17 @@ extension PersistentSessionManagerTests {
         )
         
         // WHEN I return to the app and authenticate successfully
-        try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+        try await sut.resumeSession(
+            tokenExchangeManager: mockRefreshTokenExchangeManager,
+            appIntegrityProvider: MockAppIntegrityProvider()
+        )
         
         // THEN my user session data is repopulated
         XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND the token provider access token is updated
-        XCTAssertEqual(sut.tokenProvider.subjectToken, MockJWTs.genericToken)
+        XCTAssertEqual(sut.tokenProvider.accessToken, MockJWTs.genericToken)
         
         // AND no refresh token expiry date is saved
         do {
@@ -645,11 +714,14 @@ extension PersistentSessionManagerTests {
     func test_endCurrentSession_clearsDataFromSession() async throws {
         try setUpNeededForResumeSession()
         
-        try await sut.resumeSession(tokenExchangeManager: mockRefreshTokenExchangeManager)
+        try await sut.resumeSession(
+            tokenExchangeManager: mockRefreshTokenExchangeManager,
+            appIntegrityProvider: MockAppIntegrityProvider()
+        )
         // WHEN I end the session
         sut.endCurrentSession()
         // THEN my data is cleared
-        XCTAssertNil(sut.tokenProvider.subjectToken)
+        XCTAssertNil(sut.tokenProvider.accessToken)
         XCTAssertNil(sut.user.value)
         
         XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])
@@ -707,7 +779,8 @@ extension PersistentSessionManagerTests {
         mockStoredTokens = StoredTokens(
             idToken: idToken,
             refreshToken: refreshToken,
-            accessToken: accessToken
+            accessToken: accessToken,
+            accessTokenExpiry: Date.distantFuture
         )
         
         var keysAsData = String()

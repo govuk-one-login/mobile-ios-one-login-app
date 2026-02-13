@@ -23,7 +23,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         urlOpener = MockURLOpener()
         sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
                                   sessionManager: mockSessionManager,
-                                  networkClient: mockNetworkClient,
+                                  networkingService: mockNetworkClient,
                                   urlOpener: urlOpener)
         let window = UIWindow()
         window.rootViewController = sut.root
@@ -36,8 +36,6 @@ final class SettingsCoordinatorTests: XCTestCase {
         mockNetworkClient = nil
         urlOpener = nil
         sut = nil
-        
-        WalletAvailabilityService.hasAccessedBefore = false
         
         super.tearDown()
     }

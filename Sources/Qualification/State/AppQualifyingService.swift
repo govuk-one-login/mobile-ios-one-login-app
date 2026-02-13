@@ -1,6 +1,8 @@
+import AppIntegrity
 import Foundation
 import Logging
 import MobilePlatformServices
+import Networking
 import SecureStore
 
 protocol QualifyingService: AnyObject {
@@ -110,7 +112,10 @@ final class AppQualifyingService: QualifyingService {
             sessionState = .loggedIn
         case .saved:
             do {
-                try await sessionManager.resumeSession(tokenExchangeManager: RefreshTokenExchangeManager())
+                try await sessionManager.resumeSession(
+                    tokenExchangeManager: RefreshTokenExchangeManager(),
+                    appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+                )
                 sessionState = .loggedIn
             } catch let error as SecureStoreError where error.kind == .biometricsCancelled {
                 // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
@@ -122,6 +127,8 @@ final class AppQualifyingService: QualifyingService {
                 sessionState = .localAuthCancelled
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline
+            } catch let error as ServerError where error.errorCode == 400 {
+                return
             } catch {
                 // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors from RefreshTokenExchangeManager
                 analyticsService.logCrash(error)

@@ -1,3 +1,4 @@
+import AppIntegrity
 import Authentication
 import Foundation
 import LocalAuthenticationWrapper
@@ -16,16 +17,15 @@ protocol SessionManager: AnyObject, UserProvider {
     var expiryDate: Date? { get }
     var isReturningUser: Bool { get }
     var isEnrolling: Bool { get set }
-
-    var isAccessTokenValid: Bool { get }
-    var validTokensForRefreshExchange: (refreshToken: String, idToken: String)? { get throws }
+    
+    var validTokensForRefreshExchange: (idToken: String, refreshToken: String)? { get throws }
     
     var tokenProvider: TokenHolder { get }
-
+    
     var localAuthentication: LocalAuthManaging { get }
     
     var persistentID: String? { get }
-
+    
     /// Starts a new authentication session from a remote login
     func startAuthSession(
         _ session: LoginSession,
@@ -37,18 +37,24 @@ protocol SessionManager: AnyObject, UserProvider {
     
     /// Saves tokens in on-device storage
     func saveLoginTokens(
-        tokenResponse: TokenResponse,
-        idToken: String?
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?
     ) throws
     
     /// Resumes an existing session by restoring tokens from on-device storage
-    func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws
-
+    func resumeSession(
+        tokenExchangeManager: TokenExchangeManaging,
+        appIntegrityProvider: AppIntegrityProvider
+    ) async throws
+    
     /// Ends the current session - removing and deleting session related data such as access and ID token
     func endCurrentSession()
-
+    
     /// Completely removes all user session data (including the persistent session and Wallet data) from the device
     func clearAllSessionData(presentSystemLogOut: Bool) async throws
+    
     /// Completely removes all user session data (including the persistent session and Wallet data) except analytics preferences
     func clearAppForLogin() async throws
 }

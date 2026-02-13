@@ -1,6 +1,7 @@
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
+import Testing
 import XCTest
 
 final class TokenHolderTests: XCTestCase {
@@ -62,7 +63,7 @@ extension TokenHolderTests {
 
         // AND I have an valid access token
         let subjectToken = UUID().uuidString
-        sut.update(subjectToken: subjectToken)
+        sut.update(accessToken: subjectToken, accessTokenExpiry: Date())
 
         // WHEN the a scoped token is requested
         let scope = UUID().uuidString
@@ -109,8 +110,8 @@ extension TokenHolderTests {
         }
         
         // AND I have an valid access token
-        sut.update(subjectToken: expectedToken)
-        
+        sut.update(accessToken: expectedToken, accessTokenExpiry: Date())
+
         // WHEN the a scoped token is requested
         do {
             let token = try await sut
@@ -120,6 +121,57 @@ extension TokenHolderTests {
             XCTAssertEqual(token, expectedToken)
         } catch {
             XCTFail("Expected success but error (\(error)) occurred")
+        }
+    }
+    
+    func testIsAccessTokenValid() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let client = NetworkClient(configuration: configuration)
+        let sut = TokenHolder(client: client)
+        
+        sut.update(accessToken: MockJWTs.genericToken, accessTokenExpiry: Date.distantFuture)
+
+        XCTAssertTrue(sut.isAccessTokenValid)
+        
+        sut.update(accessToken: MockJWTs.genericToken, accessTokenExpiry: Date.distantPast)
+        
+        XCTAssertFalse(sut.isAccessTokenValid)
+    }
+    
+    func test_accountInterventionWithInvalidGrant() async throws {
+        let expectedToken = UUID().uuidString
+        MockURLProtocol.handler = {
+            let response = """
+            {
+                "access_token": "\(expectedToken)",
+                "token_type": "token",
+                "expires_in": 180
+            }
+            """
+            return (Data(response.utf8), HTTPURLResponse(statusCode: 200))
+        }
+        
+        // AND I have an valid access token
+        sut.update(accessToken: expectedToken, accessTokenExpiry: Date())
+        
+        let notification = NotificationCenter.default.notifications(named: .accountIntervention)
+        let iterator = notification.makeAsyncIterator()
+        
+        let jsonResponse = #"{ "error": "invalid_grant" }"#
+                
+        MockURLProtocol.handler = {
+            let data = Data(jsonResponse.utf8)
+            return (data, HTTPURLResponse(statusCode: 400))
+        }
+        
+        do {
+            _ = try await sut.fetchToken(withScope: "sts.hello-world.read")
+            Issue.record("Expect 400 error, but no error thrown")
+        } catch {
+            #expect((error as? ServerError)?.errorCode == 400)
+            let received = await iterator.next()?.name == .accountIntervention
+            #expect(received == true)
         }
     }
 }

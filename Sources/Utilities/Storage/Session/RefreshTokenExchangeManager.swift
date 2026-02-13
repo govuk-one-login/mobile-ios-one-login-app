@@ -45,7 +45,7 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             )
         } catch let error as ServerError where error.errorCode == 400 {
             NotificationCenter.default.post(name: .accountIntervention)
-            throw RefreshTokenExchangeError.accountIntervention
+            throw error
         } catch let error as FirebaseAppCheckError where error.errorType == .network {
             throw RefreshTokenExchangeError.noInternet
         } catch let error as URLError where error.code == .notConnectedToInternet
@@ -54,4 +54,3 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         }
     }
 }
-    
