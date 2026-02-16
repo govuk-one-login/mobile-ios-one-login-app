@@ -100,22 +100,9 @@ final class LoginCoordinator: NSObject,
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
             } catch let error as FirebaseAppCheckError {
-                appIntegrityRetries += 1
-                
-                handleFirebaseAppCheckError(
-                    error,
-                    errorCount: appIntegrityRetries,
-                    retry: triggerAuthFlow
-                )
+                handleFirebaseAppCheckError(error)
             } catch let error as ClientAssertionError {
-                // TODO: should error count be shared across both ?
-                appIntegrityRetries += 1
-                
-                handleClientAssertionError(
-                    error,
-                    errorCount: appIntegrityRetries,
-                    retry: triggerAuthFlow
-                )
+                handleClientAssertionError(error)
             } catch let error as ProofOfPossessionError {
                 // TODO: display app integrity error here
             } catch {
