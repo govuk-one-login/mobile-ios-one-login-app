@@ -58,12 +58,19 @@ extension TokenHolder: AuthorizationProvider {
             throw TokenError.bearerNotPresent
         }
         
-        let serviceTokenResponse = try await client.makeRequest(
-            .serviceTokenExchange(
-                subjectToken: accessToken,
-                scope: scope
+        let serviceTokenResponse: Data
+        
+        do {
+            serviceTokenResponse = try await client.makeRequest(
+                .serviceTokenExchange(
+                    subjectToken: accessToken,
+                    scope: scope
+                )
             )
-        )
+        } catch let error as ServerError where error.errorCode == 400 {
+            handleServerError(error)
+            throw error
+        }
         
         do {
             return try JSONDecoder()
@@ -71,5 +78,15 @@ extension TokenHolder: AuthorizationProvider {
         } catch {
             throw TokenError.unableToDecodeServiceTokenResponse
         }
+    }
+    
+    private func handleServerError(_ error: ServerError) {
+        guard let data = error.response,
+              let errorType = try? JSONDecoder().decode(ServerErrorResponse.self, from: data),
+              errorType.error == .invalidGrant else {
+            // Build environment throws 400 invalid_target so we shouldn't log the user out in that case
+            return
+        }
+        NotificationCenter.default.post(name: .accountIntervention)
     }
 }

@@ -41,7 +41,7 @@ final class NetworkingService {
                     refreshToken: tokens.refreshToken
                 )
                 
-                return try await makeAuthorizedRequestRealiseAccountIntervention(
+                return try await networkClient.makeAuthorizedRequest(
                     scope: scope,
                     request: request
                 )
@@ -52,7 +52,7 @@ final class NetworkingService {
             }
         }
         
-        return try await makeAuthorizedRequestRealiseAccountIntervention(
+        return try await networkClient.makeAuthorizedRequest(
             scope: scope,
             request: request
         )
@@ -60,21 +60,6 @@ final class NetworkingService {
 }
 
 extension NetworkingService {
-    private func makeAuthorizedRequestRealiseAccountIntervention(
-        scope: String,
-        request: URLRequest
-    ) async throws -> Data {
-        do {
-            return try await networkClient.makeAuthorizedRequest(
-                scope: scope,
-                request: request
-            )
-        } catch let error as ServerError where error.errorCode == 400 {
-            handleServerError(error)
-            throw error
-        }
-    }
-    
     private func performRefreshExchangeAndSaveTokens(
         idToken: String,
         refreshToken: String
@@ -91,15 +76,5 @@ extension NetworkingService {
             accessToken: tokenResponse.accessToken,
             accessTokenExpiry: tokenResponse.expiryDate
         )
-    }
-    
-    private func handleServerError(_ error: ServerError) {
-        guard let data = error.response,
-              let errorType = try? JSONDecoder().decode(ServerErrorResponse.self, from: data),
-              errorType.error == .invalidGrant else {
-            // Build environment throws 400 invalid_target so we shouldn't log the user out in that case
-            return
-        }
-        NotificationCenter.default.post(name: .accountIntervention)
     }
 }
