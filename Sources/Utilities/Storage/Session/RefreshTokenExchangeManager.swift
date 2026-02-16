@@ -87,18 +87,9 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
              .cantDecodeClientAssertion:
             appIntegrityRetries += 1
             
-            if appIntegrityRetries == 1 {
+            if appIntegrityRetries <= 2 {
                 Task {
-                    try await Task.sleep(nanoseconds: 100_000_000)
-                    
-                    return try await getUpdatedTokens(
-                        refreshToken: refreshToken,
-                        appIntegrityProvider: appIntegrityProvider
-                    )
-                }
-            } else if appIntegrityRetries == 2 {
-                Task {
-                    try await Task.sleep(nanoseconds: 200_000_000)
+                    try await Task.sleep(ms: 100 * UInt64(appIntegrityRetries))
                     
                     return try await getUpdatedTokens(
                         refreshToken: refreshToken,
