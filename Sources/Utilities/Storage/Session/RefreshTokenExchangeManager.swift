@@ -41,38 +41,18 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             throw RefreshTokenExchangeError.noInternet
         } catch let error as FirebaseAppCheckError where error.kind == .network {
             throw RefreshTokenExchangeError.noInternet
-        } catch let error as FirebaseAppCheckError {
-            handleFirebaseAppCheckError(
-                error,
-                refreshToken: refreshToken,
-                appIntegrityProvider: appIntegrityProvider
-            )
+        } catch _ as FirebaseAppCheckError {
+            // All other FirebaseAppCheckErrors are treated as unrecoverable
+            throw RefreshTokenExchangeError.appIntegrityFailed
         } catch let error as ClientAssertionError {
-            handleClientAssertionError(
+            try handleClientAssertionError(
                 error,
                 refreshToken: refreshToken,
                 appIntegrityProvider: appIntegrityProvider
             )
-        } catch let error as ProofOfPossessionError {
-            // TODO: display app integrity error here
-        }
-    }
-    
-    private func handleFirebaseAppCheckError(
-        _ error: FirebaseAppCheckError,
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
-    ) {
-        switch error.kind {
-        case .unknown,
-             .generic,
-             .invalidConfiguration,
-             .keychainAccess,
-             .notSupported:
-            // TODO: display app integrity error here
-        case .network:
-            // This case is handled above
-            break
+            throw RefreshTokenExchangeError.appIntegrityFailed
+        } catch _ as ProofOfPossessionError {
+            throw RefreshTokenExchangeError.appIntegrityFailed
         }
     }
     
@@ -80,7 +60,7 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         _ error: ClientAssertionError,
         refreshToken: String,
         appIntegrityProvider: AppIntegrityProvider
-    ) {
+    ) throws {
         switch error.kind {
         case .invalidToken,
              .serverError,
@@ -97,10 +77,10 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
                     )
                 }
             } else {
-                // TODO: display app integrity error here
+                throw RefreshTokenExchangeError.appIntegrityFailed
             }
         case .invalidPublicKey:
-            // TODO: display app integrity error here
+            throw RefreshTokenExchangeError.appIntegrityFailed
         }
     }
 }

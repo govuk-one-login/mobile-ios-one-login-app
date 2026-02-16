@@ -120,6 +120,11 @@ final class QualifyingCoordinator: NSObject,
             launchLoginCoordinator(serviceState: serviceState)
         case .activeService:
             return
+        case .appIntegrityFailed:
+            // TODO: display app integrity error here
+            let viewModel = UnrecoverableLoginErrorViewModel(analyticsService: analyticsService, errorDescription: "")
+            let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            displayViewController(unableToLoginErrorScreen)
         }
     }
     

@@ -105,6 +105,7 @@ final class LoginCoordinator: NSObject,
                 handleClientAssertionError(error)
             } catch let error as ProofOfPossessionError {
                 // TODO: display app integrity error here
+                showUnrecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -252,6 +253,7 @@ extension LoginCoordinator {
              .keychainAccess,
              .notSupported:
             // TODO: display app integrity error here
+            showUnrecoverableErrorScreen(error)
         }
     }
     
@@ -270,9 +272,11 @@ extension LoginCoordinator {
                 }
             } else {
                 // TODO: display app integrity error here
+                showUnrecoverableErrorScreen(error)
             }
         case .invalidPublicKey:
             // TODO: display app integrity error here
+            showUnrecoverableErrorScreen(error)
         }
     }
     

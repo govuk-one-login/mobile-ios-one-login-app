@@ -37,7 +37,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         configure(vendorType: AppCheck.self)
     }
     
-    // Can throw FirebaseAppCheckErrors, ClientAssertionErrors & ProofOfPossessionErrors
+    // Can throw FirebaseAppCheckErrors, ClientAssertionErrors, ProofOfPossessionErrors & uncaught ServerErrors
     public var integrityAssertions: [String: String] {
         get async throws {
             guard hasExpiredAttestation else {
