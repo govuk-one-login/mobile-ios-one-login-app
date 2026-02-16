@@ -100,11 +100,24 @@ final class LoginCoordinator: NSObject,
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
             } catch let error as FirebaseAppCheckError {
-                handleFirebaseAppCheckError(error)
+                appIntegrityRetries += 1
+                
+                handleFirebaseAppCheckError(
+                    error,
+                    errorCount: appIntegrityRetries,
+                    retry: triggerAuthFlow
+                )
             } catch let error as ClientAssertionError {
-                handleClientAssertionError(error)
+                // TODO: should error count be shared across both ?
+                appIntegrityRetries += 1
+                
+                handleClientAssertionError(
+                    error,
+                    errorCount: appIntegrityRetries,
+                    retry: triggerAuthFlow
+                )
             } catch let error as ProofOfPossessionError {
-                showUnrecoverableErrorScreen(error)
+                // TODO: display app integrity error here
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -274,11 +287,23 @@ extension LoginCoordinator {
         case .invalidToken,
              .serverError,
              .cantDecodeClientAssertion:
-            guard appIntegrityRetries < 3 else {
+            // TODO: should error retries be shared?
+            appIntegrityRetries += 1
+            
+            if appIntegrityRetries == 1 {
+                Task {
+                    try await Task.sleep(nanoseconds: 100_000_000)
+                    
+                    try await triggerAuthFlow()
+                }
+            } else if appIntegrityRetries == 2 {
+                Task {
+                    try await Task.sleep(nanoseconds: 200_000_000)
+                    
+                    try await triggerAuthFlow()
+                }
+            } else {
                 // TODO: display app integrity error here
-            }
-            Task {
-                try await triggerAuthFlow()
             }
         case .invalidPublicKey:
             // TODO: display app integrity error here

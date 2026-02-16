@@ -13,7 +13,7 @@ protocol TokenExchangeManaging {
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
-    private(set) var errorRetries = 0
+    private(set) var appIntegrityRetries = 0
     
     init(networkClient: NetworkClient = NetworkClient()) {
         self.networkClient = networkClient
@@ -33,16 +33,6 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             
             return try JSONDecoder()
                 .decode(TokenResponse.self, from: exchangeResponse)
-        } catch let error as FirebaseAppCheckError where error.kind == .generic
-                    || error.kind == .unknown {
-            guard errorRetries < 3 else {
-                throw RefreshTokenExchangeError.appIntegrityRetryError
-            }
-            errorRetries += 1
-            return try await getUpdatedTokens(
-                refreshToken: refreshToken,
-                appIntegrityProvider: appIntegrityProvider
-            )
         } catch let error as ServerError where error.errorCode == 400 {
             NotificationCenter.default.post(name: .accountIntervention)
             throw error
@@ -51,6 +41,97 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
             throw RefreshTokenExchangeError.noInternet
+        } catch let error as FirebaseAppCheckError {
+            handleFirebaseAppCheckError(
+                error,
+                refreshToken: refreshToken,
+                appIntegrityProvider: appIntegrityProvider
+            )
+        } catch let error as ClientAssertionError {
+            handleClientAssertionError(
+                error,
+                refreshToken: refreshToken,
+                appIntegrityProvider: appIntegrityProvider
+            )
+        } catch let error as ProofOfPossessionError {
+            // TODO: display app integrity error here
+        }
+    }
+    
+    private func handleFirebaseAppCheckError(
+        _ error: FirebaseAppCheckError,
+        refreshToken: String,
+        appIntegrityProvider: AppIntegrityProvider
+    ) {
+        switch error.kind {
+        case .network:
+            appIntegrityRetries += 1
+            
+            if appIntegrityRetries == 1 {
+                Task {
+                    try await Task.sleep(nanoseconds: 100_000_000)
+                    
+                    return try await getUpdatedTokens(
+                        refreshToken: refreshToken,
+                        appIntegrityProvider: appIntegrityProvider
+                    )
+                }
+            } else if appIntegrityRetries == 2 {
+                Task {
+                    try await Task.sleep(nanoseconds: 200_000_000)
+                    
+                    return try await getUpdatedTokens(
+                        refreshToken: refreshToken,
+                        appIntegrityProvider: appIntegrityProvider
+                    )
+                }
+            } else {
+                // TODO: display app integrity error here
+            }
+        case .unknown,
+             .generic,
+             .invalidConfiguration,
+             .keychainAccess,
+             .notSupported:
+            // TODO: display app integrity error here
+        }
+    }
+    
+    private func handleClientAssertionError(
+        _ error: ClientAssertionError,
+        refreshToken: String,
+        appIntegrityProvider: AppIntegrityProvider
+    ) {
+        switch error.kind {
+        case .invalidToken,
+             .serverError,
+             .cantDecodeClientAssertion:
+            // TODO: should error retries be shared?
+            appIntegrityRetries += 1
+            
+            if appIntegrityRetries == 1 {
+                Task {
+                    try await Task.sleep(nanoseconds: 100_000_000)
+                    
+                    return try await getUpdatedTokens(
+                        refreshToken: refreshToken,
+                        appIntegrityProvider: appIntegrityProvider
+                    )
+                }
+            } else if appIntegrityRetries == 2 {
+                Task {
+                    try await Task.sleep(nanoseconds: 200_000_000)
+                    
+                    return try await getUpdatedTokens(
+                        refreshToken: refreshToken,
+                        appIntegrityProvider: appIntegrityProvider
+                    )
+                }
+            } else {
+                // TODO: display app integrity error here
+            }
+        case .invalidPublicKey:
+            // TODO: display app integrity error here
         }
     }
 }
