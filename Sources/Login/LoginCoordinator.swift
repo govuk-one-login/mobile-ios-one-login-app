@@ -26,6 +26,7 @@ final class LoginCoordinator: NSObject,
     private var serviceState: RemoteServiceState?
 
     private var serverErrorCounter = 0
+    private(set) var appIntegrityRetries = 0
     
     private var loginTask: Task<Void, Never>? {
         didSet {
@@ -242,26 +243,45 @@ extension LoginCoordinator {
     private func handleFirebaseAppCheckError(_ error: FirebaseAppCheckError) {
         switch error.kind {
         case .network:
-            showNetworkConnectionErrorScreen { [unowned self] in
-                returnFromErrorScreen()
+            appIntegrityRetries += 1
+            
+            if appIntegrityRetries == 1 {
+                Task {
+                    try await Task.sleep(nanoseconds: 100_000_000)
+                    
+                    try await triggerAuthFlow()
+                }
+            } else if appIntegrityRetries == 2 {
+                Task {
+                    try await Task.sleep(nanoseconds: 200_000_000)
+                    
+                    try await triggerAuthFlow()
+                }
+            } else {
+                // TODO: display app integrity error here
             }
-        case .unknown, .generic:
-            showRecoverableErrorScreen(error)
-        case .invalidConfiguration,
-                .keychainAccess,
-                .notSupported:
-            showUnrecoverableErrorScreen(error)
+        case .unknown,
+             .generic,
+             .invalidConfiguration,
+             .keychainAccess,
+             .notSupported:
+            // TODO: display app integrity error here
         }
     }
     
     private func handleClientAssertionError(_ error: ClientAssertionError) {
         switch error.kind {
-        case .invalidPublicKey:
-            showUnrecoverableErrorScreen(error)
         case .invalidToken,
-                .serverError,
-                .cantDecodeClientAssertion:
-            showRecoverableErrorScreen(error)
+             .serverError,
+             .cantDecodeClientAssertion:
+            guard appIntegrityRetries < 3 else {
+                // TODO: display app integrity error here
+            }
+            Task {
+                try await triggerAuthFlow()
+            }
+        case .invalidPublicKey:
+            // TODO: display app integrity error here
         }
     }
     
