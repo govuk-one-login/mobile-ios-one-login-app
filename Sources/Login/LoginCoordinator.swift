@@ -274,7 +274,6 @@ extension LoginCoordinator {
         case .invalidToken,
              .serverError,
              .cantDecodeClientAssertion:
-            // TODO: should error retries be shared?
             appIntegrityRetries += 1
             
             if appIntegrityRetries == 1 {
