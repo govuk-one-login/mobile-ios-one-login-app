@@ -243,22 +243,8 @@ extension LoginCoordinator {
     private func handleFirebaseAppCheckError(_ error: FirebaseAppCheckError) {
         switch error.kind {
         case .network:
-            appIntegrityRetries += 1
-            
-            if appIntegrityRetries == 1 {
-                Task {
-                    try await Task.sleep(nanoseconds: 100_000_000)
-                    
-                    try await triggerAuthFlow()
-                }
-            } else if appIntegrityRetries == 2 {
-                Task {
-                    try await Task.sleep(nanoseconds: 200_000_000)
-                    
-                    try await triggerAuthFlow()
-                }
-            } else {
-                // TODO: display app integrity error here
+            showNetworkConnectionErrorScreen { [unowned self] in
+                returnFromErrorScreen()
             }
         case .unknown,
              .generic,
@@ -280,13 +266,13 @@ extension LoginCoordinator {
                 Task {
                     try await Task.sleep(nanoseconds: 100_000_000)
                     
-                    try await triggerAuthFlow()
+                    launchAuthenticationService()
                 }
             } else if appIntegrityRetries == 2 {
                 Task {
                     try await Task.sleep(nanoseconds: 200_000_000)
                     
-                    try await triggerAuthFlow()
+                    launchAuthenticationService()
                 }
             } else {
                 // TODO: display app integrity error here

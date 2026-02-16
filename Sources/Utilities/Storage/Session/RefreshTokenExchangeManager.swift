@@ -36,10 +36,10 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         } catch let error as ServerError where error.errorCode == 400 {
             NotificationCenter.default.post(name: .accountIntervention)
             throw error
-        } catch let error as FirebaseAppCheckError where error.kind == .network {
-            throw RefreshTokenExchangeError.noInternet
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
+            throw RefreshTokenExchangeError.noInternet
+        } catch let error as FirebaseAppCheckError where error.kind == .network {
             throw RefreshTokenExchangeError.noInternet
         } catch let error as FirebaseAppCheckError {
             handleFirebaseAppCheckError(
@@ -64,36 +64,15 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
         appIntegrityProvider: AppIntegrityProvider
     ) {
         switch error.kind {
-        case .network:
-            appIntegrityRetries += 1
-            
-            if appIntegrityRetries == 1 {
-                Task {
-                    try await Task.sleep(nanoseconds: 100_000_000)
-                    
-                    return try await getUpdatedTokens(
-                        refreshToken: refreshToken,
-                        appIntegrityProvider: appIntegrityProvider
-                    )
-                }
-            } else if appIntegrityRetries == 2 {
-                Task {
-                    try await Task.sleep(nanoseconds: 200_000_000)
-                    
-                    return try await getUpdatedTokens(
-                        refreshToken: refreshToken,
-                        appIntegrityProvider: appIntegrityProvider
-                    )
-                }
-            } else {
-                // TODO: display app integrity error here
-            }
         case .unknown,
              .generic,
              .invalidConfiguration,
              .keychainAccess,
              .notSupported:
             // TODO: display app integrity error here
+        case .network:
+            // This case is handled above
+            break
         }
     }
     
