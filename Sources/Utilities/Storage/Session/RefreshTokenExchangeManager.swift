@@ -13,8 +13,6 @@ protocol TokenExchangeManaging {
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
-    private(set) var appIntegrityRetries = 0
-    
     init(networkClient: NetworkClient = NetworkClient()) {
         self.networkClient = networkClient
     }
@@ -38,48 +36,19 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             throw error
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
+            // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
         } catch let error as FirebaseAppCheckError where error.kind == .network {
+            // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
         } catch _ as FirebaseAppCheckError {
             // All other FirebaseAppCheckErrors are treated as unrecoverable
             throw RefreshTokenExchangeError.appIntegrityFailed
-        } catch let error as ClientAssertionError {
-            try handleClientAssertionError(
-                error,
-                refreshToken: refreshToken,
-                appIntegrityProvider: appIntegrityProvider
-            )
+        } catch _ as ClientAssertionError {
+            // All ClientAssertionErrors are treated as unrecoverable
             throw RefreshTokenExchangeError.appIntegrityFailed
         } catch _ as ProofOfPossessionError {
-            throw RefreshTokenExchangeError.appIntegrityFailed
-        }
-    }
-    
-    private func handleClientAssertionError(
-        _ error: ClientAssertionError,
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
-    ) throws {
-        switch error.kind {
-        case .invalidToken,
-             .serverError,
-             .cantDecodeClientAssertion:
-            appIntegrityRetries += 1
-            
-            if appIntegrityRetries <= 2 {
-                Task {
-                    try await Task.sleep(ms: 100 * UInt64(appIntegrityRetries))
-                    
-                    return try await getUpdatedTokens(
-                        refreshToken: refreshToken,
-                        appIntegrityProvider: appIntegrityProvider
-                    )
-                }
-            } else {
-                throw RefreshTokenExchangeError.appIntegrityFailed
-            }
-        case .invalidPublicKey:
+            // All ProofOfPossessionErrors are treated as unrecoverable
             throw RefreshTokenExchangeError.appIntegrityFailed
         }
     }

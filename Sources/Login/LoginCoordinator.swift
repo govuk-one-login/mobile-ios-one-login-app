@@ -102,7 +102,8 @@ final class LoginCoordinator: NSObject,
             } catch let error as FirebaseAppCheckError {
                 handleFirebaseAppCheckError(error)
             } catch let error as ClientAssertionError {
-                handleClientAssertionError(error)
+                // TODO: display app integrity error here
+                showUnrecoverableErrorScreen(error)
             } catch let error as ProofOfPossessionError {
                 // TODO: display app integrity error here
                 showUnrecoverableErrorScreen(error)
@@ -252,29 +253,6 @@ extension LoginCoordinator {
              .invalidConfiguration,
              .keychainAccess,
              .notSupported:
-            // TODO: display app integrity error here
-            showUnrecoverableErrorScreen(error)
-        }
-    }
-    
-    private func handleClientAssertionError(_ error: ClientAssertionError) {
-        switch error.kind {
-        case .invalidToken,
-             .serverError,
-             .cantDecodeClientAssertion:
-            appIntegrityRetries += 1
-            
-            if appIntegrityRetries <= 2 {
-                Task {
-                    try await Task.sleep(ms: 100 * UInt64(appIntegrityRetries))
-                    
-                    launchAuthenticationService()
-                }
-            } else {
-                // TODO: display app integrity error here
-                showUnrecoverableErrorScreen(error)
-            }
-        case .invalidPublicKey:
             // TODO: display app integrity error here
             showUnrecoverableErrorScreen(error)
         }
