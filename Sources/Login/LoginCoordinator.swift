@@ -26,7 +26,6 @@ final class LoginCoordinator: NSObject,
     private var serviceState: RemoteServiceState?
 
     private var serverErrorCounter = 0
-    private(set) var appIntegrityRetries = 0
     
     private var loginTask: Task<Void, Never>? {
         didSet {

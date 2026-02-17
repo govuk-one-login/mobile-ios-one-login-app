@@ -194,6 +194,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         } catch let error as ServerError where
                     error.errorCode == 500 /* .serverError */ {
             return try handleClientAttestationError(error, appCheckToken)
+        } catch let error as ServerError {
+            throw error
         } catch let error as DecodingError /* .cantDecodeClientAssertion */ {
             return try handleClientAttestationError(error, appCheckToken)
         } catch {
