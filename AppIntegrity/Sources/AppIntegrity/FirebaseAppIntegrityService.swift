@@ -167,6 +167,25 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
+            let attestationResponse = try await makeClientAttestationCall(appCheckToken)
+            
+            try attestationStore.store(
+                clientAttestation: attestationResponse.clientAttestation,
+                attestationExpiry: attestationResponse.expiryDate
+            )
+            
+            return attestationResponse
+        } catch {
+            // For Secure Store Errors
+            throw ProofOfPossessionError(
+                .cantGenerateAttestationPublicKeyJWK,
+                originalError: error
+            )
+        }
+    }
+    
+    private func makeClientAttestationCall(_ appCheckToken: String) async throws -> ClientAttestationResponse {
+        do {
             let data = try await networkClient.makeRequest(.clientAttestation(
                 baseURL: baseURL,
                 token: appCheckToken,
@@ -176,11 +195,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             let attestationResponse = try JSONDecoder()
                 .decode(ClientAttestationResponse.self, from: data)
             
-            try attestationStore.store(
-                clientAttestation: attestationResponse.clientAttestation,
-                attestationExpiry: attestationResponse.expiryDate
-            )
-            
             return attestationResponse
         } catch let error as ServerError where
                     error.errorCode == 400 {
@@ -189,15 +203,13 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 originalError: error
             )
         } catch let error as ServerError where
-                    error.errorCode == 401 /* .invalidToken */ {
-            return try handleClientAttestationError(error, appCheckToken)
-        } catch let error as ServerError where
+                    error.errorCode == 401 /* .invalidToken */ ||
                     error.errorCode == 500 /* .serverError */ {
-            return try handleClientAttestationError(error, appCheckToken)
+            return try await handleClientAttestationError(error, appCheckToken)
         } catch let error as ServerError {
             throw error
         } catch let error as DecodingError /* .cantDecodeClientAssertion */ {
-            return try handleClientAttestationError(error, appCheckToken)
+            return try await handleClientAttestationError(error, appCheckToken)
         } catch {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
@@ -206,24 +218,20 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    private func handleClientAttestationError(_ error: Error, _ appCheckToken: String) throws -> ClientAttestationResponse {
+    private func handleClientAttestationError(
+        _ error: Error,
+        _ appCheckToken: String
+    ) async throws -> ClientAttestationResponse {
         errorRetries += 1
         
         if errorRetries <= 2 {
-            Task {
-                try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-                
-                return try await fetchClientAttestation(appCheckToken: appCheckToken)
-            }
+            try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
+            return try await makeClientAttestationCall(appCheckToken)
         } else {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
                 originalError: error
             )
         }
-        throw ProofOfPossessionError(
-            .cantGenerateAttestationPublicKeyJWK,
-            originalError: error
-        )
     }
 }
