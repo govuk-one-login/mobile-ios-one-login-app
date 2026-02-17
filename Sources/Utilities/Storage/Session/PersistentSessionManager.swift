@@ -180,7 +180,7 @@ final class PersistentSessionManager: SessionManager {
         
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if let idToken = response.idToken {
-            user.send(try IDTokenUserRepresentation(idToken: idToken))
+            await user.send(try IDTokenUserRepresentation(verify: idToken))
         } else {
             user.send(nil)
         }
@@ -237,6 +237,7 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.idTokenNotStored
         }
         
+        // don't verify jwks token because the user won't be able to login offline
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         // Enables offline wallet for users that only have access tokens

@@ -13,4 +13,10 @@ final class IDTokenUserRepresentation: User {
          verifier: TokenVerifier = JWTVerifier()) throws {
         idTokenPayload = try verifier.extractPayload(idToken)
     }
+    
+    init(verify idToken: String,
+         verifier: TokenVerifier = JWTVerifier(),
+        ) async throws {
+        idTokenPayload = try await verifier.verifyToken(idToken)
+    }
 }
