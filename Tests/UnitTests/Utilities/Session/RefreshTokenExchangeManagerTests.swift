@@ -80,24 +80,6 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         #expect(exchangeResponse.idToken == nil)
     }
     
-    @Test("If any firebase error occurs, an error is thrown")
-    func refreshTokenExchange_firebaseGenericError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
-        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
-            .generic,
-            reason: "test description"
-        )
-        
-        do {
-            _ = try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
-            )
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
-            // Expected path
-        }
-    }
-    
     @Test("If account intervention occurs during refresh token exchange, an error is thrown")
     func refreshTokenExchange_accountIntervention() async throws {
         let notification = NotificationCenter.default.notifications(named: .accountIntervention)
@@ -120,26 +102,6 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             }
         } catch {
             Issue.record("Expected `.accountIntervention` error to be thrown")
-        }
-    }
-    
-    @Test("If a network firebase error occurs, an error is thrown")
-    func refreshTokenExchange_firebaseNetworkError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
-        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
-            .network,
-            reason: "test description"
-        )
-        
-        do {
-            _ = try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
-            )
-        } catch RefreshTokenExchangeError.noInternet {
-            // expected path
-        } catch {
-            Issue.record("Expected `.noInternet` error to be thrown")
         }
     }
     
@@ -176,6 +138,80 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             // expected path
         } catch {
             Issue.record("Expected `.networkConnectionLost` error to be thrown")
+        }
+    }
+    
+    @Test("If a network firebase error occurs, an error is thrown")
+    func refreshTokenExchange_firebaseNetworkError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
+            .network,
+            reason: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.noInternet {
+            // expected path
+        } catch {
+            Issue.record("Expected `.noInternet` error to be thrown")
+        }
+    }
+    
+    @Test("If any firebase error occurs, an error is thrown")
+    func refreshTokenExchange_firebaseGenericError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
+            .generic,
+            reason: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
+            // Expected path
+        }
+    }
+    
+    @Test("If any client assertion error occurs, an error is thrown")
+    func refreshTokenExchange_clientassertionError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = ClientAssertionError(
+            .invalidPublicKey,
+            reason: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
+            // Expected path
+        }
+    }
+    
+    @Test("If any proof of possession error occurs, an error is thrown")
+    func refreshTokenExchange_proofOfPossessionError() async throws {
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = ProofOfPossessionError(
+            .cantGenerateAttestationPublicKeyJWK,
+            reason: "test description"
+        )
+        
+        do {
+            _ = try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: mockAppIntegrityProvider
+            )
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
+            // Expected path
         }
     }
 }
