@@ -101,10 +101,10 @@ final class LoginCoordinator: NSObject,
             } catch let error as FirebaseAppCheckError {
                 handleFirebaseAppCheckError(error)
             } catch let error as ClientAssertionError {
-                // TODO: display app integrity error here
+                // TODO: DCMAW-16581 display app integrity error here
                 showUnrecoverableErrorScreen(error)
             } catch let error as ProofOfPossessionError {
-                // TODO: display app integrity error here
+                // TODO: DCMAW-16581 display app integrity error here
                 showUnrecoverableErrorScreen(error)
             } catch {
                 showGenericErrorScreen(error)
@@ -252,7 +252,7 @@ extension LoginCoordinator {
              .invalidConfiguration,
              .keychainAccess,
              .notSupported:
-            // TODO: display app integrity error here
+            // TODO: DCMAW-16581 display app integrity error here
             showUnrecoverableErrorScreen(error)
         }
     }
