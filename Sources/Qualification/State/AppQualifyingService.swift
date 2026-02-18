@@ -120,7 +120,7 @@ final class AppQualifyingService: QualifyingService {
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline
             } catch RefreshTokenExchangeError.appIntegrityFailed {
-                serviceState = .appIntegrityFailed
+                serviceState = .appIntegrityCheckFailed
             } catch let error as ServerError where error.errorCode == 400 {
                 return
             } catch let error as SecureStoreErrorV2 where
@@ -178,6 +178,10 @@ extension AppQualifyingService {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reauthenticationRequired),
                                                name: .reauthenticationRequired)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(appIntegrityCheckFailed),
+                                               name: .appIntegrityCheckFailed)
     }
 
     @objc private func enrolmentComplete() {
@@ -205,5 +209,9 @@ extension AppQualifyingService {
     
     @objc private func reauthenticationRequired() {
         serviceState = .reauthenticationRequired
+    }
+    
+    @objc private func appIntegrityCheckFailed() {
+        serviceState = .appIntegrityCheckFailed
     }
 }

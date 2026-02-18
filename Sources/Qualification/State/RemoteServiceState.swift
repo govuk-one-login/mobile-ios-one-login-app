@@ -8,13 +8,14 @@ enum RemoteServiceState: Equatable {
     /// User needs to reauthenticate
     case reauthenticationRequired
     /// User failed app integrity checks
-    case appIntegrityFailed
+    case appIntegrityCheckFailed
 
     static func == (lhs: RemoteServiceState, rhs: RemoteServiceState) -> Bool {
         switch (lhs, rhs) {
         case (.activeService, .activeService),
             (.accountIntervention, .accountIntervention),
-            (.reauthenticationRequired, .reauthenticationRequired):
+            (.reauthenticationRequired, .reauthenticationRequired),
+            (.appIntegrityCheckFailed, .appIntegrityCheckFailed):
             true
         default:
             false

@@ -34,6 +34,7 @@ final class AppQualifyingServiceTests: XCTestCase {
 
         appState = nil
         sessionState = nil
+        serviceState = nil
 
         sut = nil
 
@@ -223,7 +224,27 @@ extension AppQualifyingServiceTests {
         )
     }
     
-    func test_resumeSession_serverError() {
+    func test_resumeSession_appIntegrityFailed() {
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = RefreshTokenExchangeError.appIntegrityFailed
+        sut.delegate = self
+        sut.initiate()
+        
+        // THEN the original session state is maintained
+        waitForTruth(
+            self.sessionState == nil,
+            timeout: 5
+        )
+        
+        // AND notifcation is posted
+        waitForTruth(
+            self.serviceState == .appIntegrityCheckFailed,
+            timeout: 5
+        )
+    }
+    
+    func test_resumeSession_accountIntervention() {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = ServerError(endpoint: "test", errorCode: 400)
@@ -236,7 +257,6 @@ extension AppQualifyingServiceTests {
             timeout: 5
         )
     }
-    
     
     func test_resumeSession_secureStoreError_cantDecryptData() {
         sessionManager.expiryDate = .distantFuture
