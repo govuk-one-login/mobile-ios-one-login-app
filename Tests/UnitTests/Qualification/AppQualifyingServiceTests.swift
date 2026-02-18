@@ -231,15 +231,8 @@ extension AppQualifyingServiceTests {
         sut.delegate = self
         sut.initiate()
         
-        // THEN the original session state is maintained
         waitForTruth(
-            self.sessionState == nil,
-            timeout: 5
-        )
-        
-        // AND notifcation is posted
-        waitForTruth(
-            self.serviceState == .appIntegrityCheckFailed,
+            self.sessionState == .appIntegrityCheckFailed,
             timeout: 5
         )
     }

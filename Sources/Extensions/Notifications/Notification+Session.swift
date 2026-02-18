@@ -38,9 +38,4 @@ extension Notification.Name {
     static var reauthenticationRequired: Self {
         Notification.Name("onelogin:re-authentication-required")
     }
-    
-    /// Posted when a user attempts to call a protected api but fails app integrity checks
-    static var appIntegrityCheckFailed: Self {
-        Notification.Name("onelogin:app-integrity-check-failed")
-    }
 }
