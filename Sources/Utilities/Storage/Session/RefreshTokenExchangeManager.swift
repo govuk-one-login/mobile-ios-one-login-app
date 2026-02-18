@@ -38,9 +38,6 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
                     || error.code == .networkConnectionLost {
             // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
-        } catch let error as FirebaseAppCheckError where error.kind == .network {
-            // Transformed to enable offline wallet
-            throw RefreshTokenExchangeError.noInternet
         } catch _ as FirebaseAppCheckError {
             // All other FirebaseAppCheckErrors are treated as unrecoverable
             throw RefreshTokenExchangeError.appIntegrityFailed

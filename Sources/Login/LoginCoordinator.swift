@@ -99,7 +99,8 @@ final class LoginCoordinator: NSObject,
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
             } catch let error as FirebaseAppCheckError {
-                handleFirebaseAppCheckError(error)
+                // TODO: DCMAW-16581 display app integrity error here
+                showUnrecoverableErrorScreen(error)
             } catch let error as ClientAssertionError {
                 // TODO: DCMAW-16581 display app integrity error here
                 showUnrecoverableErrorScreen(error)
@@ -238,22 +239,6 @@ extension LoginCoordinator {
                 .noSessionExists,
                 .idTokenNotStored:
             showGenericErrorScreen(error)
-        }
-    }
-    
-    private func handleFirebaseAppCheckError(_ error: FirebaseAppCheckError) {
-        switch error.kind {
-        case .network:
-            showNetworkConnectionErrorScreen { [unowned self] in
-                returnFromErrorScreen()
-            }
-        case .unknown,
-             .generic,
-             .invalidConfiguration,
-             .keychainAccess,
-             .notSupported:
-            // TODO: DCMAW-16581 display app integrity error here
-            showUnrecoverableErrorScreen(error)
         }
     }
     
