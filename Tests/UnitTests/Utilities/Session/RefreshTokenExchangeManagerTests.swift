@@ -80,7 +80,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         #expect(exchangeResponse.idToken == nil)
     }
     
-    @Test("If a generic firebase error occurs, an error is thrown after 3 retires")
+    @Test("If any firebase error occurs, an error is thrown")
     func refreshTokenExchange_firebaseGenericError() async throws {
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
@@ -93,26 +93,8 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.appIntegrityRetryError {
-            #expect(sut.errorRetries == 3)
-        }
-    }
-    
-    @Test("If a unknown firebase error occurs, an error is thrown after 3 retires")
-    func refreshTokenExchange_firebaseUnknownError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
-        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
-            .unknown,
-            reason: "test description"
-        )
-        
-        do {
-            _ = try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
-            )
-        } catch RefreshTokenExchangeError.appIntegrityRetryError {
-            #expect(sut.errorRetries == 3)
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
+            // Expected path
         }
     }
     

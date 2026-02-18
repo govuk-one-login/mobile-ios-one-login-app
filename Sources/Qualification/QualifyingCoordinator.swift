@@ -121,7 +121,7 @@ final class QualifyingCoordinator: NSObject,
         case .activeService:
             return
         case .appIntegrityFailed:
-            // TODO: display app integrity error here
+            // TODO: DCMAW-16581 display app integrity error here
             let viewModel = UnrecoverableLoginErrorViewModel(analyticsService: analyticsService, errorDescription: "")
             let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)

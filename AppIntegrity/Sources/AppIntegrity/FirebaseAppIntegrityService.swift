@@ -167,25 +167,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
-            let attestationResponse = try await makeClientAttestationCall(appCheckToken)
-            
-            try attestationStore.store(
-                clientAttestation: attestationResponse.clientAttestation,
-                attestationExpiry: attestationResponse.expiryDate
-            )
-            
-            return attestationResponse
-        } catch {
-            // For Secure Store Errors
-            throw ProofOfPossessionError(
-                .cantGenerateAttestationPublicKeyJWK,
-                originalError: error
-            )
-        }
-    }
-    
-    private func makeClientAttestationCall(_ appCheckToken: String) async throws -> ClientAttestationResponse {
-        do {
             let data = try await networkClient.makeRequest(.clientAttestation(
                 baseURL: baseURL,
                 token: appCheckToken,
@@ -194,6 +175,11 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             
             let attestationResponse = try JSONDecoder()
                 .decode(ClientAttestationResponse.self, from: data)
+            
+            try attestationStore.store(
+                clientAttestation: attestationResponse.clientAttestation,
+                attestationExpiry: attestationResponse.expiryDate
+            )
             
             return attestationResponse
         } catch let error as ServerError where
@@ -226,7 +212,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         
         if errorRetries <= 2 {
             try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-            return try await makeClientAttestationCall(appCheckToken)
+            return try await fetchClientAttestation(appCheckToken: appCheckToken)
         } else {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,

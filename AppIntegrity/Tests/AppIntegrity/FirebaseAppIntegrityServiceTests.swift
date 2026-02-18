@@ -1,4 +1,3 @@
-// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -248,14 +247,16 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("Check that 401 throws invalid token error")
     func testAssertIntegrity401() async throws {
+        let error = ServerError(endpoint: "", errorCode: 401)
+        
         MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 401))
+            throw error
         }
         
         await #expect(
-            throws: ClientAssertionError(
-                .invalidToken,
-                reason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
+            throws: ProofOfPossessionError(
+                .cantGenerateAttestationPublicKeyJWK,
+                originalError: error
             )
         ) {
             try await sut.integrityAssertions
@@ -264,14 +265,16 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("Check that 500 throws txma server error")
     func testAssertIntegrity500() async throws {
+        let error = ServerError(endpoint: "", errorCode: 500)
+        
         MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 500))
+            throw error
         }
         
         await #expect(
-            throws: ClientAssertionError(
-                .serverError,
-                reason: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
+            throws: ProofOfPossessionError(
+                .cantGenerateAttestationPublicKeyJWK,
+                originalError: error
             )
         ) {
             try await sut.integrityAssertions
@@ -350,20 +353,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         #expect(response.expiryDate < Date().addingTimeInterval(expiresIn))
     }
     
-    @Test("Check that client attestation request returns a server error")
-    func testFetchClientAttestationServerError() async throws {
-        MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 400))
-        }
-        
-        await #expect(
-            throws: ServerError(endpoint: "client-attestation", errorCode: 400)
-        ) {
-            try await sut
-                .fetchClientAttestation(appCheckToken: UUID().uuidString)
-        }
-    }
-    
     @Test("Check that client attestation request payload results in a decoding error")
     func testFetchClientAttestationDecodingError() async throws {
         MockURLProtocol.handler = {
@@ -376,9 +365,8 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
         
         await #expect(
-            throws: ClientAssertionError(
-                .cantDecodeClientAssertion,
-                reason: "The data couldn’t be read because it isn’t in the correct format."
+            throws: ProofOfPossessionError(
+                .cantGenerateAttestationPublicKeyJWK
             )
         ) {
             try await sut

@@ -12,9 +12,6 @@ public enum FirebaseAppCheckErrorType: String, GDSErrorKind {
 
 public enum ClientAssertionErrorType: String, GDSErrorKind {
     case invalidPublicKey          = "invalid client attestation public key"
-    case invalidToken              = "invalid firebase app check token"
-    case serverError               = "server error"
-    case cantDecodeClientAssertion = "cant decode client attestation"
 }
 
 public enum ProofOfPossessionErrorType: String, GDSErrorKind {

@@ -148,24 +148,6 @@ extension WebAuthenticationServiceTests {
         }
     }
     
-    func test_appIntegrityError_clientAssertionError() async {
-        mockSessionManager.errorFromStartSession = ClientAssertionError(
-            .invalidToken,
-            reason: "test reason"
-        )
-        
-        do {
-            try await sut.startWebSession()
-        } catch {
-            guard let error = error as? ClientAssertionError else {
-                XCTFail("Error should be a SecureStoreError")
-                return
-            }
-            XCTAssertTrue(error.kind == .invalidToken)
-            XCTAssertNotNil(mockAnalyticsService.crashesLogged)
-        }
-    }
-    
     func test_appIntegrityError_proofOfPosessionError() async {
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
             .cantGenerateAttestationPublicKeyJWK,
