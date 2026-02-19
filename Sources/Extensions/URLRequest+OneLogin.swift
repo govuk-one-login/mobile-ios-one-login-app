@@ -10,8 +10,11 @@ extension URLRequest {
         
         request.asXWWWFormURLEncoded()
         
-        for (key, value) in try await
-                Task(operation: { try await appIntegrityProvider.integrityAssertions }).value {
+        let headers = try await Task {
+            try await appIntegrityProvider.integrityAssertions
+        }.value
+        
+        for (key, value) in headers {
             request.setValue(
                 value,
                 forHTTPHeaderField: key
