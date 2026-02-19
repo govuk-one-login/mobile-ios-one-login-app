@@ -160,20 +160,19 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
     
-//    @Test("AppCheck vendor throws network error from limitedUseToken")
-//    func testAppCheckNetworkError() async throws {
-//        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
-//        
-//        do {
-//            _ = try await sut.integrityAssertions
-//            
-//        } catch let error as FirebaseAppCheckError {
-//            #expect(error.kind == .network)
-//            #expect(error.errorUserInfo["originalError"] as? String ==
-//                    "The operation couldn’t be completed. (Networking.ServerError error 401.)")
-//            #expect(sut.errorRetries == 3)
-//        }
-//    }
+    @Test("AppCheck vendor throws network error from limitedUseToken")
+    func testAppCheckNetworkError() async throws {
+        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
+        
+        do {
+            _ = try await sut.integrityAssertions
+        } catch let error as FirebaseAppCheckError {
+            #expect(error.kind == .network)
+            #expect(error.errorUserInfo["originalError"] as? String ==
+                    "The operation couldn’t be completed. (com.firebase.appCheck error 1.)")
+            #expect(sut.errorRetries == 3)
+        }
+    }
     
     @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
     func testAppCheckInvalidconfigurationError() async throws {

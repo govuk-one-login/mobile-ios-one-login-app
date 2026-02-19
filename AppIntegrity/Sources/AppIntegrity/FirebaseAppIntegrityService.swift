@@ -146,15 +146,17 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             case 1:
                 errorRetries += 1
                 
-                if errorRetries <= 2 {
-                    try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-                    return try await vendor.limitedUseToken()
-                } else {
+                guard errorRetries < 3 else {
                     throw FirebaseAppCheckError(
                         .network,
                         originalError: error
                     )
                 }
+                
+                Task {
+                    try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
+                }
+                return try await fetchAppCheckToken()
             case 2:
                 throw FirebaseAppCheckError(
                     .invalidConfiguration,
@@ -224,14 +226,16 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     ) async throws -> ClientAttestationResponse {
         errorRetries += 1
         
-        if errorRetries <= 2 {
-            try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-            return try await fetchClientAttestation(appCheckToken: appCheckToken)
-        } else {
+        guard errorRetries < 3 else {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
                 originalError: error
             )
         }
+        
+        Task {
+            try await Task.sleep(nanoseconds: 10)
+        }
+        return try await fetchClientAttestation(appCheckToken: appCheckToken)
     }
 }
