@@ -119,7 +119,9 @@ final class AppQualifyingService: QualifyingService {
                 sessionState = .loggedIn
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline
-            } catch RefreshTokenExchangeError.appIntegrityFailed {
+            } catch let error as RefreshTokenExchangeError where error == .appIntegrityFailed {
+                analyticsService.logCrash(error)
+                
                 sessionState = .appIntegrityCheckFailed
             } catch let error as ServerError where error.errorCode == 400 {
                 return
