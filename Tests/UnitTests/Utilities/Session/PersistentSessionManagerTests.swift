@@ -630,7 +630,7 @@ extension PersistentSessionManagerTests {
                 tokenExchangeManager: RefreshTokenExchangeManager(),
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.noInternet {
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
             // Expected path
         }
     }

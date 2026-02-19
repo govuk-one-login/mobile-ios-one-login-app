@@ -154,10 +154,10 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.noInternet {
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
             // expected path
         } catch {
-            Issue.record("Expected `.noInternet` error to be thrown")
+            Issue.record("Expected `.appIntegrityFailed` error to be thrown")
         }
     }
     

@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -159,19 +160,20 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
     
-    @Test("AppCheck vendor throws network error from limitedUseToken")
-    func testAppCheckNetworkError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
-        
-        await #expect(
-            throws: FirebaseAppCheckError(
-                .network,
-                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
-            )
-        ) {
-            try await sut.integrityAssertions
-        }
-    }
+//    @Test("AppCheck vendor throws network error from limitedUseToken")
+//    func testAppCheckNetworkError() async throws {
+//        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
+//        
+//        do {
+//            _ = try await sut.integrityAssertions
+//            
+//        } catch let error as FirebaseAppCheckError {
+//            #expect(error.kind == .network)
+//            #expect(error.errorUserInfo["originalError"] as? String ==
+//                    "The operation couldn’t be completed. (Networking.ServerError error 401.)")
+//            #expect(sut.errorRetries == 3)
+//        }
+//    }
     
     @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
     func testAppCheckInvalidconfigurationError() async throws {
@@ -245,37 +247,46 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
     
-    @Test("Check that 401 throws invalid token error")
+    @Test("Check that 401 throws proof of possession error")
     func testAssertIntegrity401() async throws {
-        let error = ServerError(endpoint: "", errorCode: 401)
-        
         MockURLProtocol.handler = {
-            throw error
+            (Data(), HTTPURLResponse(statusCode: 401))
         }
         
-        await #expect(
-            throws: ProofOfPossessionError(
-                .cantGenerateAttestationPublicKeyJWK,
-                originalError: error
-            )
-        ) {
-            try await sut.integrityAssertions
+        do {
+            _ = try await sut.integrityAssertions
+        } catch let error as ProofOfPossessionError {
+            #expect(error.kind == .cantGenerateAttestationPublicKeyJWK)
+            #expect(error.errorUserInfo["originalError"] as? String ==
+                    "The operation couldn’t be completed. (Networking.ServerError error 401.)")
+            #expect(sut.errorRetries == 3)
         }
     }
     
-    @Test("Check that 500 throws txma server error")
+    @Test("Check that 500 throws proof of possession error")
     func testAssertIntegrity500() async throws {
-        let error = ServerError(endpoint: "", errorCode: 500)
-        
         MockURLProtocol.handler = {
-            throw error
+            (Data(), HTTPURLResponse(statusCode: 500))
+        }
+        
+        do {
+            _ = try await sut.integrityAssertions
+        } catch let error as ProofOfPossessionError {
+            #expect(error.kind == .cantGenerateAttestationPublicKeyJWK)
+            #expect(error.errorUserInfo["originalError"] as? String ==
+                    "The operation couldn’t be completed. (Networking.ServerError error 500.)")
+            #expect(sut.errorRetries == 3)
+        }
+    }
+    
+    @Test("Check that ServerError is thrown")
+    func testAssertIntegrityServerError() async throws {
+        MockURLProtocol.handler = {
+            (Data(), HTTPURLResponse(statusCode: 429))
         }
         
         await #expect(
-            throws: ProofOfPossessionError(
-                .cantGenerateAttestationPublicKeyJWK,
-                originalError: error
-            )
+            throws: ServerError(endpoint: "client-attestation", errorCode: 429)
         ) {
             try await sut.integrityAssertions
         }

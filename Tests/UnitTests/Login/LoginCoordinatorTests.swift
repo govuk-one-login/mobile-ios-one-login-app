@@ -465,7 +465,7 @@ extension LoginCoordinatorTests {
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
         // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
-        XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
     }
     
     @MainActor
