@@ -11,7 +11,8 @@ extension URLRequest {
         request.asXWWWFormURLEncoded()
         
         let headers = try await Task {
-            try await appIntegrityProvider.integrityAssertions
+            try await OneLoginAppIntegrityService()
+                .appCheckIntegrityAssertions(appIntegrityProvider)
         }.value
         
         for (key, value) in headers {

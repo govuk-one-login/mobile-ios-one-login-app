@@ -22,7 +22,8 @@ extension LoginSessionConfiguration {
             persistentSessionId: persistentSessionID,
             tokenHeaders: shouldAttestIntegrity ?
             try await Task {
-                try await integrityService.integrityAssertions
+                try await OneLoginAppIntegrityService()
+                    .appCheckIntegrityAssertions(integrityService)
             }.value : nil
         )
     }

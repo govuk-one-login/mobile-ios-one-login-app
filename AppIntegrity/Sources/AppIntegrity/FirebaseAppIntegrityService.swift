@@ -21,8 +21,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     private let networkClient: AppIntegrityNetworkClient
     private let baseURL: URL
     
-    private(set) var errorRetries = 0
-
     private static var providerFactory: AppCheckProviderFactory {
         #if DEBUG
         AppCheckDebugProviderFactory()
@@ -51,7 +49,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             }
             
             do {
-                let appCheckToken = try await fetchAppCheckToken()
+                let appCheckToken = try await vendor.limitedUseToken()
                 let attestationResponse = try await fetchClientAttestation(appCheckToken: appCheckToken.token)
                 
                 return [
@@ -59,6 +57,59 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
                     AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
                 ]
+            } catch let error as NSError where
+                        error.domain == AppCheckErrorDomain {
+                // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
+                switch error.code {
+                case 0:
+                    throw FirebaseAppCheckError(
+                        .unknown,
+                        originalError: error
+                    )
+                case 1:
+                    throw FirebaseAppCheckError(
+                        .network,
+                        originalError: error
+                    )
+                case 2:
+                    throw FirebaseAppCheckError(
+                        .invalidConfiguration,
+                        originalError: error
+                    )
+                case 3:
+                    throw FirebaseAppCheckError(
+                        .keychainAccess,
+                        originalError: error
+                    )
+                case 4:
+                    throw FirebaseAppCheckError(
+                        .notSupported,
+                        originalError: error
+                    )
+                default:
+                    throw FirebaseAppCheckError(
+                        .generic,
+                        originalError: error
+                    )
+                }
+            } catch let error as ServerError where
+                        error.errorCode == 400 {
+                throw ClientAssertionError(
+                    .invalidPublicKey,
+                    originalError: error
+                )
+            } catch let error as ServerError where
+                        error.errorCode == 401 {
+                throw ClientAssertionError(
+                    .invalidToken,
+                    originalError: error
+                )
+            } catch let error as ServerError where
+                        error.errorCode == 500 {
+                throw ClientAssertionError(
+                    .serverError,
+                    originalError: error
+                )
             }
         }
     }
@@ -130,54 +181,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         )
     }
     
-    func fetchAppCheckToken() async throws -> AppCheckToken {
-        do {
-            let appCheckToken = try await vendor.limitedUseToken()
-            return appCheckToken
-        } catch let error as NSError where
-                    error.domain == AppCheckErrorDomain {
-            // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
-            switch error.code {
-            case 0:
-                throw FirebaseAppCheckError(
-                    .unknown,
-                    originalError: error
-                )
-            case 1:
-                errorRetries += 1
-                guard errorRetries < 3 else {
-                    throw FirebaseAppCheckError(
-                        .network,
-                        originalError: error
-                    )
-                }
-                
-                try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-                return try await fetchAppCheckToken()
-            case 2:
-                throw FirebaseAppCheckError(
-                    .invalidConfiguration,
-                    originalError: error
-                )
-            case 3:
-                throw FirebaseAppCheckError(
-                    .keychainAccess,
-                    originalError: error
-                )
-            case 4:
-                throw FirebaseAppCheckError(
-                    .notSupported,
-                    originalError: error
-                )
-            default:
-                throw FirebaseAppCheckError(
-                    .generic,
-                    originalError: error
-                )
-            }
-        }
-    }
-    
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
             let data = try await networkClient.makeRequest(.clientAttestation(
@@ -195,41 +198,18 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             )
             
             return attestationResponse
-        } catch let error as ServerError where
-                    error.errorCode == 400 {
-            throw ClientAssertionError(
-                .invalidPublicKey,
-                originalError: error
-            )
-        } catch let error as ServerError where
-                    error.errorCode == 401 /* .invalidToken */ ||
-                    error.errorCode == 500 /* .serverError */ {
-            return try await handleClientAttestationError(error, appCheckToken)
         } catch let error as ServerError {
             throw error
-        } catch let error as DecodingError /* .cantDecodeClientAssertion */ {
-            return try await handleClientAttestationError(error, appCheckToken)
+        } catch let error as DecodingError {
+            throw ClientAssertionError(
+                .cantDecodeClientAssertion,
+                originalError: error
+            )
         } catch {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
                 originalError: error
             )
         }
-    }
-    
-    private func handleClientAttestationError(
-        _ error: Error,
-        _ appCheckToken: String
-    ) async throws -> ClientAttestationResponse {
-        errorRetries += 1
-        guard errorRetries < 3 else {
-            throw ProofOfPossessionError(
-                .cantGenerateAttestationPublicKeyJWK,
-                originalError: error
-            )
-        }
-        
-        try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-        return try await fetchClientAttestation(appCheckToken: appCheckToken)
     }
 }
