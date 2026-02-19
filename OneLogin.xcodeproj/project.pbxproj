@@ -81,6 +81,8 @@
 		7CEFDE222E3BB684004EE532 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 7CEFDE212E3BB684004EE532 /* Wallet */; };
 		7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */ = {isa = PBXBuildFile; productRef = 7CF44B272CAB45A70027839B /* AppIntegrity */; };
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
+		8E9587DA2F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */; };
+		8EA9FDBB2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */; };
 		AB24C1132DB94A5F0080141C /* LocalAuthSettingsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */; };
 		AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = AB327B102D36BEAD00AC169E /* CRIOrchestrator */; };
 		AB51B3752D771E9500348FB6 /* WelcomeTileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB51B3742D771E9500348FB6 /* WelcomeTileViewModel.swift */; };
@@ -656,6 +658,8 @@
 		7CD66F862C90A96A008513F4 /* MockQualifyingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQualifyingService.swift; sourceTree = "<group>"; };
 		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
 		7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletSessionData+OneLogin.swift"; sourceTree = "<group>"; };
+		8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModelTests.swift; sourceTree = "<group>"; };
+		8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModel.swift; sourceTree = "<group>"; };
 		AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModel.swift; sourceTree = "<group>"; };
 		AB51B3742D771E9500348FB6 /* WelcomeTileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTileViewModel.swift; sourceTree = "<group>"; };
 		AB51B3762D78824F00348FB6 /* WelcomeTileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTileViewModelTests.swift; sourceTree = "<group>"; };
@@ -1319,6 +1323,7 @@
 			isa = PBXGroup;
 			children = (
 				ABFE5EF32DBA662B0093E86E /* LocalAuthErrorScreenTests */,
+				8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */,
 				C8BFE5EA2CB5818200FA9A35 /* AppUnavailableViewModelTests.swift */,
 				C8D678212C540297000AA26C /* DataDeletedWarningViewModelTests.swift */,
 				41A0BD0F2B275168009AE51F /* GenericErrorViewModelTests.swift */,
@@ -1347,6 +1352,7 @@
 			isa = PBXGroup;
 			children = (
 				ABFE5E2E2DB9A52A0093E86E /* LocalAuthErrorScreens */,
+				8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */,
 				C8BFE5E82CB57FCA00FA9A35 /* AppUnavailableViewModel.swift */,
 				C8D6781F2C519B7E000AA26C /* DataDeletedWarningViewModel.swift */,
 				41FF35AB2B21F1AA00419DB3 /* GenericErrorViewModel.swift */,
@@ -3307,6 +3313,7 @@
 				C8A94C4A2D033EB800303578 /* AppEnvironment+InternalTypes.swift in Sources */,
 				C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */,
 				7CD66F812C9070D8008513F4 /* AppInformationState.swift in Sources */,
+				8EA9FDBB2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift in Sources */,
 				C8DC472B2CF01B660022A24A /* AppIntegrityPoPJWT.swift in Sources */,
 				C8DC472E2CF48E480022A24A /* AppIntegrityProvider+OneLogin.swift in Sources */,
 				7CD66F7F2C9070B9008513F4 /* AppSessionState.swift in Sources */,
@@ -3427,6 +3434,7 @@
 			files = (
 				C8BFE5E52CB579EB00FA9A35 /* AnalyticsPreferenceViewModelTests.swift in Sources */,
 				C8788F422C78B2B800472EC2 /* AppEnvironmentTests.swift in Sources */,
+				8E9587DA2F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift in Sources */,
 				C84E8F622CFF1DF500639098 /* AppIntegrityPoPJWTTests.swift in Sources */,
 				7CB5BD902C948C7900ABAE4C /* AppQualifyingServiceTests.swift in Sources */,
 				C8BFE5EB2CB5818B00FA9A35 /* AppUnavailableViewModelTests.swift in Sources */,

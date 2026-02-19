@@ -264,6 +264,16 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getWelshString(),
                        "I ychwanegu dogfennau, mae angen i chi ganiatáu Touch ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
+    
+    func test_appIntegrityPageKeys() {
+        XCTAssertEqual("app_appIntegrityErrorTitle".getWelshString(),
+                       "Mae'n ddrwg gennym, mae problem")
+        XCTAssertEqual("app_appIntegrityErrorBody1".getWelshString(),
+                       "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.")
+        XCTAssertEqual("app_appIntegrityErrorBody2".getWelshString(),
+                       "Rhowch gynnig arall yn nes ymlaen.")
+    }
+
 }
 
 // swiftlint:enable line_length
