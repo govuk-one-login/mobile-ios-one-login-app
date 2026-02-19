@@ -10,7 +10,8 @@ extension URLRequest {
         
         request.asXWWWFormURLEncoded()
         
-        for (key, value) in try await appIntegrityProvider.integrityAssertions {
+        for (key, value) in try await
+                Task(operation: { try await appIntegrityProvider.integrityAssertions }).value {
             request.setValue(
                 value,
                 forHTTPHeaderField: key

@@ -145,7 +145,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 )
             case 1:
                 errorRetries += 1
-                
                 guard errorRetries < 3 else {
                     throw FirebaseAppCheckError(
                         .network,
@@ -153,9 +152,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                     )
                 }
                 
-                Task {
-                    try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-                }
+                try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
                 return try await fetchAppCheckToken()
             case 2:
                 throw FirebaseAppCheckError(
@@ -225,7 +222,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         _ appCheckToken: String
     ) async throws -> ClientAttestationResponse {
         errorRetries += 1
-        
         guard errorRetries < 3 else {
             throw ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,
@@ -233,9 +229,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
             )
         }
         
-        Task {
-            try await Task.sleep(nanoseconds: 10)
-        }
+        try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
         return try await fetchClientAttestation(appCheckToken: appCheckToken)
     }
 }
