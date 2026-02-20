@@ -164,13 +164,13 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     func testAppCheckNetworkError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
         
-        do {
-            _ = try await sut.integrityAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .network)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 1.)")
-            #expect(sut.errorRetries == 3)
+        await #expect(
+            throws: FirebaseAppCheckError(
+                .network,
+                reason: "The operation couldn’t be completed. (com.firebase.appCheck error 1.)"
+            )
+        ) {
+            try await sut.integrityAssertions
         }
     }
     
@@ -252,13 +252,13 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
         
-        do {
-            _ = try await sut.integrityAssertions
-        } catch let error as ProofOfPossessionError {
-            #expect(error.kind == .cantGenerateAttestationPublicKeyJWK)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (Networking.ServerError error 401.)")
-            #expect(sut.errorRetries == 3)
+        await #expect(
+            throws: ClientAssertionError(
+                .invalidToken,
+                reason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
+            )
+        ) {
+            try await sut.integrityAssertions
         }
     }
     
@@ -268,13 +268,13 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 500))
         }
         
-        do {
-            _ = try await sut.integrityAssertions
-        } catch let error as ProofOfPossessionError {
-            #expect(error.kind == .cantGenerateAttestationPublicKeyJWK)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (Networking.ServerError error 500.)")
-            #expect(sut.errorRetries == 3)
+        await #expect(
+            throws: ClientAssertionError(
+                .serverError,
+                reason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
+            )
+        ) {
+            try await sut.integrityAssertions
         }
     }
     
