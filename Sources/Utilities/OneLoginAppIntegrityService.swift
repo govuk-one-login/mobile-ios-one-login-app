@@ -8,14 +8,20 @@ class OneLoginAppIntegrityService {
     ) async throws -> [String: String] {
         do {
             return try await integrityService.integrityAssertions
-        } catch let error as FirebaseAppCheckError where error.kind == .network {
-            return try await retryIntegrityAssertions(error, integrityService)
-        } catch let error as ClientAssertionError where error.kind == .invalidToken {
-            return try await retryIntegrityAssertions(error, integrityService)
-        } catch let error as ClientAssertionError where error.kind == .serverError {
-            return try await retryIntegrityAssertions(error, integrityService)
-        } catch let error as ClientAssertionError where error.kind == .cantDecodeClientAssertion {
-            return try await retryIntegrityAssertions(error, integrityService)
+        } catch let error as FirebaseAppCheckError {
+            switch error.kind {
+            case .network:
+                return try await retryIntegrityAssertions(error, integrityService)
+            case .unknown, .invalidConfiguration, .keychainAccess, .notSupported, .generic:
+                throw error
+            }
+        } catch let error as ClientAssertionError {
+            switch error.kind {
+            case .invalidToken, .serverError, .cantDecodeClientAssertion:
+                return try await retryIntegrityAssertions(error, integrityService)
+            case .invalidPublicKey:
+                throw error
+            }
         }
     }
     
