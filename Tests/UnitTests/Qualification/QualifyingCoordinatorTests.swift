@@ -180,7 +180,7 @@ extension QualifyingCoordinatorTests {
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSErrorScreen
         )
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor

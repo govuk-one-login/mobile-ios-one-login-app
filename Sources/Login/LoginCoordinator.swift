@@ -99,14 +99,11 @@ final class LoginCoordinator: NSObject,
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
             } catch let error as FirebaseAppCheckError {
-                // TODO: DCMAW-16581 display app integrity error here
-                showUnrecoverableErrorScreen(error)
+                showAppIntegrityErrorScreen()
             } catch let error as ClientAssertionError {
-                // TODO: DCMAW-16581 display app integrity error here
-                showUnrecoverableErrorScreen(error)
+                showAppIntegrityErrorScreen()
             } catch let error as ProofOfPossessionError {
-                // TODO: DCMAW-16581 display app integrity error here
-                showUnrecoverableErrorScreen(error)
+                showAppIntegrityErrorScreen()
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -271,6 +268,14 @@ extension LoginCoordinator {
         )
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
+    }
+    
+    private func showAppIntegrityErrorScreen() {
+        let viewModel = AppIntegrityErrorViewModel(
+            analyticsService: analyticsService
+        )
+        let vc = GDSErrorScreen(viewModel: viewModel)
+        root.pushViewController(vc, animated: true)
     }
     
     private func showNetworkConnectionErrorScreen(action: @escaping () -> Void) {
