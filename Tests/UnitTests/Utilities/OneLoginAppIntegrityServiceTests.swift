@@ -2,7 +2,6 @@ import AppIntegrity
 @testable import OneLogin
 import Testing
 
-@Suite(.serialized)
 struct OneLoginAppIntegrityServiceTests {
     let mockInterityService = MockAppIntegrityProvider()
     let sut = OneLoginAppIntegrityService()
