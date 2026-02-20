@@ -480,7 +480,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -496,7 +496,55 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_appIntegrityInvalidTokenError() throws {
+        // GIVEN the authentication session returns an app integrity invalid token error
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .invalidToken,
+            reason: "test reason"
+        )
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_appIntegrityServerError() throws {
+        // GIVEN the authentication session returns an app integrity server error
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .serverError,
+            reason: "test reason"
+        )
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
+    }
+    
+    @MainActor
+    func test_launchAuthenticationService_appIntegrityCantDecodeClientAssertionError() throws {
+        // GIVEN the authentication session returns an cant decode client assertion error
+        mockSessionManager.errorFromStartSession = ClientAssertionError(
+            .cantDecodeClientAssertion,
+            reason: "test reason"
+        )
+        // WHEN the LoginCoordinator's launchAuthenticationService method is called
+        sut.launchAuthenticationService()
+        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        // THEN the visible view controller should be the GDSErrorScreen
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -512,7 +560,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -528,7 +576,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -544,7 +592,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -560,7 +608,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -576,7 +624,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -592,7 +640,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
@@ -608,7 +656,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
