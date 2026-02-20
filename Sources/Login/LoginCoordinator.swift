@@ -98,11 +98,11 @@ final class LoginCoordinator: NSObject,
                 handleLoginV2Error(error)
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
-            } catch let error as FirebaseAppCheckError {
+            } catch _ as FirebaseAppCheckError {
                 showAppIntegrityErrorScreen()
-            } catch let error as ClientAssertionError {
+            } catch _ as ClientAssertionError {
                 showAppIntegrityErrorScreen()
-            } catch let error as ProofOfPossessionError {
+            } catch _ as ProofOfPossessionError {
                 showAppIntegrityErrorScreen()
             } catch {
                 showGenericErrorScreen(error)

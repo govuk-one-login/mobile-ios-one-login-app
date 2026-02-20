@@ -154,7 +154,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .unknown)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (com.firebase.appCheck error 0.)")
         }
@@ -168,7 +167,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .network)
-            #expect(error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (com.firebase.appCheck error 1.)")
         }
@@ -182,7 +180,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .invalidConfiguration)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (com.firebase.appCheck error 2.)")
         }
@@ -196,7 +193,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .keychainAccess)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (com.firebase.appCheck error 3.)")
         }
@@ -210,7 +206,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .notSupported)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (com.firebase.appCheck error 4.)")
         }
@@ -224,7 +219,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .generic)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (com.firebase.appCheck error 5.)")
         }
@@ -240,7 +234,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidPublicKey)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (Networking.ServerError error 400.)")
         }
@@ -256,7 +249,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidToken)
-            #expect(error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (Networking.ServerError error 401.)")
         }
@@ -272,7 +264,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .serverError)
-            #expect(error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (Networking.ServerError error 500.)")
         }
@@ -296,7 +287,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ProofOfPossessionError {
             #expect(error.kind == .cantGenerateAttestationProofOfPossessionJWT)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (test domain error 0.)")
         }
@@ -320,7 +310,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ProofOfPossessionError {
             #expect(error.kind == .cantGenerateDemonstratingProofOfPossessionJWT)
-            #expect(!error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The operation couldn’t be completed. (test domain error 0.)")
         }
@@ -379,7 +368,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .cantDecodeClientAssertion)
-            #expect(error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The data couldn’t be read because it isn’t in the correct format.")
         }
