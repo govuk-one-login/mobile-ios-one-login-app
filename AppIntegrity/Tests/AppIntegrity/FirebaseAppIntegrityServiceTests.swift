@@ -271,7 +271,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         await #expect(
             throws: ClientAssertionError(
                 .serverError,
-                reason: "The operation couldn’t be completed. (Networking.ServerError error 401.)"
+                reason: "The operation couldn’t be completed. (Networking.ServerError error 500.)"
             )
         ) {
             try await sut.integrityAssertions
