@@ -7,8 +7,7 @@ import Testing
 struct AppIntegrityErrorViewModelTests {
     @Test func test_page() async throws {
         let mockAnalyticsService = MockAnalyticsService()
-        let errorDescription = "error description"
-        let appIntegrityErrorViewModel = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService, errorDescription: errorDescription)
+        let appIntegrityErrorViewModel = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService)
 
         #expect(appIntegrityErrorViewModel.image == .error)
         #expect(appIntegrityErrorViewModel.title.stringKey == "app_appIntegrityErrorTitle")
@@ -17,13 +16,11 @@ struct AppIntegrityErrorViewModelTests {
         #expect(appIntegrityErrorViewModel.buttonViewModels.isEmpty)
         #expect(appIntegrityErrorViewModel.rightBarButtonTitle == nil)
         #expect(appIntegrityErrorViewModel.backButtonIsHidden == true)
-        #expect(appIntegrityErrorViewModel.errorDescription == errorDescription)
     }
 
     @Test func test_didAppear() async throws {
         let mockAnalyticsService = MockAnalyticsService()
-        let errorDescription = "error description"
-        let appIntegrityErrorViewModel = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService, errorDescription: errorDescription)
+        let appIntegrityErrorViewModel = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService)
 
         
         appIntegrityErrorViewModel.didAppear()
@@ -33,7 +30,7 @@ struct AppIntegrityErrorViewModelTests {
         let expectedScreenView = ErrorScreenView(id: ErrorAnalyticsScreenID.appIntegrityError.rawValue,
                                      screen: ErrorAnalyticsScreen.appIntegrityError,
                                      titleKey: "app_appIntegrityErrorTitle",
-                                     reason: errorDescription)
+                                     reason: "app integrity error")
         
         #expect(mockAnalyticsService.screenViews.map { $0 as? ErrorScreenView } == [expectedScreenView])
         #expect(mockAnalyticsService.screenParamsLogged == expectedScreenView.parameters)

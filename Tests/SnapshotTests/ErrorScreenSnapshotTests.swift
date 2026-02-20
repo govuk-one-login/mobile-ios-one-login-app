@@ -126,7 +126,7 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_appIntegrityError() {
-        let sut = AppIntegrityErrorViewModel(analyticsService: analyticsService, errorDescription: "error description")
+        let sut = AppIntegrityErrorViewModel(analyticsService: analyticsService)
         let vc = GDSErrorScreen(viewModel: sut)
         
         vc.assertSnapshot()

@@ -12,24 +12,22 @@ struct AppIntegrityErrorViewModel: GDSErrorViewModelV3,
     let buttonViewModels: [any ButtonViewModel] = []
     
     let analyticsService: OneLoginAnalyticsService
-    let errorDescription: String
 
     let rightBarButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    init(analyticsService: OneLoginAnalyticsService, errorDescription: String) {
+    init(analyticsService: OneLoginAnalyticsService) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.system,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        self.errorDescription = errorDescription
     }
 
     func didAppear() {
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appIntegrityError.rawValue,
                                      screen: ErrorAnalyticsScreen.appIntegrityError,
                                      titleKey: title.stringKey,
-                                     reason: errorDescription)
+                                     reason: "app integrity error")
         analyticsService.trackScreen(screen)
     }
     
