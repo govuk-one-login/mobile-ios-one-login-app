@@ -464,7 +464,7 @@ extension LoginCoordinatorTests {
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
