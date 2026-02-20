@@ -206,6 +206,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         } catch let error as DecodingError {
             throw ClientAssertionError(
                 .cantDecodeClientAssertion,
+                resolvable: true,
                 originalError: error
             )
         } catch {

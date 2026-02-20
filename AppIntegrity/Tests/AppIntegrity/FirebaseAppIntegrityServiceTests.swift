@@ -379,7 +379,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .cantDecodeClientAssertion)
-            #expect(!error.resolvable)
+            #expect(error.resolvable)
             #expect(error.errorUserInfo["originalError"] as? String ==
                     "The data couldn’t be read because it isn’t in the correct format.")
         }
