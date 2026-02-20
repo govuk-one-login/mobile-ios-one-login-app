@@ -3,7 +3,7 @@ import AppIntegrity
 class OneLoginAppIntegrityService {
     private(set) var errorRetries = 0
     
-    func appCheckIntegrityAssertions(
+    func integrityAssertions(
         _ integrityService: AppIntegrityProvider
     ) async throws -> [String: String] {
         do {
@@ -30,6 +30,6 @@ class OneLoginAppIntegrityService {
         }
         
         try await Task.sleep(nanoseconds: 100_000_000 * UInt64(errorRetries))
-        return try await appCheckIntegrityAssertions(integrityService)
+        return try await integrityAssertions(integrityService)
     }
 }

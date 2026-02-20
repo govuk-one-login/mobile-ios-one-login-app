@@ -12,7 +12,7 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network)
         
         do {
-            _ = try await sut.appCheckIntegrityAssertions(mockInterityService)
+            _ = try await sut.integrityAssertions(mockInterityService)
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .network)
             #expect(sut.errorRetries == 3)
@@ -24,7 +24,7 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.invalidToken)
         
         do {
-            _ = try await sut.appCheckIntegrityAssertions(mockInterityService)
+            _ = try await sut.integrityAssertions(mockInterityService)
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidToken)
             #expect(sut.errorRetries == 3)
@@ -36,7 +36,7 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.serverError)
         
         do {
-            _ = try await sut.appCheckIntegrityAssertions(mockInterityService)
+            _ = try await sut.integrityAssertions(mockInterityService)
         } catch let error as ClientAssertionError {
             #expect(error.kind == .serverError)
             #expect(sut.errorRetries == 3)
@@ -48,7 +48,7 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.cantDecodeClientAssertion)
         
         do {
-            _ = try await sut.appCheckIntegrityAssertions(mockInterityService)
+            _ = try await sut.integrityAssertions(mockInterityService)
         } catch let error as ClientAssertionError {
             #expect(error.kind == .cantDecodeClientAssertion)
             #expect(sut.errorRetries == 3)

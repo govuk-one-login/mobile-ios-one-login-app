@@ -12,7 +12,7 @@ extension URLRequest {
         
         let headers = try await Task {
             try await OneLoginAppIntegrityService()
-                .appCheckIntegrityAssertions(appIntegrityProvider)
+                .integrityAssertions(appIntegrityProvider)
         }.value
         
         for (key, value) in headers {

@@ -69,7 +69,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 case 1:
                     throw FirebaseAppCheckError(
                         .network,
-                        originalError: error
+                        resolvable: true,
+                        originalError: error,
                     )
                 case 2:
                     throw FirebaseAppCheckError(
@@ -102,12 +103,14 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                         error.errorCode == 401 {
                 throw ClientAssertionError(
                     .invalidToken,
+                    resolvable: true,
                     originalError: error
                 )
             } catch let error as ServerError where
                         error.errorCode == 500 {
                 throw ClientAssertionError(
                     .serverError,
+                    resolvable: true,
                     originalError: error
                 )
             }

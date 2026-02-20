@@ -34,7 +34,6 @@ final class AppQualifyingServiceTests: XCTestCase {
 
         appState = nil
         sessionState = nil
-        serviceState = nil
 
         sut = nil
 
