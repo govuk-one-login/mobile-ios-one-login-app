@@ -4,7 +4,7 @@ on:
 jobs:
   unit_test:
     name: Run Snapshot Tests
-    runs-on: macos-26
+    runs-on: macos-latest-xlarge
 
     steps:
       - name: Add Path Globally
