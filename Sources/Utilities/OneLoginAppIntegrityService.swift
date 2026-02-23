@@ -14,7 +14,7 @@ import Dispatch
 ///
 /// - seealso: ``integrityAssertions(attempts:)`` on making an attempt at fetching the integrity assertions
 actor OneLoginAppIntegrityService {
-    private(set) var errorRetries = 0
+    private(set) var attempts = 0
     private let integrityService: AppIntegrityProvider
     
     init(integrityService: AppIntegrityProvider) {
@@ -50,30 +50,30 @@ actor OneLoginAppIntegrityService {
     }
 
     private func attempt(
-        _ retry: Int = 0,
+        _ attempt: Int = 0,
         max maxAttempts: Int
     ) async throws -> [String: String] {
         do {
-            return try await self.integrityAssertions(after: .milliseconds(100 * retry))
+            return try await self.integrityAssertions(after: .milliseconds(100 * attempt))
         } catch let error as FirebaseAppCheckError {
             switch error.kind {
             case .network:
-                self.errorRetries = retry + 1
-                if self.errorRetries >= maxAttempts {
+                self.attempts = attempt + 1
+                if self.attempts >= maxAttempts {
                     throw error
                 }
-                return try await self.attempt(self.errorRetries, max: maxAttempts)
+                return try await self.attempt(self.attempts, max: maxAttempts)
             case .unknown, .invalidConfiguration, .keychainAccess, .notSupported, .generic:
                 throw error
             }
         } catch let error as ClientAssertionError {
             switch error.kind {
             case .invalidToken, .serverError, .cantDecodeClientAssertion:
-                self.errorRetries = retry + 1
-                if self.errorRetries >= maxAttempts {
+                self.attempts = attempt + 1
+                if self.attempts >= maxAttempts {
                     throw error
                 }
-                return try await self.attempt(self.errorRetries, max: maxAttempts)
+                return try await self.attempt(self.attempts, max: maxAttempts)
             case .invalidPublicKey:
                 throw error
             }

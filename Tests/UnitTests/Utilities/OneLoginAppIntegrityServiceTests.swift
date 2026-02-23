@@ -13,7 +13,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .network)
-            #expect(await sut.errorRetries == 3)
+            #expect(await sut.attempts == 3)
             #expect(mockInterityService.attempts == 3)
         }
     }
@@ -28,7 +28,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .unknown)
-            #expect(await sut.errorRetries == 0)
+            #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
         }
     }
@@ -43,7 +43,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .invalidConfiguration)
-            #expect(await sut.errorRetries == 0)
+            #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
         }
     }
@@ -58,7 +58,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .keychainAccess)
-            #expect(await sut.errorRetries == 0)
+            #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
         }
     }
@@ -73,7 +73,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .notSupported)
-            #expect(await sut.errorRetries == 0)
+            #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
         }
     }
@@ -88,7 +88,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .generic)
-            #expect(await sut.errorRetries == 0)
+            #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
         }
     }
@@ -103,7 +103,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidToken)
-            #expect(await sut.errorRetries == 3)
+            #expect(await sut.attempts == 3)
             #expect(mockInterityService.attempts == 3)
         }
     }
@@ -118,7 +118,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as ClientAssertionError {
             #expect(error.kind == .serverError)
-            #expect(await sut.errorRetries == 3)
+            #expect(await sut.attempts == 3)
             #expect(mockInterityService.attempts == 3)
         }
     }
@@ -133,7 +133,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as ClientAssertionError {
             #expect(error.kind == .cantDecodeClientAssertion)
-            #expect(await sut.errorRetries == 3)
+            #expect(await sut.attempts == 3)
             #expect(mockInterityService.attempts == 3)
         }
     }
@@ -148,7 +148,7 @@ struct OneLoginAppIntegrityServiceTests {
             _ = try await sut.integrityAssertions()
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidPublicKey)
-            #expect(await sut.errorRetries == 0)
+            #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
         }
     }
