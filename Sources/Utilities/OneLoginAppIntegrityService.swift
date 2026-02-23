@@ -87,8 +87,7 @@ actor OneLoginAppIntegrityService {
             DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
                 Task {
                     do {
-                        let result = try await self.integrityService.integrityAssertions
-                        continuation.resume(returning: result)
+                        continuation.resume(returning: try await self.integrityService.integrityAssertions)
                     } catch {
                         continuation.resume(throwing: error)
                     }
