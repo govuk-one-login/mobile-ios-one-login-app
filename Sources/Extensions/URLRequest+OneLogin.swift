@@ -9,13 +9,9 @@ extension URLRequest {
         var request = URLRequest(url: AppEnvironment.stsToken)
         
         request.asXWWWFormURLEncoded()
-        
-        let headers = try await Task {
-            try await OneLoginAppIntegrityService()
-                .integrityAssertions(appIntegrityProvider)
-        }.value
-        
-        for (key, value) in headers {
+                
+        for (key, value) in try await OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
+            .integrityAssertions() {
             request.setValue(
                 value,
                 forHTTPHeaderField: key
