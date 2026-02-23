@@ -622,7 +622,7 @@ extension PersistentSessionManagerTests {
         
         // AND I have no internet
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
-        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, errorDescription: "test")
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, reason: "test")
         
         // WHEN I attempt to resume my session
         do {
@@ -630,7 +630,7 @@ extension PersistentSessionManagerTests {
                 tokenExchangeManager: RefreshTokenExchangeManager(),
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.noInternet {
+        } catch RefreshTokenExchangeError.appIntegrityFailed {
             // Expected path
         }
     }

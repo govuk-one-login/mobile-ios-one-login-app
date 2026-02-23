@@ -457,15 +457,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity network error
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .network,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
-        XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -473,15 +473,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity unknown error
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .unknown,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -489,15 +489,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity generic error
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .generic,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -505,15 +505,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity invalid token error
         mockSessionManager.errorFromStartSession = ClientAssertionError(
             .invalidToken,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -521,15 +521,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity server error
         mockSessionManager.errorFromStartSession = ClientAssertionError(
             .serverError,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -537,15 +537,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an cant decode client assertion error
         mockSessionManager.errorFromStartSession = ClientAssertionError(
             .cantDecodeClientAssertion,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -553,15 +553,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity not supported error
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .notSupported,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -569,15 +569,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity keychain access error
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .keychainAccess,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -585,15 +585,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity invalid configuration error
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .invalidConfiguration,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -601,15 +601,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity invalid public key error
         mockSessionManager.errorFromStartSession = ClientAssertionError(
             .invalidPublicKey,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -617,15 +617,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity cant generate a proof of possession public key error
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
             .cantGenerateAttestationPublicKeyJWK,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -633,15 +633,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
             .cantGenerateAttestationProofOfPossessionJWT,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor
@@ -649,15 +649,15 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns an app integrity cant generate a DPoP public key error
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
             .cantGenerateDemonstratingProofOfPossessionJWT,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
         // THEN the visible view controller should be the GDSErrorScreen
         let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
-        // THEN the visible view controller's view model should be the UnrecoverableLoginErrorViewModel
-        XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
+        // THEN the visible view controller's view model should be the AppIntegrityErrorViewModel
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }
     
     @MainActor

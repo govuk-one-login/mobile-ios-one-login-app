@@ -2,7 +2,7 @@ import Foundation
 
 enum RefreshTokenExchangeError: Error {
     case accountIntervention
-    case appIntegrityRetryError
+    case appIntegrityFailed
     case noInternet
     case reauthenticationRequired
 }

@@ -111,6 +111,10 @@ final class QualifyingCoordinator: NSObject,
             }
             let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
+        case .appIntegrityCheckFailed:
+            let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)
+            let appIntegrityErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            displayViewController(appIntegrityErrorScreen)
         }
     }
     

@@ -133,7 +133,7 @@ extension WebAuthenticationServiceTests {
     func test_appIntegrityError_firebaseAppCheckError() async {
         mockSessionManager.errorFromStartSession = FirebaseAppCheckError(
             .generic,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         
         do {
@@ -143,7 +143,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
-            XCTAssertTrue(error.errorType == .generic)
+            XCTAssertTrue(error.kind == .generic)
             XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         }
     }
@@ -151,7 +151,7 @@ extension WebAuthenticationServiceTests {
     func test_appIntegrityError_clientAssertionError() async {
         mockSessionManager.errorFromStartSession = ClientAssertionError(
             .invalidToken,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         
         do {
@@ -161,7 +161,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
-            XCTAssertTrue(error.errorType == .invalidToken)
+            XCTAssertTrue(error.kind == .invalidToken)
             XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         }
     }
@@ -169,7 +169,7 @@ extension WebAuthenticationServiceTests {
     func test_appIntegrityError_proofOfPosessionError() async {
         mockSessionManager.errorFromStartSession = ProofOfPossessionError(
             .cantGenerateAttestationPublicKeyJWK,
-            errorDescription: "test reason"
+            reason: "test reason"
         )
         
         do {
@@ -179,7 +179,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
-            XCTAssertTrue(error.errorType == .cantGenerateAttestationPublicKeyJWK)
+            XCTAssertTrue(error.kind == .cantGenerateAttestationPublicKeyJWK)
             XCTAssertNotNil(mockAnalyticsService.crashesLogged)
         }
     }

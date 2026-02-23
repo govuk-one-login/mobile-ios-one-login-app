@@ -15,6 +15,8 @@ enum AppSessionState: Equatable {
     case localAuthCancelled
     /// User session exists, has not expired and retrieved into memory
     case loggedIn
+    /// User failed app integrity checks
+    case appIntegrityCheckFailed
 
     static func == (lhs: AppSessionState, rhs: AppSessionState) -> Bool {
         switch (lhs, rhs) {
@@ -24,7 +26,8 @@ enum AppSessionState: Equatable {
             (.systemLogOut, .systemLogOut),
             (.userLogOut, .userLogOut),
             (.localAuthCancelled, .localAuthCancelled),
-            (.loggedIn, .loggedIn):
+            (.loggedIn, .loggedIn),
+            (.appIntegrityCheckFailed, .appIntegrityCheckFailed):
             return true
         default:
             return false

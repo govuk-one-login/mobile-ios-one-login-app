@@ -13,8 +13,6 @@ protocol TokenExchangeManaging {
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
-    private(set) var errorRetries = 0
-    
     init(networkClient: NetworkClient = NetworkClient()) {
         self.networkClient = networkClient
     }
@@ -33,24 +31,16 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             
             return try JSONDecoder()
                 .decode(TokenResponse.self, from: exchangeResponse)
-        } catch let error as FirebaseAppCheckError where error.errorType == .generic
-                    || error.errorType == .unknown {
-            guard errorRetries < 3 else {
-                throw RefreshTokenExchangeError.appIntegrityRetryError
-            }
-            errorRetries += 1
-            return try await getUpdatedTokens(
-                refreshToken: refreshToken,
-                appIntegrityProvider: appIntegrityProvider
-            )
         } catch let error as ServerError where error.errorCode == 400 {
             NotificationCenter.default.post(name: .accountIntervention)
             throw error
-        } catch let error as FirebaseAppCheckError where error.errorType == .network {
-            throw RefreshTokenExchangeError.noInternet
         } catch let error as URLError where error.code == .notConnectedToInternet
                     || error.code == .networkConnectionLost {
+            // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
+        } catch is FirebaseAppCheckError, is ClientAssertionError, is ProofOfPossessionError {
+            // All treated as unrecoverable
+            throw RefreshTokenExchangeError.appIntegrityFailed
         }
     }
 }

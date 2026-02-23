@@ -98,12 +98,8 @@ final class LoginCoordinator: NSObject,
                 handleLoginV2Error(error)
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
-            } catch let error as FirebaseAppCheckError {
-                handleFirebaseAppCheckError(error)
-            } catch let error as ClientAssertionError {
-                handleClientAssertionError(error)
-            } catch let error as ProofOfPossessionError {
-                showUnrecoverableErrorScreen(error)
+            } catch is FirebaseAppCheckError, is ClientAssertionError, is ProofOfPossessionError {
+                showAppIntegrityErrorScreen()
             } catch {
                 showGenericErrorScreen(error)
             }
@@ -239,32 +235,6 @@ extension LoginCoordinator {
         }
     }
     
-    private func handleFirebaseAppCheckError(_ error: FirebaseAppCheckError) {
-        switch error.errorType {
-        case .network:
-            showNetworkConnectionErrorScreen { [unowned self] in
-                returnFromErrorScreen()
-            }
-        case .unknown, .generic:
-            showRecoverableErrorScreen(error)
-        case .invalidConfiguration,
-                .keychainAccess,
-                .notSupported:
-            showUnrecoverableErrorScreen(error)
-        }
-    }
-    
-    private func handleClientAssertionError(_ error: ClientAssertionError) {
-        switch error.errorType {
-        case .invalidPublicKey:
-            showUnrecoverableErrorScreen(error)
-        case .invalidToken,
-                .serverError,
-                .cantDecodeClientAssertion:
-            showRecoverableErrorScreen(error)
-        }
-    }
-    
     private func showDataDeletedWarningScreen() {
         let viewModel = DataDeletedWarningViewModel { [unowned self] in
             serviceState = nil
@@ -294,6 +264,14 @@ extension LoginCoordinator {
         )
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
+    }
+    
+    private func showAppIntegrityErrorScreen() {
+        let viewModel = AppIntegrityErrorViewModel(
+            analyticsService: analyticsService
+        )
+        let vc = GDSErrorScreen(viewModel: viewModel)
+        root.pushViewController(vc, animated: true)
     }
     
     private func showNetworkConnectionErrorScreen(action: @escaping () -> Void) {
