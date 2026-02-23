@@ -64,7 +64,8 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 case 0:
                     throw FirebaseAppCheckError(
                         .unknown,
-                        originalError: error
+                        originalError: error,
+                        additionalParameters: error.userInfo
                     )
                 case 1:
                     throw FirebaseAppCheckError(
@@ -74,22 +75,26 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 case 2:
                     throw FirebaseAppCheckError(
                         .invalidConfiguration,
-                        originalError: error
+                        originalError: error,
+                        additionalParameters: error.userInfo
                     )
                 case 3:
                     throw FirebaseAppCheckError(
                         .keychainAccess,
-                        originalError: error
+                        originalError: error,
+                        additionalParameters: error.userInfo
                     )
                 case 4:
                     throw FirebaseAppCheckError(
                         .notSupported,
-                        originalError: error
+                        originalError: error,
+                        additionalParameters: error.userInfo
                     )
                 default:
                     throw FirebaseAppCheckError(
                         .generic,
-                        originalError: error
+                        originalError: error,
+                        additionalParameters: error.userInfo
                     )
                 }
             } catch let error as ServerError where
