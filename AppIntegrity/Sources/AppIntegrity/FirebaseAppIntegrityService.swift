@@ -71,6 +71,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                     throw FirebaseAppCheckError(
                         .network,
                         originalError: error,
+                        additionalParameters: error.userInfo
                     )
                 case 2:
                     throw FirebaseAppCheckError(
