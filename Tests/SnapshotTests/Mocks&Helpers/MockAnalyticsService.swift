@@ -21,17 +21,6 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         return self
     }
     
-    func trackScreen(_ screen: LoggableScreen, parameters: [String: Any] = [:]) {
-        screensVisited.append(screen.name)
-        
-        guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
-            return
-        }
-        
-        screenParamsLogged = parameters
-    }
-    
     func trackScreen(_ screen: any LoggableScreenV2, parameters: [String: Any]) {
         screenViews.append(screen)
         
