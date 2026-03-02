@@ -2,13 +2,15 @@
   "$schema": "https://raw.githubusercontent.com/govuk-one-login/quality-gates/refs/tags/v0.1.0/schemas/schema.json",
   "services": [
     {
-      "service-tag": "one-login-ios",
+      "service-tag": "mobile-ios-one-login-app",
       "quality-gates": [
         {
           "check-types": [
-            "lint",
-            "unit test",
-            "code quality checks"
+            "code style and linting",
+            "unit test coverage",
+            "code quality",
+            "secret scanning",
+            "vulnerability detection"
           ],
           "config": {
             "file": ".github/workflows/pull-request.yml",
@@ -20,23 +22,19 @@
         },
         {
           "check-types": [
-            "unit test (runs on 'develop' but not 'release/*' branches)",
-            "code quality checks (runs on 'develop' but not 'release/*' branches)",
-            "build config test",
-            "staging config test"
+            "unit",
           ],
           "config": {
-            "file": ".github/workflows/merged.yml",
-            "name": "Test and Deploy Build and Staging apps (merge into 'develop' or raise 'release/*' branch)",
-            "path": "jobs.deploy_build_app"
+            "file": ".github/workflows/pull-request-main.yml",
+            "name": "Verify code base when pull request is published/updated (into 'main')",
+            "path": "jobs.test_integration_config"
           },
-          "phase": "build",
+          "phase": "pre-merge",
           "provider": "GitHub"
         },
         {
           "check-types": [
-            "integration config test",
-            "prod config test"
+            "unit",
           ],
           "config": {
             "file": ".github/workflows/pull-request-main.yml",
@@ -47,13 +45,115 @@
           "provider": "GitHub"
         },
         {
-          "check-types": [],
+          "check-types": [
+            "unit test coverage",
+            "code quality",
+            "secret scanning"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Run Unit Tests for develop branch (on merge into 'develop')",
+            "path": "jobs.run_unit_tests"
+          },
+          "phase": "pre-upload",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "visual regression"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Run Snapshot Tests (merge into 'develop' or raise 'release/*' branch)",
+            "path": "jobs.test_snapshot"
+          },
+          "phase": "pre-upload",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "unit"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Run Build Config Tests (merge into 'develop' or raise 'release/*' branch)",
+            "path": "jobs.test_build_config"
+          },
+          "phase": "pre-upload",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "unit"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Run Staging Config Tests (merge into 'develop' or raise 'release/*' branch)",
+            "path": "jobs.test_staging_config"
+          },
+          "phase": "pre-upload",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "new feature",
+            "regression"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Deploy Build app (merge into 'develop' or raise 'release/*' branch)",
+            "path": "jobs.deploy_build_app"
+          },
+          "phase": "build",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "new feature",
+            "regression"
+          ],
+          "config": {
+            "file": ".github/workflows/merged.yml",
+            "name": "Deploy Staging app (merge into 'develop' or raise 'release/*' branch)",
+            "path": "jobs.deploy_staging_app"
+          },
+          "phase": "staging",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+              "regression"
+          ],
           "config": {
             "file": ".github/workflows/merged-main.yml",
-            "name": "Deploy Integration and Production apps (merge into 'main')",
+            "name": "Deploy Integration app (merge into 'main')",
+            "path": "jobs.deploy_integration_app"
+          },
+          "phase": "integration",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+              "regression"
+          ],
+          "config": {
+            "file": ".github/workflows/merged-main.yml",
+            "name": "Deploy Production app (merge into 'main')",
             "path": "jobs.deploy_release_app"
           },
           "phase": "production",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "integration"
+          ],
+          "config": {
+            "file": ".github/workflows/nightly-ui-test.yml",
+            "name": "Run UI Tests",
+            "path": "jobs.test_ui"
+          },
+          "phase": "pre-merge",
           "provider": "GitHub"
         }
       ]
