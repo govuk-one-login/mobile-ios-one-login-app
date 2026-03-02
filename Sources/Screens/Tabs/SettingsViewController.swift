@@ -94,6 +94,9 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
                 as? TabbedTableViewCell else { return UITableViewCell() }
+        cell.contentConfiguration = nil
+        cell.accessoryView = nil
+        cell.accessibilityHint = nil
         cell.viewModel = viewModel.sectionModels[indexPath.section].tabModels[indexPath.row]
         
         if viewModel.sectionModels[indexPath.section].sectionTitle == "app_settingsSubtitle2" {
