@@ -206,6 +206,15 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
+        if let walletStoreID = user.value?.walletStoreID {
+            try encryptedStore.saveItem(
+                item: walletStoreID,
+                itemName: OLString.walletStoreID
+            )
+        } else {
+            encryptedStore.deleteItem(itemName: OLString.walletStoreID)
+        }
+        
         try saveLoginTokens(
             idToken: tokenProvider.idToken,
             refreshToken: tokenProvider.refreshToken,

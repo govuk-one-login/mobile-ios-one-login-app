@@ -27,6 +27,7 @@ enum OLString {
     /// Encrypted store keys
     static let refreshTokenExpiry  = EncryptedStoreKeyString.refreshTokenExpiry.rawValue
     static let persistentSessionID = EncryptedStoreKeyString.persistentSessionID.rawValue
+    static let walletStoreID = EncryptedStoreKeyString.walletStoreID.rawValue
     
     /// Access control encyrpted store keys
     static let storedTokens = AccessControlEncryptedStoreKeyString.storedTokens.rawValue
@@ -42,6 +43,7 @@ enum OLString {
     enum EncryptedStoreKeyString: String, CaseIterable {
         case refreshTokenExpiry
         case persistentSessionID
+        case walletStoreID
     }
     
     enum AccessControlEncryptedStoreKeyString: String, CaseIterable {
