@@ -22,7 +22,7 @@
         },
         {
           "check-types": [
-            "unit",
+            "unit"
           ],
           "config": {
             "file": ".github/workflows/pull-request-main.yml",
@@ -34,7 +34,7 @@
         },
         {
           "check-types": [
-            "unit",
+            "unit"
           ],
           "config": {
             "file": ".github/workflows/pull-request-main.yml",
