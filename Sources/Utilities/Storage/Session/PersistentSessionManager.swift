@@ -133,6 +133,10 @@ final class PersistentSessionManager: SessionManager {
         return persistenID
     }
     
+    var walletSessionID: String? {
+        return user.value?.walletStoreID
+    }
+    
     private var hasNotRemovedLocalAuth: Bool {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
@@ -204,15 +208,6 @@ final class PersistentSessionManager: SessionManager {
             )
         } else {
             encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
-        }
-        
-        if let walletStoreID = user.value?.walletStoreID {
-            try encryptedStore.saveItem(
-                item: walletStoreID,
-                itemName: OLString.walletStoreID
-            )
-        } else {
-            encryptedStore.deleteItem(itemName: OLString.walletStoreID)
         }
         
         try saveLoginTokens(
