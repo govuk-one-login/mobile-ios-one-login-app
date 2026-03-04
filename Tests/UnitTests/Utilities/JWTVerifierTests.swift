@@ -37,7 +37,8 @@ final class JWTVerifierTests: XCTestCase {
         let payload: IdTokenPayload = try await sut.verifyToken(token)
         
         XCTAssertEqual(payload.email, "mock@email.com")
-        XCTAssertEqual(payload.persistentId, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(payload.persistentId, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
+        XCTAssertEqual(payload.walletStoreId, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
     }
     
     func test_verifyValidRefreshToken() async throws {
@@ -47,7 +48,7 @@ final class JWTVerifierTests: XCTestCase {
         
         let payload: RefreshTokenPayload = try await sut.verifyToken(MockJWTs.genericToken)
         
-        XCTAssertEqual(payload.exp, ExpirationClaim(value: Date(timeIntervalSince1970: 1719397758)))
+        XCTAssertEqual(payload.exp, ExpirationClaim(value: Date(timeIntervalSince1970: 1772632425)))
     }
 
     func test_verifyInvalidJWT() async throws {
@@ -122,7 +123,8 @@ final class JWTVerifierTests: XCTestCase {
         let payload: IdTokenPayload = try sut.extractPayload(MockJWTs.genericToken)
         
         XCTAssertEqual(payload.email, "mock@email.com")
-        XCTAssertEqual(payload.persistentId, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(payload.persistentId, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
+        XCTAssertEqual(payload.walletStoreId, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
     }
     
     func test_extractTokenFailure() throws {
