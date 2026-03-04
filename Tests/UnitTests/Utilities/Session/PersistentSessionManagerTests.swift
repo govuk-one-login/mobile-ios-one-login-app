@@ -375,7 +375,8 @@ extension PersistentSessionManagerTests {
             using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
         // THEN my User details
-        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
+        XCTAssertEqual(sut.user.value?.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         // AND access token are populated
         XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
@@ -417,7 +418,7 @@ extension PersistentSessionManagerTests {
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [
                 OLString.refreshTokenExpiry: "1719397758.0",
-                OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"
+                OLString.persistentSessionID: "af835f3a-b3f1-4b50-b3db-88c185eae46b"
             ]
         )
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
@@ -439,7 +440,7 @@ extension PersistentSessionManagerTests {
         // THEN my session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [
             OLString.refreshTokenExpiry: "1719397758.0",
-            OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"
+            OLString.persistentSessionID: "af835f3a-b3f1-4b50-b3db-88c185eae46b"
         ])
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
     }
@@ -465,7 +466,7 @@ extension PersistentSessionManagerTests {
         // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [
                 OLString.refreshTokenExpiry: "1719397758.0",
-                OLString.persistentSessionID: "1d003342-efd1-4ded-9c11-32e0f15acae6"
+                OLString.persistentSessionID: "af835f3a-b3f1-4b50-b3db-88c185eae46b"
             ]
         )
         XCTAssertEqual(mockUnprotectedStore.savedData.count, 2)
@@ -646,11 +647,12 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN my user session data is repopulated
-        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
+        XCTAssertEqual(sut.user.value?.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND my refresh token expiry date is saved
-        XCTAssertEqual(try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry), "1719397758.0")
+        XCTAssertEqual(try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry), "1772632425.0")
         
         // AND my tokens are saved
         let tokens = encodeKeys(
@@ -697,7 +699,8 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN my user session data is repopulated
-        XCTAssertEqual(sut.user.value?.persistentID, "1d003342-efd1-4ded-9c11-32e0f15acae6")
+        XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
+        XCTAssertEqual(sut.user.value?.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND the token provider access token is updated
