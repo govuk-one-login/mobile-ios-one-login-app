@@ -83,6 +83,7 @@
 		7CEFDE222E3BB684004EE532 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = 7CEFDE212E3BB684004EE532 /* Wallet */; };
 		7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */ = {isa = PBXBuildFile; productRef = 7CF44B272CAB45A70027839B /* AppIntegrity */; };
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
+		8E09F2372F587A6C000222DA /* ES256KeyVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09F2362F587A6C000222DA /* ES256KeyVerifierTests.swift */; };
 		8E9587DA2F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */; };
 		8EA9FDBB2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */; };
 		AB24C1132DB94A5F0080141C /* LocalAuthSettingsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */; };
@@ -662,6 +663,7 @@
 		7CD66F862C90A96A008513F4 /* MockQualifyingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQualifyingService.swift; sourceTree = "<group>"; };
 		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
 		7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletSessionData+OneLogin.swift"; sourceTree = "<group>"; };
+		8E09F2362F587A6C000222DA /* ES256KeyVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256KeyVerifierTests.swift; sourceTree = "<group>"; };
 		8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModelTests.swift; sourceTree = "<group>"; };
 		8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModel.swift; sourceTree = "<group>"; };
 		AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModel.swift; sourceTree = "<group>"; };
@@ -1498,6 +1500,14 @@
 			path = Qualification;
 			sourceTree = "<group>";
 		};
+		8E09F2352F587A62000222DA /* JWT */ = {
+			isa = PBXGroup;
+			children = (
+				8E09F2362F587A6C000222DA /* ES256KeyVerifierTests.swift */,
+			);
+			path = JWT;
+			sourceTree = "<group>";
+		};
 		ABB941FD2C6CAD840007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -2066,6 +2076,7 @@
 		C85966462AEC31AE006DF61D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				8E09F2352F587A62000222DA /* JWT */,
 				7C81ADD42C78A8F500A73010 /* Session */,
 				D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */,
 				C8486FE62C60E66400DE514C /* LocalAuthServiceWalletTests.swift */,
@@ -3474,6 +3485,7 @@
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
 				ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */,
+				8E09F2372F587A6C000222DA /* ES256KeyVerifierTests.swift in Sources */,
 				C8C385562DA939D300520E69 /* MockAuthenticationProvider.swift in Sources */,
 				C8C385572DA939D300520E69 /* MockAuthenticationService.swift in Sources */,
 				C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */,
