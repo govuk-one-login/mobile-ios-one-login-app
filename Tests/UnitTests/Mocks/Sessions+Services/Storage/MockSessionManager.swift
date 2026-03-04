@@ -15,7 +15,7 @@ final class MockSessionManager: SessionManager {
     var validTokensForRefreshExchange: (idToken: String, refreshToken: String)?
 
     var persistentID: String?
-    var walletSessionID: String?
+    var walletStoreID: String?
     var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
 
     var tokenProvider: TokenHolder

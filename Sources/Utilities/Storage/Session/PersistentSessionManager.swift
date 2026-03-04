@@ -133,7 +133,7 @@ final class PersistentSessionManager: SessionManager {
         return persistenID
     }
     
-    var walletSessionID: String? {
+    var walletStoreID: String? {
         return user.value?.walletStoreID
     }
     

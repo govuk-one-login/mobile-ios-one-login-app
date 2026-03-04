@@ -376,7 +376,7 @@ extension PersistentSessionManagerTests {
         )
         // THEN my User details
         XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
-        XCTAssertEqual(sut.user.value?.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
+        XCTAssertEqual(sut.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         // AND access token are populated
         XCTAssertEqual(sut.tokenProvider.accessToken, "accessTokenResponse")
@@ -648,7 +648,7 @@ extension PersistentSessionManagerTests {
         
         // THEN my user session data is repopulated
         XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
-        XCTAssertEqual(sut.user.value?.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
+        XCTAssertEqual(sut.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND my refresh token expiry date is saved
@@ -700,7 +700,7 @@ extension PersistentSessionManagerTests {
         
         // THEN my user session data is repopulated
         XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
-        XCTAssertEqual(sut.user.value?.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
+        XCTAssertEqual(sut.walletStoreID, "LpyvURud63e1LDVO0AEf7AJvXUrFlCGRfF-tl63vUe0")
         XCTAssertEqual(sut.user.value?.email, "mock@email.com")
         
         // AND the token provider access token is updated
