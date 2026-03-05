@@ -1,5 +1,5 @@
-import JWTKit
 import Foundation
+import JWTKit
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
