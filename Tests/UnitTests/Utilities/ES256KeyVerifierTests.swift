@@ -61,7 +61,8 @@ struct ES256KeyVerifierTests {
         return jwk
     }
     
-    @Test("All cases of jwts with an bad signature for a key where kid is '16db6587-5445-45d6-a7d9-98781ebdf93d'", arguments: [MockJWTs.tokenWithInvalidSignature, MockJWTs.tokenMissingSignature, MockJWTs.tokenWithNoneAlgorithm])
+    @Test("All cases of jwts with an bad signature for a key where kid is '16db6587-5445-45d6-a7d9-98781ebdf93d'",
+          arguments: [MockJWTs.tokenWithInvalidSignature, MockJWTs.tokenMissingSignature, MockJWTs.tokenWithNoneAlgorithm])
     func verifyRequiredSignature(jwt: String) async throws {
         let jwk = try makeJWK()
         let verifier = try ES256KeyVerifier(jsonWebKey: jwk)
