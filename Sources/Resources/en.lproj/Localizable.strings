@@ -240,3 +240,10 @@
 "app_localAuthManagerBiometricsFaceIDErrorBody" = "To add documents, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.";
 
 "app_localAuthManagerBiometricsTouchIDErrorBody" = "To add documents, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.";
+
+// MARK: App Integrity Error screen
+"app_appIntegrityErrorTitle" = "Sorry, there’s a problem";
+
+"app_appIntegrityErrorBody1" = "You cannot use the %@ app at the moment.";
+
+"app_appIntegrityErrorBody2" = "Try again later.";

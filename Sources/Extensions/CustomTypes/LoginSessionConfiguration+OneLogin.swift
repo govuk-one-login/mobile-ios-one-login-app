@@ -21,7 +21,8 @@ extension LoginSessionConfiguration {
             locale: env.isLocaleWelsh ? .cy : .en,
             persistentSessionId: persistentSessionID,
             tokenHeaders: shouldAttestIntegrity ?
-            try await integrityService.integrityAssertions : nil
+            try await OneLoginAppIntegrityService(integrityService: integrityService)
+            .integrityAssertions(): nil
         )
     }
 }

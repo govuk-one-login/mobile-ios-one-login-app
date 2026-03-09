@@ -3,14 +3,14 @@ import SecureStore
 import Testing
 
 struct SecureStoreServiceTests: ~Copyable {
-    var sut: SecureStoreService!
+    var sut: SecureStoreServiceV2!
     
     init() throws {
         let config = SecureStorageConfiguration(
             id: "testConfig",
             accessControlLevel: .open
         )
-        sut = SecureStoreService(configuration: config)
+        sut = SecureStoreServiceV2(configuration: config)
         
         try sut.saveItem(
             item: "testRefreshTokenExpiry",
@@ -36,13 +36,13 @@ struct SecureStoreServiceTests: ~Copyable {
         #expect(try sut.readItem(itemName: OLString.persistentSessionID) == "testPersistentSessionID")
         #expect(try sut.readItem(itemName: OLString.storedTokens) == "testStoredTokens")
         sut.clearSessionData()
-        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
+        #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.refreshTokenExpiry)
         }
-        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
+        #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.persistentSessionID)
         }
-        #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
+        #expect(throws: SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.storedTokens)
         }
     }

@@ -172,6 +172,18 @@ extension QualifyingCoordinatorTests {
     }
     
     @MainActor
+    func test_appIntegrityCheckFailed_displaysErrorScreen() throws {
+        // WHEN an account intervention notfication is posted
+        sut.didChangeSessionState(state: .appIntegrityCheckFailed)
+        
+        // THEN I am shown an error
+        let vc = try XCTUnwrap(
+            window.rootViewController as? GDSErrorScreen
+        )
+        XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
+    }
+    
+    @MainActor
     func test_handleUniversalLink_Wallet() throws {
         // WHEN I open the app
         sut.start()

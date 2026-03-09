@@ -8,8 +8,8 @@ import SecureStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedStore: SecureStorable
-    private let encryptedStore: SecureStorable
+    private let accessControlEncryptedStore: SecureStorableV2
+    private let encryptedStore: SecureStorableV2
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     
@@ -23,8 +23,8 @@ final class PersistentSessionManager: SessionManager {
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
     convenience init(
-        accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable
+        accessControlEncryptedStore: SecureStorableV2,
+        encryptedStore: SecureStorableV2
     ) {
         self.init(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -35,8 +35,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorable,
-        encryptedStore: SecureStorable,
+        accessControlEncryptedStore: SecureStorableV2,
+        encryptedStore: SecureStorableV2,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging
     ) {
@@ -180,7 +180,7 @@ final class PersistentSessionManager: SessionManager {
         
         // TODO: DCMAW-8570 This should be considered non-optional once tokenID work is completed on BE
         if let idToken = response.idToken {
-            user.send(try IDTokenUserRepresentation(idToken: idToken))
+            await user.send(try IDTokenUserRepresentation(verify: idToken))
         } else {
             user.send(nil)
         }
@@ -221,6 +221,8 @@ final class PersistentSessionManager: SessionManager {
         appIntegrityProvider: AppIntegrityProvider
     ) async throws {
         guard hasNotRemovedLocalAuth else {
+            // Underlying error here is LAError.passcodeNotSet
+            // This error will result in user being signed out and their data deleted
             throw PersistentSessionError.userRemovedLocalAuth
         }
         
@@ -235,6 +237,7 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError.idTokenNotStored
         }
         
+        // don't verify jwks token because the user won't be able to login offline
         user.send(try IDTokenUserRepresentation(idToken: idToken))
         
         // Enables offline wallet for users that only have access tokens

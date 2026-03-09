@@ -117,21 +117,33 @@ final class AppQualifyingService: QualifyingService {
                     appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
                 )
                 sessionState = .loggedIn
-            } catch let error as SecureStoreError where error.kind == .biometricsCancelled {
-                // A SecureStoreError.biometricsCancelled is thrown when the local auth prompt is cancelled/dismissed.
-                //
-                // In this instance, the user would have the option to retry the local auth prompt
-                // As such, no additional action is required.
-                analyticsService.logCrash(error)
-                
-                sessionState = .localAuthCancelled
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline
+            } catch let error as RefreshTokenExchangeError where error == .appIntegrityFailed {
+                analyticsService.logCrash(error)
+                
+                sessionState = .appIntegrityCheckFailed
             } catch let error as ServerError where error.errorCode == 400 {
                 return
-            } catch {
-                // This will catch PersistentSessionErrors, SecureStoreErrors or any uncaught errors from RefreshTokenExchangeManager
+            } catch let error as SecureStoreErrorV2 where
+                        error.kind == .cantDecryptData {
                 analyticsService.logCrash(error)
+                
+                // This error is treated as recoverable
+                // Users' data is not delete but they will need to reauthenticate
+                sessionState = .expired
+            } catch let error as SecureStoreErrorV2 {
+                analyticsService.logCrash(error)
+                
+                // All other SecureStoreErrors are treated as recoverable
+                // Users' will stay on unlock screen and can attempt local auth again
+                sessionState = .localAuthCancelled
+            } catch {
+                analyticsService.logCrash(error)
+                // This will catch PersistentSessionErrors or any uncaught errors from RefreshTokenExchangeManager
+                // These errors are treated as unrecoverable
+                
+                // Users' data is deleted and they will need to log in and readd Wallet credentials
                 do {
                     try await sessionManager.clearAllSessionData(presentSystemLogOut: true)
                 } catch {

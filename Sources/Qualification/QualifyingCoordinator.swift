@@ -111,6 +111,10 @@ final class QualifyingCoordinator: NSObject,
             }
             let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
+        case .appIntegrityCheckFailed:
+            let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)
+            let appIntegrityErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            displayViewController(appIntegrityErrorScreen)
         }
     }
     
@@ -166,7 +170,7 @@ extension QualifyingCoordinator {
     
     func handleUniversalLink(_ url: URL) {
         switch UniversalLinkQualifier.qualifyOneLoginUniversalLink(url) {
-        case .login:
+        case .login(let url):
             loginCoordinator?.handleUniversalLink(url)
         case .wallet:
             deeplink = url

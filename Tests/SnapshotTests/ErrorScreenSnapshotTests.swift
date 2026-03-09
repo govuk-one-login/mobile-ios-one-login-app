@@ -123,4 +123,12 @@ struct ErrorScreenSnapshotTests {
         
         vc.assertSnapshot()
     }
+    
+    @Test
+    func test_appIntegrityError() {
+        let sut = AppIntegrityErrorViewModel(analyticsService: analyticsService)
+        let vc = GDSErrorScreen(viewModel: sut)
+        
+        vc.assertSnapshot()
+    }
 }

@@ -9,8 +9,9 @@ extension URLRequest {
         var request = URLRequest(url: AppEnvironment.stsToken)
         
         request.asXWWWFormURLEncoded()
-        
-        for (key, value) in try await appIntegrityProvider.integrityAssertions {
+                
+        for (key, value) in try await OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
+            .integrityAssertions() {
             request.setValue(
                 value,
                 forHTTPHeaderField: key

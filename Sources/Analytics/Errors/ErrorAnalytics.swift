@@ -13,6 +13,7 @@ enum ErrorAnalyticsScreen: String, OneLoginScreenType {
     case updateFaceID = "updateSettingsScreen - faceID"
     case allowFaceID = "needToAllowBiometricsScreen - faceID"
     case allowTouchID = "needToAllowBiometricsScreen - touchID"
+    case appIntegrityError = "appIntegrityErrorScreen"
 }
 
 enum ErrorAnalyticsScreenID: String {
@@ -27,4 +28,5 @@ enum ErrorAnalyticsScreenID: String {
     case updateFaceID = "ec8b305e-4847-4122-ab35-4e9f9e20705a"
     case allowFaceID = "7d61651a-cd84-40fd-80b0-47dd150ec97e"
     case allowTouchID = "a7c8bfce-c9d4-45ac-a318-d99bc87be9ba"
+    case appIntegrityError = "90cadd21-4a71-431c-a202-440d7cc3da25"
 }

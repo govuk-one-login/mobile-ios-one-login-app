@@ -264,6 +264,15 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getEnglishString(),
                        "To add documents, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
+    
+    func test_appIntegrityPageKeys() {
+        XCTAssertEqual("app_appIntegrityErrorTitle".getEnglishString(),
+                       "Sorry, there’s a problem")
+        XCTAssertEqual("app_appIntegrityErrorBody1".getEnglishString(),
+                       "You cannot use the %@ app at the moment.")
+        XCTAssertEqual("app_appIntegrityErrorBody2".getEnglishString(),
+                       "Try again later.")
+    }
 }
 
 // swiftlint:enable line_length
