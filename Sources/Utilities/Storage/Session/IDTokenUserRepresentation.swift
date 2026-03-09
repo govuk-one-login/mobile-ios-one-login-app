@@ -2,6 +2,10 @@ final class IDTokenUserRepresentation: User {
     var persistentID: String {
         idTokenPayload.persistentId
     }
+    
+    var walletStoreID: String {
+        idTokenPayload.walletStoreId
+    }
 
     var email: String {
         idTokenPayload.email

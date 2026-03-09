@@ -15,6 +15,7 @@ extension LoginSessionConfiguration {
         return await .init(
             authorizationEndpoint: env.stsAuthorize,
             tokenEndpoint: env.stsToken,
+            issuer: env.stsBaseURL,
             scopes: [.openid],
             clientID: env.stsClientID,
             redirectURI: env.mobileRedirect.absoluteString,

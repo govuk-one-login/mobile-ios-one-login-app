@@ -25,6 +25,7 @@ protocol SessionManager: AnyObject, UserProvider {
     var localAuthentication: LocalAuthManaging { get }
     
     var persistentID: String? { get }
+    var walletStoreID: String? { get }
     
     /// Starts a new authentication session from a remote login
     func startAuthSession(

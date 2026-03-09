@@ -133,6 +133,10 @@ final class PersistentSessionManager: SessionManager {
         return persistenID
     }
     
+    var walletStoreID: String? {
+        return user.value?.walletStoreID
+    }
+    
     private var hasNotRemovedLocalAuth: Bool {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
