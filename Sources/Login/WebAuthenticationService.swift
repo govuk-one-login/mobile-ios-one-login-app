@@ -28,7 +28,7 @@ final class WebAuthenticationService: AuthenticationService {
                 session,
                 using: LoginSessionConfiguration.oneLoginSessionConfiguration
             )
-        } catch let error as LoginErrorV2 {
+        } catch let error as LoginError {
             switch error.reason {
             case .userCancelled:
                 analyticsService.logEvent(ButtonEvent(textKey: "back"))
@@ -38,7 +38,7 @@ final class WebAuthenticationService: AuthenticationService {
                 if let underlyingReason = error.underlyingReason,
                    underlyingReason.starts(with: "access_denied") {
                     try await sessionManager.clearAllSessionData(presentSystemLogOut: false)
-                    throw LoginErrorV2(
+                    throw LoginError(
                         reason: .authorizationAccessDenied,
                         underlyingReason: underlyingReason
                     )

@@ -141,7 +141,7 @@ final class QualifyingCoordinator: NSObject,
                 sessionManager: sessionManager,
                 authService: WebAuthenticationService(
                     sessionManager: sessionManager,
-                    session: AppAuthSessionV2(window: appWindow),
+                    session: AppAuthSession(window: appWindow),
                     analyticsService: analyticsService
                 ),
                 sessionState: sessionState,

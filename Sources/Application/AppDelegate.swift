@@ -8,7 +8,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, BackupDisabler {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseAppIntegrityService.configure()
-        GAnalyticsV2.configure()
+        GAnalytics.configure()
         disableFileBackup()
         return true
     }

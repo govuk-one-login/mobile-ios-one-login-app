@@ -94,7 +94,7 @@ final class LoginCoordinator: NSObject,
                 try await triggerAuthFlow()
             } catch let error as PersistentSessionError {
                 handlePersistentSessionError(error)
-            } catch let error as LoginErrorV2 {
+            } catch let error as LoginError {
                 handleLoginV2Error(error)
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
@@ -179,7 +179,7 @@ final class LoginCoordinator: NSObject,
 }
 
 extension LoginCoordinator {
-    private func handleLoginV2Error(_ error: LoginErrorV2) {
+    private func handleLoginV2Error(_ error: LoginError) {
         switch error.reason {
         case .authorizationAccessDenied:
             showDataDeletedWarningScreen()
