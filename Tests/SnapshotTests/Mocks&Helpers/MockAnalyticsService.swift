@@ -7,7 +7,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
     
     var additionalParameters = [String: Any]()
     
-    private(set) var screenViews = [any LoggableScreenV2]()
+    private(set) var screenViews = [any LoggableScreen]()
     private(set) var screensVisited = [String]()
     private(set) var screenParamsLogged = [String: String]()
     private(set) var eventsLogged = [String]()
@@ -21,7 +21,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         return self
     }
     
-    func trackScreen(_ screen: any LoggableScreenV2, parameters: [String: Any]) {
+    func trackScreen(_ screen: any LoggableScreen, parameters: [String: Any]) {
         screenViews.append(screen)
         
         guard let parameters = parameters as? [String: String] else {
