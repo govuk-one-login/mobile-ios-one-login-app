@@ -283,6 +283,8 @@ final class PersistentSessionManager: SessionManager {
                 id: OLString.refreshTokenExpiry,
                 try RefreshTokenRepresentation(refreshToken: refreshToken).expiryDate
             )
+        } else {
+            encryptedStore.deleteItem(itemName: OLString.refreshTokenExpiry)
         }
         
         let tokens = StoredTokens(
