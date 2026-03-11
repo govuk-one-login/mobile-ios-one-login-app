@@ -790,6 +790,33 @@ extension PersistentSessionManagerTests {
         // THEN the old refresh Token Expiry should not be present in the encrypted store
         XCTAssertFalse(mockEncryptedStore.savedItems.keys.contains(OLString.refreshTokenExpiry))
     }
+    
+    func test_startSession_withoutRefreshToken_butWithRefreshTokenSavedInEncryptedStore() async throws {
+        // GIVEN I am a returning user
+        mockUnprotectedStore.savedData = [OLString.returningUser: true]
+        let persistentSessionID = UUID().uuidString
+        try mockEncryptedStore.saveItem(
+            item: persistentSessionID,
+            itemName: OLString.persistentSessionID
+        )
+        
+        // GIVEN my refresh token is expired
+        try mockEncryptedStore.saveItem(
+            item: Date.distantPast.timeIntervalSince1970.description,
+            itemName: OLString.refreshTokenExpiry
+        )
+        
+        // WHEN I re-authenticate
+        try await sut.startAuthSession(
+            MockLoginSessionNoRefresh(window: UIWindow()),
+            using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
+        )
+        // THEN there's no refresh token expiry in the store anymore
+        XCTAssertEqual(mockEncryptedStore.savedItems, [
+                OLString.persistentSessionID: "af835f3a-b3f1-4b50-b3db-88c185eae46b"
+            ]
+        )
+    }
 }
 
 extension PersistentSessionManagerTests {
