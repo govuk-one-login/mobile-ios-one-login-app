@@ -767,6 +767,29 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(mockEncryptedStore.savedItems, [:])
         XCTAssertEqual(mockAccessControlEncryptedStore.savedItems, [:])
     }
+    
+    func test_resumeSession_withoutRefreshToken_butWithRefreshTokenSavedInEncryptedStore() async throws {
+        // GIVEN I am a returning user with a refresh token stored
+        try setUpNeededForResumeSession()
+        
+        // GIVEN my refresh token is expired
+        try mockEncryptedStore.saveItem(
+            item: Date.distantPast.timeIntervalSince1970.description,
+            itemName: OLString.refreshTokenExpiry
+        )
+        // THEN the session is not valid
+        XCTAssertFalse(sut.isSessionValid)
+        XCTAssertEqual(sut.sessionState, .expired)
+        
+        // WHEN I return to the app and authenticate successfully but without a refresh token
+        try await sut.resumeSession(
+            tokenExchangeManager: MockRefreshTokenNilExchangeManager(),
+            appIntegrityProvider: MockAppIntegrityProvider()
+        )
+        
+        // THEN the old refresh Token Expiry should not be present in the encrypted store
+        XCTAssertFalse(mockEncryptedStore.savedItems.keys.contains(OLString.refreshTokenExpiry))
+    }
 }
 
 extension PersistentSessionManagerTests {
