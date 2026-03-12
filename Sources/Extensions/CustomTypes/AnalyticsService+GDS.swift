@@ -3,7 +3,7 @@ import Logging
 
 public typealias OneLoginScreenType = GDSAnalytics.ScreenType
 
-extension ScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginScreenType {
+extension ScreenView: @retroactive LoggableScreen where Screen: OneLoginScreenType {
     public var name: String {
         title
     }
@@ -13,7 +13,7 @@ extension ScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginScreen
     }
 }
 
-extension ErrorScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginScreenType {
+extension ErrorScreenView: @retroactive LoggableScreen where Screen: OneLoginScreenType {
     public var name: String {
         title
     }
@@ -25,13 +25,13 @@ extension ErrorScreenView: @retroactive LoggableScreenV2 where Screen: OneLoginS
 
 extension EventName: @retroactive LoggableEvent { }
 
-extension AnalyticsServiceV2 {
+extension AnalyticsService {
     public func logEvent(_ event: Event) {
         logEvent(event.name,
                  parameters: event.parameters)
     }
     
-    public func trackScreen<Screen: ScreenViewProtocol & LoggableScreenV2>(_ screen: Screen) {
+    public func trackScreen<Screen: ScreenViewProtocol & LoggableScreen>(_ screen: Screen) {
         trackScreen(screen,
                     parameters: screen.parameters)
     }

@@ -18,9 +18,9 @@ extension NetworkingService: OneLoginNetworkingService { }
 
 typealias OneLoginNetworkingService = MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient & AppIntegrityNetworkClient & HTTPLoggingNetworkClient
 
-extension GAnalyticsV2: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService { }
+extension GAnalytics: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService { }
 
-typealias OneLoginAnalyticsService = AnalyticsServiceV2 & WalletAnalyticsService & IDCheckAnalyticsService
+typealias OneLoginAnalyticsService = AnalyticsService & WalletAnalyticsService & IDCheckAnalyticsService
 
 extension WalletEnvironment {
     public init?(buildConfiguration: String) {

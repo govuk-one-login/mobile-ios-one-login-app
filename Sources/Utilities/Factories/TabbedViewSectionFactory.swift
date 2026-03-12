@@ -29,7 +29,7 @@ extension TabbedViewSectionModel {
     }
     
     static func help(urlOpener: URLOpener, analyticsService: OneLoginAnalyticsService) -> Self {
-        var tabs: [TabbedViewCellModel] = [
+        let tabs: [TabbedViewCellModel] = [
             .init(cellTitle: "app_proveYourIdentityLink",
                   accessoryView: linkDisclosureArrow,
                   accessibilityHint: GDSLocalisedString(stringKey: "app_externalBrowser")) {
