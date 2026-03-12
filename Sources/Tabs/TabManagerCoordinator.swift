@@ -47,6 +47,7 @@ final class TabManagerCoordinator: NSObject,
     }
     
     func start() {
+        root.tabBar.backgroundColor = .clear
         addTabs()
     }
     
