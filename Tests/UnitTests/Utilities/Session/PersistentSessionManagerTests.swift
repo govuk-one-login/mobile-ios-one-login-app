@@ -13,6 +13,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var mockEncryptedStore: MockSecureStoreService!
     private var mockUnprotectedStore: MockDefaultsStore!
     private var mockLocalAuthentication: MockLocalAuthManager!
+    private var mockAnalyticsService: MockAnalyticsService!
     private var mockRefreshTokenExchangeManager: MockRefreshTokenExchangeManager!
     private var mockStoredTokens: StoredTokens!
     private var sut: PersistentSessionManager!
@@ -28,12 +29,14 @@ final class PersistentSessionManagerTests: XCTestCase {
         mockUnprotectedStore = MockDefaultsStore()
         mockLocalAuthentication = MockLocalAuthManager()
         mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManager()
+        mockAnalyticsService = MockAnalyticsService()
         
         sut = PersistentSessionManager(
             accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
             unprotectedStore: mockUnprotectedStore,
-            localAuthentication: mockLocalAuthentication
+            localAuthentication: mockLocalAuthentication,
+            analyticsService: mockAnalyticsService
         )
     }
     
@@ -321,7 +324,7 @@ extension PersistentSessionManagerTests {
                 using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
             )
             XCTFail("Expected a sessionMismatch error to be thrown")
-        } catch PersistentSessionError.sessionMismatch {
+        } catch let error as PersistentSessionError where error.kind == .sessionMismatch {
             // THEN a session mismatch error is thrown
             // AND my session data is cleared
             XCTAssertTrue(didCall_deleteSessionBoundData)
@@ -487,7 +490,7 @@ extension PersistentSessionManagerTests {
             )
         } catch let error as PersistentSessionError {
             // THEN an error is catch
-            XCTAssertEqual(error, .userRemovedLocalAuth)
+            XCTAssertEqual(error.kind, .userRemovedLocalAuth)
         }
     }
     
@@ -507,7 +510,7 @@ extension PersistentSessionManagerTests {
             )
             XCTFail("Expected local auth removed error")
         } catch let error as PersistentSessionError {
-            XCTAssertTrue(error == PersistentSessionError.userRemovedLocalAuth)
+            XCTAssertTrue(error.kind == .userRemovedLocalAuth)
         } catch {
             XCTFail("Expected local auth removed error")
         }
@@ -532,7 +535,7 @@ extension PersistentSessionManagerTests {
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
         } catch let error as PersistentSessionError {
-            XCTAssertEqual(error, .noSessionExists)
+            XCTAssertEqual(error.kind, .noSessionExists)
         }
     }
     
@@ -559,7 +562,7 @@ extension PersistentSessionManagerTests {
             )
         } catch let error as PersistentSessionError {
             // THEN an error is thrown
-            XCTAssertEqual(error, .idTokenNotStored)
+            XCTAssertEqual(error.kind, .idTokenNotStored)
         }
     }
     

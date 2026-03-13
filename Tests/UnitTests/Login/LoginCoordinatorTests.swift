@@ -122,7 +122,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_sessionMismatch() throws {
         // GIVEN the authentication session returns a sessionMismatch error
-        mockSessionManager.errorFromStartSession = PersistentSessionError.sessionMismatch
+        mockSessionManager.errorFromStartSession = PersistentSessionError(.sessionMismatch)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -135,7 +135,8 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_cannotDeleteData() throws {
         // GIVEN the authentication session returns a cannotDeleteData error
-        mockSessionManager.errorFromStartSession = PersistentSessionError.cannotDeleteData(MockWalletError.cantDelete)
+        mockSessionManager.errorFromStartSession = PersistentSessionError(.cannotDeleteData,
+                                                                          originalError: MockWalletError.cantDelete)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -148,7 +149,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_idTokenNotStored() throws {
         // GIVEN the authentication session returns a idTokenNotStored error
-        mockSessionManager.errorFromStartSession = PersistentSessionError.idTokenNotStored
+        mockSessionManager.errorFromStartSession = PersistentSessionError(.idTokenNotStored)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)

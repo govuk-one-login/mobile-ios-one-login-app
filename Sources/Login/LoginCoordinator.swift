@@ -223,10 +223,10 @@ extension LoginCoordinator {
     }
     
     private func handlePersistentSessionError(_ error: PersistentSessionError) {
-        switch error {
+        switch error.kind {
         case .sessionMismatch:
             showDataDeletedWarningScreen()
-        case .cannotDeleteData(let error):
+        case .cannotDeleteData:
             showRecoverableErrorScreen(error)
         case .userRemovedLocalAuth,
                 .noSessionExists,
