@@ -2,9 +2,11 @@ import AppIntegrity
 import Authentication
 import Combine
 import Foundation
+import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
+import Wallet
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
@@ -12,6 +14,7 @@ final class PersistentSessionManager: SessionManager {
     private let encryptedStore: SecureStorableV2
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
+    private let analyticsService: OneLoginAnalyticsService
     
     let localAuthentication: LocalAuthManaging
     let tokenProvider: TokenHolder
@@ -24,13 +27,15 @@ final class PersistentSessionManager: SessionManager {
     
     convenience init(
         accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2
+        encryptedStore: SecureStorableV2,
+        analyticsService: OneLoginAnalyticsService
     ) {
         self.init(
             accessControlEncryptedStore: accessControlEncryptedStore,
             encryptedStore: encryptedStore,
             unprotectedStore: UserDefaults.standard,
-            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin)
+            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
+            analyticsService: analyticsService
         )
     }
     
@@ -38,7 +43,8 @@ final class PersistentSessionManager: SessionManager {
         accessControlEncryptedStore: SecureStorableV2,
         encryptedStore: SecureStorableV2,
         unprotectedStore: DefaultsStoring,
-        localAuthentication: LocalAuthManaging
+        localAuthentication: LocalAuthManaging,
+        analyticsService: OneLoginAnalyticsService
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
@@ -49,6 +55,7 @@ final class PersistentSessionManager: SessionManager {
         self.localAuthentication = localAuthentication
         
         self.tokenProvider = TokenHolder()
+        self.analyticsService = analyticsService
     }
     
     var sessionState: SessionState {
@@ -152,21 +159,35 @@ final class PersistentSessionManager: SessionManager {
                 //
                 // I need to delete my session & Wallet data before I can login
                 do {
+                    if await !WalletSDK.isEmpty() {
+                        analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
+                                                                         reason: "reason : secure wallet data deleted"))
+                    }
                     try await clearAllSessionData(presentSystemLogOut: true)
                 } catch {
-                    throw PersistentSessionError.cannotDeleteData(error)
+                    throw PersistentSessionError(
+                        .cannotDeleteData,
+                        originalError: error
+                    )
                 }
                 
-                throw PersistentSessionError.sessionMismatch
+                throw PersistentSessionError(.sessionMismatch)
             } else {
                 // I am a first time user
                 // I don't have a persistent session ID
                 //
                 // I need to delete my session (but not analytics permissions) & Wallet data before I can login
                 do {
+                    if await !WalletSDK.isEmpty() {
+                        analyticsService.logCrash(PersistentSessionError(.noSessionExists,
+                                                                         reason: "reason : secure wallet data deleted"))
+                    }
                     try await clearAppForLogin()
                 } catch {
-                    throw PersistentSessionError.cannotDeleteData(error)
+                    throw PersistentSessionError(
+                        .cannotDeleteData,
+                        originalError: error
+                    )
                 }
             }
         }
@@ -227,18 +248,18 @@ final class PersistentSessionManager: SessionManager {
         guard hasNotRemovedLocalAuth else {
             // Underlying error here is LAError.passcodeNotSet
             // This error will result in user being signed out and their data deleted
-            throw PersistentSessionError.userRemovedLocalAuth
+            throw PersistentSessionError(.userRemovedLocalAuth)
         }
         
         guard persistentID != nil else {
-            throw PersistentSessionError.noSessionExists
+            throw PersistentSessionError(.noSessionExists)
         }
         
         let storedTokens = try storeKeyService.fetch()
         
         guard let idToken = storedTokens.idToken,
               !idToken.isEmpty else {
-            throw PersistentSessionError.idTokenNotStored
+            throw PersistentSessionError(.idTokenNotStored)
         }
         
         // don't verify jwks token because the user won't be able to login offline
@@ -337,26 +358,15 @@ final class PersistentSessionManager: SessionManager {
     }
 }
 
-enum PersistentSessionError: Error, Equatable {
-    case noSessionExists
-    case userRemovedLocalAuth
-    case sessionMismatch
-    case cannotDeleteData(Error)
-    case idTokenNotStored
-    
-    static func == (lhs: PersistentSessionError, rhs: PersistentSessionError) -> Bool {
-        switch (lhs, rhs) {
-        case (.noSessionExists, .noSessionExists),
-            (.userRemovedLocalAuth, .userRemovedLocalAuth),
-            (.sessionMismatch, .sessionMismatch),
-            (.cannotDeleteData, .cannotDeleteData),
-            (.idTokenNotStored, .idTokenNotStored):
-            true
-        default:
-            false
-        }
-    }
+public enum PersistentSessionErrorType: String, GDSErrorKind {
+    case noSessionExists = "there was no persistentID token saved in the encrypted store"
+    case userRemovedLocalAuth = "the user has removed all local auth from their device"
+    case sessionMismatch = "the persistentID was cleared from the encrypted store because a different user logged in"
+    case cannotDeleteData = "there was an error while trying to delete all user data"
+    case idTokenNotStored = "there was no idToken found in the secure store"
 }
+
+public typealias PersistentSessionError = OneLoginGDSError<PersistentSessionErrorType>
 
 protocol SessionBoundData {
     func clearSessionData() async throws

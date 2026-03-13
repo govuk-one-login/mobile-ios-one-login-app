@@ -27,7 +27,8 @@ final class SceneDelegate: UIResponder,
             let encryptedSecureStoreMigrator = EncryptedSecureStoreMigrator(analyticsService: analyticsService)
             let manager = PersistentSessionManager(
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
-                encryptedStore: encryptedSecureStoreMigrator
+                encryptedStore: encryptedSecureStoreMigrator,
+                analyticsService: analyticsService
             )
             
             manager.registerSessionBoundData(
