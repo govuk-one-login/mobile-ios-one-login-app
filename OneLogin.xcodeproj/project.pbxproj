@@ -111,6 +111,7 @@
 		C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */; };
 		C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */; };
 		C3A337632F59835C00CBA690 /* ES256KeyVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A337622F59835000CBA690 /* ES256KeyVerifierTests.swift */; };
+		C3A337672F64378D00CBA690 /* OneLoginGDSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A337662F64377E00CBA690 /* OneLoginGDSError.swift */; };
 		C3C9BA492E3A337800CC6278 /* WalletNetworkClientWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */; };
 		C3CDBC8D2DDE7648005A5C36 /* LocalAuthBiometricsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
@@ -692,6 +693,7 @@
 		C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModel.swift; sourceTree = "<group>"; };
 		C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModelTests.swift; sourceTree = "<group>"; };
 		C3A337622F59835000CBA690 /* ES256KeyVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256KeyVerifierTests.swift; sourceTree = "<group>"; };
+		C3A337662F64377E00CBA690 /* OneLoginGDSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginGDSError.swift; sourceTree = "<group>"; };
 		C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkClientWrapperTests.swift; sourceTree = "<group>"; };
 		C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModel.swift; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
@@ -1503,6 +1505,7 @@
 		ABB941FD2C6CAD840007052B /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				C3A337662F64377E00CBA690 /* OneLoginGDSError.swift */,
 				C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */,
 				C89989892ED9C24F00C9B534 /* NetworkingService.swift */,
 				7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */,
@@ -3366,6 +3369,7 @@
 				D03B04CF2BECDB5C00418C0B /* KeyVerifier.swift in Sources */,
 				C3CDBC8D2DDE7648005A5C36 /* LocalAuthBiometricsErrorViewModel.swift in Sources */,
 				C84040CD2DA058BC008ACA0E /* LocalAuthenticationWrapper+OneLogin.swift in Sources */,
+				C3A337672F64378D00CBA690 /* OneLoginGDSError.swift in Sources */,
 				ABFE5E302DB9A54D0093E86E /* LocalAuthErrorListView.swift in Sources */,
 				C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */,
 				C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */,
