@@ -15,6 +15,7 @@ final class PersistentSessionManager: SessionManager {
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     private let analyticsService: OneLoginAnalyticsService
+    private let walletSDK: WalletServiceProtocol
     
     let localAuthentication: LocalAuthManaging
     let tokenProvider: TokenHolder
@@ -35,7 +36,8 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore: encryptedStore,
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            walletSDK: WalletSDKWrapper()
         )
     }
     
@@ -44,7 +46,8 @@ final class PersistentSessionManager: SessionManager {
         encryptedStore: SecureStorableV2,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
-        analyticsService: OneLoginAnalyticsService
+        analyticsService: OneLoginAnalyticsService,
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper()
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
@@ -56,6 +59,7 @@ final class PersistentSessionManager: SessionManager {
         
         self.tokenProvider = TokenHolder()
         self.analyticsService = analyticsService
+        self.walletSDK = walletSDK
     }
     
     var sessionState: SessionState {
@@ -159,9 +163,9 @@ final class PersistentSessionManager: SessionManager {
                 //
                 // I need to delete my session & Wallet data before I can login
                 do {
-                    if await !WalletSDK.isEmpty() {
+                    if await !walletSDK.isEmpty() {
                         analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
-                                                                         reason: "reason : secure wallet data deleted"))
+                                                                         reason: "secure wallet data deleted"))
                     }
                     try await clearAllSessionData(presentSystemLogOut: true)
                 } catch {
@@ -170,17 +174,15 @@ final class PersistentSessionManager: SessionManager {
                         originalError: error
                     )
                 }
-                
-                throw PersistentSessionError(.sessionMismatch)
             } else {
                 // I am a first time user
                 // I don't have a persistent session ID
                 //
                 // I need to delete my session (but not analytics permissions) & Wallet data before I can login
                 do {
-                    if await !WalletSDK.isEmpty() {
+                    if await !walletSDK.isEmpty() {
                         analyticsService.logCrash(PersistentSessionError(.noSessionExists,
-                                                                         reason: "reason : secure wallet data deleted"))
+                                                                         reason: "secure wallet data deleted"))
                     }
                     try await clearAppForLogin()
                 } catch {
@@ -358,7 +360,7 @@ final class PersistentSessionManager: SessionManager {
     }
 }
 
-public enum PersistentSessionErrorType: String, GDSErrorKind {
+public enum PersistentSessionErrorKind: String, GDSErrorKind {
     case noSessionExists = "there was no persistentID token saved in the encrypted store"
     case userRemovedLocalAuth = "the user has removed all local auth from their device"
     case sessionMismatch = "the persistentID was cleared from the encrypted store because a different user logged in"
@@ -366,7 +368,7 @@ public enum PersistentSessionErrorType: String, GDSErrorKind {
     case idTokenNotStored = "there was no idToken found in the secure store"
 }
 
-public typealias PersistentSessionError = OneLoginGDSError<PersistentSessionErrorType>
+public typealias PersistentSessionError = OneLoginGDSError<PersistentSessionErrorKind>
 
 protocol SessionBoundData {
     func clearSessionData() async throws
