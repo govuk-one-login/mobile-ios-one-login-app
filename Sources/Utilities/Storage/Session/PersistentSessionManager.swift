@@ -174,6 +174,8 @@ final class PersistentSessionManager: SessionManager {
                         originalError: error
                     )
                 }
+                
+                throw PersistentSessionError(.sessionMismatch)
             } else {
                 // I am a first time user
                 // I don't have a persistent session ID
