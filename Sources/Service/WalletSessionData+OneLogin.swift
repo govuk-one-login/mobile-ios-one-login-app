@@ -5,3 +5,13 @@ struct WalletSessionData: SessionBoundData {
         try await WalletSDK.deleteData()
     }
 }
+
+protocol WalletServiceProtocol {
+    func isEmpty() async -> Bool
+}
+
+struct WalletSDKWrapper: WalletServiceProtocol {
+    func isEmpty() async -> Bool {
+        return await WalletSDK.isEmpty()
+    }
+}
