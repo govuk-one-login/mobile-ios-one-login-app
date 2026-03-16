@@ -16,3 +16,17 @@ final class MockRefreshTokenExchangeManager: TokenExchangeManaging {
         )
     }
 }
+
+final class MockRefreshTokenNilExchangeManager: TokenExchangeManaging {
+    func getUpdatedTokens(
+        refreshToken: String,
+        appIntegrityProvider: AppIntegrityProvider
+    ) async throws -> TokenResponse {
+        return TokenResponse(
+            accessToken: MockJWTs.genericToken,
+            refreshToken: nil,
+            tokenType: "token_type",
+            expiryDate: Date.distantFuture
+        )
+    }
+}

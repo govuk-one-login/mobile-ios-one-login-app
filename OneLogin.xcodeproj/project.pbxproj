@@ -111,6 +111,7 @@
 		C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */; };
 		C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */; };
 		C3A337632F59835C00CBA690 /* ES256KeyVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A337622F59835000CBA690 /* ES256KeyVerifierTests.swift */; };
+		C3A337652F6180D500CBA690 /* TokenResponseWithoutRefreshToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C3A337642F6180D500CBA690 /* TokenResponseWithoutRefreshToken.json */; };
 		C3C9BA492E3A337800CC6278 /* WalletNetworkClientWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */; };
 		C3CDBC8D2DDE7648005A5C36 /* LocalAuthBiometricsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
@@ -692,6 +693,7 @@
 		C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModel.swift; sourceTree = "<group>"; };
 		C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModelTests.swift; sourceTree = "<group>"; };
 		C3A337622F59835000CBA690 /* ES256KeyVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256KeyVerifierTests.swift; sourceTree = "<group>"; };
+		C3A337642F6180D500CBA690 /* TokenResponseWithoutRefreshToken.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TokenResponseWithoutRefreshToken.json; sourceTree = "<group>"; };
 		C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkClientWrapperTests.swift; sourceTree = "<group>"; };
 		C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModel.swift; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
@@ -2121,6 +2123,7 @@
 				C8520C2D2AE2C822006790C1 /* MockTokenResponse.swift */,
 				C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */,
 				C8520C212AE2B642006790C1 /* TokenResponse.json */,
+				C3A337642F6180D500CBA690 /* TokenResponseWithoutRefreshToken.json */,
 			);
 			path = ReturnTypes;
 			sourceTree = "<group>";
@@ -3173,6 +3176,7 @@
 			files = (
 				C8C6665E2BD007BD00CF249B /* OutdatedTokenResponse.json in Resources */,
 				C8520C222AE2B642006790C1 /* TokenResponse.json in Resources */,
+				C3A337652F6180D500CBA690 /* TokenResponseWithoutRefreshToken.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
