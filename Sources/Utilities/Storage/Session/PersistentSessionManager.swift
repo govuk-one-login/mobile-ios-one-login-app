@@ -169,10 +169,7 @@ final class PersistentSessionManager: SessionManager {
                     }
                     try await clearAllSessionData(presentSystemLogOut: true)
                 } catch {
-                    throw PersistentSessionError(
-                        .cannotDeleteData,
-                        originalError: error
-                    )
+                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
                 }
                 
                 throw PersistentSessionError(.sessionMismatch)
@@ -188,10 +185,7 @@ final class PersistentSessionManager: SessionManager {
                     }
                     try await clearAppForLogin()
                 } catch {
-                    throw PersistentSessionError(
-                        .cannotDeleteData,
-                        originalError: error
-                    )
+                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
                 }
             }
         }
