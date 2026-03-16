@@ -228,6 +228,7 @@ extension LoginCoordinator {
             showDataDeletedWarningScreen()
         case .cannotDeleteData:
             showRecoverableErrorScreen(error)
+        // These 3 cases are never thrown in startAuthSession
         case .userRemovedLocalAuth,
                 .noSessionExists,
                 .idTokenNotStored:
