@@ -28,3 +28,31 @@ final class MockLoginSession: LoginSession {
         }
     }
 }
+
+final class MockLoginSessionNoRefresh: LoginSession {
+    let window: UIWindow
+    var sessionConfiguration: LoginSessionConfiguration?
+    var didCallPerformLoginFlow = false
+    var errorFromPerformLoginFlow: Error?
+    var errorFromFinalise: Error?
+
+    init(window: UIWindow) {
+        self.window = window
+    }
+
+    func performLoginFlow(configuration: LoginSessionConfiguration) async throws -> TokenResponse {
+        sessionConfiguration = configuration
+        didCallPerformLoginFlow = true
+        if let errorFromPerformLoginFlow {
+            throw errorFromPerformLoginFlow
+        } else {
+            return try MockTokenResponse().getJSONData(withRefreshToken: false)
+        }
+    }
+
+    func finalise(redirectURL: URL) throws {
+        if let errorFromFinalise {
+            throw errorFromFinalise
+        }
+    }
+}

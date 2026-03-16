@@ -6,9 +6,10 @@ final class MockTokenResponse {
         case invalid
     }
     
-    func getJSONData(outdated: Bool = false) throws -> TokenResponse {
+    func getJSONData(outdated: Bool = false, withRefreshToken: Bool = true) throws -> TokenResponse {
         let bundleForTest = Bundle(for: type(of: self))
-        guard let jsonPath = bundleForTest.path(forResource: (outdated ? "OutdatedTokenResponse" : "TokenResponse"), ofType: "json"),
+        let resource = outdated ? "OutdatedTokenResponse" : (withRefreshToken ? "TokenResponse" : "TokenResponseWithoutRefreshToken")
+        guard let jsonPath = bundleForTest.path(forResource: resource, ofType: "json"),
               let jsonData = FileManager.default.contents(atPath: jsonPath) else {
             throw DecodeError.invalid
         }
