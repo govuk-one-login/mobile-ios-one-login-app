@@ -162,10 +162,8 @@ final class LoginCoordinator: NSObject,
             root.present(signOutSuccessful, animated: false)
         case (_, .accountIntervention):
             serviceState = .accountIntervention
-            start()
         case (_, .reauthenticationRequired):
             serviceState = .reauthenticationRequired
-            start()
         case (_, _):
             return
         }

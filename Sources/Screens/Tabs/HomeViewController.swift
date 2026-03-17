@@ -68,7 +68,6 @@ final class HomeViewController: BaseViewController {
             viewController: self,
             externalStream: idCheckCardUpdateStream
         )
-        criOrchestrator.continueIdentityCheckIfRequired(over: self)
     }
     
     func listenForCardUpdates() {
@@ -91,6 +90,7 @@ final class HomeViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        criOrchestrator.continueIdentityCheckIfRequired(over: self)
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: navigationTitle.stringKey)
