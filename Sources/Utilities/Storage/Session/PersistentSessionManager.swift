@@ -6,7 +6,6 @@ import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
-import Wallet
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
