@@ -68,8 +68,10 @@ jobs:
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+          GITHUB_REF_DEV: ${GITHUB_REF:-dev}
+          CONFIGURATION: ${{ inputs.configuration }}
         run: |
-          gitbranch=$(echo ${GITHUB_REF:-dev} | sed s/refs\\/heads\\///g)
+          gitbranch=$(echo "${GITHUB_REF_DEV}" | sed s/refs\\/heads\\///g)
           echo Pushed to branch: $gitbranch
 
           bundle install
@@ -85,7 +87,7 @@ jobs:
           echo -n "${{ env.DI_IPV_DCA_MOB_IOS_GITHUB_ACTIONS_V2_AWS_SECRET_AUTH_KEY_P8_ENCODED }}" \
             | base64 --decode -o $APIKEY_PATH
 
-          bundle exec fastlane prerelease configuration:${{ inputs.configuration }} \
+          bundle exec fastlane prerelease configuration:"${CONFIGURATION}" \
             certificate_path:$CERTIFICATE_PATH \
             certificate_password:$CERTIFICATE_PASSWORD \
             apikey_path:$APIKEY_PATH --verbose \
