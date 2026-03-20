@@ -22,6 +22,18 @@
         },
         {
           "check-types": [
+            "visual regression"
+          ],
+          "config": {
+            "file": ".github/workflows/pull-request.yml",
+            "name": "Run Snapshot Tests (pull request is published/updated into 'develop' or 'release/*' branches)",
+            "path": "jobs.test_snapshot"
+          },
+          "phase": "pre-merge",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
             "unit"
           ],
           "config": {
@@ -54,18 +66,6 @@
             "file": ".github/workflows/merged.yml",
             "name": "Run Unit Tests for develop branch (on merge into 'develop')",
             "path": "jobs.run_unit_tests"
-          },
-          "phase": "pre-upload",
-          "provider": "GitHub"
-        },
-        {
-          "check-types": [
-            "visual regression"
-          ],
-          "config": {
-            "file": ".github/workflows/merged.yml",
-            "name": "Run Snapshot Tests (merge into 'develop' or raise 'release/*' branch)",
-            "path": "jobs.test_snapshot"
           },
           "phase": "pre-upload",
           "provider": "GitHub"
