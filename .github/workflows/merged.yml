@@ -17,11 +17,6 @@ jobs:
     uses: ./.github/workflows/unit-test.yml
     secrets: inherit
 
-  test_snapshot:
-    name: Run Snapshot Tests
-    uses: ./.github/workflows/snapshot-test.yml
-    secrets: inherit
-
   test_build_config:
     name: Run Deployment Tests
     uses: ./.github/workflows/config-test.yml
@@ -38,7 +33,7 @@ jobs:
     secrets: inherit
 
   deploy_build_app:
-    needs: [ test_snapshot, test_build_config ]
+    needs: [ test_build_config ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
     with:
@@ -47,7 +42,7 @@ jobs:
     secrets: inherit
 
   deploy_staging_app:
-    needs: [ test_snapshot, test_staging_config ]
+    needs: [ test_staging_config ]
     name: Deploy App
     uses: ./.github/workflows/deploy.yml
     with:

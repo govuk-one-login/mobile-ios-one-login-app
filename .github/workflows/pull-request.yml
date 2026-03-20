@@ -22,3 +22,8 @@ jobs:
     with:
       pr: true
     secrets: inherit
+
+  test_snapshot:
+    name: Run Snapshot Tests
+    uses: ./.github/workflows/snapshot-test.yml
+    secrets: inherit
