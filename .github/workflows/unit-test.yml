@@ -52,8 +52,12 @@ jobs:
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH
         run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          pull_number=$(jq --raw-output .pull_request.number "${GITHUB_EVENT_PATH}")
 
           brew install sonar-scanner
           bundle install
@@ -63,16 +67,16 @@ jobs:
             bundle exec fastlane test scheme:"OneLoginBuild" \
               configuration:"Debug" \
               testplan:OneLoginUnit \
-              workspace:${{ github.workspace }} \
+              workspace:"${GITHUB_WORKSPACE}" \
               sonar_token:${{ secrets.SONAR_TOKEN }} \
-              source_branch:${{ github.head_ref }} \
-              target_branch:${{ github.base_ref }} \
+              source_branch:"${GITHUB_HEAD_REF}" \
+              target_branch:"${GITHUB_BASE_REF}" \
               pr_number:$pull_number
           else
             bundle exec fastlane test scheme:"OneLoginBuild" \
               configuration:"Debug" \
               testplan:OneLoginUnit \
-              workspace:${{ github.workspace }} \
+              workspace:"${GITHUB_WORKSPACE}" \
               sonar_token:${{ secrets.SONAR_TOKEN }}
           fi
 

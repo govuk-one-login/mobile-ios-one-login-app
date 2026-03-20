@@ -50,9 +50,10 @@ jobs:
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+          CONFIGURATION: ${{ inputs.configuration }}
         run: |
           bundle install
 
-          bundle exec fastlane testWithoutCoverage scheme:"OneLogin${{ inputs.configuration }}" \
-            configuration:"${{ inputs.configuration }}" \
-            testplan:OneLogin${{ inputs.configuration }}Config
+          bundle exec fastlane testWithoutCoverage scheme:"OneLogin${CONFIGURATION}" \
+            configuration:"${CONFIGURATION}" \
+            testplan:"OneLogin${CONFIGURATION}Config"
