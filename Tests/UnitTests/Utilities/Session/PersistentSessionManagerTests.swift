@@ -13,8 +13,10 @@ final class PersistentSessionManagerTests: XCTestCase {
     private var mockEncryptedStore: MockSecureStoreService!
     private var mockUnprotectedStore: MockDefaultsStore!
     private var mockLocalAuthentication: MockLocalAuthManager!
+    private var mockAnalyticsService: MockAnalyticsService!
     private var mockRefreshTokenExchangeManager: MockRefreshTokenExchangeManager!
     private var mockStoredTokens: StoredTokens!
+    private var mockWalletSDK: MockWalletSDKWrapper!
     private var sut: PersistentSessionManager!
     
     private var didCall_deleteSessionBoundData = false
@@ -28,12 +30,16 @@ final class PersistentSessionManagerTests: XCTestCase {
         mockUnprotectedStore = MockDefaultsStore()
         mockLocalAuthentication = MockLocalAuthManager()
         mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManager()
+        mockAnalyticsService = MockAnalyticsService()
+        mockWalletSDK = MockWalletSDKWrapper()
         
         sut = PersistentSessionManager(
             accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
             unprotectedStore: mockUnprotectedStore,
-            localAuthentication: mockLocalAuthentication
+            localAuthentication: mockLocalAuthentication,
+            analyticsService: mockAnalyticsService,
+            walletSDK: mockWalletSDK
         )
     }
     
@@ -49,6 +55,8 @@ final class PersistentSessionManagerTests: XCTestCase {
         mockLocalAuthentication = nil
         mockRefreshTokenExchangeManager = nil
         mockStoredTokens = nil
+        mockAnalyticsService = nil
+        mockWalletSDK = nil
         sut = nil
         
         didCall_deleteSessionBoundData = false
@@ -321,7 +329,7 @@ extension PersistentSessionManagerTests {
                 using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
             )
             XCTFail("Expected a sessionMismatch error to be thrown")
-        } catch PersistentSessionError.sessionMismatch {
+        } catch let error as PersistentSessionError where error.kind == .sessionMismatch {
             // THEN a session mismatch error is thrown
             // AND my session data is cleared
             XCTAssertTrue(didCall_deleteSessionBoundData)
@@ -330,6 +338,61 @@ extension PersistentSessionManagerTests {
             XCTAssertNil(mockAnalyticsPrefernceStore.hasAcceptedAnalytics)
             // AND a logout notification is sent
             await fulfillment(of: [exp], timeout: 5)
+        } catch {
+            XCTFail("Unexpected error was thrown")
+        }
+    }
+    
+    @MainActor
+    func test_startSession_noPersistentID_ReturningUser_WalletNotEmptyError() async throws {
+        // GIVEN I am a returning user
+        mockUnprotectedStore.set(
+            true,
+            forKey: OLString.returningUser
+        )
+        
+        // AND I am unable to re-authenticate because I have no persistent session ID
+        mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
+        // AND the wallet is not empty
+        mockWalletSDK.isEmpty = false
+        // AND there aren't any errors logged
+        XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 0)
+        // WHEN I start a session
+        do {
+            try await sut.startAuthSession(
+                MockLoginSession(window: UIWindow()),
+                using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
+            )
+            XCTFail("Expected a sessionMismatch error to be thrown")
+        } catch let error as PersistentSessionError where error.kind == .sessionMismatch {
+            // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
+            XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 1)
+            XCTAssertTrue(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.sessionMismatch,
+                                                                                                                        reason: "reason : secure wallet data deleted"))
+        } catch {
+            XCTFail("Unexpected error was thrown")
+        }
+    }
+    
+    @MainActor
+    func test_startSession_noPersistentID_NotReturningUser_WalletNotEmptyError() async throws {
+        // Given I am unable to re-authenticate because I have no persistent session ID
+        mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
+        // AND the wallet is not empty
+        mockWalletSDK.isEmpty = false
+        // AND there aren't any errors logged
+        XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 0)
+        // WHEN I start a session
+        do {
+            try await sut.startAuthSession(
+                MockLoginSession(window: UIWindow()),
+                using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
+            )
+            
+            // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
+            waitForTruth(self.mockAnalyticsService.crashesLogged.count == 1, timeout: 5)
+            XCTAssertTrue(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.noSessionExists,
+                                                                                                                        reason: "reason : secure wallet data deleted"))
         } catch {
             XCTFail("Unexpected error was thrown")
         }
@@ -487,7 +550,7 @@ extension PersistentSessionManagerTests {
             )
         } catch let error as PersistentSessionError {
             // THEN an error is catch
-            XCTAssertEqual(error, .userRemovedLocalAuth)
+            XCTAssertEqual(error.kind, .userRemovedLocalAuth)
         }
     }
     
@@ -507,7 +570,7 @@ extension PersistentSessionManagerTests {
             )
             XCTFail("Expected local auth removed error")
         } catch let error as PersistentSessionError {
-            XCTAssertTrue(error == PersistentSessionError.userRemovedLocalAuth)
+            XCTAssertTrue(error.kind == .userRemovedLocalAuth)
         } catch {
             XCTFail("Expected local auth removed error")
         }
@@ -532,7 +595,7 @@ extension PersistentSessionManagerTests {
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
         } catch let error as PersistentSessionError {
-            XCTAssertEqual(error, .noSessionExists)
+            XCTAssertEqual(error.kind, .noSessionExists)
         }
     }
     
@@ -559,7 +622,7 @@ extension PersistentSessionManagerTests {
             )
         } catch let error as PersistentSessionError {
             // THEN an error is thrown
-            XCTAssertEqual(error, .idTokenNotStored)
+            XCTAssertEqual(error.kind, .idTokenNotStored)
         }
     }
     

@@ -51,7 +51,7 @@ struct ErrorScreenSnapshotTests {
     func test_genericError() {
         let sut = GenericErrorViewModel(
             analyticsService: analyticsService,
-            errorDescription: PersistentSessionError.userRemovedLocalAuth.localizedDescription,
+            errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription,
             action: {}
         )
         let vc = GDSErrorScreen(viewModel: sut)
@@ -74,7 +74,7 @@ struct ErrorScreenSnapshotTests {
     func test_recoverableLoginError() {
         let sut = RecoverableLoginErrorViewModel(
             analyticsService: analyticsService,
-            errorDescription: PersistentSessionError.userRemovedLocalAuth.localizedDescription,
+            errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription,
             action: {}
         )
         let vc = GDSErrorScreen(viewModel: sut)
@@ -86,7 +86,7 @@ struct ErrorScreenSnapshotTests {
     func test_signOutError() {
         let sut = SignOutErrorViewModel(
             analyticsService: analyticsService,
-            error: PersistentSessionError.userRemovedLocalAuth,
+            error: PersistentSessionError(.userRemovedLocalAuth),
             buttonAction: {}
         )
         let vc = GDSErrorScreen(viewModel: sut)
@@ -109,7 +109,7 @@ struct ErrorScreenSnapshotTests {
     func test_unrecoverableLoginError() {
         let sut = UnrecoverableLoginErrorViewModel(
             analyticsService: analyticsService,
-            errorDescription: PersistentSessionError.userRemovedLocalAuth.localizedDescription
+            errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription
         )
         let vc = GDSErrorScreen(viewModel: sut)
         
