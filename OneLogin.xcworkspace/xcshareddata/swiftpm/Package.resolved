@@ -136,6 +136,15 @@
       }
     },
     {
+      "identity" : "mobile-credential-sharing-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-one-login/mobile-credential-sharing-ios",
+      "state" : {
+        "revision" : "de258fd22afe5e1726709a173faf06495ef48b73",
+        "version" : "0.4.0"
+      }
+    },
+    {
       "identity" : "mobile-id-check-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
@@ -203,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "revision" : "a19519eec92aa638077ff2ee969bc256521ca1ad",
-        "version" : "0.24.5"
+        "revision" : "57057648c774bd900e8295810a42a7c47789d0ea",
+        "version" : "0.26.0"
       }
     },
     {
@@ -319,8 +328,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/valpackett/SwiftCBOR",
       "state" : {
-        "revision" : "04ccff117f6549121d5721ec84fdf0162122b90e",
-        "version" : "0.5.0"
+        "revision" : "fd929a6d8f7651ce0f63fc99397fd5762358cc29",
+        "version" : "0.6.0"
       }
     },
     {
