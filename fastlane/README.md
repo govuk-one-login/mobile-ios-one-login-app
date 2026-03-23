@@ -15,6 +15,22 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
+### ios buildForTesting
+
+```sh
+[bundle exec] fastlane ios buildForTesting
+```
+
+Build for testing
+
+### ios testWithoutBuildingWithoutCoverage
+
+```sh
+[bundle exec] fastlane ios testWithoutBuildingWithoutCoverage
+```
+
+Run Tests without Sonar Coverage
+
 ### ios testWithoutCoverage
 
 ```sh
@@ -23,10 +39,18 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Run Tests without Sonar Coverage
 
-### ios test
+### ios testWithoutCoverageForUITests
 
 ```sh
-[bundle exec] fastlane ios test
+[bundle exec] fastlane ios testWithoutCoverageForUITests
+```
+
+Run Tests without Sonar Coverage
+
+### ios testWithoutBuilding
+
+```sh
+[bundle exec] fastlane ios testWithoutBuilding
 ```
 
 Run Tests and Output Code Coverage

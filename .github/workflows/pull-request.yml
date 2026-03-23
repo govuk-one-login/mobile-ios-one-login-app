@@ -16,14 +16,98 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  run_unit_tests:
-    name: Run Unit Tests for PR
-    uses: ./.github/workflows/unit-test.yml
-    with:
-      pr: true
-    secrets: inherit
+  build_app_and_test:
+    name: (Debug) Build App, Run Unit/Snapshot Tests and Send Coverage Report
+    runs-on: macos-26
 
-  test_snapshot:
-    name: Run Snapshot Tests
-    uses: ./.github/workflows/snapshot-test.yml
-    secrets: inherit
+    steps:
+      - name: Add Path Globally
+        run: echo "/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pin@v4
+        with:
+          lfs: 'true'
+          submodules: 'true'
+          fetch-depth: 0
+          token: ${{ secrets.MODULE_FETCH_TOKEN }}
+
+      - name: Lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict
+
+      - name: Configure Private Repo Access
+        env:
+          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
+        run: |
+          ./scripts-configs/store-access-token.sh
+
+      - name: Import AppCheck Secret
+        run: |
+          touch ../secrets.xcconfig
+
+      - name: Login to AWS CodeArtifact
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
+        run: |
+          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.1.app
+
+      - name: Build App for Testing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+        run: |
+          bundle install
+
+          bundle exec fastlane buildForTesting scheme:"OneLoginBuild" \
+            configuration:"Debug"
+
+      - name: Run Unit Tests and Send Coverage Report for Branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+        run: |
+          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+
+          brew install sonar-scanner
+          bundle install
+
+          bundle exec fastlane testWithoutBuilding scheme:"OneLoginBuild" \
+            configuration:"Debug" \
+            testplan:OneLoginUnit \
+            workspace:${{ github.workspace }} \
+            sonar_token:${{ secrets.SONAR_TOKEN }} \
+            source_branch:${{ github.head_ref }} \
+            target_branch:${{ github.base_ref }} \
+            pr_number:$pull_number
+
+      # Check the Quality Gate status.
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # pin@v1.2.0
+        # Force to fail step after specific time.
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Run Snapshot Tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+          GIT_CONFIG_NOSYSTEM: "true"
+          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+        run: |
+          bundle install
+
+          bundle exec fastlane testWithoutBuildingWithoutCoverage scheme:"OneLoginBuild" \
+            configuration:"Debug" \
+            testplan:OneLoginSnapshot
