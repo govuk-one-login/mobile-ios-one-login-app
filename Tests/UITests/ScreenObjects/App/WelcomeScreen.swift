@@ -1,7 +1,25 @@
 import XCTest
 
 struct WelcomeScreen: ScreenObject {
-    let app = XCUIApplication()
+    
+    static func make() throws -> WelcomeScreen {
+        let app = XCUIApplication()
+        let welcomeScreen = WelcomeScreen(app: app)
+        guard let debugToken = ProcessInfo.processInfo.environment["FIRAAppCheckDebugToken"] else {
+            preconditionFailure("No Firebase App Check Debug Token passed in environment")
+        }
+        app.launchEnvironment["FIRAAppCheckDebugToken"] = debugToken
+        app.launch()
+        
+        guard app.wait(for: .runningForeground, timeout: 10) else {
+            XCTFail("Failed to launch the app and have it running in the foreground")
+            return welcomeScreen
+        }
+        
+        return welcomeScreen
+    }
+    
+    let app: XCUIApplication
     
     var view: XCUIElement {
         app.scrollViews.firstMatch
@@ -19,10 +37,24 @@ struct WelcomeScreen: ScreenObject {
         app.buttons["intro-button"]
     }
     
+    func agreeIfAnalytics() {
+        let analyticsScreen = app.staticTexts["Help improve the app by sharing analytics"]
+        
+        let analyticsScreenExists = analyticsScreen.waitForExistence(timeout: .timeout)
+        
+        if analyticsScreenExists {
+            let analyticsButton = app.buttons["Share analytics"]
+            XCTAssertTrue(analyticsButton.exists)
+            // Tap Analytics Permission Button
+            analyticsButton.tap()
+        }
+    }
+
+    
     func tapLoginButton() -> LoginModal {
         signInButton.tap()
         
-        let loginModal = LoginModal(app: app).waitForAppearance()
+        let loginModal = LoginModal(app: app)
         let browserElements = [
             loginModal.view,
             loginModal.title,
@@ -33,7 +65,7 @@ struct WelcomeScreen: ScreenObject {
             loginModal.fiveHundredResponseErrorButton
         ]
         browserElements.forEach {
-            _ = $0.waitForExistence(timeout: .timeout)
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
         }
         return loginModal
     }

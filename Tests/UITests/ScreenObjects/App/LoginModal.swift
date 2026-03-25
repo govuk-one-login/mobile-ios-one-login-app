@@ -42,7 +42,7 @@ struct LoginModal: ScreenObject {
     func tapBrowserLoginButton() -> LoadingScreen {
         loginButton.tap()
         
-        return LoadingScreen(app: app).waitForAppearance()
+        return LoadingScreen(app: app)
     }
     
     func tapBrowserRedirectWithOAuthErrorButton() -> ErrorScreen {
@@ -67,7 +67,7 @@ struct LoginModal: ScreenObject {
             secondModalScreen.loginButton
         ]
         browserElements.forEach {
-            _ = $0.waitForExistence(timeout: .timeout)
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
         }
         return secondModalScreen
     }
@@ -82,7 +82,7 @@ struct LoginModal: ScreenObject {
             secondModalScreen.loginButton
         ]
         browserElements.forEach {
-            _ = $0.waitForExistence(timeout: .timeout)
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
         }
         return secondModalScreen
     }

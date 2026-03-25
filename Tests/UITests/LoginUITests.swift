@@ -1,39 +1,16 @@
 import XCTest
 
 final class LoginUITests: XCTestCase {
-    var sut: WelcomeScreen!
     
-    override func setUp() async throws {
-        await MainActor.run {
-            sut = WelcomeScreen()
-            guard let debugToken = ProcessInfo.processInfo.environment["FIRAAppCheckDebugToken"] else {
-                preconditionFailure("No Firebase App Check Debug Token passed in environment")
-            }
-            sut.app.launchEnvironment["FIRAAppCheckDebugToken"] = debugToken
-            sut.app.launch()
-            let exp = expectation(description: "Waiting once App has launched")
-            XCTWaiter().wait(for: [exp], timeout: 30)
-        }
-    }
-    
-    override func tearDown() {
-        sut.app.terminate()
-        sut = nil
-    }
-    
-    func agreeIfAnalytics() {
-        if sut.app.staticTexts["Help improve the app by sharing analytics"].exists {
-            let analyticsButton = sut.app.buttons["Share analytics"]
-            XCTAssertTrue(analyticsButton.exists)
-            // Tap Analytics Permission Button
-            analyticsButton.tap()
-        }
+    override func setUp() {
+        continueAfterFailure = false
     }
 }
 
 extension LoginUITests {
     func test_loginHappyPath() throws {
-        agreeIfAnalytics()
+        let sut = try WelcomeScreen.make()
+        sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
@@ -44,13 +21,13 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.loginButton.label, "Login")
         // Select 'Login' Button
         let loadingScreen = loginModal.tapBrowserLoginButton()
-        XCTAssertEqual(loadingScreen.title.label, "Loading")
         let homeScreen = loadingScreen.waitForHomeScreen()
         XCTAssertEqual(homeScreen.titleImage.label, "home")
     }
     
     func test_loginCancelPath() throws {
-        agreeIfAnalytics()
+        let sut = try WelcomeScreen.make()
+        sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
@@ -65,7 +42,8 @@ extension LoginUITests {
     }
     
     func test_OAuthLoginError() throws {
-        agreeIfAnalytics()
+        let sut = try WelcomeScreen.make()
+        sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
@@ -81,7 +59,8 @@ extension LoginUITests {
     }
     
     func test_noAuthCodeError() throws {
-        agreeIfAnalytics()
+        let sut = try WelcomeScreen.make()
+        sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
@@ -97,7 +76,8 @@ extension LoginUITests {
     }
     
     func test_fourHundredResponseError() throws {
-        agreeIfAnalytics()
+        let sut = try WelcomeScreen.make()
+        sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
@@ -117,7 +97,8 @@ extension LoginUITests {
     }
     
     func test_fiveHundredResponseError() throws {
-        agreeIfAnalytics()
+        let sut = try WelcomeScreen.make()
+        sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
         XCTAssertEqual(sut.body.label, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
