@@ -32,6 +32,14 @@ struct ErrorScreenSnapshotTests {
     }
     
     @Test
+    func test_appIntegrityError() {
+        let sut = AppIntegrityErrorViewModel(analyticsService: analyticsService)
+        let vc = GDSErrorScreen(viewModel: sut)
+        
+        vc.assertSnapshot()
+    }
+    
+    @Test
     func test_appUnavailableError() {
         let sut = AppUnavailableViewModel(analyticsService: analyticsService)
         let vc = GDSCentreAlignedScreen(viewModel: sut)
@@ -120,14 +128,6 @@ struct ErrorScreenSnapshotTests {
     func test_updateAppError() {
         let sut = UpdateAppViewModel(analyticsService: analyticsService)
         let vc = GDSCentreAlignedScreen(viewModel: sut)
-        
-        vc.assertSnapshot()
-    }
-    
-    @Test
-    func test_appIntegrityError() {
-        let sut = AppIntegrityErrorViewModel(analyticsService: analyticsService)
-        let vc = GDSErrorScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
