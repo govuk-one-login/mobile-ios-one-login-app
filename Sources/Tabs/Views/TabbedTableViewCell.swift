@@ -9,6 +9,7 @@ final class TabbedTableViewCell: UITableViewCell, ViewIdentifiable {
             cellConfig.secondaryText = viewModel?.cellSubtitle
             cellConfig.secondaryTextProperties.color = .gdsGrey
             cellConfig.image = viewModel?.image
+            cellConfig.textProperties.lineBreakMode = .byWordWrapping
             contentConfiguration = cellConfig
             
             guard let viewName = viewModel?.accessoryView else { return }
