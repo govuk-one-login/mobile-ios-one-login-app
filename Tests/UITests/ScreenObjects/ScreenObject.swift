@@ -7,10 +7,5 @@ protocol ScreenObject {
 extension ScreenObject {
     var isVisible: Bool {
         view.isHittable
-    }
-    
-    func waitForAppearance(timeout: TimeInterval = .timeout) -> Self {
-        _ = view.waitForExistence(timeout: timeout)
-        return self
-    }
+    }    
 }

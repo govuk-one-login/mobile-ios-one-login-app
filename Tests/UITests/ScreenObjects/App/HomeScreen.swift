@@ -10,4 +10,8 @@ struct HomeScreen: ScreenObject {
     var titleImage: XCUIElement {
         app.images.firstMatch
     }
+    
+    var tabBarsFirstMatch: XCUIElement {
+        app.tabBars.firstMatch
+    }
 }
