@@ -10,6 +10,7 @@ final class LoginUITests: XCTestCase {
 extension LoginUITests {
     func test_loginHappyPath() throws {
         let sut = try WelcomeScreen.make()
+        sut.waitForUnlockScreenNonExistence()
         sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
@@ -27,6 +28,7 @@ extension LoginUITests {
     
     func test_loginCancelPath() throws {
         let sut = try WelcomeScreen.make()
+        sut.waitForUnlockScreenNonExistence()
         sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
@@ -43,6 +45,7 @@ extension LoginUITests {
     
     func test_OAuthLoginError() throws {
         let sut = try WelcomeScreen.make()
+        sut.waitForUnlockScreenNonExistence()
         sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
@@ -60,6 +63,7 @@ extension LoginUITests {
     
     func test_noAuthCodeError() throws {
         let sut = try WelcomeScreen.make()
+        sut.waitForUnlockScreenNonExistence()
         sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
@@ -77,6 +81,7 @@ extension LoginUITests {
     
     func test_fourHundredResponseError() throws {
         let sut = try WelcomeScreen.make()
+        sut.waitForUnlockScreenNonExistence()
         sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")
@@ -98,6 +103,7 @@ extension LoginUITests {
     
     func test_fiveHundredResponseError() throws {
         let sut = try WelcomeScreen.make()
+        sut.waitForUnlockScreenNonExistence()
         sut.agreeIfAnalytics()
         // Welcome Screen
         XCTAssertEqual(sut.title.label, "GOV.UK One Login")

@@ -37,6 +37,11 @@ struct WelcomeScreen: ScreenObject {
         app.buttons["intro-button"]
     }
     
+    func waitForUnlockScreenNonExistence() {
+        XCTAssertTrue(self.app.staticTexts["unlock-screen-loading-label"].waitForNonExistence(timeout: .timeout),
+                      "Loading Screen took longer than \(TimeInterval.timeout) to dismiss")
+    }
+    
     func agreeIfAnalytics() {
         let analyticsScreen = app.staticTexts["Help improve the app by sharing analytics"]
         
