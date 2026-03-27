@@ -7,5 +7,5 @@ protocol ScreenObject {
 extension ScreenObject {
     var isVisible: Bool {
         view.isHittable
-    }    
+    }
 }
