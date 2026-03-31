@@ -10,24 +10,13 @@
             "unit test coverage",
             "code quality",
             "secret scanning",
-            "vulnerability detection"
-          ],
-          "config": {
-            "file": ".github/workflows/pull-request.yml",
-            "name": "Verify code base when pull request is published/updated (into 'develop' or 'release/*' branches)",
-            "path": "jobs.run_unit_tests"
-          },
-          "phase": "pre-merge",
-          "provider": "GitHub"
-        },
-        {
-          "check-types": [
+            "vulnerability detection",
             "visual regression"
           ],
           "config": {
             "file": ".github/workflows/pull-request.yml",
-            "name": "Run Snapshot Tests (pull request is published/updated into 'develop' or 'release/*' branches)",
-            "path": "jobs.test_snapshot"
+            "name": "Verify code base when pull request is published/updated (into 'develop' or 'release/*' branches)",
+            "path": "jobs.build_app_and_test"
           },
           "phase": "pre-merge",
           "provider": "GitHub"
