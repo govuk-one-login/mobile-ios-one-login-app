@@ -14,7 +14,7 @@ struct LoadingScreen: ScreenObject {
     func waitForHomeScreen() -> HomeScreen {
         let homeScreen = HomeScreen(app: app)
         
-        XCTAssertTrue(homeScreen.tabBarsFirstMatch.waitForExistence(timeout: .timeout))
+        XCTAssertTrue(homeScreen.tabBarsFirstMatch.waitForExistence(timeout: .timeout), "\(homeScreen) does no exist")
         
         return homeScreen
     }

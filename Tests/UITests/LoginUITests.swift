@@ -40,7 +40,7 @@ extension LoginUITests {
         XCTAssertEqual(loginModal.loginButton.label, "Login")
         // Select 'Cancel' Button
         loginModal.tapCancelButton()
-        XCTAssertTrue(sut.isVisible)
+        XCTAssertTrue(sut.signInButton.exists)
     }
     
     func test_OAuthLoginError() throws {

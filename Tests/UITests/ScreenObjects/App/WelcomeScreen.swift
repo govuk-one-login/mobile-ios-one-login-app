@@ -70,7 +70,7 @@ struct WelcomeScreen: ScreenObject {
             loginModal.fiveHundredResponseErrorButton
         ]
         browserElements.forEach {
-            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) does no exist")
         }
         return loginModal
     }
