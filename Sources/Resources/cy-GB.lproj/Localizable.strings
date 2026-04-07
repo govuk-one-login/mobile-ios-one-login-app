@@ -217,22 +217,21 @@
 
 
 // MARK: FaceID/ Touch ID Settings Error Screen
-"app_localAuthManagerErrorTitle" = "Mae angen i chi ddiweddaru gosodiadau eich ffôn";
+"app_localAuthManagerErrorTitle" = "Diweddaru gosodiadau diogelwch eich ffôn";
 
 "app_localAuthManagerErrorBody1" = "I ychwanegu dogfennau, mae angen i chi ddiogelu eich ffôn gyda chod mynediad.\n\nMae hyn er mwyn sicrhau na all unrhyw un arall weld na hychwanegu dogfennau at eich ap.";
 
 "app_localAuthManagerErrorBody3" = "Mae angen i chi:";
 
-"app_localAuthManagerErrorNumberedList1FaceID" = "Fynd i Face ID & Passcode yng ngosodiadau eich ffôn.";
+"app_localAuthManagerErrorNumberedList0" = "Fynd i osodiadau eich ffôn.";
 
-"app_localAuthManagerErrorNumberedList1TouchID" = "Fynd i Touch ID & Passcode yng ngosodiadau eich ffôn.";
+"app_localAuthManagerErrorNumberedList1FaceID" = "Tapio Face ID & Passcode.";
+
+"app_localAuthManagerErrorNumberedList1TouchID" = "Tapio Touch ID & Passcode.";
 
 "app_localAuthManagerErrorNumberedList2" = "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.";
 
 "app_localAuthManagerErrorNumberedList3" = "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.";
-
-"app_localAuthManagerErrorGoToSettingsButton" = "Ewch i osodiadau ffôn";
-
 
 // MARK: FaceID/ Touch ID Biometrics Error Screen
 "app_localAuthManagerBiometricsErrorTitle" = "Mae angen i chi ganiatáu %@";
