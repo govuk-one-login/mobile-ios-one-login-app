@@ -239,21 +239,21 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_localAuthSettingsError_keys() throws {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
-                       "Mae angen i chi ddiweddaru gosodiadau eich ffôn")
+                       "Diweddaru gosodiadau diogelwch eich ffôn")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
                        "I ychwanegu dogfennau, mae angen i chi ddiogelu eich ffôn gyda chod mynediad.\n\nMae hyn er mwyn sicrhau na all unrhyw un arall weld na hychwanegu dogfennau at eich ap.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getWelshString(),
                        "Mae angen i chi:")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList0".getWelshString(),
+                       "Fynd i osodiadau eich ffôn.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getWelshString(),
-                       "Fynd i Face ID & Passcode yng ngosodiadau eich ffôn.")
+                       "Tapio Face ID & Passcode.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1TouchID".getWelshString(),
-                       "Fynd i Touch ID & Passcode yng ngosodiadau eich ffôn.")
+                       "Tapio Touch ID & Passcode.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getWelshString(),
                        "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getWelshString(),
                        "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.")
-        XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getWelshString(),
-                       "Ewch i osodiadau ffôn")
     }
     
     func test_localAuthBiometricsError_keys() throws {
