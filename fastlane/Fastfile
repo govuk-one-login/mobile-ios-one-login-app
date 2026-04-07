@@ -19,6 +19,29 @@ default_platform(:ios)
 xcode_select("/Applications/Xcode_26.1.1.app")
 
 platform :ios do
+  desc "Build for testing"
+  lane :buildForTesting do |options|
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone 17 (26.1)",
+      scheme: options[:scheme],
+      configuration: options[:configuration],
+      build_for_testing: true,
+      xcargs: '-skipPackagePluginValidation'
+    )
+  end
+  desc "Run Tests without Sonar Coverage"
+  lane :testWithoutBuildingWithoutCoverage do |options|
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone 17 (26.1)",
+      scheme: options[:scheme],
+      configuration: options[:configuration],
+      test_without_building: true,
+      testplan: options[:testplan],
+      xcargs: '-skipPackagePluginValidation'
+    )
+  end
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutCoverage do |options|
     run_tests(
@@ -62,27 +85,43 @@ platform :ios do
       "bash #{options[:workspace]}/scripts-configs/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/#{options[:scheme]}.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
     
-    if options.has_key?(:pr_number) then
-      sonar(
-        pull_request_branch: options[:source_branch],
-        pull_request_base: options[:target_branch],
-        pull_request_key: options[:pr_number],
-        project_version: "1.0",
-        project_language: "swift",
-        sonar_login: options[:sonar_token],
-        sonar_url: "https://sonarcloud.io",
-        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
-      )
-    else
-      sonar(
-        pull_request_branch: options[:source_branch],
-        project_version: "1.0",
-        project_language: "swift",
-        sonar_login: options[:sonar_token],
-        sonar_url: "https://sonarcloud.io",
-        sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
-      )
-    end
+    sonar(
+      pull_request_branch: options[:source_branch],
+      project_version: "1.0",
+      project_language: "swift",
+      sonar_login: options[:sonar_token],
+      sonar_url: "https://sonarcloud.io",
+      sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+    )
+  end
+
+  desc "Run Tests and Output Code Coverage"
+  lane :testWithoutBuilding do |options|
+    run_tests(
+      workspace: "OneLogin.xcworkspace",
+      device: "iPhone 17 (26.1)",
+      scheme: options[:scheme],
+      configuration: options[:configuration],
+      testplan: options[:testplan],
+      test_without_building: true,      
+      result_bundle: true,
+      xcargs: '-skipPackagePluginValidation'
+    )
+    
+    sh(
+      "bash #{options[:workspace]}/scripts-configs/xccov-to-sonarqube-generic.sh #{options[:workspace]}/fastlane/test_output/#{options[:scheme]}.xcresult > #{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+    )
+    
+    sonar(
+      pull_request_branch: options[:source_branch],
+      pull_request_base: options[:target_branch],
+      pull_request_key: options[:pr_number],
+      project_version: "1.0",
+      project_language: "swift",
+      sonar_login: options[:sonar_token],
+      sonar_url: "https://sonarcloud.io",
+      sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
+    )
   end
     
   desc "Push a new beta build to TestFlight"
