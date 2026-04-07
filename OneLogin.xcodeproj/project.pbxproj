@@ -153,6 +153,30 @@
 		C3C9BA492E3A337800CC6278 /* WalletNetworkClientWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */; };
 		C3CDBC8D2DDE7648005A5C36 /* LocalAuthBiometricsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */; };
 		C3DF5A7F2F6836560089B42B /* MockWalletSDKWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DF5A7E2F6836560089B42B /* MockWalletSDKWrapper.swift */; };
+		C3F8E40A2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3FD2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.12.png */; };
+		C3F8E40B2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4052F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.8.png */; };
+		C3F8E40C2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3FA2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.9.png */; };
+		C3F8E40D2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4072F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.10.png */; };
+		C3F8E40E2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4042F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.7.png */; };
+		C3F8E40F2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3FE2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.1.png */; };
+		C3F8E4102F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3FC2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.11.png */; };
+		C3F8E4112F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4032F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.6.png */; };
+		C3F8E4122F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F42F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.3.png */; };
+		C3F8E4132F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F62F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.5.png */; };
+		C3F8E4142F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3FF2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.2.png */; };
+		C3F8E4152F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F22F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.1.png */; };
+		C3F8E4162F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F32F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.2.png */; };
+		C3F8E4172F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F52F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.4.png */; };
+		C3F8E4182F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F72F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.6.png */; };
+		C3F8E4192F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3FB2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.10.png */; };
+		C3F8E41A2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F92F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.8.png */; };
+		C3F8E41B2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4012F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.4.png */; };
+		C3F8E41C2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4022F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.5.png */; };
+		C3F8E41D2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4062F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.9.png */; };
+		C3F8E41E2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4082F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.11.png */; };
+		C3F8E41F2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E3F82F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.7.png */; };
+		C3F8E4202F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4092F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png */; };
+		C3F8E4212F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F8E4002F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.3.png */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
 		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
@@ -255,18 +279,6 @@
 		C8467D6E2F1978150071ED81 /* test_localAuthBiometricsError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C6D2F1978150071ED81 /* test_localAuthBiometricsError.10.png */; };
 		C8467D6F2F1978150071ED81 /* test_localAuthBiometricsError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C6E2F1978150071ED81 /* test_localAuthBiometricsError.11.png */; };
 		C8467D702F1978150071ED81 /* test_localAuthBiometricsError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C6F2F1978150071ED81 /* test_localAuthBiometricsError.12.png */; };
-		C8467D712F1978150071ED81 /* test_localAuthSettingsError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C702F1978150071ED81 /* test_localAuthSettingsError.1.png */; };
-		C8467D722F1978150071ED81 /* test_localAuthSettingsError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C712F1978150071ED81 /* test_localAuthSettingsError.2.png */; };
-		C8467D732F1978150071ED81 /* test_localAuthSettingsError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C722F1978150071ED81 /* test_localAuthSettingsError.3.png */; };
-		C8467D742F1978150071ED81 /* test_localAuthSettingsError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C732F1978150071ED81 /* test_localAuthSettingsError.4.png */; };
-		C8467D752F1978150071ED81 /* test_localAuthSettingsError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C742F1978150071ED81 /* test_localAuthSettingsError.5.png */; };
-		C8467D762F1978150071ED81 /* test_localAuthSettingsError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C752F1978150071ED81 /* test_localAuthSettingsError.6.png */; };
-		C8467D772F1978150071ED81 /* test_localAuthSettingsError.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C762F1978150071ED81 /* test_localAuthSettingsError.7.png */; };
-		C8467D782F1978150071ED81 /* test_localAuthSettingsError.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C772F1978150071ED81 /* test_localAuthSettingsError.8.png */; };
-		C8467D792F1978150071ED81 /* test_localAuthSettingsError.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C782F1978150071ED81 /* test_localAuthSettingsError.9.png */; };
-		C8467D7A2F1978150071ED81 /* test_localAuthSettingsError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C792F1978150071ED81 /* test_localAuthSettingsError.10.png */; };
-		C8467D7B2F1978150071ED81 /* test_localAuthSettingsError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C7A2F1978150071ED81 /* test_localAuthSettingsError.11.png */; };
-		C8467D7C2F1978150071ED81 /* test_localAuthSettingsError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C7B2F1978150071ED81 /* test_localAuthSettingsError.12.png */; };
 		C8467D7D2F1978150071ED81 /* test_networkConnectionError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C7C2F1978150071ED81 /* test_networkConnectionError.1.png */; };
 		C8467D7E2F1978150071ED81 /* test_networkConnectionError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C7D2F1978150071ED81 /* test_networkConnectionError.2.png */; };
 		C8467D7F2F1978150071ED81 /* test_networkConnectionError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C7E2F1978150071ED81 /* test_networkConnectionError.3.png */; };
@@ -750,6 +762,30 @@
 		C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkClientWrapperTests.swift; sourceTree = "<group>"; };
 		C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModel.swift; sourceTree = "<group>"; };
 		C3DF5A7E2F6836560089B42B /* MockWalletSDKWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletSDKWrapper.swift; sourceTree = "<group>"; };
+		C3F8E3F22F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.1.png; sourceTree = "<group>"; };
+		C3F8E3F32F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.2.png; sourceTree = "<group>"; };
+		C3F8E3F42F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.3.png; sourceTree = "<group>"; };
+		C3F8E3F52F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.4.png; sourceTree = "<group>"; };
+		C3F8E3F62F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.5.png; sourceTree = "<group>"; };
+		C3F8E3F72F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.6.png; sourceTree = "<group>"; };
+		C3F8E3F82F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.7.png; sourceTree = "<group>"; };
+		C3F8E3F92F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.8.png; sourceTree = "<group>"; };
+		C3F8E3FA2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.9.png; sourceTree = "<group>"; };
+		C3F8E3FB2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.10.png; sourceTree = "<group>"; };
+		C3F8E3FC2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.11.png; sourceTree = "<group>"; };
+		C3F8E3FD2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorFaceId.12.png; sourceTree = "<group>"; };
+		C3F8E3FE2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.1.png; sourceTree = "<group>"; };
+		C3F8E3FF2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.2.png; sourceTree = "<group>"; };
+		C3F8E4002F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.3.png; sourceTree = "<group>"; };
+		C3F8E4012F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.4.png; sourceTree = "<group>"; };
+		C3F8E4022F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.5.png; sourceTree = "<group>"; };
+		C3F8E4032F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.6.png; sourceTree = "<group>"; };
+		C3F8E4042F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.7.png; sourceTree = "<group>"; };
+		C3F8E4052F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.8.png; sourceTree = "<group>"; };
+		C3F8E4062F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.9.png; sourceTree = "<group>"; };
+		C3F8E4072F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.10.png; sourceTree = "<group>"; };
+		C3F8E4082F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.11.png; sourceTree = "<group>"; };
+		C3F8E4092F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsErrorTouchId.12.png; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -846,18 +882,6 @@
 		C8467C6D2F1978150071ED81 /* test_localAuthBiometricsError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsError.10.png; sourceTree = "<group>"; };
 		C8467C6E2F1978150071ED81 /* test_localAuthBiometricsError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsError.11.png; sourceTree = "<group>"; };
 		C8467C6F2F1978150071ED81 /* test_localAuthBiometricsError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsError.12.png; sourceTree = "<group>"; };
-		C8467C702F1978150071ED81 /* test_localAuthSettingsError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.1.png; sourceTree = "<group>"; };
-		C8467C712F1978150071ED81 /* test_localAuthSettingsError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.2.png; sourceTree = "<group>"; };
-		C8467C722F1978150071ED81 /* test_localAuthSettingsError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.3.png; sourceTree = "<group>"; };
-		C8467C732F1978150071ED81 /* test_localAuthSettingsError.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.4.png; sourceTree = "<group>"; };
-		C8467C742F1978150071ED81 /* test_localAuthSettingsError.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.5.png; sourceTree = "<group>"; };
-		C8467C752F1978150071ED81 /* test_localAuthSettingsError.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.6.png; sourceTree = "<group>"; };
-		C8467C762F1978150071ED81 /* test_localAuthSettingsError.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.7.png; sourceTree = "<group>"; };
-		C8467C772F1978150071ED81 /* test_localAuthSettingsError.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.8.png; sourceTree = "<group>"; };
-		C8467C782F1978150071ED81 /* test_localAuthSettingsError.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.9.png; sourceTree = "<group>"; };
-		C8467C792F1978150071ED81 /* test_localAuthSettingsError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.10.png; sourceTree = "<group>"; };
-		C8467C7A2F1978150071ED81 /* test_localAuthSettingsError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.11.png; sourceTree = "<group>"; };
-		C8467C7B2F1978150071ED81 /* test_localAuthSettingsError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthSettingsError.12.png; sourceTree = "<group>"; };
 		C8467C7C2F1978150071ED81 /* test_networkConnectionError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_networkConnectionError.1.png; sourceTree = "<group>"; };
 		C8467C7D2F1978150071ED81 /* test_networkConnectionError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_networkConnectionError.2.png; sourceTree = "<group>"; };
 		C8467C7E2F1978150071ED81 /* test_networkConnectionError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_networkConnectionError.3.png; sourceTree = "<group>"; };
@@ -1763,6 +1787,30 @@
 		C8467CC42F1978150071ED81 /* ErrorScreenSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				C3F8E3F22F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.1.png */,
+				C3F8E3F32F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.2.png */,
+				C3F8E3F42F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.3.png */,
+				C3F8E3F52F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.4.png */,
+				C3F8E3F62F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.5.png */,
+				C3F8E3F72F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.6.png */,
+				C3F8E3F82F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.7.png */,
+				C3F8E3F92F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.8.png */,
+				C3F8E3FA2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.9.png */,
+				C3F8E3FB2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.10.png */,
+				C3F8E3FC2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.11.png */,
+				C3F8E3FD2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.12.png */,
+				C3F8E3FE2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.1.png */,
+				C3F8E3FF2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.2.png */,
+				C3F8E4002F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.3.png */,
+				C3F8E4012F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.4.png */,
+				C3F8E4022F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.5.png */,
+				C3F8E4032F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.6.png */,
+				C3F8E4042F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.7.png */,
+				C3F8E4052F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.8.png */,
+				C3F8E4062F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.9.png */,
+				C3F8E4072F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.10.png */,
+				C3F8E4082F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.11.png */,
+				C3F8E4092F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png */,
 				C8467C402F1978150071ED81 /* test_appUnavailableError.1.png */,
 				C8467C412F1978150071ED81 /* test_appUnavailableError.2.png */,
 				C8467C422F1978150071ED81 /* test_appUnavailableError.3.png */,
@@ -1811,18 +1859,6 @@
 				C8467C6D2F1978150071ED81 /* test_localAuthBiometricsError.10.png */,
 				C8467C6E2F1978150071ED81 /* test_localAuthBiometricsError.11.png */,
 				C8467C6F2F1978150071ED81 /* test_localAuthBiometricsError.12.png */,
-				C8467C702F1978150071ED81 /* test_localAuthSettingsError.1.png */,
-				C8467C712F1978150071ED81 /* test_localAuthSettingsError.2.png */,
-				C8467C722F1978150071ED81 /* test_localAuthSettingsError.3.png */,
-				C8467C732F1978150071ED81 /* test_localAuthSettingsError.4.png */,
-				C8467C742F1978150071ED81 /* test_localAuthSettingsError.5.png */,
-				C8467C752F1978150071ED81 /* test_localAuthSettingsError.6.png */,
-				C8467C762F1978150071ED81 /* test_localAuthSettingsError.7.png */,
-				C8467C772F1978150071ED81 /* test_localAuthSettingsError.8.png */,
-				C8467C782F1978150071ED81 /* test_localAuthSettingsError.9.png */,
-				C8467C792F1978150071ED81 /* test_localAuthSettingsError.10.png */,
-				C8467C7A2F1978150071ED81 /* test_localAuthSettingsError.11.png */,
-				C8467C7B2F1978150071ED81 /* test_localAuthSettingsError.12.png */,
 				C8467C7C2F1978150071ED81 /* test_networkConnectionError.1.png */,
 				C8467C7D2F1978150071ED81 /* test_networkConnectionError.2.png */,
 				C8467C7E2F1978150071ED81 /* test_networkConnectionError.3.png */,
@@ -2968,6 +3004,30 @@
 				C8467D432F1978150071ED81 /* test_appUnavailableError.3.png in Resources */,
 				C8467D442F1978150071ED81 /* test_appUnavailableError.4.png in Resources */,
 				C8467D452F1978150071ED81 /* test_appUnavailableError.5.png in Resources */,
+				C3F8E40A2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.12.png in Resources */,
+				C3F8E40B2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.8.png in Resources */,
+				C3F8E40C2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.9.png in Resources */,
+				C3F8E40D2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.10.png in Resources */,
+				C3F8E40E2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.7.png in Resources */,
+				C3F8E40F2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.1.png in Resources */,
+				C3F8E4102F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.11.png in Resources */,
+				C3F8E4112F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.6.png in Resources */,
+				C3F8E4122F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.3.png in Resources */,
+				C3F8E4132F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.5.png in Resources */,
+				C3F8E4142F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.2.png in Resources */,
+				C3F8E4152F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.1.png in Resources */,
+				C3F8E4162F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.2.png in Resources */,
+				C3F8E4172F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.4.png in Resources */,
+				C3F8E4182F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.6.png in Resources */,
+				C3F8E4192F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.10.png in Resources */,
+				C3F8E41A2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.8.png in Resources */,
+				C3F8E41B2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.4.png in Resources */,
+				C3F8E41C2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.5.png in Resources */,
+				C3F8E41D2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.9.png in Resources */,
+				C3F8E41E2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.11.png in Resources */,
+				C3F8E41F2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.7.png in Resources */,
+				C3F8E4202F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png in Resources */,
+				C3F8E4212F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.3.png in Resources */,
 				C8467D462F1978150071ED81 /* test_appUnavailableError.6.png in Resources */,
 				C8467D472F1978150071ED81 /* test_appUnavailableError.7.png in Resources */,
 				C8467D482F1978150071ED81 /* test_appUnavailableError.8.png in Resources */,
@@ -3011,13 +3071,6 @@
 				C8467D6E2F1978150071ED81 /* test_localAuthBiometricsError.10.png in Resources */,
 				C8467D6F2F1978150071ED81 /* test_localAuthBiometricsError.11.png in Resources */,
 				C8467D702F1978150071ED81 /* test_localAuthBiometricsError.12.png in Resources */,
-				C8467D712F1978150071ED81 /* test_localAuthSettingsError.1.png in Resources */,
-				C8467D722F1978150071ED81 /* test_localAuthSettingsError.2.png in Resources */,
-				C8467D732F1978150071ED81 /* test_localAuthSettingsError.3.png in Resources */,
-				C8467D742F1978150071ED81 /* test_localAuthSettingsError.4.png in Resources */,
-				C8467D752F1978150071ED81 /* test_localAuthSettingsError.5.png in Resources */,
-				C8467D762F1978150071ED81 /* test_localAuthSettingsError.6.png in Resources */,
-				C8467D772F1978150071ED81 /* test_localAuthSettingsError.7.png in Resources */,
 				C362AFF92F75A1D900B92145 /* test_settingsScreen.3.png in Resources */,
 				C362AFFA2F75A1D900B92145 /* test_settingsScreen.1.png in Resources */,
 				C362AFFB2F75A1D900B92145 /* test_settingsScreen.8.png in Resources */,
@@ -3028,11 +3081,6 @@
 				C362B0012F75A1D900B92145 /* test_settingsScreen.4.png in Resources */,
 				C362B0022F75A1D900B92145 /* test_settingsScreen.12.png in Resources */,
 				C362B0032F75A1D900B92145 /* test_settingsScreen.6.png in Resources */,
-				C8467D782F1978150071ED81 /* test_localAuthSettingsError.8.png in Resources */,
-				C8467D792F1978150071ED81 /* test_localAuthSettingsError.9.png in Resources */,
-				C8467D7A2F1978150071ED81 /* test_localAuthSettingsError.10.png in Resources */,
-				C8467D7B2F1978150071ED81 /* test_localAuthSettingsError.11.png in Resources */,
-				C8467D7C2F1978150071ED81 /* test_localAuthSettingsError.12.png in Resources */,
 				C8467D7D2F1978150071ED81 /* test_networkConnectionError.1.png in Resources */,
 				C8467D7E2F1978150071ED81 /* test_networkConnectionError.2.png in Resources */,
 				C8467D7F2F1978150071ED81 /* test_networkConnectionError.3.png in Resources */,
