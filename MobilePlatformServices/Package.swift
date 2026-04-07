@@ -5,12 +5,12 @@ import PackageDescription
 
 let package = Package(
     name: "MobilePlatformServices",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(name: "MobilePlatformServices", targets: ["MobilePlatformServices"])
     ],
     dependencies: [
-        .package(url: "https://github.com/govuk-one-login/mobile-ios-networking", .upToNextMajor(from: "3.3.0"))
+        .package(url: "https://github.com/govuk-one-login/mobile-ios-networking", .upToNextMajor(from: "4.0.0"))
     ],
     targets: [
         .target(name: "MobilePlatformServices", dependencies: [

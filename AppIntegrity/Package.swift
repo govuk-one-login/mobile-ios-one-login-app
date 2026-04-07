@@ -16,7 +16,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/govuk-one-login/mobile-ios-networking",
-            from: "3.3.0"
+            from: "4.0.0"
         ),
         .package(
             url: "https://github.com/govuk-one-login/mobile-ios-utilities",
