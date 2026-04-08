@@ -239,7 +239,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_localAuthSettingsError_keys() throws {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
-                       "Update your phone’s security settingss")
+                       "Update your phone's security settingss")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
                        "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
