@@ -15,8 +15,7 @@ struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
 
-    init(urlOpener: URLOpener = UIApplication.shared,
-         analyticsService: OneLoginAnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          localAuthType: LocalAuthType,
          completion: (() -> Void)? = nil) {
         self.localAuthType = localAuthType

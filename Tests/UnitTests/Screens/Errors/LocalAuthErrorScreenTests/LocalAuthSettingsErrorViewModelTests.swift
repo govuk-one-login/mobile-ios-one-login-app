@@ -9,12 +9,10 @@ struct LocalAuthSettingsErrorViewModelTests {
     let sut: LocalAuthSettingsErrorViewModel
     let mockAnalyticsService = MockAnalyticsService()
     let mockLocalAuthService = MockLocalAuthManager()
-    let urlOpener = MockURLOpener()
 
     init() {
-        sut = LocalAuthSettingsErrorViewModel(urlOpener: urlOpener,
-                                      analyticsService: mockAnalyticsService,
-                                      localAuthType: mockLocalAuthService.type)
+        sut = LocalAuthSettingsErrorViewModel(analyticsService: mockAnalyticsService,
+                                              localAuthType: mockLocalAuthService.type)
     }
 }
 
