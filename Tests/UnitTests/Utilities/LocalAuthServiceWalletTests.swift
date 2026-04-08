@@ -118,9 +118,9 @@ extension LocalAuthServiceWalletTests {
         
         XCTAssertTrue(vc.viewModel is LocalAuthSettingsErrorViewModel)
         
-        let secondErrorScreen = try XCTUnwrap(vc.viewModel)
+        let secondErrorScreen = try XCTUnwrap(vc.viewModel as? LocalAuthSettingsErrorViewModel)
         
-        secondErrorScreen.buttonViewModels[0].action()
+        secondErrorScreen.didDismiss()
         
         XCTAssertTrue(isEnrolled)
     }
