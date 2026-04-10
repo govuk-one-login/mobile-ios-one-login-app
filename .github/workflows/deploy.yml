@@ -56,12 +56,7 @@ jobs:
           secret-ids: |
             di-ipv-dca-mob-ios/github-actions-v2
           parse-json-secrets: true
-
-      - name: Install required app dependencies
-        if: inputs.configuration != 'Release'
-        run: |
-          brew install imagemagick
-
+          
       - name: Build App, Deploy to App Store Connect
         env:
           LC_ALL: "en_US.UTF-8"
