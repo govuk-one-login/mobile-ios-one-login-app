@@ -157,15 +157,12 @@ platform :ios do
       if options[:configuration] == "Integration" then
         profile_name += " Integration"
         app_identifier += ".integration"
-        add_badge(custom: "./scripts-configs/banner-assets/Integration.png")
       elsif options[:configuration] == "Staging" then
         profile_name += " Staging"
         app_identifier += ".staging"
-        add_badge(custom: "./scripts-configs/banner-assets/Staging.png")
       elsif options[:configuration] == "Build" then
         profile_name += " Build"
         app_identifier += ".build"
-        add_badge(custom: "./scripts-configs/banner-assets/Build.png")
       end
 
       get_provisioning_profile(
