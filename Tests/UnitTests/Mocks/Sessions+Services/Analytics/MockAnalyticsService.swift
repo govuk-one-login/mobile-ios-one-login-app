@@ -60,3 +60,51 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         hasAcceptedAnalytics = false
     }
 }
+
+final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
+    var analyticsPreferenceStore: AnalyticsPreferenceStore {
+        mockAnalyticsService.analyticsPreferenceStore
+    }
+
+    var additionalParameters: [String : Any] {
+        get {
+            mockAnalyticsService.additionalParameters
+        }
+        set {
+            mockAnalyticsService.additionalParameters = newValue
+        }
+    }
+
+    var crashesLogged: [NSError] {
+        mockAnalyticsService.crashesLogged
+    }
+    
+    let mockAnalyticsService = MockAnalyticsService()
+    let expectation: XCTestExpectation
+    
+    init(expectation: XCTestExpectation) {
+        self.expectation = expectation
+    }
+    
+    func addingAdditionalParameters(_ additionalParameters: [String : Any]) -> Self {
+        _ = mockAnalyticsService.addingAdditionalParameters(additionalParameters)
+        return self
+    }
+    
+    func logCrash(_ crash: NSError) {
+        mockAnalyticsService.logCrash(crash)
+    }
+    
+    func logCrash(_ crash: any Error) {
+        mockAnalyticsService.logCrash(crash)
+        expectation.fulfill()
+    }
+    
+    func trackScreen(_ screen: any LoggableScreen, parameters: [String : Any]) {
+        mockAnalyticsService.trackScreen(screen, parameters: parameters)
+    }
+    
+    func logEvent(_ event: any Logging.LoggableEvent, parameters: [String : Any]) {
+        mockAnalyticsService.logEvent(event)
+    }
+}
