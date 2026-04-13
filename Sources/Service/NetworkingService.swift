@@ -7,16 +7,19 @@ import Networking
 final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
+    private let appIntegrityProvider: () throws -> AppIntegrityProvider
     let refreshExchangeManager: TokenExchangeManaging
     
     init(
         networkClient: NetworkClient = NetworkClient(),
         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
-        sessionManager: SessionManager
+        sessionManager: SessionManager,
+        appIntegrityProvider: @autoclosure @escaping () throws -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
     ) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
+        self.appIntegrityProvider = appIntegrityProvider
         self.networkClient.authorizationProvider = sessionManager.tokenProvider
     }
     
@@ -66,7 +69,7 @@ extension NetworkingService {
     ) async throws {
         let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
-            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+            appIntegrityProvider: try appIntegrityProvider()
         )
         
         // Save new tokens

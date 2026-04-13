@@ -22,6 +22,7 @@ final class AppQualifyingService: QualifyingService {
     private let analyticsService: OneLoginAnalyticsService
     private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
+    private let appIntegrityProvider: () throws -> AppIntegrityProvider
     weak var delegate: AppQualifyingServiceDelegate?
     
     private var appInfoState: AppInformationState = .notChecked {
@@ -51,11 +52,13 @@ final class AppQualifyingService: QualifyingService {
     init(
         analyticsService: OneLoginAnalyticsService,
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-        sessionManager: SessionManager
+        sessionManager: SessionManager,
+        appIntegrityProvider: @autoclosure @escaping () throws -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
     ) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
+        self.appIntegrityProvider = appIntegrityProvider
         subscribe()
     }
     
@@ -114,7 +117,7 @@ final class AppQualifyingService: QualifyingService {
             do {
                 try await sessionManager.resumeSession(
                     tokenExchangeManager: RefreshTokenExchangeManager(),
-                    appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+                    appIntegrityProvider: try appIntegrityProvider()
                 )
                 sessionState = .loggedIn
             } catch RefreshTokenExchangeError.noInternet {

@@ -2,7 +2,6 @@ import AppIntegrity
 import GAnalytics
 import UIKit
 
-@main
 final class AppDelegate: UIResponder, UIApplicationDelegate, BackupDisabler {
     
     func application(_ application: UIApplication,

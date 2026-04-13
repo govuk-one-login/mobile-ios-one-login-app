@@ -10,6 +10,12 @@
   ],
   "defaultOptions" : {
     "diagnosticCollectionPolicy" : "Always",
+    "environmentVariableEntries" : [
+      {
+        "key" : "IS_RUNNING_TESTS",
+        "value" : "1"
+      }
+    ],
     "targetForVariableExpansion" : {
       "containerPath" : "container:OneLogin.xcodeproj",
       "identifier" : "219601E62A976302008F3427",
