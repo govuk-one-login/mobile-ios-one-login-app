@@ -102,13 +102,12 @@ final class QualifyingCoordinator: NSObject,
         case .localAuthCancelled:
             unlockViewController.isLoading = false
         case .failed(let error):
-            let viewModel = RecoverableLoginErrorViewModel(
+            analyticsService.logCrash(error)
+            
+            let viewModel = UnrecoverableLoginErrorViewModel(
                 analyticsService: analyticsService,
                 errorDescription: error.localizedDescription
-            ) { [unowned self] in
-                analyticsService.logCrash(error)
-                fatalError("We were unable to resume the session, there's not much we can do to help the user")
-            }
+            )
             let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
         case .appIntegrityCheckFailed:
