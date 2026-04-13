@@ -75,7 +75,7 @@
 
 
 // MARK: Generic error screen
-"app_genericErrorPage" = "Mae'n ddrwg gennym, mae yna broblem";
+"app_genericErrorPage" = "Mae'n ddrwg gennym, mae problem";
 
 "app_genericErrorPageBody" = "Rhowch gynnig arall yn nes ymlaen.";
 

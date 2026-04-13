@@ -70,7 +70,7 @@ final class LocalizedWelshStringTests: XCTestCase {
     
     func test_genericErrorScreen_keys() throws {
         XCTAssertEqual("app_genericErrorPage".getWelshString(),
-                       "Mae'n ddrwg gennym, mae yna broblem")
+                       "Mae'n ddrwg gennym, mae problem")
         XCTAssertEqual("app_genericErrorPageBody".getWelshString(),
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
