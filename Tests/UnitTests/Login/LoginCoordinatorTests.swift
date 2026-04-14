@@ -6,24 +6,6 @@ import GDSCommon
 import SecureStore
 import XCTest
 
-class MockNavigationControllerExpectation: UINavigationController {
-    var expectation: XCTestExpectation?
-    
-    init(expectation: XCTestExpectation? = nil) {
-        self.expectation = expectation
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        super.pushViewController(viewController, animated: animated)
-        self.expectation?.fulfill()
-    }
-}
-
 extension LoginCoordinator {
     
     static func make(mockNavigationController: UINavigationController = UINavigationController(), mockSessionManager: SessionManager = MockSessionManager()) -> LoginCoordinator {
@@ -109,8 +91,8 @@ final class LoginCoordinatorTests: XCTestCase {
         let pushViewControllerExpectation = self.expectation(description: #function)
 
         // GIVEN the authentication session returns a sessionMismatch error
-        let mockNavigationController = MockNavigationControllerExpectation(expectation: pushViewControllerExpectation)
-        
+        let mockNavigationController = MockNavigationControllerExpectation(pushViewControllerAsFunction: { _, _ in   pushViewControllerExpectation.fulfill()
+        })
         let mockSessionManager = MockSessionManager()
         let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager, didStartAuthSessionAsFunction: { _, _ in
             startAuthSessionExpectation.fulfill()
@@ -130,7 +112,10 @@ final class LoginCoordinatorTests: XCTestCase {
     }
     
     @MainActor
-    func given(errorFromStartSession: Error, repeats count: Int, when:(LoginCoordinator) -> Void, then: (_ count: Int, _ topViewController: UIViewController?) throws -> Void) rethrows {
+    func given(errorFromStartSession: Error,
+               repeats count: Int,
+               when: (LoginCoordinator) -> Void,
+               then: (_ count: Int, _ topViewController: UIViewController?) throws -> Void) rethrows {
         let mockNavigationController = MockNavigationControllerExpectation()
         let mockSessionManager = MockSessionManager()
         mockSessionManager.errorFromStartSession = errorFromStartSession
@@ -147,7 +132,9 @@ final class LoginCoordinatorTests: XCTestCase {
             mockSessionManager.didCallStartSession = false
             
             let pushViewControllerExpectation = self.expectation(description: #function)
-            mockNavigationController.expectation = pushViewControllerExpectation
+            mockNavigationController.pushViewControllerAsFunction = { _, _ in
+                pushViewControllerExpectation.fulfill()
+            }
             
             when(sut)
             
@@ -453,8 +440,7 @@ extension LoginCoordinatorTests {
                 // THEN the visible view controller's view model should be the RecoverableLoginErrorViewModel
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
-            }
-            else {
+            } else {
                 // 3rd server error should show non-recoverable error screen
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
@@ -495,8 +481,7 @@ extension LoginCoordinatorTests {
             if attempt < threeTimes {
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
-            }
-            else {
+            } else {
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
             }

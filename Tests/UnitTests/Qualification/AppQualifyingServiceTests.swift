@@ -27,28 +27,28 @@ class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     typealias DidChangeSessionState = (AppSessionState) -> Void
     typealias DidChangeServiceState = (RemoteServiceState) -> Void
     
-    let didChangeAppInfoState: DidChangeAppInfoState
-    let didChangeSessionState: DidChangeSessionState
-    let didChangeServiceState: DidChangeServiceState
+    let didChangeAppInfoStateAsFunction: DidChangeAppInfoState
+    let didChangeSessionStateAsFunction: DidChangeSessionState
+    let didChangeServiceStateAsFunction: DidChangeServiceState
     
-    init(didChangeAppInfoState: @escaping DidChangeAppInfoState = { _ in },
-         didChangeSessionState: @escaping DidChangeSessionState = { _ in },
-         didChangeServiceState: @escaping DidChangeServiceState = { _ in }) {
-        self.didChangeAppInfoState = didChangeAppInfoState
-        self.didChangeSessionState = didChangeSessionState
-        self.didChangeServiceState = didChangeServiceState
+    init(didChangeAppInfoStateAsFunction: @escaping DidChangeAppInfoState = { _ in },
+         didChangeSessionStateAsFunction: @escaping DidChangeSessionState = { _ in },
+         didChangeServiceStateAsFunction: @escaping DidChangeServiceState = { _ in }) {
+        self.didChangeAppInfoStateAsFunction = didChangeAppInfoStateAsFunction
+        self.didChangeSessionStateAsFunction = didChangeSessionStateAsFunction
+        self.didChangeServiceStateAsFunction = didChangeServiceStateAsFunction
     }
     
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
-        self.didChangeAppInfoState(appInfoState)
+        self.didChangeAppInfoStateAsFunction(appInfoState)
     }
     
     func didChangeSessionState(state sessionState: AppSessionState) {
-        self.didChangeSessionState(sessionState)
+        self.didChangeSessionStateAsFunction(sessionState)
     }
     
     func didChangeServiceState(state: RemoteServiceState) {
-        self.didChangeServiceState(state)
+        self.didChangeServiceStateAsFunction(state)
     }
 }
 
@@ -183,10 +183,10 @@ extension AppQualifyingServiceTests {
         let expectation = e ?? expectation(description: #function)
         var _appState: AppInformationState?
         var _sessionState: AppSessionState?
-        
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoState: { appState in
+
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
             _appState = appState
-        }, didChangeSessionState: { sessionState in
+        }, didChangeSessionStateAsFunction: { sessionState in
             _sessionState = sessionState
             expectation.fulfill()
         })
@@ -207,11 +207,11 @@ extension AppQualifyingServiceTests {
         let expectation = e ?? expectation(description: #function)
         var _appState: AppInformationState?
         var _sessionState: AppSessionState?
-        
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoState: { appState in
+
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
             _appState = appState
             expectation.fulfill()
-        }, didChangeSessionState: { sessionState in
+        }, didChangeSessionStateAsFunction: { sessionState in
             _sessionState = sessionState
         })
         
