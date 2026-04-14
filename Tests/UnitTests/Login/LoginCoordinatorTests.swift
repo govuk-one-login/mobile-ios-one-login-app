@@ -6,24 +6,6 @@ import GDSCommon
 import SecureStore
 import XCTest
 
-class MockNavigationControllerExpectation: UINavigationController {
-    var expectation: XCTestExpectation?
-    
-    init(expectation: XCTestExpectation? = nil) {
-        self.expectation = expectation
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        super.pushViewController(viewController, animated: animated)
-        self.expectation?.fulfill()
-    }
-}
-
 extension LoginCoordinator {
     
     static func make(mockNavigationController: UINavigationController = UINavigationController(), mockSessionManager: SessionManager = MockSessionManager()) -> LoginCoordinator {
@@ -109,8 +91,8 @@ final class LoginCoordinatorTests: XCTestCase {
         let pushViewControllerExpectation = self.expectation(description: #function)
 
         // GIVEN the authentication session returns a sessionMismatch error
-        let mockNavigationController = MockNavigationControllerExpectation(expectation: pushViewControllerExpectation)
-        
+        let mockNavigationController = MockNavigationControllerExpectation(pushViewControllerAsFunction: { _, _ in   pushViewControllerExpectation.fulfill()
+        })
         let mockSessionManager = MockSessionManager()
         let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager, didStartAuthSessionAsFunction: { _, _ in
             startAuthSessionExpectation.fulfill()
@@ -147,7 +129,9 @@ final class LoginCoordinatorTests: XCTestCase {
             mockSessionManager.didCallStartSession = false
             
             let pushViewControllerExpectation = self.expectation(description: #function)
-            mockNavigationController.expectation = pushViewControllerExpectation
+            mockNavigationController.pushViewControllerAsFunction = { _, _ in
+                pushViewControllerExpectation.fulfill()
+            }
             
             when(sut)
             
