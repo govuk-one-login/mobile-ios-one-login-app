@@ -93,7 +93,9 @@ extension OneLoginEnrolmentManagerTests {
         
         mockSessionManager.errorFromSaveSession = MockError.generic
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext, mockSessionManager: mockSessionManagerExpectation, mockAnalyticsService: mockAnalyticsService)
+        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
+                                                  mockSessionManager: mockSessionManagerExpectation,
+                                                  mockAnalyticsService: mockAnalyticsService)
         
         // WHEN saveSession is called
         sut.saveSession()
@@ -112,7 +114,8 @@ extension OneLoginEnrolmentManagerTests {
                                                                    expectation: expectation)
         mockLocalAuthManager.userDidConsentToFaceID = false
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation, mockAnalyticsService: mockAnalyticsService)
+        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
+                                                  mockAnalyticsService: mockAnalyticsService)
         // WHEN saveSession is called
         sut.saveSession()
         wait(for: [expectation], timeout: 5)
@@ -129,7 +132,9 @@ extension OneLoginEnrolmentManagerTests {
                                                                    expectation: expectation)
         mockLocalAuthManager.errorFromEnrolLocalAuth = LocalAuthenticationWrapperError.cancelled
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation, mockSessionManager: mockSessionManager, mockAnalyticsService: mockAnalyticsService)
+        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
+                                                  mockSessionManager: mockSessionManager,
+                                                  mockAnalyticsService: mockAnalyticsService)
         // WHEN saveSession is called
         sut.saveSession()
         wait(for: [expectation], timeout: 5)
@@ -144,7 +149,9 @@ extension OneLoginEnrolmentManagerTests {
         let mockLocalAuthContext = MockLocalAuthManager()
         mockLocalAuthContext.errorFromEnrolLocalAuth = MockError.generic
         let mockAnalyticsService = MockAnalyticsServiceExpectation(expectation: expectation)
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext, mockSessionManager: mockSessionManager, mockAnalyticsService: mockAnalyticsService)
+        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
+                                                  mockSessionManager: mockSessionManager,
+                                                  mockAnalyticsService: mockAnalyticsService)
         // WHEN saveSession is called
         sut.saveSession()
         wait(for: [expectation], timeout: 5)
