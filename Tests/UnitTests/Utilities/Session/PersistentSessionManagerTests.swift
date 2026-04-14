@@ -8,6 +8,35 @@ import MockNetworking
 import SecureStore
 import XCTest
 
+struct SessionBoundDataExpectation: SessionBoundData {
+    let expectation: XCTestExpectation
+        
+    func clearSessionData() {
+        self.expectation.fulfill()
+    }
+}
+
+extension PersistentSessionManager {
+    
+    static func make(mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
+                     mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
+                     mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
+                     mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper()) -> PersistentSessionManager {
+        
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockLocalAuthentication = MockLocalAuthManager()
+        
+        return PersistentSessionManager(
+            accessControlEncryptedStore: mockAccessControlEncryptedStore,
+            encryptedStore: mockEncryptedStore,
+            unprotectedStore: mockUnprotectedStore,
+            localAuthentication: mockLocalAuthentication,
+            analyticsService: mockAnalyticsService,
+            walletSDK: mockWalletSDK
+        )
+    }
+}
+
 final class PersistentSessionManagerTests: XCTestCase {
     private var mockAccessControlEncryptedStore: MockSecureStoreService!
     private var mockEncryptedStore: MockSecureStoreService!
@@ -376,10 +405,19 @@ extension PersistentSessionManagerTests {
     
     @MainActor
     func test_startSession_noPersistentID_NotReturningUser_WalletNotEmptyError() async throws {
+        let expectation = expectation(description: #function)
+        let mockAnalyticsService = MockAnalyticsServiceExpectation(expectation: expectation)
+
         // Given I am unable to re-authenticate because I have no persistent session ID
+        let mockEncryptedStore = MockSecureStoreService()
         mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         // AND the wallet is not empty
+        let mockWalletSDK = MockWalletSDKWrapper()
         mockWalletSDK.isEmpty = false
+        let sut: PersistentSessionManager = .make(mockEncryptedStore: mockEncryptedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK)
+        
         // AND there aren't any errors logged
         XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 0)
         // WHEN I start a session
@@ -389,8 +427,9 @@ extension PersistentSessionManagerTests {
                 using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
             )
             
+            await fulfillment(of: [expectation], timeout: 5.0)
             // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
-            waitForTruth(self.mockAnalyticsService.crashesLogged.count == 1, timeout: 5)
+            XCTAssertTrue(mockAnalyticsService.crashesLogged.count == 1)
             XCTAssertTrue(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.noSessionExists,
                                                                                                                         reason: "reason : secure wallet data deleted"))
         } catch {
@@ -400,12 +439,24 @@ extension PersistentSessionManagerTests {
     
     @MainActor
     func test_startSession_clearAppForLogin_exceptAnalyticsPreference() async throws {
+        let didCall_deleteSessionBoundData = expectation(description: #function)
+
+        let sessionBoundDataExpectation = SessionBoundDataExpectation(expectation: didCall_deleteSessionBoundData)
+        
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        
         let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
         mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
         
+        let sut: PersistentSessionManager = .make(mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK)
+
         // GIVEN I am a returning user who previously accepted analytics
         sut.registerSessionBoundData([
-            self,
+            sessionBoundDataExpectation,
             mockEncryptedStore,
             mockUnprotectedStore,
             mockAnalyticsPrefernceStore
@@ -421,7 +472,8 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN my session data is cleared
-        waitForTruth(self.didCall_deleteSessionBoundData, timeout: 5)
+        await fulfillment(of: [didCall_deleteSessionBoundData], timeout: 5.0)
+
         XCTAssertTrue(mockEncryptedStore.savedItems.isEmpty)
         XCTAssertTrue(mockUnprotectedStore.savedData.isEmpty)
         
