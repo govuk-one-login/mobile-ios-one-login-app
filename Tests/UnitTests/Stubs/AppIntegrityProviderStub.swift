@@ -1,5 +1,5 @@
 import AppIntegrity
 
 struct AppIntegrityProviderStub: AppIntegrityProvider {
-    let integrityAssertions: [String : String] = [:]
+    let integrityAssertions: [String: String] = [:]
 }

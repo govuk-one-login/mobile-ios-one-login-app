@@ -1,9 +1,9 @@
 @testable import AppIntegrity
 import Firebase
 import Foundation.NSDate
+import GAnalytics
 @testable import OneLogin
 import Testing
-import GAnalytics
 
 struct AppIntegrityProviderTests: ~Copyable {
     let attestationStore: SecureAttestationStore

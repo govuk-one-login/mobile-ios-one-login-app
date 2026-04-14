@@ -6,7 +6,6 @@ import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
-import AppIntegrity
 
 extension AppQualifyingService {
     
@@ -24,32 +23,32 @@ extension AppQualifyingService {
 
 class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     
-    typealias didChangeAppInfoState = (AppInformationState) -> Void
-    typealias didChangeSessionState = (AppSessionState) -> Void
-    typealias didChangeServiceState = (RemoteServiceState) -> Void
+    typealias DidChangeAppInfoState = (AppInformationState) -> Void
+    typealias DidChangeSessionState = (AppSessionState) -> Void
+    typealias DidChangeServiceState = (RemoteServiceState) -> Void
     
-    let didChangeAppInfoState: didChangeAppInfoState
-    let didChangeSessionState: didChangeSessionState
-    let didChangeServiceState: didChangeServiceState
+    let didChangeAppInfoStateAsFunction: DidChangeAppInfoState
+    let didChangeSessionStateAsFunction: DidChangeSessionState
+    let didChangeServiceStateAsFunction: DidChangeServiceState
     
-    init(didChangeAppInfoState: @escaping didChangeAppInfoState = { _ in },
-         didChangeSessionState: @escaping didChangeSessionState = { _ in },
-         didChangeServiceState: @escaping didChangeServiceState = { _ in }) {
-        self.didChangeAppInfoState = didChangeAppInfoState
-        self.didChangeSessionState = didChangeSessionState
-        self.didChangeServiceState = didChangeServiceState
+    init(didChangeAppInfoStateAsFunction: @escaping DidChangeAppInfoState = { _ in },
+         didChangeSessionStateAsFunction: @escaping DidChangeSessionState = { _ in },
+         didChangeServiceStateAsFunction: @escaping DidChangeServiceState = { _ in }) {
+        self.didChangeAppInfoStateAsFunction = didChangeAppInfoStateAsFunction
+        self.didChangeSessionStateAsFunction = didChangeSessionStateAsFunction
+        self.didChangeServiceStateAsFunction = didChangeServiceStateAsFunction
     }
     
     func didChangeAppInfoState(state appInfoState: AppInformationState) {
-        self.didChangeAppInfoState(appInfoState)
+        self.didChangeAppInfoStateAsFunction(appInfoState)
     }
     
     func didChangeSessionState(state sessionState: AppSessionState) {
-        self.didChangeSessionState(sessionState)
+        self.didChangeSessionStateAsFunction(sessionState)
     }
     
     func didChangeServiceState(state: RemoteServiceState) {
-        self.didChangeServiceState(state)
+        self.didChangeServiceStateAsFunction(state)
     }
 }
 
@@ -177,14 +176,16 @@ extension AppQualifyingServiceTests {
 extension AppQualifyingServiceTests {
     
     @MainActor
-    func waitForSessionStateChange(expectation e: XCTestExpectation? = nil, sut: AppQualifyingService, when: (AppQualifyingService) -> Void) -> (appState: AppInformationState?, sessionState: AppSessionState?) {
+    func waitForSessionStateChange(expectation e: XCTestExpectation? = nil,
+                                   sut: AppQualifyingService,
+                                   when: (AppQualifyingService) -> Void) -> (appState: AppInformationState?, sessionState: AppSessionState?) {
         let expectation = e ?? expectation(description: #function)
-        var _appState: AppInformationState? = nil
-        var _sessionState: AppSessionState? = nil
+        var _appState: AppInformationState?
+        var _sessionState: AppSessionState?
 
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoState: { appState in
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
             _appState = appState
-        }, didChangeSessionState: { sessionState in
+        }, didChangeSessionStateAsFunction: { sessionState in
             _sessionState = sessionState
             expectation.fulfill()
         })
@@ -198,15 +199,17 @@ extension AppQualifyingServiceTests {
     }
     
     @MainActor
-    func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil, sut: AppQualifyingService, when: (AppQualifyingService) -> Void) -> (appState: AppInformationState?, sessionState: AppSessionState?) {
+    func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil,
+                                   sut: AppQualifyingService,
+                                   when: (AppQualifyingService) -> Void) -> (appState: AppInformationState?, sessionState: AppSessionState?) {
         let expectation = e ?? expectation(description: #function)
-        var _appState: AppInformationState? = nil
-        var _sessionState: AppSessionState? = nil
+        var _appState: AppInformationState?
+        var _sessionState: AppSessionState?
 
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoState: { appState in
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
             _appState = appState
             expectation.fulfill()
-        }, didChangeSessionState: { sessionState in
+        }, didChangeSessionStateAsFunction: { sessionState in
             _sessionState = sessionState
         })
 

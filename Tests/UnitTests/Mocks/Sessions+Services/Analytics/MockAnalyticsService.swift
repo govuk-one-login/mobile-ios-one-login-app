@@ -66,7 +66,7 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
         mockAnalyticsService.analyticsPreferenceStore
     }
 
-    var additionalParameters: [String : Any] {
+    var additionalParameters: [String: Any] {
         get {
             mockAnalyticsService.additionalParameters
         }
@@ -86,7 +86,7 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
         self.expectation = expectation
     }
     
-    func addingAdditionalParameters(_ additionalParameters: [String : Any]) -> Self {
+    func addingAdditionalParameters(_ additionalParameters: [String: Any]) -> Self {
         _ = mockAnalyticsService.addingAdditionalParameters(additionalParameters)
         return self
     }
@@ -100,11 +100,11 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
         expectation.fulfill()
     }
     
-    func trackScreen(_ screen: any LoggableScreen, parameters: [String : Any]) {
+    func trackScreen(_ screen: any LoggableScreen, parameters: [String: Any]) {
         mockAnalyticsService.trackScreen(screen, parameters: parameters)
     }
     
-    func logEvent(_ event: any Logging.LoggableEvent, parameters: [String : Any]) {
+    func logEvent(_ event: any Logging.LoggableEvent, parameters: [String: Any]) {
         mockAnalyticsService.logEvent(event)
     }
 }

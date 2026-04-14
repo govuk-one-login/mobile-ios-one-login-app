@@ -112,7 +112,10 @@ final class LoginCoordinatorTests: XCTestCase {
     }
     
     @MainActor
-    func given(errorFromStartSession: Error, repeats count: Int, when:(LoginCoordinator) -> Void, then: (_ count: Int, _ topViewController: UIViewController?) throws -> Void) rethrows {
+    func given(errorFromStartSession: Error,
+               repeats count: Int,
+               when: (LoginCoordinator) -> Void,
+               then: (_ count: Int, _ topViewController: UIViewController?) throws -> Void) rethrows {
         let mockNavigationController = MockNavigationControllerExpectation()
         let mockSessionManager = MockSessionManager()
         mockSessionManager.errorFromStartSession = errorFromStartSession
@@ -437,8 +440,7 @@ extension LoginCoordinatorTests {
                 // THEN the visible view controller's view model should be the RecoverableLoginErrorViewModel
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
-            }
-            else {
+            } else {
                 // 3rd server error should show non-recoverable error screen
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
@@ -479,8 +481,7 @@ extension LoginCoordinatorTests {
             if attempt < threeTimes {
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
-            }
-            else {
+            } else {
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
             }

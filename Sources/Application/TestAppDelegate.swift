@@ -2,8 +2,6 @@ import UIKit
 
 class TestAppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UIView.setAnimationsEnabled(false)
         removeCachedScenes(from: application)
@@ -16,7 +14,7 @@ class TestAppDelegate: UIResponder, UIApplicationDelegate {
         let sceneConfiguration = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
         sceneConfiguration.delegateClass = TestingSceneDelegate.self
         return sceneConfiguration
-    } 
+    }
 
     private func removeCachedScenes(from application: UIApplication) {
         /* Remove any cached scene configurations to ensure that
@@ -29,8 +27,4 @@ class TestAppDelegate: UIResponder, UIApplicationDelegate {
             application.perform(Selector(("_removeSessionFromSessionSet:")), with: sceneSession)
         }
     }
-}
-
-public final class TestingSceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
 }
