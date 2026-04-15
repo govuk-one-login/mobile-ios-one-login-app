@@ -1,9 +1,26 @@
 import AppIntegrity
 import Foundation
+import GAnalytics
 import MockNetworking
 @testable import Networking
 @testable import OneLogin
 import Testing
+
+extension NetworkingService {
+    static func make(refreshExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
+                     mockSessionManager: MockSessionManager = MockSessionManager()) -> NetworkingService {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        
+        let networkClient = NetworkClient(configuration: configuration)
+        
+        return NetworkingService(
+            networkClient: networkClient,
+            refreshExchangeManager: refreshExchangeManager,
+            sessionManager: mockSessionManager
+        )
+    }
+}
 
 @Suite(.serialized)
 struct NetworkingSerivceTests {
@@ -176,6 +193,23 @@ struct NetworkingSerivceTests {
             // expected path
         } catch {
             Issue.record("Expected `.networkConnectionLost` error to be thrown")
+        }
+    }
+    
+    @Test
+    func test_makeAuthorizedRequest_getUpdatedTokens_test_with_firebaseAppCheck() async throws {
+        let mockSessionManager = MockSessionManager()
+        mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
+        mockSessionManager.validTokensForRefreshExchange = nil
+    
+        let sut = NetworkingService(refreshExchangeManager: MockRefreshTokenExchangeManager(),
+                                    sessionManager: mockSessionManager)
+    
+        await #expect(throws: RefreshTokenExchangeError.reauthenticationRequired) {
+            return try await sut.makeAuthorizedRequest(
+                scope: "",
+                request: URLRequest(url: URL(string: "testurl.com")!)
+            )
         }
     }
 }

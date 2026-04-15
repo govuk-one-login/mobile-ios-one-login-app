@@ -2,6 +2,7 @@ import AppIntegrity
 @testable import Authentication
 import Foundation
 @testable import OneLogin
+import Testing
 
 final class MockRefreshTokenExchangeManager: TokenExchangeManaging {
     func getUpdatedTokens(
@@ -28,5 +29,25 @@ final class MockRefreshTokenNilExchangeManager: TokenExchangeManaging {
             tokenType: "token_type",
             expiryDate: Date.distantFuture
         )
+    }
+}
+
+final class MockRefreshTokenExchangeManagerConfirmation: TokenExchangeManaging {
+    
+    let tokenExchangeManaging = MockRefreshTokenExchangeManager()
+    let confirmation: Confirmation
+    
+    init(confirmation: Confirmation) {
+        self.confirmation = confirmation
+    }
+    
+    func getUpdatedTokens(
+        refreshToken: String,
+        appIntegrityProvider: AppIntegrityProvider
+    ) async throws -> TokenResponse {
+        defer {
+            confirmation()
+        }
+        return try await tokenExchangeManaging.getUpdatedTokens(refreshToken: refreshToken, appIntegrityProvider: appIntegrityProvider)
     }
 }

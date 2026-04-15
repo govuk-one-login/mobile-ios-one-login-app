@@ -10,12 +10,19 @@ final class NetworkingService {
     private let appIntegrityProvider: () throws -> AppIntegrityProvider
     let refreshExchangeManager: TokenExchangeManaging
     
+    convenience init(networkClient: NetworkClient = NetworkClient(),
+                     refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
+                     sessionManager: SessionManager) {
+        self.init(networkClient: networkClient,
+                  refreshExchangeManager: refreshExchangeManager,
+                  sessionManager: sessionManager,
+                  appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
+    }
     init(
         networkClient: NetworkClient = NetworkClient(),
         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
         sessionManager: SessionManager,
-        appIntegrityProvider: @autoclosure @escaping () throws -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
-    ) {
+        appIntegrityProvider: @autoclosure @escaping () throws -> AppIntegrityProvider) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
