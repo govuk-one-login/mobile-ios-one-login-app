@@ -7,7 +7,7 @@ on:
 
 jobs:
   run_ui_tests:
-    name: Run UI Tests
+    name: OneLoginUI
     runs-on: macos-26
     steps:
       - name: Add Path Globally
@@ -17,40 +17,37 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pin@v4
         with:
           ref: ${{ inputs.test_branch }}
+          lfs: 'true'
           submodules: 'true'
+          fetch-depth: 0
           token: ${{ secrets.MODULE_FETCH_TOKEN }}
 
-      - name: Configure Private Repo Access
-        env:
-          GIT_TOKEN: ${{ secrets.MODULE_FETCH_TOKEN }}
-        run: |
-          ./scripts-configs/store-access-token.sh
+      - name: Download Fastlane build_products
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # pin@v8.1
+        with:
+          artifact-ids: build_products.zip
+          path: ${{ github.workspace }}/fastlane/test_output/
 
-      - name: Import AppCheck Secret
-        env:
-            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
-        run: |
-          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
+      - name: Unzip Fastlane build_products
+        run: unzip -q ${{ github.workspace }}/fastlane/test_output/build_products.zip
 
-      - name: Login to AWS CodeArtifact
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.VENDOR_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.VENDOR_ACCESS_KEY }}
-        run: |
-          ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.1.app
+      - name: Bundler install
+        run: bundle install
 
-      - name: Build App, Run UI Tests
+      - name: Run Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LC_ALL: "en_US.UTF-8"
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+          TEST_PLAN: "OneLoginUI"
         run: |
-          bundle install
+          xctestrun=$(find . -name "*.xctestrun" | grep -i "${TEST_PLAN}")
 
-          bundle exec fastlane testWithoutCoverageForUITests scheme:"OneLoginBuild" \
-            testplan:OneLoginUI
+          bundle exec fastlane testWithoutBuildingWithoutCoverageForUITests scheme:"OneLoginBuild" \
+            configuration:"Debug" \
+            xctestrun: "${xctestrun}"
 
       - name: Make Artifact
         if: failure()
@@ -64,5 +61,14 @@ jobs:
         with:
           name: UITestArtifact
           path: ./fastlane/UITestArtifact.zip
+          retention-days: 1
+          compression-level: 0
+
+      - name: Upload OneLoginUI.xcresult
+        if: success() || failure()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # pin@v4
+        with:
+          name: OneLoginUI.xcresult
+          path: ${{ github.workspace }}/fastlane/test_output/OneLoginBuild.xcresult
           retention-days: 1
           compression-level: 0

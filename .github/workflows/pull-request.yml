@@ -46,8 +46,10 @@ jobs:
           ./scripts-configs/store-access-token.sh
 
       - name: Import AppCheck Secret
+        env:
+            APP_CHECK_DEBUG_TOKEN: ${{ secrets.BUILD_APPCHECK_DEBUG_TOKEN }}
         run: |
-          touch ../secrets.xcconfig
+          echo APP_CHECK_DEBUG_TOKEN=$APP_CHECK_DEBUG_TOKEN >> ../secrets.xcconfig
 
       - name: Login to AWS CodeArtifact
         env:
