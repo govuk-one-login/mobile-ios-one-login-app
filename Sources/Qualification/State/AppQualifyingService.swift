@@ -49,12 +49,19 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
+    convenience init(
+        analyticsService: OneLoginAnalyticsService,
+        updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
+        sessionManager: SessionManager
+    ) {
+        self.init(analyticsService: analyticsService, updateService: updateService, sessionManager: sessionManager, appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
+    }
+
     init(
         analyticsService: OneLoginAnalyticsService,
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
         sessionManager: SessionManager,
-        appIntegrityProvider: @autoclosure @escaping () throws -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
-    ) {
+        appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager

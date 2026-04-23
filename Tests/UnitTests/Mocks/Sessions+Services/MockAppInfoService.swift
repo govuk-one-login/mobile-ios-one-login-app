@@ -1,6 +1,7 @@
 import Foundation
 @testable import MobilePlatformServices
 import Networking
+import XCTest
 
 @testable import OneLogin
 
@@ -26,5 +27,28 @@ final class MockAppInformationService: AppInformationProvider {
                    allowAppUsage: allowAppUsage,
                    releaseFlags: releaseFlags,
                    featureFlags: featureFlags)
+    }
+}
+
+
+final class MockAppInformationServiceExpectation: AppInformationProvider {
+    var currentVersion: Version {
+        mockAppInformationService.currentVersion
+    }
+
+    let mockAppInformationService: MockAppInformationService
+    var expectation: XCTestExpectation
+    
+    init(mockAppInformationService: MockAppInformationService = MockAppInformationService(), expectation: XCTestExpectation) {
+        self.mockAppInformationService = mockAppInformationService
+        self.expectation = expectation
+    }
+    
+    func fetchAppInfo() async throws -> App {
+        defer {
+            expectation.fulfill()
+        }
+
+        return try await mockAppInformationService.fetchAppInfo()
     }
 }
