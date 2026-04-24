@@ -61,8 +61,8 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
     func completeEnrolment(isWalletEnrolment: Bool = false, completion: (() -> Void)? = nil) {
         if !isWalletEnrolment {
             NotificationCenter.default.post(name: .enrolmentComplete)
+            coordinator?.finish()
         }
         completion?()
-        coordinator?.finish()
     }
 }
