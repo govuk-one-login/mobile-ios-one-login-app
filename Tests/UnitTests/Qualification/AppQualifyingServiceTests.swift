@@ -6,7 +6,6 @@ import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
-import AppIntegrity
 
 extension AppQualifyingService {
     
@@ -24,17 +23,17 @@ extension AppQualifyingService {
 
 class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     
-    typealias didChangeAppInfoState = (AppInformationState) -> Void
-    typealias didChangeSessionState = (AppSessionState) -> Void
-    typealias didChangeServiceState = (RemoteServiceState) -> Void
+    typealias DidChangeAppInfoState = (AppInformationState) -> Void
+    typealias DidChangeSessionState = (AppSessionState) -> Void
+    typealias DidChangeServiceState = (RemoteServiceState) -> Void
     
-    let didChangeAppInfoState: didChangeAppInfoState
-    let didChangeSessionState: didChangeSessionState
-    let didChangeServiceState: didChangeServiceState
+    let didChangeAppInfoState: DidChangeAppInfoState
+    let didChangeSessionState: DidChangeSessionState
+    let didChangeServiceState: DidChangeServiceState
     
-    init(didChangeAppInfoState: @escaping didChangeAppInfoState = { _ in },
-         didChangeSessionState: @escaping didChangeSessionState = { _ in },
-         didChangeServiceState: @escaping didChangeServiceState = { _ in }) {
+    init(didChangeAppInfoState: @escaping DidChangeAppInfoState = { _ in },
+         didChangeSessionState: @escaping DidChangeSessionState = { _ in },
+         didChangeServiceState: @escaping DidChangeServiceState = { _ in }) {
         self.didChangeAppInfoState = didChangeAppInfoState
         self.didChangeSessionState = didChangeSessionState
         self.didChangeServiceState = didChangeServiceState
@@ -68,7 +67,7 @@ extension AppQualifyingServiceTests {
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
         
         sut.initiate()
-
+        
         wait(for: [expectation], timeout: 5)
         XCTAssertTrue(mockAppInformationService.didCallFetchAppInfo)
     }
@@ -79,14 +78,14 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.allowAppUsage = false
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (appState, _) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
         
         XCTAssertEqual(appState, .unavailable)
     }
-
+    
     @MainActor
     func test_outdatedApp_setsStateCorrectly() {
         // GIVEN the app is outdated
@@ -100,15 +99,15 @@ extension AppQualifyingServiceTests {
         
         XCTAssertEqual(appState, .outdated)
     }
-
+    
     @MainActor
     func test_upToDateApp_setsStateCorrectly() {
         let releaseFlags = ["TestFlag": true]
-
+        
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.releaseFlags = releaseFlags
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (appState, _) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -116,14 +115,14 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(appState, .qualified)
         XCTAssertEqual(AppEnvironment.remoteReleaseFlags.flags, releaseFlags)
     }
-
+    
     @MainActor
     func test_errorThrown_setsStateCorrectly() {
         // GIVEN `appInfo` cannot be accessed
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = URLError(.timedOut)
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (appState, _) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -137,7 +136,7 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.notConnectedToInternet
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (appState, _) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -151,7 +150,7 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = ServerError(endpoint: "test", errorCode: 400)
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (_, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -164,7 +163,7 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (appState, _) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -177,54 +176,60 @@ extension AppQualifyingServiceTests {
 extension AppQualifyingServiceTests {
     
     @MainActor
-    func waitForSessionStateChange(expectation e: XCTestExpectation? = nil, sut: AppQualifyingService, when: (AppQualifyingService) -> Void) -> (appState: AppInformationState?, sessionState: AppSessionState?) {
+    func waitForSessionStateChange(expectation e: XCTestExpectation? = nil,
+                                   sut: AppQualifyingService,
+                                   when: (AppQualifyingService) -> Void)
+    -> (appState: AppInformationState?, sessionState: AppSessionState?) {
         let expectation = e ?? expectation(description: #function)
-        var _appState: AppInformationState? = nil
-        var _sessionState: AppSessionState? = nil
-
+        var _appState: AppInformationState?
+        var _sessionState: AppSessionState?
+        
         let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoState: { appState in
             _appState = appState
         }, didChangeSessionState: { sessionState in
             _sessionState = sessionState
             expectation.fulfill()
         })
-
+        
         sut.delegate = appQualifyingServiceDelegateExpectation
         when(sut)
-
+        
         wait(for: [expectation], timeout: 5)
         
         return (appState: _appState, sessionState: _sessionState)
     }
     
     @MainActor
-    func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil, sut: AppQualifyingService, when: (AppQualifyingService) -> Void) -> (appState: AppInformationState?, sessionState: AppSessionState?) {
+    func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil,
+                                   sut: AppQualifyingService,
+                                   when: (AppQualifyingService) -> Void)
+    -> (appState: AppInformationState?, sessionState: AppSessionState?) {
         let expectation = e ?? expectation(description: #function)
-        var _appState: AppInformationState? = nil
-        var _sessionState: AppSessionState? = nil
-
+        var _appState: AppInformationState?
+        var _sessionState: AppSessionState?
+        
         let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoState: { appState in
             _appState = appState
             expectation.fulfill()
         }, didChangeSessionState: { sessionState in
             _sessionState = sessionState
         })
-
+        
         sut.delegate = appQualifyingServiceDelegateExpectation
         when(sut)
-
+        
         wait(for: [expectation], timeout: 5)
         
         return (appState: _appState, sessionState: _sessionState)
     }
-
+    
     
     @MainActor
     func test_oneTimeUser_userConfirmed() {
         let sessionManager = MockSessionManager()
         sessionManager.sessionState = .oneTime
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -236,7 +241,7 @@ extension AppQualifyingServiceTests {
     @MainActor
     func test_noExpiryDate_userUnconfirmed() {
         let sut: AppQualifyingService = .make()
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -251,7 +256,7 @@ extension AppQualifyingServiceTests {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .expired
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -266,7 +271,7 @@ extension AppQualifyingServiceTests {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -285,7 +290,7 @@ extension AppQualifyingServiceTests {
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = RefreshTokenExchangeError.noInternet
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, _) = waitForAppInfoStateChange(expectation: expectation, sut: sut, when: { sut in
             sut.initiate()
         })
@@ -300,7 +305,7 @@ extension AppQualifyingServiceTests {
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = RefreshTokenExchangeError.appIntegrityFailed
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -317,7 +322,7 @@ extension AppQualifyingServiceTests {
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = ServerError(endpoint: "test", errorCode: 400)
         let sut: AppQualifyingService = .make(analyticsService: analyticsService, sessionManager: sessionManager)
-
+        
         let (_, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -335,7 +340,7 @@ extension AppQualifyingServiceTests {
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreErrorV2(.cantDecryptData)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -355,11 +360,11 @@ extension AppQualifyingServiceTests {
         
         let sut: AppQualifyingService = .make(analyticsService: analyticsService,
                                               sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
-
+        
         XCTAssertEqual(appState, .qualified)
         let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreErrorV2)
         XCTAssert(error.kind == .unableToRetrieveFromUserDefaults)
@@ -374,7 +379,7 @@ extension AppQualifyingServiceTests {
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = SecureStoreErrorV2(.cantDecryptData)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -394,11 +399,11 @@ extension AppQualifyingServiceTests {
         
         let sut: AppQualifyingService = .make(analyticsService: analyticsService,
                                               sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
-
+        
         XCTAssertEqual(appState, .qualified)
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.userRemovedLocalAuth))
         XCTAssert(sessionManager.didCallClearAllSessionData)
@@ -416,11 +421,11 @@ extension AppQualifyingServiceTests {
         
         let sut: AppQualifyingService = .make(analyticsService: analyticsService,
                                               sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
-
+        
         XCTAssertEqual(appState, .qualified)
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.noSessionExists))
         XCTAssert(sessionManager.didCallClearAllSessionData)
@@ -438,11 +443,11 @@ extension AppQualifyingServiceTests {
         
         let sut: AppQualifyingService = .make(analyticsService: analyticsService,
                                               sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
-
+        
         XCTAssertEqual(appState, .qualified)
         XCTAssert(analyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.idTokenNotStored))
         XCTAssert(sessionManager.didCallClearAllSessionData)
@@ -460,7 +465,7 @@ extension AppQualifyingServiceTests {
         sessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
         let sut: AppQualifyingService = .make(analyticsService: analyticsService,
                                               sessionManager: sessionManager)
-
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
@@ -480,7 +485,7 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (_, sessionState) = waitForSessionStateChange(sut: sut, when: { _ in
             NotificationCenter.default.post(name: .enrolmentComplete)
         })
@@ -493,7 +498,7 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (_, sessionState) = waitForSessionStateChange(sut: sut, when: { _ in
             NotificationCenter.default.post(name: .sessionExpired)
         })
@@ -506,7 +511,7 @@ extension AppQualifyingServiceTests {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
         let sut: AppQualifyingService = .make(appInformationProvider: appInformationProvider)
-
+        
         let (_, sessionState) = waitForSessionStateChange(sut: sut, when: { _ in
             NotificationCenter.default.post(name: .systemLogUserOut)
         })
@@ -519,15 +524,15 @@ extension AppQualifyingServiceTests {
         let analyticsService = MockAnalyticsService()
         let sessionManager = MockSessionManager()
         sessionManager.sessionState = .oneTime
-    
+        
         let sut = AppQualifyingService(analyticsService: analyticsService,
                                        updateService: MockAppInformationService(),
                                        sessionManager: sessionManager)
-    
+        
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
-    
+        
         XCTAssertEqual(appState, .qualified)
         XCTAssertEqual(sessionState, .loggedIn)
     }
