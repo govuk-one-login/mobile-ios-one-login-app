@@ -54,7 +54,10 @@ final class AppQualifyingService: QualifyingService {
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
         sessionManager: SessionManager
     ) {
-        self.init(analyticsService: analyticsService, updateService: updateService, sessionManager: sessionManager, appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
+        self.init(analyticsService: analyticsService,
+                  updateService: updateService,
+                  sessionManager: sessionManager,
+                  appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
     }
 
     init(
