@@ -20,6 +20,7 @@ struct LocalAuthErrorListViewModel: ListViewModel {
     
     init(localAuthType: LocalAuthType) {
         self.listItemStrings = [
+            GDSLocalisedString(stringKey: "app_localAuthManagerErrorNumberedList0"),
             LocalAuthErrorListViewModel.determineLocalAuthString(localAuthContext: localAuthType),
             GDSLocalisedString(stringLiteral: "app_localAuthManagerErrorNumberedList2",
                                attributes: [("Turn Passcode On", [.font: UIFont.bodyBold])]),

@@ -236,7 +236,7 @@ extension AppQualifyingServiceTests {
         )
     }
     
-    func test_resumeSession_accountIntervention() {
+    func test_resumeSession_accountIntervention() throws {
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = ServerError(endpoint: "test", errorCode: 400)
@@ -248,6 +248,9 @@ extension AppQualifyingServiceTests {
             self.sessionState == nil,
             timeout: 5
         )
+        
+        let error = try XCTUnwrap(analyticsService.crashesLogged.first as? ServerError)
+        XCTAssert(error.errorCode == 400)
     }
     
     func test_resumeSession_secureStoreError_cantDecryptData() {

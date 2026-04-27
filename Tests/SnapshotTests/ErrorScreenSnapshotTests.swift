@@ -21,10 +21,21 @@ struct ErrorScreenSnapshotTests {
     }
     
     @Test
-    func test_localAuthSettingsError() {
+    func test_localAuthSettingsErrorFaceId() {
         let sut = LocalAuthSettingsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .faceID
+        )
+        let vc = GDSErrorScreen(viewModel: sut)
+        
+        vc.assertSnapshot()
+    }
+    
+    @Test
+    func test_localAuthSettingsErrorTouchId() {
+        let sut = LocalAuthSettingsErrorViewModel(
+            analyticsService: analyticsService,
+            localAuthType: .touchID
         )
         let vc = GDSErrorScreen(viewModel: sut)
         

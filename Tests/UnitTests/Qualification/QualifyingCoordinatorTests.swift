@@ -167,7 +167,7 @@ extension QualifyingCoordinatorTests {
         let vc = try XCTUnwrap(
             window.rootViewController as? GDSErrorScreen
         )
-        let viewModel = try XCTUnwrap(vc.viewModel as? RecoverableLoginErrorViewModel)
+        let viewModel = try XCTUnwrap(vc.viewModel as? UnrecoverableLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")
     }
     

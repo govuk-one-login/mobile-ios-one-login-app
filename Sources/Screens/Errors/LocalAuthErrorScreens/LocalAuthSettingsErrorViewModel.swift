@@ -7,7 +7,7 @@ struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let analyticsService: OneLoginAnalyticsService
     let title: GDSLocalisedString = "app_localAuthManagerErrorTitle"
     let bodyContent: [ScreenBodyItem]
-    let buttonViewModels: [ButtonViewModel]
+    let buttonViewModels: [ButtonViewModel] = []
     let image: ErrorScreenImage = .error
     let localAuthType: LocalAuthType
     let completion: (() -> Void)?
@@ -15,8 +15,7 @@ struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
     let backButtonIsHidden: Bool = true
 
-    init(urlOpener: URLOpener = UIApplication.shared,
-         analyticsService: OneLoginAnalyticsService,
+    init(analyticsService: OneLoginAnalyticsService,
          localAuthType: LocalAuthType,
          completion: (() -> Void)? = nil) {
         self.localAuthType = localAuthType
@@ -26,17 +25,6 @@ struct LocalAuthSettingsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
             OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        
-        self.buttonViewModels = [
-            AnalyticsButtonViewModel(titleKey: "app_localAuthManagerErrorGoToSettingsButton",
-                                     analyticsService: analyticsService) {
-                                         guard let url = URL(string: UIApplication.openSettingsURLString) else {
-                                             return
-                                         }
-                                         urlOpener.open(url: url)
-                                         completion?()
-                                     }
-        ]
         
         self.bodyContent = [
             BodyTextViewModel(text: "app_localAuthManagerErrorBody1"),

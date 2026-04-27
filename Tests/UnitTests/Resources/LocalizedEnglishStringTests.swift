@@ -239,21 +239,21 @@ final class LocalizedEnglishStringTests: XCTestCase {
     
     func test_localAuthSettingsError_keys() throws {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
-                       "You need to update your phone settings")
+                       "Update your phone's security settings")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
                        "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.")
         XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
                        "You need to:")
+        XCTAssertEqual("app_localAuthManagerErrorNumberedList0".getEnglishString(),
+                       "Go to your phone settings.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString(),
-                       "Go to Face ID & Passcode in your phone settings.")
+                       "Tap Face ID & Passcode.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList1TouchID".getEnglishString(),
-                       "Go to Touch ID & Passcode in your phone settings.")
+                       "Tap Touch ID & Passcode.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getEnglishString(),
                        "Tap Turn Passcode On and follow the instructions.")
         XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getEnglishString(),
                        "Come back to continue using your documents.")
-        XCTAssertEqual("app_localAuthManagerErrorGoToSettingsButton".getEnglishString(),
-                       "Go to phone settings")
     }
     
     func test_localAuthBiometricsError_keys() throws {

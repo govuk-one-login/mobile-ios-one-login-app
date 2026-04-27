@@ -124,6 +124,8 @@ final class AppQualifyingService: QualifyingService {
                 
                 sessionState = .appIntegrityCheckFailed
             } catch let error as ServerError where error.errorCode == 400 {
+                analyticsService.logCrash(error)
+                
                 return
             } catch let error as SecureStoreErrorV2 where
                         error.kind == .cantDecryptData {
