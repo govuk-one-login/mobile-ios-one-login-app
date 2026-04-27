@@ -37,9 +37,10 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
              HTTPURLResponse(statusCode: 200))
         }
         
+        let integrityAssertions = ["testAsserion": "testValue"]
         _ = try await sut.getUpdatedTokens(
             refreshToken: "refreshToken",
-            appIntegrityProvider: MockAppIntegrityProvider()
+            appIntegrityProvider: AppIntegrityProviderStub(integrityAssertions: integrityAssertions)
         )
         
         let request = try #require(MockURLProtocol.requests.first)
@@ -47,6 +48,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         #expect(request.url?.absoluteString == "https://token.build.account.gov.uk/token")
         #expect(request.httpMethod == "POST")
         #expect(request.value(forHTTPHeaderField: "Content-Type") == "application/x-www-form-urlencoded")
+        #expect(request.value(forHTTPHeaderField: "testAsserion") == "testValue")
         
         let data = try #require(request.httpBodyData())
         let body = String(data: data, encoding: .utf8)
@@ -90,19 +92,15 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
              HTTPURLResponse(statusCode: 400))
         }
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        let error = await #expect(throws: ServerError.self) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
-        } catch let error as ServerError where error.errorCode == 400 {
-            let received = await iterator.next()?.name == .accountIntervention
-            if received == false {
-                Issue.record("Expected `.accountIntervention` notification to be posted")
-            }
-        } catch {
-            Issue.record("Expected `.accountIntervention` error to be thrown")
         }
+        let actualNotification = await iterator.next()
+        #expect(error?.errorCode == 400)
+        #expect(actualNotification?.name == .accountIntervention)
     }
     
     @Test("If a no internet error occurs, an error is thrown")
@@ -111,15 +109,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             throw URLError(.notConnectedToInternet)
         }
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        await #expect(throws: RefreshTokenExchangeError.noInternet) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
-        } catch RefreshTokenExchangeError.noInternet {
-            // expected path
-        } catch {
-            Issue.record("Expected `.noInternet` error to be thrown")
         }
     }
     
@@ -129,15 +123,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             throw URLError(.networkConnectionLost)
         }
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        await #expect(throws: RefreshTokenExchangeError.noInternet) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
-        } catch RefreshTokenExchangeError.noInternet {
-            // expected path
-        } catch {
-            Issue.record("Expected `.networkConnectionLost` error to be thrown")
         }
     }
     
@@ -149,15 +139,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
-            // expected path
-        } catch {
-            Issue.record("Expected `.appIntegrityFailed` error to be thrown")
         }
     }
     
@@ -169,13 +155,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
-            // Expected path
         }
     }
     
@@ -187,13 +171,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
-            // Expected path
         }
     }
     
@@ -205,13 +187,11 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        do {
-            _ = try await sut.getUpdatedTokens(
+        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+            return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: mockAppIntegrityProvider
             )
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
-            // Expected path
         }
     }
 }
