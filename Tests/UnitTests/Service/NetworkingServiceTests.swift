@@ -21,7 +21,8 @@ struct NetworkingSerivceTests {
         sut = NetworkingService(
             networkClient: networkClient,
             refreshExchangeManager: MockRefreshTokenExchangeManager(),
-            sessionManager: mockSessionManager
+            sessionManager: mockSessionManager,
+            appIntegrityProvider: AppIntegrityProviderStub()
         )
         
         networkClient.authorizationProvider = self

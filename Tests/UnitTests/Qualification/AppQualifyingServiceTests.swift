@@ -4,6 +4,7 @@ import Networking
 @testable import OneLogin
 import SecureStore
 import XCTest
+import AppIntegrity
 
 final class AppQualifyingServiceTests: XCTestCase {
     private var analyticsService: MockAnalyticsService!
@@ -24,7 +25,8 @@ final class AppQualifyingServiceTests: XCTestCase {
         appInformationProvider = MockAppInformationService()
         sut = AppQualifyingService(analyticsService: analyticsService,
                                    updateService: appInformationProvider,
-                                   sessionManager: sessionManager)
+                                   sessionManager: sessionManager,
+        appIntegrityProvider: AppIntegrityProviderStub())
     }
 
     override func tearDown() {
