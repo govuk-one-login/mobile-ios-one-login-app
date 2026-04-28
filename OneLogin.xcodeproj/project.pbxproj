@@ -1561,14 +1561,6 @@
 			path = Qualification;
 			sourceTree = "<group>";
 		};
-		8E3C5A3D2F9FBF8500389C50 /* Stubs */ = {
-			isa = PBXGroup;
-			children = (
-				8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */,
-			);
-			path = Stubs;
-			sourceTree = "<group>";
-		};
 		8E620E5B2F9A72BD00192775 /* Coordination */ = {
 			isa = PBXGroup;
 			children = (
@@ -2218,6 +2210,7 @@
 				C3DF5A7D2F6836470089B42B /* Wallet */,
 				ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */,
 				1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */,
+				8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */,
 				C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */,
 				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 				1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */,
@@ -2667,7 +2660,6 @@
 				C8B05F432B7AA761009D4283 /* Resources */,
 				C882211A2B9B59500018DB0E /* Screens */,
 				7C7A763C2C9433A900EE85CB /* Service */,
-				8E3C5A3D2F9FBF8500389C50 /* Stubs */,
 				C8AA3B332BF4CF0D0093A220 /* Tabs */,
 				C8520C232AE2BF8E006790C1 /* TestExtensions */,
 				C85966462AEC31AE006DF61D /* Utilities */,
