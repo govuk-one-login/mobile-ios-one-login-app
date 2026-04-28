@@ -162,7 +162,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_accessDenied() throws {
         // GIVEN the authentication session returns an access denied error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationAccessDenied)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationAccessDenied)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -175,7 +175,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_network() throws {
         // GIVEN the authentication session returns a network error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .network)
+        mockSessionManager.errorFromStartSession = LoginError(.network)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -188,7 +188,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_authInvalidRequest() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationInvalidRequest)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationInvalidRequest)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -201,7 +201,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_authUnauthorizedClient() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationUnauthorizedClient)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationUnauthorizedClient)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -214,7 +214,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_unsupportedResponse() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationUnsupportedResponseType)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationUnsupportedResponseType)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -227,7 +227,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_authInvalidScope() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationInvalidScope)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationInvalidScope)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -240,7 +240,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_temporarilyUnavailable() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationTemporarilyUnavailable)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationTemporarilyUnavailable)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -253,7 +253,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_tokenInvalidRequest() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenInvalidRequest)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenInvalidRequest)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -266,7 +266,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_tokenUnauthorizedClient() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenUnauthorizedClient)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenUnauthorizedClient)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -279,7 +279,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_tokenInvalidScope() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenInvalidScope)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenInvalidScope)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -292,7 +292,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_invalidClient() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenInvalidClient)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenInvalidClient)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -305,7 +305,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_invalidGrant() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenInvalidGrant)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenInvalidGrant)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -318,7 +318,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_unsupportedGrant() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenUnsupportedGrantType)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenUnsupportedGrantType)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -331,7 +331,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_clientError() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenClientError)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenClientError)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -344,7 +344,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_authServerError() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationServerError)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationServerError)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -367,7 +367,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_authUnknownError() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationUnknownError)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationUnknownError)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -380,7 +380,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_tokenUnknownError() throws {
         // GIVEN the authentication session returns a clientError error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .tokenUnknownError)
+        mockSessionManager.errorFromStartSession = LoginError(.tokenUnknownError)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -393,7 +393,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_serverError() throws {
         // GIVEN the authentication session returns a serverError error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .generalServerError)
+        mockSessionManager.errorFromStartSession = LoginError(.generalServerError)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -417,7 +417,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_safariError() throws {
         // GIVEN the authentication session returns a serverError error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .safariOpenError)
+        mockSessionManager.errorFromStartSession = LoginError(.safariOpenError)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
@@ -664,7 +664,7 @@ extension LoginCoordinatorTests {
     @MainActor
     func test_launchAuthenticationService_generic() throws {
         // GIVEN the authentication session returns a generic error
-        mockSessionManager.errorFromStartSession = LoginError(reason: .generic(description: ""))
+        mockSessionManager.errorFromStartSession = LoginError(.generic)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)

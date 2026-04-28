@@ -3,6 +3,7 @@ import Authentication
 import Coordination
 import GDSAnalytics
 import GDSCommon
+import GDSUtilities
 import LocalAuthentication
 import Logging
 import SecureStore
@@ -126,6 +127,7 @@ final class LoginCoordinator: NSObject,
         do {
             try authService.handleUniversalLink(url)
         } catch {
+            analyticsService.logCrash(error)
             showGenericErrorScreen(error)
         }
     }
@@ -178,7 +180,7 @@ final class LoginCoordinator: NSObject,
 
 extension LoginCoordinator {
     private func handleLoginError(_ error: LoginError) {
-        switch error.reason {
+        switch error.kind {
         case .authorizationAccessDenied:
             showDataDeletedWarningScreen()
         case .userCancelled:
@@ -246,9 +248,14 @@ extension LoginCoordinator {
     }
     
     private func showRecoverableErrorScreen(_ error: Error) {
+        var description: String?
+        if let error = error as? (any GDSError) {
+            description = error.debugDescription
+        }
+        
         let viewModel = RecoverableLoginErrorViewModel(
             analyticsService: analyticsService,
-            errorDescription: error.localizedDescription
+            errorDescription: description ?? error.localizedDescription
         ) { [unowned self] in
             returnFromErrorScreen()
         }
@@ -257,9 +264,14 @@ extension LoginCoordinator {
     }
     
     private func showUnrecoverableErrorScreen(_ error: Error) {
+        var description: String?
+        if let error = error as? (any GDSError) {
+            description = error.debugDescription
+        }
+        
         let viewModel = UnrecoverableLoginErrorViewModel(
             analyticsService: analyticsService,
-            errorDescription: error.localizedDescription
+            errorDescription: description ?? error.localizedDescription
         )
         let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
@@ -282,9 +294,14 @@ extension LoginCoordinator {
     }
     
     private func showGenericErrorScreen(_ error: Error) {
+        var description: String?
+        if let error = error as? (any GDSError) {
+            description = error.debugDescription
+        }
+        
         let viewModel = GenericErrorViewModel(
             analyticsService: analyticsService,
-            errorDescription: error.localizedDescription
+            errorDescription: description ?? error.localizedDescription
         ) { [unowned self] in
             returnFromErrorScreen()
         }

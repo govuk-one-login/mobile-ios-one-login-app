@@ -42,7 +42,7 @@ final class WebAuthenticationServiceTests: XCTestCase {
 
 extension WebAuthenticationServiceTests {
     func test_loginError_userCancelled() async {
-        mockSessionManager.errorFromStartSession = LoginError(reason: .userCancelled)
+        mockSessionManager.errorFromStartSession = LoginError(.userCancelled)
         
         do {
             try await sut.startWebSession()
@@ -51,7 +51,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a LoginError")
                 return
             }
-            XCTAssertTrue(error == LoginError(reason: .userCancelled))
+            XCTAssertTrue(error == LoginError(.userCancelled))
         }
         let userCancelledEvent = ButtonEvent(textKey: "back")
         XCTAssertEqual(mockAnalyticsService.eventsLogged, [userCancelledEvent.name.name])
@@ -59,7 +59,7 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_tokenError_accessDenied() async {
-        mockSessionManager.errorFromStartSession = LoginError(reason: .authorizationAccessDenied)
+        mockSessionManager.errorFromStartSession = LoginError(.authorizationAccessDenied)
         
         do {
             try await sut.startWebSession()
@@ -68,15 +68,15 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a LoginError")
                 return
             }
-            XCTAssertTrue(error == LoginError(reason: .authorizationAccessDenied))
+            XCTAssertTrue(error == LoginError(.authorizationAccessDenied))
         }
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
     func test_authorizeError_accessDenied() async {
         mockSessionManager.errorFromStartSession = LoginError(
-            reason: .invalidRedirectURL,
-            underlyingReason: "access_denied: account deleted"
+            .invalidRedirectURL,
+            reason: "access_denied: account deleted"
         )
         
         do {
@@ -89,8 +89,8 @@ extension WebAuthenticationServiceTests {
             XCTAssertEqual(
                 error,
                 LoginError(
-                    reason: .authorizationAccessDenied,
-                    underlyingReason: "access_denied: account deleted"
+                    .authorizationAccessDenied,
+                    reason: "access_denied: account deleted"
                 )
             )
         }
@@ -98,7 +98,7 @@ extension WebAuthenticationServiceTests {
     }
     
     func test_loginError_invalidRedirectURL() async {
-        mockSessionManager.errorFromStartSession = LoginError(reason: .invalidRedirectURL)
+        mockSessionManager.errorFromStartSession = LoginError(.invalidRedirectURL)
         
         do {
             try await sut.startWebSession()
@@ -107,7 +107,7 @@ extension WebAuthenticationServiceTests {
                 XCTFail("Error should be a LoginError")
                 return
             }
-            XCTAssertTrue(error == LoginError(reason: .invalidRedirectURL))
+            XCTAssertTrue(error == LoginError(.invalidRedirectURL))
         }
         XCTAssertNotNil(mockAnalyticsService.crashesLogged)
     }
