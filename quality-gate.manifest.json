@@ -24,7 +24,7 @@
             "vulnerability detection"
           ],
           "config": {
-            "file": ".github/workflows/run_unit_tests_and_send_coverage_report.yml",
+            "file": ".github/workflows/pull-request.yml",
             "name": "Run Unit Tests when pull request is published/updated (into 'develop' or 'release/*' branches)",
             "path": "jobs.run_unit_tests_and_send_coverage_report"
           },
@@ -36,7 +36,7 @@
             "visual regression"
           ],
           "config": {
-            "file": ".github/workflows/run_snapshot_tests.yml",
+            "file": ".github/workflows/pull-request.yml",
             "name": "Run Snapshot Tests when pull request is published/updated (into 'develop' or 'release/*' branches)",
             "path": "jobs.run_snapshot_tests"
           },
