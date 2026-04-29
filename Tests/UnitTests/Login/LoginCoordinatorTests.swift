@@ -29,6 +29,7 @@ extension LoginCoordinator {
     }
 }
 
+@MainActor
 final class LoginCoordinatorTests: XCTestCase {
     var appWindow: UIWindow!
     var navigationController: UINavigationController!
@@ -38,7 +39,6 @@ final class LoginCoordinatorTests: XCTestCase {
     var mockAuthenticationService: MockAuthenticationService!
     var sut: LoginCoordinator!
     
-    @MainActor
     override func setUp() {
         super.setUp()
         
@@ -72,7 +72,6 @@ final class LoginCoordinatorTests: XCTestCase {
         super.tearDown()
     }
     
-    @MainActor
     func reauthLogin() {
         mockSessionManager.isReturningUser = true
         sut = LoginCoordinator(appWindow: appWindow,
@@ -85,7 +84,6 @@ final class LoginCoordinatorTests: XCTestCase {
                                serviceState: nil)
     }
     
-    @MainActor
     func given(errorFromStartSession: Error, when: (LoginCoordinator) -> Void) throws -> GDSErrorViewModelV3 {
         let startAuthSessionExpectation = expectation(description: #function)
         let pushViewControllerExpectation = self.expectation(description: #function)
@@ -111,7 +109,6 @@ final class LoginCoordinatorTests: XCTestCase {
         return vc.viewModel
     }
     
-    @MainActor
     func given(errorFromStartSession: Error,
                repeats count: Int,
                when: (LoginCoordinator) -> Void,
@@ -152,7 +149,7 @@ enum AuthenticationError: Error {
 
 extension LoginCoordinatorTests {
     // MARK: Login
-    @MainActor
+    
     func test_start() {
         // WHEN the LoginCoordinator is started
         sut.start()
@@ -161,7 +158,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.topViewController is IntroViewController)
     }
     
-    @MainActor
     func test_start_reauth() throws {
         // WHEN the LoginCoordinator is started in a reauth flow
         reauthLogin()
@@ -174,7 +170,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(screen.viewModel is SignOutWarningViewModel)
     }
     
-    @MainActor
     func test_authenticate_launchAuthenticationService() {
         let expectation = expectation(description: #function)
         let mockSessionManager = MockSessionManager()
@@ -191,7 +186,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(mockSessionManager.didCallStartSession)
     }
     
-    @MainActor
     func test_authenticate_noNetwork() throws {
         // GIVEN the network is not connected
         mockNetworkMonitor.isConnected = false
@@ -203,7 +197,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService() {
         let expectation = self.expectation(description: #function)
         let mockSessionManager = MockSessionManager()
@@ -221,7 +214,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(mockSessionManager.didCallStartSession)
     }
     
-    @MainActor
     func test_launchAuthenticationService_sessionMismatch() throws {
         // GIVEN the authentication session returns a sessionMismatch error
         let viewModel = try given(errorFromStartSession: PersistentSessionError(.sessionMismatch), when: { sut in
@@ -233,7 +225,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is DataDeletedWarningViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_cannotDeleteData() throws {
         // GIVEN the authentication session returns a cannotDeleteData error
         let errorFromStartSession = PersistentSessionError(.cannotDeleteData,
@@ -247,7 +238,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is RecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_idTokenNotStored() throws {
         // GIVEN the authentication session returns a idTokenNotStored error
         let viewModel = try given(errorFromStartSession: PersistentSessionError(.idTokenNotStored), when: { sut in
@@ -260,7 +250,6 @@ extension LoginCoordinatorTests {
 
     }
     
-    @MainActor
     func test_launchAuthenticationService_accessDenied() throws {
         // GIVEN the authentication session returns an access denied error
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationAccessDenied), when: { sut in
@@ -272,7 +261,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is DataDeletedWarningViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_network() throws {
         // GIVEN the authentication session returns a network error
         let viewModel = try given(errorFromStartSession: LoginError(.network), when: { sut in
@@ -284,7 +272,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is NetworkConnectionErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_authInvalidRequest() throws {
         // GIVEN the authentication session returns an invalidRequest error
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationInvalidRequest), when: { sut in
@@ -296,7 +283,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_authUnauthorizedClient() throws {
         // GIVEN the authentication session returns an unauthorizedClient error
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationUnauthorizedClient), when: { sut in
@@ -308,7 +294,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_unsupportedResponse() throws {
         // GIVEN the authentication session returns an unsupportedResponseType error
         mockSessionManager.errorFromStartSession = LoginError(.authorizationUnsupportedResponseType)
@@ -321,7 +306,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_authInvalidScope() throws {
         // GIVEN the authentication session returns an invalidScope error
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationInvalidScope), when: { sut in
@@ -333,7 +317,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_temporarilyUnavailable() throws {
         // GIVEN the authentication session returns an temporarilyUnavailable error
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationTemporarilyUnavailable), when: { sut in
@@ -345,7 +328,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_tokenInvalidRequest() throws {
         // GIVEN the authentication session returns an invalidRequest error
         mockSessionManager.errorFromStartSession = LoginError(.tokenInvalidRequest)
@@ -361,7 +343,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_tokenUnauthorizedClient() throws {
         // GIVEN the authentication session returns an tokenUnauthorizedClient error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenUnauthorizedClient), when: { sut in
@@ -373,7 +354,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_tokenInvalidScope() throws {
         // GIVEN the authentication session returns an tokenInvalidScope error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidScope), when: { sut in
@@ -384,7 +364,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_invalidClient() throws {
     // GIVEN the authentication session returns an tokenInvalidClient error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidClient), when: { sut in
@@ -396,7 +375,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_invalidGrant() throws {
         // GIVEN the authentication session returns an tokenInvalidGrant error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidGrant), when: { sut in
@@ -408,7 +386,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_unsupportedGrant() throws {
         // GIVEN the authentication session returns an tokenUnsupportedGrantType error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenUnsupportedGrantType), when: { sut in
@@ -420,7 +397,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_clientError() throws {
         // GIVEN the authentication session returns an tokenClientError error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenClientError), when: { sut in
@@ -432,7 +408,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is UnrecoverableLoginErrorViewModel)
     }
 
-    @MainActor
     func test_launchAuthenticationService_authServerError() throws {
         let threeTimes = 3
         // GIVEN the authentication session returns a serverError error
@@ -452,7 +427,6 @@ extension LoginCoordinatorTests {
         })
     }
     
-    @MainActor
     func test_launchAuthenticationService_authUnknownError() throws {
         // GIVEN the authentication session returns an authorizationUnknownError error
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationUnknownError), when: { sut in
@@ -464,7 +438,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is RecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_tokenUnknownError() throws {
         // GIVEN the authentication session returns an tokenUnknownError error
         let viewModel = try given(errorFromStartSession: LoginError(.tokenUnknownError), when: { sut in
@@ -476,7 +449,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is RecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_serverError() throws {
         let threeTimes = 3
         try self.given(errorFromStartSession: LoginError(.generalServerError), repeats: threeTimes, when: { sut in
@@ -492,7 +464,6 @@ extension LoginCoordinatorTests {
         })
     }
     
-    @MainActor
     func test_launchAuthenticationService_safariError() throws {
         // GIVEN the authentication session returns an safariOpenError error
         let viewModel = try given(errorFromStartSession: LoginError(.safariOpenError), when: { sut in
@@ -504,7 +475,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is RecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_jwtFetchError() throws {
         // GIVEN the authentication session returns an unableToFetchJWKs error
         let viewModel = try given(errorFromStartSession: JWTVerifierError.unableToFetchJWKs, when: { sut in
@@ -517,7 +487,6 @@ extension LoginCoordinatorTests {
 
     }
     
-    @MainActor
     func test_launchAuthenticationService_jwtVerifyError() throws {
         // GIVEN the authentication session returns an invalidJWTFormat error
         let viewModel = try given(errorFromStartSession: JWTVerifierError.invalidJWTFormat, when: { sut in
@@ -529,7 +498,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is RecoverableLoginErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityNetworkError() throws {
         // GIVEN the authentication session returns an app integrity network error
         let errorFromStartSession = FirebaseAppCheckError(
@@ -545,7 +513,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityUnknownError() throws {
         // GIVEN the authentication session returns an app integrity unknown error
         let errorFromStartSession = FirebaseAppCheckError(
@@ -561,7 +528,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityGenericError() throws {
         // GIVEN the authentication session returns an app integrity generic error
         let errorFromStartSession = FirebaseAppCheckError(
@@ -577,7 +543,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityInvalidTokenError() throws {
         // GIVEN the authentication session returns an app integrity invalid token error
         let errorFromStartSession = ClientAssertionError(
@@ -593,7 +558,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityServerError() throws {
         // GIVEN the authentication session returns an app integrity server error
         let errorFromStartSession = ClientAssertionError(
@@ -609,7 +573,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityCantDecodeClientAssertionError() throws {
         // GIVEN the authentication session returns an cant decode client assertion error
         let errorFromStartSession = ClientAssertionError(
@@ -625,7 +588,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityNotSupportedError() throws {
         // GIVEN the authentication session returns an app integrity not supported error
         let errorFromStartSession = FirebaseAppCheckError(
@@ -641,7 +603,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityKeychainAccessError() throws {
         // GIVEN the authentication session returns an app integrity keychain access error
         let errorFromStartSession = FirebaseAppCheckError(
@@ -657,7 +618,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityInvalidConfigurationError() throws {
         // GIVEN the authentication session returns an app integrity invalid configuration error
         let errorFromStartSession = FirebaseAppCheckError(
@@ -673,7 +633,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityInvalidPublicKeyError() throws {
         // GIVEN the authentication session returns an app integrity invalid public key error
         let errorFromStartSession = ClientAssertionError(
@@ -689,7 +648,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionPublicKeyJWK() throws {
         // GIVEN the authentication session returns an app integrity cant generate a proof of possession public key error
         let errorFromStartSession = ProofOfPossessionError(
@@ -705,7 +663,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityCantGenerateProofOfPossessionJWT() throws {
         // GIVEN the authentication session returns an app integrity cant create attestation proof of possession error
         let errorFromStartSession = ProofOfPossessionError(
@@ -721,7 +678,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_appIntegrityCantGenerateDemonstratingProofOfPossessionJWT() throws {
         // GIVEN the authentication session returns an app integrity cant generate a DPoP public key error
         let errorFromStartSession = ProofOfPossessionError(
@@ -737,7 +693,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is AppIntegrityErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_generic() throws {
         // GIVEN the authentication session returns a generic error
         let errorFromStartSession = LoginError(.generic)
@@ -750,7 +705,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is GenericErrorViewModel)
     }
     
-    @MainActor
     func test_launchAuthenticationService_catchAllError() throws {
         // GIVEN the authentication session returns a generic error
         let viewModel = try given(errorFromStartSession: AuthenticationError.generic, when: { sut in
@@ -762,7 +716,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(viewModel is GenericErrorViewModel)
     }
     
-    @MainActor
     func test_handleUniversalLink_catchAllError() throws {
         // GIVEN the authentication session returns a generic error
         let callbackURL = try XCTUnwrap(URL(string: "https://www.test.com"))
@@ -775,7 +728,6 @@ extension LoginCoordinatorTests {
     }
     
     // MARK: Coordinator flow
-    @MainActor
     func test_promptForAnalyticsPermissions() {
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
@@ -785,7 +737,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
     }
     
-    @MainActor
     func test_skip_promptForAnalyticsPermissions() {
         sut.start()
         // GIVEN the the user has accepted analytics permissions and sessionState = .notLoggedIn
@@ -796,7 +747,6 @@ extension LoginCoordinatorTests {
         XCTAssertEqual(sut.childCoordinators.count, 0)
     }
     
-    @MainActor
     func test_showLogOutConfirmation() {
         // WHEN the LoginCoordinator is started with a userLogOut authState
         sut = LoginCoordinator(appWindow: appWindow,
@@ -815,7 +765,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel)
     }
     
-    @MainActor
     func test_showSystemLogOutConfirmation() {
         // WHEN the LoginCoordinator is started with a userLogOut authState
         sut = LoginCoordinator(appWindow: appWindow,
@@ -834,7 +783,6 @@ extension LoginCoordinatorTests {
         XCTAssertTrue((sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is DataDeletedWarningViewModel)
     }
     
-    @MainActor
     func test_launchEnrolmentCoordinator() {
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator()
