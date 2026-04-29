@@ -23,7 +23,8 @@ struct NetworkingSerivceTests {
         sut = NetworkingService(
             networkClient: networkClient,
             refreshExchangeManager: mockRefreshExchangeManager,
-            sessionManager: mockSessionManager
+            sessionManager: mockSessionManager,
+            appIntegrityProvider: AppIntegrityProviderStub()
         )
         
         networkClient.authorizationProvider = self
@@ -201,7 +202,8 @@ struct NetworkingSerivceTests {
         let sut = NetworkingService(
             networkClient: networkClient,
             refreshExchangeManager: mockRefreshExchangeManager,
-            sessionManager: mockSessionManager
+            sessionManager: mockSessionManager,
+			appIntegrityProvider: AppIntegrityProviderStub()
         )
         sut.networkClient.authorizationProvider = self
         
@@ -247,7 +249,8 @@ struct NetworkingSerivceTests {
             networkClient: networkClient,
             refreshExchangeManager: mockRefreshExchangeManager,
             sessionManager: mockSessionManager,
-            serialTaskQueue: serialTaskQueue
+            serialTaskQueue: serialTaskQueue,
+			appIntegrityProvider: AppIntegrityProviderStub()
         )
         sut.networkClient.authorizationProvider = self
         
