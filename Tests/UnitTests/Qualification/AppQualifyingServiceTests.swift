@@ -52,11 +52,9 @@ class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     }
 }
 
-final class AppQualifyingServiceTests: XCTestCase {
-}
-
 // MARK: - App Info Requests
-extension AppQualifyingServiceTests {
+@MainActor
+final class AppQualifyingServiceTests: XCTestCase {
     
     func test_appInfoIsRequested() {
         let expectation = expectation(description: #function)
@@ -72,7 +70,6 @@ extension AppQualifyingServiceTests {
         XCTAssertTrue(mockAppInformationService.didCallFetchAppInfo)
     }
     
-    @MainActor
     func test_appUnavailable_setsStateCorrectly() {
         // GIVEN app usage is not allowed
         let appInformationProvider = MockAppInformationService()
@@ -86,7 +83,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(appState, .unavailable)
     }
     
-    @MainActor
     func test_outdatedApp_setsStateCorrectly() {
         // GIVEN the app is outdated
         let appInformationProvider = MockAppInformationService()
@@ -100,7 +96,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(appState, .outdated)
     }
     
-    @MainActor
     func test_upToDateApp_setsStateCorrectly() {
         let releaseFlags = ["TestFlag": true]
         
@@ -116,7 +111,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(AppEnvironment.remoteReleaseFlags.flags, releaseFlags)
     }
     
-    @MainActor
     func test_errorThrown_setsStateCorrectly() {
         // GIVEN `appInfo` cannot be accessed
         let appInformationProvider = MockAppInformationService()
@@ -130,7 +124,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(appState, .error)
     }
     
-    @MainActor
     func test_appInfoOfflineError_setsStateCorrectly() {
         // GIVEN the app is offline
         let appInformationProvider = MockAppInformationService()
@@ -144,7 +137,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(appState, .offline)
     }
     
-    @MainActor
     func test_accountIntervention_returns() {
         // GIVEN the a receives an account intervention
         let appInformationProvider = MockAppInformationService()
@@ -158,7 +150,6 @@ extension AppQualifyingServiceTests {
         XCTAssertNil(sessionState)
     }
     
-    @MainActor
     func test_appInfoInvalidError_setsStateCorrectly() {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
@@ -175,7 +166,6 @@ extension AppQualifyingServiceTests {
 // MARK: - User State Evaluation
 extension AppQualifyingServiceTests {
     
-    @MainActor
     func waitForSessionStateChange(expectation e: XCTestExpectation? = nil,
                                    sut: AppQualifyingService,
                                    when: (AppQualifyingService) -> Void)
@@ -199,7 +189,6 @@ extension AppQualifyingServiceTests {
         return (appState: _appState, sessionState: _sessionState)
     }
     
-    @MainActor
     func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil,
                                    sut: AppQualifyingService,
                                    when: (AppQualifyingService) -> Void)
@@ -224,7 +213,6 @@ extension AppQualifyingServiceTests {
     }
     
     
-    @MainActor
     func test_oneTimeUser_userConfirmed() {
         let sessionManager = MockSessionManager()
         sessionManager.sessionState = .oneTime
@@ -238,7 +226,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .loggedIn)
     }
     
-    @MainActor
     func test_noExpiryDate_userUnconfirmed() {
         let sut: AppQualifyingService = .make()
         
@@ -250,7 +237,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .notLoggedIn)
     }
     
-    @MainActor
     func test_sessionInvalid_userExpired() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
@@ -265,7 +251,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .expired)
     }
     
-    @MainActor
     func test_resumeSession_userConfirmed() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
@@ -280,7 +265,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .loggedIn)
     }
     
-    @MainActor
     func test_resumeSession_noInternet_error() {
         let expectation = expectation(description: #function)
         expectation.expectedFulfillmentCount = 2
@@ -298,7 +282,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(appState, .offline)
     }
     
-    @MainActor
     func test_resumeSession_appIntegrityFailed() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
@@ -314,7 +297,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
     }
     
-    @MainActor
     func test_resumeSession_accountIntervention() throws {
         let analyticsService = MockAnalyticsService()
         let sessionManager = MockSessionManager()
@@ -333,7 +315,6 @@ extension AppQualifyingServiceTests {
         XCTAssertNil(sessionState)
     }
     
-    @MainActor
     func test_resumeSession_secureStoreError_cantDecryptData() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
@@ -349,7 +330,6 @@ extension AppQualifyingServiceTests {
         XCTAssert(sessionState == .expired)
     }
     
-    @MainActor
     func test_resumeSession_secureStoreError() throws {
         let analyticsService = MockAnalyticsService()
         
@@ -372,7 +352,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .localAuthCancelled)
     }
     
-    @MainActor
     func test_resumeSession_secureStoreError_keepsSessionData() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
@@ -388,7 +367,6 @@ extension AppQualifyingServiceTests {
         XCTAssertNotEqual(sessionState, .failed(MockWalletError.cantDelete))
     }
     
-    @MainActor
     func test_resumeSession_userRemovedLocalAuth_clearSessionData() {
         let analyticsService = MockAnalyticsService()
         
@@ -410,7 +388,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .systemLogOut)
     }
     
-    @MainActor
     func test_resumeSession_noPersistentSessionError_clearSessionData() {
         let analyticsService = MockAnalyticsService()
         
@@ -432,7 +409,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .systemLogOut)
     }
     
-    @MainActor
     func test_resumeSession_idTokenNotStoredError_clearSessionData() {
         let analyticsService = MockAnalyticsService()
         
@@ -454,7 +430,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .systemLogOut)
     }
     
-    @MainActor
     func test_resumeSession_idTokenNotStoredError_clearSessionDataFails() {
         let analyticsService = MockAnalyticsService()
         
@@ -480,7 +455,6 @@ extension AppQualifyingServiceTests {
 // MARK: - Subscription Tests
 extension AppQualifyingServiceTests {
     
-    @MainActor
     func test_enrolmentComplete_changesSessionState() {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
@@ -493,7 +467,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .loggedIn)
     }
     
-    @MainActor
     func test_sessionExpiry_changesSessionState() {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
@@ -506,7 +479,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .expired)
     }
     
-    @MainActor
     func test_logOut_changesSessionState() {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
@@ -519,7 +491,6 @@ extension AppQualifyingServiceTests {
         XCTAssertEqual(sessionState, .systemLogOut)
     }
     
-    @MainActor
     func test_initiate_resumeSession_with_firebaseAppCheck() throws {
         let analyticsService = MockAnalyticsService()
         let sessionManager = MockSessionManager()

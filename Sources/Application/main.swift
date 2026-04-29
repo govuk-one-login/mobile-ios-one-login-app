@@ -1,5 +1,6 @@
 import UIKit
 
+#if DEBUG
 let isRunningTests = ProcessInfo.processInfo.environment["IS_RUNNING_TESTS"] == "1"
 let delegateClassName = isRunningTests
         ? NSStringFromClass(TestAppDelegate.self)
@@ -11,3 +12,11 @@ UIApplicationMain(
     nil,
     delegateClassName
 )
+#else
+UIApplicationMain(
+    CommandLine.argc,
+    CommandLine.unsafeArgv,
+    nil,
+    NSStringFromClass(AppDelegate.self)
+)
+#endif

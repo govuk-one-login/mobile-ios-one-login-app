@@ -16,7 +16,7 @@ final class NetworkingService {
         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
         sessionManager: SessionManager,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
-        appIntegrityProvider: @autoclosure @escaping () throws -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
+        appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
     ) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
