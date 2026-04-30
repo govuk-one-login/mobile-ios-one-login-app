@@ -880,11 +880,66 @@ extension PersistentSessionManagerTests {
             ]
         )
     }
+    
+    func test_refreshTokenExchange_isSerialisedAcrossResumeSessionAndAuthorizedRequest() async throws {
+        
+        let refreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+
+        let sut: PersistentSessionManager = try .resumeSessionPersistentSessionManager()
+
+        let numberOfTasks = 10
+        await withTaskGroup { group in
+            for _ in 1...numberOfTasks {
+                group.addTask {
+                    do {
+                        try await sut.resumeSession(
+                            tokenExchangeManager: refreshTokenExchangeManager,
+                            appIntegrityProvider: MockAppIntegrityProvider()
+                        )
+                    } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
+                        let issue = XCTIssue(type: .thrownError, compactDescription: String(describing: error), detailedDescription: error.failureReason, associatedError: error)
+                        self.record(issue)
+                    } catch {
+                        let issue = XCTIssue(type: .thrownError, compactDescription: String(describing: error), associatedError: error)
+                        self.record(issue)
+                    }
+                }
+            }
+        }
+        
+        XCTAssertEqual(refreshTokenExchangeManager.capturedRefreshTokens.count, numberOfTasks)
+    }
 }
 
 extension PersistentSessionManagerTests {
     var hasNotRemovedLocalAuth: Bool {
         mockLocalAuthentication.canUseAnyLocalAuth && sut.isReturningUser
+    }
+}
+
+extension StoredTokens {
+    
+    static func encodeKeys(
+        idToken: String,
+        refreshToken: String?,
+        accessToken: String
+    ) -> String {
+        let storedTokens = StoredTokens(
+            idToken: idToken,
+            refreshToken: refreshToken,
+            accessToken: accessToken,
+            accessTokenExpiry: Date.distantFuture
+        )
+        
+        var keysAsData = String()
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .sortedKeys
+            keysAsData = try encoder.encode(storedTokens).base64EncodedString()
+        } catch {
+            print("error")
+        }
+        return keysAsData
     }
 }
 
