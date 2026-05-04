@@ -7,6 +7,7 @@ extension URLRequest {
         appIntegrityProvider: AppIntegrityProvider
     ) async throws -> Self {
         var request = URLRequest(url: AppEnvironment.stsToken)
+        request.timeoutInterval = 30
         
         request.asXWWWFormURLEncoded()
                 
