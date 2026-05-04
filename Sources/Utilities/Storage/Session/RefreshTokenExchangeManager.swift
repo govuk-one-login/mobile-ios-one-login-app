@@ -12,9 +12,12 @@ protocol TokenExchangeManaging {
 
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
+    let networkMonitor: NetworkMonitoring
     
-    init(networkClient: NetworkClient = NetworkClient()) {
+    init(networkClient: NetworkClient = NetworkClient(),
+         networkMonitor: NetworkMonitoring = NetworkMonitor.shared) {
         self.networkClient = networkClient
+        self.networkMonitor = networkMonitor
     }
     
     func getUpdatedTokens(
@@ -38,6 +41,14 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
                     || error.code == .networkConnectionLost {
             // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
+        } catch let error as URLError where error.code == .timedOut {
+            if networkMonitor.isConnectedToVPN {
+                // Likely offline
+                throw RefreshTokenExchangeError.noInternet
+            } else {
+                // Could be server, firewall, DNS etc
+                throw error
+            }
         } catch is FirebaseAppCheckError, is ClientAssertionError, is ProofOfPossessionError {
             // All treated as unrecoverable
             throw RefreshTokenExchangeError.appIntegrityFailed
