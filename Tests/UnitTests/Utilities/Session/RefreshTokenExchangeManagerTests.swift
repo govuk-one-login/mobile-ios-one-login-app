@@ -8,6 +8,7 @@ import Testing
 @Suite(.serialized)
 struct RefreshTokenExchangeManagerTests: ~Copyable {
     let sut: RefreshTokenExchangeManager
+    var mockNetworkMonitor: MockNetworkMonitor
     
     init() {
         MockURLProtocol.clear()
@@ -16,7 +17,9 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
 
         let client = NetworkClient(configuration: configuration)
         
-        sut = RefreshTokenExchangeManager(networkClient: client)
+        mockNetworkMonitor = MockNetworkMonitor()
+        sut = RefreshTokenExchangeManager(networkClient: client,
+                                          networkMonitor: mockNetworkMonitor)
     }
     
     deinit {
@@ -114,6 +117,41 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
                 refreshToken: UUID().uuidString,
                 appIntegrityProvider: MockAppIntegrityProvider()
             )
+        }
+    }
+    
+    @Test("If there is no connection and user is connected to VPN, an error is thrown")
+    func refreshTokenExchange_noConnectionWithVPN() async throws {
+        mockNetworkMonitor.isConnectedToVPN = true
+        MockURLProtocol.handler = {
+            throw URLError(.timedOut)
+        }
+        
+        await #expect(throws: RefreshTokenExchangeError.noInternet) {
+            return try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        }
+    }
+    
+    @Test("If there is no good connection and user is not connected to VPN, an error is thrown")
+    func refreshTokenExchange_noConnectionWithoutVPN() async throws {
+        mockNetworkMonitor.isConnectedToVPN = false
+        MockURLProtocol.handler = {
+            throw URLError(.timedOut)
+        }
+        
+        await #expect {
+            return try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        } throws: { error in
+            guard let error = error as? URLError else {
+                return false
+            }
+            return error.code == .timedOut
         }
     }
     
