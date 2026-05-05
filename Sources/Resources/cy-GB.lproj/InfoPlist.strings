@@ -9,4 +9,4 @@
 
 // MARK: Bluetooth usage permission prompt
 // TODO: DCMAW- To update this to welsh equivalent
-"NSBluetoothAlwaysUsageDescription" = "This app uses Bluetooth to create a secure connection with the person doing the check. This feature is currently unavailable."
+"NSBluetoothAlwaysUsageDescription" = "This app uses Bluetooth to create a secure connection with the person doing the check. This feature is currently unavailable.";
