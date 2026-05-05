@@ -1,4 +1,5 @@
 import Coordination
+import DesignSystem
 import GDSCommon
 import Networking
 @testable import OneLogin
@@ -124,7 +125,7 @@ extension QualifyingCoordinatorTests {
             .compactMap { $0 as? TabManagerCoordinator }
             .first)
         XCTAssertIdentical(window.rootViewController, tabManagerCoordinator.root)
-        XCTAssert(window.rootViewController is OrientationLockingTabBarController)
+        XCTAssert(window.rootViewController is GDSOrientationLockingTabBarController)
     }
     
     @MainActor

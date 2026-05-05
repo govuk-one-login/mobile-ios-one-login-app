@@ -1,5 +1,6 @@
 import Authentication
 import Coordination
+import DesignSystem
 import GDSCommon
 import Logging
 import Networking
@@ -158,7 +159,7 @@ extension QualifyingCoordinator {
             updateStream.continuation.yield(tabManagerCoordinator)
         } else {
             let tabManagerCoordinator = TabManagerCoordinator(
-                root: OrientationLockingTabBarController(),
+                root: GDSOrientationLockingTabBarController(),
                 analyticsService: analyticsService,
                 networkingService: networkingService,
                 sessionManager: sessionManager
