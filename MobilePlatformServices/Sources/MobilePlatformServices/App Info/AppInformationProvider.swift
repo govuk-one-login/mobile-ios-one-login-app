@@ -38,7 +38,7 @@ public final class AppInformationService: AppInformationProvider {
     public func fetchAppInfo() async throws -> App {
         var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
-        request.timeoutInterval = 30
+        request.timeoutInterval = 15
         
         do {
             let data = try await client.makeRequest(request)

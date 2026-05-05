@@ -16,7 +16,7 @@ final class URLRequestTests {
         let httpBody = try #require(tokenRequest.httpBody)
         let body = String(data: httpBody, encoding: .utf8)?.split(separator: "&")
         #expect(tokenRequest.url == URL(string: "https://token.build.account.gov.uk/token"))
-        #expect(tokenRequest.timeoutInterval == 30)
+        #expect(tokenRequest.timeoutInterval == 15)
         #expect(contentTypeHeader == "application/x-www-form-urlencoded")
         #expect(appIntegrityHeaders == "testValue")
         #expect(httpMethod == "POST")
