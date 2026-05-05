@@ -8,5 +8,5 @@
 "NSCameraUsageDescription" = "Bydd yr ap yn defnyddio camerâu blaen a chefn eich ffôn i brofi eich hunaniaeth a sganio codau QR.";
 
 // MARK: Bluetooth usage permission prompt
-// TODO: DCMAW- To update this to welsh equivalent
+// DCMAW-19652 No need for welsh equivalent as of now
 "NSBluetoothAlwaysUsageDescription" = "This app uses Bluetooth to create a secure connection with the person doing the check. This feature is currently unavailable.";
