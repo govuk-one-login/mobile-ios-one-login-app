@@ -8,7 +8,6 @@ import Testing
 @Suite(.serialized)
 struct RefreshTokenExchangeManagerTests: ~Copyable {
     let sut: RefreshTokenExchangeManager
-    var mockNetworkMonitor: MockNetworkMonitor
     
     init() {
         MockURLProtocol.clear()
@@ -17,9 +16,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
 
         let client = NetworkClient(configuration: configuration)
         
-        mockNetworkMonitor = MockNetworkMonitor()
-        sut = RefreshTokenExchangeManager(networkClient: client,
-                                          networkMonitor: mockNetworkMonitor)
+        sut = RefreshTokenExchangeManager(networkClient: client)
     }
     
     deinit {
@@ -120,11 +117,10 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         }
     }
     
-    @Test("If there is no connection and user is connected to VPN, an error is thrown")
-    func refreshTokenExchange_noConnectionWithVPN() async throws {
-        mockNetworkMonitor.isConnectedToVPN = true
+    @Test("If a network connection lost error occurs, an error is thrown")
+    func refreshTokenExchange_networkConnectionLost() async throws {
         MockURLProtocol.handler = {
-            throw URLError(.timedOut)
+            throw URLError(.networkConnectionLost)
         }
         
         await #expect(throws: RefreshTokenExchangeError.noInternet) {
@@ -135,30 +131,10 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         }
     }
     
-    @Test("If there is no good connection and user is not connected to VPN, an error is thrown")
-    func refreshTokenExchange_noConnectionWithoutVPN() async throws {
-        mockNetworkMonitor.isConnectedToVPN = false
+    @Test("If the request times out, a noInternet error is thrown")
+    func refreshTokenExchange_noConnectionWithVPN() async throws {
         MockURLProtocol.handler = {
             throw URLError(.timedOut)
-        }
-        
-        await #expect {
-            return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: MockAppIntegrityProvider()
-            )
-        } throws: { error in
-            guard let error = error as? URLError else {
-                return false
-            }
-            return error.code == .timedOut
-        }
-    }
-    
-    @Test("If a network connection lost error occurs, an error is thrown")
-    func refreshTokenExchange_networkConnectionLost() async throws {
-        MockURLProtocol.handler = {
-            throw URLError(.networkConnectionLost)
         }
         
         await #expect(throws: RefreshTokenExchangeError.noInternet) {

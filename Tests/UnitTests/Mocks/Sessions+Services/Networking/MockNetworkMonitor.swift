@@ -2,5 +2,4 @@
 
 final class MockNetworkMonitor: NetworkMonitoring {
     var isConnected: Bool = true
-    var isConnectedToVPN: Bool = true
 }
