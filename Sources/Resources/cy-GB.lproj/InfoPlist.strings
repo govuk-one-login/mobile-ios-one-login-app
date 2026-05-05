@@ -6,3 +6,7 @@
 
 // MARK: Camera usage permission prompt
 "NSCameraUsageDescription" = "Bydd yr ap yn defnyddio camerâu blaen a chefn eich ffôn i brofi eich hunaniaeth a sganio codau QR.";
+
+// MARK: Bluetooth usage permission prompt
+// DCMAW-19652 No need for welsh equivalent as of now
+"NSBluetoothAlwaysUsageDescription" = "This app uses Bluetooth to create a secure connection with the person doing the check. This feature is currently unavailable.";
