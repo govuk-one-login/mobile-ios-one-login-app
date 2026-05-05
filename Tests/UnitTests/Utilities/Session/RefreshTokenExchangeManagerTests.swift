@@ -131,6 +131,20 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         }
     }
     
+    @Test("If the request times out, a noInternet error is thrown")
+    func refreshTokenExchange_noConnectionWithVPN() async throws {
+        MockURLProtocol.handler = {
+            throw URLError(.timedOut)
+        }
+        
+        await #expect(throws: RefreshTokenExchangeError.noInternet) {
+            return try await sut.getUpdatedTokens(
+                refreshToken: UUID().uuidString,
+                appIntegrityProvider: MockAppIntegrityProvider()
+            )
+        }
+    }
+    
     @Test("If a network firebase error occurs, an error is thrown")
     func refreshTokenExchange_firebaseNetworkError() async throws {
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
