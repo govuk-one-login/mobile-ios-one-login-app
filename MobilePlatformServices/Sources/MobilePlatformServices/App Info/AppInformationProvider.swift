@@ -53,7 +53,7 @@ public final class AppInformationService: AppInformationProvider {
     private func loadFromDefaults(appInfoError: Error) throws -> App {
         guard let cachedResponse = cache.data(forKey: "appInfoResponse") else {
             if let error = appInfoError as? URLError,
-               error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
+               error.code == .notConnectedToInternet || error.code == .networkConnectionLost || error.code == .timedOut {
                 throw AppInfoError.notConnectedToInternet
             }
             throw AppInfoError.invalidResponse
