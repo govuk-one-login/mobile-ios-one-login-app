@@ -41,7 +41,8 @@ class ValueService {
             throw ReusedValueError.violation(value, values)
         }
         
-        try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000)) //100ms to 1 second
+        // 100ms to 1 second
+        try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000))
         
         return UUID().uuidString
     }
@@ -75,6 +76,7 @@ class UnsafeCounter {
     
     func increment() async {
         var _count = self.count
+        // swiftlint:disable:next shorthand_operator
         _count = _count + 1
         
         self.count = _count

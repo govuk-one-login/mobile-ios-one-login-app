@@ -23,11 +23,11 @@ extension PersistentSessionManager {
     }
     
     static func resumeSessionPersistentSessionManager(mockAccessControlEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
-                    mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
-                    mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
-                    mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
-                    mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
-                    mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper()) throws -> PersistentSessionManager {
+                                                      mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
+                                                      mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
+                                                      mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
+                                                      mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
+                                                      mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper()) throws -> PersistentSessionManager {
         
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.savedData = [OLString.returningUser: true]

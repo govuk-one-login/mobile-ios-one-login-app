@@ -46,7 +46,9 @@ extension NetworkingService {
         )
     }
     
-    static func usingResumeSessionPersistentSessionManager(refreshTokenExchangeManager: MockRefreshTokenExchangeManagerGuarantor = MockRefreshTokenExchangeManagerGuarantor()) throws -> (networkingService: NetworkingService, sessionManager: PersistentSessionManager) {
+    static func usingResumeSessionPersistentSessionManager(
+        refreshTokenExchangeManager: MockRefreshTokenExchangeManagerGuarantor = MockRefreshTokenExchangeManagerGuarantor()) throws
+    -> (networkingService: NetworkingService, sessionManager: PersistentSessionManager) {
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]

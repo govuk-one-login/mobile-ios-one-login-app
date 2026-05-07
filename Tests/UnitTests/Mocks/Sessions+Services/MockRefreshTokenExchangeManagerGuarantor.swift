@@ -19,7 +19,8 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
         var description: String {
             switch self {
             case .violation:
-                return "A refresh token was used twice to make a request to getUpdatedTokens. This is a violation of the getUpdatedTokens which expects a refresh token to only be used once."
+                return "A refresh token was used twice to make a request to getUpdatedTokens. " +
+                "This is a violation of the getUpdatedTokens which expects a refresh token to only be used once."
             }
         }
     }
@@ -47,6 +48,7 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
         
         func next() -> String? {
             let refreshToken = RefreshTokenPayload(exp: ExpirationClaim(value: Date.distantFuture), nonce: UUID())
+            // swiftlint:disable:next force_try
             let payload = try! encoder.encode(refreshToken).base64EncodedString()
                 .replacingOccurrences(of: "+", with: "-")
                 .replacingOccurrences(of: "/", with: "_")
@@ -79,7 +81,8 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
             throw GetUpdatedTokensError.violation(refreshToken, refreshTokens)
         }
         
-        try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000)) //100ms to 1 second
+        // 100ms to 1 second
+        try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000))
 
         return TokenResponse(accessToken: "any",
                              refreshToken: tokenGenerator.next(),
