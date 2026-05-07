@@ -34,10 +34,7 @@
 ///     func increment() async {
 ///         var _count = self.count
 ///         _count = _count + 1
-///
 ///         self.count = _count
-///
-///         return self.count
 ///     }
 /// }
 /// ```
