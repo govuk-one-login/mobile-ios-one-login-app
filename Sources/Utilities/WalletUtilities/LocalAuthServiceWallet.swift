@@ -101,7 +101,6 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             preconditionFailure()
         }
     }
-    // swiftlint: enable:next function_body_length
     
     func isEnrolled(_ minimum: any WalletLocalAuthType) -> Bool {
         #if targetEnvironment(simulator)
