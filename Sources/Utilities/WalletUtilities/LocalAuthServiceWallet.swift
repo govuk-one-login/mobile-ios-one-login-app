@@ -35,6 +35,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
         )
     }
     
+    // swiftlint: disable:next function_body_length
     func enrolLocalAuth(_ minimum: any WalletLocalAuthType, completion: @escaping () -> Void) {
         do {
             self.biometricsNavigationController = UINavigationController()
@@ -58,8 +59,17 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 biometricsNavigationController.setViewControllers([biometricsEnrolmentScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet
                 biometricsNavigationController.presentationController?.delegate = walletCoodinator
-                walletCoodinator?.root.present(biometricsNavigationController,
-                                               animated: true)
+                
+                // IF walletCoordinator is not presenting
+                guard walletCoodinator?.root.presentedViewController == nil else {
+                    // IF presenting, dismiss vc and then show `biometricsNavigationController`
+                    walletCoodinator?.root.presentedViewController?.dismiss(animated: true) { [unowned self] in
+                        walletCoodinator?.root.present(biometricsNavigationController, animated: true)
+                    }
+                    return
+                }
+                // Present `biometricsNavigationController`
+                walletCoodinator?.root.present(biometricsNavigationController, animated: true)
             case .passcode:
                 localAuthManager.saveSession(isWalletEnrolment: true) {
                     completion()
@@ -74,13 +84,24 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 biometricsNavigationController.setViewControllers([settingsErrorScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet
                 biometricsNavigationController.presentationController?.delegate = walletCoodinator
-                walletCoodinator?.root.present(biometricsNavigationController,
-                                               animated: true)
+                
+                // IF walletCoordinator is not presenting
+                guard walletCoodinator?.root.presentedViewController == nil else {
+                    // IF presenting, dismiss vc and then show `biometricsNavigationController`
+                    walletCoodinator?.root.presentedViewController?.dismiss(animated: true) { [unowned self] in
+                        walletCoodinator?.root.present(biometricsNavigationController, animated: true)
+                    }
+                    return
+                }
+                
+                // Present `biometricsNavigationController`
+                walletCoodinator?.root.present(biometricsNavigationController, animated: true)
             }
         } catch {
             preconditionFailure()
         }
     }
+    // swiftlint: enable:next function_body_length
     
     func isEnrolled(_ minimum: any WalletLocalAuthType) -> Bool {
         #if targetEnvironment(simulator)
