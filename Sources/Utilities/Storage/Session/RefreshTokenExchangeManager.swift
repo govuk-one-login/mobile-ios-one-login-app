@@ -35,7 +35,7 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
             NotificationCenter.default.post(name: .accountIntervention)
             throw error
         } catch let error as URLError where error.code == .notConnectedToInternet
-                    || error.code == .networkConnectionLost {
+                    || error.code == .networkConnectionLost || error.code == .timedOut {
             // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
         } catch is FirebaseAppCheckError, is ClientAssertionError, is ProofOfPossessionError {

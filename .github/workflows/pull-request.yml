@@ -16,9 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_app_and_test:
-    name: (Debug) Build App, Run Unit/Snapshot Tests and Send Coverage Report
+  build_app:
+    name: (Debug) Build App
     runs-on: macos-26
+    outputs:
+      build_products_artifact_id: ${{ steps.upload_build_products.outputs.artifact-id }}
 
     steps:
       - name: Add Path Globally
@@ -54,6 +56,9 @@ jobs:
         run: |
           ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.1.1.app
 
+      - name: Bundler install
+        run: bundle install
+
       - name: Build App for Testing
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -62,52 +67,32 @@ jobs:
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
         run: |
-          bundle install
-
           bundle exec fastlane buildForTesting scheme:"OneLoginBuild" \
             configuration:"Debug"
 
-      - name: Run Unit Tests and Send Coverage Report for Branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
-        run: |
-          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+      - name: Upload Fastlane build_products
+        if: success()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pin@v7.0.1
+        id: upload_build_products
+        with:
+          if-no-files-found: error
+          name: build_products.zip
+          path: ${{ github.workspace }}/fastlane/test_output/build_products.zip
+          retention-days: 1
+          compression-level: 0
 
-          brew install sonar-scanner
-          bundle install
+  run_unit_tests_and_send_coverage_report:
+    needs: build_app
+    name: Test
+    uses: ./.github/workflows/run_unit_tests_and_send_coverage_report.yml
+    with:
+      build_products_artifact_id: '${{ needs.build_app.outputs.build_products_artifact_id }}'
+    secrets: inherit
 
-          bundle exec fastlane testWithoutBuilding scheme:"OneLoginBuild" \
-            configuration:"Debug" \
-            testplan:OneLoginUnit \
-            workspace:${{ github.workspace }} \
-            sonar_token:${{ secrets.SONAR_TOKEN }} \
-            source_branch:${{ github.head_ref }} \
-            target_branch:${{ github.base_ref }} \
-            pr_number:$pull_number
-
-      # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # pin@v1.2.0
-        # Force to fail step after specific time.
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Run Snapshot Tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LC_ALL: "en_US.UTF-8"
-          LANG: "en_US.UTF-8"
-          GIT_CONFIG_NOSYSTEM: "true"
-          GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
-        run: |
-          bundle install
-
-          bundle exec fastlane testWithoutBuildingWithoutCoverage scheme:"OneLoginBuild" \
-            configuration:"Debug" \
-            testplan:OneLoginSnapshot
+  run_snapshot_tests:
+    needs: build_app
+    name: Test
+    uses: ./.github/workflows/run_snapshot_tests.yml
+    with:
+      build_products_artifact_id: '${{ needs.build_app.outputs.build_products_artifact_id }}'
+    secrets: inherit

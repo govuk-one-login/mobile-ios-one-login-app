@@ -47,6 +47,14 @@ Run Tests without Sonar Coverage
 
 Run Tests without Sonar Coverage
 
+### ios test
+
+```sh
+[bundle exec] fastlane ios test
+```
+
+Run Tests and Output Code Coverage
+
 ### ios testWithoutBuilding
 
 ```sh

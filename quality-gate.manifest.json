@@ -6,21 +6,43 @@
       "quality-gates": [
         {
           "check-types": [
-            "code style and linting",
-            "unit test coverage",
-            "code quality",
-            "secret scanning",
-            "vulnerability detection",
-            "visual regression"
+            "code style and linting"
           ],
           "config": {
             "file": ".github/workflows/pull-request.yml",
             "name": "Verify code base when pull request is published/updated (into 'develop' or 'release/*' branches)",
-            "path": "jobs.build_app_and_test"
+            "path": "jobs.build_app"
           },
           "phase": "pre-merge",
           "provider": "GitHub"
         },
+        {
+          "check-types": [
+            "unit test coverage",
+            "code quality",
+            "secret scanning",
+            "vulnerability detection"
+          ],
+          "config": {
+            "file": ".github/workflows/pull-request.yml",
+            "name": "Run Unit Tests when pull request is published/updated (into 'develop' or 'release/*' branches)",
+            "path": "jobs.run_unit_tests_and_send_coverage_report"
+          },
+          "phase": "pre-merge",
+          "provider": "GitHub"
+        },
+        {
+          "check-types": [
+            "visual regression"
+          ],
+          "config": {
+            "file": ".github/workflows/pull-request.yml",
+            "name": "Run Snapshot Tests when pull request is published/updated (into 'develop' or 'release/*' branches)",
+            "path": "jobs.run_snapshot_tests"
+          },
+          "phase": "pre-merge",
+          "provider": "GitHub"
+        },        
         {
           "check-types": [
             "unit"

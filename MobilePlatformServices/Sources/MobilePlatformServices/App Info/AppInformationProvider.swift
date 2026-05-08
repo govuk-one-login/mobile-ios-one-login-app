@@ -38,6 +38,7 @@ public final class AppInformationService: AppInformationProvider {
     public func fetchAppInfo() async throws -> App {
         var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
+        request.timeoutInterval = 15
         
         do {
             let data = try await client.makeRequest(request)
@@ -52,7 +53,7 @@ public final class AppInformationService: AppInformationProvider {
     private func loadFromDefaults(appInfoError: Error) throws -> App {
         guard let cachedResponse = cache.data(forKey: "appInfoResponse") else {
             if let error = appInfoError as? URLError,
-               error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
+               error.code == .notConnectedToInternet || error.code == .networkConnectionLost || error.code == .timedOut {
                 throw AppInfoError.notConnectedToInternet
             }
             throw AppInfoError.invalidResponse

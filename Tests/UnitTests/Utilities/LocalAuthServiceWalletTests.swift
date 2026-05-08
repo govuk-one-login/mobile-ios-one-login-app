@@ -9,7 +9,6 @@ import XCTest
 
 @MainActor
 final class LocalAuthServiceWalletTests: XCTestCase {
-    private var navigationController: UINavigationController!
     var mockLocalAuthManager: MockLocalAuthManager!
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
@@ -31,7 +30,6 @@ final class LocalAuthServiceWalletTests: XCTestCase {
         walletCoordinator =  WalletCoordinator(analyticsService: mockAnalyticsService,
                                                networkingService: NetworkClient(),
                                                sessionManager: mockSessionManager)
-        navigationController = walletCoordinator.root
         sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
                                      analyticsService: mockAnalyticsService,
                                      sessionManager: mockSessionManager,
@@ -40,7 +38,6 @@ final class LocalAuthServiceWalletTests: XCTestCase {
     }
     
     override func tearDown() {
-        navigationController = nil
         mockAnalyticsService = nil
         mockSessionManager = nil
         mockLocalAuthManager = nil
@@ -235,5 +232,106 @@ extension LocalAuthServiceWalletTests {
         secondErrorScreen.buttonViewModels[0].action()
         
         XCTAssertTrue(isEnrolled)
+    }
+    
+    // MARK: Tests ensuring biometricsNavigationController is presented
+    func test_walletCoordinator_vcAlreadyBeingPresented_faceID() throws {
+        mockLocalAuthManager.type = .faceID
+        
+        XCTAssertFalse(isEnrolled)
+        
+        let appWindow = UIWindow()
+        appWindow.rootViewController = walletCoordinator.root
+        appWindow.makeKeyAndVisible()
+        
+        // GIVEN walletCoordinator is presenting a ViewController
+        let presentedVC = UIViewController()
+        walletCoordinator.root.present(presentedVC, animated: false)
+        
+        XCTAssertNotNil(walletCoordinator.root.presentedViewController)
+        
+        // WHEN enrolment is attempted
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.isEnrolled = true
+            }
+        )
+        
+        // THEN VC is dismissed and biometricsNavigationController is presented
+        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
+
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
+        
+        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        
+        viewModel.primaryButtonViewModel.action()
+        
+        XCTAssertTrue(isEnrolled)
+    }
+    
+    func test_walletCoordinator_vcAlreadyBeingPresented_touchID() throws {
+        mockLocalAuthManager.type = .touchID
+        
+        XCTAssertFalse(isEnrolled)
+        
+        let appWindow = UIWindow()
+        appWindow.rootViewController = walletCoordinator.root
+        appWindow.makeKeyAndVisible()
+        
+        // GIVEN walletCoordinator is presenting a VC
+        let presentedVC = UIViewController()
+       
+        walletCoordinator.root.present(presentedVC, animated: false)
+        
+        XCTAssertNotNil(walletCoordinator.root.presentedViewController)
+        
+        // WHEN enrolment is attempted
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.isEnrolled = true
+            }
+        )
+        
+        // THEN VC is dismissed and biometricsNavigationController is presented
+        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
+
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
+        
+        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
+        
+        viewModel.primaryButtonViewModel.action()
+        
+        XCTAssertTrue(isEnrolled)
+    }
+    
+    func test_walletCoordinator_vcAlreadyBeingPresented_none() throws {
+        mockLocalAuthManager.type = .none
+        
+        XCTAssertFalse(isEnrolled)
+        
+        let appWindow = UIWindow()
+        appWindow.rootViewController = walletCoordinator.root
+        appWindow.makeKeyAndVisible()
+        
+        // GIVEN walletCoordinator is presenting a VC
+        let presentedVC = UIViewController()
+       
+        walletCoordinator.root.present(presentedVC, animated: false)
+        
+        XCTAssertNotNil(walletCoordinator.root.presentedViewController)
+        
+        sut.enrolLocalAuth(
+            WalletMockLocalAuthType.biometrics,
+            completion: {
+                self.isEnrolled = true
+            }
+        )
+        
+        // THEN VC is dismissed and biometricsNavigationController is presented
+        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
+        
+        XCTAssertTrue(sut.biometricsNavigationController.topViewController is GDSErrorScreen)
     }
 }
