@@ -26,6 +26,7 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
     }
     
     struct TokenGenerator: IteratorProtocol {
+        typealias Element = String
         
         struct RefreshTokenPayload: Encodable {
             let exp: ExpirationClaim
@@ -41,8 +42,6 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
             
             return TokenGenerator(encoder: encoder)
         }
-        
-        typealias Element = String
         
         let encoder: JSONEncoder
         

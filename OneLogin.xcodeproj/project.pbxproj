@@ -12,6 +12,7 @@
 		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
 		1E4738EA2EC65F3800803940 /* RefreshTokenExchangeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */; };
 		1E4738EC2EC7322200803940 /* MockAppIntegrityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */; };
+		1E5DD1ED2FAE408900D6F471 /* StoredToken+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5DD1EC2FAE408100D6F471 /* StoredToken+Extensions.swift */; };
 		1E69F8732EF08A5400D8A292 /* NetworkingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E69F8722EF08A4100D8A292 /* NetworkingServiceTests.swift */; };
 		1E7F940F2F153B2900CC2CF9 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7F940E2F153B2900CC2CF9 /* InlineSnapshotTesting */; };
 		1E7F94112F153B2900CC2CF9 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7F94102F153B2900CC2CF9 /* SnapshotTesting */; };
@@ -86,7 +87,6 @@
 		8E3C5A3E2F9FBF8500389C50 /* AppIntegrityProviderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */; };
 		8E3C5AC62FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5AC52FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift */; };
 		8E3C5AC92FA3958A00389C50 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5AC82FA3958A00389C50 /* SerialTaskQueue.swift */; };
-		8E3C5ACB2FAB884C00389C50 /* PersistentSessionManager+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5ACA2FAB884C00389C50 /* PersistentSessionManager+Mocks.swift */; };
 		8E51ACAD2FABA7FF00A18992 /* SerialTaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E51ACAC2FABA7FF00A18992 /* SerialTaskQueueTests.swift */; };
 		8E620E5D2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E620E5C2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift */; };
 		8E9587DA2F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */; };
@@ -625,6 +625,7 @@
 		1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TestExtensions.swift"; sourceTree = "<group>"; };
 		1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenExchangeManagerTests.swift; sourceTree = "<group>"; };
 		1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppIntegrityProvider.swift; sourceTree = "<group>"; };
+		1E5DD1EC2FAE408100D6F471 /* StoredToken+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoredToken+Extensions.swift"; sourceTree = "<group>"; };
 		1E69F8722EF08A4100D8A292 /* NetworkingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingServiceTests.swift; sourceTree = "<group>"; };
 		1E7F93052F1538CF00CC2CF9 /* OneLoginSnapshotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneLoginSnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRefreshTokenExchangeManager.swift; sourceTree = "<group>"; };
@@ -700,7 +701,6 @@
 		8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityProviderStub.swift; sourceTree = "<group>"; };
 		8E3C5AC52FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRefreshTokenExchangeManagerGuarantor.swift; sourceTree = "<group>"; };
 		8E3C5AC82FA3958A00389C50 /* SerialTaskQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialTaskQueue.swift; sourceTree = "<group>"; };
-		8E3C5ACA2FAB884C00389C50 /* PersistentSessionManager+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSessionManager+Mocks.swift"; sourceTree = "<group>"; };
 		8E51ACAC2FABA7FF00A18992 /* SerialTaskQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialTaskQueueTests.swift; sourceTree = "<group>"; };
 		8E620E5C2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockChildCoordinatorExpectation.swift; sourceTree = "<group>"; };
 		8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModelTests.swift; sourceTree = "<group>"; };
@@ -2159,6 +2159,7 @@
 		C8520C232AE2BF8E006790C1 /* TestExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				1E5DD1EC2FAE408100D6F471 /* StoredToken+Extensions.swift */,
 				C34F10572F193BDE00947ADB /* NetworkClient+TestExtensions.swift */,
 				1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */,
 				C8520C242AE2BFAD006790C1 /* UIView+TestExtensions.swift */,
@@ -2598,7 +2599,6 @@
 		C8BADD352B88CC0100385FE7 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				8E3C5ACA2FAB884C00389C50 /* PersistentSessionManager+Mocks.swift */,
 				C80D77492E97C6DB00082040 /* MockFileManager.swift */,
 				C80D77472E97C6C400082040 /* MockBackupDisabler.swift */,
 				C8BADD302B889D4200385FE7 /* MockDefaultsStore.swift */,
@@ -3682,9 +3682,9 @@
 				413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
 				8E3C5A3E2F9FBF8500389C50 /* AppIntegrityProviderStub.swift in Sources */,
-				8E3C5ACB2FAB884C00389C50 /* PersistentSessionManager+Mocks.swift in Sources */,
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
+				1E5DD1ED2FAE408900D6F471 /* StoredToken+Extensions.swift in Sources */,
 				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,

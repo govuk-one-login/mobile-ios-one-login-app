@@ -168,7 +168,7 @@ extension PersistentSessionManagerTests {
         )
         
         // AND a refresh token is stored
-        let data = encodeKeys(
+        let data = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
@@ -191,7 +191,7 @@ extension PersistentSessionManagerTests {
         )
         
         // AND a refresh token is stored
-        let data = encodeKeys(
+        let data = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
@@ -604,7 +604,7 @@ extension PersistentSessionManagerTests {
         try setUpNeededForResumeSession()
         
         // IF the ID token is no longer stored
-        let tokens = encodeKeys(
+        let tokens = StoredTokens.encodeKeys(
             idToken: "",
             refreshToken: "refreshToken",
             accessToken: "accessToken"
@@ -718,7 +718,7 @@ extension PersistentSessionManagerTests {
         XCTAssertEqual(try mockEncryptedStore.readItem(itemName: OLString.refreshTokenExpiry), "1772632425.0")
         
         // AND my tokens are saved
-        let tokens = encodeKeys(
+        let tokens = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
@@ -745,7 +745,7 @@ extension PersistentSessionManagerTests {
         )
         
         // AND I have no refresh token saved in secure store
-        let data = encodeKeys(
+        let data = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: nil,
             accessToken: MockJWTs.genericToken
@@ -806,7 +806,7 @@ extension PersistentSessionManagerTests {
             OLString.persistentSessionID: UUID().uuidString
         ]
         // AND tokens stored
-        let data = encodeKeys(
+        let data = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
@@ -882,18 +882,18 @@ extension PersistentSessionManagerTests {
     }
     
     func test_refreshTokenExchange_isSerialisedAcrossResumeSessionAndAuthorizedRequest() async throws {
+        // GIVEN I am a returning user with a refresh token stored
+        try setUpNeededForResumeSession()
+
+        let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         
-        let refreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
-
-        let sut: PersistentSessionManager = try .resumeSessionPersistentSessionManager()
-
         let numberOfTasks = 10
         await withTaskGroup { group in
             for _ in 1...numberOfTasks {
                 group.addTask {
                     do {
-                        try await sut.resumeSession(
-                            tokenExchangeManager: refreshTokenExchangeManager,
+                        try await self.sut.resumeSession(
+                            tokenExchangeManager: mockRefreshTokenExchangeManager,
                             appIntegrityProvider: MockAppIntegrityProvider()
                         )
                     } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
@@ -907,7 +907,7 @@ extension PersistentSessionManagerTests {
             }
         }
         
-        XCTAssertEqual(refreshTokenExchangeManager.capturedRefreshTokens.count, numberOfTasks)
+        XCTAssertEqual(mockRefreshTokenExchangeManager.capturedRefreshTokens.count, numberOfTasks)
     }
 }
 
@@ -917,56 +917,7 @@ extension PersistentSessionManagerTests {
     }
 }
 
-extension StoredTokens {
-    
-    static func encodeKeys(
-        idToken: String,
-        refreshToken: String?,
-        accessToken: String
-    ) -> String {
-        let storedTokens = StoredTokens(
-            idToken: idToken,
-            refreshToken: refreshToken,
-            accessToken: accessToken,
-            accessTokenExpiry: Date.distantFuture
-        )
-        
-        var keysAsData = String()
-        do {
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .sortedKeys
-            keysAsData = try encoder.encode(storedTokens).base64EncodedString()
-        } catch {
-            print("error")
-        }
-        return keysAsData
-    }
-}
-
 extension PersistentSessionManagerTests {
-    private func encodeKeys(
-        idToken: String,
-        refreshToken: String?,
-        accessToken: String
-    ) -> String {
-        mockStoredTokens = StoredTokens(
-            idToken: idToken,
-            refreshToken: refreshToken,
-            accessToken: accessToken,
-            accessTokenExpiry: Date.distantFuture
-        )
-        
-        var keysAsData = String()
-        do {
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .sortedKeys
-            keysAsData = try encoder.encode(mockStoredTokens).base64EncodedString()
-        } catch {
-            print("error")
-        }
-        return keysAsData
-    }
-    
     private func setUpNeededForResumeSession() throws {
         // GIVEN I am a returning user with local auth enabled
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
@@ -979,7 +930,7 @@ extension PersistentSessionManagerTests {
         )
         
         // AND I have tokens saved in secure store
-        let data = encodeKeys(
+        let data = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
             refreshToken: MockJWTs.genericToken,
             accessToken: MockJWTs.genericToken
