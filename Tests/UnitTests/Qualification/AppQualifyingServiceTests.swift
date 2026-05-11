@@ -21,37 +21,6 @@ extension AppQualifyingService {
     }
 }
 
-class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
-    
-    typealias DidChangeAppInfoState = (AppInformationState) -> Void
-    typealias DidChangeSessionState = (AppSessionState) -> Void
-    typealias DidChangeServiceState = (RemoteServiceState) -> Void
-    
-    let didChangeAppInfoStateAsFunction: DidChangeAppInfoState
-    let didChangeSessionStateAsFunction: DidChangeSessionState
-    let didChangeServiceStateAsFunction: DidChangeServiceState
-    
-    init(didChangeAppInfoStateAsFunction: @escaping DidChangeAppInfoState = { _ in },
-         didChangeSessionStateAsFunction: @escaping DidChangeSessionState = { _ in },
-         didChangeServiceStateAsFunction: @escaping DidChangeServiceState = { _ in }) {
-        self.didChangeAppInfoStateAsFunction = didChangeAppInfoStateAsFunction
-        self.didChangeSessionStateAsFunction = didChangeSessionStateAsFunction
-        self.didChangeServiceStateAsFunction = didChangeServiceStateAsFunction
-    }
-    
-    func didChangeAppInfoState(state appInfoState: AppInformationState) {
-        self.didChangeAppInfoStateAsFunction(appInfoState)
-    }
-    
-    func didChangeSessionState(state sessionState: AppSessionState) {
-        self.didChangeSessionStateAsFunction(sessionState)
-    }
-    
-    func didChangeServiceState(state: RemoteServiceState) {
-        self.didChangeServiceStateAsFunction(state)
-    }
-}
-
 // MARK: - App Info Requests
 @MainActor
 final class AppQualifyingServiceTests: XCTestCase {
@@ -165,53 +134,6 @@ final class AppQualifyingServiceTests: XCTestCase {
 
 // MARK: - User State Evaluation
 extension AppQualifyingServiceTests {
-    
-    func waitForSessionStateChange(expectation e: XCTestExpectation? = nil,
-                                   sut: AppQualifyingService,
-                                   when: (AppQualifyingService) -> Void)
-    -> (appState: AppInformationState?, sessionState: AppSessionState?) {
-        let expectation = e ?? expectation(description: #function)
-        var _appState: AppInformationState?
-        var _sessionState: AppSessionState?
-
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
-            _appState = appState
-        }, didChangeSessionStateAsFunction: { sessionState in
-            _sessionState = sessionState
-            expectation.fulfill()
-        })
-        
-        sut.delegate = appQualifyingServiceDelegateExpectation
-        when(sut)
-        
-        wait(for: [expectation], timeout: 5)
-        
-        return (appState: _appState, sessionState: _sessionState)
-    }
-    
-    func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil,
-                                   sut: AppQualifyingService,
-                                   when: (AppQualifyingService) -> Void)
-    -> (appState: AppInformationState?, sessionState: AppSessionState?) {
-        let expectation = e ?? expectation(description: #function)
-        var _appState: AppInformationState?
-        var _sessionState: AppSessionState?
-
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
-            _appState = appState
-            expectation.fulfill()
-        }, didChangeSessionStateAsFunction: { sessionState in
-            _sessionState = sessionState
-        })
-        
-        sut.delegate = appQualifyingServiceDelegateExpectation
-        when(sut)
-        
-        wait(for: [expectation], timeout: 5)
-        
-        return (appState: _appState, sessionState: _sessionState)
-    }
-    
     
     func test_oneTimeUser_userConfirmed() {
         let sessionManager = MockSessionManager()
@@ -506,5 +428,82 @@ extension AppQualifyingServiceTests {
         
         XCTAssertEqual(appState, .qualified)
         XCTAssertEqual(sessionState, .loggedIn)
+    }
+    
+    func waitForSessionStateChange(expectation e: XCTestExpectation? = nil,
+                                   sut: AppQualifyingService,
+                                   when: (AppQualifyingService) -> Void)
+    -> (appState: AppInformationState?, sessionState: AppSessionState?) {
+        let expectation = e ?? expectation(description: #function)
+        var _appState: AppInformationState?
+        var _sessionState: AppSessionState?
+
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
+            _appState = appState
+        }, didChangeSessionStateAsFunction: { sessionState in
+            _sessionState = sessionState
+            expectation.fulfill()
+        })
+        
+        sut.delegate = appQualifyingServiceDelegateExpectation
+        when(sut)
+        
+        wait(for: [expectation], timeout: 5)
+        
+        return (appState: _appState, sessionState: _sessionState)
+    }
+    
+    func waitForAppInfoStateChange(expectation e: XCTestExpectation? = nil,
+                                   sut: AppQualifyingService,
+                                   when: (AppQualifyingService) -> Void)
+    -> (appState: AppInformationState?, sessionState: AppSessionState?) {
+        let expectation = e ?? expectation(description: #function)
+        var _appState: AppInformationState?
+        var _sessionState: AppSessionState?
+
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
+            _appState = appState
+            expectation.fulfill()
+        }, didChangeSessionStateAsFunction: { sessionState in
+            _sessionState = sessionState
+        })
+        
+        sut.delegate = appQualifyingServiceDelegateExpectation
+        when(sut)
+        
+        wait(for: [expectation], timeout: 5)
+        
+        return (appState: _appState, sessionState: _sessionState)
+    }
+}
+
+class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
+    
+    typealias DidChangeAppInfoState = (AppInformationState) -> Void
+    typealias DidChangeSessionState = (AppSessionState) -> Void
+    typealias DidChangeServiceState = (RemoteServiceState) -> Void
+    
+    let didChangeAppInfoStateAsFunction: DidChangeAppInfoState
+    let didChangeSessionStateAsFunction: DidChangeSessionState
+    let didChangeServiceStateAsFunction: DidChangeServiceState
+    
+    init(didChangeAppInfoStateAsFunction: @escaping DidChangeAppInfoState = { _ in },
+         didChangeSessionStateAsFunction: @escaping DidChangeSessionState = { _ in },
+         didChangeServiceStateAsFunction: @escaping DidChangeServiceState = { _ in }) {
+        self.didChangeAppInfoStateAsFunction = didChangeAppInfoStateAsFunction
+        self.didChangeSessionStateAsFunction = didChangeSessionStateAsFunction
+        self.didChangeServiceStateAsFunction = didChangeServiceStateAsFunction
+    }
+    
+    func didChangeAppInfoState(state appInfoState: AppInformationState) {
+        self.didChangeAppInfoStateAsFunction(appInfoState)
+    }
+    
+    func didChangeSessionState(state sessionState: AppSessionState) {
+        self.didChangeSessionStateAsFunction(sessionState)
+    }
+    
+    func didChangeServiceState(state: RemoteServiceState) {
+        self.didChangeServiceStateAsFunction(state)
     }
 }
