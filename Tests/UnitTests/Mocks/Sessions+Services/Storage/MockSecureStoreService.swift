@@ -1,13 +1,13 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStoreService: SecureStorableV2, SessionBoundData {
+final class MockSecureStoreService: SecureStorable, SessionBoundData {
     var savedItems = [String: String]()
     var didCallDeleteStore = false
     var didCallClearSessionData = false
     
     var errorFromSaveItem: Error?
-    var errorFromReadItem: SecureStoreErrorV2?
+    var errorFromReadItem: SecureStoreError?
     var errorFromClearSessionData: Error?
     var returnFromCheckItemExists = true
     
@@ -26,12 +26,12 @@ final class MockSecureStoreService: SecureStorableV2, SessionBoundData {
         }
     }
     
-    func readItem(itemName: String) throws(SecureStoreErrorV2) -> String {
+    func readItem(itemName: String) throws(SecureStoreError) -> String {
         if let errorFromReadItem {
             throw errorFromReadItem
         } else {
             guard let savedItem = savedItems[itemName] else {
-                throw SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)
+                throw SecureStoreError(.unableToRetrieveFromUserDefaults)
             }
             return savedItem
         }

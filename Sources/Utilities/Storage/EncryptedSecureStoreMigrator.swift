@@ -1,9 +1,9 @@
 import Foundation
 import SecureStore
 
-final class EncryptedSecureStoreMigrator: SecureStorableV2, SessionBoundData {
-    let v12EncryptedSecureStore: SecureStorableV2
-    let v13EncryptedSecureStore: SecureStorableV2
+final class EncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
+    let v12EncryptedSecureStore: SecureStorable
+    let v13EncryptedSecureStore: SecureStorable
     let migrationStore: DefaultsStoring
     let analyticsService: OneLoginAnalyticsService
     
@@ -26,8 +26,8 @@ final class EncryptedSecureStoreMigrator: SecureStorableV2, SessionBoundData {
     }
     
     init(
-        v12EncryptedSecureStore: SecureStorableV2,
-        v13EncryptedSecureStore: SecureStorableV2,
+        v12EncryptedSecureStore: SecureStorable,
+        v13EncryptedSecureStore: SecureStorable,
         migrationStore: DefaultsStoring,
         analyticsService: OneLoginAnalyticsService
     ) {
@@ -56,7 +56,7 @@ final class EncryptedSecureStoreMigrator: SecureStorableV2, SessionBoundData {
     
     func readItem(
         itemName: String
-    ) throws(SecureStoreErrorV2) -> String {
+    ) throws(SecureStoreError) -> String {
         guard hasMigrated else {
             do {
                 let item = try v12EncryptedSecureStore.readItem(itemName: itemName)

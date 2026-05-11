@@ -2,9 +2,9 @@ import Foundation
 import LocalAuthenticationWrapper
 import SecureStore
 
-final class AccessControlEncryptedSecureStoreMigrator: SecureStorableV2, SessionBoundData {
-    let v12AccessControlEncryptedSecureStore: SecureStorableV2
-    let v13AccessControlEncryptedSecureStore: SecureStorableV2
+final class AccessControlEncryptedSecureStoreMigrator: SecureStorable, SessionBoundData {
+    let v12AccessControlEncryptedSecureStore: SecureStorable
+    let v13AccessControlEncryptedSecureStore: SecureStorable
     let migrationStore: DefaultsStoring
     let analyticsService: OneLoginAnalyticsService
     
@@ -35,8 +35,8 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorableV2, Session
     }
     
     init(
-        v12AccessControlEncryptedSecureStore: SecureStorableV2,
-        v13AccessControlEncryptedSecureStore: SecureStorableV2,
+        v12AccessControlEncryptedSecureStore: SecureStorable,
+        v13AccessControlEncryptedSecureStore: SecureStorable,
         migrationStore: DefaultsStoring,
         analyticsService: OneLoginAnalyticsService
     ) {
@@ -65,7 +65,7 @@ final class AccessControlEncryptedSecureStoreMigrator: SecureStorableV2, Session
     
     func readItem(
         itemName: String = OLString.storedTokens
-    ) throws(SecureStoreErrorV2) -> String {
+    ) throws(SecureStoreError) -> String {
         guard hasMigrated else {
             do {
                 let loginTokens = try v12AccessControlEncryptedSecureStore.readItem(itemName: itemName)

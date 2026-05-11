@@ -9,8 +9,8 @@ import SecureStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
-    private let accessControlEncryptedStore: SecureStorableV2
-    private let encryptedStore: SecureStorableV2
+    private let accessControlEncryptedStore: SecureStorable
+    private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     private let analyticsService: OneLoginAnalyticsService
@@ -28,8 +28,8 @@ final class PersistentSessionManager: SessionManager {
     let serialTaskQueue: SerialTaskQueue
     
     convenience init(
-        accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         analyticsService: OneLoginAnalyticsService,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
     ) {
@@ -45,8 +45,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,

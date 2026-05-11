@@ -241,7 +241,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreErrorV2(.cantDecryptData)
+        sessionManager.errorFromResumeSession = SecureStoreError(.cantDecryptData)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
@@ -258,7 +258,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreErrorV2(.unableToRetrieveFromUserDefaults)
+        sessionManager.errorFromResumeSession = SecureStoreError(.unableToRetrieveFromUserDefaults)
         
         let sut: AppQualifyingService = .make(analyticsService: analyticsService,
                                               sessionManager: sessionManager)
@@ -268,7 +268,7 @@ extension AppQualifyingServiceTests {
         })
         
         XCTAssertEqual(appState, .qualified)
-        let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreErrorV2)
+        let error = try XCTUnwrap(analyticsService.crashesLogged.first as? SecureStoreError)
         XCTAssert(error.kind == .unableToRetrieveFromUserDefaults)
         XCTAssertFalse(sessionManager.didCallClearAllSessionData)
         XCTAssertEqual(sessionState, .localAuthCancelled)
@@ -278,7 +278,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreErrorV2(.cantDecryptData)
+        sessionManager.errorFromResumeSession = SecureStoreError(.cantDecryptData)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
         let (appState, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in

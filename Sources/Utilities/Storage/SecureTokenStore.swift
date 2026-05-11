@@ -20,9 +20,9 @@ public protocol TokenStore {
 }
 
 final class SecureTokenStore: TokenStore {
-    private let accessControlEncryptedStore: SecureStorableV2
+    private let accessControlEncryptedStore: SecureStorable
     
-    init(accessControlEncryptedStore: SecureStorableV2) {
+    init(accessControlEncryptedStore: SecureStorable) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
