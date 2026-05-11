@@ -20,7 +20,8 @@ final class SceneDelegate: UIResponder,
     }()
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
-    private lazy var networkingService = NetworkingService(sessionManager: sessionManager)
+    private lazy var serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
+    private lazy var networkingService = NetworkingService(sessionManager: sessionManager, serialTaskQueue: serialTaskQueue)
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
@@ -28,7 +29,8 @@ final class SceneDelegate: UIResponder,
             let manager = PersistentSessionManager(
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
                 encryptedStore: encryptedSecureStoreMigrator,
-                analyticsService: analyticsService
+                analyticsService: analyticsService,
+                serialTaskQueue: serialTaskQueue
             )
             
             manager.registerSessionBoundData(

@@ -9,6 +9,7 @@ import Testing
 struct NetworkingSerivceTests {
     let sut: NetworkingService
     let mockSessionManager: MockSessionManager
+    var mockRefreshExchangeManager: MockRefreshTokenExchangeManager
     
     init() {
         MockURLProtocol.clear()
@@ -17,10 +18,11 @@ struct NetworkingSerivceTests {
         
         let networkClient = NetworkClient(configuration: configuration)
         mockSessionManager = MockSessionManager()
-    
+        mockRefreshExchangeManager = MockRefreshTokenExchangeManager()
+        
         sut = NetworkingService(
             networkClient: networkClient,
-            refreshExchangeManager: MockRefreshTokenExchangeManager(),
+            refreshExchangeManager: mockRefreshExchangeManager,
             sessionManager: mockSessionManager
         )
         
@@ -176,6 +178,148 @@ struct NetworkingSerivceTests {
         } catch {
             Issue.record("Expected `.networkConnectionLost` error to be thrown")
         }
+    }
+    
+    @Test("Test makeAuthorisedRequest() does not violate getUpdatedTokens which expects a refresh token to only be used once.")
+    func test_makeAuthorisedRequest_invalidAccessToken_concurrent() async throws {
+        // Create a mockSessionManager that uses PersistenSessionManager
+        // So the stored tokens are overwritten during the test
+        let mockSessionManager = try createPersistentSessionManager()
+        
+        // Create a network client
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let networkClient = NetworkClient(configuration: configuration)
+        
+        MockURLProtocol.handler = {
+            let data = Data("NetworkingService Test".utf8)
+            return (data, HTTPURLResponse(statusCode: 200))
+        }
+        
+        // Create sut
+        let mockRefreshExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+        let sut = NetworkingService(
+            networkClient: networkClient,
+            refreshExchangeManager: mockRefreshExchangeManager,
+            sessionManager: mockSessionManager
+        )
+        sut.networkClient.authorizationProvider = self
+        
+        let numberOfTasks = 10
+        await withTaskGroup { group in
+            for _ in 1...numberOfTasks {
+            group.addTask {
+                    do {
+                        _ = try await sut.makeAuthorizedRequest(
+                            scope: "",
+                            request: URLRequest(url: URL(string: "testurl.com")!)
+                        )
+                    } catch {
+                        Issue.record(error)
+                    }
+                }
+            }
+        }
+        
+        #expect(mockRefreshExchangeManager.capturedRefreshTokens.count == numberOfTasks)
+    }
+
+    @Test("Test parallel calls to `makeAuthorisedRequest()` and `resumeSession()` does not violate getUpdatedTokens which expects a refresh token to only be used once.")
+    func test_makeAuthorisedRequest_invalidAccessToken_concurrent_with_sessionManager() async throws {
+        // Create a mockSessionManager that uses PersistenSessionManager
+        // So the stored tokens are overwritten during the test
+        let serialTaskQueue = SerialTaskQueue()
+        let mockSessionManager = try createPersistentSessionManager(serialTaskQueue: serialTaskQueue)
+            
+        // Create a network client
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let networkClient = NetworkClient(configuration: configuration)
+        
+        MockURLProtocol.handler = {
+            let data = Data("NetworkingService Test".utf8)
+            return (data, HTTPURLResponse(statusCode: 200))
+        }
+        
+        // Create sut
+        let mockRefreshExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+        let sut = NetworkingService(
+            networkClient: networkClient,
+            refreshExchangeManager: mockRefreshExchangeManager,
+            sessionManager: mockSessionManager,
+            serialTaskQueue: serialTaskQueue
+        )
+        sut.networkClient.authorizationProvider = self
+        
+        let numberOfTasks = 10
+        await withTaskGroup { group in
+            for _ in 1...numberOfTasks {
+            group.addTask {
+                    do {
+                        _ = try await sut.makeAuthorizedRequest(
+                            scope: "",
+                            request: URLRequest(url: URL(string: "testurl.com")!)
+                        )
+                        
+                        try await mockSessionManager.resumeSession(
+                            tokenExchangeManager: mockRefreshExchangeManager,
+                            appIntegrityProvider: MockAppIntegrityProvider()
+                        )
+                    } catch {
+                        Issue.record(error)
+                    }
+                }
+            }
+        }
+        
+        #expect(mockRefreshExchangeManager.capturedRefreshTokens.count == numberOfTasks * 2)
+    }
+}
+
+extension NetworkingSerivceTests {
+    func createPersistentSessionManager(
+        serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
+    ) throws -> PersistentSessionManager {
+        let date = Date.distantFuture
+        
+        // Save refresh token and persistentSessionID
+        let mockEncryptedStore: MockSecureStoreService = MockSecureStoreService()
+        try mockEncryptedStore.saveItem(
+            item: date.timeIntervalSince1970.description,
+            itemName: OLString.refreshTokenExpiry
+        )
+        try mockEncryptedStore.saveItem(
+            item: UUID().uuidString,
+            itemName: OLString.persistentSessionID
+        )
+        
+        // Save tokens
+        let mockAccessControlEncryptedStore: MockSecureStoreService = MockSecureStoreService()
+        let data = StoredTokens.encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: MockJWTs.genericToken,
+            accessToken: MockJWTs.genericToken
+        )
+        try mockAccessControlEncryptedStore.saveItem(
+            item: data,
+            itemName: OLString.storedTokens
+        )
+        
+        // Set up local auth and ensure user is returning
+        let mockLocalAuthentication = MockLocalAuthManager()
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
+        let mockUnprotectedStore = MockDefaultsStore()
+        mockUnprotectedStore.savedData = [OLString.returningUser: true]
+        
+        return PersistentSessionManager(
+            accessControlEncryptedStore: mockAccessControlEncryptedStore,
+            encryptedStore: mockEncryptedStore,
+            unprotectedStore: mockUnprotectedStore,
+            localAuthentication: mockLocalAuthentication,
+            analyticsService: MockAnalyticsService(),
+            walletSDK: MockWalletSDKWrapper(),
+            serialTaskQueue: serialTaskQueue
+        )
     }
 }
 
