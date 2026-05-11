@@ -5,42 +5,35 @@ import Networking
 import SecureStore
 import XCTest
 
+extension SettingsCoordinator {
+
+    static func make(mockNavigationController: UINavigationController? = nil,
+                     mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
+                     mockSessionManager: SessionManager = MockSessionManager())
+    -> SettingsCoordinator {
+        
+        let root = mockNavigationController ?? UINavigationController()
+        let window = UIWindow()
+        let mockNetworkClient = NetworkClient()
+        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
+        let urlOpener = MockURLOpener()
+        window.rootViewController = root
+        window.makeKeyAndVisible()
+
+        return SettingsCoordinator(root: root,
+                                   analyticsService: mockAnalyticsService,
+                                   sessionManager: mockSessionManager,
+                                   networkingService: mockNetworkClient,
+                                   urlOpener: urlOpener)
+    }
+}
+
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockSessionManager: MockSessionManager!
-    var mockNetworkClient: NetworkClient!
-    var urlOpener: URLOpener!
-    var sut: SettingsCoordinator!
-    
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
-        mockSessionManager = MockSessionManager()
-        mockNetworkClient = NetworkClient()
-        mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
-        urlOpener = MockURLOpener()
-        sut = SettingsCoordinator(analyticsService: mockAnalyticsService,
-                                  sessionManager: mockSessionManager,
-                                  networkingService: mockNetworkClient,
-                                  urlOpener: urlOpener)
-        let window = UIWindow()
-        window.rootViewController = sut.root
-        window.makeKeyAndVisible()
-    }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        mockSessionManager = nil
-        mockNetworkClient = nil
-        urlOpener = nil
-        sut = nil
-        
-        super.tearDown()
-    }
     
     func test_tabBarItem() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut: SettingsCoordinator = .make(mockAnalyticsService: mockAnalyticsService)
         // WHEN the SettingsCoordinator has started
         sut.start()
         let settingsTab = UITabBarItem(title: "Settings",
@@ -53,6 +46,8 @@ final class SettingsCoordinatorTests: XCTestCase {
     }
     
     func test_didBecomeSelected() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut: SettingsCoordinator = .make(mockAnalyticsService: mockAnalyticsService)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         sut.didBecomeSelected()
         let event = IconEvent(textKey: "app_settingsTitle")
@@ -63,6 +58,7 @@ final class SettingsCoordinatorTests: XCTestCase {
     
     func test_openSignOutPage() throws {
         // WHEN the SettingsCoordinator is started
+        let sut: SettingsCoordinator = .make()
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
@@ -78,6 +74,8 @@ final class SettingsCoordinatorTests: XCTestCase {
             object: nil,
             notificationCenter: NotificationCenter.default
         )
+        let mockSessionManager = MockSessionManager()
+        let sut: SettingsCoordinator = .make(mockSessionManager: mockSessionManager)
         // GIVEN the user is on the signout page
         sut.start()
         // WHEN the openSignOutPage method is called
@@ -87,13 +85,23 @@ final class SettingsCoordinatorTests: XCTestCase {
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
         // THEN clear all session data is called
-        await fulfillment(of: [exp], timeout: 5)
+        await fulfillment(of: [exp], timeout: 10)
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
     }
     
     func test_tapSignOut_errors() throws {
+        let pushViewControllerExpectation = self.expectation(description: #function)
+        pushViewControllerExpectation.expectedFulfillmentCount = 2
+
         // GIVEN an error is returned from clearAllSessionData
+        let mockNavigationController = MockNavigationControllerExpectation( presentAsFunction: { _, _, _ in
+            pushViewControllerExpectation.fulfill()
+        })
+        let mockSessionManager = MockSessionManager()
+        let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager)
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
+        let sut: SettingsCoordinator = .make(mockNavigationController: mockNavigationController, mockSessionManager: mockSessionManagerExpectation)
+
         // GIVEN the user is on the signout page
         sut.start()
         // WHEN the openSignOutPage method is called
@@ -102,12 +110,17 @@ final class SettingsCoordinatorTests: XCTestCase {
         // WHEN the user signs out
         let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
         signOutButton.sendActions(for: .touchUpInside)
+        
+        wait(for: [pushViewControllerExpectation], timeout: 10)
+
         // THEN the presented sign out error screen is shown
-        waitForTruth((self.sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is SignOutErrorViewModel,
-                     timeout: 20)
+        let vc = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorScreen)
+
+        XCTAssertTrue(vc.viewModel is SignOutErrorViewModel)
     }
     
     func test_showDeveloperMenu() throws {
+        let sut: SettingsCoordinator = .make()
         sut.start()
         // WHEN the showDeveloperMenu method is called
         sut.openDeveloperMenu()
