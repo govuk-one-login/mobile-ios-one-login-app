@@ -29,49 +29,19 @@ extension OneLoginEnrolmentManager {
 
 @MainActor
 final class OneLoginEnrolmentManagerTests: XCTestCase {
-    private var mockLocalAuthContext: MockLocalAuthManager!
-    private var mockSessionManager: MockSessionManager!
-    private var mockAnalyticsService: MockAnalyticsService!
-    private var coordinator: ChildCoordinator!
-    private var sut: OneLoginEnrolmentManager!
-
-    override func setUp() {
-        mockLocalAuthContext = MockLocalAuthManager()
-        mockSessionManager = MockSessionManager()
-        mockAnalyticsService = MockAnalyticsService()
-        coordinator = EnrolmentCoordinator(
-            root: UINavigationController(),
-            analyticsService: mockAnalyticsService,
-            sessionManager: mockSessionManager
-        )
-        sut = OneLoginEnrolmentManager(
-            localAuthContext: mockLocalAuthContext,
-            sessionManager: mockSessionManager,
-            analyticsService: mockAnalyticsService,
-            coordinator: coordinator
-        )
-    }
-
-    override func tearDown() {
-        mockLocalAuthContext = nil
-        mockSessionManager = nil
-        mockAnalyticsService = nil
-        coordinator = nil
-        sut = nil
-    }
-
     enum MockError: Error {
         case generic
     }
-}
 
-extension OneLoginEnrolmentManagerTests {
     func test_saveSession_succeeds() async {
         let exp = XCTNSNotificationExpectation(
             name: .enrolmentComplete,
             object: nil,
             notificationCenter: NotificationCenter.default
         )
+        let mockLocalAuthContext = MockLocalAuthManager()
+        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext)
+
         // GIVEN the user has given FaceID permission
         mockLocalAuthContext.userDidConsentToFaceID = true
         // WHEN saveSession is called
@@ -133,7 +103,6 @@ extension OneLoginEnrolmentManagerTests {
         mockLocalAuthManager.errorFromEnrolLocalAuth = LocalAuthenticationWrapperError.cancelled
         let mockAnalyticsService = MockAnalyticsService()
         let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
-                                                  mockSessionManager: mockSessionManager,
                                                   mockAnalyticsService: mockAnalyticsService)
         // WHEN saveSession is called
         sut.saveSession()
@@ -150,7 +119,6 @@ extension OneLoginEnrolmentManagerTests {
         mockLocalAuthContext.errorFromEnrolLocalAuth = MockError.generic
         let mockAnalyticsService = MockAnalyticsServiceExpectation(expectation: expectation)
         let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
-                                                  mockSessionManager: mockSessionManager,
                                                   mockAnalyticsService: mockAnalyticsService)
         // WHEN saveSession is called
         sut.saveSession()
@@ -221,7 +189,8 @@ extension OneLoginEnrolmentManagerTests {
         //  WHEN performing save session
         //  AND `isWalletEnrolment` is true
         //  ASSERT that the `WalletCoordinator` is not removed as a child
-
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockSessionManager = MockSessionManager()
         let expectation = expectation(description: #function)
         let tabManagerCoordinator = TabManagerCoordinator(
             root: UITabBarController(),
