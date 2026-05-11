@@ -4,6 +4,24 @@ import Foundation
 import JWTKit
 @testable import OneLogin
 
+/// A mock that strictly adheres to the contract of the ``TokenExchangeManaging/getUpdatedTokens(refreshToken:appIntegrityProvider:)`` endpoint.
+///
+/// Specifically, this mock:
+/// * Throws an error in case the **same** `refreshToken` is passed to ``getUpdatedTokens(refreshToken:appIntegrityProvider:)``, which
+/// is a violation of the expectation to only ever use a refresh token once.
+/// * Generates a **valid**, **unique** refresh token every time a request is made
+/// * Adds a **random delay** before returning a token response to emulate the variability and delay of a network response
+///
+/// Use this mock to write a test that will fail **should the code under test violates any of the conditions as expected by the endpoint**, in adition to the test assertions.
+///
+/// e.g. you want to ensure that your code:
+/// * Does not send **the same refresh token more than once**.
+/// * Expects **unique** refresh tokens
+///
+/// - SeeAlso: ``NetworkingServiceTests/test_makeAuthorisedRequest_invalidAccessToken_concurrent()``
+/// - SeeAlso  ``NetworkingServiceTests/test_makeAuthorisedRequest_invalidAccessToken_concurrent_with_sessionManager()``
+/// - SeeAlso  ``PersistentSessionManagerTests/test_refreshTokenExchange_isSerialisedAcrossResumeSessionAndAuthorizedRequest()``
+/// - Remark: This mock is not designed to be used by a test that wants to stub a response. Use a ``MockRefreshTokenExchangeManager`` instead.
 final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
     
     enum GetUpdatedTokensError: Error, LocalizedError, CustomStringConvertible {
