@@ -8,11 +8,13 @@ import XCTest
 
 extension LoginCoordinator {
     
-    static func make(mockNavigationController: UINavigationController = UINavigationController(), mockSessionManager: SessionManager = MockSessionManager()) -> LoginCoordinator {
+    static func make(mockNavigationController: UINavigationController = UINavigationController(),
+                     mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
+                     mockSessionManager: SessionManager = MockSessionManager(),
+                     mockNetworkMonitor: MockNetworkMonitor = MockNetworkMonitor(),
+                     sessionState: AppSessionState = .notLoggedIn) -> LoginCoordinator {
         
         let appWindow = UIWindow()
-        let mockAnalyticsService = MockAnalyticsService()
-        let mockNetworkMonitor = MockNetworkMonitor()
         let mockAuthenticationService = MockAuthenticationService(sessionManager: mockSessionManager)
         appWindow.rootViewController = mockNavigationController
         appWindow.makeKeyAndVisible()
@@ -23,66 +25,24 @@ extension LoginCoordinator {
                                sessionManager: mockSessionManager,
                                networkMonitor: mockNetworkMonitor,
                                authService: mockAuthenticationService,
-                               sessionState: .notLoggedIn,
+                               sessionState: sessionState,
                                serviceState: nil)
         
+    }
+    
+    static func makeReauthLogin() -> LoginCoordinator {
+        
+        let mockSessionManager = MockSessionManager()
+        
+        mockSessionManager.isReturningUser = true
+        
+        return .make(mockSessionManager: mockSessionManager,
+                     sessionState: .expired)
     }
 }
 
 @MainActor
 final class LoginCoordinatorTests: XCTestCase {
-    var appWindow: UIWindow!
-    var navigationController: UINavigationController!
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockSessionManager: MockSessionManager!
-    var mockNetworkMonitor: NetworkMonitoring!
-    var mockAuthenticationService: MockAuthenticationService!
-    var sut: LoginCoordinator!
-    
-    override func setUp() {
-        super.setUp()
-        
-        appWindow = .init()
-        navigationController = .init()
-        mockAnalyticsService = MockAnalyticsService()
-        mockSessionManager = MockSessionManager()
-        mockNetworkMonitor = MockNetworkMonitor()
-        mockAuthenticationService = MockAuthenticationService(sessionManager: mockSessionManager)
-        appWindow.rootViewController = navigationController
-        appWindow.makeKeyAndVisible()
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsService: mockAnalyticsService,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               authService: mockAuthenticationService,
-                               sessionState: .notLoggedIn,
-                               serviceState: nil)
-    }
-    
-    override func tearDown() {
-        appWindow = nil
-        navigationController = nil
-        mockAnalyticsService = nil
-        mockSessionManager = nil
-        mockNetworkMonitor = nil
-        mockAuthenticationService = nil
-        sut = nil
-        
-        super.tearDown()
-    }
-    
-    func reauthLogin() {
-        mockSessionManager.isReturningUser = true
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsService: mockAnalyticsService,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               authService: mockAuthenticationService,
-                               sessionState: .expired,
-                               serviceState: nil)
-    }
     
     func given(errorFromStartSession: Error, when: (LoginCoordinator) -> Void) throws -> GDSErrorViewModelV3 {
         let startAuthSessionExpectation = expectation(description: #function)
@@ -151,6 +111,7 @@ extension LoginCoordinatorTests {
     // MARK: Login
     
     func test_start() {
+        let sut: LoginCoordinator = .make()
         // WHEN the LoginCoordinator is started
         sut.start()
         // THEN the visible view controller should be the IntroViewController
@@ -160,7 +121,7 @@ extension LoginCoordinatorTests {
     
     func test_start_reauth() throws {
         // WHEN the LoginCoordinator is started in a reauth flow
-        reauthLogin()
+        let sut: LoginCoordinator = .makeReauthLogin()
         sut.start()
         // THEN the user sees the session expired screen
         XCTAssertTrue(sut.root.viewControllers.count == 1)
@@ -187,8 +148,11 @@ extension LoginCoordinatorTests {
     }
     
     func test_authenticate_noNetwork() throws {
-        // GIVEN the network is not connected
+        let mockNetworkMonitor = MockNetworkMonitor()
         mockNetworkMonitor.isConnected = false
+        
+        let sut: LoginCoordinator = .make(mockNetworkMonitor: mockNetworkMonitor)
+        // GIVEN the network is not connected
         // WHEN the LoginCoordinator's authenticate method is called
         sut.authenticate()
         // THEN the visible view controller should be the GDSErrorScreen
@@ -296,7 +260,6 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_unsupportedResponse() throws {
         // GIVEN the authentication session returns an unsupportedResponseType error
-        mockSessionManager.errorFromStartSession = LoginError(.authorizationUnsupportedResponseType)
         let viewModel = try given(errorFromStartSession: LoginError(.authorizationUnsupportedResponseType), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
@@ -330,10 +293,13 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_tokenInvalidRequest() throws {
         // GIVEN the authentication session returns an invalidRequest error
+        let mockSessionManager = MockSessionManager()
         mockSessionManager.errorFromStartSession = LoginError(.tokenInvalidRequest)
+
+        let sut: LoginCoordinator = .make(mockSessionManager: mockSessionManager)
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
-        waitForTruth(self.mockSessionManager.didCallStartSession, timeout: 20)
+        waitForTruth(mockSessionManager.didCallStartSession, timeout: 20)
         let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidRequest), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
@@ -717,6 +683,8 @@ extension LoginCoordinatorTests {
     }
     
     func test_handleUniversalLink_catchAllError() throws {
+        let navigationController = UINavigationController()
+        let sut: LoginCoordinator = .make(mockNavigationController: navigationController)
         // GIVEN the authentication session returns a generic error
         let callbackURL = try XCTUnwrap(URL(string: "https://www.test.com"))
         // WHEN the LoginCoordinator's handleUniversalLink method is called
@@ -729,6 +697,7 @@ extension LoginCoordinatorTests {
     
     // MARK: Coordinator flow
     func test_promptForAnalyticsPermissions() {
+        let sut: LoginCoordinator = .make()
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
@@ -738,6 +707,8 @@ extension LoginCoordinatorTests {
     }
     
     func test_skip_promptForAnalyticsPermissions() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut: LoginCoordinator = .make(mockAnalyticsService: mockAnalyticsService)
         sut.start()
         // GIVEN the the user has accepted analytics permissions and sessionState = .notLoggedIn
         mockAnalyticsService.analyticsPreferenceStore.hasAcceptedAnalytics = true
@@ -749,14 +720,7 @@ extension LoginCoordinatorTests {
     
     func test_showLogOutConfirmation() {
         // WHEN the LoginCoordinator is started with a userLogOut authState
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsService: mockAnalyticsService,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               authService: mockAuthenticationService,
-                               sessionState: .userLogOut,
-                               serviceState: nil)
+        let sut: LoginCoordinator = .make(sessionState: .userLogOut)
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
@@ -767,14 +731,8 @@ extension LoginCoordinatorTests {
     
     func test_showSystemLogOutConfirmation() {
         // WHEN the LoginCoordinator is started with a userLogOut authState
-        sut = LoginCoordinator(appWindow: appWindow,
-                               root: navigationController,
-                               analyticsService: mockAnalyticsService,
-                               sessionManager: mockSessionManager,
-                               networkMonitor: mockNetworkMonitor,
-                               authService: mockAuthenticationService,
-                               sessionState: .systemLogOut,
-                               serviceState: nil)
+        let sut: LoginCoordinator = .make(sessionState: .systemLogOut)
+        
         sut.start()
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
@@ -784,6 +742,7 @@ extension LoginCoordinatorTests {
     }
     
     func test_launchEnrolmentCoordinator() {
+        let sut: LoginCoordinator = .make()
         // WHEN the LoginCoordinator's launchEnrolmentCoordinator method is called with the local authentication context
         sut.launchEnrolmentCoordinator()
         // THEN the LoginCoordinator should have an EnrolmentCoordinator as it's only child coordinator
