@@ -2,9 +2,11 @@ import Foundation
 @testable import OneLogin
 import Testing
 
-struct BackupDisablerTests {
+struct BackupDisablerTests: BackupDisabler {
     @Test
     func documentsFolderBackupsDisabled() throws {
+        disableFileBackup()
+        
         guard let url: URL = try? FileManager.default.url(
             for: .documentDirectory,
             in: .userDomainMask,

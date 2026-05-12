@@ -7,6 +7,7 @@ import Networking
 final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
+    private let appIntegrityProvider: () throws -> AppIntegrityProvider
     let refreshExchangeManager: TokenExchangeManaging
     let serialTaskQueue: SerialTaskQueue
     
@@ -14,11 +15,13 @@ final class NetworkingService {
         networkClient: NetworkClient = NetworkClient(),
         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
         sessionManager: SessionManager,
-        serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
+        serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
+        appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
     ) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
+        self.appIntegrityProvider = appIntegrityProvider
         self.networkClient.authorizationProvider = sessionManager.tokenProvider
         self.serialTaskQueue = serialTaskQueue
     }
@@ -71,7 +74,7 @@ extension NetworkingService {
     ) async throws {
         let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
-            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+            appIntegrityProvider: try appIntegrityProvider()
         )
         
         // Save new tokens
