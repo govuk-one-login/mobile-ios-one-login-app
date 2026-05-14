@@ -22,6 +22,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
         mockQualifyingService = MockQualifyingService()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
+        mockSessionManager.walletStoreID = "12345"
         networkClient = NetworkClient()
         networkClient.authorizationProvider = MockAuthenticationProvider()
         
