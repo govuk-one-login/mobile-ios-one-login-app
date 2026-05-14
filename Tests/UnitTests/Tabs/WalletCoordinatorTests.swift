@@ -2,6 +2,7 @@ import GDSAnalytics
 import Networking
 @testable import OneLogin
 import SecureStore
+import Wallet
 import XCTest
 
 @MainActor
@@ -15,6 +16,7 @@ final class WalletCoordinatorTests: XCTestCase {
 
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
+        mockSessionManager.walletStoreID = "12345"
         sut = WalletCoordinator(analyticsService: mockAnalyticsService,
                                 networkingService: NetworkClient(),
                                 sessionManager: mockSessionManager)
