@@ -1,13 +1,31 @@
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import Logging
 
-struct LoginLoadingViewModel: GDSLoadingViewModel, BaseViewModel {
-    let loadingLabelKey: GDSLocalisedString = "app_loadingBody"
-    let analyticsService: OneLoginAnalyticsService
+struct LoadingViewModel: GDSScreenViewModel, BaseViewModel {
+    let screenStyle: GDSScreenStyle = .centred
+    let body: [any ContentViewModel] = [
+        GDSProgressIndicatorViewModel()
+    ]
+    let movableFooter: [any ContentViewModel] = []
+    let footer: [any ContentViewModel] = []
     
     let rightBarButtonTitle: GDSLocalisedString? = nil
+    let backButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
+    
+    var didAppear: DesignSystem.Action? {
+        .action {
+            let loadingLabelKey: GDSLocalisedString = "app_loadingBody"
+            let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoading.rawValue,
+                                    screen: IntroAnalyticsScreen.loginLoading,
+                                    titleKey: loadingLabelKey.stringKey)
+            analyticsService.trackScreen(screen)
+        }
+    }
+    var didDismiss: DesignSystem.Action?
+    
+    let analyticsService: OneLoginAnalyticsService
     
     init(analyticsService: OneLoginAnalyticsService) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
@@ -15,13 +33,4 @@ struct LoginLoadingViewModel: GDSLoadingViewModel, BaseViewModel {
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
     }
-    
-    func didAppear() {
-        let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoading.rawValue,
-                                screen: IntroAnalyticsScreen.loginLoading,
-                                titleKey: loadingLabelKey.stringKey)
-        analyticsService.trackScreen(screen)
-    }
-    
-    func didDismiss() { /* Conforming to BaseViewModel */ }
 }

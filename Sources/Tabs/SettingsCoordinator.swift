@@ -1,4 +1,5 @@
 import Coordination
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 import Logging
@@ -36,7 +37,7 @@ final class SettingsCoordinator: NSObject,
     
     func start() {
         root.tabBarItem = UITabBarItem(
-            title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
+            title: GDSCommon.GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
             image: UIImage(systemName: "gearshape"),
             tag: 2
         )
@@ -76,11 +77,8 @@ final class SettingsCoordinator: NSObject,
     }
     
     private func showLoadingScreen() {
-        let loginLoadingScreen = GDSLoadingViewController(
-            viewModel: LoginLoadingViewModel(
-                analyticsService: analyticsService
-            )
-        )
+        let viewModel = LoadingViewModel(analyticsService: analyticsService)
+        let loginLoadingScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(loginLoadingScreen, animated: false)
     }
     

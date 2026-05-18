@@ -1,6 +1,7 @@
 import AppIntegrity
 import Authentication
 import Coordination
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 import GDSUtilities
@@ -118,12 +119,10 @@ final class LoginCoordinator: NSObject,
     }
     
     func handleUniversalLink(_ url: URL) {
-        let loginLoadingScreen = GDSLoadingViewController(
-            viewModel: LoginLoadingViewModel(
-                analyticsService: analyticsService
-            )
-        )
+        let viewModel = LoadingViewModel(analyticsService: analyticsService)
+        let loginLoadingScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(loginLoadingScreen, animated: false)
+        
         do {
             try authService.handleUniversalLink(url)
         } catch {
