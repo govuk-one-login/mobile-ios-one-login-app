@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E1D56AA2F47673200AB90D3 /* OneLoginAppIntegrityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D56A92F47672300AB90D3 /* OneLoginAppIntegrityService.swift */; };
 		1E1D56AC2F48778200AB90D3 /* OneLoginAppIntegrityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D56AB2F48777800AB90D3 /* OneLoginAppIntegrityServiceTests.swift */; };
+		1E365B412FBB724A0090106D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 1E365B402FBB724A0090106D /* DesignSystem */; };
 		1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E38C0E02B7CE249002B49A0 /* String+TestExtensions.swift */; };
 		1E4738EA2EC65F3800803940 /* RefreshTokenExchangeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */; };
 		1E4738EC2EC7322200803940 /* MockAppIntegrityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */; };
@@ -85,10 +86,10 @@
 		7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */ = {isa = PBXBuildFile; productRef = 7CF44B272CAB45A70027839B /* AppIntegrity */; };
 		7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */; };
 		8E3C5A3E2F9FBF8500389C50 /* AppIntegrityProviderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */; };
+		8E3C5A9C2FA2642A00389C50 /* MockNavigationControllerExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5A9B2FA2642A00389C50 /* MockNavigationControllerExpectation.swift */; };
 		8E3C5AC62FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5AC52FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift */; };
 		8E3C5AC92FA3958A00389C50 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5AC82FA3958A00389C50 /* SerialTaskQueue.swift */; };
 		8E51ACAD2FABA7FF00A18992 /* SerialTaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E51ACAC2FABA7FF00A18992 /* SerialTaskQueueTests.swift */; };
-		8E3C5A9C2FA2642A00389C50 /* MockNavigationControllerExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C5A9B2FA2642A00389C50 /* MockNavigationControllerExpectation.swift */; };
 		8E5B38182F8ECA1800C175F3 /* TestingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B37EA2F8EC7F600C175F3 /* TestingSceneDelegate.swift */; };
 		8E620E5D2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E620E5C2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift */; };
 		8E8CAC0A2F894AF90010679E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8CAC092F894AF90010679E /* main.swift */; };
@@ -702,10 +703,10 @@
 		7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelloWorldService.swift; sourceTree = "<group>"; };
 		7CFFE7CD2C9D960100ABD8A0 /* WalletSessionData+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletSessionData+OneLogin.swift"; sourceTree = "<group>"; };
 		8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityProviderStub.swift; sourceTree = "<group>"; };
+		8E3C5A9B2FA2642A00389C50 /* MockNavigationControllerExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNavigationControllerExpectation.swift; sourceTree = "<group>"; };
 		8E3C5AC52FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRefreshTokenExchangeManagerGuarantor.swift; sourceTree = "<group>"; };
 		8E3C5AC82FA3958A00389C50 /* SerialTaskQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialTaskQueue.swift; sourceTree = "<group>"; };
 		8E51ACAC2FABA7FF00A18992 /* SerialTaskQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialTaskQueueTests.swift; sourceTree = "<group>"; };
-		8E3C5A9B2FA2642A00389C50 /* MockNavigationControllerExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNavigationControllerExpectation.swift; sourceTree = "<group>"; };
 		8E5B37EA2F8EC7F600C175F3 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
 		8E620E5C2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockChildCoordinatorExpectation.swift; sourceTree = "<group>"; };
 		8E8CAC092F894AF90010679E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -1210,6 +1211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CF44B282CAB45A70027839B /* AppIntegrity in Frameworks */,
+				1E365B412FBB724A0090106D /* DesignSystem in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
@@ -2850,6 +2852,7 @@
 				AB90DC7D2D8875EA00070B0F /* GDSAnalytics */,
 				C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */,
 				7CEFDE212E3BB684004EE532 /* Wallet */,
+				1E365B402FBB724A0090106D /* DesignSystem */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -3036,6 +3039,7 @@
 				C8EE69062D933EA7005D191C /* XCLocalSwiftPackageReference "LocalAuthenticationWrapper" */,
 				7CEFDE202E3BB684004EE532 /* XCLocalSwiftPackageReference "mobile-wallet-ios" */,
 				1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -5360,6 +5364,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-ui";
+			requirement = {
+				branch = "feat/dcmaw-18623-latency-component";
+				kind = branch;
+			};
+		};
 		1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing.git";
@@ -5435,6 +5447,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1E365B402FBB724A0090106D /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */;
+			productName = DesignSystem;
+		};
 		1E7F940E2F153B2900CC2CF9 /* InlineSnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
