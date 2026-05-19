@@ -1,4 +1,5 @@
 import GDSAnalytics
+import GDSCommon
 import Networking
 @testable import OneLogin
 import SecureStore
@@ -53,5 +54,15 @@ extension WalletCoordinatorTests {
         XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
         XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String)
         XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+    }
+    
+    func test_walletInitFailed() throws {
+        mockSessionManager.walletStoreID = nil
+        sut.start()
+        
+        XCTAssertTrue(sut.root.viewControllers.count == 1)
+        let screen = try XCTUnwrap(sut.root.topViewController as? GDSErrorScreen)
+        // TODO: DCMAW-20468 update with new error screen
+        XCTAssertTrue(screen.viewModel is UnrecoverableLoginErrorViewModel)
     }
 }
