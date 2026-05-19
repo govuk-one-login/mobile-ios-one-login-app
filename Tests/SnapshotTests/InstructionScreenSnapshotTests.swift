@@ -1,3 +1,4 @@
+import DesignSystem
 import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
@@ -57,9 +58,9 @@ struct InstructionScreenSnapshotTests {
     }
     
     @Test
-    func test_loginLoadingScreen() {
-        let sut = LoginLoadingViewModel(analyticsService: analyticsService)
-        let vc = GDSLoadingViewController(viewModel: sut)
+    func test_loadingScreen() {
+        let sut = LoadingViewModel(analyticsService: analyticsService)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
