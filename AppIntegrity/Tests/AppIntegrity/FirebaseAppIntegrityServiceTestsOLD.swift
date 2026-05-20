@@ -6,9 +6,10 @@ import MockNetworking
 @testable import Networking
 import Testing
 
+// TODO: DCMAW-20368 Delete this file
 // swiftlint:disable type_body_length
 @Suite(.serialized)
-struct FirebaseAppIntegrityServiceTests: ~Copyable {
+struct FirebaseAppIntegrityServiceTestsOLD: ~Copyable {
     let mockVendor: MockAppCheckVendor
     let mockAttestationProofOfPossessionProvider: MockProofOfPossessionProvider
     let mockAttestationProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
@@ -53,7 +54,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     }
     
     @Test("Check the saved attestation and proof token are returned if valid")
-    func testSavedClientAssertion() async throws {
+    func testSavedIntegrityAssertion() async throws {
         mockAttestationProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
         mockAttestationProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
@@ -62,7 +63,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         
         mockAttestationStore.attestationExpired = false
         
-        let integrityResponse = try await sut.clientAssertions
+        let integrityResponse = try await sut.integrityAssertions
         
         #expect(
             integrityResponse["OAuth-Client-Attestation"] == "testSavedAttestation"
@@ -77,10 +78,20 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             integrityResponse["OAuth-Client-Attestation-PoP"]?
                 .contains(#""mockPoPPayloadKey1": "mockPoPPayloadValue1""#) ?? false
         )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPHeaderKey1": "mockDPoPHeaderValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPPayloadKey1": "mockDPoPPayloadValue1""#) ?? false
+        )
     }
     
     @Test("Check that the assertIntegrity returns correct dictionary")
-    func testAssertClientResponse() async throws {
+    func testAssertIntegrityResponse() async throws {
         MockURLProtocol.handler = {
             (Data("""
              {
@@ -97,7 +108,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
-        let integrityResponse = try await sut.clientAssertions
+        let integrityResponse = try await sut.integrityAssertions
         
         #expect(
             integrityResponse["OAuth-Client-Attestation"] == "testAttestation"
@@ -114,6 +125,16 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         )
         
         #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPHeaderKey1": "mockDPoPHeaderValue1""#) ?? false
+        )
+        
+        #expect(
+            integrityResponse["DPoP"]?
+                .contains(#""mockDPoPPayloadKey1": "mockDPoPPayloadValue1""#) ?? false
+        )
+        
+        #expect(
             mockAttestationStore.mockStorage["attestationJWT"] as? String == "testAttestation"
         )
         
@@ -125,30 +146,12 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
     
-    @Test("Check that the dPopAssertion returns correct dictionary")
-    func testAssertDpop() throws {
-        mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
-        mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
-        
-        let integrityResponse = try sut.dPopAssertion
-        
-        #expect(
-            integrityResponse["DPoP"]?
-                .contains(#""mockDPoPHeaderKey1": "mockDPoPHeaderValue1""#) ?? false
-        )
-        
-        #expect(
-            integrityResponse["DPoP"]?
-                .contains(#""mockDPoPPayloadKey1": "mockDPoPPayloadValue1""#) ?? false
-        )
-    }
-    
     @Test("AppCheck vendor throws unknown error from limitedUseToken")
     func testAppCheckUnknownError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .unknown)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -161,7 +164,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .network)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -174,7 +177,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .invalidConfiguration)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -187,7 +190,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .keychainAccess)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -200,7 +203,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .notSupported)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -213,7 +216,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as FirebaseAppCheckError {
             #expect(error.kind == .generic)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -228,7 +231,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidPublicKey)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -243,7 +246,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .invalidToken)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -258,7 +261,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .serverError)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -281,7 +284,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockAttestationProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as ProofOfPossessionError {
             #expect(error.kind == .cantGenerateAttestationProofOfPossessionJWT)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -304,7 +307,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as ProofOfPossessionError {
             #expect(error.kind == .cantGenerateDemonstratingProofOfPossessionJWT)
             #expect(error.errorUserInfo["originalError"] as? String ==
@@ -362,7 +365,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
         
         do {
-            _ = try await sut.clientAssertions
+            _ = try await sut.integrityAssertions
         } catch let error as ClientAssertionError {
             #expect(error.kind == .cantDecodeClientAssertion)
             #expect(error.errorUserInfo["originalError"] as? String ==
