@@ -43,10 +43,23 @@ final class WalletCoordinator: NSObject,
             image: UIImage(systemName: "wallet.pass"),
             tag: 1
         )
-        let walletConfig = WalletConfigV2(
-            environment: WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()),
+        
+        guard let walletStoreID = sessionManager.walletStoreID,
+              let walletEnvironment = WalletEnvironment(buildConfiguration: AppEnvironment.buildConfiguration.lowercased()) else {
+            // TODO: DCMAW-20468 update this with new error screen with relevant text
+            let viewModel = UnrecoverableLoginErrorViewModel(
+                analyticsService: analyticsService,
+                errorDescription: "walletStoreID or walletEnvironment was not initialised and was nil"
+            )
+            let walletNotInitialisedErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            root.pushViewController(walletNotInitialisedErrorScreen, animated: false)
+            return
+        }
+        
+        let walletConfig = WalletConfigV3(
+            environment: walletEnvironment,
             clientID: AppEnvironment.stsClientID,
-            persistentSessionID: sessionManager.persistentID
+            walletStoreID: walletStoreID
         )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(
