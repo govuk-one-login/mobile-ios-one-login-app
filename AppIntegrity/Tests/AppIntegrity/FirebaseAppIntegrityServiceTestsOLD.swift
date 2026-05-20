@@ -389,9 +389,3 @@ struct FirebaseAppIntegrityServiceTestsOLD: ~Copyable {
     }
 }
 // swiftlint:enable type_body_length
-
-extension ServerError: @retroactive Equatable {
-    public static func == (lhs: ServerError, rhs: ServerError) -> Bool {
-        lhs.endpoint == rhs.endpoint && lhs.errorCode == rhs.errorCode
-    }
-}

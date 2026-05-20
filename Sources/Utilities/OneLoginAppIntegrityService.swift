@@ -48,7 +48,7 @@ actor OneLoginAppIntegrityService {
     /// - throws the error as thrown by `AppIntegrityProvider/integrityAssertions` on the **last**  attempt.
     /// - remark: this function is not deisnged to be called in parallel, in which case its behaviour is undefined.
     /// No strong guarantees are provided when making concurrent calls to this function, e.g. 2 parallel calls may both lead to an attempt now.
-    public func clientAssertion(
+    public func clientAssertions(
         attempts maxAttempts: Int = 3
     ) async throws -> [String: String] {
         return try await self.attemptClientAssertions(max: maxAttempts)
