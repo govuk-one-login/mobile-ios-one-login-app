@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -6,7 +7,6 @@ import MockNetworking
 @testable import Networking
 import Testing
 
-// swiftlint:disable type_body_length
 @Suite(.serialized)
 struct FirebaseAppIntegrityServiceTests: ~Copyable {
     let mockVendor: MockAppCheckVendor
@@ -385,7 +385,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
 }
-// swiftlint:enable type_body_length
 
 // TODO: DCMAW-20368 Delete this extension
 extension FirebaseAppIntegrityServiceTests {
