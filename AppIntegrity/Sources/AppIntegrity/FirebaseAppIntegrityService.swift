@@ -118,7 +118,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    public var dPopAssertion: [String: String] {
+    public var dPoPAssertion: [String: String] {
         get throws {
             return [
                 AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken

@@ -14,7 +14,7 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
         }
     }
     
-    var dPopAssertion: [String: String] = ["testAsserion": "testValue"]
+    var dPoPAssertion: [String: String] = ["testAsserion": "testValue"]
     
     // TODO: DCMAW-20368 Delete this type
     var integrityAssertions: [String: String] {

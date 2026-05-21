@@ -4,11 +4,11 @@ import Testing
 
 struct OneLoginAppIntegrityServiceTests {
     @Test("Dpop assertion is returned")
-    func dPOPAssertion() async throws {
+    func dPoPAssertion() async throws {
         let mockInterityService = MockAppIntegrityProvider()
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        let assertion = try await sut.dPopAssertion()
+        let assertion = try await sut.dPoPAssertion()
         #expect(assertion == ["testAsserion": "testValue"])
     }
     

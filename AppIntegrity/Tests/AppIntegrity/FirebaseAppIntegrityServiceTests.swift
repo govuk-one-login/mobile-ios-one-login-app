@@ -126,12 +126,12 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
     
-    @Test("Check that the dPopAssertion returns correct dictionary")
-    func testAssertDpop() throws {
+    @Test("Check that the dPoPAssertion returns correct dictionary")
+    func testAssertDPoP() throws {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
-        let integrityResponse = try sut.dPopAssertion
+        let integrityResponse = try sut.dPoPAssertion
         
         #expect(
             integrityResponse["DPoP"]?

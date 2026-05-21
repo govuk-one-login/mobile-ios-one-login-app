@@ -22,8 +22,8 @@ actor OneLoginAppIntegrityService {
     }
 
     /// Returns demonstrating proof of possession JWT
-    public func dPopAssertion() throws -> [String: String] {
-        return try self.integrityService.dPopAssertion
+    public func dPoPAssertion() throws -> [String: String] {
+        return try self.integrityService.dPoPAssertion
     }
     
     /// Attempts to return integrity assertions by invoking  `AppIntegrityProvider/integrityAssertions` on the `AppIntegrityProvider` used to consturct this instance.
