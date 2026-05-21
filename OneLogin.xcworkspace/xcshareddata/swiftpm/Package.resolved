@@ -210,10 +210,10 @@
     {
       "identity" : "mobile-ios-ui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
+      "location" : "https://github.com/govuk-one-login/mobile-ios-ui.git",
       "state" : {
-        "branch" : "feat/dcmaw-18623-latency-component",
-        "revision" : "650ac3af88eae6ca996d85514a3bfb438b249260"
+        "revision" : "4ecf48f10566d0d8e350d41db0dadd93c6f8edc3",
+        "version" : "1.3.0"
       }
     },
     {
