@@ -9,6 +9,11 @@ public enum AppIntegrityHeaderKey: String {
 }
 
 public protocol AppIntegrityNetworkClient {
+    func request(_ request: URLRequest) -> RequestBuilder
+    func makeRequest(_ request: NetworkRequest) async throws -> Data
+    
+    // TODO: DCMAW-20368 Remove this
+    @available(*, deprecated, message: "use .request().execute() instead")
     func makeRequest(_ request: URLRequest) async throws -> Data
 }
 
@@ -195,11 +200,11 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
     
     func fetchClientAttestation(appCheckToken: String) async throws -> ClientAttestationResponse {
         do {
-            let data = try await networkClient.makeRequest(.clientAttestation(
+            let data = try await networkClient.request(.clientAttestation(
                 baseURL: baseURL,
                 token: appCheckToken,
                 body: try attestationProofOfPossessionProvider.publicKey
-            ))
+            )).execute()
             
             let attestationResponse = try JSONDecoder()
                 .decode(ClientAttestationResponse.self, from: data)

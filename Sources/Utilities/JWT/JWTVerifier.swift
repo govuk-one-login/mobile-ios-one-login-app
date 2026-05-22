@@ -44,7 +44,7 @@ extension JWTVerifier {
         request.httpMethod = "GET"
         
         do {
-            let data = try await networkClient.makeRequest(request)
+            let data = try await networkClient.request(request).execute()
             let jwksInfo = try JSONDecoder().decode(JWKSInfo.self, from: data)
             return jwksInfo
         } catch {
