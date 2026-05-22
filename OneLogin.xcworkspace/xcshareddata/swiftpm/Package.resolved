@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "revision" : "28e6dfa3ca5d715665f29e00419b627a64af71d0",
-        "version" : "7.2.0"
+        "branch" : "feat/dcmaw-19846-add-variableKeys",
+        "revision" : "6f460d98de81dfe5fb09f1c13beeebc35712034e"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "ac78bed5b9815a71d472e506e64a73f34ddca4a5",
-        "version" : "4.3.0"
+        "revision" : "cef66eebe90a05a0067f700d27650f14243408fa",
+        "version" : "4.0.0"
       }
     },
     {
