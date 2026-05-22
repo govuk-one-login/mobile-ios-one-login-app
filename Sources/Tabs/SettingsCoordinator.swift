@@ -12,7 +12,7 @@ final class SettingsCoordinator: NSObject,
                                  ChildCoordinator,
                                  NavigationCoordinator,
                                  TabItemCoordinator {
-    let root = UINavigationController()
+    let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     
     private let analyticsService: OneLoginAnalyticsService
@@ -21,11 +21,13 @@ final class SettingsCoordinator: NSObject,
     private let urlOpener: URLOpener
     
     init(
+        root: UINavigationController? = nil,
         analyticsService: OneLoginAnalyticsService,
         sessionManager: SessionManager & UserProvider,
         networkingService: OneLoginNetworkingService,
         urlOpener: URLOpener
     ) {
+        self.root = root ?? UINavigationController()
         self.analyticsService = analyticsService
         self.sessionManager = sessionManager
         self.networkingService = networkingService

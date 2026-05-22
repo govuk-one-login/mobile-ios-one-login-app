@@ -1,6 +1,7 @@
 @testable import AppIntegrity
 import Firebase
 import Foundation.NSDate
+import GAnalytics
 @testable import OneLogin
 import Testing
 
@@ -22,7 +23,9 @@ struct AppIntegrityProviderTests: ~Copyable {
             clientAttestation: "example.mock.jwt",
             attestationExpiry: .distantFuture
         )
-
+        FirebaseAppIntegrityService.configure()
+        GAnalytics.configure()
+        
         // WHEN I take several moments to login
         let appCheck = try FirebaseAppIntegrityService.firebaseAppCheck()
         let date = Date()

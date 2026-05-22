@@ -7,17 +7,23 @@ import Networking
 final class NetworkingService {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
+    private let appIntegrityProvider: () throws -> AppIntegrityProvider
     let refreshExchangeManager: TokenExchangeManaging
+    let serialTaskQueue: SerialTaskQueue
     
     init(
         networkClient: NetworkClient = NetworkClient(),
         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
-        sessionManager: SessionManager
+        sessionManager: SessionManager,
+        serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
+        appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
     ) {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
+        self.appIntegrityProvider = appIntegrityProvider
         self.networkClient.authorizationProvider = sessionManager.tokenProvider
+        self.serialTaskQueue = serialTaskQueue
     }
     
     func makeRequest(_ request: URLRequest) async throws -> Data {
@@ -34,21 +40,23 @@ final class NetworkingService {
         request: URLRequest
     ) async throws -> Data {
         guard sessionManager.tokenProvider.isAccessTokenValid else {
-            if let tokens = try sessionManager.validTokensForRefreshExchange {
-                // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
-                try await performRefreshExchangeAndSaveTokens(
-                    idToken: tokens.idToken,
-                    refreshToken: tokens.refreshToken
-                )
-                
-                return try await networkClient.makeAuthorizedRequest(
-                    scope: scope,
-                    request: request
-                )
-            } else {
-                // No refresh token or id token or valid access token, user must reauthenticate
-                NotificationCenter.default.post(name: .reauthenticationRequired)
-                throw RefreshTokenExchangeError.reauthenticationRequired
+            return try await self.serialTaskQueue.enqueue {
+                if let tokens = try self.sessionManager.validTokensForRefreshExchange {
+                    // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
+                    try await self.performRefreshExchangeAndSaveTokens(
+                        idToken: tokens.idToken,
+                        refreshToken: tokens.refreshToken
+                    )
+                    
+                    return try await self.networkClient.makeAuthorizedRequest(
+                        scope: scope,
+                        request: request
+                    )
+                } else {
+                    // No refresh token or id token or valid access token, user must reauthenticate
+                    NotificationCenter.default.post(name: .reauthenticationRequired)
+                    throw RefreshTokenExchangeError.reauthenticationRequired
+                }
             }
         }
         
@@ -66,7 +74,7 @@ extension NetworkingService {
     ) async throws {
         let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken,
-            appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck()
+            appIntegrityProvider: try appIntegrityProvider()
         )
         
         // Save new tokens

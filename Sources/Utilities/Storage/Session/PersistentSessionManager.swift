@@ -25,10 +25,13 @@ final class PersistentSessionManager: SessionManager {
     
     let user = CurrentValueSubject<(any User)?, Never>(nil)
     
+    let serialTaskQueue: SerialTaskQueue
+    
     convenience init(
         accessControlEncryptedStore: SecureStorableV2,
         encryptedStore: SecureStorableV2,
-        analyticsService: OneLoginAnalyticsService
+        analyticsService: OneLoginAnalyticsService,
+        serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
     ) {
         self.init(
             accessControlEncryptedStore: accessControlEncryptedStore,
@@ -36,7 +39,8 @@ final class PersistentSessionManager: SessionManager {
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
             analyticsService: analyticsService,
-            walletSDK: WalletSDKWrapper()
+            walletSDK: WalletSDKWrapper(),
+            serialTaskQueue: serialTaskQueue
         )
     }
     
@@ -46,7 +50,8 @@ final class PersistentSessionManager: SessionManager {
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper()
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
@@ -59,6 +64,7 @@ final class PersistentSessionManager: SessionManager {
         self.tokenProvider = TokenHolder()
         self.analyticsService = analyticsService
         self.walletSDK = walletSDK
+        self.serialTaskQueue = serialTaskQueue
     }
     
     var sessionState: SessionState {
@@ -252,41 +258,43 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError(.noSessionExists)
         }
         
-        let storedTokens = try storeKeyService.fetch()
-        
-        guard let idToken = storedTokens.idToken,
-              !idToken.isEmpty else {
-            throw PersistentSessionError(.idTokenNotStored)
-        }
-        
-        // don't verify jwks token because the user won't be able to login offline
-        user.send(try IDTokenUserRepresentation(idToken: idToken))
-        
-        // Enables offline wallet for users that only have access tokens
-        tokenProvider.update(
-            accessToken: storedTokens.accessToken,
-            accessTokenExpiry: storedTokens.accessTokenExpiry
-        )
-        
-        guard let refreshToken = storedTokens.refreshToken else {
-            return
-        }
-        
-        do {
-            let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
-                refreshToken: refreshToken,
-                appIntegrityProvider: appIntegrityProvider
+        return try await self.serialTaskQueue.enqueue {
+            let storedTokens = try self.storeKeyService.fetch()
+            
+            guard let idToken = storedTokens.idToken,
+                  !idToken.isEmpty else {
+                throw PersistentSessionError(.idTokenNotStored)
+            }
+            
+            // don't verify jwks token because the user won't be able to login offline
+            self.user.send(try IDTokenUserRepresentation(idToken: idToken))
+            
+            // Enables offline wallet for users that only have access tokens
+            self.tokenProvider.update(
+                accessToken: storedTokens.accessToken,
+                accessTokenExpiry: storedTokens.accessTokenExpiry
             )
             
-            try saveLoginTokens(
-                idToken: idToken,
-                refreshToken: exchangeTokenResponse.refreshToken,
-                accessToken: exchangeTokenResponse.accessToken,
-                accessTokenExpiry: exchangeTokenResponse.expiryDate
-            )
-        } catch RefreshTokenExchangeError.noInternet {
-            // Enables offline wallet for users that have valid refresh tokens
-            return
+            guard let refreshToken = storedTokens.refreshToken else {
+                return
+            }
+            
+            do {
+                let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+                    refreshToken: refreshToken,
+                    appIntegrityProvider: appIntegrityProvider
+                )
+                
+                try self.saveLoginTokens(
+                    idToken: idToken,
+                    refreshToken: exchangeTokenResponse.refreshToken,
+                    accessToken: exchangeTokenResponse.accessToken,
+                    accessTokenExpiry: exchangeTokenResponse.expiryDate
+                )
+            } catch RefreshTokenExchangeError.noInternet {
+                // Enables offline wallet for users that have valid refresh tokens
+                return
+            }
         }
     }
     
