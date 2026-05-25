@@ -1,5 +1,6 @@
 import AppIntegrity
 import Dispatch
+import Networking
 
 /// Use this type to automatically retry calls to `AppIntegrityProvider/integrityAssertions` every time an error is thrown.
 ///
@@ -15,15 +16,23 @@ import Dispatch
 /// - seealso: ``integrityAssertions(attempts:)`` on making an attempt at fetching the integrity assertions
 actor OneLoginAppIntegrityService {
     private(set) var attempts = 0
-    private let integrityService: AppIntegrityProvider
+    private let integrityService: () throws -> AppIntegrityProvider
+    
+    init(integrityService: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
+        self.integrityService = integrityService
+    }
     
     init(integrityService: AppIntegrityProvider) {
+        self.init(integrityService: integrityService)
+    }
+    
+    init(integrityService: @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
         self.integrityService = integrityService
     }
 
     /// Returns demonstrating proof of possession JWT
     public func dPoPAssertion() throws -> [String: String] {
-        return try self.integrityService.dPoPAssertion
+        return try self.integrityService().dPoPAssertion
     }
     
     /// Attempts to return integrity assertions by invoking  `AppIntegrityProvider/integrityAssertions` on the `AppIntegrityProvider` used to consturct this instance.
@@ -92,13 +101,25 @@ actor OneLoginAppIntegrityService {
             DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
                 Task {
                     do {
-                        continuation.resume(returning: try await self.integrityService.clientAssertions)
+                        continuation.resume(returning: try await self.integrityService().clientAssertions)
                     } catch {
                         continuation.resume(throwing: error)
                     }
                 }
             }
         }
+    }
+}
+
+extension OneLoginAppIntegrityService: ClientAttestationProvider {
+    func fetchClientAttestation() async throws -> [String: String] {
+        return try await clientAssertions()
+    }
+}
+
+extension OneLoginAppIntegrityService: DPoPProvider {
+    func fetchDPoP() async throws -> [String: String] {
+        return try dPoPAssertion()
     }
 }
 
@@ -148,7 +169,7 @@ extension OneLoginAppIntegrityService {
             DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
                 Task {
                     do {
-                        continuation.resume(returning: try await self.integrityService.integrityAssertions)
+                        continuation.resume(returning: try await self.integrityService().integrityAssertions)
                     } catch {
                         continuation.resume(throwing: error)
                     }
