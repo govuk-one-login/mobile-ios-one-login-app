@@ -41,7 +41,7 @@ public final class AppInformationService: AppInformationProvider {
         request.timeoutInterval = 15
         
         do {
-            let data = try await client.makeRequest(request)
+            let data = try await client.request(request).execute()
             let appInfo = try parseResult(data).appList.iOS
             cache.set(data, forKey: "appInfoResponse")
             return appInfo
