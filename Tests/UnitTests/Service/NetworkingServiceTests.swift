@@ -36,7 +36,8 @@ struct NetworkingSerivceTests {
             let data = Data("NetworkingService Test".utf8)
             return (data, HTTPURLResponse(statusCode: 200))
         }
-        let response = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
+        // .execute() calls makeRequest()
+        let response = try await sut.request(URLRequest(url: URL(string: "testurl.com")!)).execute()
         
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
@@ -48,7 +49,8 @@ struct NetworkingSerivceTests {
         }
         
         do {
-            _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
+            // .execute() calls makeRequest()
+            _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!)).execute()
         } catch URLError.notConnectedToInternet {
             // Expected path
         } catch {
@@ -63,7 +65,7 @@ struct NetworkingSerivceTests {
         }
         
         do {
-            _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
+            _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!)).execute()
         } catch URLError.networkConnectionLost {
             // Expected path
         } catch {
@@ -71,7 +73,7 @@ struct NetworkingSerivceTests {
         }
     }
     
-    @Test("Test makeAuthorisedRequest() with valid accessToken")
+    @Test("Test Authorized request with valid accessToken")
     func test_makeAuthorisedRequest_validAccessToken() async throws {
         mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
         
@@ -80,15 +82,14 @@ struct NetworkingSerivceTests {
             return (data, HTTPURLResponse(statusCode: 200))
         }
         
-        let response = try await sut.makeAuthorizedRequest(
-            scope: "",
-            request: URLRequest(url: URL(string: "testurl.com")!)
-        )
+        let response = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+            .withAuthentication(scope: "")
+            .execute()
         
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
     
-    @Test("Test makeAuthorisedRequest() with invalid accessToken and valid refreshToken")
+    @Test("Test Authorized request with invalid accessToken and valid refreshToken")
     func test_makeAuthorisedRequest_invalidAccessToken() async throws {
         mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
         mockSessionManager.validTokensForRefreshExchange = ("refreshToken", "idToken")
@@ -100,10 +101,9 @@ struct NetworkingSerivceTests {
             return (data, HTTPURLResponse(statusCode: 200))
         }
         
-        let response = try await sut.makeAuthorizedRequest(
-            scope: "",
-            request: URLRequest(url: URL(string: "testurl.com")!)
-        )
+        let response = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+            .withAuthentication(scope: "")
+            .execute()
         
         // Saving tokens means refresh exchange was successful
         #expect(mockSessionManager.didCallSaveLoginTokens == true)
@@ -111,7 +111,7 @@ struct NetworkingSerivceTests {
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
     
-    @Test("Test makeAuthorisedRequest() with invalid tokens leads to reauthentication")
+    @Test("Test Authorized request with invalid tokens leads to reauthentication")
     func test_makeAuthorizedRequest_invalidTokens() async throws {
         let notification = NotificationCenter.default.notifications(named: .reauthenticationRequired)
         let iterator = notification.makeAsyncIterator()
@@ -124,10 +124,9 @@ struct NetworkingSerivceTests {
         }
         
         do {
-            _ = try await sut.makeAuthorizedRequest(
-                scope: "",
-                request: URLRequest(url: URL(string: "testurl.com")!)
-            )
+            _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+                .withAuthentication(scope: "")
+                .execute()
             
             Issue.record("Expected `.reauthenticationRequired` error to be thrown")
         } catch RefreshTokenExchangeError.reauthenticationRequired {
@@ -141,7 +140,7 @@ struct NetworkingSerivceTests {
         }
     }
     
-    @Test("Test makeAuthorisedRequest() with no internet")
+    @Test("Test Authorized request with no internet")
     func test_makeAuthorizedRequest_noInternet() async throws {
         mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
        
@@ -150,10 +149,9 @@ struct NetworkingSerivceTests {
         }
         
         do {
-            _ = try await sut.makeAuthorizedRequest(
-                scope: "",
-                request: URLRequest(url: URL(string: "testurl.com")!)
-            )
+            _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+                .withAuthentication(scope: "")
+                .execute()
         } catch URLError.notConnectedToInternet {
             // expected path
         } catch {
@@ -161,7 +159,7 @@ struct NetworkingSerivceTests {
         }
     }
     
-    @Test("Test makeAuthorisedRequest() with network connection lost")
+    @Test("Test Authorized request with network connection lost")
     func test_makeAuthorizedRequest_networkConnectionLost() async throws {
         mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(3600))
        
@@ -170,10 +168,9 @@ struct NetworkingSerivceTests {
         }
         
         do {
-            _ = try await sut.makeAuthorizedRequest(
-                scope: "",
-                request: URLRequest(url: URL(string: "testurl.com")!)
-            )
+            _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+                .withAuthentication(scope: "")
+                .execute()
         } catch URLError.networkConnectionLost {
             // expected path
         } catch {
@@ -181,7 +178,7 @@ struct NetworkingSerivceTests {
         }
     }
     
-    @Test("Test makeAuthorisedRequest() does not violate getUpdatedTokens which expects a refresh token to only be used once.")
+    @Test("Test Authorized request does not violate getUpdatedTokens which expects a refresh token to only be used once.")
     func test_makeAuthorisedRequest_invalidAccessToken_concurrent() async throws {
         // Create a mockSessionManager that uses PersistenSessionManager
         // So the stored tokens are overwritten during the test
@@ -212,10 +209,9 @@ struct NetworkingSerivceTests {
             for _ in 1...numberOfTasks {
             group.addTask {
                     do {
-                        _ = try await sut.makeAuthorizedRequest(
-                            scope: "",
-                            request: URLRequest(url: URL(string: "testurl.com")!)
-                        )
+                        _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+                            .withAuthentication(scope: "")
+                            .execute()
                     } catch {
                         Issue.record(error)
                     }
@@ -226,7 +222,7 @@ struct NetworkingSerivceTests {
         #expect(mockRefreshExchangeManager.capturedRefreshTokens.count == numberOfTasks)
     }
 
-    @Test("Test parallel calls to `makeAuthorisedRequest()` and `resumeSession()` does not violate getUpdatedTokens which expects a refresh token to only be used once.")
+    @Test("Test parallel calls to an Authorized request and `resumeSession()` does not violate getUpdatedTokens which expects a refresh token to only be used once.")
     func test_makeAuthorisedRequest_invalidAccessToken_concurrent_with_sessionManager() async throws {
         // Create a mockSessionManager that uses PersistenSessionManager
         // So the stored tokens are overwritten during the test
@@ -259,14 +255,12 @@ struct NetworkingSerivceTests {
             for _ in 1...numberOfTasks {
             group.addTask {
                     do {
-                        _ = try await sut.makeAuthorizedRequest(
-                            scope: "",
-                            request: URLRequest(url: URL(string: "testurl.com")!)
-                        )
+                        _ = try await sut.request(URLRequest(url: URL(string: "testurl.com")!))
+                            .withAuthentication(scope: "")
+                            .execute()
                         
                         try await mockSessionManager.resumeSession(
-                            tokenExchangeManager: mockRefreshExchangeManager,
-                            appIntegrityProvider: MockAppIntegrityProvider()
+                            tokenExchangeManager: mockRefreshExchangeManager
                         )
                     } catch {
                         Issue.record(error)

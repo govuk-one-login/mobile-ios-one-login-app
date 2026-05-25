@@ -17,7 +17,6 @@ struct SessionBoundDataExpectation: SessionBoundData {
 }
 
 extension PersistentSessionManager {
-    
     static func make(mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
                      mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
                      mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
@@ -597,8 +596,7 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: mockRefreshTokenExchangeManager
             )
         } catch let error as PersistentSessionError {
             // THEN an error is catch
@@ -617,8 +615,7 @@ extension PersistentSessionManagerTests {
         
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: mockRefreshTokenExchangeManager
             )
             XCTFail("Expected local auth removed error")
         } catch let error as PersistentSessionError {
@@ -643,8 +640,7 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: mockRefreshTokenExchangeManager
             )
         } catch let error as PersistentSessionError {
             XCTAssertEqual(error.kind, .noSessionExists)
@@ -669,8 +665,7 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: mockRefreshTokenExchangeManager
             )
         } catch let error as PersistentSessionError {
             // THEN an error is thrown
@@ -687,6 +682,8 @@ extension PersistentSessionManagerTests {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         let client = NetworkClient(configuration: configuration)
+        client.clientAttestationProvider = MockAppIntegrityProvider()
+        client.dPoPProvider = MockAppIntegrityProvider()
         
         MockURLProtocol.handler = {
             throw URLError(.notConnectedToInternet)
@@ -697,8 +694,7 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: refreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: refreshTokenExchangeManager
             )
         } catch RefreshTokenExchangeError.noInternet {
             // Expected path
@@ -714,6 +710,8 @@ extension PersistentSessionManagerTests {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         let client = NetworkClient(configuration: configuration)
+        client.clientAttestationProvider = MockAppIntegrityProvider()
+        client.dPoPProvider = MockAppIntegrityProvider()
         
         MockURLProtocol.handler = {
             throw URLError(.networkConnectionLost)
@@ -724,8 +722,7 @@ extension PersistentSessionManagerTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: refreshTokenExchangeManager,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                tokenExchangeManager: refreshTokenExchangeManager
             )
         } catch RefreshTokenExchangeError.noInternet {
             // Expected path
@@ -740,11 +737,17 @@ extension PersistentSessionManagerTests {
         let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, reason: "test")
         
+        MockURLProtocol.clear()
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let client = NetworkClient(configuration: configuration)
+        client.clientAttestationProvider = mockAppIntegrityProvider
+        client.dPoPProvider = mockAppIntegrityProvider
+        
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession(
-                tokenExchangeManager: RefreshTokenExchangeManager(),
-                appIntegrityProvider: mockAppIntegrityProvider
+                tokenExchangeManager: RefreshTokenExchangeManager(networkClient: client)
             )
         } catch RefreshTokenExchangeError.appIntegrityFailed {
             // Expected path
@@ -757,8 +760,7 @@ extension PersistentSessionManagerTests {
         
         // WHEN I return to the app and authenticate successfully
         try await sut.resumeSession(
-            tokenExchangeManager: mockRefreshTokenExchangeManager,
-            appIntegrityProvider: MockAppIntegrityProvider()
+            tokenExchangeManager: mockRefreshTokenExchangeManager
         )
         
         // THEN my user session data is repopulated
@@ -809,8 +811,7 @@ extension PersistentSessionManagerTests {
         
         // WHEN I return to the app and authenticate successfully
         try await sut.resumeSession(
-            tokenExchangeManager: mockRefreshTokenExchangeManager,
-            appIntegrityProvider: MockAppIntegrityProvider()
+            tokenExchangeManager: mockRefreshTokenExchangeManager
         )
         
         // THEN my user session data is repopulated
@@ -835,8 +836,7 @@ extension PersistentSessionManagerTests {
         try setUpNeededForResumeSession()
         
         try await sut.resumeSession(
-            tokenExchangeManager: mockRefreshTokenExchangeManager,
-            appIntegrityProvider: MockAppIntegrityProvider()
+            tokenExchangeManager: mockRefreshTokenExchangeManager
         )
         // WHEN I end the session
         sut.endCurrentSession()
@@ -898,8 +898,7 @@ extension PersistentSessionManagerTests {
         
         // WHEN I return to the app and authenticate successfully but without a refresh token
         try await sut.resumeSession(
-            tokenExchangeManager: MockRefreshTokenNilExchangeManager(),
-            appIntegrityProvider: MockAppIntegrityProvider()
+            tokenExchangeManager: MockRefreshTokenNilExchangeManager()
         )
         
         // THEN the old refresh Token Expiry should not be present in the encrypted store
@@ -945,8 +944,7 @@ extension PersistentSessionManagerTests {
                 group.addTask {
                     do {
                         try await self.sut.resumeSession(
-                            tokenExchangeManager: mockRefreshTokenExchangeManager,
-                            appIntegrityProvider: MockAppIntegrityProvider()
+                            tokenExchangeManager: mockRefreshTokenExchangeManager
                         )
                     } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
                         let issue = XCTIssue(type: .thrownError, compactDescription: String(describing: error), detailedDescription: error.failureReason, associatedError: error)

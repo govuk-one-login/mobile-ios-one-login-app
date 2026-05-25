@@ -9,7 +9,7 @@ struct OneLoginAppIntegrityServiceTests {
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
         let assertion = try await sut.dPoPAssertion()
-        #expect(assertion == ["testAsserion": "testValue"])
+        #expect(assertion == ["testDPoP": "testValue"])
     }
     
     @Test("Client assertions are retried for network error")

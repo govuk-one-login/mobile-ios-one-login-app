@@ -11,13 +11,11 @@ extension AppQualifyingService {
     
     static func make(analyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
                      appInformationProvider: AppInformationProvider = MockAppInformationService(),
-                     sessionManager: SessionManager = MockSessionManager(),
-                     appIntegrityProvider: AppIntegrityProvider = AppIntegrityProviderStub()) -> AppQualifyingService {
+                     sessionManager: SessionManager = MockSessionManager()) -> AppQualifyingService {
         
         return AppQualifyingService(analyticsService: analyticsService,
                                     updateService: appInformationProvider,
-                                    sessionManager: sessionManager,
-                                    appIntegrityProvider: appIntegrityProvider)
+                                    sessionManager: sessionManager)
     }
 }
 
