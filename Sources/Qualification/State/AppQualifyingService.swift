@@ -22,7 +22,7 @@ final class AppQualifyingService: QualifyingService {
     private let analyticsService: OneLoginAnalyticsService
     private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
-    private let appIntegrityProvider: () throws -> AppIntegrityProvider
+    private let refreshTokenExchangeManager: RefreshTokenExchangeManager
     weak var delegate: AppQualifyingServiceDelegate?
     
     private var appInfoState: AppInformationState = .notChecked {
@@ -48,27 +48,16 @@ final class AppQualifyingService: QualifyingService {
             }
         }
     }
-    
-    convenience init(
-        analyticsService: OneLoginAnalyticsService,
-        updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-        sessionManager: SessionManager
-    ) {
-        self.init(analyticsService: analyticsService,
-                  updateService: updateService,
-                  sessionManager: sessionManager,
-                  appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
-    }
 
     init(
         analyticsService: OneLoginAnalyticsService,
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
         sessionManager: SessionManager,
-        appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
+        refreshTokenExchangeManager: RefreshTokenExchangeManager = RefreshTokenExchangeManager()) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
-        self.appIntegrityProvider = appIntegrityProvider
+        self.refreshTokenExchangeManager = refreshTokenExchangeManager
         subscribe()
     }
     
@@ -126,8 +115,7 @@ final class AppQualifyingService: QualifyingService {
         case .saved:
             do {
                 try await sessionManager.resumeSession(
-                    tokenExchangeManager: RefreshTokenExchangeManager(),
-                    appIntegrityProvider: try appIntegrityProvider()
+                    tokenExchangeManager: self.refreshTokenExchangeManager
                 )
                 sessionState = .loggedIn
             } catch RefreshTokenExchangeError.noInternet {

@@ -245,8 +245,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func resumeSession(
-        tokenExchangeManager: TokenExchangeManaging,
-        appIntegrityProvider: AppIntegrityProvider
+        tokenExchangeManager: TokenExchangeManaging
     ) async throws {
         guard hasNotRemovedLocalAuth else {
             // Underlying error here is LAError.passcodeNotSet
@@ -281,8 +280,7 @@ final class PersistentSessionManager: SessionManager {
             
             do {
                 let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
-                    refreshToken: refreshToken,
-                    appIntegrityProvider: appIntegrityProvider
+                    refreshToken: refreshToken
                 )
                 
                 try self.saveLoginTokens(

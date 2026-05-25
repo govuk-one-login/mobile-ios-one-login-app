@@ -87,8 +87,7 @@ final class MockSessionManager: SessionManager {
     }
 
     func resumeSession(
-        tokenExchangeManager: TokenExchangeManaging,
-        appIntegrityProvider: AppIntegrityProvider
+        tokenExchangeManager: TokenExchangeManaging
     ) throws {
         defer {
             didCallResumeSession = true
@@ -176,7 +175,7 @@ class MockSessionManagerExpectation: SessionManager {
     
     typealias DidStartAuthSession = (LoginSession, @Sendable (String?) async throws -> LoginSessionConfiguration) -> Void
     typealias DidSaveAuthSession = () -> Void
-    typealias DidResumeSession = (TokenExchangeManaging, AppIntegrityProvider) -> Void
+    typealias DidResumeSession = (TokenExchangeManaging) -> Void
     
     var didStartAuthSessionAsFunction: DidStartAuthSession
     var didSaveAuthSessionAsFunction: DidSaveAuthSession
@@ -191,7 +190,7 @@ class MockSessionManagerExpectation: SessionManager {
     init(sessionManager: MockSessionManager = MockSessionManager(),
          didStartAuthSessionAsFunction: @escaping DidStartAuthSession = {_, _ in },
          didSaveAuthSessionAsFunction: @escaping DidSaveAuthSession = { },
-         didResumeSessionAsFunction: @escaping DidResumeSession = {_, _ in}) {
+         didResumeSessionAsFunction: @escaping DidResumeSession = {_ in}) {
         self.sessionManager = sessionManager
         self.didStartAuthSessionAsFunction = didStartAuthSessionAsFunction
         self.didSaveAuthSessionAsFunction = didSaveAuthSessionAsFunction
@@ -221,11 +220,11 @@ class MockSessionManagerExpectation: SessionManager {
         try sessionManager.saveLoginTokens(idToken: idToken, refreshToken: refreshToken, accessToken: accessToken, accessTokenExpiry: accessTokenExpiry)
     }
     
-    func resumeSession(tokenExchangeManager: TokenExchangeManaging, appIntegrityProvider: AppIntegrityProvider) async throws {
+    func resumeSession(tokenExchangeManager: TokenExchangeManaging) async throws {
         defer {
-            self.didResumeSessionAsFunction(tokenExchangeManager, appIntegrityProvider)
+            self.didResumeSessionAsFunction(tokenExchangeManager)
         }
-        try sessionManager.resumeSession(tokenExchangeManager: tokenExchangeManager, appIntegrityProvider: appIntegrityProvider)
+        try sessionManager.resumeSession(tokenExchangeManager: tokenExchangeManager)
     }
     
     func endCurrentSession() {

@@ -46,8 +46,7 @@ protocol SessionManager: AnyObject, UserProvider {
     
     /// Resumes an existing session by restoring tokens from on-device storage
     func resumeSession(
-        tokenExchangeManager: TokenExchangeManaging,
-        appIntegrityProvider: AppIntegrityProvider
+        tokenExchangeManager: TokenExchangeManaging
     ) async throws
     
     /// Ends the current session - removing and deleting session related data such as access and ID token

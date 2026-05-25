@@ -1,3 +1,4 @@
+import AppIntegrity
 import GAnalytics
 import LocalAuthentication
 import LocalAuthenticationWrapper
@@ -18,10 +19,21 @@ final class SceneDelegate: UIResponder,
         analyticsService.activate()
         return analyticsService
     }()
+    
+    private lazy var networkClient: NetworkClient = {
+        let networkClient = NetworkClient()
+        networkClient.clientAttestationProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
+        networkClient.dPoPProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
+        return networkClient
+    }()
+    private lazy var refreshTokenExchangeManager: RefreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: networkClient)
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
-                                                                 sessionManager: sessionManager)
+                                                                 sessionManager: sessionManager,
+                                                                 refreshTokenExchangeManager: refreshTokenExchangeManager)
     private lazy var serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
-    private lazy var networkingService = NetworkingService(sessionManager: sessionManager, serialTaskQueue: serialTaskQueue)
+    private lazy var networkingService = NetworkingService(refreshExchangeManager: refreshTokenExchangeManager,
+                                                           sessionManager: sessionManager,
+                                                           serialTaskQueue: serialTaskQueue)
     private lazy var sessionManager = {
         do {
             let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
