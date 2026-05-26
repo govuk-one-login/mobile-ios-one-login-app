@@ -5405,7 +5405,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
+				minimumVersion = 7.2.0;
 			};
 		};
 		C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {
