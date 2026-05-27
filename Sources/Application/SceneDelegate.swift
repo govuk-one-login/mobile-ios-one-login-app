@@ -20,13 +20,7 @@ final class SceneDelegate: UIResponder,
         return analyticsService
     }()
     
-    private lazy var networkClient: NetworkClient = {
-        let networkClient = NetworkClient()
-        networkClient.clientAttestationProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
-        networkClient.dPoPProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
-        return networkClient
-    }()
-    private lazy var refreshTokenExchangeManager: RefreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: networkClient)
+    private lazy var refreshTokenExchangeManager: RefreshTokenExchangeManager = RefreshTokenExchangeManager()
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager,
                                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)

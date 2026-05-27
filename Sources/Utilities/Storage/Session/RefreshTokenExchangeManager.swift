@@ -12,7 +12,16 @@ protocol TokenExchangeManaging {
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
-    init(networkClient: NetworkClient = NetworkClient()) {
+    convenience init() {
+        let networkClient = NetworkClient()
+        networkClient.clientAttestationProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
+        networkClient.dPoPProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
+        self.init(networkClient: networkClient)
+    }
+    
+    init(networkClient: NetworkClient) {
+        assert(networkClient.authorizationProvider != nil)
+        assert(networkClient.dPoPProvider != nil)
         self.networkClient = networkClient
     }
     

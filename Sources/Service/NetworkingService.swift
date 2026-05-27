@@ -7,7 +7,6 @@ import Networking
 final class NetworkingService: NetworkClientProtocol {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
-    private let appIntegrityProvider: () throws -> AppIntegrityProvider
     let refreshExchangeManager: TokenExchangeManaging
     let serialTaskQueue: SerialTaskQueue
     
@@ -21,7 +20,6 @@ final class NetworkingService: NetworkClientProtocol {
         self.networkClient = networkClient
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
-        self.appIntegrityProvider = appIntegrityProvider
         self.networkClient.authorizationProvider = sessionManager.tokenProvider
         self.networkClient.clientAttestationProvider = OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
         self.networkClient.dPoPProvider = OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
