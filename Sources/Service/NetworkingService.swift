@@ -18,11 +18,15 @@ final class NetworkingService: NetworkClientProtocol {
         appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
     ) {
         self.networkClient = networkClient
+        let authorizationProvider = networkClient.authorizationProvider ?? sessionManager.tokenProvider
+        let clientAttestationProvider = networkClient.clientAttestationProvider ?? OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
+        let dPoPProvider = networkClient.dPoPProvider ?? OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
+        
         self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
-        self.networkClient.authorizationProvider = sessionManager.tokenProvider
-        self.networkClient.clientAttestationProvider = OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
-        self.networkClient.dPoPProvider = OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
+        self.networkClient.authorizationProvider = authorizationProvider
+        self.networkClient.clientAttestationProvider = clientAttestationProvider
+        self.networkClient.dPoPProvider = dPoPProvider
         self.serialTaskQueue = serialTaskQueue
     }
     
