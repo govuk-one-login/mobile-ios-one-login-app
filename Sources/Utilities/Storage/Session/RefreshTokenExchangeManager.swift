@@ -20,7 +20,7 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
     }
     
     init(networkClient: NetworkClient) {
-        assert(networkClient.authorizationProvider != nil)
+        assert(networkClient.clientAttestationProvider != nil)
         assert(networkClient.dPoPProvider != nil)
         self.networkClient = networkClient
     }
