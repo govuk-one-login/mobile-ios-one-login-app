@@ -227,7 +227,9 @@ struct NetworkingSerivceTests {
         // Create a mockSessionManager that uses PersistenSessionManager
         // So the stored tokens are overwritten during the test
         let serialTaskQueue = SerialTaskQueue()
-        let mockSessionManager = try createPersistentSessionManager(serialTaskQueue: serialTaskQueue)
+        let mockRefreshExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+        let mockSessionManager = try createPersistentSessionManager(refreshExchangeManager: mockRefreshExchangeManager,
+                                                                    serialTaskQueue: serialTaskQueue)
             
         // Create a network client
         let configuration = URLSessionConfiguration.ephemeral
@@ -240,7 +242,6 @@ struct NetworkingSerivceTests {
         }
         
         // Create sut
-        let mockRefreshExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         let sut = NetworkingService(
             networkClient: networkClient,
             refreshExchangeManager: mockRefreshExchangeManager,
@@ -259,9 +260,7 @@ struct NetworkingSerivceTests {
                             .withAuthentication(scope: "")
                             .execute()
                         
-                        try await mockSessionManager.resumeSession(
-                            tokenExchangeManager: mockRefreshExchangeManager
-                        )
+                        try await mockSessionManager.resumeSession()
                     } catch {
                         Issue.record(error)
                     }
@@ -275,6 +274,7 @@ struct NetworkingSerivceTests {
 
 extension NetworkingSerivceTests {
     func createPersistentSessionManager(
+        refreshExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) throws -> PersistentSessionManager {
         let date = Date.distantFuture
@@ -315,6 +315,7 @@ extension NetworkingSerivceTests {
             localAuthentication: mockLocalAuthentication,
             analyticsService: MockAnalyticsService(),
             walletSDK: MockWalletSDKWrapper(),
+            tokenExchangeManager: refreshExchangeManager,
             serialTaskQueue: serialTaskQueue
         )
     }

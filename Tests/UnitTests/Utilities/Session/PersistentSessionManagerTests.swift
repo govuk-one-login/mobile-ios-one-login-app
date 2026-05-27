@@ -17,21 +17,22 @@ struct SessionBoundDataExpectation: SessionBoundData {
 }
 
 extension PersistentSessionManager {
-    static func make(mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
+    static func make(mockAccessControlEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
+                     mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
+                     mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
                      mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
                      mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
-                     mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper()) -> PersistentSessionManager {
-        
-        let mockAccessControlEncryptedStore = MockSecureStoreService()
-        let mockLocalAuthentication = MockLocalAuthManager()
-        
+                     mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper(),
+                     refreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager()) -> PersistentSessionManager {
+                
         return PersistentSessionManager(
             accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: mockAnalyticsService,
-            walletSDK: mockWalletSDK
+            walletSDK: mockWalletSDK,
+            tokenExchangeManager: refreshTokenExchangeManager
         )
     }
 }
@@ -67,7 +68,8 @@ final class PersistentSessionManagerTests: XCTestCase {
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: mockAnalyticsService,
-            walletSDK: mockWalletSDK
+            walletSDK: mockWalletSDK,
+            tokenExchangeManager: mockRefreshTokenExchangeManager
         )
     }
     
@@ -595,9 +597,7 @@ extension PersistentSessionManagerTests {
         
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager
-            )
+            try await sut.resumeSession()
         } catch let error as PersistentSessionError {
             // THEN an error is catch
             XCTAssertEqual(error.kind, .userRemovedLocalAuth)
@@ -614,9 +614,7 @@ extension PersistentSessionManagerTests {
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager
-            )
+            try await sut.resumeSession()
             XCTFail("Expected local auth removed error")
         } catch let error as PersistentSessionError {
             XCTAssertTrue(error.kind == .userRemovedLocalAuth)
@@ -639,9 +637,7 @@ extension PersistentSessionManagerTests {
         
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager
-            )
+            try await sut.resumeSession()
         } catch let error as PersistentSessionError {
             XCTAssertEqual(error.kind, .noSessionExists)
         }
@@ -664,9 +660,7 @@ extension PersistentSessionManagerTests {
         )
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: mockRefreshTokenExchangeManager
-            )
+            try await sut.resumeSession()
         } catch let error as PersistentSessionError {
             // THEN an error is thrown
             XCTAssertEqual(error.kind, .idTokenNotStored)
@@ -690,12 +684,16 @@ extension PersistentSessionManagerTests {
         }
         
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        
+        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+                                                  mockLocalAuthentication: mockLocalAuthentication,
+                                                  mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK,
+                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: refreshTokenExchangeManager
-            )
+            try await sut.resumeSession()
         } catch RefreshTokenExchangeError.noInternet {
             // Expected path
         }
@@ -718,12 +716,16 @@ extension PersistentSessionManagerTests {
         }
         
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        
+        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+                                                  mockLocalAuthentication: mockLocalAuthentication,
+                                                  mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK,
+                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: refreshTokenExchangeManager
-            )
+            try await sut.resumeSession()
         } catch RefreshTokenExchangeError.noInternet {
             // Expected path
         }
@@ -744,11 +746,18 @@ extension PersistentSessionManagerTests {
         client.clientAttestationProvider = mockAppIntegrityProvider
         client.dPoPProvider = mockAppIntegrityProvider
         
+        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
+        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+                                                  mockLocalAuthentication: mockLocalAuthentication,
+                                                  mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK,
+                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
+        
         // WHEN I attempt to resume my session
         do {
-            try await sut.resumeSession(
-                tokenExchangeManager: RefreshTokenExchangeManager(networkClient: client)
-            )
+            try await sut.resumeSession()
         } catch RefreshTokenExchangeError.appIntegrityFailed {
             // Expected path
         }
@@ -759,9 +768,7 @@ extension PersistentSessionManagerTests {
         try setUpNeededForResumeSession()
         
         // WHEN I return to the app and authenticate successfully
-        try await sut.resumeSession(
-            tokenExchangeManager: mockRefreshTokenExchangeManager
-        )
+        try await sut.resumeSession()
         
         // THEN my user session data is repopulated
         XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
@@ -810,9 +817,7 @@ extension PersistentSessionManagerTests {
         )
         
         // WHEN I return to the app and authenticate successfully
-        try await sut.resumeSession(
-            tokenExchangeManager: mockRefreshTokenExchangeManager
-        )
+        try await sut.resumeSession()
         
         // THEN my user session data is repopulated
         XCTAssertEqual(sut.user.value?.persistentID, "af835f3a-b3f1-4b50-b3db-88c185eae46b")
@@ -835,9 +840,7 @@ extension PersistentSessionManagerTests {
     func test_endCurrentSession_clearsDataFromSession() async throws {
         try setUpNeededForResumeSession()
         
-        try await sut.resumeSession(
-            tokenExchangeManager: mockRefreshTokenExchangeManager
-        )
+        try await sut.resumeSession()
         // WHEN I end the session
         sut.endCurrentSession()
         // THEN my data is cleared
@@ -896,10 +899,16 @@ extension PersistentSessionManagerTests {
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .expired)
         
+        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+                                                  mockLocalAuthentication: mockLocalAuthentication,
+                                                  mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK,
+                                                  refreshTokenExchangeManager: MockRefreshTokenNilExchangeManager())
+        
         // WHEN I return to the app and authenticate successfully but without a refresh token
-        try await sut.resumeSession(
-            tokenExchangeManager: MockRefreshTokenNilExchangeManager()
-        )
+        try await sut.resumeSession()
         
         // THEN the old refresh Token Expiry should not be present in the encrypted store
         XCTAssertFalse(mockEncryptedStore.savedItems.keys.contains(OLString.refreshTokenExpiry))
@@ -938,14 +947,20 @@ extension PersistentSessionManagerTests {
 
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         
+        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+                                                  mockLocalAuthentication: mockLocalAuthentication,
+                                                  mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore,
+                                                  mockAnalyticsService: mockAnalyticsService,
+                                                  mockWalletSDK: mockWalletSDK,
+                                                  refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
+        
         let numberOfTasks = 10
         await withTaskGroup { group in
             for _ in 1...numberOfTasks {
                 group.addTask {
                     do {
-                        try await self.sut.resumeSession(
-                            tokenExchangeManager: mockRefreshTokenExchangeManager
-                        )
+                        try await sut.resumeSession()
                     } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
                         let issue = XCTIssue(type: .thrownError, compactDescription: String(describing: error), detailedDescription: error.failureReason, associatedError: error)
                         self.record(issue)

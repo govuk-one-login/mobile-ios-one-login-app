@@ -15,6 +15,7 @@ final class PersistentSessionManager: SessionManager {
     private let unprotectedStore: DefaultsStoring
     private let analyticsService: OneLoginAnalyticsService
     private let walletSDK: WalletServiceProtocol
+    private let tokenExchangeManager: TokenExchangeManaging
     
     let localAuthentication: LocalAuthManaging
     let tokenProvider: TokenHolder
@@ -31,6 +32,7 @@ final class PersistentSessionManager: SessionManager {
         accessControlEncryptedStore: SecureStorableV2,
         encryptedStore: SecureStorableV2,
         analyticsService: OneLoginAnalyticsService,
+        tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
     ) {
         self.init(
@@ -40,6 +42,7 @@ final class PersistentSessionManager: SessionManager {
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
             analyticsService: analyticsService,
             walletSDK: WalletSDKWrapper(),
+            tokenExchangeManager: tokenExchangeManager,
             serialTaskQueue: serialTaskQueue
         )
     }
@@ -51,6 +54,7 @@ final class PersistentSessionManager: SessionManager {
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
         walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
@@ -64,6 +68,7 @@ final class PersistentSessionManager: SessionManager {
         self.tokenProvider = TokenHolder()
         self.analyticsService = analyticsService
         self.walletSDK = walletSDK
+        self.tokenExchangeManager = tokenExchangeManager
         self.serialTaskQueue = serialTaskQueue
     }
     
@@ -244,9 +249,7 @@ final class PersistentSessionManager: SessionManager {
         isReturningUser = true
     }
     
-    func resumeSession(
-        tokenExchangeManager: TokenExchangeManaging
-    ) async throws {
+    func resumeSession() async throws {
         guard hasNotRemovedLocalAuth else {
             // Underlying error here is LAError.passcodeNotSet
             // This error will result in user being signed out and their data deleted
@@ -279,7 +282,7 @@ final class PersistentSessionManager: SessionManager {
             }
             
             do {
-                let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+                let exchangeTokenResponse = try await self.tokenExchangeManager.getUpdatedTokens(
                     refreshToken: refreshToken
                 )
                 

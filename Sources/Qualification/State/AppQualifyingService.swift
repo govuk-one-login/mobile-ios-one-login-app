@@ -22,7 +22,6 @@ final class AppQualifyingService: QualifyingService {
     private let analyticsService: OneLoginAnalyticsService
     private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
-    private let refreshTokenExchangeManager: RefreshTokenExchangeManager
     weak var delegate: AppQualifyingServiceDelegate?
     
     private var appInfoState: AppInformationState = .notChecked {
@@ -52,12 +51,10 @@ final class AppQualifyingService: QualifyingService {
     init(
         analyticsService: OneLoginAnalyticsService,
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-        sessionManager: SessionManager,
-        refreshTokenExchangeManager: RefreshTokenExchangeManager = RefreshTokenExchangeManager()) {
+        sessionManager: SessionManager) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
-        self.refreshTokenExchangeManager = refreshTokenExchangeManager
         subscribe()
     }
     
@@ -114,9 +111,7 @@ final class AppQualifyingService: QualifyingService {
             sessionState = .loggedIn
         case .saved:
             do {
-                try await sessionManager.resumeSession(
-                    tokenExchangeManager: self.refreshTokenExchangeManager
-                )
+                try await sessionManager.resumeSession()
                 sessionState = .loggedIn
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline

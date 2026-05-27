@@ -22,8 +22,7 @@ final class SceneDelegate: UIResponder,
     
     private lazy var refreshTokenExchangeManager: RefreshTokenExchangeManager = RefreshTokenExchangeManager()
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
-                                                                 sessionManager: sessionManager,
-                                                                 refreshTokenExchangeManager: refreshTokenExchangeManager)
+                                                                 sessionManager: sessionManager)
     private lazy var serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     private lazy var networkingService = NetworkingService(refreshExchangeManager: refreshTokenExchangeManager,
                                                            sessionManager: sessionManager,
@@ -36,6 +35,7 @@ final class SceneDelegate: UIResponder,
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
                 encryptedStore: encryptedSecureStoreMigrator,
                 analyticsService: analyticsService,
+                tokenExchangeManager: refreshTokenExchangeManager,
                 serialTaskQueue: serialTaskQueue
             )
             
