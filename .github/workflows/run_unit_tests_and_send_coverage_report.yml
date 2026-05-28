@@ -43,6 +43,7 @@ jobs:
           LANG: "en_US.UTF-8"
           GIT_CONFIG_NOSYSTEM: "true"
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           TEST_PLAN: "OneLoginUnit"
         run: |
           xctestrun=$(find . -name "*.xctestrun" | grep -i "${TEST_PLAN}")
@@ -51,7 +52,6 @@ jobs:
           bundle exec fastlane testWithoutBuilding scheme:"OneLoginBuild" \
             xctestrun:"${xctestrun}" \
             workspace:${{ github.workspace }} \
-            sonar_token:${{ secrets.SONAR_TOKEN }} \
             source_branch:${{ github.head_ref }} \
             target_branch:${{ github.base_ref }} \
             pr_number:$pull_number
