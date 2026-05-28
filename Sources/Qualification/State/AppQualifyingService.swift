@@ -22,7 +22,6 @@ final class AppQualifyingService: QualifyingService {
     private let analyticsService: OneLoginAnalyticsService
     private let updateService: AppInformationProvider
     private let sessionManager: SessionManager
-    private let appIntegrityProvider: () throws -> AppIntegrityProvider
     weak var delegate: AppQualifyingServiceDelegate?
     
     private var appInfoState: AppInformationState = .notChecked {
@@ -48,27 +47,14 @@ final class AppQualifyingService: QualifyingService {
             }
         }
     }
-    
-    convenience init(
-        analyticsService: OneLoginAnalyticsService,
-        updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-        sessionManager: SessionManager
-    ) {
-        self.init(analyticsService: analyticsService,
-                  updateService: updateService,
-                  sessionManager: sessionManager,
-                  appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
-    }
 
     init(
         analyticsService: OneLoginAnalyticsService,
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
-        sessionManager: SessionManager,
-        appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
+        sessionManager: SessionManager) {
         self.analyticsService = analyticsService
         self.updateService = updateService
         self.sessionManager = sessionManager
-        self.appIntegrityProvider = appIntegrityProvider
         subscribe()
     }
     
@@ -125,10 +111,7 @@ final class AppQualifyingService: QualifyingService {
             sessionState = .loggedIn
         case .saved:
             do {
-                try await sessionManager.resumeSession(
-                    tokenExchangeManager: RefreshTokenExchangeManager(),
-                    appIntegrityProvider: try appIntegrityProvider()
-                )
+                try await sessionManager.resumeSession()
                 sessionState = .loggedIn
             } catch RefreshTokenExchangeError.noInternet {
                 appInfoState = .offline

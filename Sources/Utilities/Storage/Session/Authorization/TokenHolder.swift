@@ -61,12 +61,12 @@ extension TokenHolder: AuthorizationProvider {
         let serviceTokenResponse: Data
         
         do {
-            serviceTokenResponse = try await client.makeRequest(
+            serviceTokenResponse = try await client.request(
                 .serviceTokenExchange(
                     subjectToken: accessToken,
                     scope: scope
                 )
-            )
+            ).execute()
         } catch let error as ServerError where error.errorCode == 400 {
             handleServerError(error)
             throw error

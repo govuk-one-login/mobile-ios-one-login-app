@@ -5,8 +5,7 @@ import Foundation
 
 final class MockRefreshTokenExchangeManager: TokenExchangeManaging {
     func getUpdatedTokens(
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
+        refreshToken: String
     ) async throws -> TokenResponse {
         return TokenResponse(
             accessToken: MockJWTs.genericToken,
@@ -19,8 +18,7 @@ final class MockRefreshTokenExchangeManager: TokenExchangeManaging {
 
 final class MockRefreshTokenNilExchangeManager: TokenExchangeManaging {
     func getUpdatedTokens(
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
+        refreshToken: String
     ) async throws -> TokenResponse {
         return TokenResponse(
             accessToken: MockJWTs.genericToken,

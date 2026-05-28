@@ -5,29 +5,39 @@ import Networking
 
 protocol TokenExchangeManaging {
     func getUpdatedTokens(
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
+        refreshToken: String
     ) async throws -> TokenResponse
 }
 
 final class RefreshTokenExchangeManager: TokenExchangeManaging {
     let networkClient: NetworkClient
     
-    init(networkClient: NetworkClient = NetworkClient()) {
+    convenience init() {
+        let networkClient = NetworkClient()
+        networkClient.clientAttestationProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
+        networkClient.dPoPProvider = OneLoginAppIntegrityService(integrityService: FirebaseAppIntegrityService.firebaseAppCheck)
+        self.init(networkClient: networkClient)
+    }
+    
+    init(networkClient: NetworkClient) {
+        assert(networkClient.clientAttestationProvider != nil)
+        assert(networkClient.dPoPProvider != nil)
         self.networkClient = networkClient
     }
     
     func getUpdatedTokens(
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
+        refreshToken: String
     ) async throws -> TokenResponse {
         do {
-            let exchangeResponse = try await networkClient.makeRequest(
-                .refreshTokenExchange(
-                    token: refreshToken,
-                    appIntegrityProvider: appIntegrityProvider
+            let exchangeResponse = try await networkClient
+                .request(
+                    .refreshTokenExchange(
+                        token: refreshToken
+                    )
                 )
-            )
+                .withClientAttestation()
+                .withDPoP()
+                .execute()
             
             return try JSONDecoder()
                 .decode(TokenResponse.self, from: exchangeResponse)
