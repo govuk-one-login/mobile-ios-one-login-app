@@ -28,11 +28,17 @@ final class HomeCoordinator: NSObject,
     }
     
     func start() {
+        let tabBarItemSelected: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(named: "TabBarItemSelected")
+        ]
+        
         root.tabBarItem = UITabBarItem(
             title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
-            image: UIImage(systemName: "house"),
-            tag: 0
+            image: UIImage(systemName: "house.fill"),
+            tag: 0,
         )
+        root.tabBarItem.setBadgeTextAttributes(tabBarItemSelected, for: .selected)
+        
         let criOrchestrator = CRIOrchestrator(
             analyticsService: analyticsService,
             networkClient: networkingService,
