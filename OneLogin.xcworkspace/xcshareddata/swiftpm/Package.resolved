@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "branch" : "feat/dcmaw-19846-add-variableKeys",
-        "revision" : "6f460d98de81dfe5fb09f1c13beeebc35712034e"
+        "revision" : "28e6dfa3ca5d715665f29e00419b627a64af71d0",
+        "version" : "7.2.0"
       }
     },
     {
