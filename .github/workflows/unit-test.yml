@@ -46,6 +46,7 @@ jobs:
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_WORKSPACE: ${{ github.workspace }}
           GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           brew install sonar-scanner
           bundle install
@@ -53,5 +54,4 @@ jobs:
           bundle exec fastlane test scheme:"OneLoginBuild" \
             configuration:"Debug" \
             testplan:OneLoginUnit \
-            workspace:"${GITHUB_WORKSPACE}" \
-            sonar_token:${{ secrets.SONAR_TOKEN }}
+            workspace:"${GITHUB_WORKSPACE}"

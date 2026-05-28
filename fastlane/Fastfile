@@ -94,7 +94,6 @@ platform :ios do
       pull_request_branch: options[:source_branch],
       project_version: "1.0",
       project_language: "swift",
-      sonar_login: options[:sonar_token],
       sonar_url: "https://sonarcloud.io",
       sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
@@ -122,7 +121,6 @@ platform :ios do
       pull_request_key: options[:pr_number],
       project_version: "1.0",
       project_language: "swift",
-      sonar_login: options[:sonar_token],
       sonar_url: "https://sonarcloud.io",
       sonar_runner_args: "-Dproject.settings=#{options[:workspace]}/scripts-configs/sonar-project.properties -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=- -Dsonar.coverageReportPaths=#{options[:workspace]}/fastlane/test_output/sonarqube-generic-coverage.xml"
     )
