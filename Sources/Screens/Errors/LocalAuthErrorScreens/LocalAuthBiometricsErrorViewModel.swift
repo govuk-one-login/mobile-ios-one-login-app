@@ -55,7 +55,8 @@ struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
         
         let screenView = ErrorScreenView(id: id,
                                          screen: screen,
-                                         titleKey: title.stringKey)
+                                         titleKey: title.stringKey,
+                                         variableKeys: [biometricsTypeString])
         analyticsService.trackScreen(screenView)
     }
     

@@ -52,7 +52,8 @@ extension LocalAuthBiometricsErrorViewModelTests {
         sut.didAppear()
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.allowFaceID.rawValue,
                                      screen: ErrorAnalyticsScreen.allowFaceID,
-                                     titleKey: "app_localAuthManagerBiometricsErrorTitle")
+                                     titleKey: "app_localAuthManagerBiometricsErrorTitle",
+                                     variableKeys: [sut.biometricsTypeString])
         
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
