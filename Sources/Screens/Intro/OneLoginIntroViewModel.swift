@@ -17,7 +17,7 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
     var didDismiss: DesignSystem.Action?
 
     init(analyticsService: OneLoginAnalyticsService,
-         signinAction: @escaping () -> Void) {
+         signinAction: @escaping () -> Task<Void, Never>?) {
         let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.login,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
@@ -28,29 +28,30 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSImageViewModel(image: UIImage(named: "badge") ?? UIImage(),
                                   imageHeightConstraint: 137,
-                                  verticalPadding: .bottom(16)),
+                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: "app_nameString",
                                  titleFont: .largeTitleBold,
                                  alignment: .center,
-                                 verticalPadding: .bottom(16)),
+                                 verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInBody", "app_nameString"),
                                  alignment: .center,
-                                 verticalPadding: .top(0))
+                                 verticalPadding: .top(.zero))
             ],
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_extendedSignInButton", "app_nameString").value,
                                    style: .primary,
-                                   buttonAction: .action({
-                                       signinAction()
-                                       
+                                   buttonAction: .asyncAction({
                                        let event = LinkEvent(textKey: "app_extendedSignInButton",
                                                              variableKeys: "app_nameString",
                                                              linkDomain: AppEnvironment.mobileBaseURLString,
                                                              external: .false)
                                        analyticsService.logEvent(event)
+                                       
+                                       let task = signinAction()
+                                       await task?.value
                                    }),
-                                   verticalPadding: .bottom(16),
-                                   horizontalPadding: .horizontal(16))
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
             footer: [],
             rightBarButtonTitle: nil,

@@ -77,7 +77,8 @@ final class LoginCoordinator: NSObject,
         root.setViewControllers([rootViewController], animated: true)
     }
     
-    func authenticate() {
+    @discardableResult
+    func authenticate() -> Task<Void, Never>? {
         guard networkMonitor.isConnected else {
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
@@ -85,12 +86,13 @@ final class LoginCoordinator: NSObject,
                     launchAuthenticationService()
                 }
             }
-            return
+            return nil
         }
-        launchAuthenticationService()
+        return launchAuthenticationService()
     }
     
-    func launchAuthenticationService() {
+    @discardableResult
+    func launchAuthenticationService() -> Task<Void, Never>? {
         loginTask = Task {
             do {
                 try await triggerAuthFlow()
@@ -106,6 +108,8 @@ final class LoginCoordinator: NSObject,
                 showGenericErrorScreen(error)
             }
         }
+        
+        return loginTask
     }
     
     private func triggerAuthFlow() async throws {
