@@ -52,7 +52,7 @@ struct InstructionScreenSnapshotTests {
             analyticsService: analyticsService,
             signinAction: {}
         )
-        let vc = IntroViewController(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
