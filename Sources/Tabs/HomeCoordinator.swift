@@ -33,7 +33,6 @@ final class HomeCoordinator: NSObject,
             image: UIImage(systemName: "house.fill"),
             tag: 0
         )
-        
         let criOrchestrator = CRIOrchestrator(
             analyticsService: analyticsService,
             networkClient: networkingService,
