@@ -15,9 +15,7 @@ final class NetworkingService: NetworkClientProtocol {
         refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
         sessionManager: SessionManager,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
-        // swiftlint:disable identifier_name
         appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
-        // swiftlint:enable identifier_name
     ) {
         self.networkClient = networkClient
         let authorizationProvider = networkClient.authorizationProvider ?? sessionManager.tokenProvider
