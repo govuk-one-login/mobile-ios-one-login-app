@@ -1,43 +1,89 @@
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import Logging
 import UIKit
 
-struct OneLoginIntroViewModel: IntroViewModel, BaseViewModel {
-    let image: UIImage = UIImage(named: "badge") ?? UIImage()
-    let title: GDSLocalisedString = "app_nameString"
-    let body: GDSLocalisedString = GDSLocalisedString(stringKey: "app_signInBody",
-                                                      "app_nameString")
-    let introButtonViewModel: ButtonViewModel
-    let analyticsService: OneLoginAnalyticsService
-    
-    let rightBarButtonTitle: GDSLocalisedString? = nil
-    let backButtonIsHidden: Bool = true
-    
+struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
+    var screenStyle: GDSScreenStyle
+    var body: [any ContentViewModel]
+    var movableFooter: [any ContentViewModel]
+    var footer: [any ContentViewModel]
+
+    var rightBarButtonTitle: GDSLocalisedString?
+    var backButtonTitle: GDSLocalisedString?
+    var backButtonIsHidden: Bool
+
+    var didAppear: DesignSystem.Action?
+    var didDismiss: DesignSystem.Action?
+
     init(analyticsService: OneLoginAnalyticsService,
          signinAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService.addingAdditionalParameters([
+        let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.login,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        let event = LinkEvent(textKey: "app_extendedSignInButton",
-                              variableKeys: "app_nameString",
-                              linkDomain: AppEnvironment.mobileBaseURLString,
-                              external: .false)
-        introButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_extendedSignInButton",
-                                                        "app_nameString",
-                                                        analyticsService: analyticsService,
-                                                        analyticsEvent: event) {
-            signinAction()
-        }
+        
+        self.init(
+            screenStyle: .centred,
+            body: [
+                GDSImageViewModel(image: UIImage(named: "badge") ?? UIImage(),
+                                  imageHeightConstraint: 137,
+                                  verticalPadding: .bottom(16)),
+                GDSTextViewModel(title: "app_nameString",
+                                 titleFont: .largeTitleBold,
+                                 alignment: .center,
+                                 verticalPadding: .bottom(16)),
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInBody", "app_nameString"),
+                                 alignment: .center,
+                                 verticalPadding: .top(0))
+            ],
+            movableFooter: [
+                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_extendedSignInButton", "app_nameString").value,
+                                   style: .primary,
+                                   buttonAction: .action({
+                                       signinAction()
+                                       
+                                       let event = LinkEvent(textKey: "app_extendedSignInButton",
+                                                             variableKeys: "app_nameString",
+                                                             linkDomain: AppEnvironment.mobileBaseURLString,
+                                                             external: .false)
+                                       analyticsService.logEvent(event)
+                                   }),
+                                   verticalPadding: .bottom(16),
+                                   horizontalPadding: .horizontal(16))
+            ],
+            footer: [],
+            rightBarButtonTitle: nil,
+            backButtonTitle: nil,
+            backButtonIsHidden: true,
+            didAppear: .action({
+                let title = GDSLocalisedString(stringKey: "app_nameString")
+                let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
+                                        screen: IntroAnalyticsScreen.welcome,
+                                        titleKey: title.stringKey)
+                analyticsService.trackScreen(screen)
+            }),
+            didDismiss: nil
+        )
     }
     
-    func didAppear() {
-        let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
-                                screen: IntroAnalyticsScreen.welcome,
-                                titleKey: title.stringKey)
-        analyticsService.trackScreen(screen)
+    init(screenStyle: GDSScreenStyle,
+         body: [any ContentViewModel],
+         movableFooter: [any ContentViewModel],
+         footer: [any ContentViewModel],
+         rightBarButtonTitle: GDSLocalisedString?,
+         backButtonTitle: GDSLocalisedString?,
+         backButtonIsHidden: Bool,
+         didAppear: DesignSystem.Action?,
+         didDismiss: DesignSystem.Action?) {
+        self.screenStyle = screenStyle
+        self.body = body
+        self.movableFooter = movableFooter
+        self.footer = footer
+        self.rightBarButtonTitle = rightBarButtonTitle
+        self.backButtonTitle = backButtonTitle
+        self.backButtonIsHidden = backButtonIsHidden
+        self.didAppear = didAppear
+        self.didDismiss = didDismiss
     }
-    
-    func didDismiss() { /* Conforming to BaseViewModel */ }
 }

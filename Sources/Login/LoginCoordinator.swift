@@ -71,7 +71,7 @@ final class LoginCoordinator: NSObject,
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = IntroViewController(viewModel: viewModel)
+            rootViewController = GDSScreen(viewModel: viewModel)
         }
         
         root.setViewControllers([rootViewController], animated: true)
