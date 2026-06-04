@@ -135,7 +135,8 @@ final class LoginCoordinator: NSObject,
         switch (sessionState, serviceState) {
         case (.notLoggedIn, _):
             guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
-                  root.topViewController is IntroViewController else {
+                  let rootVC = root.topViewController as? GDSScreen,
+                  rootVC.viewModel is OneLoginIntroViewModel else {
                 return
             }
             
@@ -314,8 +315,6 @@ extension LoginCoordinator {
     }
     
     private func enableAuthButton() {
-        (root.viewControllers.first as? IntroViewController)?
-            .enableIntroButton()
         (root.viewControllers.first as? GDSInformationViewController)?
             .resetPrimaryButton()
     }
