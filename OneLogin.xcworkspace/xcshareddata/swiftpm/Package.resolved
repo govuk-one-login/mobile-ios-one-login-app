@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui.git",
       "state" : {
-        "revision" : "4ecf48f10566d0d8e350d41db0dadd93c6f8edc3",
-        "version" : "1.3.0"
+        "revision" : "af68e8bdb3ca54b5fca5ff1da859ac4ec30d209a",
+        "version" : "1.7.1"
       }
     },
     {
