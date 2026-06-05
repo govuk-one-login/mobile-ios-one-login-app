@@ -38,7 +38,7 @@ extension WalletCoordinatorTests {
         sut.start()
         // THEN the bar button item of the root is correctly configured
         let walletTab = UITabBarItem(title: "Documents",
-                                     image: UIImage(systemName: "wallet.pass"),
+                                     image: UIImage(systemName: "wallet.pass.fill"),
                                      tag: 1)
         XCTAssertEqual(sut.root.tabBarItem.title, walletTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, walletTab.image)
