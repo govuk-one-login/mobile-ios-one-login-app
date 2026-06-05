@@ -38,7 +38,7 @@ final class SettingsCoordinator: NSObject,
     func start() {
         root.tabBarItem = UITabBarItem(
             title: GDSCommon.GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
-            image: UIImage(systemName: "gearshape.fill"),
+            image: UIImage(systemName: "gearshape"),
             tag: 2
         )
         let viewModel = SettingsTabViewModel(

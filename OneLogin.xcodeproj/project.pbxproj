@@ -5392,8 +5392,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
 			requirement = {
-				branch = "chore/dcmaw-20420-liquid-glass-changes";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.16.0;
 			};
 		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
