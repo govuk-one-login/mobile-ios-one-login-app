@@ -2,7 +2,7 @@
 import XCTest
 
 @MainActor
-final class SceneDelegateSetUpBasicUITests: XCTestCase {
+final class SceneDelegateTests: XCTestCase {
     var sut: SceneDelegate!
 
     override func setUp() {
