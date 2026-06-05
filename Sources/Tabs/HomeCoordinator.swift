@@ -30,7 +30,7 @@ final class HomeCoordinator: NSObject,
     func start() {
         root.tabBarItem = UITabBarItem(
             title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
-            image: UIImage(systemName: "house"),
+            image: UIImage(systemName: "house.fill"),
             tag: 0
         )
         let criOrchestrator = CRIOrchestrator(

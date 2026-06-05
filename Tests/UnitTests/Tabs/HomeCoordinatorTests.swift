@@ -31,7 +31,7 @@ final class HomeCoordinatorTests: XCTestCase {
         sut.start()
         // THEN the bar button item of the root is correctly configured
         let homeTab = UITabBarItem(title: "Home",
-                                   image: UIImage(systemName: "house"),
+                                   image: UIImage(systemName: "house.fill"),
                                    tag: 0)
         XCTAssertEqual(sut.root.tabBarItem.title, homeTab.title)
         XCTAssertEqual(sut.root.tabBarItem.image, homeTab.image)
