@@ -11,6 +11,7 @@ final class DeveloperMenuViewController: BaseViewController {
     private let viewModel: DeveloperMenuViewModel
     private let sessionManager: SessionManager
     private let helloWorldProvider: HelloWorldProvider
+    private let secureStoreKeyDiagnosticButton = RoundedButton()
 
     private let defaultsStore: DefaultsStoring
 
@@ -30,6 +31,14 @@ final class DeveloperMenuViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        configureSecureStoreKeyDiagnosticButton()
+    }
+
+    @IBOutlet private var buttonsStackView: UIStackView!
     
     @IBOutlet private var happyPathButton: RoundedButton! {
         didSet {
@@ -195,6 +204,24 @@ final class DeveloperMenuViewController: BaseViewController {
         let encyrptedStore = SecureStoreServiceV2(configuration: encryptedConfiguration)
         try? encyrptedStore.saveItem(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
         expireRefreshTokenButton.backgroundColor = .gdsBrightPurple
+    }
+
+    private func configureSecureStoreKeyDiagnosticButton() {
+        secureStoreKeyDiagnosticButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        secureStoreKeyDiagnosticButton.setTitle("Secure Store Key Diagnostic", for: .normal)
+        secureStoreKeyDiagnosticButton.addTarget(
+            self,
+            action: #selector(secureStoreKeyDiagnosticButtonAction),
+            for: .touchUpInside
+        )
+        buttonsStackView.addArrangedSubview(secureStoreKeyDiagnosticButton)
+    }
+
+    @objc private func secureStoreKeyDiagnosticButtonAction() {
+        navigationController?.pushViewController(
+            SecureStoreKeyDiagnosticViewController(),
+            animated: true
+        )
     }
 }
 

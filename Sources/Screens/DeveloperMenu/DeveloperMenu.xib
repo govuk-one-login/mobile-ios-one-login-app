@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeveloperMenuViewController" customModule="OneLogin" customModuleProvider="target">
             <connections>
+                <outlet property="buttonsStackView" destination="B2t-Tn-7OU" id="6XV-dx-xFi"/>
                 <outlet property="deletePersistentSessionIDButton" destination="C0t-4e-n5V" id="P9c-kx-nIG"/>
                 <outlet property="errorPathButton" destination="OFa-dn-cnK" id="W7L-M6-cEm"/>
                 <outlet property="errorPathResultLabel" destination="XiG-tG-gku" id="f7e-Ij-68a"/>

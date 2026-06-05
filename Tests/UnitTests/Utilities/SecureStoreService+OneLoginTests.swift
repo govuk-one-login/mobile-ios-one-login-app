@@ -46,4 +46,54 @@ struct SecureStoreServiceTests: ~Copyable {
             try sut.readItem(itemName: OLString.storedTokens)
         }
     }
+    
+    @Test("Secure Enclave tag and stored private-key tag resolve to the same key pair")
+    func secureEnclaveKeyAndStoredPrivateKeyAreSameKeyPair() throws {
+        let id = UUID().uuidString
+        let sut = KeyManagerService(configuration: .init(
+            id: id,
+            accessControlLevel: .open
+        ))
+
+        defer {
+            try? sut.deleteKeys()
+            deleteKey(tag: id)
+            deleteKey(tag: "\(id)PrivateKey")
+        }
+
+        let secureEnclaveTaggedKey = try privateKey(tag: id)
+        let storedPrivateKey = try privateKey(tag: "\(id)PrivateKey")
+
+        #expect(try publicKeyData(from: secureEnclaveTaggedKey) == publicKeyData(from: storedPrivateKey))
+    }
+
+    private func privateKey(tag: String) throws -> SecKey {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrApplicationTag as String: Data(tag.utf8),
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecReturnRef as String: true
+        ]
+
+        var ref: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &ref)
+        #expect(status == errSecSuccess)
+        return ref as! SecKey
+    }
+
+    private func publicKeyData(from privateKey: SecKey) throws -> Data {
+        let publicKey = try #require(SecKeyCopyPublicKey(privateKey))
+
+        var error: Unmanaged<CFError>?
+        let data = SecKeyCopyExternalRepresentation(publicKey, &error)
+        return try #require(data as Data?)
+    }
+
+    private func deleteKey(tag: String) {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrApplicationTag as String: Data(tag.utf8)
+        ]
+        SecItemDelete(query as CFDictionary)
+    }
 }

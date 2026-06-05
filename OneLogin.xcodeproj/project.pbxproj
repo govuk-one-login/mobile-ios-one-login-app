@@ -552,6 +552,7 @@
 		D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */; };
 		D08B0B562BD7F84300769CEA /* DeveloperMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */; };
 		D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */; };
+		D08B0B592BD7F97200769CEA /* SecureStoreKeyDiagnosticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B5A2BD7F97200769CEA /* SecureStoreKeyDiagnosticViewController.swift */; };
 		D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */; };
 		D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */; };
 		D08B0B742BDA8DD100769CEA /* TabbedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08B0B722BDA8DD100769CEA /* TabbedView.xib */; };
@@ -1177,6 +1178,7 @@
 		D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewController.swift; sourceTree = "<group>"; };
 		D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeveloperMenu.xib; sourceTree = "<group>"; };
 		D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewModel.swift; sourceTree = "<group>"; };
+		D08B0B5A2BD7F97200769CEA /* SecureStoreKeyDiagnosticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStoreKeyDiagnosticViewController.swift; sourceTree = "<group>"; };
 		D08B0B5B2BD8046200769CEA /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
 		D08B0B712BDA8DD100769CEA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D08B0B722BDA8DD100769CEA /* TabbedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabbedView.xib; sourceTree = "<group>"; };
@@ -2748,6 +2750,7 @@
 				D08B0B542BD7F84300769CEA /* DeveloperMenu.xib */,
 				D08B0B532BD7F84300769CEA /* DeveloperMenuViewController.swift */,
 				D08B0B572BD7F97200769CEA /* DeveloperMenuViewModel.swift */,
+				D08B0B5A2BD7F97200769CEA /* SecureStoreKeyDiagnosticViewController.swift */,
 			);
 			path = DeveloperMenu;
 			sourceTree = "<group>";
@@ -3525,6 +3528,7 @@
 				C8BADD2B2B87D8FD00385FE7 /* DefaultsStoring.swift in Sources */,
 				D08B0B552BD7F84300769CEA /* DeveloperMenuViewController.swift in Sources */,
 				D08B0B582BD7F97200769CEA /* DeveloperMenuViewModel.swift in Sources */,
+				D08B0B592BD7F97200769CEA /* SecureStoreKeyDiagnosticViewController.swift in Sources */,
 				C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
