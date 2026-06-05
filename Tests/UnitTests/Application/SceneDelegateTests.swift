@@ -17,7 +17,7 @@ final class SceneDelegateTests: XCTestCase {
 
     func test_setUpBasicUI_tabBarTintColor() {
         sut.setUpBasicUI()
-        XCTAssertEqual(UITabBar.appearance().tintColor, .tabBar)
+        XCTAssertEqual(UITabBar.appearance().tintColor, .accent)
     }
 
     func test_setUpBasicUI_tabBarBackgroundColor() {
