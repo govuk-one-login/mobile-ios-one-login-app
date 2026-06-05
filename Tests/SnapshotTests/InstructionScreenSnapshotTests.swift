@@ -48,10 +48,7 @@ struct InstructionScreenSnapshotTests {
     
     @Test
     func test_oneLoginIntroScreen() {
-        let sut = OneLoginIntroViewModel(
-            analyticsService: analyticsService,
-            signinAction: {}
-        )
+        let sut = OneLoginIntroViewModel(analyticsService: analyticsService) { nil }
         let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
