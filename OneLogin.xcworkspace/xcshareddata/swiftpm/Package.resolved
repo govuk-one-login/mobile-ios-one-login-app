@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-common.git",
       "state" : {
-        "branch" : "chore/dcmaw-20420-liquid-glass-changes",
-        "revision" : "0f51f1146e039e1a781d3040595067eae7e85f50"
+        "revision" : "b7305db05563184132602d6b0c204feda21920d3",
+        "version" : "2.19.1"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui.git",
       "state" : {
-        "revision" : "4ecf48f10566d0d8e350d41db0dadd93c6f8edc3",
-        "version" : "1.3.0"
+        "revision" : "3d22d830f3eb0a8fe131928d5f1b6406cff2d44a",
+        "version" : "1.8.0"
       }
     },
     {

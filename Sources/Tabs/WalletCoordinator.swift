@@ -40,7 +40,7 @@ final class WalletCoordinator: NSObject,
     func start() {
         root.tabBarItem = UITabBarItem(
             title: GDSLocalisedString(stringLiteral: "app_tabBarWallet").value,
-            image: UIImage(systemName: "wallet.pass.fill"),
+            image: UIImage(systemName: "wallet.pass"),
             tag: 1
         )
         

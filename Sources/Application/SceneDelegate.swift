@@ -93,8 +93,8 @@ final class SceneDelegate: UIResponder,
         appQualifyingService.initiate()
     }
     
-    private func setUpBasicUI() {
-        UITabBar.appearance().tintColor = .tabBar
+    func setUpBasicUI() {
+        UITabBar.appearance().tintColor = .accent
         UITabBar.appearance().backgroundColor = .systemBackground
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .accent
     }
