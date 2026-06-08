@@ -72,8 +72,7 @@ extension OneLoginIntroViewModelTests {
         XCTAssertNil(sut.didDismiss)
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         let vc = GDSScreen(viewModel: sut)
-        vc.beginAppearanceTransition(true, animated: false)
-        vc.endAppearanceTransition()
+        vc.viewDidAppear(false)
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
                                 screen: IntroAnalyticsScreen.welcome,
