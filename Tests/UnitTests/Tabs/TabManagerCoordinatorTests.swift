@@ -17,6 +17,7 @@ final class TabManagerCoordinatorTests: XCTestCase {
         tabBarController = UITabBarController()
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
+        mockSessionManager.walletStoreID = "12345"
         sut = TabManagerCoordinator(root: tabBarController,
                                     analyticsService: mockAnalyticsService,
                                     networkingService: NetworkClient(),

@@ -3,21 +3,12 @@ import Foundation
 
 extension URLRequest {
     static func refreshTokenExchange(
-        token: String,
-        appIntegrityProvider: AppIntegrityProvider
+        token: String
     ) async throws -> Self {
         var request = URLRequest(url: AppEnvironment.stsToken)
         request.timeoutInterval = 15
         
         request.asXWWWFormURLEncoded()
-                
-        for (key, value) in try await OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
-            .integrityAssertions() {
-            request.setValue(
-                value,
-                forHTTPHeaderField: key
-            )
-        }
         
         request.httpBody = makeRefreshTokenExchangeQueryString(for: token)?.data(using: .utf8)
         

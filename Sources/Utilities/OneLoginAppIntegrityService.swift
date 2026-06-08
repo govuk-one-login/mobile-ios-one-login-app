@@ -1,5 +1,6 @@
 import AppIntegrity
 import Dispatch
+import Networking
 
 /// Use this type to automatically retry calls to `AppIntegrityProvider/integrityAssertions` every time an error is thrown.
 ///
@@ -15,10 +16,23 @@ import Dispatch
 /// - seealso: ``integrityAssertions(attempts:)`` on making an attempt at fetching the integrity assertions
 actor OneLoginAppIntegrityService {
     private(set) var attempts = 0
-    private let integrityService: AppIntegrityProvider
+    private let integrityService: () throws -> AppIntegrityProvider
+    
+    init(integrityService: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
+        self.integrityService = integrityService
+    }
     
     init(integrityService: AppIntegrityProvider) {
+        self.init(integrityService: integrityService)
+    }
+    
+    init(integrityService: @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) {
         self.integrityService = integrityService
+    }
+
+    /// Returns demonstrating proof of possession JWT
+    public func dPoPAssertion() throws -> [String: String] {
+        return try self.integrityService().dPoPAssertion
     }
     
     /// Attempts to return integrity assertions by invoking  `AppIntegrityProvider/integrityAssertions` on the `AppIntegrityProvider` used to consturct this instance.
@@ -43,6 +57,74 @@ actor OneLoginAppIntegrityService {
     /// - throws the error as thrown by `AppIntegrityProvider/integrityAssertions` on the **last**  attempt.
     /// - remark: this function is not deisnged to be called in parallel, in which case its behaviour is undefined.
     /// No strong guarantees are provided when making concurrent calls to this function, e.g. 2 parallel calls may both lead to an attempt now.
+    public func clientAssertions(
+        attempts maxAttempts: Int = 3
+    ) async throws -> [String: String] {
+        return try await self.attemptClientAssertions(max: maxAttempts)
+    }
+
+    private func attemptClientAssertions(
+        _ attempt: Int = 0,
+        max maxAttempts: Int
+    ) async throws -> [String: String] {
+        do {
+            return try await self.clientAssertions(after: .milliseconds(100 * attempt))
+        } catch let error as FirebaseAppCheckError {
+            switch error.kind {
+            case .network:
+                self.attempts = attempt + 1
+                if self.attempts >= maxAttempts {
+                    throw error
+                }
+                return try await self.attemptClientAssertions(self.attempts, max: maxAttempts)
+            case .unknown, .invalidConfiguration, .keychainAccess, .notSupported, .generic:
+                throw error
+            }
+        } catch let error as ClientAssertionError {
+            switch error.kind {
+            case .invalidToken, .serverError, .cantDecodeClientAssertion:
+                self.attempts = attempt + 1
+                if self.attempts >= maxAttempts {
+                    throw error
+                }
+                return try await self.attemptClientAssertions(self.attempts, max: maxAttempts)
+            case .invalidPublicKey:
+                throw error
+            }
+        }
+    }
+    
+    private func clientAssertions(
+        after interval: DispatchTimeInterval
+    ) async throws -> [String: String] {
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
+                Task {
+                    do {
+                        continuation.resume(returning: try await self.integrityService().clientAssertions)
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension OneLoginAppIntegrityService: ClientAttestationProvider {
+    func fetchClientAttestation() async throws -> [String: String] {
+        return try await clientAssertions()
+    }
+}
+
+extension OneLoginAppIntegrityService: DPoPProvider {
+    func fetchDPoP() async throws -> [String: String] {
+        return try dPoPAssertion()
+    }
+}
+
+// TODO: DCMAW-20368 Delete this extension
+extension OneLoginAppIntegrityService {
     public func integrityAssertions(
         attempts maxAttempts: Int = 3
     ) async throws -> [String: String] {
@@ -87,7 +169,7 @@ actor OneLoginAppIntegrityService {
             DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
                 Task {
                     do {
-                        continuation.resume(returning: try await self.integrityService.integrityAssertions)
+                        continuation.resume(returning: try await self.integrityService().integrityAssertions)
                     } catch {
                         continuation.resume(throwing: error)
                     }

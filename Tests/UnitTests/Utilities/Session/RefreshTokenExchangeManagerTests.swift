@@ -7,19 +7,24 @@ import Testing
 
 @Suite(.serialized)
 struct RefreshTokenExchangeManagerTests: ~Copyable {
-    let sut: RefreshTokenExchangeManager
+    var sut: RefreshTokenExchangeManager!
+    var mockAppIntegrityProvider: MockAppIntegrityProvider
     
     init() {
         MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
 
+        mockAppIntegrityProvider = MockAppIntegrityProvider()
         let client = NetworkClient(configuration: configuration)
+        client.clientAttestationProvider = mockAppIntegrityProvider
+        client.dPoPProvider = mockAppIntegrityProvider
         
         sut = RefreshTokenExchangeManager(networkClient: client)
     }
     
     deinit {
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = nil
         MockURLProtocol.clear()
     }
     
@@ -36,11 +41,9 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             """.utf8),
              HTTPURLResponse(statusCode: 200))
         }
-        
-        let integrityAssertions = ["testAsserion": "testValue"]
+               
         _ = try await sut.getUpdatedTokens(
-            refreshToken: "refreshToken",
-            appIntegrityProvider: AppIntegrityProviderStub(integrityAssertions: integrityAssertions)
+            refreshToken: "refreshToken"
         )
         
         let request = try #require(MockURLProtocol.requests.first)
@@ -49,6 +52,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         #expect(request.httpMethod == "POST")
         #expect(request.value(forHTTPHeaderField: "Content-Type") == "application/x-www-form-urlencoded")
         #expect(request.value(forHTTPHeaderField: "testAsserion") == "testValue")
+        #expect(request.value(forHTTPHeaderField: "testDPoP") == "testValue")
         
         let data = try #require(request.httpBodyData())
         let body = String(data: data, encoding: .utf8)
@@ -71,8 +75,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         // WHEN I attempt refresh exchange
         let exchangeResponse = try await sut.getUpdatedTokens(
-            refreshToken: UUID().uuidString,
-            appIntegrityProvider: MockAppIntegrityProvider()
+            refreshToken: UUID().uuidString
         )
         
         #expect(exchangeResponse.accessToken == "accessToken")
@@ -94,8 +97,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         let error = await #expect(throws: ServerError.self) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                refreshToken: UUID().uuidString
             )
         }
         let actualNotification = await iterator.next()
@@ -111,8 +113,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.noInternet) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                refreshToken: UUID().uuidString
             )
         }
     }
@@ -125,8 +126,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.noInternet) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                refreshToken: UUID().uuidString
             )
         }
     }
@@ -139,15 +139,13 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.noInternet) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: MockAppIntegrityProvider()
+                refreshToken: UUID().uuidString
             )
         }
     }
     
     @Test("If a network firebase error occurs, an error is thrown")
     func refreshTokenExchange_firebaseNetworkError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
             .network,
             reason: "test description"
@@ -155,15 +153,13 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
+                refreshToken: UUID().uuidString
             )
         }
     }
     
     @Test("If any firebase error occurs, an error is thrown")
     func refreshTokenExchange_firebaseGenericError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(
             .generic,
             reason: "test description"
@@ -171,15 +167,13 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
+                refreshToken: UUID().uuidString
             )
         }
     }
     
     @Test("If any client assertion error occurs, an error is thrown")
     func refreshTokenExchange_clientassertionError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = ClientAssertionError(
             .invalidPublicKey,
             reason: "test description"
@@ -187,15 +181,13 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
+                refreshToken: UUID().uuidString
             )
         }
     }
     
     @Test("If any proof of possession error occurs, an error is thrown")
     func refreshTokenExchange_proofOfPossessionError() async throws {
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
         mockAppIntegrityProvider.errorThrownAssertingIntegrity = ProofOfPossessionError(
             .cantGenerateAttestationPublicKeyJWK,
             reason: "test description"
@@ -203,8 +195,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
         
         await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
             return try await sut.getUpdatedTokens(
-                refreshToken: UUID().uuidString,
-                appIntegrityProvider: mockAppIntegrityProvider
+                refreshToken: UUID().uuidString
             )
         }
     }

@@ -27,6 +27,10 @@ extension WalletEnvironment {
         switch buildConfiguration {
         case "release":
             self = .production
+        #if DEBUG
+        case "debug":
+            self  = .build
+        #endif
         default:
             guard let config = Self.init(rawValue: buildConfiguration) else {
                 return nil

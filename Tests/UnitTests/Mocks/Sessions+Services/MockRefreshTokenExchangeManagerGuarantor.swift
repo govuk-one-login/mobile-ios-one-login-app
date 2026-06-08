@@ -87,8 +87,7 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
     }
 
     func getUpdatedTokens(
-        refreshToken: String,
-        appIntegrityProvider: AppIntegrityProvider
+        refreshToken: String
     ) async throws -> TokenResponse {
         let inserted = lock.withLock {
             refreshTokens.insert(refreshToken).inserted
