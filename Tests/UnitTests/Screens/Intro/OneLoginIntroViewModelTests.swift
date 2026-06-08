@@ -55,7 +55,7 @@ extension OneLoginIntroViewModelTests {
         XCTAssertFalse(didCallButtonAction)
         XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
         let button = GDSButton(viewModel: primaryButton)
-        button.simulateEvent(.touchUpInside)
+        button.sendActions(for: .touchUpInside)
         await fulfillment(of: [expectation], timeout: 3)
         
         XCTAssertTrue(didCallButtonAction)
