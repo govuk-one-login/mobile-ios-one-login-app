@@ -260,6 +260,7 @@
 		C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */; };
 		C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84302682D9167A60002B4B1 /* OLTaxonomy.swift */; };
 		C844943F2D9DEF0E003554E7 /* MockLocalAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88958812C7E795200663299 /* MockLocalAuthManager.swift */; };
+		C84504022FD31C23003528CB /* SceneDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84504012FD31C23003528CB /* SceneDelegateTests.swift */; };
 		C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */; };
 		C8467D3B2F1978150071ED81 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D332F1978150071ED81 /* MockAnalyticsService.swift */; };
 		C8467D3C2F1978150071ED81 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D342F1978150071ED81 /* MockURLOpener.swift */; };
@@ -879,6 +880,7 @@
 		C841575E2F19179E007E11BD /* OneLoginSnapshot.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginSnapshot.xctestplan; sourceTree = "<group>"; };
 		C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+OneLogin.swift"; sourceTree = "<group>"; };
 		C84302682D9167A60002B4B1 /* OLTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLTaxonomy.swift; sourceTree = "<group>"; };
+		C84504012FD31C23003528CB /* SceneDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegateTests.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8467C402F1978150071ED81 /* test_appUnavailableError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.1.png; sourceTree = "<group>"; };
 		C8467C412F1978150071ED81 /* test_appUnavailableError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.2.png; sourceTree = "<group>"; };
@@ -1789,6 +1791,7 @@
 		C81ECB1E2B71767500AFC3A6 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C84504012FD31C23003528CB /* SceneDelegateTests.swift */,
 				ABBE421A2C775C6E00607A7A /* Environment */,
 				C80D77452E97C69900082040 /* BackupDisablerTests.swift */,
 				C851FFA32BADAAB600A7B73D /* SceneLifecycleTests.swift */,
@@ -3724,6 +3727,7 @@
 				C8520C252AE2BFAD006790C1 /* UIView+TestExtensions.swift in Sources */,
 				C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */,
 				C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */,
+				C84504022FD31C23003528CB /* SceneDelegateTests.swift in Sources */,
 				41D469752B9758A5008705CD /* UnlockScreenViewModelTests.swift in Sources */,
 				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
