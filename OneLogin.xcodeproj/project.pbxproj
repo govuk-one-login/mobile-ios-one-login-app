@@ -125,7 +125,6 @@
 		ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF42DBA663F0093E86E /* LocalAuthSettingsErrorViewModelTests.swift */; };
 		ABFE5EF72DBA7BEC0093E86E /* LocalAuthErrorListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorListViewTests.swift */; };
 		C30D5F7C2F20E35D001412CF /* ErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */; };
-		C32284392FD19D28002A00B9 /* UIControl+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32284382FD19D1C002A00B9 /* UIControl+OneLoginTests.swift */; };
 		C32284462FD1A090002A00B9 /* test_oneLoginIntroScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C322843A2FD1A090002A00B9 /* test_oneLoginIntroScreen.1.png */; };
 		C32284472FD1A090002A00B9 /* test_oneLoginIntroScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C322843D2FD1A090002A00B9 /* test_oneLoginIntroScreen.4.png */; };
 		C32284482FD1A090002A00B9 /* test_oneLoginIntroScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C32284422FD1A090002A00B9 /* test_oneLoginIntroScreen.9.png */; };
@@ -740,7 +739,6 @@
 		ABFE5EF42DBA663F0093E86E /* LocalAuthSettingsErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModelTests.swift; sourceTree = "<group>"; };
 		ABFE5EF62DBA7BE50093E86E /* LocalAuthErrorListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthErrorListViewTests.swift; sourceTree = "<group>"; };
 		C30D5F7B2F20E34E001412CF /* ErrorTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTypes.swift; sourceTree = "<group>"; };
-		C32284382FD19D1C002A00B9 /* UIControl+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+OneLoginTests.swift"; sourceTree = "<group>"; };
 		C322843A2FD1A090002A00B9 /* test_oneLoginIntroScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_oneLoginIntroScreen.1.png; sourceTree = "<group>"; };
 		C322843B2FD1A090002A00B9 /* test_oneLoginIntroScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_oneLoginIntroScreen.2.png; sourceTree = "<group>"; };
 		C322843C2FD1A090002A00B9 /* test_oneLoginIntroScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_oneLoginIntroScreen.3.png; sourceTree = "<group>"; };
@@ -1520,7 +1518,6 @@
 		7C9CEA6D2EBA5ADE0074EB18 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C32284382FD19D1C002A00B9 /* UIControl+OneLoginTests.swift */,
 				C84960002EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift */,
 				7C9CEA6B2EBA5ADE0074EB18 /* CustomTypes */,
 				7CA719642C846E3800973585 /* URLRequest+OneLoginTests.swift */,
@@ -3666,7 +3663,6 @@
 				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
 				C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoadingViewModelTests.swift in Sources */,
-				C32284392FD19D28002A00B9 /* UIControl+OneLoginTests.swift in Sources */,
 				8E3C5AC62FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift in Sources */,
 				C3DF5A7F2F6836560089B42B /* MockWalletSDKWrapper.swift in Sources */,
 				1E1D56AC2F48778200AB90D3 /* OneLoginAppIntegrityServiceTests.swift in Sources */,
