@@ -40,7 +40,6 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            errorDescription: errorDescription,
             didAppear: .action({
                 let title = GDSLocalisedString(stringKey: "app_signInErrorTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unrecoverableLoginError.rawValue,
@@ -60,7 +59,6 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
          rightBarButtonTitle: GDSLocalisedString?,
          backButtonTitle: GDSLocalisedString?,
          backButtonIsHidden: Bool,
-         errorDescription: String = "",
          didAppear: DesignSystem.Action?,
          didDismiss: DesignSystem.Action?) {
         self.screenStyle = screenStyle
@@ -70,7 +68,6 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
         self.rightBarButtonTitle = rightBarButtonTitle
         self.backButtonTitle = backButtonTitle
         self.backButtonIsHidden = backButtonIsHidden
-        self.errorDescription = errorDescription
         self.didAppear = didAppear
         self.didDismiss = didDismiss
     }
