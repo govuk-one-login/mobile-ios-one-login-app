@@ -2,10 +2,10 @@
 import AppIntegrity
 import Authentication
 import DesignSystem
-import class GDSCommon.GDSInformationViewController
 import class GDSCommon.GDSErrorScreen
-import class GDSCommon.ModalInfoViewController
 import protocol GDSCommon.GDSErrorViewModelV3
+import class GDSCommon.GDSInformationViewController
+import class GDSCommon.ModalInfoViewController
 @testable import OneLogin
 import SecureStore
 import XCTest
