@@ -15,6 +15,8 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
     var didAppear: DesignSystem.Action?
     var didDismiss: DesignSystem.Action?
     
+    var errorDescription: String?
+    
     init(analyticsService: OneLoginAnalyticsService,
          errorDescription: String) {
         let analyticsService = analyticsService.addingAdditionalParameters([
@@ -51,6 +53,7 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             }),
             didDismiss: nil
         )
+        self.errorDescription = errorDescription
     }
     
     init(screenStyle: GDSScreenStyle,

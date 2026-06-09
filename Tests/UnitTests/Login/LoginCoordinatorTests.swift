@@ -2,19 +2,20 @@
 import AppIntegrity
 import Authentication
 import DesignSystem
-import GDSCommon
+import class GDSCommon.GDSInformationViewController
+import class GDSCommon.GDSErrorScreen
+import class GDSCommon.ModalInfoViewController
+import protocol GDSCommon.GDSErrorViewModelV3
 @testable import OneLogin
 import SecureStore
 import XCTest
 
 extension LoginCoordinator {
-    
     static func make(mockNavigationController: UINavigationController = UINavigationController(),
                      mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
                      mockSessionManager: SessionManager = MockSessionManager(),
                      mockNetworkMonitor: MockNetworkMonitor = MockNetworkMonitor(),
                      sessionState: AppSessionState = .notLoggedIn) -> LoginCoordinator {
-        
         let appWindow = UIWindow()
         let mockAuthenticationService = MockAuthenticationService(sessionManager: mockSessionManager)
         appWindow.rootViewController = mockNavigationController
@@ -32,9 +33,7 @@ extension LoginCoordinator {
     }
     
     static func makeReauthLogin() -> LoginCoordinator {
-        
         let mockSessionManager = MockSessionManager()
-        
         mockSessionManager.isReturningUser = true
         
         return .make(mockSessionManager: mockSessionManager,
@@ -44,7 +43,32 @@ extension LoginCoordinator {
 
 @MainActor
 final class LoginCoordinatorTests: XCTestCase {
+    func given(errorFromStartSession: Error, when: (LoginCoordinator) -> Void) throws -> GDSScreenViewModel {
+        let startAuthSessionExpectation = expectation(description: #function)
+        let pushViewControllerExpectation = self.expectation(description: #function)
+
+        // GIVEN the authentication session returns a sessionMismatch error
+        let mockNavigationController = MockNavigationControllerExpectation(pushViewControllerAsFunction: { _, _ in   pushViewControllerExpectation.fulfill()
+        })
+        let mockSessionManager = MockSessionManager()
+        let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager, didStartAuthSessionAsFunction: { _, _ in
+            startAuthSessionExpectation.fulfill()
+        })
+        
+        mockSessionManager.errorFromStartSession = errorFromStartSession
+        let sut: LoginCoordinator = .make(mockNavigationController: mockNavigationController, mockSessionManager: mockSessionManagerExpectation)
+
+        when(sut)
+
+        wait(for: [startAuthSessionExpectation, pushViewControllerExpectation], timeout: 10)
+        XCTAssertTrue(mockSessionManager.didCallStartSession)
+        
+        let vc = try XCTUnwrap(mockNavigationController.topViewController as? GDSScreen)
+        
+        return vc.viewModel
+    }
     
+    // Delete once Design System remapping is finished
     func given(errorFromStartSession: Error, when: (LoginCoordinator) -> Void) throws -> GDSErrorViewModelV3 {
         let startAuthSessionExpectation = expectation(description: #function)
         let pushViewControllerExpectation = self.expectation(description: #function)
@@ -182,7 +206,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_sessionMismatch() throws {
         // GIVEN the authentication session returns a sessionMismatch error
-        let viewModel = try given(errorFromStartSession: PersistentSessionError(.sessionMismatch), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: PersistentSessionError(.sessionMismatch), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -195,7 +219,7 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns a cannotDeleteData error
         let errorFromStartSession = PersistentSessionError(.cannotDeleteData,
                                                                           originalError: MockWalletError.cantDelete)
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -206,7 +230,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_idTokenNotStored() throws {
         // GIVEN the authentication session returns a idTokenNotStored error
-        let viewModel = try given(errorFromStartSession: PersistentSessionError(.idTokenNotStored), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: PersistentSessionError(.idTokenNotStored), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -218,7 +242,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_accessDenied() throws {
         // GIVEN the authentication session returns an access denied error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationAccessDenied), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.authorizationAccessDenied), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -229,7 +253,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_network() throws {
         // GIVEN the authentication session returns a network error
-        let viewModel = try given(errorFromStartSession: LoginError(.network), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.network), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -240,7 +264,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_authInvalidRequest() throws {
         // GIVEN the authentication session returns an invalidRequest error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationInvalidRequest), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationInvalidRequest), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -251,7 +275,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_authUnauthorizedClient() throws {
         // GIVEN the authentication session returns an unauthorizedClient error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationUnauthorizedClient), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationUnauthorizedClient), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -262,7 +286,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_unsupportedResponse() throws {
         // GIVEN the authentication session returns an unsupportedResponseType error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationUnsupportedResponseType), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationUnsupportedResponseType), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -273,7 +297,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_authInvalidScope() throws {
         // GIVEN the authentication session returns an invalidScope error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationInvalidScope), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationInvalidScope), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -284,7 +308,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_temporarilyUnavailable() throws {
         // GIVEN the authentication session returns an temporarilyUnavailable error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationTemporarilyUnavailable), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationTemporarilyUnavailable), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -302,7 +326,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's launchAuthenticationService method is called
         sut.launchAuthenticationService()
         waitForTruth(mockSessionManager.didCallStartSession, timeout: 20)
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidRequest), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenInvalidRequest), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -313,7 +337,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_tokenUnauthorizedClient() throws {
         // GIVEN the authentication session returns an tokenUnauthorizedClient error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenUnauthorizedClient), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenUnauthorizedClient), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -324,7 +348,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_tokenInvalidScope() throws {
         // GIVEN the authentication session returns an tokenInvalidScope error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidScope), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenInvalidScope), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -334,7 +358,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_invalidClient() throws {
     // GIVEN the authentication session returns an tokenInvalidClient error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidClient), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenInvalidClient), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -345,7 +369,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_invalidGrant() throws {
         // GIVEN the authentication session returns an tokenInvalidGrant error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenInvalidGrant), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenInvalidGrant), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -356,7 +380,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_unsupportedGrant() throws {
         // GIVEN the authentication session returns an tokenUnsupportedGrantType error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenUnsupportedGrantType), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenUnsupportedGrantType), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -367,7 +391,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_clientError() throws {
         // GIVEN the authentication session returns an tokenClientError error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenClientError), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenClientError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -389,7 +413,7 @@ extension LoginCoordinatorTests {
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
             } else {
                 // 3rd server error should show non-recoverable error screen
-                let vc = try XCTUnwrap(vc as? GDSErrorScreen)
+                let vc = try XCTUnwrap(vc as? GDSScreen)
                 XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
             }
         })
@@ -397,7 +421,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_authUnknownError() throws {
         // GIVEN the authentication session returns an authorizationUnknownError error
-        let viewModel = try given(errorFromStartSession: LoginError(.authorizationUnknownError), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.authorizationUnknownError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -408,7 +432,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_tokenUnknownError() throws {
         // GIVEN the authentication session returns an tokenUnknownError error
-        let viewModel = try given(errorFromStartSession: LoginError(.tokenUnknownError), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.tokenUnknownError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -426,7 +450,7 @@ extension LoginCoordinatorTests {
                 let vc = try XCTUnwrap(vc as? GDSErrorScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
             } else {
-                let vc = try XCTUnwrap(vc as? GDSErrorScreen)
+                let vc = try XCTUnwrap(vc as? GDSScreen)
                 XCTAssertTrue(vc.viewModel is UnrecoverableLoginErrorViewModel)
             }
         })
@@ -434,7 +458,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_safariError() throws {
         // GIVEN the authentication session returns an safariOpenError error
-        let viewModel = try given(errorFromStartSession: LoginError(.safariOpenError), when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.safariOpenError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -445,7 +469,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_jwtFetchError() throws {
         // GIVEN the authentication session returns an unableToFetchJWKs error
-        let viewModel = try given(errorFromStartSession: JWTVerifierError.unableToFetchJWKs, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: JWTVerifierError.unableToFetchJWKs, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -457,7 +481,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_jwtVerifyError() throws {
         // GIVEN the authentication session returns an invalidJWTFormat error
-        let viewModel = try given(errorFromStartSession: JWTVerifierError.invalidJWTFormat, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: JWTVerifierError.invalidJWTFormat, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -472,7 +496,7 @@ extension LoginCoordinatorTests {
             .network,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -487,7 +511,7 @@ extension LoginCoordinatorTests {
             .unknown,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -502,7 +526,7 @@ extension LoginCoordinatorTests {
             .generic,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -517,7 +541,7 @@ extension LoginCoordinatorTests {
             .invalidToken,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -532,7 +556,7 @@ extension LoginCoordinatorTests {
             .serverError,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -547,7 +571,7 @@ extension LoginCoordinatorTests {
             .cantDecodeClientAssertion,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -562,7 +586,7 @@ extension LoginCoordinatorTests {
             .notSupported,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -577,7 +601,7 @@ extension LoginCoordinatorTests {
             .keychainAccess,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -592,7 +616,7 @@ extension LoginCoordinatorTests {
             .invalidConfiguration,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -607,7 +631,7 @@ extension LoginCoordinatorTests {
             .invalidPublicKey,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -622,7 +646,7 @@ extension LoginCoordinatorTests {
             .cantGenerateAttestationPublicKeyJWK,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -637,7 +661,7 @@ extension LoginCoordinatorTests {
             .cantGenerateAttestationProofOfPossessionJWT,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -652,7 +676,7 @@ extension LoginCoordinatorTests {
             .cantGenerateDemonstratingProofOfPossessionJWT,
             reason: "test reason"
         )
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -664,7 +688,7 @@ extension LoginCoordinatorTests {
     func test_launchAuthenticationService_generic() throws {
         // GIVEN the authentication session returns a generic error
         let errorFromStartSession = LoginError(.generic)
-        let viewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -675,7 +699,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_catchAllError() throws {
         // GIVEN the authentication session returns a generic error
-        let viewModel = try given(errorFromStartSession: AuthenticationError.generic, when: { sut in
+        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: AuthenticationError.generic, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
