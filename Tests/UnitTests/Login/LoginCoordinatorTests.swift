@@ -1,6 +1,7 @@
 // swiftlint:disable file_length
 import AppIntegrity
 import Authentication
+import DesignSystem
 import GDSCommon
 @testable import OneLogin
 import SecureStore
@@ -114,9 +115,10 @@ extension LoginCoordinatorTests {
         let sut: LoginCoordinator = .make()
         // WHEN the LoginCoordinator is started
         sut.start()
-        // THEN the visible view controller should be the IntroViewController
+        // THEN the visible view controller should be the OneLoginIntroViewModel
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        XCTAssertTrue(sut.root.topViewController is IntroViewController)
+        XCTAssertTrue(sut.root.topViewController is GDSScreen)
+        XCTAssertTrue((sut.root.topViewController as? GDSScreen)?.viewModel is OneLoginIntroViewModel)
     }
     
     func test_start_reauth() throws {
