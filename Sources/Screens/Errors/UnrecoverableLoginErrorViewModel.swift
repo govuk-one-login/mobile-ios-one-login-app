@@ -33,7 +33,8 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
                 ),
                 
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorUnrecoverableBody"),
-                                 alignment: .center)
+                                 alignment: .center,
+                                 verticalPadding: .top(0))
             ],
             movableFooter: [],
             footer: [],
