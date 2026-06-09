@@ -1,6 +1,6 @@
+import DesignSystem
 import Coordination
 import GDSAnalytics
-import GDSCommon
 import HTTPLogging
 import Logging
 import Networking
@@ -51,7 +51,7 @@ final class WalletCoordinator: NSObject,
                 analyticsService: analyticsService,
                 errorDescription: "walletStoreID or walletEnvironment was not initialised and was nil"
             )
-            let walletNotInitialisedErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            let walletNotInitialisedErrorScreen = GDSScreen(viewModel: viewModel)
             root.pushViewController(walletNotInitialisedErrorScreen, animated: false)
             return
         }
