@@ -219,7 +219,7 @@ extension LoginCoordinatorTests {
         // GIVEN the authentication session returns a cannotDeleteData error
         let errorFromStartSession = PersistentSessionError(.cannotDeleteData,
                                                                           originalError: MockWalletError.cantDelete)
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -409,7 +409,7 @@ extension LoginCoordinatorTests {
         }, then: { attempt, vc in
             if attempt < threeTimes {
                 // THEN the visible view controller's view model should be the RecoverableLoginErrorViewModel
-                let vc = try XCTUnwrap(vc as? GDSErrorScreen)
+                let vc = try XCTUnwrap(vc as? GDSScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
             } else {
                 // 3rd server error should show non-recoverable error screen
@@ -421,7 +421,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_authUnknownError() throws {
         // GIVEN the authentication session returns an authorizationUnknownError error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.authorizationUnknownError), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationUnknownError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -432,7 +432,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_tokenUnknownError() throws {
         // GIVEN the authentication session returns an tokenUnknownError error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.tokenUnknownError), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.tokenUnknownError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -447,7 +447,7 @@ extension LoginCoordinatorTests {
             sut.launchAuthenticationService()
         }, then: { attempt, vc in
             if attempt < threeTimes {
-                let vc = try XCTUnwrap(vc as? GDSErrorScreen)
+                let vc = try XCTUnwrap(vc as? GDSScreen)
                 XCTAssertTrue(vc.viewModel is RecoverableLoginErrorViewModel)
             } else {
                 let vc = try XCTUnwrap(vc as? GDSScreen)
@@ -458,7 +458,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_safariError() throws {
         // GIVEN the authentication session returns an safariOpenError error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.safariOpenError), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.safariOpenError), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -469,7 +469,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_jwtFetchError() throws {
         // GIVEN the authentication session returns an unableToFetchJWKs error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: JWTVerifierError.unableToFetchJWKs, when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: JWTVerifierError.unableToFetchJWKs, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -481,7 +481,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_jwtVerifyError() throws {
         // GIVEN the authentication session returns an invalidJWTFormat error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: JWTVerifierError.invalidJWTFormat, when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: JWTVerifierError.invalidJWTFormat, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
