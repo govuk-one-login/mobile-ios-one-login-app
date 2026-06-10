@@ -1,46 +1,50 @@
+@testable import DesignSystem
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class UnrecoverableLoginErrorViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: UnrecoverableLoginErrorViewModel!
-        
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
+struct UnrecoverableLoginErrorViewModelTests {
+    let sut: UnrecoverableLoginErrorViewModel
+    let mockAnalyticsService = MockAnalyticsService()
+
+    init() {
         sut = UnrecoverableLoginErrorViewModel(analyticsService: mockAnalyticsService,
                                                errorDescription: "error description")
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
-                
-        super.tearDown()
-    }
-}
-
-extension UnrecoverableLoginErrorViewModelTests {
-    func test_page() {
-        XCTAssertEqual(sut.image, .error)
-        XCTAssertEqual(sut.title.stringKey, "app_signInErrorTitle")
-        XCTAssertEqual(sut.bodyContent.count, 1)
-        XCTAssertEqual(sut.buttonViewModels.count, 0)
-
+    @Test
+    func test_page() throws {
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
+        
+        #expect(title?.icon == .error)
+        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signInErrorTitle"))
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
+        
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title == GDSLocalisedString(stringKey: "app_signInErrorUnrecoverableBody"))
+        #expect(body?.alignment == .center)
+                       
+        #expect(sut.movableFooter.count == 0)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
     
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unrecoverableLoginError.rawValue,
                                      screen: ErrorAnalyticsScreen.unrecoverablLoginError,
                                      titleKey: "app_signInErrorTitle",
                                      reason: "error description")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }
