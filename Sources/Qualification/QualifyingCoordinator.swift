@@ -109,7 +109,7 @@ final class QualifyingCoordinator: NSObject,
                 analyticsService: analyticsService,
                 errorDescription: error.localizedDescription
             )
-            let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            let unableToLoginErrorScreen = GDSScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
         case .appIntegrityCheckFailed:
             let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)

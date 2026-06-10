@@ -263,7 +263,7 @@ extension LoginCoordinator {
         ) { [unowned self] in
             returnFromErrorScreen()
         }
-        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let unableToLoginErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }
     
@@ -277,7 +277,7 @@ extension LoginCoordinator {
             analyticsService: analyticsService,
             errorDescription: description ?? error.localizedDescription
         )
-        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let unableToLoginErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }
     

@@ -167,7 +167,7 @@ extension QualifyingCoordinatorTests {
         sut.didChangeSessionState(state: .failed(MockLoginError.failed))
         // THEN I am shown the Login Error screen
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorScreen
+            window.rootViewController as? GDSScreen
         )
         let viewModel = try XCTUnwrap(vc.viewModel as? UnrecoverableLoginErrorViewModel)
         XCTAssertEqual(viewModel.errorDescription, "Unable to login")

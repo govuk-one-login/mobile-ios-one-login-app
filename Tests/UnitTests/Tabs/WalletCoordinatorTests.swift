@@ -1,5 +1,5 @@
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import Networking
 @testable import OneLogin
 import SecureStore
@@ -61,7 +61,7 @@ extension WalletCoordinatorTests {
         sut.start()
         
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        let screen = try XCTUnwrap(sut.root.topViewController as? GDSErrorScreen)
+        let screen = try XCTUnwrap(sut.root.topViewController as? GDSScreen)
         // TODO: DCMAW-20468 update with new error screen
         XCTAssertTrue(screen.viewModel is UnrecoverableLoginErrorViewModel)
     }
