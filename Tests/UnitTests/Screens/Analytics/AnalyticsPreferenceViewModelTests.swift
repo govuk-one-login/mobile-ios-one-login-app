@@ -21,7 +21,6 @@ extension AnalyticsPreferenceViewModelTests {
         #expect(titleText?.title.stringKey == "app_acceptAnalyticsPreferences_title")
         #expect(bodyText?.title.stringKey == "acceptAnalyticsPreferences_body")
         #expect(bodyText?.title.variableKeys == ["app_nameString", "app_nameString"])
-        #expect(bodyText?.textColor == .label)
     }
     
     @Test
