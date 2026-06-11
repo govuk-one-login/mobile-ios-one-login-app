@@ -5,4 +5,6 @@ public protocol AppIntegrityProvider {
     var dPoPAssertion: [String: String] { get throws }
     // TODO: DCMAW-20368 Delete this
     var integrityAssertions: [String: String] { get async throws }
+    
+    var hasExpiredAttestation: Bool { get }
 }

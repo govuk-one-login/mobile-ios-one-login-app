@@ -2,6 +2,8 @@ import AppIntegrity
 import Networking
 
 final class MockAppIntegrityProvider: AppIntegrityProvider {
+    let hasExpiredAttestation: Bool = true
+    
     var attempts = 0
     var errorThrownAssertingIntegrity: Error?
     

@@ -1,6 +1,7 @@
 import Logging
+@testable import OneLogin
 
-final class MockAnalyticsPreferenceStore: AnalyticsPreferenceStore {
+final class MockAnalyticsPreferenceStore: AnalyticsPreferenceStore, SessionBoundData {
     private var subscribers = [AsyncStream<Bool>.Continuation]()
     var hasAcceptedAnalytics: Bool?
     
@@ -8,5 +9,9 @@ final class MockAnalyticsPreferenceStore: AnalyticsPreferenceStore {
         AsyncStream { element in
             subscribers.append(element)
         }
+    }
+    
+    func clearSessionData() async throws {
+        
     }
 }

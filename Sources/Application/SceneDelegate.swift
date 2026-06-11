@@ -27,28 +27,12 @@ final class SceneDelegate: UIResponder,
     private lazy var networkingService = NetworkingService(refreshExchangeManager: refreshTokenExchangeManager,
                                                            sessionManager: sessionManager,
                                                            serialTaskQueue: serialTaskQueue)
-    private lazy var sessionManager = {
+    private lazy var sessionManager: PersistentSessionManager = {
         do {
-            let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
-            let encryptedSecureStoreMigrator = EncryptedSecureStoreMigrator(analyticsService: analyticsService)
-            let manager = PersistentSessionManager(
-                accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
-                encryptedStore: encryptedSecureStoreMigrator,
-                analyticsService: analyticsService,
-                tokenExchangeManager: refreshTokenExchangeManager,
-                serialTaskQueue: serialTaskQueue
-            )
-            
-            manager.registerSessionBoundData(
-                [
-                    WalletSessionData(),
-                    analyticsPreferenceStore,
-                    accessControlEncryptedSecureStoreMigrator,
-                    encryptedSecureStoreMigrator,
-                    UserDefaults.standard
-                ]
-            )
-            return manager
+            return try .make(analyticsService: analyticsService,
+                         refreshTokenExchangeManager: refreshTokenExchangeManager,
+                         serialTaskQueue: serialTaskQueue,
+                         analyticsPreferenceStore: analyticsPreferenceStore)
         } catch {
             fatalError()
         }
