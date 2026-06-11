@@ -43,9 +43,7 @@ struct GenericErrorViewModel: GDSCentreAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_tryAgainButton").value,
                                    style: .primary,
                                    buttonAction: .action({
-                                       let event = LinkEvent(textKey: "app_tryAgainButton",
-                                                             linkDomain: AppEnvironment.mobileBaseURLString,
-                                                             external: .false)
+                                       let event = ButtonEvent(textKey: "app_tryAgainButton")
                                        analyticsService.logEvent(event)
                                        
                                        action()
