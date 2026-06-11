@@ -47,7 +47,7 @@ struct GenericErrorViewModelTests {
         #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
         button?.buttonAction.perform()
-        #expect(didCallButtonAction == true)
+        #expect(didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_tryAgainButton",
                               linkDomain: AppEnvironment.mobileBaseURLString,
