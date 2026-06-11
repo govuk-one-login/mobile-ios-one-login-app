@@ -17,7 +17,7 @@ struct OneLoginIntroViewModelTests {
 
 extension OneLoginIntroViewModelTests {
     @Test
-    func test_page() throws {
+    func test_page() {
         let imageVM = sut.body.first as? GDSImageViewModel
         let titleText = sut.body[1] as? GDSTextViewModel
         let bodyText = sut.body[2] as? GDSTextViewModel
@@ -30,7 +30,7 @@ extension OneLoginIntroViewModelTests {
     }
     
     @Test
-    func test_button() async throws {
+    func test_button() async {
         var didCallButtonAction = false
         
         let sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {

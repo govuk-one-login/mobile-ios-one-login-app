@@ -1,67 +1,80 @@
+@testable import DesignSystem
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class AnalyticsPreferenceViewModelTests: XCTestCase {
+struct AnalyticsPreferenceViewModelTests {
     var sut: AnalyticsPreferenceViewModel!
-    
-    var didCallPrimaryButtonAction = false
-    var didCallSecondaryButtonAction = false
-    var didCallTextButtonAction = false
 
-    override func setUp() {
-        super.setUp()
-
-        sut = AnalyticsPreferenceViewModel {
-            self.didCallPrimaryButtonAction = true
-        } secondaryButtonAction: {
-            self.didCallSecondaryButtonAction = true
-        } textButtonAction: {
-            self.didCallTextButtonAction = true
-        }
-    }
-
-    override func tearDown() {
-        sut = nil
-        
-        didCallPrimaryButtonAction = false
-        didCallSecondaryButtonAction = false
-        didCallTextButtonAction = false
-        
-        super.tearDown()
+    init() {
+        sut = AnalyticsPreferenceViewModel {}
+        secondaryButtonAction: {}
+        textButtonAction: {}
     }
 }
 
 extension AnalyticsPreferenceViewModelTests {
-    func test_screen_contents() throws {
-        XCTAssertEqual(sut.title.stringKey, "app_acceptAnalyticsPreferences_title")
-        XCTAssertEqual(sut.body.stringKey, "acceptAnalyticsPreferences_body")
-        XCTAssertEqual(sut.body.variableKeys, ["app_nameString", "app_nameString"])
-        XCTAssertEqual(sut.bodyTextColor, .label)
+    @Test
+    func test_screen_contents() {
+        let titleText = sut.body.first as? GDSTextViewModel
+        let bodyText = sut.body[1] as? GDSTextViewModel
+        #expect(titleText?.title.stringKey == "app_acceptAnalyticsPreferences_title")
+        #expect(bodyText?.title.stringKey == "acceptAnalyticsPreferences_body")
+        #expect(bodyText?.title.variableKeys == ["app_nameString", "app_nameString"])
+        #expect(bodyText?.textColor == .label)
     }
-
+    
+    @Test
     func test_primaryButton() throws {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_shareAnalyticsButton")
-        XCTAssertFalse(didCallPrimaryButtonAction)
-        sut.primaryButtonViewModel.action()
-        XCTAssertTrue(didCallPrimaryButtonAction)
-        XCTAssertNil(sut.primaryButtonViewModel.accessibilityHint)
+        var didCallPrimaryButtonAction = false
+        
+        let sut =  AnalyticsPreferenceViewModel {
+            didCallPrimaryButtonAction = true
+        }
+        secondaryButtonAction: {}
+        textButtonAction: {}
+
+        let primaryButton = sut.movableFooter.first as? GDSButtonViewModel
+        
+        #expect(!didCallPrimaryButtonAction)
+        #expect(primaryButton?.title.forState(.normal) == "Share analytics")
+        primaryButton?.buttonAction.perform()
+        #expect(didCallPrimaryButtonAction)
     }
 
-    func test_secondaryButton_action() throws {
-        XCTAssertEqual(sut.secondaryButtonViewModel.title.stringKey, "app_doNotShareAnalytics")
-        XCTAssertFalse(didCallSecondaryButtonAction)
-        sut.secondaryButtonViewModel.action()
-        XCTAssertTrue(didCallSecondaryButtonAction)
-        XCTAssertNil(sut.secondaryButtonViewModel.accessibilityHint)
-    }
+    @Test
+    func test_secondaryButton_action() {
+        var didCallSecondaryButtonAction = false
+        
+        let sut =  AnalyticsPreferenceViewModel {}
+        secondaryButtonAction: {
+            didCallSecondaryButtonAction = true
+        }
+        textButtonAction: {}
 
-    func test_textButton_action() throws {
-        XCTAssertEqual(sut.textButtonViewModel.title.stringKey, "app_privacyNoticeLink")
-        XCTAssertEqual(sut.textButtonViewModel.title.variableKeys, ["app_nameString"])
-        XCTAssertFalse(didCallTextButtonAction)
-        sut.textButtonViewModel.action()
-        XCTAssertTrue(didCallTextButtonAction)
-        XCTAssertEqual(sut.textButtonViewModel.accessibilityHint, "app_externalBrowser")
+        let secondaryButton = sut.movableFooter[1] as? GDSButtonViewModel
+        
+        #expect(!didCallSecondaryButtonAction)
+        #expect(secondaryButton?.title.forState(.normal) == "Skip for now")
+        secondaryButton?.buttonAction.perform()
+        #expect(didCallSecondaryButtonAction)
+    }
+    
+    @Test
+    func test_textButton_action() {
+        var didCallTextButtonAction = false
+        
+        let sut = AnalyticsPreferenceViewModel {}
+        secondaryButtonAction: {}
+        textButtonAction: {
+            didCallTextButtonAction = true
+        }
+        let textButton = sut.body[2] as? GDSButtonViewModel
+        
+        #expect(!didCallTextButtonAction)
+        #expect(textButton?.title.forState(.normal) == "Read more about this in the GOV.UK One Login privacy notice")
+        textButton?.buttonAction.perform()
+        #expect(didCallTextButtonAction)
+        #expect(textButton?.accessibilityHint == "Opens in web browser")
     }
 }
