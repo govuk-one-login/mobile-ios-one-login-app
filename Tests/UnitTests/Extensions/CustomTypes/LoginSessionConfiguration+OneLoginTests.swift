@@ -1,7 +1,7 @@
 import AppIntegrity
 import Authentication
-import Testing
 @testable import OneLogin
+import Testing
 
 struct LoginSessionConfigurationOneLoginTests {
 
