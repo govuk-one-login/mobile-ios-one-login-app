@@ -19,8 +19,17 @@ extension AnalyticsPreferenceViewModelTests {
         let titleText = sut.body.first as? GDSTextViewModel
         let bodyText = sut.body[1] as? GDSTextViewModel
         #expect(titleText?.title.stringKey == "app_acceptAnalyticsPreferences_title")
+        #expect(titleText?.alignment == .left)
         #expect(bodyText?.title.stringKey == "acceptAnalyticsPreferences_body")
-        #expect(bodyText?.title.variableKeys == ["app_nameString", "app_nameString"])
+        #expect(bodyText?.title.variableKeys == ["app_nameString"])
+        #expect(bodyText?.alignment == .left)
+        #expect(sut.movableFooter.count == 2)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden)
+        #expect(sut.didDismiss == nil)
+        #expect(sut.didAppear == nil)
     }
     
     @Test

@@ -26,7 +26,6 @@ struct AnalyticsPreferenceViewModel: GDSLeftAlignedViewModel {
                                  alignment: .left,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "acceptAnalyticsPreferences_body",
-                                                           "app_nameString",
                                                            "app_nameString"),
                                  alignment: .left,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),

@@ -24,9 +24,17 @@ extension OneLoginIntroViewModelTests {
         #expect(imageVM?.image == UIImage(named: "badge"))
         #expect(titleText?.title.stringKey == "app_nameString")
         #expect(titleText?.title.value == "GOV.UK One Login")
+        #expect(titleText?.alignment == .center)
         #expect(bodyText?.title.stringKey == "app_signInBody")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])
         #expect(bodyText?.title.value == "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        #expect(bodyText?.alignment == .center)
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden)
+        #expect(sut.didDismiss == nil)
     }
     
     @Test
