@@ -16,7 +16,6 @@ struct RecoverableLoginErrorViewModelTests {
     @Test
     func test_page() throws {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
-        
         #expect(title?.icon == .error)
         #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signInErrorTitle"))
         #expect(title?.errorTitle.titleFont == .largeTitleBold)

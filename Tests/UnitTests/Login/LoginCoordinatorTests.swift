@@ -230,7 +230,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_idTokenNotStored() throws {
         // GIVEN the authentication session returns a idTokenNotStored error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: PersistentSessionError(.idTokenNotStored), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: PersistentSessionError(.idTokenNotStored), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -688,7 +688,7 @@ extension LoginCoordinatorTests {
     func test_launchAuthenticationService_generic() throws {
         // GIVEN the authentication session returns a generic error
         let errorFromStartSession = LoginError(.generic)
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: errorFromStartSession, when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: errorFromStartSession, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -699,7 +699,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_catchAllError() throws {
         // GIVEN the authentication session returns a generic error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: AuthenticationError.generic, when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: AuthenticationError.generic, when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -716,7 +716,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's handleUniversalLink method is called
         sut.handleUniversalLink(callbackURL)
         // THEN the visible view controller should be the GDSErrorScreen
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSErrorScreen)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSScreen)
         // THEN the visible view controller's view model should be the GenericErrorViewModel
         XCTAssertTrue(vc.viewModel is GenericErrorViewModel)
     }

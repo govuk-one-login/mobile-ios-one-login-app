@@ -74,7 +74,7 @@ struct ErrorScreenSnapshotTests {
             errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
