@@ -7,6 +7,7 @@ import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
+import WalletStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
@@ -202,6 +203,18 @@ final class PersistentSessionManager: SessionManager {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
+    private func clear(sessionData: [SessionBoundData], presentSystemLogOut: Bool) async throws {
+        for each in sessionData {
+            try await each.clearSessionData()
+        }
+        
+        endCurrentSession()
+        
+        if presentSystemLogOut {
+            NotificationCenter.default.post(name: .systemLogUserOut)
+        }
+    }
+
     func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
@@ -218,6 +231,13 @@ final class PersistentSessionManager: SessionManager {
                                                                          reason: "secure wallet data deleted"))
                     }
                     try await clearAllSessionData(presentSystemLogOut: true)
+                } catch let error as WalletStoreError where error.kind == .failedToDeleteProofKeys {
+                    do {
+                        try await clear(sessionData: self.sessionBoundData.reversed(), presentSystemLogOut: true)
+                    } catch {
+                        analyticsService.logCrash(error)
+                    }
+                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
                 } catch {
                     throw PersistentSessionError(.cannotDeleteData, originalError: error)
                 }
@@ -390,15 +410,7 @@ final class PersistentSessionManager: SessionManager {
     }
 
     func clearAllSessionData(presentSystemLogOut: Bool) async throws {
-        for each in sessionBoundData {
-            try await each.clearSessionData()
-        }
-        
-        endCurrentSession()
-        
-        if presentSystemLogOut {
-            NotificationCenter.default.post(name: .systemLogUserOut)
-        }
+        try await self.clear(sessionData: sessionBoundData, presentSystemLogOut: presentSystemLogOut)
     }
     
     func registerSessionBoundData(_ data: [SessionBoundData]) {
