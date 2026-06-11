@@ -228,6 +228,31 @@ struct WebAuthenticationServiceTests {
         #expect(error?.kind == .cannotDeleteData)
         #expect(mockAnalyticsService.crashesLogged.count == 1)
     }
+    
+    @Test func test_startWebSession_success() async throws {
+        let sessionManager: PersistentSessionManager = .make()
+        let sut: WebAuthenticationService = await .make(sessionManager: sessionManager)
+        
+        await #expect(throws: Never.self) {
+            try await sut.startWebSession(appIntegrityProvider: AppIntegrityProviderStub())
+        }
+    }
+    
+    @Test func test_loginError_logged_by_default() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let anyError = LoginError(.generic)
+        
+        let sut: WebAuthenticationService = await .make(errorFromStartSession: anyError,
+                                                        mockAnalyticsService: mockAnalyticsService)
+        
+        let error = await #expect(throws: LoginError.self) {
+            try await sut.startWebSession()
+        }
+    
+        #expect(error == anyError)
+        #expect(mockAnalyticsService.crashesLogged.count == 1)
+    }
+
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
