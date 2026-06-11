@@ -257,7 +257,7 @@ extension LoginCoordinator {
             description = error.debugDescription
         }
         
-        let viewModel = RecoverableLoginErrorViewModel(
+        let viewModel = GenericErrorViewModel(
             analyticsService: analyticsService,
             errorDescription: description ?? error.localizedDescription
         ) { [unowned self] in

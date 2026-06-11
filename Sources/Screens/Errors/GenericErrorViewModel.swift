@@ -46,6 +46,7 @@ struct GenericErrorViewModel: GDSCentreAlignedViewModel {
                                        let event = LinkEvent(textKey: "app_tryAgainButton",
                                                              linkDomain: AppEnvironment.mobileBaseURLString,
                                                              external: .false)
+                                       analyticsService.logEvent(event)
                                        
                                        action()
                                    }),
