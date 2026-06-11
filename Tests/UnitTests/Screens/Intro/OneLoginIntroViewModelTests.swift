@@ -1,83 +1,71 @@
 @testable import DesignSystem
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
+import UIKit
 
 @MainActor
-final class OneLoginIntroViewModelTests: XCTestCase {
+struct OneLoginIntroViewModelTests {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: OneLoginIntroViewModel!
     
-    var didCallButtonAction = false
-     
-    override func setUp() {
-        super.setUp()
-        
+    init() {
         mockAnalyticsService = MockAnalyticsService()
         sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) { nil }
-    }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
-        
-        didCallButtonAction = false
-        
-        super.tearDown()
     }
 }
 
 extension OneLoginIntroViewModelTests {
+    @Test
     func test_page() throws {
-        let imageVM = try XCTUnwrap(sut.body.first as? GDSImageViewModel)
-        let titleText = try XCTUnwrap(sut.body[1] as? GDSTextViewModel)
-        let bodyText = try XCTUnwrap(sut.body[2] as? GDSTextViewModel)
-        XCTAssertEqual(imageVM.image, UIImage(named: "badge"))
-        XCTAssertEqual(titleText.title.stringKey, "app_nameString")
-        XCTAssertEqual(titleText.title.value, "GOV.UK One Login")
-        XCTAssertEqual(bodyText.title.stringKey, "app_signInBody")
-        XCTAssertEqual(bodyText.title.variableKeys, ["app_nameString"])
-        XCTAssertEqual(bodyText.title.value, "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
+        let imageVM = sut.body.first as? GDSImageViewModel
+        let titleText = sut.body[1] as? GDSTextViewModel
+        let bodyText = sut.body[2] as? GDSTextViewModel
+        #expect(imageVM?.image == UIImage(named: "badge"))
+        #expect(titleText?.title.stringKey == "app_nameString")
+        #expect(titleText?.title.value == "GOV.UK One Login")
+        #expect(bodyText?.title.stringKey == "app_signInBody")
+        #expect(bodyText?.title.variableKeys == ["app_nameString"])
+        #expect(bodyText?.title.value == "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")
     }
     
+    @Test
     func test_button() async throws {
-        let expectation = expectation(description: "Async Button action called")
+        var didCallButtonAction = false
         
-        sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
+        let sut = OneLoginIntroViewModel(analyticsService: mockAnalyticsService) {
             Task {
-                self.didCallButtonAction = true
-                expectation.fulfill()
+                didCallButtonAction = true
             }
         }
+        let primaryButton = sut.movableFooter.first as? GDSButtonViewModel
+        #expect(primaryButton?.title.forState(.normal) == "Sign in with GOV.UK One Login")
+        #expect(!didCallButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
         
-        let primaryButton = try XCTUnwrap(sut.movableFooter.first as? GDSButtonViewModel)
-        XCTAssertEqual(primaryButton.title.forState(.normal), "Sign in with GOV.UK One Login")
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        let button = GDSButton(viewModel: primaryButton)
-        button.sendActions(for: .touchUpInside)
-        await fulfillment(of: [expectation], timeout: 3)
+        await primaryButton?.buttonAction.performAsync()
         
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        #expect(didCallButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_extendedSignInButton",
                               variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
     
+    @Test
     func test_didAppear() {
-        XCTAssertNil(sut.didDismiss)
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
+        #expect(sut.didDismiss == nil)
+        #expect(mockAnalyticsService.screenViews.count == 0)
         let vc = GDSScreen(viewModel: sut)
         vc.viewDidAppear(false)
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
                                 screen: IntroAnalyticsScreen.welcome,
                                 titleKey: "app_nameString")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }
