@@ -33,8 +33,7 @@ final class WebAuthenticationService: AuthenticationService {
                 using: { persistentSessionID in
                     try await LoginSessionConfiguration.oneLoginSessionConfiguration(
                         persistentSessionID: persistentSessionID,
-                        appIntegrityProvider: appIntegrityProvider
-                        )
+                        appIntegrityProvider: appIntegrityProvider)
                 }
             )
         } catch let error as LoginError {

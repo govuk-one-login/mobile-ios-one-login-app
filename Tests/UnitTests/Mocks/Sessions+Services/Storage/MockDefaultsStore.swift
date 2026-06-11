@@ -56,5 +56,4 @@ struct MockDefaultsStoreExpectation: DefaultsStoring, SessionBoundData {
         try self.mockDefaultsStore.clearSessionData()
         try self.clearSessionDataAsFunction()
     }
-
 }

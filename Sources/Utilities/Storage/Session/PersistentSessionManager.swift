@@ -11,18 +11,24 @@ import SecureStore
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
     
-    static func make(analyticsService: OneLoginAnalyticsService,
-                     refreshTokenExchangeManager: TokenExchangeManaging,
-                     serialTaskQueue: SerialTaskQueue,
-                     analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData),
-                     encryptedStore: (any SecureStorableV2 & SessionBoundData)? = nil,
-                     unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
-                     walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
-                     walletSessionData: SessionBoundData = WalletSessionData()
+    typealias SecureStorableSessionBoundData = any SecureStorableV2 & SessionBoundData
+    
+    static func make(
+        accessControlEncryptedSecureStoreMigrator: SecureStorableSessionBoundData? = nil,
+        encryptedStore: SecureStorableSessionBoundData? = nil,
+        unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
+        analyticsService: OneLoginAnalyticsService,
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        walletSessionData: SessionBoundData = WalletSessionData(),
+        refreshTokenExchangeManager: TokenExchangeManaging,
+        serialTaskQueue: SerialTaskQueue,
+        analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData)
     ) throws -> PersistentSessionManager {
         
-        let accessControlEncryptedSecureStoreMigrator = try AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
-        let encryptedSecureStoreMigrator: SecureStorableV2 & SessionBoundData = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
+        let accessControlEncryptedSecureStoreMigrator
+            = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
+        
+        let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
         let manager = PersistentSessionManager(
             accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
             encryptedStore: encryptedSecureStoreMigrator,

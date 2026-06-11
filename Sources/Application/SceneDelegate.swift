@@ -30,9 +30,9 @@ final class SceneDelegate: UIResponder,
     private lazy var sessionManager: PersistentSessionManager = {
         do {
             return try .make(analyticsService: analyticsService,
-                         refreshTokenExchangeManager: refreshTokenExchangeManager,
-                         serialTaskQueue: serialTaskQueue,
-                         analyticsPreferenceStore: analyticsPreferenceStore)
+                             refreshTokenExchangeManager: refreshTokenExchangeManager,
+                             serialTaskQueue: serialTaskQueue,
+                             analyticsPreferenceStore: analyticsPreferenceStore)
         } catch {
             fatalError()
         }
