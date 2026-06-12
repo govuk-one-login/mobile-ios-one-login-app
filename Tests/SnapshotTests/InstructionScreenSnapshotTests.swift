@@ -28,7 +28,7 @@ struct InstructionScreenSnapshotTests {
             primaryButtonAction: {},
             secondaryButtonAction: {}
         )
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -41,7 +41,7 @@ struct InstructionScreenSnapshotTests {
             primaryButtonAction: {},
             secondaryButtonAction: {}
         )
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
