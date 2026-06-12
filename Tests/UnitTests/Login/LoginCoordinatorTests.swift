@@ -181,7 +181,7 @@ extension LoginCoordinatorTests {
         // WHEN the LoginCoordinator's authenticate method is called
         sut.authenticate()
         // THEN the visible view controller should be the GDSErrorScreen
-        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSErrorScreen)
+        let errorScreen = try XCTUnwrap(sut.root.topViewController as? GDSScreen)
         // THEN the visible view controller's view model should be the NetworkConnectionErrorViewModel
         XCTAssertTrue(errorScreen.viewModel is NetworkConnectionErrorViewModel)
     }
@@ -252,7 +252,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_network() throws {
         // GIVEN the authentication session returns a network error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.network), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.network), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })

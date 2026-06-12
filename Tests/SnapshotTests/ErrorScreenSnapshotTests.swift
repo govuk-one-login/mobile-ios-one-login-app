@@ -85,7 +85,7 @@ struct ErrorScreenSnapshotTests {
             analyticsService: analyticsService,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
