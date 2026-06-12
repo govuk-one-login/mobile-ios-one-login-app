@@ -227,6 +227,30 @@
 		C36FE40A2FD9AFF8009987E3 /* test_analyticsPeferenceScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4002FD9AFF8009987E3 /* test_analyticsPeferenceScreen.12.png */; };
 		C36FE40B2FD9AFF8009987E3 /* test_analyticsPeferenceScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE3F62FD9AFF8009987E3 /* test_analyticsPeferenceScreen.2.png */; };
 		C36FE40C2FD9AFF8009987E3 /* test_analyticsPeferenceScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE3F92FD9AFF8009987E3 /* test_analyticsPeferenceScreen.5.png */; };
+		C36FE4282FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE41C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.1.png */; };
+		C36FE4292FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4182FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.9.png */; };
+		C36FE42A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4122FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.3.png */; };
+		C36FE42B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE41F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.4.png */; };
+		C36FE42C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4202FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.5.png */; };
+		C36FE42D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4232FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.8.png */; };
+		C36FE42E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4262FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.11.png */; };
+		C36FE42F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4152FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.6.png */; };
+		C36FE4302FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4272FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.12.png */; };
+		C36FE4312FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4222FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.7.png */; };
+		C36FE4322FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4252FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.10.png */; };
+		C36FE4332FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4242FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.9.png */; };
+		C36FE4342FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4212FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.6.png */; };
+		C36FE4352FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE41A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.11.png */; };
+		C36FE4362FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4102FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.1.png */; };
+		C36FE4372FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4132FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.4.png */; };
+		C36FE4382FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4192FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.10.png */; };
+		C36FE4392FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4142FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.5.png */; };
+		C36FE43A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE41D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.2.png */; };
+		C36FE43B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE41E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.3.png */; };
+		C36FE43C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4112FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.2.png */; };
+		C36FE43D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4162FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.7.png */; };
+		C36FE43E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE4172FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.8.png */; };
+		C36FE43F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C36FE41B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.12.png */; };
 		C388D2612DC8E928007C9902 /* HomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C388D2602DC8E928007C9902 /* HomeView.xib */; };
 		C390BF3A2FD97EC4007A8F79 /* URLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C390BF392FD97EC0007A8F79 /* URLOpener.swift */; };
 		C39812232F753B33003CEF98 /* MockCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */; };
@@ -401,30 +425,6 @@
 		C8467DC22F1978150071ED81 /* test_updateAppError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CC12F1978150071ED81 /* test_updateAppError.10.png */; };
 		C8467DC32F1978150071ED81 /* test_updateAppError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CC22F1978150071ED81 /* test_updateAppError.11.png */; };
 		C8467DC42F1978150071ED81 /* test_updateAppError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CC32F1978150071ED81 /* test_updateAppError.12.png */; };
-		C8467DD12F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD12F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.1.png */; };
-		C8467DD22F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD22F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.2.png */; };
-		C8467DD32F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD32F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.3.png */; };
-		C8467DD42F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD42F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.4.png */; };
-		C8467DD52F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD52F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.5.png */; };
-		C8467DD62F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD62F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.6.png */; };
-		C8467DD72F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD72F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.7.png */; };
-		C8467DD82F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD82F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.8.png */; };
-		C8467DD92F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CD92F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.9.png */; };
-		C8467DDA2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CDA2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.10.png */; };
-		C8467DDB2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CDB2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.11.png */; };
-		C8467DDC2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CDC2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.12.png */; };
-		C8467DDD2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CDD2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.1.png */; };
-		C8467DDE2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CDE2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.2.png */; };
-		C8467DDF2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CDF2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.3.png */; };
-		C8467DE02F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE02F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.4.png */; };
-		C8467DE12F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE12F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.5.png */; };
-		C8467DE22F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE22F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.6.png */; };
-		C8467DE32F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE32F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.7.png */; };
-		C8467DE42F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE42F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.8.png */; };
-		C8467DE52F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE52F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.9.png */; };
-		C8467DE62F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE62F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.10.png */; };
-		C8467DE72F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE72F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.11.png */; };
-		C8467DE82F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467CE82F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.12.png */; };
 		C8467E192F1978150071ED81 /* test_signOutSuccessfulScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467D192F1978150071ED81 /* test_signOutSuccessfulScreen.1.png */; };
 		C8467E1A2F1978150071ED81 /* test_signOutSuccessfulScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467D1A2F1978150071ED81 /* test_signOutSuccessfulScreen.2.png */; };
 		C8467E1B2F1978150071ED81 /* test_signOutSuccessfulScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467D1B2F1978150071ED81 /* test_signOutSuccessfulScreen.3.png */; };
@@ -848,6 +848,30 @@
 		C36FE3FE2FD9AFF8009987E3 /* test_analyticsPeferenceScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.10.png; sourceTree = "<group>"; };
 		C36FE3FF2FD9AFF8009987E3 /* test_analyticsPeferenceScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.11.png; sourceTree = "<group>"; };
 		C36FE4002FD9AFF8009987E3 /* test_analyticsPeferenceScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.12.png; sourceTree = "<group>"; };
+		C36FE4102FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.1.png; sourceTree = "<group>"; };
+		C36FE4112FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.2.png; sourceTree = "<group>"; };
+		C36FE4122FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.3.png; sourceTree = "<group>"; };
+		C36FE4132FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.4.png; sourceTree = "<group>"; };
+		C36FE4142FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.5.png; sourceTree = "<group>"; };
+		C36FE4152FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.6.png; sourceTree = "<group>"; };
+		C36FE4162FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.7.png; sourceTree = "<group>"; };
+		C36FE4172FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.8.png; sourceTree = "<group>"; };
+		C36FE4182FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.9.png; sourceTree = "<group>"; };
+		C36FE4192FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.10.png; sourceTree = "<group>"; };
+		C36FE41A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.11.png; sourceTree = "<group>"; };
+		C36FE41B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.12.png; sourceTree = "<group>"; };
+		C36FE41C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.1.png; sourceTree = "<group>"; };
+		C36FE41D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.2.png; sourceTree = "<group>"; };
+		C36FE41E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.3.png; sourceTree = "<group>"; };
+		C36FE41F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.4.png; sourceTree = "<group>"; };
+		C36FE4202FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.5.png; sourceTree = "<group>"; };
+		C36FE4212FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.6.png; sourceTree = "<group>"; };
+		C36FE4222FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.7.png; sourceTree = "<group>"; };
+		C36FE4232FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.8.png; sourceTree = "<group>"; };
+		C36FE4242FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.9.png; sourceTree = "<group>"; };
+		C36FE4252FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.10.png; sourceTree = "<group>"; };
+		C36FE4262FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.11.png; sourceTree = "<group>"; };
+		C36FE4272FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.12.png; sourceTree = "<group>"; };
 		C388D2602DC8E928007C9902 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
 		C390BF392FD97EC0007A8F79 /* URLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpener.swift; sourceTree = "<group>"; };
 		C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIOrchestrator.swift; sourceTree = "<group>"; };
@@ -1016,30 +1040,6 @@
 		C8467CC12F1978150071ED81 /* test_updateAppError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.10.png; sourceTree = "<group>"; };
 		C8467CC22F1978150071ED81 /* test_updateAppError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.11.png; sourceTree = "<group>"; };
 		C8467CC32F1978150071ED81 /* test_updateAppError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.12.png; sourceTree = "<group>"; };
-		C8467CD12F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.1.png; sourceTree = "<group>"; };
-		C8467CD22F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.2.png; sourceTree = "<group>"; };
-		C8467CD32F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.3.png; sourceTree = "<group>"; };
-		C8467CD42F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.4.png; sourceTree = "<group>"; };
-		C8467CD52F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.5.png; sourceTree = "<group>"; };
-		C8467CD62F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.6.png; sourceTree = "<group>"; };
-		C8467CD72F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.7.png; sourceTree = "<group>"; };
-		C8467CD82F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.8.png; sourceTree = "<group>"; };
-		C8467CD92F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.9.png; sourceTree = "<group>"; };
-		C8467CDA2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.10.png; sourceTree = "<group>"; };
-		C8467CDB2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.11.png; sourceTree = "<group>"; };
-		C8467CDC2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.12.png; sourceTree = "<group>"; };
-		C8467CDD2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.1.png; sourceTree = "<group>"; };
-		C8467CDE2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.2.png; sourceTree = "<group>"; };
-		C8467CDF2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.3.png; sourceTree = "<group>"; };
-		C8467CE02F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.4.png; sourceTree = "<group>"; };
-		C8467CE12F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.5.png; sourceTree = "<group>"; };
-		C8467CE22F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.6.png; sourceTree = "<group>"; };
-		C8467CE32F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.7.png; sourceTree = "<group>"; };
-		C8467CE42F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.8.png; sourceTree = "<group>"; };
-		C8467CE52F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.9.png; sourceTree = "<group>"; };
-		C8467CE62F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.10.png; sourceTree = "<group>"; };
-		C8467CE72F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.11.png; sourceTree = "<group>"; };
-		C8467CE82F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.12.png; sourceTree = "<group>"; };
 		C8467D192F1978150071ED81 /* test_signOutSuccessfulScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutSuccessfulScreen.1.png; sourceTree = "<group>"; };
 		C8467D1A2F1978150071ED81 /* test_signOutSuccessfulScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutSuccessfulScreen.2.png; sourceTree = "<group>"; };
 		C8467D1B2F1978150071ED81 /* test_signOutSuccessfulScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutSuccessfulScreen.3.png; sourceTree = "<group>"; };
@@ -2010,6 +2010,30 @@
 		C8467D312F1978150071ED81 /* InstructionScreenSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				C36FE4102FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.1.png */,
+				C36FE4112FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.2.png */,
+				C36FE4122FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.3.png */,
+				C36FE4132FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.4.png */,
+				C36FE4142FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.5.png */,
+				C36FE4152FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.6.png */,
+				C36FE4162FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.7.png */,
+				C36FE4172FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.8.png */,
+				C36FE4182FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.9.png */,
+				C36FE4192FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.10.png */,
+				C36FE41A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.11.png */,
+				C36FE41B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.12.png */,
+				C36FE41C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.1.png */,
+				C36FE41D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.2.png */,
+				C36FE41E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.3.png */,
+				C36FE41F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.4.png */,
+				C36FE4202FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.5.png */,
+				C36FE4212FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.6.png */,
+				C36FE4222FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.7.png */,
+				C36FE4232FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.8.png */,
+				C36FE4242FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.9.png */,
+				C36FE4252FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.10.png */,
+				C36FE4262FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.11.png */,
+				C36FE4272FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.12.png */,
 				C36FE3F52FD9AFF8009987E3 /* test_analyticsPeferenceScreen.1.png */,
 				C36FE3F62FD9AFF8009987E3 /* test_analyticsPeferenceScreen.2.png */,
 				C36FE3F72FD9AFF8009987E3 /* test_analyticsPeferenceScreen.3.png */,
@@ -2034,30 +2058,6 @@
 				C32284432FD1A090002A00B9 /* test_oneLoginIntroScreen.10.png */,
 				C32284442FD1A090002A00B9 /* test_oneLoginIntroScreen.11.png */,
 				C32284452FD1A090002A00B9 /* test_oneLoginIntroScreen.12.png */,
-				C8467CD12F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.1.png */,
-				C8467CD22F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.2.png */,
-				C8467CD32F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.3.png */,
-				C8467CD42F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.4.png */,
-				C8467CD52F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.5.png */,
-				C8467CD62F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.6.png */,
-				C8467CD72F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.7.png */,
-				C8467CD82F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.8.png */,
-				C8467CD92F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.9.png */,
-				C8467CDA2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.10.png */,
-				C8467CDB2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.11.png */,
-				C8467CDC2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.12.png */,
-				C8467CDD2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.1.png */,
-				C8467CDE2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.2.png */,
-				C8467CDF2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.3.png */,
-				C8467CE02F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.4.png */,
-				C8467CE12F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.5.png */,
-				C8467CE22F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.6.png */,
-				C8467CE32F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.7.png */,
-				C8467CE42F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.8.png */,
-				C8467CE52F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.9.png */,
-				C8467CE62F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.10.png */,
-				C8467CE72F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.11.png */,
-				C8467CE82F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.12.png */,
 				C362AFED2F75A1D900B92145 /* test_settingsScreen.1.png */,
 				C362AFEE2F75A1D900B92145 /* test_settingsScreen.2.png */,
 				C362AFEF2F75A1D900B92145 /* test_settingsScreen.3.png */,
@@ -3293,30 +3293,6 @@
 				C8467DC22F1978150071ED81 /* test_updateAppError.10.png in Resources */,
 				C8467DC32F1978150071ED81 /* test_updateAppError.11.png in Resources */,
 				C8467DC42F1978150071ED81 /* test_updateAppError.12.png in Resources */,
-				C8467DD12F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */,
-				C8467DD22F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */,
-				C8467DD32F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */,
-				C8467DD42F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */,
-				C8467DD52F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */,
-				C8467DD62F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */,
-				C8467DD72F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */,
-				C8467DD82F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */,
-				C8467DD92F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */,
-				C8467DDA2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */,
-				C8467DDB2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */,
-				C8467DDC2F1978150071ED81 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */,
-				C8467DDD2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */,
-				C8467DDE2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */,
-				C8467DDF2F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */,
-				C8467DE02F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */,
-				C8467DE12F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */,
-				C8467DE22F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */,
-				C8467DE32F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */,
-				C8467DE42F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */,
-				C8467DE52F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */,
-				C8467DE62F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */,
-				C8467DE72F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */,
-				C8467DE82F1978150071ED81 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */,
 				C362B0072F75CE8000B92145 /* test_settingsScreen.9.png in Resources */,
 				C362B0082F75CE8000B92145 /* test_settingsScreen.11.png in Resources */,
 				C8467E192F1978150071ED81 /* test_signOutSuccessfulScreen.1.png in Resources */,
@@ -3337,6 +3313,30 @@
 				C8467E282F1978150071ED81 /* test_unlockScreen.4.png in Resources */,
 				C8467E292F1978150071ED81 /* test_unlockScreen.5.png in Resources */,
 				C8467E2A2F1978150071ED81 /* test_unlockScreen.6.png in Resources */,
+				C36FE4282FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */,
+				C36FE4292FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */,
+				C36FE42A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */,
+				C36FE42B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */,
+				C36FE42C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */,
+				C36FE42D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */,
+				C36FE42E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */,
+				C36FE42F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */,
+				C36FE4302FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */,
+				C36FE4312FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */,
+				C36FE4322FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */,
+				C36FE4332FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */,
+				C36FE4342FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */,
+				C36FE4352FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */,
+				C36FE4362FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */,
+				C36FE4372FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */,
+				C36FE4382FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */,
+				C36FE4392FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */,
+				C36FE43A2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */,
+				C36FE43B2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */,
+				C36FE43C2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */,
+				C36FE43D2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */,
+				C36FE43E2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */,
+				C36FE43F2FDC49D6009987E3 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */,
 				C8467E2B2F1978150071ED81 /* test_unlockScreen.7.png in Resources */,
 				C8467E2C2F1978150071ED81 /* test_unlockScreen.8.png in Resources */,
 				C8467E2D2F1978150071ED81 /* test_unlockScreen.9.png in Resources */,
@@ -5389,7 +5389,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-ui";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.9.0;
+				minimumVersion = 1.10.0;
 			};
 		};
 		1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
