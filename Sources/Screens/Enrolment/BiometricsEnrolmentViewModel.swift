@@ -1,104 +1,134 @@
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import LocalAuthenticationWrapper
 import Logging
 import UIKit
 
-struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel,
-                                     GDSCentreAlignedViewModelWithImage,
-                                     GDSCentreAlignedViewModelWithPrimaryButton,
-                                     GDSCentreAlignedViewModelWithSecondaryButton,
-                                     GDSCentreAlignedViewModelWithChildView,
-                                     BaseViewModel {
-    let image: String
-    let imageWeight: UIFont.Weight? = .thin
-    let imageColour: UIColor? = nil
-    let imageHeightConstraint: CGFloat? = 64
-    let title: GDSLocalisedString
-    var body: GDSLocalisedString?
-    let primaryButtonViewModel: ButtonViewModel
-    let secondaryButtonViewModel: ButtonViewModel
-    let analyticsService: OneLoginAnalyticsService
-    let isFaceID: Bool
-    let biometricsTypeString: String
-    var childView: UIView {
-        configureChildView()
-    }
-    
-    let rightBarButtonTitle: GDSLocalisedString? = nil
-    let backButtonIsHidden: Bool = true
-    
+struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
+    var screenStyle: GDSScreenStyle
+    var body: [any ContentViewModel]
+    var movableFooter: [any ContentViewModel]
+    var footer: [any ContentViewModel]
+
+    var rightBarButtonTitle: GDSLocalisedString?
+    var backButtonTitle: GDSLocalisedString?
+    var backButtonIsHidden: Bool
+
+    var didAppear: DesignSystem.Action?
+    var didDismiss: DesignSystem.Action?
+ 
+    // swiftlint: disable:next function_body_length
     init(analyticsService: OneLoginAnalyticsService,
          biometricsType: LocalAuthType,
          primaryButtonAction: @escaping () -> Void,
          secondaryButtonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService.addingAdditionalParameters([
+        let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        self.isFaceID = biometricsType == .faceID
-        self.biometricsTypeString = isFaceID ? "app_FaceID" : "app_TouchID"
-        self.image = isFaceID ? "faceid" : "touchid"
-        self.primaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_enableBiometricsButton",
-                                                               biometricsTypeString,
-                                                               shouldLoadOnTap: true,
-                                                               analyticsService: analyticsService) {
-            primaryButtonAction()
-        }
-        self.secondaryButtonViewModel = AnalyticsButtonViewModel(titleKey: "app_skipButton",
-                                                                 analyticsService: analyticsService) {
-            secondaryButtonAction()
-        }
-        self.title = GDSLocalisedString(stringKey: "app_enableBiometricsTitle", biometricsTypeString)
-    }
-    
-    private func configureChildView() -> UIView {
-        let bulletView: BulletView = BulletView(
-            title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1", biometricsTypeString).value,
-            text: [
-                GDSLocalisedString(stringKey: "app_enableBiometricsBullet1").value,
-                GDSLocalisedString(stringKey: "app_enableBiometricsBullet2").value
+        
+        let isFaceID = biometricsType == .faceID
+        let biometricsTypeString = isFaceID ? "app_FaceID" : "app_TouchID"
+        let imageName = isFaceID ? "faceid" : "touchid"
+        
+        let titleString = GDSLocalisedString(stringKey: "app_enableBiometricsTitle", biometricsTypeString)
+        let bodyText = isFaceID ? "app_enableBiometricsFaceIDBody2" : "app_enableBiometricsTouchIDBody2"
+        
+        let font = UIFont(style: .largeTitle, weight: .thin)
+        let configuration = UIImage.SymbolConfiguration(font: font, scale: .large)
+        
+        let image = UIImage(systemName: imageName, withConfiguration: configuration)
+        
+        self.init(
+            screenStyle: .centred,
+            body: [
+                GDSImageViewModel(image: image ?? UIImage(),
+                                  imageColour: DesignSystem.Color.Text.primary,
+                                  contentMode: .scaleAspectFit,
+                                  imageFixedHeight: 64,
+                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
+                GDSTextViewModel(title: titleString,
+                                 titleFont: .largeTitleBold,
+                                 alignment: .center,
+                                 verticalPadding: .bottom(DesignSystem.Spacing.default)),
+                GDSListViewModel(
+                    title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1", biometricsTypeString),
+                    titleConfig: (font: .body, isHeader: true),
+                    items: [
+                        GDSLocalisedString(stringKey: "app_enableBiometricsBullet1"),
+                        GDSLocalisedString(stringKey: "app_enableBiometricsBullet2")
+                    ],
+                    style: .bulleted,
+                    verticalPadding: .bottom(DesignSystem.Spacing.default)
+                ),
+                GDSTextViewModel(title: GDSLocalisedString(stringLiteral: bodyText),
+                                 alignment: .center,
+                                 verticalPadding: .top(.zero))
             ],
-            titleFont: .body
+            movableFooter: [
+                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_enableBiometricsButton",
+                                                             biometricsTypeString).value,
+                                   style: .primary,
+                                   buttonAction: .action({
+                                      let event = ButtonEvent(textKey: "app_extendedSignInButton",
+                                                              variableKeys: ["app_nameString"])
+                                       analyticsService.logEvent(event)
+                                       
+                                       primaryButtonAction()
+                                   }),
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default)),
+                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_skipButton").value,
+                                   style: .secondary,
+                                   buttonAction: .action({
+                                       let event = ButtonEvent(textKey: "app_skipButton")
+                                       analyticsService.logEvent(event)
+                                       
+                                       secondaryButtonAction()
+                                   }),
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default))
+            ],
+            footer: [],
+            rightBarButtonTitle: nil,
+            backButtonTitle: nil,
+            backButtonIsHidden: true,
+            didAppear: .action({
+                let screenID = isFaceID ?
+                    BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
+                    BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
+                
+                let screenName = isFaceID ?
+                BiometricEnrolmentAnalyticsScreen.faceIDEnrolment :
+                BiometricEnrolmentAnalyticsScreen.touchIDEnrolment
+                
+                let screen = ScreenView(id: screenID,
+                                        screen: screenName,
+                                        titleKey: titleString.stringKey,
+                                        variableKeys: [biometricsTypeString])
+                analyticsService.trackScreen(screen)
+            }),
+            didDismiss: nil
         )
-        bulletView.accessibilityIdentifier = "biometrics-enrolment-bullet-list"
-        
-        let body2Text = isFaceID ? "app_enableBiometricsFaceIDBody2" : "app_enableBiometricsTouchIDBody2"
-        let body2Label = {
-            let label = UILabel()
-            label.text = GDSLocalisedString(stringLiteral: body2Text).value
-            label.adjustsFontForContentSizeCategory = true
-            label.numberOfLines = 0
-            label.font = .body
-            label.textAlignment = .center
-            label.accessibilityIdentifier = "biometrics-enrolment-body2-text"
-            return label
-        }()
-        
-        let stackView = UIStackView(arrangedSubviews: [bulletView, body2Label])
-        stackView.axis = .vertical
-        stackView.alignment = .top
-        stackView.spacing = 12
-        stackView.accessibilityIdentifier = "biometrics-enrolment-stack-view"
-        
-        return stackView
     }
     
-    func didAppear() {
-        let screenID = isFaceID ?
-            BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
-            BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
-        
-        let screenName = isFaceID ?
-        BiometricEnrolmentAnalyticsScreen.faceIDEnrolment :
-        BiometricEnrolmentAnalyticsScreen.touchIDEnrolment
-        
-        let screen = ScreenView(id: screenID,
-                                screen: screenName,
-                                titleKey: title.stringKey,
-                                variableKeys: [biometricsTypeString])
-        analyticsService.trackScreen(screen)
+    init(screenStyle: GDSScreenStyle,
+         body: [any ContentViewModel],
+         movableFooter: [any ContentViewModel],
+         footer: [any ContentViewModel],
+         rightBarButtonTitle: GDSLocalisedString?,
+         backButtonTitle: GDSLocalisedString?,
+         backButtonIsHidden: Bool,
+         didAppear: DesignSystem.Action?,
+         didDismiss: DesignSystem.Action?) {
+        self.screenStyle = screenStyle
+        self.body = body
+        self.movableFooter = movableFooter
+        self.footer = footer
+        self.rightBarButtonTitle = rightBarButtonTitle
+        self.backButtonTitle = backButtonTitle
+        self.backButtonIsHidden = backButtonIsHidden
+        self.didAppear = didAppear
+        self.didDismiss = didDismiss
     }
-    
-    func didDismiss() { /* Conforming to BaseViewModel */ }
 }

@@ -1,4 +1,5 @@
 import Coordination
+import DesignSystem
 import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
@@ -54,7 +55,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     let skippedBiometricsViewController =  GDSErrorScreen(viewModel: viewModel)
                     biometricsNavigationController.pushViewController(skippedBiometricsViewController, animated: true)
                 }
-                let biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                let biometricsEnrolmentScreen = GDSScreen(viewModel: viewModel)
                 
                 biometricsNavigationController.setViewControllers([biometricsEnrolmentScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet

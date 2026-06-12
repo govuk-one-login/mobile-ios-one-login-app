@@ -48,8 +48,6 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
                     analyticsService.logCrash(error)
                 }
             } catch LocalAuthenticationWrapperError.cancelled {
-                (coordinator as? EnrolmentCoordinator)?
-                    .enableEnrolmentButton()
                 (coordinator as? WalletCoordinator)?
                     .userCancelledPasscode()
             } catch {
