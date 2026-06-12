@@ -1,5 +1,5 @@
 import Foundation
-import GDSCommon
+import OneLogin
 
 final class MockURLOpener: URLOpener {
     var didOpenURL = false

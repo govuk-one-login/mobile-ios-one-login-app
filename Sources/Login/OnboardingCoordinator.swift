@@ -1,5 +1,5 @@
 import Coordination
-import GDSCommon
+import DesignSystem
 import Logging
 import UIKit
 
@@ -31,7 +31,8 @@ final class OnboardingCoordinator: NSObject,
         } textButtonAction: { [unowned self] in
             urlOpener.open(url: AppEnvironment.privacyPolicyURL)
         }
-        let analyticsPreferenceScreen = ModalInfoViewController(viewModel: viewModel)
+        let analyticsPreferenceScreen = GDSScreen(viewModel: viewModel)
+        root.isModalInPresentation = true
         root.setViewControllers([analyticsPreferenceScreen], animated: false)
     }
 }

@@ -5,7 +5,6 @@ import DesignSystem
 import class GDSCommon.GDSErrorScreen
 import protocol GDSCommon.GDSErrorViewModelV3
 import class GDSCommon.GDSInformationViewController
-import class GDSCommon.ModalInfoViewController
 @testable import OneLogin
 import SecureStore
 import XCTest
@@ -729,7 +728,9 @@ extension LoginCoordinatorTests {
         sut.loginCoordinatorDidDisplay()
         // THEN the OnboardingCoordinator should be launched
         XCTAssertTrue(sut.childCoordinators[0] is OnboardingCoordinator)
-        XCTAssertTrue(sut.root.presentedViewController?.children[0] is ModalInfoViewController)
+        let vc = sut.root.presentedViewController?.children[0] as? GDSScreen
+        XCTAssertTrue(vc != nil)
+        XCTAssertTrue(vc?.viewModel is AnalyticsPreferenceViewModel)
     }
     
     func test_skip_promptForAnalyticsPermissions() {
