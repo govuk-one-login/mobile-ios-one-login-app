@@ -309,7 +309,7 @@ extension LoginCoordinator {
         ) { [unowned self] in
             returnFromErrorScreen()
         }
-        let genericErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let genericErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(genericErrorScreen, animated: true)
     }
     

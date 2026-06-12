@@ -1,80 +1,69 @@
+@testable import DesignSystem
 import GDSAnalytics
 @testable import OneLogin
 import Testing
 
-final class Listener {
-    private(set) var didCall: Bool = false
-
-    func callAsFunction() {
-        didCall = true
-    }
-}
-
 @MainActor
 struct GenericErrorViewModelTests {
-    let sut: GenericErrorViewModel
-
+    var sut: GenericErrorViewModel
     let mockAnalyticsService = MockAnalyticsService()
-    let buttonActionListener: Listener
-
-    var didCallButtonAction: Bool {
-        buttonActionListener.didCall
-    }
-
+    
     init() {
-        let buttonActionListener = Listener()
-        self.buttonActionListener = buttonActionListener
-
         sut = GenericErrorViewModel(analyticsService: mockAnalyticsService,
-                                    errorDescription: "error description") {
-            buttonActionListener()
-        }
+                                    errorDescription: "error description") {}
     }
-}
-
-extension GenericErrorViewModelTests {
-    @Test("""
-          Check that the label contents are assigned correctly by the initialiser
-          """)
+    
+    @Test
     func test_page() {
-        #expect(sut.image == .error)
-        #expect(sut.title.stringKey == "app_genericErrorPage")
-        #expect(sut.bodyContent.count == 1)
-        #expect(sut.errorDescription == "error description")
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
+        #expect(title?.icon == .error)
+        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_genericErrorPage"))
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
+        
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title == GDSLocalisedString(stringKey: "app_genericErrorPageBody"))
+        #expect(body?.alignment == .center)
+        
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
         #expect(sut.rightBarButtonTitle == nil)
-        #expect(sut.backButtonIsHidden)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
 
-    @Test("""
-          Validates that the button action:
-            - calls the injected closure
-            - logs the `Link` analytics event
-          """)
+    @Test
     func test_button() {
-        #expect(sut.buttonViewModels[0].title.stringKey == "app_tryAgainButton")
-        #expect(!didCallButtonAction)
+        var didCallButtonAction = false
+        let sut = GenericErrorViewModel(analyticsService: mockAnalyticsService,
+                                        errorDescription: "error description") {
+            didCallButtonAction = true
+        }
+        
+        let button = sut.movableFooter.first as? GDSButtonViewModel
+        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_tryAgainButton").value)
+        
+        #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
-        sut.buttonViewModels[0].action()
+        button?.buttonAction.perform()
         #expect(didCallButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
-        let event = LinkEvent(textKey: "app_tryAgainButton",
-                              linkDomain: AppEnvironment.mobileBaseURLString,
-                              external: .false)
+        let event = ButtonEvent(textKey: "app_tryAgainButton")
         #expect(mockAnalyticsService.eventsLogged == [event.name.name])
         #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
-
-    @Test("""
-          Validates that did appear logs the expected analytics event
-          """)
+    
+    @Test
     func test_didAppear() {
         #expect(mockAnalyticsService.screenViews.count == 0)
-        sut.didAppear()
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
         #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                      screen: ErrorAnalyticsScreen.generic,
                                      titleKey: "app_genericErrorPage",
-                                     reason: sut.errorDescription)
+                                     reason: "error description")
         #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
