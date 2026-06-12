@@ -210,7 +210,7 @@ struct WebAuthenticationServiceTests {
     @Test func test_startWebSession_throws_cannotDeleteData() async throws {
         let mockAnalyticsService = MockAnalyticsService()
 
-        let walletSessionData = WalletSessionBoundDataStub( clearSessionDataAsFunction: {
+        let walletSessionData = WalletSessionBoundDataStub(clearSessionDataAsFunction: {
             throw WalletError(.failedToDeleteProofKeys)
         })
         
@@ -257,40 +257,12 @@ struct WebAuthenticationServiceTests {
 
 struct WalletSessionBoundDataStub: SessionBoundData {
     
-    enum ClearSessionDataResult {
-        case failedToDeleteProofKeys
-        case success
-    }
-    
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
     var clearSessionDataAsFunction: ClearSessionDataAsFunction
 
     func clearSessionData() async throws {
         return try await self.clearSessionDataAsFunction()
-    }
-}
-
-struct MockAnalyticsPreferenceStoreExpectation: AnalyticsPreferenceStore, SessionBoundData {
-    
-    typealias ClearSessionDataAsFunction = () async throws -> Void
-    
-    var clearSessionDataAsFunction: ClearSessionDataAsFunction
-
-    var hasAcceptedAnalytics: Bool? = false
-    
-    func stream() -> AsyncStream<Bool> {
-        var booleans = sequence(first: true) { _ in
-            Bool.random()
-        }.makeIterator()
-        
-        return AsyncStream {
-            booleans.next()
-        }
-    }
-    
-    func clearSessionData() async throws {
-        try await self.clearSessionDataAsFunction()
     }
 }
 
