@@ -10,12 +10,9 @@ import SecureStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
-    
-    typealias SecureStorableSessionBoundData = any SecureStorableV2 & SessionBoundData
-    
     static func make(
-        accessControlEncryptedSecureStoreMigrator: SecureStorableSessionBoundData? = nil,
-        encryptedStore: SecureStorableSessionBoundData? = nil,
+        accessControlEncryptedSecureStoreMigrator: (any SecureStorableV2 & SessionBoundData)? = nil,
+        encryptedStore: (any SecureStorableV2 & SessionBoundData)? = nil,
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
         analyticsService: OneLoginAnalyticsService,
         walletSDK: WalletServiceProtocol = WalletSDKWrapper(),

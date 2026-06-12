@@ -201,7 +201,6 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
 }
 
 struct WebAuthenticationServiceTests {
-        
     /// GIVEN I am "a returning user", who is "NOT authenticated" due to a `nil` `persistentId`
     /// AND `WalletSessionBoundData` throws `WalletError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
     /// WHEN I start a web session
@@ -256,7 +255,6 @@ struct WebAuthenticationServiceTests {
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
-    
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
     var clearSessionDataAsFunction: ClearSessionDataAsFunction
@@ -267,7 +265,6 @@ struct WalletSessionBoundDataStub: SessionBoundData {
 }
 
 extension WebAuthenticationService {
-    
     @MainActor
     static func make(window: UIWindow? = nil,
                      sessionManager: SessionManager = MockSessionManager(),
@@ -302,7 +299,6 @@ extension WebAuthenticationService {
 }
 
 extension PersistentSessionManager {
-        
     /// Creates a `PersistentSessionManager` with the following conditions:
     /// * `persistentID = nil` i.e. not stored in the `encryptedStore`
     /// * `isReturningUser = true`
@@ -316,7 +312,6 @@ extension PersistentSessionManager {
                                                  walletSessionData: SessionBoundData,
                                                  analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
     ) throws -> PersistentSessionManager {
-        
         mockUnprotectedStore.set(
             true,
             forKey: OLString.returningUser
