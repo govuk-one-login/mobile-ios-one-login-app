@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import AppIntegrity
 import Authentication
 import Combine
@@ -9,6 +10,46 @@ import SecureStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
+    static func make(
+        accessControlEncryptedSecureStoreMigrator: (any SecureStorableV2 & SessionBoundData)? = nil,
+        encryptedStore: (any SecureStorableV2 & SessionBoundData)? = nil,
+        unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
+        analyticsService: OneLoginAnalyticsService,
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        walletSessionData: SessionBoundData = WalletSessionData(),
+        refreshTokenExchangeManager: TokenExchangeManaging,
+        serialTaskQueue: SerialTaskQueue,
+        analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData)
+    ) throws -> PersistentSessionManager {
+        
+        let accessControlEncryptedSecureStoreMigrator
+            = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
+        
+        let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
+        let manager = PersistentSessionManager(
+            accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
+            encryptedStore: encryptedSecureStoreMigrator,
+            unprotectedStore: unprotectedStore,
+            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
+            analyticsService: analyticsService,
+            walletSDK: walletSDK,
+            tokenExchangeManager: refreshTokenExchangeManager,
+            serialTaskQueue: serialTaskQueue
+        )
+        
+        manager.registerSessionBoundData(
+            [
+                walletSessionData,
+                analyticsPreferenceStore,
+                accessControlEncryptedSecureStoreMigrator,
+                encryptedSecureStoreMigrator,
+                unprotectedStore
+            ]
+        )
+        
+        return manager
+    }
+    
     private let accessControlEncryptedStore: SecureStorableV2
     private let encryptedStore: SecureStorableV2
     private let storeKeyService: TokenStore
@@ -41,7 +82,6 @@ final class PersistentSessionManager: SessionManager {
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
             analyticsService: analyticsService,
-            walletSDK: WalletSDKWrapper(),
             tokenExchangeManager: tokenExchangeManager,
             serialTaskQueue: serialTaskQueue
         )
