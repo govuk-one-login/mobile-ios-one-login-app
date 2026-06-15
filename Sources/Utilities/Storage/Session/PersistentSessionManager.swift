@@ -203,18 +203,6 @@ final class PersistentSessionManager: SessionManager {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
-    private func clear(sessionData: [SessionBoundData], presentSystemLogOut: Bool) async throws {
-        for each in sessionData {
-            try await each.clearSessionData()
-        }
-        
-        endCurrentSession()
-        
-        if presentSystemLogOut {
-            NotificationCenter.default.post(name: .systemLogUserOut)
-        }
-    }
-
     func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
@@ -233,7 +221,7 @@ final class PersistentSessionManager: SessionManager {
                     try await clearAllSessionData(presentSystemLogOut: true)
                 } catch let error as WalletStoreError where error.kind == .failedToDeleteProofKeys {
                     do {
-                        try await clear(sessionData: self.sessionBoundData.reversed(), presentSystemLogOut: true)
+                        try await clearSessionData(in: self.sessionBoundData.reversed(), presentSystemLogOut: true)
                     } catch {
                         analyticsService.logCrash(error)
                     }
@@ -402,17 +390,26 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAppForLogin() async throws {
-        for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
+        let excludingUserDefaultsPreferenceStore = sessionBoundData.filter { type(of: $0 ) != UserDefaultsPreferenceStore.self }
+        try await self.clearSessionData(in: excludingUserDefaultsPreferenceStore, presentSystemLogOut: false)
+    }
+
+    func clearAllSessionData(presentSystemLogOut: Bool) async throws {
+        try await self.clearSessionData(in: sessionBoundData, presentSystemLogOut: presentSystemLogOut)
+    }
+    
+    private func clearSessionData(in sessionData: [SessionBoundData], presentSystemLogOut: Bool) async throws {
+        for each in sessionData {
             try await each.clearSessionData()
         }
         
         endCurrentSession()
+        
+        if presentSystemLogOut {
+            NotificationCenter.default.post(name: .systemLogUserOut)
+        }
     }
 
-    func clearAllSessionData(presentSystemLogOut: Bool) async throws {
-        try await self.clear(sessionData: sessionBoundData, presentSystemLogOut: presentSystemLogOut)
-    }
-    
     func registerSessionBoundData(_ data: [SessionBoundData]) {
         sessionBoundData = data
     }
