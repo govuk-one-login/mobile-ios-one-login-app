@@ -32,9 +32,11 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
                 GDSTextViewModel(title: "app_nameString",
                                  titleFont: .largeTitleBold,
                                  alignment: .center,
+                                 accessibilityIdentifier: "intro-title",
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInBody", "app_nameString"),
                                  alignment: .center,
+                                 accessibilityIdentifier: "intro-body",
                                  verticalPadding: .top(.zero))
             ],
             movableFooter: [
@@ -50,6 +52,7 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
                                        let task = signinAction()
                                        await task?.value
                                    }),
+                                   accessibilityIdentifier: "intro-button",
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
