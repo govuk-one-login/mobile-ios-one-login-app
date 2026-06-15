@@ -81,7 +81,28 @@ extension BiometricsEnrolmentViewModelTests {
     }
     
     @Test
-    func test_primaryButton() async {
+    func test_primaryButton_faceID() async {
+        var didCallPrimaryButtonAction = false
+        
+        let sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
+                                               biometricsType: .faceID,
+                                               primaryButtonAction: { didCallPrimaryButtonAction = true },
+                                               secondaryButtonAction: {})
+
+        let primaryButton = sut.movableFooter[0] as? GDSButtonViewModel
+        
+        #expect(!didCallPrimaryButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        await primaryButton?.buttonAction.performAsync()
+        #expect(didCallPrimaryButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
+        let event = ButtonEvent(textKey: "allow face id")
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
+    }
+    
+    @Test
+    func test_primaryButton_touchID() async {
         var didCallPrimaryButtonAction = false
         
         let sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
@@ -96,7 +117,7 @@ extension BiometricsEnrolmentViewModelTests {
         await primaryButton?.buttonAction.performAsync()
         #expect(didCallPrimaryButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
-        let event = ButtonEvent(textKey: "allow face id")
+        let event = ButtonEvent(textKey: "allow touch id")
         #expect(mockAnalyticsService.eventsLogged == [event.name.name])
         #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
