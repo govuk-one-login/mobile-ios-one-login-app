@@ -14,7 +14,8 @@ struct LoadingScreen: ScreenObject {
     func waitForHomeScreen() -> HomeScreen {
         let homeScreen = HomeScreen(app: app)
         
-        XCTAssertTrue(homeScreen.tabBarsFirstMatch.waitForExistence(timeout: .timeout), "\(homeScreen) does no exist")
+        XCTAssertTrue(homeScreen.tabBarsFirstMatch.waitForExistence(timeout: .timeout), "Failed to get matching snapshot: "
+                      + "No matches found for Elements matching predicate '\(homeScreen.tabBarsFirstMatch) IN identifiers'")
         
         return homeScreen
     }

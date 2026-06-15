@@ -32,7 +32,8 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorTitle"),
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityIdentifier: "error-screen-title")
                 ),
                 
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorRecoverableBody"),
@@ -48,6 +49,7 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
                                        
                                        action()
                                    }),
+                                   accessibilityIdentifier: "error-screen-button-0",
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
