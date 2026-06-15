@@ -14,7 +14,7 @@ final class WalletCoordinator: NSObject,
                                ChildCoordinator,
                                NavigationCoordinator,
                                TabItemCoordinator {
-    let root = UINavigationController()
+    let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     
     private var analyticsService: OneLoginAnalyticsService
@@ -28,10 +28,12 @@ final class WalletCoordinator: NSObject,
     )
     
     init(
+        root: UINavigationController? = nil,
         analyticsService: OneLoginAnalyticsService,
         networkingService: OneLoginNetworkingService,
         sessionManager: SessionManager
     ) {
+        self.root = root ?? UINavigationController()
         self.analyticsService = analyticsService
         self.networkingService = networkingService
         self.sessionManager = sessionManager

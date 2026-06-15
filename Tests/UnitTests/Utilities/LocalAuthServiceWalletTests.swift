@@ -243,6 +243,21 @@ extension LocalAuthServiceWalletTests {
     func test_walletCoordinator_vcAlreadyBeingPresented_faceID() async throws {
         mockLocalAuthManager.type = .faceID
         
+        let pushViewControllerExpectation = expectation(description: #function)
+        pushViewControllerExpectation.expectedFulfillmentCount = 2
+        
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill()})
+        let walletCoordinator = WalletCoordinator(root: mockNavigationController,
+                                                  analyticsService: mockAnalyticsService,
+                                                  networkingService: NetworkClient(),
+                                                  sessionManager: mockSessionManager)
+        
+        let sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
+                                         analyticsService: mockAnalyticsService,
+                                         sessionManager: mockSessionManager,
+                                         localAuthentication: mockLocalAuthManager,
+                                         enrolmentManager: MockEnrolmentManager.self)
+        
         XCTAssertFalse(isEnrolled)
         
         let appWindow = UIWindow()
@@ -263,20 +278,34 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        // THEN VC is dismissed and biometricsNavigationController is presented
-        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
-
         let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         let viewModel = try XCTUnwrap(vc.viewModel as? BiometricsEnrolmentViewModel)
         
         let primaryButton = viewModel.movableFooter[0] as? GDSButtonViewModel
         await primaryButton?.buttonAction.performAsync()
         
+        await fulfillment(of: [pushViewControllerExpectation], timeout: 5)
+
         XCTAssertTrue(isEnrolled)
     }
     
     func test_walletCoordinator_vcAlreadyBeingPresented_touchID() async throws {
         mockLocalAuthManager.type = .touchID
+        
+        let pushViewControllerExpectation = expectation(description: #function)
+        pushViewControllerExpectation.expectedFulfillmentCount = 2
+        
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill()})
+        let walletCoordinator = WalletCoordinator(root: mockNavigationController,
+                                                  analyticsService: mockAnalyticsService,
+                                                  networkingService: NetworkClient(),
+                                                  sessionManager: mockSessionManager)
+        
+        let sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
+                                         analyticsService: mockAnalyticsService,
+                                         sessionManager: mockSessionManager,
+                                         localAuthentication: mockLocalAuthManager,
+                                         enrolmentManager: MockEnrolmentManager.self)
         
         XCTAssertFalse(isEnrolled)
         
@@ -299,15 +328,14 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        // THEN VC is dismissed and biometricsNavigationController is presented
-        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
-
         let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         let viewModel = try XCTUnwrap(vc.viewModel as? BiometricsEnrolmentViewModel)
         
         let primaryButton = viewModel.movableFooter[0] as? GDSButtonViewModel
         await primaryButton?.buttonAction.performAsync()
         
+        await fulfillment(of: [pushViewControllerExpectation], timeout: 5)
+
         XCTAssertTrue(isEnrolled)
     }
     
