@@ -96,7 +96,7 @@ extension QualifyingCoordinatorTests {
         sut.didChangeAppInfoState(state: .offline)
         // THEN I am shown the Network Error screen
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorScreen
+            window.rootViewController as? GDSScreen
         )
         XCTAssertTrue(vc.viewModel is NetworkConnectionErrorViewModel)
     }
@@ -106,9 +106,10 @@ extension QualifyingCoordinatorTests {
         sut.didChangeAppInfoState(state: .offline)
         
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorScreen
+            window.rootViewController as? GDSScreen
         )
-        _ = vc.viewModel.buttonViewModels[0].action()
+        let button = vc.viewModel.movableFooter.first as? GDSButtonViewModel
+        button?.buttonAction.perform()
         
         XCTAssertTrue(mockQualifyingService.didCallInitiate)
     }

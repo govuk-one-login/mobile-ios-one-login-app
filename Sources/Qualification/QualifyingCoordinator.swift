@@ -75,7 +75,7 @@ final class QualifyingCoordinator: NSObject,
             let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
                 appQualifyingService.initiate()
             }
-            displayViewController(GDSErrorScreen(viewModel: viewModel))
+            displayViewController(GDSScreen(viewModel: viewModel))
         case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return

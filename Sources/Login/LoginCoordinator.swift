@@ -293,7 +293,7 @@ extension LoginCoordinator {
         let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
             action()
         }
-        let networkErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let networkErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(networkErrorScreen, animated: true)
     }
     
