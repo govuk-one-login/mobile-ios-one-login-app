@@ -1,4 +1,5 @@
 import Coordination
+import DesignSystem
 import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
@@ -44,17 +45,20 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
             case .touchID, .faceID:
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
                                                              biometricsType: biometricsType) { [unowned self] in
-                    acceptedBiometrics(completion: completion)
+                    await acceptedBiometrics(completion: completion)
                 } secondaryButtonAction: { [unowned self] in
                     let viewModel = LocalAuthBiometricsErrorViewModel(analyticsService: analyticsService, localAuthType: biometricsType) { [unowned self] in
-                        acceptedBiometrics(completion: completion)
+                        // TODO: DCMAW-14875 Use asyncAction in the ViewModel when converted to Design system so Task is not needed
+                        Task {
+                            await acceptedBiometrics(completion: completion)
+                        }
                     } dismissAction: {
                         completion()
                     }
                     let skippedBiometricsViewController =  GDSErrorScreen(viewModel: viewModel)
                     biometricsNavigationController.pushViewController(skippedBiometricsViewController, animated: true)
                 }
-                let biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                let biometricsEnrolmentScreen = GDSScreen(viewModel: viewModel)
                 
                 biometricsNavigationController.setViewControllers([biometricsEnrolmentScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet
@@ -71,8 +75,10 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                 // Present `biometricsNavigationController`
                 walletCoodinator?.root.present(biometricsNavigationController, animated: true)
             case .passcode:
-                localAuthManager.saveSession(isWalletEnrolment: true) {
-                    completion()
+                Task {
+                    await localAuthManager.saveSession(isWalletEnrolment: true) {
+                        completion()
+                    }
                 }
             case .none:
                 let viewModel = LocalAuthSettingsErrorViewModel(analyticsService: analyticsService, localAuthType: localAuthentication.deviceBiometricsType) { [unowned self] in
@@ -134,8 +140,8 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
         biometricsNavigationController.dismiss(animated: true)
     }
     
-    private func acceptedBiometrics(completion: @escaping () -> Void) {
-        localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
+    private func acceptedBiometrics(completion: @escaping () -> Void) async {
+        await localAuthManager.saveSession(isWalletEnrolment: true) { [unowned self] in
             biometricsNavigationController.dismiss(animated: true)
             completion()
         }

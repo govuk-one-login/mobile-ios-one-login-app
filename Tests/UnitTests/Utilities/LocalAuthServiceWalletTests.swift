@@ -1,4 +1,5 @@
 import Coordination
+import DesignSystem
 import GDSCommon
 import LocalAuthenticationWrapper
 import Networking
@@ -79,7 +80,7 @@ extension LocalAuthServiceWalletTests {
             completion: {}
         )
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         
         XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
@@ -184,7 +185,7 @@ extension LocalAuthServiceWalletTests {
         XCTAssertFalse(sut.isEnrolledToLocalAuth(LocalAuth.none))
     }
     
-    func test_primaryButtonActionWithBiometrics() throws {
+    func test_primaryButtonActionWithBiometrics() async throws {
         mockLocalAuthManager.type = .faceID
         
         XCTAssertFalse(isEnrolled)
@@ -196,17 +197,19 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
+        let viewModel = try XCTUnwrap(vc.viewModel as? BiometricsEnrolmentViewModel)
+        let primaryButton = viewModel.movableFooter[0] as? GDSButtonViewModel
         
-        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
-        
-        viewModel.primaryButtonViewModel.action()
+        await primaryButton?.buttonAction.performAsync()
         
         XCTAssertTrue(isEnrolled)
     }
     
-    func test_secondaryButtonActionWithBiometrics() throws {
+    func test_secondaryButtonActionWithBiometrics() async throws {
         mockLocalAuthManager.type = .faceID
+        
+        let enrolledExpectation = expectation(description: "User is Enrolled")
         
         XCTAssertFalse(isEnrolled)
         
@@ -214,29 +217,46 @@ extension LocalAuthServiceWalletTests {
             WalletMockLocalAuthType.biometrics,
             completion: {
                 self.isEnrolled = true
+                enrolledExpectation.fulfill()
             }
         )
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
+        let viewModel = try XCTUnwrap(vc.viewModel as? BiometricsEnrolmentViewModel)
         
-        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
-        
-        viewModel.secondaryButtonViewModel.action()
+        let secondaryButton = viewModel.movableFooter[1] as? GDSButtonViewModel
+        secondaryButton?.buttonAction.perform()
         
         let vc2 = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
         
         XCTAssertTrue(vc2.viewModel is LocalAuthBiometricsErrorViewModel)
         
         let secondErrorScreen = try XCTUnwrap(vc2.viewModel)
-        
         secondErrorScreen.buttonViewModels[0].action()
+        
+        await fulfillment(of: [enrolledExpectation], timeout: 5)
         
         XCTAssertTrue(isEnrolled)
     }
     
     // MARK: Tests ensuring biometricsNavigationController is presented
-    func test_walletCoordinator_vcAlreadyBeingPresented_faceID() throws {
+    func test_walletCoordinator_vcAlreadyBeingPresented_faceID() async throws {
         mockLocalAuthManager.type = .faceID
+        
+        let pushViewControllerExpectation = expectation(description: #function)
+        pushViewControllerExpectation.expectedFulfillmentCount = 2
+        
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill()})
+        let walletCoordinator = WalletCoordinator(root: mockNavigationController,
+                                                  analyticsService: mockAnalyticsService,
+                                                  networkingService: NetworkClient(),
+                                                  sessionManager: mockSessionManager)
+        
+        let sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
+                                         analyticsService: mockAnalyticsService,
+                                         sessionManager: mockSessionManager,
+                                         localAuthentication: mockLocalAuthManager,
+                                         enrolmentManager: MockEnrolmentManager.self)
         
         XCTAssertFalse(isEnrolled)
         
@@ -258,20 +278,34 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        // THEN VC is dismissed and biometricsNavigationController is presented
-        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
+        let viewModel = try XCTUnwrap(vc.viewModel as? BiometricsEnrolmentViewModel)
+        
+        let primaryButton = viewModel.movableFooter[0] as? GDSButtonViewModel
+        await primaryButton?.buttonAction.performAsync()
+        
+        await fulfillment(of: [pushViewControllerExpectation], timeout: 5)
 
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
-        
-        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
-        
-        viewModel.primaryButtonViewModel.action()
-        
         XCTAssertTrue(isEnrolled)
     }
     
-    func test_walletCoordinator_vcAlreadyBeingPresented_touchID() throws {
+    func test_walletCoordinator_vcAlreadyBeingPresented_touchID() async throws {
         mockLocalAuthManager.type = .touchID
+        
+        let pushViewControllerExpectation = expectation(description: #function)
+        pushViewControllerExpectation.expectedFulfillmentCount = 2
+        
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill()})
+        let walletCoordinator = WalletCoordinator(root: mockNavigationController,
+                                                  analyticsService: mockAnalyticsService,
+                                                  networkingService: NetworkClient(),
+                                                  sessionManager: mockSessionManager)
+        
+        let sut = LocalAuthServiceWallet(walletCoordinator: walletCoordinator,
+                                         analyticsService: mockAnalyticsService,
+                                         sessionManager: mockSessionManager,
+                                         localAuthentication: mockLocalAuthManager,
+                                         enrolmentManager: MockEnrolmentManager.self)
         
         XCTAssertFalse(isEnrolled)
         
@@ -294,15 +328,14 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        // THEN VC is dismissed and biometricsNavigationController is presented
-        waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
+        let viewModel = try XCTUnwrap(vc.viewModel as? BiometricsEnrolmentViewModel)
+        
+        let primaryButton = viewModel.movableFooter[0] as? GDSButtonViewModel
+        await primaryButton?.buttonAction.performAsync()
+        
+        await fulfillment(of: [pushViewControllerExpectation], timeout: 5)
 
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSInformationViewController)
-        
-        let viewModel = try XCTUnwrap(vc.viewModel as? GDSCentreAlignedViewModelWithPrimaryButton & GDSCentreAlignedViewModelWithSecondaryButton)
-        
-        viewModel.primaryButtonViewModel.action()
-        
         XCTAssertTrue(isEnrolled)
     }
     
