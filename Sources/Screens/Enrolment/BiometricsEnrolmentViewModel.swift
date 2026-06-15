@@ -20,7 +20,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
     // swiftlint: disable:next function_body_length
     init(analyticsService: OneLoginAnalyticsService,
          biometricsType: LocalAuthType,
-         primaryButtonAction: @escaping () -> Void,
+         primaryButtonAction: @escaping () async -> Void,
          secondaryButtonAction: @escaping () -> Void) {
         let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
@@ -69,12 +69,12 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_enableBiometricsButton",
                                                              biometricsTypeString).value,
                                    style: .primary,
-                                   buttonAction: .action({
-                                      let event = ButtonEvent(textKey: "app_extendedSignInButton",
-                                                              variableKeys: ["app_nameString"])
+                                   buttonAction: .asyncAction({
+                                      let event = ButtonEvent(textKey: "app_enableBiometricsButton",
+                                                              variableKeys: [biometricsTypeString])
                                        analyticsService.logEvent(event)
                                        
-                                       primaryButtonAction()
+                                       await primaryButtonAction()
                                    }),
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default)),

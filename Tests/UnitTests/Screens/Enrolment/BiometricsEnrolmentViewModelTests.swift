@@ -29,7 +29,7 @@ extension BiometricsEnrolmentViewModelTests {
         
         #expect(image?.imageColour == DesignSystem.Color.Text.primary)
         #expect(image?.contentMode == .scaleAspectFit)
-        #expect(image?.imageHeightConstraint == 64)
+        #expect(image?.imageFixedHeight == 64)
         #expect(titleText?.title.stringKey == "app_enableBiometricsTitle")
         #expect(titleText?.title.variableKeys == ["app_FaceID"])
         #expect(titleText?.title.value == "Allow Face ID")
@@ -62,7 +62,7 @@ extension BiometricsEnrolmentViewModelTests {
         
         #expect(image?.imageColour == DesignSystem.Color.Text.primary)
         #expect(image?.contentMode == .scaleAspectFit)
-        #expect(image?.imageHeightConstraint == 64)
+        #expect(image?.imageFixedHeight == 64)
         #expect(titleText?.title.stringKey == "app_enableBiometricsTitle")
         #expect(titleText?.title.variableKeys == ["app_TouchID"])
         #expect(titleText?.title.value == "Allow Touch ID")
@@ -81,19 +81,19 @@ extension BiometricsEnrolmentViewModelTests {
     }
     
     @Test
-    func test_primaryButton() {
+    func test_primaryButton() async {
         var didCallPrimaryButtonAction = false
         
-        let sut =  BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
-                                                biometricsType: .touchID,
-                                                primaryButtonAction: { didCallPrimaryButtonAction = true },
-                                                secondaryButtonAction: {})
+        let sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
+                                               biometricsType: .touchID,
+                                               primaryButtonAction: { didCallPrimaryButtonAction = true },
+                                               secondaryButtonAction: {})
 
         let primaryButton = sut.movableFooter[0] as? GDSButtonViewModel
         
         #expect(!didCallPrimaryButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
-        primaryButton?.buttonAction.perform()
+        await primaryButton?.buttonAction.performAsync()
         #expect(didCallPrimaryButtonAction)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = ButtonEvent(textKey: "allow face id")
@@ -105,10 +105,10 @@ extension BiometricsEnrolmentViewModelTests {
     func test_secondaryButton() {
         var didCallSecondaryButtonAction = false
         
-        let sut =  BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
-                                                biometricsType: .touchID,
-                                                primaryButtonAction: {},
-                                                secondaryButtonAction: { didCallSecondaryButtonAction = true })
+        let sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
+                                               biometricsType: .touchID,
+                                               primaryButtonAction: {},
+                                               secondaryButtonAction: { didCallSecondaryButtonAction = true })
 
         let secondaryButton = sut.movableFooter[1] as? GDSButtonViewModel
         
@@ -125,10 +125,10 @@ extension BiometricsEnrolmentViewModelTests {
     
     @Test
     func test_didAppear_faceID() {
-        let sut =  BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
-                                                biometricsType: .faceID,
-                                                primaryButtonAction: {},
-                                                secondaryButtonAction: {})
+        let sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
+                                               biometricsType: .faceID,
+                                               primaryButtonAction: {},
+                                               secondaryButtonAction: {})
         let vc = GDSScreen(viewModel: sut)
         
         #expect(sut.didDismiss == nil)
@@ -145,10 +145,10 @@ extension BiometricsEnrolmentViewModelTests {
     
     @Test
     func test_didAppear_touchID() {
-        let sut =  BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
-                                                biometricsType: .touchID,
-                                                primaryButtonAction: {},
-                                                secondaryButtonAction: {})
+        let sut = BiometricsEnrolmentViewModel(analyticsService: mockAnalyticsService,
+                                               biometricsType: .touchID,
+                                               primaryButtonAction: {},
+                                               secondaryButtonAction: {})
         let vc = GDSScreen(viewModel: sut)
         
         #expect(sut.didDismiss == nil)

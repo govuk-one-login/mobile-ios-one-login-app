@@ -17,7 +17,7 @@ protocol EnrolmentManager {
         coordinator: ChildCoordinator?
     )
     
-    func saveSession(isWalletEnrolment: Bool, completion: (() -> Void)?)
+    func saveSession(isWalletEnrolment: Bool, completion: (() -> Void)?) async
     func completeEnrolment(isWalletEnrolment: Bool, completion: (() -> Void)?)
 }
 
@@ -27,7 +27,7 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
     let analyticsService: OneLoginAnalyticsService
     weak var coordinator: ChildCoordinator?
     
-    func saveSession(isWalletEnrolment: Bool = false, completion: (() -> Void)? = nil) {
+    func saveSession(isWalletEnrolment: Bool = false, completion: (() -> Void)? = nil) async {
         #if targetEnvironment(simulator)
         if sessionManager is PersistentSessionManager {
             // UI tests or running on simulator
@@ -36,23 +36,21 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
         }
         #endif
         // Unit tests or running on device
-        Task {
+        do {
+            guard try await localAuthContext.promptForFaceIDPermission() else {
+                return
+            }
             do {
-                guard try await localAuthContext.promptForFaceIDPermission() else {
-                    return
-                }
-                do {
-                    try sessionManager.saveAuthSession()
-                    completeEnrolment(isWalletEnrolment: isWalletEnrolment, completion: completion)
-                } catch {
-                    analyticsService.logCrash(error)
-                }
-            } catch LocalAuthenticationWrapperError.cancelled {
-                (coordinator as? WalletCoordinator)?
-                    .userCancelledPasscode()
+                try sessionManager.saveAuthSession()
+                completeEnrolment(isWalletEnrolment: isWalletEnrolment, completion: completion)
             } catch {
                 analyticsService.logCrash(error)
             }
+        } catch LocalAuthenticationWrapperError.cancelled {
+            (coordinator as? WalletCoordinator)?
+                .userCancelledPasscode()
+        } catch {
+            analyticsService.logCrash(error)
         }
     }
     
