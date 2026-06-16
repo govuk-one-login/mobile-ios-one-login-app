@@ -46,7 +46,7 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
             footer: [],
-            rightBarButtonTitle: GDSLocalisedString(stringKey: "app_cancelButton"),
+            rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({

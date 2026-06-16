@@ -29,8 +29,7 @@ struct SignOutErrorViewModelTests {
         
         #expect(sut.movableFooter.count == 1)
         #expect(sut.footer.count == 0)
-        #expect(sut.rightBarButtonTitle?.stringKey == "app_cancelButton")
-        #expect(sut.rightBarButtonTitle?.value == "Cancel")
+        #expect(sut.rightBarButtonTitle == nil)
         #expect(sut.backButtonTitle == nil)
         #expect(sut.backButtonIsHidden == true)
         #expect(sut.didDismiss == nil)
