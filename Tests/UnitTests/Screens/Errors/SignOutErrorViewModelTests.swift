@@ -1,62 +1,74 @@
+@testable import DesignSystem
 import GDSAnalytics
-import GDSCommon
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class SignOutErrorViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutErrorViewModel!
+struct SignOutErrorViewModelTests {
+    var sut: SignOutErrorViewModel
+    let mockAnalyticsService = MockAnalyticsService()
     
-    var didCallButtonAction = false
-    
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
+    init() {
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
                                     error: MockWalletError.cantDelete) { }
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
-        didCallButtonAction = false
-        
-        super.tearDown()
-    }
-}
-
-extension SignOutErrorViewModelTests {
+    @Test
     func test_page() throws {
-        sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
-                                    error: MockWalletError.cantDelete) { self.didCallButtonAction = true }
-        XCTAssertEqual(sut.image, .error)
-        XCTAssertEqual(sut.title.stringKey, "app_signOutErrorTitle")
-        let contentView = try XCTUnwrap(sut.bodyContent.first as? BodyTextViewModel)
-        let contentLabel = try XCTUnwrap(contentView.uiView as? UILabel)
-        XCTAssertEqual(contentLabel.text, GDSLocalisedString(stringLiteral: "app_signOutErrorBody").value)
-        XCTAssertTrue(sut.error as? MockWalletError == .cantDelete)
-        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
-        XCTAssertTrue(sut.backButtonIsHidden)
-        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_signOutErrorButton")
-        let button = try XCTUnwrap(sut.buttonViewModels.first as? AnalyticsButtonViewModel)
-        button.action()
-        XCTAssertTrue(didCallButtonAction)
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
+        #expect(title?.icon == .error)
+        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signOutErrorTitle"))
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
+        
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title == GDSLocalisedString(stringKey: "app_signOutErrorBody"))
+        #expect(body?.alignment == .center)
+        
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == GDSLocalisedString(stringKey: "app_cancelButton"))
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
     
+    @Test
+    func test_button() {
+        var didCallButtonAction = false
+        let sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
+                                        error: MockWalletError.cantDelete) {
+            didCallButtonAction = true
+        }
+        
+        let button = sut.movableFooter.first as? GDSButtonViewModel
+        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_signOutErrorButton").value)
+        
+        #expect(didCallButtonAction == false)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        button?.buttonAction.perform()
+        #expect(didCallButtonAction == true)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
+        let event = ButtonEvent(textKey: "app_signOutErrorButton")
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
+    }
+    
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 0)
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.crashesLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
-        XCTAssertTrue(mockAnalyticsService.crashesLogged.first as? MockWalletError == .cantDelete)
+        #expect(mockAnalyticsService.crashesLogged.count == 0)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
+        #expect(mockAnalyticsService.crashesLogged.count == 1)
+        #expect(mockAnalyticsService.crashesLogged.first as? MockWalletError == .cantDelete)
+        
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
                                      screen: ErrorAnalyticsScreen.signOut,
                                      titleKey: "app_signOutErrorTitle",
                                      reason: MockWalletError.cantDelete.localizedDescription)
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

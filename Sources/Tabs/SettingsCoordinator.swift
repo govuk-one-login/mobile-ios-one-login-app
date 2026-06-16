@@ -95,7 +95,7 @@ final class SettingsCoordinator: NSObject,
                     root.popToRootViewController(animated: true)
                     root.dismiss(animated: true)
                 }
-                let signOutErrorScreen = GDSErrorScreen(viewModel: viewModel)
+                let signOutErrorScreen = GDSScreen(viewModel: viewModel)
                 root.present(signOutErrorScreen, animated: true)
             }
         }
