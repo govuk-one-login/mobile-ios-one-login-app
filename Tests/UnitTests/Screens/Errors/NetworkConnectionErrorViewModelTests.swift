@@ -17,12 +17,15 @@ struct NetworkConnectionErrorViewModelTests {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         
         #expect(title?.icon == .error)
-        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_networkErrorTitle"))
+        #expect(title?.errorTitle.title.stringKey == "app_networkErrorTitle")
+        #expect(title?.errorTitle.title.value == "You are not connected to the internet")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
         
         let body = sut.body.last as? GDSTextViewModel
-        #expect(body?.title == GDSLocalisedString(stringKey: "app_networkErrorBody", "app_nameString"))
+        #expect(body?.title.stringKey == "app_networkErrorBody")
+        #expect(body?.title.variableKeys == ["app_nameString"])
+        #expect(body?.title.value == "You need to have an internet connection to use GOV.UK One Login.\n\nReconnect to the internet and try again.")
         #expect(body?.alignment == .center)
         
         #expect(sut.movableFooter.count == 1)
@@ -41,7 +44,7 @@ struct NetworkConnectionErrorViewModelTests {
         }
         
         let button = sut.movableFooter.first as? GDSButtonViewModel
-        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_tryAgainButton").value)
+        #expect(button?.title.forState(.normal) == "Go back and try again")
         
         #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)

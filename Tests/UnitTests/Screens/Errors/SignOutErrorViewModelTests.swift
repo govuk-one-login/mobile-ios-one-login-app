@@ -17,17 +17,20 @@ struct SignOutErrorViewModelTests {
     func test_page() throws {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         #expect(title?.icon == .error)
-        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signOutErrorTitle"))
+        #expect(title?.errorTitle.title.stringKey == "app_signOutErrorTitle")
+        #expect(title?.errorTitle.title.value == "There was a problem signing you out")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
         
         let body = sut.body.last as? GDSTextViewModel
-        #expect(body?.title == GDSLocalisedString(stringKey: "app_signOutErrorBody"))
+        #expect(body?.title.stringKey == "app_signOutErrorBody")
+        #expect(body?.title.value == "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.")
         #expect(body?.alignment == .center)
         
         #expect(sut.movableFooter.count == 1)
         #expect(sut.footer.count == 0)
-        #expect(sut.rightBarButtonTitle == GDSLocalisedString(stringKey: "app_cancelButton"))
+        #expect(sut.rightBarButtonTitle?.stringKey == "app_cancelButton")
+        #expect(sut.rightBarButtonTitle?.value == "Cancel")
         #expect(sut.backButtonTitle == nil)
         #expect(sut.backButtonIsHidden == true)
         #expect(sut.didDismiss == nil)
@@ -42,7 +45,7 @@ struct SignOutErrorViewModelTests {
         }
         
         let button = sut.movableFooter.first as? GDSButtonViewModel
-        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_signOutErrorButton").value)
+        #expect(button?.title.forState(.normal) == "Go back to settings")
         
         #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)

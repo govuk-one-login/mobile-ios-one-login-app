@@ -18,11 +18,6 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
     init(analyticsService: OneLoginAnalyticsService,
          error: Error,
          action: @escaping () -> Void) {
-        let analyticsService = analyticsService.addingAdditionalParameters([
-            OLTaxonomyKey.level2: OLTaxonomyValue.login,
-            OLTaxonomyKey.level3: OLTaxonomyValue.undefined
-        ])
-        
         self.init(
             screenStyle: .centred,
             body: [
