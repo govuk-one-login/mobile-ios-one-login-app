@@ -4,6 +4,7 @@ import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import Testing
+import UIKit
 
 @MainActor
 struct ErrorScreenSnapshotTests {
@@ -104,14 +105,15 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_signOutError() {
+        let root = UINavigationController()
         let sut = SignOutErrorViewModel(
             analyticsService: analyticsService,
             error: PersistentSessionError(.userRemovedLocalAuth),
             action: {}
         )
         let vc = GDSScreen(viewModel: sut)
-        
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
