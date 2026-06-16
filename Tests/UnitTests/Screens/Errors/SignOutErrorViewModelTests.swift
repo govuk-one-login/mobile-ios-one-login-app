@@ -24,7 +24,9 @@ struct SignOutErrorViewModelTests {
         
         let body = sut.body.last as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_signOutErrorBody")
+        // swiftlint:disable line_length
         #expect(body?.title.value == "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.")
+        // swiftlint:enable line_length
         #expect(body?.alignment == .center)
         
         #expect(sut.movableFooter.count == 1)
