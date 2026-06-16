@@ -41,7 +41,6 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
                                        
                                        action()
                                    }),
-                                   accessibilityIdentifier: "error-screen-button-0",
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
