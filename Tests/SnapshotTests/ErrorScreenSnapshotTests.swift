@@ -107,7 +107,7 @@ struct ErrorScreenSnapshotTests {
         let sut = SignOutErrorViewModel(
             analyticsService: analyticsService,
             error: PersistentSessionError(.userRemovedLocalAuth),
-            buttonAction: {}
+            action: {}
         )
         let vc = GDSScreen(viewModel: sut)
         
