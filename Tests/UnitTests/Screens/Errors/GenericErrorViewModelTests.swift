@@ -17,12 +17,14 @@ struct GenericErrorViewModelTests {
     func test_page() {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         #expect(title?.icon == .error)
-        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_genericErrorPage"))
+        #expect(title?.errorTitle.title.stringKey == "app_genericErrorPage")
+        #expect(title?.errorTitle.title.value == "Sorry, there’s a problem")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
         
         let body = sut.body.last as? GDSTextViewModel
-        #expect(body?.title == GDSLocalisedString(stringKey: "app_genericErrorPageBody"))
+        #expect(body?.title.stringKey == "app_genericErrorPageBody")
+        #expect(body?.title.value == "Try again later.")
         #expect(body?.alignment == .center)
         
         #expect(sut.movableFooter.count == 1)
@@ -42,7 +44,7 @@ struct GenericErrorViewModelTests {
         }
         
         let button = sut.movableFooter.first as? GDSButtonViewModel
-        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_tryAgainButton").value)
+        #expect(button?.title.forState(.normal) == "Go back and try again")
         
         #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)

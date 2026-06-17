@@ -1,3 +1,4 @@
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 import Networking
@@ -114,7 +115,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         wait(for: [pushViewControllerExpectation], timeout: 10)
 
         // THEN the presented sign out error screen is shown
-        let vc = try XCTUnwrap(sut.root.presentedViewController as? GDSErrorScreen)
+        let vc = try XCTUnwrap(sut.root.presentedViewController as? GDSScreen)
 
         XCTAssertTrue(vc.viewModel is SignOutErrorViewModel)
     }

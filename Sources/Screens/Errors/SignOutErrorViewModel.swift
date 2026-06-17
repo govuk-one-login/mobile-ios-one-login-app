@@ -1,38 +1,84 @@
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import Logging
 
-struct SignOutErrorViewModel: GDSErrorViewModelV3,
-                              BaseViewModel {
-    let image: ErrorScreenImage = .error
-    let title: GDSLocalisedString = "app_signOutErrorTitle"
-    let bodyContent: [ScreenBodyItem] = [BodyTextViewModel(text: "app_signOutErrorBody")]
-    let buttonViewModels: [ButtonViewModel]
-    let analyticsService: OneLoginAnalyticsService
-    let error: Error
-    
-    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
-    let backButtonIsHidden: Bool = true
+struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
+    var screenStyle: GDSScreenStyle
+    var body: [any ContentViewModel]
+    var movableFooter: [any ContentViewModel]
+    var footer: [any ContentViewModel]
+
+    var rightBarButtonTitle: GDSLocalisedString?
+    var backButtonTitle: GDSLocalisedString?
+    var backButtonIsHidden: Bool
+
+    var didAppear: DesignSystem.Action?
+    var didDismiss: DesignSystem.Action?
     
     init(analyticsService: OneLoginAnalyticsService,
          error: Error,
-         buttonAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
-        self.error = error
-        self.buttonViewModels = [AnalyticsButtonViewModel(titleKey: "app_signOutErrorButton",
-                                                          analyticsService: analyticsService) {
-            buttonAction()
-        }]
+         action: @escaping () -> Void) {
+        self.init(
+            screenStyle: .centred,
+            body: [
+                GDSErrorIconTitleViewModel(
+                    icon: .error,
+                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorTitle"),
+                                                 titleFont: .largeTitleBold,
+                                                 alignment: .center)
+                ),
+                
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorBody"),
+                                 alignment: .center,
+                                 verticalPadding: .top(0))
+            ],
+            movableFooter: [
+                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorButton").value,
+                                   style: .primary,
+                                   buttonAction: .action({
+                                       let event = ButtonEvent(textKey: "app_signOutErrorButton")
+                                       analyticsService.logEvent(event)
+                                       
+                                       action()
+                                   }),
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default))
+            ],
+            footer: [],
+            rightBarButtonTitle: nil,
+            backButtonTitle: nil,
+            backButtonIsHidden: true,
+            didAppear: .action({
+                analyticsService.logCrash(error)
+                
+                let title = GDSLocalisedString(stringKey: "app_signOutErrorTitle")
+                let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
+                                             screen: ErrorAnalyticsScreen.signOut,
+                                             titleKey: title.stringKey,
+                                             reason: error.localizedDescription)
+                analyticsService.trackScreen(screen)
+            }),
+            didDismiss: nil
+        )
     }
     
-    func didAppear() {
-        analyticsService.logCrash(error)
-        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
-                                     screen: ErrorAnalyticsScreen.signOut,
-                                     titleKey: title.stringKey,
-                                     reason: error.localizedDescription)
-        analyticsService.trackScreen(screen)
+    init(screenStyle: GDSScreenStyle,
+         body: [any ContentViewModel],
+         movableFooter: [any ContentViewModel],
+         footer: [any ContentViewModel],
+         rightBarButtonTitle: GDSLocalisedString?,
+         backButtonTitle: GDSLocalisedString?,
+         backButtonIsHidden: Bool,
+         didAppear: DesignSystem.Action?,
+         didDismiss: DesignSystem.Action?) {
+        self.screenStyle = screenStyle
+        self.body = body
+        self.movableFooter = movableFooter
+        self.footer = footer
+        self.rightBarButtonTitle = rightBarButtonTitle
+        self.backButtonTitle = backButtonTitle
+        self.backButtonIsHidden = backButtonIsHidden
+        self.didAppear = didAppear
+        self.didDismiss = didDismiss
     }
-    
-    func didDismiss() { /* BaseViewModel compliance */ }
 }
