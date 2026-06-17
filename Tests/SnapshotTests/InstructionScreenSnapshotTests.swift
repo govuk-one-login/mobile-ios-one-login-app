@@ -3,6 +3,7 @@ import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import Testing
+import UIKit
 
 @MainActor
 struct InstructionScreenSnapshotTests {
@@ -72,10 +73,14 @@ struct InstructionScreenSnapshotTests {
     
     @Test
     func test_signOutScreen() {
-        let sut = SignOutPageViewModel(analyticsService: analyticsService, buttonAction: {})
-        let vc = GDSInstructionsViewController(viewModel: sut)
-        
-        vc.assertSnapshot()
+        let root = UINavigationController()
+        let sut = SignOutConfirmationViewModel(
+            analyticsService: analyticsService,
+            action: {}
+        )
+        let vc = GDSScreen(viewModel: sut)
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
