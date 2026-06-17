@@ -106,7 +106,7 @@
 		3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */; };
 		3BBF28F42A9F7D3200491BB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */; };
 		410464F62B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */; };
-		41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */; };
+		41279DD52BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD42BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift */; };
 		41279DD72BFF46DB00E16537 /* SignOutPageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */; };
 		413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58752BF261D300171C06 /* HomeViewControllerTests.swift */; };
 		413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413C58772BF266A200171C06 /* SettingsTabViewModelTests.swift */; };
@@ -730,7 +730,7 @@
 		3BBF28ED2A9F7D3200491BB1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BBF28EE2A9F7D3200491BB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverableLoginErrorViewModelTests.swift; sourceTree = "<group>"; };
-		41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModel.swift; sourceTree = "<group>"; };
+		41279DD42BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutConfirmationViewModel.swift; sourceTree = "<group>"; };
 		41279DD62BFF46DB00E16537 /* SignOutPageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutPageViewModelTests.swift; sourceTree = "<group>"; };
 		412B95A02B0529B800C390B2 /* OneLoginStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginStaging.entitlements; sourceTree = "<group>"; };
 		413C58752BF261D300171C06 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
@@ -1383,7 +1383,7 @@
 			isa = PBXGroup;
 			children = (
 				C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */,
-				41279DD42BFDD9CA00E16537 /* SignOutPageViewModel.swift */,
+				41279DD42BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -3639,7 +3639,7 @@
 				C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */,
 				7CFFE7CE2C9D960E00ABD8A0 /* WalletSessionData+OneLogin.swift in Sources */,
 				C80DEBE02EAF7C0B00FF18B5 /* SecureAttestationStore.swift in Sources */,
-				41279DD52BFDD9CA00E16537 /* SignOutPageViewModel.swift in Sources */,
+				41279DD52BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift in Sources */,
 				C8B320792B062F9100FECDF0 /* WebAuthenticationService.swift in Sources */,
 				AB51B3752D771E9500348FB6 /* WelcomeTileViewModel.swift in Sources */,
 			);

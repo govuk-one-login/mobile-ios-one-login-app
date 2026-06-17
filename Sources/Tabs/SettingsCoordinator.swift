@@ -65,13 +65,13 @@ final class SettingsCoordinator: NSObject,
     
     func openSignOutPage() {
         let navController = UINavigationController()
-        let viewModel = SignOutPageViewModel(analyticsService: analyticsService) { [unowned self] in
+        let viewModel = SignOutConfirmationViewModel(analyticsService: analyticsService) { [unowned self] in
             root.dismiss(animated: true) { [unowned self] in
                 showLoadingScreen()
                 logOut()
             }
         }
-        let signOutViewController = GDSInstructionsViewController(viewModel: viewModel)
+        let signOutViewController = GDSScreen(viewModel: viewModel)
         navController.setViewControllers([signOutViewController], animated: false)
         root.present(navController, animated: true)
     }
