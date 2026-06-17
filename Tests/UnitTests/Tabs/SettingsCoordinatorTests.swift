@@ -63,10 +63,10 @@ final class SettingsCoordinatorTests: XCTestCase {
         sut.start()
         // WHEN the openSignOutPage method is called
         sut.openSignOutPage()
-        // THEN the presented view controller's view model is the WalletSignOutPageViewModel
+        // THEN the presented view controller's view model is the SignOutConfirmationViewModel
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
-        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSInstructionsViewController)
-        XCTAssertTrue(viewController.viewModel is SignOutPageViewModel)
+        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSScreen)
+        XCTAssertTrue(viewController.viewModel is SignOutConfirmationViewModel)
     }
     
     func test_tapSignoutClearsData() async throws {

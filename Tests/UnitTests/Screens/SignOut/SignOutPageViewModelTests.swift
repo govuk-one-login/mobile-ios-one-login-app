@@ -1,121 +1,79 @@
-import DesignSystem
+@testable import DesignSystem
 import GDSAnalytics
-import GDSCommon
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class SignOutPageViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutPageViewModel!
+struct SignOutConfirmationViewModelTests {
+    var sut: SignOutConfirmationViewModel
+    let mockAnalyticsService = MockAnalyticsService()
     
-    var didCallButtonAction = false
-    
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutPageViewModel(analyticsService: mockAnalyticsService) {
-            self.didCallButtonAction = true
-        }
+    init() {
+        sut = SignOutConfirmationViewModel(analyticsService: mockAnalyticsService) {}
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
-        
-        didCallButtonAction = false
-        
-        super.tearDown()
-    }
-}
-
-extension SignOutPageViewModelTests {
+    @Test
     func test_page() {
-        XCTAssertEqual(sut.title.stringKey, "app_signOutConfirmationTitle")
-        XCTAssertEqual(sut.body, "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.")
-        XCTAssertNil(sut.secondaryButtonViewModel)
-        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
-        XCTAssertEqual(sut.rightBarButtonTitle?.value, "Cancel")
-        XCTAssertTrue(sut.backButtonIsHidden)
+        let title = sut.body.first as? GDSTextViewModel
+        #expect(title?.title.stringKey == "app_signOutConfirmationTitle")
+        #expect(title?.title.value == "Are you sure you want to sign out?")
+        #expect(title?.titleFont == .largeTitleBold)
+        
+        let body = sut.body[1] as? GDSTextViewModel
+        #expect(body?.title.stringKey == "app_signOutConfirmationBody1")
+        #expect(body?.title.value == "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.")
+        
+        let bulletedList = sut.body[2] as? GDSListViewModel
+        #expect(bulletedList?.title?.stringKey == "app_signOutConfirmationBody2")
+        #expect(bulletedList?.title?.value == "This means:")
+        #expect(bulletedList?.items == [GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1"),
+                                        GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2"),
+                                        GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3")])
+        
+        let body2 = sut.body.last as? GDSTextViewModel
+        #expect(body2?.title.stringKey == "app_signOutConfirmationBody3")
+        #expect(body2?.title.value == "Next time you sign in, you’ll be able to add your documents again and reset your preferences.")
+        
+        #expect(sut.rightBarButtonTitle?.stringKey == "app_cancelButton")
+        #expect(sut.rightBarButtonTitle?.value == "Cancel")
+        
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
-    
-    func test_bullets() throws {
-        XCTAssertNotNil(try bulletList)
-        let bulletStack: UIStackView = try XCTUnwrap(bulletList.view?[child: "bullet-stack"])
-        let firstBullet = try XCTUnwrap(bulletStack.subviews[0] as? UILabel)
-        let firstBulletText = try XCTUnwrap(firstBullet.text)
-        XCTAssertTrue(firstBulletText.contains("any documents in your app will be removed"))
-        let secondBullet = try XCTUnwrap(bulletStack.subviews[1] as? UILabel)
-        let secondBulletText = try XCTUnwrap(secondBullet.text)
-        XCTAssertTrue(secondBulletText.contains("if you’re using Face ID or Touch ID to unlock the app, this will be switched off"))
-        let thirdBullet = try XCTUnwrap(bulletStack.subviews[2] as? UILabel)
-        let thirdBulletText = try XCTUnwrap(thirdBullet.text)
-        XCTAssertTrue(thirdBulletText.contains("you’ll stop sharing analytics about how you use the app"))
-    }
-    
-    func test_views() throws {
-        XCTAssertEqual(try body2Label.text, "This means:")
-        XCTAssertTrue(try body2Label.adjustsFontForContentSizeCategory)
-        XCTAssertEqual(try body2Label.numberOfLines, 0)
-        XCTAssertEqual(try body2Label.font, .body)
-        XCTAssertEqual(try body3Label.text, "Next time you sign in, you’ll be able to add your documents again and reset your preferences.")
-        XCTAssertTrue(try body3Label.adjustsFontForContentSizeCategory)
-        XCTAssertEqual(try body3Label.numberOfLines, 0)
-        XCTAssertEqual(try body3Label.font, .body)
-    }
-    
-    func test_button() throws {
-        XCTAssertEqual(sut.buttonViewModel.title.stringKey, "app_signOutAndDeleteAppDataButton")
-        let button = try XCTUnwrap(sut.buttonViewModel as? AnalyticsButtonViewModel)
-        XCTAssertEqual(button.backgroundColor, DesignSystem.Color.Base.red1)
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.buttonViewModel.action()
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+
+    @Test
+    func test_button() {
+        var didCallButtonAction = false
+        let sut = SignOutConfirmationViewModel(analyticsService: mockAnalyticsService) {
+            didCallButtonAction = true
+        }
+        
+        let button = sut.movableFooter.first as? GDSButtonViewModel
+        #expect(button?.title.forState(.normal) == "Sign out and delete information")
+        
+        #expect(didCallButtonAction == false)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        button?.buttonAction.perform()
+        #expect(didCallButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
     
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreen.rawValue,
                                 screen: SettingsAnalyticsScreen.signOutScreen,
-                                titleKey: "app_signOutConfirmationTitle")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-    }
-    
-    func test_didDismiss() {
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.didDismiss()
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        let event = ButtonEvent(textKey: "back")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-    }
-}
-
-extension SignOutPageViewModelTests {
-    var bulletList: BulletView {
-        get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-bullet-list"])
-        }
-    }
-    
-    var body2Label: UILabel {
-        get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body2-text"])
-        }
-    }
-    
-    var body3Label: UILabel {
-        get throws {
-            try XCTUnwrap(sut.childView[child: "sign-out-body3-text"])
-        }
+                                titleKey: "app_signOutErrorTitle")
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }
