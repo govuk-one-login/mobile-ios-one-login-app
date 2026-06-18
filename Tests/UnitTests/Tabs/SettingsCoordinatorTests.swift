@@ -28,7 +28,7 @@ extension SettingsCoordinator {
 
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
-    func test_tabBarItem(){
+    func test_tabBarItem() {
         let sut: SettingsCoordinator = .make()
         // WHEN the SettingsCoordinator has started
         sut.start()
