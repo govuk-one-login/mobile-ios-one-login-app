@@ -7,12 +7,9 @@ import SecureStore
 import XCTest
 
 extension SettingsCoordinator {
-
     static func make(mockNavigationController: UINavigationController? = nil,
                      mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
-                     mockSessionManager: SessionManager = MockSessionManager())
-    -> SettingsCoordinator {
-        
+                     mockSessionManager: SessionManager = MockSessionManager()) -> SettingsCoordinator {
         let root = mockNavigationController ?? UINavigationController()
         let window = UIWindow()
         let mockNetworkClient = NetworkClient()
@@ -31,10 +28,8 @@ extension SettingsCoordinator {
 
 @MainActor
 final class SettingsCoordinatorTests: XCTestCase {
-    
-    func test_tabBarItem() {
-        let mockAnalyticsService = MockAnalyticsService()
-        let sut: SettingsCoordinator = .make(mockAnalyticsService: mockAnalyticsService)
+    func test_tabBarItem(){
+        let sut: SettingsCoordinator = .make()
         // WHEN the SettingsCoordinator has started
         sut.start()
         let settingsTab = UITabBarItem(title: "Settings",
@@ -83,8 +78,11 @@ final class SettingsCoordinatorTests: XCTestCase {
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         // WHEN the button on the screen is hit
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
-        signOutButton.sendActions(for: .touchUpInside)
+        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSScreen)
+        let viewModel = try XCTUnwrap(viewController.viewModel as? SignOutConfirmationViewModel)
+        let signOutButton = viewModel.movableFooter.first as? GDSButtonViewModel
+        signOutButton?.buttonAction.perform()
+        
         // THEN clear all session data is called
         await fulfillment(of: [exp], timeout: 10)
         XCTAssertTrue(mockSessionManager.didCallClearAllSessionData)
@@ -101,7 +99,8 @@ final class SettingsCoordinatorTests: XCTestCase {
         let mockSessionManager = MockSessionManager()
         let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager)
         mockSessionManager.errorFromClearAllSessionData = MockWalletError.cantDelete
-        let sut: SettingsCoordinator = .make(mockNavigationController: mockNavigationController, mockSessionManager: mockSessionManagerExpectation)
+        let sut: SettingsCoordinator = .make(mockNavigationController: mockNavigationController,
+                                             mockSessionManager: mockSessionManagerExpectation)
 
         // GIVEN the user is on the signout page
         sut.start()
@@ -109,8 +108,10 @@ final class SettingsCoordinatorTests: XCTestCase {
         sut.openSignOutPage()
         let presentedVC = try XCTUnwrap(sut.root.presentedViewController as? UINavigationController)
         // WHEN the user signs out
-        let signOutButton: UIButton = try XCTUnwrap(presentedVC.topViewController?.view[child: "instructions-button"])
-        signOutButton.sendActions(for: .touchUpInside)
+        let viewController = try XCTUnwrap(presentedVC.topViewController as? GDSScreen)
+        let viewModel = try XCTUnwrap(viewController.viewModel as? SignOutConfirmationViewModel)
+        let signOutButton = viewModel.movableFooter.first as? GDSButtonViewModel
+        signOutButton?.buttonAction.perform()
         
         wait(for: [pushViewControllerExpectation], timeout: 10)
 
