@@ -752,8 +752,8 @@ extension LoginCoordinatorTests {
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
         // THEN the log out confirmation screen should be shown
-        XCTAssertTrue(sut.root.presentedViewController is GDSInformationViewController)
-        XCTAssertTrue((sut.root.presentedViewController as? GDSInformationViewController)?.viewModel is SignOutSuccessfulViewModel)
+        XCTAssertTrue(sut.root.presentedViewController is GDSScreen)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSScreen)?.viewModel is SignOutSuccessfulViewModel)
     }
     
     func test_showSystemLogOutConfirmation() {

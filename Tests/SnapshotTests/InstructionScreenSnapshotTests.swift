@@ -65,7 +65,7 @@ struct InstructionScreenSnapshotTests {
     @Test
     func test_signOutSuccessfulScreen() {
         let sut = SignOutSuccessfulViewModel(buttonAction: {})
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
