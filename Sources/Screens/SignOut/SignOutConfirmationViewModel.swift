@@ -60,7 +60,10 @@ struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
                                         titleKey: title.stringKey)
                 analyticsService.trackScreen(screen)
             }),
-            didDismiss: nil
+            didDismiss: .action({
+                let event = ButtonEvent(textKey: "app_cancelButton")
+                analyticsService.logEvent(event)
+            })
         )
     }
     

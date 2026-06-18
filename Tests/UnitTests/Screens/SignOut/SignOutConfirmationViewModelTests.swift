@@ -41,7 +41,6 @@ struct SignOutConfirmationViewModelTests {
         #expect(sut.footer.count == 0)
         #expect(sut.backButtonTitle == nil)
         #expect(sut.backButtonIsHidden == true)
-        #expect(sut.didDismiss == nil)
     }
 
     @Test
@@ -75,5 +74,15 @@ struct SignOutConfirmationViewModelTests {
                                 titleKey: "app_signOutErrorTitle")
         #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
+    }
+    
+    @Test
+    func test_didDismiss() {
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        sut.didDismiss?.perform()
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
+        let event = ButtonEvent(textKey: "app_cancelButton")
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
 }
