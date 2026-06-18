@@ -153,7 +153,7 @@ final class LoginCoordinator: NSObject,
                                                            urlOpener: UIApplication.shared))
                 }
             }
-            let signOutSuccessful = GDSInformationViewController(viewModel: viewModel)
+            let signOutSuccessful = GDSScreen(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
         case (.systemLogOut, _):
