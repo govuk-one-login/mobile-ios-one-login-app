@@ -225,6 +225,7 @@
 		8E51ACAD2FABA7FF00A18992 /* SerialTaskQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E51ACAC2FABA7FF00A18992 /* SerialTaskQueueTests.swift */; };
 		8E5B38182F8ECA1800C175F3 /* TestingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5B37EA2F8EC7F600C175F3 /* TestingSceneDelegate.swift */; };
 		8E620E5D2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E620E5C2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift */; };
+		8E6B5CBF2FE987B700098671 /* PersistentSessionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B5CBE2FE987B700098671 /* PersistentSessionErrorTests.swift */; };
 		8E8CAC0A2F894AF90010679E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8CAC092F894AF90010679E /* main.swift */; };
 		8E8CAC0C2F894B1A0010679E /* TestAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8CAC0B2F894B1A0010679E /* TestAppDelegate.swift */; };
 		8E9587DA2F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */; };
@@ -861,6 +862,7 @@
 		8E51ACAC2FABA7FF00A18992 /* SerialTaskQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialTaskQueueTests.swift; sourceTree = "<group>"; };
 		8E5B37EA2F8EC7F600C175F3 /* TestingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingSceneDelegate.swift; sourceTree = "<group>"; };
 		8E620E5C2F9A72CF00192775 /* MockChildCoordinatorExpectation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockChildCoordinatorExpectation.swift; sourceTree = "<group>"; };
+		8E6B5CBE2FE987B700098671 /* PersistentSessionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentSessionErrorTests.swift; sourceTree = "<group>"; };
 		8E8CAC092F894AF90010679E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8E8CAC0B2F894B1A0010679E /* TestAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAppDelegate.swift; sourceTree = "<group>"; };
 		8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModelTests.swift; sourceTree = "<group>"; };
@@ -1538,6 +1540,7 @@
 				7CA719632C846E2300973585 /* Authorization */,
 				7C81ADD52C78A90100A73010 /* PersistentSessionManagerXCTests.swift */,
 				1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */,
+				8E6B5CBE2FE987B700098671 /* PersistentSessionErrorTests.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -3763,6 +3766,7 @@
 				C851FFA42BADAAB600A7B73D /* SceneLifecycleTests.swift in Sources */,
 				C8A9E57C2EA288CC0059DFDA /* MockJWTs.swift in Sources */,
 				4193D2E52C89F48800073EB8 /* SecureTokenStoreTests.swift in Sources */,
+				8E6B5CBF2FE987B700098671 /* PersistentSessionErrorTests.swift in Sources */,
 				D01A72772BE29B51004333F8 /* SettingsCoordinatorTests.swift in Sources */,
 				413C58782BF266A200171C06 /* SettingsTabViewModelTests.swift in Sources */,
 				D08B0B852BDFA40A00769CEA /* SettingsViewControllerTests.swift in Sources */,
@@ -5461,7 +5465,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 5.0.0;
 			};
 		};
 		C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */ = {
@@ -5485,7 +5489,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				minimumVersion = 4.0.0;
 			};
 		};
 		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
