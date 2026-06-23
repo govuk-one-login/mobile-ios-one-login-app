@@ -23,10 +23,18 @@ final class WebAuthenticationService: AuthenticationService {
     }
     
     func startWebSession() async throws {
+        try await self.startWebSession(appIntegrityProvider: try FirebaseAppIntegrityService.firebaseAppCheck())
+    }
+    
+    func startWebSession(appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider) async throws {
         do {
             try await sessionManager.startAuthSession(
                 session,
-                using: LoginSessionConfiguration.oneLoginSessionConfiguration
+                using: { persistentSessionID in
+                    try await LoginSessionConfiguration.oneLoginSessionConfiguration(
+                        persistentSessionID: persistentSessionID,
+                        appIntegrityProvider: appIntegrityProvider)
+                }
             )
         } catch let error as LoginError {
             switch error.kind {

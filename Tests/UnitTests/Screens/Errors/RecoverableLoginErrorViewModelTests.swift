@@ -1,62 +1,70 @@
+@testable import DesignSystem
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class RecoverableLoginErrorViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: RecoverableLoginErrorViewModel!
+struct RecoverableLoginErrorViewModelTests {
+    var sut: RecoverableLoginErrorViewModel
+    let mockAnalyticsService = MockAnalyticsService()
     
-    var didCallButtonAction = false
-    
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
+    init() {
         sut = RecoverableLoginErrorViewModel(analyticsService: mockAnalyticsService,
-                                          errorDescription: "error description") {
-            self.didCallButtonAction = true
-        }
+                                             errorDescription: "error description") {}
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
+    @Test
+    func test_page() throws {
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
+        #expect(title?.icon == .error)
+        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signInErrorTitle"))
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
         
-        didCallButtonAction = false
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title == GDSLocalisedString(stringKey: "app_signInErrorRecoverableBody"))
+        #expect(body?.alignment == .center)
         
-        super.tearDown()
-    }
-}
-
-extension RecoverableLoginErrorViewModelTests {
-    func test_page() {
-        XCTAssertEqual(sut.image, .error)
-        XCTAssertEqual(sut.title.stringKey, "app_signInErrorTitle")
-        XCTAssertEqual(sut.bodyContent.count, 1)
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
     
+    @Test
     func test_button() {
-        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_tryAgainButton")
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.buttonViewModels[0].action()
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        var didCallButtonAction = false
+        let sut = RecoverableLoginErrorViewModel(analyticsService: mockAnalyticsService,
+                                             errorDescription: "error description") {
+            didCallButtonAction = true
+        }
+        
+        let button = sut.movableFooter.first as? GDSButtonViewModel
+        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_tryAgainButton").value)
+        
+        #expect(didCallButtonAction == false)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        button?.buttonAction.perform()
+        #expect(didCallButtonAction == true)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = ButtonEvent(textKey: "app_tryAgainButton")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
     
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableLoginError.rawValue,
                                      screen: ErrorAnalyticsScreen.recoverablLoginError,
                                      titleKey: "app_signInErrorTitle",
                                      reason: "error description")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

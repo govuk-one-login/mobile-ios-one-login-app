@@ -5,10 +5,11 @@ import Foundation
 extension LoginSessionConfiguration {
     @Sendable
     static func oneLoginSessionConfiguration(
-        persistentSessionID: String?
+        persistentSessionID: String?,
+        appIntegrityProvider: @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider
     ) async throws -> Self {
         let env = AppEnvironment.self
-        let integrityService = try FirebaseAppIntegrityService.firebaseAppCheck()
+        let integrityService = try appIntegrityProvider()
         // Integrity assertions should be sent if the feature flag is enabled
         // OR the user has a valid client attestation which can be used in the flow even in a potential Firebase outage
         let shouldAttestIntegrity = env.appIntegrityEnabled || !integrityService.hasExpiredAttestation

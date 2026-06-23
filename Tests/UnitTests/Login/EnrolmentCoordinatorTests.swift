@@ -1,4 +1,4 @@
-import GDSCommon
+import DesignSystem
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import SecureStore
@@ -82,7 +82,7 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the 'touch id information' screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 1)
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSScreen)
         XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
     
@@ -94,7 +94,7 @@ extension EnrolmentCoordinatorTests {
         sut.start()
         // THEN the 'face id information' screen is shown
         XCTAssertEqual(navigationController.viewControllers.count, 1)
-        let vc = try XCTUnwrap(navigationController.topViewController as? GDSInformationViewController)
+        let vc = try XCTUnwrap(navigationController.topViewController as? GDSScreen)
         XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
 }

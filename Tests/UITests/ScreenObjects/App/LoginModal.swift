@@ -50,7 +50,8 @@ struct LoginModal: ScreenObject {
         
         let errorScreen = ErrorScreen(app: app)
         
-        XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout))
+        XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout), "Failed to get matching snapshot: "
+                      + "No matches found for Elements matching predicate '\(errorScreen.title) IN identifiers' from input \(app.staticTexts)")
         
         return errorScreen
     }
@@ -60,7 +61,8 @@ struct LoginModal: ScreenObject {
         
         let errorScreen = ErrorScreen(app: app)
         
-        XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout))
+        XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout), "Failed to get matching snapshot: "
+                      + "No matches found for Elements matching predicate '\(errorScreen.title) IN identifiers' from input \(app.staticTexts)")
         
         return errorScreen
     }
@@ -75,7 +77,8 @@ struct LoginModal: ScreenObject {
             secondModalScreen.loginButton
         ]
         browserElements.forEach {
-            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "Failed to get matching snapshot: "
+                          + "No matches found for Elements matching predicate '\($0.title) IN identifiers'")
         }
         return secondModalScreen
     }
@@ -90,7 +93,8 @@ struct LoginModal: ScreenObject {
             secondModalScreen.loginButton
         ]
         browserElements.forEach {
-            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "Failed to get matching snapshot: "
+                          + "No matches found for Elements matching predicate '\($0.title) IN identifiers'")
         }
         return secondModalScreen
     }

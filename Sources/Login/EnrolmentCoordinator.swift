@@ -1,5 +1,5 @@
 import Coordination
-import GDSCommon
+import DesignSystem
 import LocalAuthenticationWrapper
 import UIKit
 
@@ -43,23 +43,21 @@ final class EnrolmentCoordinator: NSObject,
             case .touchID, .faceID:
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
                                                              biometricsType: biometricsType) { [unowned self] in
-                    localAuthManager.saveSession()
+                    await localAuthManager.saveSession()
                 } secondaryButtonAction: { [unowned self] in
                     localAuthManager.completeEnrolment()
                 }
-                let biometricsEnrolmentScreen = GDSInformationViewController(viewModel: viewModel)
+                let biometricsEnrolmentScreen = GDSScreen(viewModel: viewModel)
                 root.pushViewController(biometricsEnrolmentScreen, animated: true)
             case .passcode:
-                localAuthManager.saveSession()
+                Task {
+                    await localAuthManager.saveSession()
+                }
             case .none:
                 localAuthManager.completeEnrolment()
             }
         } catch {
             preconditionFailure()
         }
-    }
-    
-    func enableEnrolmentButton() {
-        (root.viewControllers.last as? GDSInformationViewController)?.resetPrimaryButton()
     }
 }

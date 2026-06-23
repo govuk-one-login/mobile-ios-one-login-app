@@ -71,13 +71,14 @@ final class LoginCoordinator: NSObject,
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = IntroViewController(viewModel: viewModel)
+            rootViewController = GDSScreen(viewModel: viewModel)
         }
         
         root.setViewControllers([rootViewController], animated: true)
     }
     
-    func authenticate() {
+    @discardableResult
+    func authenticate() -> Task<Void, Never>? {
         guard networkMonitor.isConnected else {
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
@@ -85,12 +86,13 @@ final class LoginCoordinator: NSObject,
                     launchAuthenticationService()
                 }
             }
-            return
+            return nil
         }
-        launchAuthenticationService()
+        return launchAuthenticationService()
     }
     
-    func launchAuthenticationService() {
+    @discardableResult
+    func launchAuthenticationService() -> Task<Void, Never>? {
         loginTask = Task {
             do {
                 try await triggerAuthFlow()
@@ -106,6 +108,8 @@ final class LoginCoordinator: NSObject,
                 showGenericErrorScreen(error)
             }
         }
+        
+        return loginTask
     }
     
     private func triggerAuthFlow() async throws {
@@ -135,7 +139,8 @@ final class LoginCoordinator: NSObject,
         switch (sessionState, serviceState) {
         case (.notLoggedIn, _):
             guard analyticsService.analyticsPreferenceStore.hasAcceptedAnalytics == nil,
-                  root.topViewController is IntroViewController else {
+                  let rootVC = root.topViewController as? GDSScreen,
+                  rootVC.viewModel is OneLoginIntroViewModel else {
                 return
             }
             
@@ -258,7 +263,7 @@ extension LoginCoordinator {
         ) { [unowned self] in
             returnFromErrorScreen()
         }
-        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let unableToLoginErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }
     
@@ -272,7 +277,7 @@ extension LoginCoordinator {
             analyticsService: analyticsService,
             errorDescription: description ?? error.localizedDescription
         )
-        let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let unableToLoginErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(unableToLoginErrorScreen, animated: true)
     }
     
@@ -288,7 +293,7 @@ extension LoginCoordinator {
         let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) {
             action()
         }
-        let networkErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let networkErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(networkErrorScreen, animated: true)
     }
     
@@ -304,7 +309,7 @@ extension LoginCoordinator {
         ) { [unowned self] in
             returnFromErrorScreen()
         }
-        let genericErrorScreen = GDSErrorScreen(viewModel: viewModel)
+        let genericErrorScreen = GDSScreen(viewModel: viewModel)
         root.pushViewController(genericErrorScreen, animated: true)
     }
     
@@ -314,8 +319,6 @@ extension LoginCoordinator {
     }
     
     private func enableAuthButton() {
-        (root.viewControllers.first as? IntroViewController)?
-            .enableIntroButton()
         (root.viewControllers.first as? GDSInformationViewController)?
             .resetPrimaryButton()
     }

@@ -1,68 +1,66 @@
-import GDSCommon
+import DesignSystem
 @testable import OneLogin
-import XCTest
+import Testing
+import UIKit
 
 @MainActor
-final class OnboardingCoordinatorTests: XCTestCase {
+struct OnboardingCoordinatorTests {
     var mockAnalyticsPreferenceStore: MockAnalyticsPreferenceStore!
     var mockURLOpener: MockURLOpener!
     var sut: OnboardingCoordinator!
     
-    override func setUp() {
-        super.setUp()
-
+    init() {
         mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         mockURLOpener = MockURLOpener()
         sut = OnboardingCoordinator(analyticsPreferenceStore: mockAnalyticsPreferenceStore,
                                     urlOpener: mockURLOpener)
     }
-    
-    override func tearDown() {
-        mockAnalyticsPreferenceStore = nil
-        mockURLOpener = nil
-        sut = nil
-        
-        super.tearDown()
-    }
 }
 
 extension OnboardingCoordinatorTests {
-    func test_acceptAnalyticsPermissions() throws {
+    @Test
+    func test_acceptAnalyticsPermissions() {
         // WHEN the OnboardingCoordinator is started
         sut.start()
         // THEN the 'analytics preference' screen is shown
-        let vc = try XCTUnwrap(sut.root.topViewController as? ModalInfoViewController)
-        XCTAssertTrue(vc.viewModel is AnalyticsPreferenceViewModel)
+        let vc = sut.root.topViewController as? GDSScreen
+        let viewModel = vc?.viewModel as? AnalyticsPreferenceViewModel
+        #expect(viewModel != nil)
+        #expect(sut.root.isModalInPresentation)
         // WHEN the Allow button is tapped is started
-        let acceptPermissionsButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-primary-button"])
-        acceptPermissionsButton.sendActions(for: .touchUpInside)
+        let acceptPermissionsButton = viewModel?.movableFooter.first as? GDSButtonViewModel
+        acceptPermissionsButton?.buttonAction.perform()
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to true
-        XCTAssertTrue(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
+        #expect(mockAnalyticsPreferenceStore.hasAcceptedAnalytics ?? false)
     }
 
-    func test_declineAnalyticsPermissions() throws {
+    @Test
+    func test_declineAnalyticsPermissions() {
         // WHEN the OnboardingCoordinator is started
         sut.start()
         // THEN the 'analytics preference' screen is shown
-        let vc = try XCTUnwrap(sut.root.topViewController as? ModalInfoViewController)
-        XCTAssertTrue(vc.viewModel is AnalyticsPreferenceViewModel)
+        let vc = sut.root.topViewController as? GDSScreen
+        let viewModel = vc?.viewModel as? AnalyticsPreferenceViewModel
+        #expect(viewModel != nil)
         // WHEN the Disallow button is tapped is started
-        let declinePermissionsButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-secondary-button"])
-        declinePermissionsButton.sendActions(for: .touchUpInside)
+        let declinePermissionsButton = viewModel?.movableFooter[1] as? GDSButtonViewModel
+        declinePermissionsButton?.buttonAction.perform()
         // THEN the analyticsPreferenceStore's hasAcceptedAnalytics value is updated to false
-        XCTAssertFalse(try XCTUnwrap(mockAnalyticsPreferenceStore.hasAcceptedAnalytics))
+        #expect(!(mockAnalyticsPreferenceStore.hasAcceptedAnalytics ?? true))
     }
     
-    func test_openPrivacyPolicyURL() throws {
+    @Test
+    func test_openPrivacyPolicyURL() {
         // WHEN the OnboardingCoordinator is started
         sut.start()
         // THEN the 'analytics preference' screen is shown
-        let vc = try XCTUnwrap(sut.root.topViewController as? ModalInfoViewController)
-        XCTAssertTrue(vc.viewModel is AnalyticsPreferenceViewModel)
+        let vc = sut.root.topViewController as? GDSScreen
+        let viewModel = vc?.viewModel as? AnalyticsPreferenceViewModel
+        #expect(viewModel != nil)
         // WHEN the Privacy Policy button is tapped is started
-        let privacyPolicyButton: UIButton = try XCTUnwrap(vc.view[child: "modal-info-text-button"])
-        privacyPolicyButton.sendActions(for: .touchUpInside)
+        let privacyPolicyButton = viewModel?.body[2] as? GDSButtonViewModel
+        privacyPolicyButton?.buttonAction.perform()
         // THEN the mockURLOpener's didOpenURL property is updated to true
-        XCTAssertTrue(mockURLOpener.didOpenURL)
+        #expect(mockURLOpener.didOpenURL)
     }
 }

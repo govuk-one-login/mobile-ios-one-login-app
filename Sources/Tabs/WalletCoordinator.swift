@@ -1,6 +1,6 @@
 import Coordination
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import HTTPLogging
 import Logging
 import Networking
@@ -14,7 +14,7 @@ final class WalletCoordinator: NSObject,
                                ChildCoordinator,
                                NavigationCoordinator,
                                TabItemCoordinator {
-    let root = UINavigationController()
+    let root: UINavigationController
     weak var parentCoordinator: ParentCoordinator?
     
     private var analyticsService: OneLoginAnalyticsService
@@ -28,10 +28,12 @@ final class WalletCoordinator: NSObject,
     )
     
     init(
+        root: UINavigationController? = nil,
         analyticsService: OneLoginAnalyticsService,
         networkingService: OneLoginNetworkingService,
         sessionManager: SessionManager
     ) {
+        self.root = root ?? UINavigationController()
         self.analyticsService = analyticsService
         self.networkingService = networkingService
         self.sessionManager = sessionManager
@@ -51,7 +53,7 @@ final class WalletCoordinator: NSObject,
                 analyticsService: analyticsService,
                 errorDescription: "walletStoreID or walletEnvironment was not initialised and was nil"
             )
-            let walletNotInitialisedErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            let walletNotInitialisedErrorScreen = GDSScreen(viewModel: viewModel)
             root.pushViewController(walletNotInitialisedErrorScreen, animated: false)
             return
         }

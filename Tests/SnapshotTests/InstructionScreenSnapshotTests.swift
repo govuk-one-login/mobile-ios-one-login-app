@@ -15,7 +15,7 @@ struct InstructionScreenSnapshotTests {
             secondaryButtonAction: {},
             textButtonAction: {}
         )
-        let vc = ModalInfoViewController(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -28,7 +28,7 @@ struct InstructionScreenSnapshotTests {
             primaryButtonAction: {},
             secondaryButtonAction: {}
         )
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -41,18 +41,15 @@ struct InstructionScreenSnapshotTests {
             primaryButtonAction: {},
             secondaryButtonAction: {}
         )
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
     
     @Test
     func test_oneLoginIntroScreen() {
-        let sut = OneLoginIntroViewModel(
-            analyticsService: analyticsService,
-            signinAction: {}
-        )
-        let vc = IntroViewController(viewModel: sut)
+        let sut = OneLoginIntroViewModel(analyticsService: analyticsService) { nil }
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }

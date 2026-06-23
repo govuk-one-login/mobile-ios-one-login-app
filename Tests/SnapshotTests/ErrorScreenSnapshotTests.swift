@@ -1,3 +1,4 @@
+import DesignSystem
 import Foundation
 import GDSCommon
 import LocalAuthenticationWrapper
@@ -73,7 +74,7 @@ struct ErrorScreenSnapshotTests {
             errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -84,7 +85,7 @@ struct ErrorScreenSnapshotTests {
             analyticsService: analyticsService,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -96,7 +97,7 @@ struct ErrorScreenSnapshotTests {
             errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -130,7 +131,7 @@ struct ErrorScreenSnapshotTests {
             analyticsService: analyticsService,
             errorDescription: PersistentSessionError(.userRemovedLocalAuth).localizedDescription
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }

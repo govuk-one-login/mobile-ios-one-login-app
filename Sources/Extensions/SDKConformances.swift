@@ -7,6 +7,7 @@ import Logging
 import MobilePlatformServices
 import Networking
 import Wallet
+import WalletInterface
 
 extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
     public func logEvent(_ event: any WalletTxMAEvent) async {
@@ -16,7 +17,15 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
 
 extension NetworkingService: OneLoginNetworkingService { }
 
-typealias OneLoginNetworkingService = MPTServicesNetworkClient & WalletNetworkClient & IDCheckNetworkClient & AppIntegrityNetworkClient & HTTPLoggingNetworkClient
+extension WalletNetworkClientWrapper: WalletNetworkClient {
+    public func request(_ request: URLRequest) -> any WalletRequestBuilder {
+        RequestBuilder(client: self, request: request)
+    }
+}
+
+typealias OneLoginNetworkingService = MPTServicesNetworkClient & IDCheckNetworkClient & AppIntegrityNetworkClient & HTTPLoggingNetworkClient
+
+extension RequestBuilder: @retroactive WalletRequestBuilder {}
 
 extension GAnalytics: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService { }
 

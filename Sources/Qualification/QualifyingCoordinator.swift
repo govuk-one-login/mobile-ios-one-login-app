@@ -75,7 +75,7 @@ final class QualifyingCoordinator: NSObject,
             let viewModel = NetworkConnectionErrorViewModel(analyticsService: analyticsService) { [unowned self] in
                 appQualifyingService.initiate()
             }
-            displayViewController(GDSErrorScreen(viewModel: viewModel))
+            displayViewController(GDSScreen(viewModel: viewModel))
         case .error:
             // TODO: DCMAW-9866 | display generic error screen?
             return
@@ -109,7 +109,7 @@ final class QualifyingCoordinator: NSObject,
                 analyticsService: analyticsService,
                 errorDescription: error.localizedDescription
             )
-            let unableToLoginErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            let unableToLoginErrorScreen = GDSScreen(viewModel: viewModel)
             displayViewController(unableToLoginErrorScreen)
         case .appIntegrityCheckFailed:
             let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)

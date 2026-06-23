@@ -1,12 +1,11 @@
 import Networking
 import UIKit
-import Wallet
 
 enum SessionError: Error {
     case expired
 }
 
-public final class WalletNetworkClientWrapper: WalletNetworkClient, NetworkClientProtocol {
+public final class WalletNetworkClientWrapper: NetworkClientProtocol {
     private let networkingService: OneLoginNetworkingService
     private let sessionManager: SessionManager
     
