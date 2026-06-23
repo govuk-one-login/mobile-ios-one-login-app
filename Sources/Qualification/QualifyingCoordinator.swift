@@ -85,7 +85,7 @@ final class QualifyingCoordinator: NSObject,
             )
             displayViewController(updateAppScreen)
         case .outdated:
-            let updateAppScreen = GDSInformationViewController(
+            let updateAppScreen = GDSScreen(
                 viewModel: UpdateAppViewModel(analyticsService: analyticsService)
             )
             displayViewController(updateAppScreen)
