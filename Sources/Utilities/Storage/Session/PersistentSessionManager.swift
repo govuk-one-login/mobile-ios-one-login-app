@@ -7,7 +7,6 @@ import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
-import WalletStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
@@ -219,13 +218,6 @@ final class PersistentSessionManager: SessionManager {
                                                                          reason: "secure wallet data deleted"))
                     }
                     try await clearAllSessionData(presentSystemLogOut: true)
-                } catch let error as WalletStoreError where error.kind == .failedToDeleteProofKeys {
-                    do {
-                        try await clearSessionData(in: self.sessionBoundData.reversed(), presentSystemLogOut: true)
-                    } catch {
-                        analyticsService.logCrash(error)
-                    }
-                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
                 } catch {
                     throw PersistentSessionError(.cannotDeleteData, originalError: error)
                 }
@@ -390,16 +382,15 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAppForLogin() async throws {
-        let excludingUserDefaultsPreferenceStore = sessionBoundData.filter { type(of: $0 ) != UserDefaultsPreferenceStore.self }
-        try await self.clearSessionData(in: excludingUserDefaultsPreferenceStore, presentSystemLogOut: false)
+        for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
+            try await each.clearSessionData()
+        }
+        
+        endCurrentSession()
     }
 
     func clearAllSessionData(presentSystemLogOut: Bool) async throws {
-        try await self.clearSessionData(in: sessionBoundData, presentSystemLogOut: presentSystemLogOut)
-    }
-    
-    private func clearSessionData(in sessionData: [SessionBoundData], presentSystemLogOut: Bool) async throws {
-        for each in sessionData {
+        for each in sessionBoundData {
             try await each.clearSessionData()
         }
         
@@ -409,7 +400,7 @@ final class PersistentSessionManager: SessionManager {
             NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
-
+    
     func registerSessionBoundData(_ data: [SessionBoundData]) {
         sessionBoundData = data
     }
