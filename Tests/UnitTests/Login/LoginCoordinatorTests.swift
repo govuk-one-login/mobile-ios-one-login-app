@@ -205,7 +205,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_sessionMismatch() throws {
         // GIVEN the authentication session returns a sessionMismatch error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: PersistentSessionError(.sessionMismatch), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: PersistentSessionError(.sessionMismatch), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -241,7 +241,7 @@ extension LoginCoordinatorTests {
     
     func test_launchAuthenticationService_accessDenied() throws {
         // GIVEN the authentication session returns an access denied error
-        let viewModel: GDSErrorViewModelV3 = try given(errorFromStartSession: LoginError(.authorizationAccessDenied), when: { sut in
+        let viewModel: GDSScreenViewModel = try given(errorFromStartSession: LoginError(.authorizationAccessDenied), when: { sut in
             // WHEN the LoginCoordinator's launchAuthenticationService method is called
             sut.launchAuthenticationService()
         })
@@ -764,8 +764,8 @@ extension LoginCoordinatorTests {
         // WHEN the promptForAnalyticsPermissions method is called
         sut.loginCoordinatorDidDisplay()
         // THEN the log out confirmation screen should be shown
-        XCTAssertTrue(sut.root.presentedViewController is GDSErrorScreen)
-        XCTAssertTrue((sut.root.presentedViewController as? GDSErrorScreen)?.viewModel is DataDeletedWarningViewModel)
+        XCTAssertTrue(sut.root.presentedViewController is GDSScreen)
+        XCTAssertTrue((sut.root.presentedViewController as? GDSScreen)?.viewModel is DataDeletedWarningViewModel)
     }
     
     func test_launchEnrolmentCoordinator() {
