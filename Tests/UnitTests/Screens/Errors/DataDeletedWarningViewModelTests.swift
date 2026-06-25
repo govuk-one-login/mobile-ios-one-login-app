@@ -1,52 +1,52 @@
-import GDSCommon
+@testable import DesignSystem
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class DataDeletedWarningViewModelTests: XCTestCase {
+struct DataDeletedWarningViewModelTests {
     var sut: DataDeletedWarningViewModel!
     
-    var didCallButtonAction = false
-    
-    override func setUp() {
-        super.setUp()
-        
-        sut = DataDeletedWarningViewModel {
-            self.didCallButtonAction = true
-        }
-    }
-    
-    override func tearDown() {
-        sut = nil
-        
-        didCallButtonAction = false
-        
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [:]
-        )
-        
-        super.tearDown()
+    init() {
+        sut = DataDeletedWarningViewModel {}
     }
 }
 
 extension DataDeletedWarningViewModelTests {
     func test_page() throws {
-        XCTAssertEqual(sut.image, .error)
-        XCTAssertEqual(sut.title.stringKey, "app_dataDeletionWarningTitle")
-        XCTAssertEqual(sut.title.value, "Something went wrong")
-        XCTAssertEqual(sut.bodyContent.count, 1)
-        let bodyLabel = try XCTUnwrap(sut.bodyContent.first?.uiView as? UILabel)
+        let errorView = sut.body.first as? GDSErrorIconTitleViewModel
+        let bodyText = sut.body[1] as? GDSTextViewModel
+        
+        #expect(errorView?.icon == .error)
+        #expect(errorView?.errorTitle.title.stringKey == "app_dataDeletionWarningTitle")
+        #expect(errorView?.errorTitle.title.value == "Something went wrong")
+        #expect(errorView?.errorTitle.titleFont == .largeTitleBold)
+        #expect(errorView?.errorTitle.alignment == .center)
+        
+        #expect(bodyText?.title.stringKey == "app_dataDeletionWarningBody")
         // swiftlint:disable:next line_length
-        XCTAssertEqual(bodyLabel.text, "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
-        XCTAssertNil(sut.rightBarButtonTitle)
-        XCTAssertTrue(sut.backButtonIsHidden)
+        #expect(bodyText?.title.value == "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
+        #expect(bodyText?.alignment == .center)
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden)
+        #expect(sut.didDismiss == nil)
+        #expect(sut.didAppear == nil)
     }
     
     func test_button() {
-        XCTAssertEqual(sut.buttonViewModels[0].title.stringKey, "app_signInButton")
-        XCTAssertFalse(didCallButtonAction)
-        sut.buttonViewModels[0].action()
-        XCTAssertTrue(didCallButtonAction)
+        var didCallPrimaryButtonAction = false
+        
+        let sut =  DataDeletedWarningViewModel {
+            didCallPrimaryButtonAction = true
+        }
+
+        let primaryButton = sut.movableFooter.first as? GDSButtonViewModel
+        
+        #expect(!didCallPrimaryButtonAction)
+        #expect(primaryButton?.title.forState(.normal) == "Sign in")
+        primaryButton?.buttonAction.perform()
+        #expect(didCallPrimaryButtonAction)
     }
 }
