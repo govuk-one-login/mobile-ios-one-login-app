@@ -63,7 +63,7 @@ struct ErrorScreenSnapshotTests {
     @Test
     func test_dataDeletedWarning() {
         let sut = DataDeletedWarningViewModel(action: {})
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
