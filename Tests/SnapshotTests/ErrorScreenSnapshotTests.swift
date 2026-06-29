@@ -141,7 +141,7 @@ struct ErrorScreenSnapshotTests {
     @Test
     func test_updateAppError() {
         let sut = UpdateAppViewModel(analyticsService: analyticsService)
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
