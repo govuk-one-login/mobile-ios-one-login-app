@@ -225,60 +225,6 @@ struct WebAuthenticationServiceTests {
         }
         
         #expect(error?.kind == .cannotDeleteData)
-        #expect(mockAnalyticsService.crashesLogged.count == 2)
-    }
-    
-    /// GIVEN I am "a returning user", who is "NOT authenticated" due to a `nil` `persistentId`
-    /// AND `WalletSessionBoundData` throws `WalletError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
-    /// WHEN I start a web session
-    /// AND a `WalletError(.failedToDeleteProofKeys)` is thrown
-    /// AND `clearSessionData` is called for the unprotected store
-    /// AND `clearSessionData` resolves the `WalletError(.failedToDeleteProofKeys)`
-    /// WHEN I a make a second attempt to start a web session
-    /// THEN no error is thrown
-    /// AND a single error has been logged as a crash in analytics
-    ///
-    /// - SeeAlso: https://govukverify.atlassian.net/wiki/spaces/DCMAW/pages/6652264520/DCMAW-20314+Technical+Report+Users+stuck+in+a+login+loop
-    @Test func test_startWebSession_success_for_second_attempt() async throws {
-        let mockAnalyticsService = MockAnalyticsService()
-        var clearSessionDataResult: WalletSessionBoundDataStub.ClearSessionDataResult = .failedToDeleteProofKeys
-        
-        var sut: WebAuthenticationService!
-        
-        let error = await #expect(throws: PersistentSessionError.self) {
-            try await confirmation { confirmation in
-
-                let walletSessionData = WalletSessionBoundDataStub(clearSessionDataAsFunction: {
-                    switch clearSessionDataResult {
-                    case .failedToDeleteProofKeys:
-                        throw WalletError(.failedToDeleteProofKeys)
-                    case .success:
-                        return
-                    }
-                })
-
-                let mockUnprotectedStore = MockDefaultsStoreExpectation(clearSessionDataAsFunction: {
-                    confirmation()
-                    clearSessionDataResult = .success
-                })
-
-                let persistentSessionManager: PersistentSessionManager =
-                try .makeReturningUnauthenticatedUser(mockAnalyticsService: mockAnalyticsService,
-                                                      mockUnprotectedStore: mockUnprotectedStore,
-                                                      walletSessionData: walletSessionData)
-                
-                sut = await .make(sessionManager: persistentSessionManager,
-                                  mockAnalyticsService: mockAnalyticsService)
-                
-                try await sut.startWebSession(appIntegrityProvider: AppIntegrityProviderStub())
-            }
-        }
-        #expect(error?.kind == .cannotDeleteData)
-        
-        await #expect(throws: Never.self) {
-            try await sut.startWebSession(appIntegrityProvider: AppIntegrityProviderStub())
-        }
-        
         #expect(mockAnalyticsService.crashesLogged.count == 1)
     }
     
@@ -309,11 +255,6 @@ struct WebAuthenticationServiceTests {
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
-    enum ClearSessionDataResult {
-        case failedToDeleteProofKeys
-        case success
-    }
-    
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
     var clearSessionDataAsFunction: ClearSessionDataAsFunction

@@ -163,7 +163,7 @@ final class LoginCoordinator: NSObject,
                                                            urlOpener: UIApplication.shared))
                 }
             }
-            let signOutSuccessful = GDSErrorScreen(viewModel: viewModel)
+            let signOutSuccessful = GDSScreen(viewModel: viewModel)
             signOutSuccessful.modalPresentationStyle = .overFullScreen
             root.present(signOutSuccessful, animated: false)
         case (_, .accountIntervention):
@@ -247,7 +247,7 @@ extension LoginCoordinator {
             start()
             loginCoordinatorDidDisplay()
         }
-        let vc = GDSErrorScreen(viewModel: viewModel)
+        let vc = GDSScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)
     }
     
