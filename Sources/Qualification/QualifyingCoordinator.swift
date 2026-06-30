@@ -80,7 +80,7 @@ final class QualifyingCoordinator: NSObject,
             // TODO: DCMAW-9866 | display generic error screen?
             return
         case .unavailable:
-            let updateAppScreen = GDSInformationViewController(
+            let updateAppScreen = GDSScreen(
                 viewModel: AppUnavailableViewModel(analyticsService: analyticsService)
             )
             displayViewController(updateAppScreen)
