@@ -1,4 +1,3 @@
-// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -386,7 +385,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
 }
-// swiftlint:enable type_body_length
 
 extension ServerError: @retroactive Equatable {
     public static func == (lhs: ServerError, rhs: ServerError) -> Bool {
