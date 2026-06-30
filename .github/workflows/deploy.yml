@@ -43,7 +43,7 @@ jobs:
           ./scripts-configs/spm/aws_code_artifact_login.sh /Applications/Xcode_26.4.1.app
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # pin@v6.2.0
+        uses: aws-actions/configure-aws-credentials@254c19bd240aabef8777f48595e9d2d7b972184b # pin@v6.2.1
         with:
           aws-region: eu-west-2
           role-to-assume: ${{ secrets.GITHUBRUNNER_EC2_ACTIONS_ROLE_ARN }}
