@@ -6,18 +6,20 @@ import Logging
 @testable import OneLogin
 import SecureStore
 import Testing
-import Wallet
+import WalletStore
 import XCTest
 
 final class WebAuthenticationServiceXCTests: XCTestCase {
-   
     private enum AuthenticationError: Error {
         case generic
     }
 
     func test_loginError_userCancelled() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: LoginError(.userCancelled), mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: LoginError(.userCancelled),
+            mockAnalyticsService: mockAnalyticsService
+        )
         
         do {
             try await sut.startWebSession()
@@ -35,7 +37,10 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_tokenError_accessDenied() async {
         let mockSessionManager = MockSessionManager()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: LoginError(.authorizationAccessDenied), mockSessionManager: mockSessionManager)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: LoginError(.authorizationAccessDenied),
+            mockSessionManager: mockSessionManager
+        )
         
         do {
             try await sut.startWebSession()
@@ -51,11 +56,11 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_authorizeError_accessDenied() async {
         let mockSessionManager = MockSessionManager()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: LoginError(
-            .invalidRedirectURL,
-            reason: "access_denied: account deleted"
-        ), mockSessionManager: mockSessionManager)
-
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: LoginError(.invalidRedirectURL, reason: "access_denied: account deleted"),
+            mockSessionManager: mockSessionManager
+        )
+        
         do {
             try await sut.startWebSession()
         } catch {
@@ -76,8 +81,10 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_loginError_invalidRedirectURL() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: LoginError(.invalidRedirectURL),
-                                                        mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: LoginError(.invalidRedirectURL),
+            mockAnalyticsService: mockAnalyticsService
+        )
 
         do {
             try await sut.startWebSession()
@@ -93,16 +100,16 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_appIntegritySigningError() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: AppIntegritySigningError(
-            errorType: .publicKeyJWTError,
-            errorDescription: "test description"
-        ), mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: AppIntegritySigningError(errorType: .publicKeyJWTError, errorDescription: "test description"),
+            mockAnalyticsService: mockAnalyticsService
+        )
 
         do {
             try await sut.startWebSession()
         } catch {
             guard let error = error as? AppIntegritySigningError else {
-                XCTFail("Error should be a SecureStoreError")
+                XCTFail("Error should be a AppIntegritySigningError")
                 return
             }
             XCTAssertTrue(error.errorType == .publicKeyJWTError)
@@ -112,16 +119,16 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_appIntegrityError_firebaseAppCheckError() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: FirebaseAppCheckError(
-            .generic,
-            reason: "test reason"
-        ), mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: FirebaseAppCheckError(.generic, reason: "test reason"),
+            mockAnalyticsService: mockAnalyticsService
+        )
         
         do {
             try await sut.startWebSession()
         } catch {
             guard let error = error as? FirebaseAppCheckError else {
-                XCTFail("Error should be a SecureStoreError")
+                XCTFail("Error should be a FirebaseAppCheckError")
                 return
             }
             XCTAssertTrue(error.kind == .generic)
@@ -131,17 +138,16 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_appIntegrityError_clientAssertionError() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession:
-            ClientAssertionError(
-            .invalidToken,
-            reason: "test reason"
-        ), mockAnalyticsService: mockAnalyticsService)
-
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: ClientAssertionError(.invalidToken, reason: "test reason"),
+            mockAnalyticsService: mockAnalyticsService
+        )
+        
         do {
             try await sut.startWebSession()
         } catch {
             guard let error = error as? ClientAssertionError else {
-                XCTFail("Error should be a SecureStoreError")
+                XCTFail("Error should be a ClientAssertionError")
                 return
             }
             XCTAssertTrue(error.kind == .invalidToken)
@@ -151,17 +157,17 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_appIntegrityError_proofOfPosessionError() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: ProofOfPossessionError(
-            .cantGenerateAttestationPublicKeyJWK,
-            reason: "test reason"
-        ), mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: ProofOfPossessionError(.cantGenerateAttestationPublicKeyJWK, reason: "test reason"),
+            mockAnalyticsService: mockAnalyticsService
+        )
 
         
         do {
             try await sut.startWebSession()
         } catch {
             guard let error = error as? ProofOfPossessionError else {
-                XCTFail("Error should be a SecureStoreError")
+                XCTFail("Error should be a ProofOfPossessionError")
                 return
             }
             XCTAssertTrue(error.kind == .cantGenerateAttestationPublicKeyJWK)
@@ -171,8 +177,10 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     
     func test_secureStoreError() async {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: WebAuthenticationService = await .make(errorFromStartSession: SecureStoreErrorV2(.cantDecodeData),
-                                                        mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            errorFromStartSession: SecureStoreErrorV2(.cantDecodeData),
+            mockAnalyticsService: mockAnalyticsService
+        )
 
         do {
             try await sut.startWebSession()
@@ -202,23 +210,27 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
 
 struct WebAuthenticationServiceTests {
     /// GIVEN I am "a returning user", who is "NOT authenticated" due to a `nil` `persistentId`
-    /// AND `WalletSessionBoundData` throws `WalletError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
+    /// AND `WalletSessionBoundData` throws `WalletStoreError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
     /// WHEN I start a web session
     /// THEN an error is logged as a crash in analytics
     /// AND the error is thrown
-    @Test func test_startWebSession_throws_cannotDeleteData() async throws {
+    @Test
+    func test_startWebSession_throws_cannotDeleteData() async throws {
         let mockAnalyticsService = MockAnalyticsService()
 
         let walletSessionData = WalletSessionBoundDataStub(clearSessionDataAsFunction: {
-            throw WalletError(.failedToDeleteProofKeys)
+            throw WalletStoreError(.failedToDeleteProofKeys)
         })
         
-        let sessionManager: PersistentSessionManager =
-            try .makeReturningUnauthenticatedUser(mockAnalyticsService: mockAnalyticsService,
-                                                  walletSessionData: walletSessionData)
+        let sessionManager: PersistentSessionManager = try .makeReturningUnauthenticatedUser(
+            mockAnalyticsService: mockAnalyticsService,
+            walletSessionData: walletSessionData
+        )
         
-        let sut: WebAuthenticationService = await .make(sessionManager: sessionManager,
-                                                        mockAnalyticsService: mockAnalyticsService)
+        let sut: WebAuthenticationService = await .make(
+            sessionManager: sessionManager,
+            mockAnalyticsService: mockAnalyticsService
+        )
         
         let error = await #expect(throws: PersistentSessionError.self) {
             try await sut.startWebSession()
@@ -228,7 +240,8 @@ struct WebAuthenticationServiceTests {
         #expect(mockAnalyticsService.crashesLogged.count == 1)
     }
     
-    @Test func test_startWebSession_success() async throws {
+    @Test
+    func test_startWebSession_success() async throws {
         let sessionManager: PersistentSessionManager = .make()
         let sut: WebAuthenticationService = await .make(sessionManager: sessionManager)
         
@@ -237,7 +250,8 @@ struct WebAuthenticationServiceTests {
         }
     }
     
-    @Test func test_loginError_logged_by_default() async {
+    @Test
+    func test_loginError_logged_by_default() async {
         let mockAnalyticsService = MockAnalyticsService()
         let anyError = LoginError(.generic)
         
@@ -264,8 +278,8 @@ struct WalletSessionBoundDataStub: SessionBoundData {
     }
 }
 
+@MainActor
 extension WebAuthenticationService {
-    @MainActor
     static func make(window: UIWindow? = nil,
                      sessionManager: SessionManager = MockSessionManager(),
                      mockLoginSession: MockLoginSession? = nil,
@@ -279,7 +293,6 @@ extension WebAuthenticationService {
                                         analyticsService: mockAnalyticsService)
     }
     
-    @MainActor
     static func make(errorFromStartSession error: Error,
                      mockSessionManager: MockSessionManager = MockSessionManager(),
                      mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()) -> WebAuthenticationService {
@@ -288,7 +301,6 @@ extension WebAuthenticationService {
         return .make(sessionManager: mockSessionManager, mockAnalyticsService: mockAnalyticsService)
     }
     
-    @MainActor
     static func make(errorFromFinalise error: Error) -> WebAuthenticationService {
         let window = UIWindow()
         let mockLoginSession = MockLoginSession(window: window)
@@ -320,8 +332,7 @@ extension PersistentSessionManager {
         let walletSDK = MockWalletSDKWrapper()
         walletSDK.isEmpty = true
         
-        return try .make(
-                         encryptedStore: mockEncryptedStore,
+        return try .make(encryptedStore: mockEncryptedStore,
                          unprotectedStore: mockUnprotectedStore,
                          analyticsService: mockAnalyticsService,
                          walletSDK: walletSDK,
@@ -330,5 +341,4 @@ extension PersistentSessionManager {
                          serialTaskQueue: SerialTaskQueue(),
                          analyticsPreferenceStore: analyticsPreferenceStore)
     }
-    
 }
