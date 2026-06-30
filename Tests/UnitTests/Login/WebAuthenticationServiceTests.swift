@@ -6,7 +6,7 @@ import Logging
 @testable import OneLogin
 import SecureStore
 import Testing
-import Wallet
+import WalletStore
 import XCTest
 
 final class WebAuthenticationServiceXCTests: XCTestCase {
@@ -202,7 +202,7 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
 
 struct WebAuthenticationServiceTests {
     /// GIVEN I am "a returning user", who is "NOT authenticated" due to a `nil` `persistentId`
-    /// AND `WalletSessionBoundData` throws `WalletError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
+    /// AND `WalletSessionBoundData` throws `WalletStoreError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
     /// WHEN I start a web session
     /// THEN an error is logged as a crash in analytics
     /// AND the error is thrown
@@ -210,7 +210,7 @@ struct WebAuthenticationServiceTests {
         let mockAnalyticsService = MockAnalyticsService()
 
         let walletSessionData = WalletSessionBoundDataStub(clearSessionDataAsFunction: {
-            throw WalletError(.failedToDeleteProofKeys)
+            throw WalletStoreError(.failedToDeleteProofKeys)
         })
         
         let sessionManager: PersistentSessionManager =
