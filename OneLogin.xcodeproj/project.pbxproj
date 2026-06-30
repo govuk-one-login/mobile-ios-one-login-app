@@ -9,6 +9,18 @@
 /* Begin PBXBuildFile section */
 		1E1D56AA2F47673200AB90D3 /* OneLoginAppIntegrityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D56A92F47672300AB90D3 /* OneLoginAppIntegrityService.swift */; };
 		1E1D56AC2F48778200AB90D3 /* OneLoginAppIntegrityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D56AB2F48777800AB90D3 /* OneLoginAppIntegrityServiceTests.swift */; };
+		1E21248F2FF3D787005A38FE /* test_appUnavailableError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124852FF3D787005A38FE /* test_appUnavailableError.3.png */; };
+		1E2124902FF3D787005A38FE /* test_appUnavailableError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124882FF3D787005A38FE /* test_appUnavailableError.6.png */; };
+		1E2124912FF3D787005A38FE /* test_appUnavailableError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E21248D2FF3D787005A38FE /* test_appUnavailableError.11.png */; };
+		1E2124922FF3D787005A38FE /* test_appUnavailableError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124842FF3D787005A38FE /* test_appUnavailableError.2.png */; };
+		1E2124932FF3D787005A38FE /* test_appUnavailableError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124872FF3D787005A38FE /* test_appUnavailableError.5.png */; };
+		1E2124942FF3D787005A38FE /* test_appUnavailableError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E21248E2FF3D787005A38FE /* test_appUnavailableError.12.png */; };
+		1E2124952FF3D787005A38FE /* test_appUnavailableError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E21248C2FF3D787005A38FE /* test_appUnavailableError.10.png */; };
+		1E2124962FF3D787005A38FE /* test_appUnavailableError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124832FF3D787005A38FE /* test_appUnavailableError.1.png */; };
+		1E2124972FF3D787005A38FE /* test_appUnavailableError.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E21248B2FF3D787005A38FE /* test_appUnavailableError.9.png */; };
+		1E2124982FF3D787005A38FE /* test_appUnavailableError.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124892FF3D787005A38FE /* test_appUnavailableError.7.png */; };
+		1E2124992FF3D787005A38FE /* test_appUnavailableError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124862FF3D787005A38FE /* test_appUnavailableError.4.png */; };
+		1E21249A2FF3D787005A38FE /* test_appUnavailableError.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E21248A2FF3D787005A38FE /* test_appUnavailableError.8.png */; };
 		1E2B6C972FD85A6C0007CD46 /* DesignSystemAction+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2B6C962FD85A5B0007CD46 /* DesignSystemAction+TestExtensions.swift */; };
 		1E2B6CA42FD85F000007CD46 /* test_recoverableLoginError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2B6C992FD85F000007CD46 /* test_recoverableLoginError.2.png */; };
 		1E2B6CA52FD85F000007CD46 /* test_recoverableLoginError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2B6C9B2FD85F000007CD46 /* test_recoverableLoginError.4.png */; };
@@ -402,18 +414,6 @@
 		C8467D3E2F1978150071ED81 /* SnapshotTesting+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */; };
 		C8467D3F2F1978150071ED81 /* ErrorScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D382F1978150071ED81 /* ErrorScreenSnapshotTests.swift */; };
 		C8467D402F1978150071ED81 /* InstructionScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D392F1978150071ED81 /* InstructionScreenSnapshotTests.swift */; };
-		C8467D412F1978150071ED81 /* test_appUnavailableError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C402F1978150071ED81 /* test_appUnavailableError.1.png */; };
-		C8467D422F1978150071ED81 /* test_appUnavailableError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C412F1978150071ED81 /* test_appUnavailableError.2.png */; };
-		C8467D432F1978150071ED81 /* test_appUnavailableError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C422F1978150071ED81 /* test_appUnavailableError.3.png */; };
-		C8467D442F1978150071ED81 /* test_appUnavailableError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C432F1978150071ED81 /* test_appUnavailableError.4.png */; };
-		C8467D452F1978150071ED81 /* test_appUnavailableError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C442F1978150071ED81 /* test_appUnavailableError.5.png */; };
-		C8467D462F1978150071ED81 /* test_appUnavailableError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C452F1978150071ED81 /* test_appUnavailableError.6.png */; };
-		C8467D472F1978150071ED81 /* test_appUnavailableError.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C462F1978150071ED81 /* test_appUnavailableError.7.png */; };
-		C8467D482F1978150071ED81 /* test_appUnavailableError.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C472F1978150071ED81 /* test_appUnavailableError.8.png */; };
-		C8467D492F1978150071ED81 /* test_appUnavailableError.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C482F1978150071ED81 /* test_appUnavailableError.9.png */; };
-		C8467D4A2F1978150071ED81 /* test_appUnavailableError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C492F1978150071ED81 /* test_appUnavailableError.10.png */; };
-		C8467D4B2F1978150071ED81 /* test_appUnavailableError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C4A2F1978150071ED81 /* test_appUnavailableError.11.png */; };
-		C8467D4C2F1978150071ED81 /* test_appUnavailableError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C4B2F1978150071ED81 /* test_appUnavailableError.12.png */; };
 		C8467D652F1978150071ED81 /* test_localAuthBiometricsError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C642F1978150071ED81 /* test_localAuthBiometricsError.1.png */; };
 		C8467D662F1978150071ED81 /* test_localAuthBiometricsError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C652F1978150071ED81 /* test_localAuthBiometricsError.2.png */; };
 		C8467D672F1978150071ED81 /* test_localAuthBiometricsError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C8467C662F1978150071ED81 /* test_localAuthBiometricsError.3.png */; };
@@ -630,6 +630,18 @@
 /* Begin PBXFileReference section */
 		1E1D56A92F47672300AB90D3 /* OneLoginAppIntegrityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAppIntegrityService.swift; sourceTree = "<group>"; };
 		1E1D56AB2F48777800AB90D3 /* OneLoginAppIntegrityServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAppIntegrityServiceTests.swift; sourceTree = "<group>"; };
+		1E2124832FF3D787005A38FE /* test_appUnavailableError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.1.png; sourceTree = "<group>"; };
+		1E2124842FF3D787005A38FE /* test_appUnavailableError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.2.png; sourceTree = "<group>"; };
+		1E2124852FF3D787005A38FE /* test_appUnavailableError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.3.png; sourceTree = "<group>"; };
+		1E2124862FF3D787005A38FE /* test_appUnavailableError.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.4.png; sourceTree = "<group>"; };
+		1E2124872FF3D787005A38FE /* test_appUnavailableError.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.5.png; sourceTree = "<group>"; };
+		1E2124882FF3D787005A38FE /* test_appUnavailableError.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.6.png; sourceTree = "<group>"; };
+		1E2124892FF3D787005A38FE /* test_appUnavailableError.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.7.png; sourceTree = "<group>"; };
+		1E21248A2FF3D787005A38FE /* test_appUnavailableError.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.8.png; sourceTree = "<group>"; };
+		1E21248B2FF3D787005A38FE /* test_appUnavailableError.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.9.png; sourceTree = "<group>"; };
+		1E21248C2FF3D787005A38FE /* test_appUnavailableError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.10.png; sourceTree = "<group>"; };
+		1E21248D2FF3D787005A38FE /* test_appUnavailableError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.11.png; sourceTree = "<group>"; };
+		1E21248E2FF3D787005A38FE /* test_appUnavailableError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.12.png; sourceTree = "<group>"; };
 		1E2B6C962FD85A5B0007CD46 /* DesignSystemAction+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DesignSystemAction+TestExtensions.swift"; sourceTree = "<group>"; };
 		1E2B6C982FD85F000007CD46 /* test_recoverableLoginError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_recoverableLoginError.1.png; sourceTree = "<group>"; };
 		1E2B6C992FD85F000007CD46 /* test_recoverableLoginError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_recoverableLoginError.2.png; sourceTree = "<group>"; };
@@ -1018,18 +1030,6 @@
 		C84302682D9167A60002B4B1 /* OLTaxonomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLTaxonomy.swift; sourceTree = "<group>"; };
 		C84504012FD31C23003528CB /* SceneDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegateTests.swift; sourceTree = "<group>"; };
 		C8454A8E2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorTests.swift; sourceTree = "<group>"; };
-		C8467C402F1978150071ED81 /* test_appUnavailableError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.1.png; sourceTree = "<group>"; };
-		C8467C412F1978150071ED81 /* test_appUnavailableError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.2.png; sourceTree = "<group>"; };
-		C8467C422F1978150071ED81 /* test_appUnavailableError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.3.png; sourceTree = "<group>"; };
-		C8467C432F1978150071ED81 /* test_appUnavailableError.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.4.png; sourceTree = "<group>"; };
-		C8467C442F1978150071ED81 /* test_appUnavailableError.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.5.png; sourceTree = "<group>"; };
-		C8467C452F1978150071ED81 /* test_appUnavailableError.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.6.png; sourceTree = "<group>"; };
-		C8467C462F1978150071ED81 /* test_appUnavailableError.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.7.png; sourceTree = "<group>"; };
-		C8467C472F1978150071ED81 /* test_appUnavailableError.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.8.png; sourceTree = "<group>"; };
-		C8467C482F1978150071ED81 /* test_appUnavailableError.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.9.png; sourceTree = "<group>"; };
-		C8467C492F1978150071ED81 /* test_appUnavailableError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.10.png; sourceTree = "<group>"; };
-		C8467C4A2F1978150071ED81 /* test_appUnavailableError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.11.png; sourceTree = "<group>"; };
-		C8467C4B2F1978150071ED81 /* test_appUnavailableError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.12.png; sourceTree = "<group>"; };
 		C8467C642F1978150071ED81 /* test_localAuthBiometricsError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsError.1.png; sourceTree = "<group>"; };
 		C8467C652F1978150071ED81 /* test_localAuthBiometricsError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsError.2.png; sourceTree = "<group>"; };
 		C8467C662F1978150071ED81 /* test_localAuthBiometricsError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsError.3.png; sourceTree = "<group>"; };
@@ -1874,6 +1874,18 @@
 				C38BCB772FEA8196000648D4 /* test_updateAppError.10.png */,
 				C38BCB782FEA8196000648D4 /* test_updateAppError.11.png */,
 				C38BCB792FEA8196000648D4 /* test_updateAppError.12.png */,
+				1E2124832FF3D787005A38FE /* test_appUnavailableError.1.png */,
+				1E2124842FF3D787005A38FE /* test_appUnavailableError.2.png */,
+				1E2124852FF3D787005A38FE /* test_appUnavailableError.3.png */,
+				1E2124862FF3D787005A38FE /* test_appUnavailableError.4.png */,
+				1E2124872FF3D787005A38FE /* test_appUnavailableError.5.png */,
+				1E2124882FF3D787005A38FE /* test_appUnavailableError.6.png */,
+				1E2124892FF3D787005A38FE /* test_appUnavailableError.7.png */,
+				1E21248A2FF3D787005A38FE /* test_appUnavailableError.8.png */,
+				1E21248B2FF3D787005A38FE /* test_appUnavailableError.9.png */,
+				1E21248C2FF3D787005A38FE /* test_appUnavailableError.10.png */,
+				1E21248D2FF3D787005A38FE /* test_appUnavailableError.11.png */,
+				1E21248E2FF3D787005A38FE /* test_appUnavailableError.12.png */,
 				C38BCB9E2FED3A47000648D4 /* test_dataDeletedWarning.1.png */,
 				C38BCB9F2FED3A47000648D4 /* test_dataDeletedWarning.2.png */,
 				C38BCBA02FED3A47000648D4 /* test_dataDeletedWarning.3.png */,
@@ -1970,18 +1982,6 @@
 				C3F8E4072F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.10.png */,
 				C3F8E4082F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.11.png */,
 				C3F8E4092F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png */,
-				C8467C402F1978150071ED81 /* test_appUnavailableError.1.png */,
-				C8467C412F1978150071ED81 /* test_appUnavailableError.2.png */,
-				C8467C422F1978150071ED81 /* test_appUnavailableError.3.png */,
-				C8467C432F1978150071ED81 /* test_appUnavailableError.4.png */,
-				C8467C442F1978150071ED81 /* test_appUnavailableError.5.png */,
-				C8467C452F1978150071ED81 /* test_appUnavailableError.6.png */,
-				C8467C462F1978150071ED81 /* test_appUnavailableError.7.png */,
-				C8467C472F1978150071ED81 /* test_appUnavailableError.8.png */,
-				C8467C482F1978150071ED81 /* test_appUnavailableError.9.png */,
-				C8467C492F1978150071ED81 /* test_appUnavailableError.10.png */,
-				C8467C4A2F1978150071ED81 /* test_appUnavailableError.11.png */,
-				C8467C4B2F1978150071ED81 /* test_appUnavailableError.12.png */,
 				C8467C642F1978150071ED81 /* test_localAuthBiometricsError.1.png */,
 				C8467C652F1978150071ED81 /* test_localAuthBiometricsError.2.png */,
 				C8467C662F1978150071ED81 /* test_localAuthBiometricsError.3.png */,
@@ -3094,11 +3094,6 @@
 				C38BCB6B2FE3FDD0000648D4 /* test_signOutSuccessfulScreen.8.png in Resources */,
 				C38BCB6C2FE3FDD0000648D4 /* test_signOutSuccessfulScreen.11.png in Resources */,
 				C38BCB6D2FE3FDD0000648D4 /* test_signOutSuccessfulScreen.6.png in Resources */,
-				C8467D412F1978150071ED81 /* test_appUnavailableError.1.png in Resources */,
-				C8467D422F1978150071ED81 /* test_appUnavailableError.2.png in Resources */,
-				C8467D432F1978150071ED81 /* test_appUnavailableError.3.png in Resources */,
-				C8467D442F1978150071ED81 /* test_appUnavailableError.4.png in Resources */,
-				C8467D452F1978150071ED81 /* test_appUnavailableError.5.png in Resources */,
 				C3F8E40A2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.12.png in Resources */,
 				C3F8E40B2F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.8.png in Resources */,
 				C3F8E40C2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.9.png in Resources */,
@@ -3123,13 +3118,6 @@
 				C3F8E41F2F8547D6008AA640 /* test_localAuthSettingsErrorFaceId.7.png in Resources */,
 				C3F8E4202F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.12.png in Resources */,
 				C3F8E4212F8547D6008AA640 /* test_localAuthSettingsErrorTouchId.3.png in Resources */,
-				C8467D462F1978150071ED81 /* test_appUnavailableError.6.png in Resources */,
-				C8467D472F1978150071ED81 /* test_appUnavailableError.7.png in Resources */,
-				C8467D482F1978150071ED81 /* test_appUnavailableError.8.png in Resources */,
-				C8467D492F1978150071ED81 /* test_appUnavailableError.9.png in Resources */,
-				C8467D4A2F1978150071ED81 /* test_appUnavailableError.10.png in Resources */,
-				C8467D4B2F1978150071ED81 /* test_appUnavailableError.11.png in Resources */,
-				C8467D4C2F1978150071ED81 /* test_appUnavailableError.12.png in Resources */,
 				C32284462FD1A090002A00B9 /* test_oneLoginIntroScreen.1.png in Resources */,
 				C32284472FD1A090002A00B9 /* test_oneLoginIntroScreen.4.png in Resources */,
 				C32284482FD1A090002A00B9 /* test_oneLoginIntroScreen.9.png in Resources */,
@@ -3159,6 +3147,18 @@
 				C8467D672F1978150071ED81 /* test_localAuthBiometricsError.3.png in Resources */,
 				1E9A05852FE2FEF500ED25B0 /* test_signOutScreen.5.png in Resources */,
 				1E9A05862FE2FEF500ED25B0 /* test_signOutScreen.6.png in Resources */,
+				1E21248F2FF3D787005A38FE /* test_appUnavailableError.3.png in Resources */,
+				1E2124902FF3D787005A38FE /* test_appUnavailableError.6.png in Resources */,
+				1E2124912FF3D787005A38FE /* test_appUnavailableError.11.png in Resources */,
+				1E2124922FF3D787005A38FE /* test_appUnavailableError.2.png in Resources */,
+				1E2124932FF3D787005A38FE /* test_appUnavailableError.5.png in Resources */,
+				1E2124942FF3D787005A38FE /* test_appUnavailableError.12.png in Resources */,
+				1E2124952FF3D787005A38FE /* test_appUnavailableError.10.png in Resources */,
+				1E2124962FF3D787005A38FE /* test_appUnavailableError.1.png in Resources */,
+				1E2124972FF3D787005A38FE /* test_appUnavailableError.9.png in Resources */,
+				1E2124982FF3D787005A38FE /* test_appUnavailableError.7.png in Resources */,
+				1E2124992FF3D787005A38FE /* test_appUnavailableError.4.png in Resources */,
+				1E21249A2FF3D787005A38FE /* test_appUnavailableError.8.png in Resources */,
 				1E9A05872FE2FEF500ED25B0 /* test_signOutScreen.3.png in Resources */,
 				1E9A05882FE2FEF500ED25B0 /* test_signOutScreen.4.png in Resources */,
 				1E9A05892FE2FEF500ED25B0 /* test_signOutScreen.2.png in Resources */,

@@ -54,10 +54,11 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_appUnavailableError() {
+        let root = UINavigationController()
         let sut = AppUnavailableViewModel(analyticsService: analyticsService)
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
-        
-        vc.assertSnapshot()
+        let vc = GDSScreen(viewModel: sut)
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
