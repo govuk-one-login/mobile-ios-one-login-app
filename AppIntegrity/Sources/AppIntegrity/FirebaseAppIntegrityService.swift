@@ -10,11 +10,6 @@ public enum AppIntegrityHeaderKey: String {
 
 public protocol AppIntegrityNetworkClient {
     func request(_ request: URLRequest) -> RequestBuilder
-    
-    // TODO: DCMAW-20368 Remove this
-    func makeRequest(_ request: NetworkRequest) async throws -> Data
-    @available(*, deprecated, message: "use .request().execute() instead")
-    func makeRequest(_ request: URLRequest) async throws -> Data
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {

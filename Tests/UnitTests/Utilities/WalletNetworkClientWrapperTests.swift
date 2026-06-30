@@ -94,62 +94,6 @@ extension WalletNetworkClientWrapperTests {
     }
 }
 
-// TODO: DCMAW-20368 Remove this
-extension WalletNetworkClientWrapperTests {
-    func test_requestSucceeded_old() async throws {
-        MockURLProtocol.handler = {
-            let data = Data("Wallet NetworkClient Test".utf8)
-            return (data, HTTPURLResponse(statusCode: 200))
-        }
-        let response = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
-        
-        XCTAssertEqual(String(data: response, encoding: .utf8), "Wallet NetworkClient Test")
-    }
-    
-    func test_requestError_old() async throws {
-        let exp = XCTNSNotificationExpectation(
-            name: .sessionExpired,
-            object: nil,
-            notificationCenter: NotificationCenter.default
-        )
-        
-        mockSessionManager.sessionState = .expired
-        do {
-            _ = try await sut.makeRequest(URLRequest(url: URL(string: "testurl.com")!))
-        } catch let error as SessionError {
-            XCTAssert(error == SessionError.expired)
-        }
-        await fulfillment(of: [exp], timeout: 5)
-    }
-    
-    func test_authRequestSucceeded_old() async throws {
-        MockURLProtocol.handler = {
-            let data = Data("Wallet NetworkClient Test".utf8)
-            return (data, HTTPURLResponse(statusCode: 200))
-        }
-        let response = try await sut.makeAuthorizedRequest(scope: "test wallet scope", request: URLRequest(url: URL(string: "testurl.com")!))
-        
-        XCTAssertEqual(String(data: response, encoding: .utf8), "Wallet NetworkClient Test")
-        XCTAssertEqual(didRequestScope, "test wallet scope")
-    }
-    
-    func test_authRequestError_old() async throws {
-        let exp = XCTNSNotificationExpectation(
-            name: .sessionExpired,
-            object: nil,
-            notificationCenter: NotificationCenter.default
-        )
-        
-        mockSessionManager.sessionState = .expired
-        do {
-            _ = try await sut.makeAuthorizedRequest(scope: "", request: URLRequest(url: URL(string: "testurl.com")!))
-        } catch let error as SessionError {
-            XCTAssert(error == SessionError.expired)
-        }
-        await fulfillment(of: [exp], timeout: 5)
-    }
-}
-
 extension WalletNetworkClientWrapperTests: AuthorizationProvider {
     func fetchToken(withScope scope: String) async throws -> String {
         didRequestScope = scope

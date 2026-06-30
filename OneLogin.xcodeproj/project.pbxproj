@@ -5424,8 +5424,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.0;
+				branch = "chore/dcmaw-20369-remove-deprecations";
+				kind = branch;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
@@ -5440,8 +5440,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.2.0;
+				branch = "chore/dcmaw-20369-remove-deprecations";
+				kind = branch;
 			};
 		};
 		C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {
