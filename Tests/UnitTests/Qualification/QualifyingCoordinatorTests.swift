@@ -72,7 +72,7 @@ extension QualifyingCoordinatorTests {
         sut.didChangeAppInfoState(state: .unavailable)
         // THEN I am shown the App Unavailable screen
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSInformationViewController
+            window.rootViewController as? GDSScreen
         )
         XCTAssertTrue(vc.viewModel is AppUnavailableViewModel)
     }
