@@ -96,10 +96,9 @@ extension LocalAuthSettingsErrorViewModelTests {
     
     @Test
     func test_didDismiss() {
-        let vc = GDSScreen(viewModel: sut)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
 
-        vc.viewDidDisappear(false)
+        sut.didDismiss?.perform()
         let event = IconEvent(textKey: "back - system")
         
         #expect(mockAnalyticsService.eventsLogged.count == 1)

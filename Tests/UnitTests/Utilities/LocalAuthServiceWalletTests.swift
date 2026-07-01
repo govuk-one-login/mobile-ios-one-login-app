@@ -118,7 +118,7 @@ extension LocalAuthServiceWalletTests {
         
         let secondErrorScreen = try XCTUnwrap(vc.viewModel as? LocalAuthSettingsErrorViewModel)
         
-        vc.viewDidDisappear(false)
+        secondErrorScreen.didDismiss?.perform()
         
         XCTAssertTrue(isEnrolled)
     }
@@ -365,6 +365,6 @@ extension LocalAuthServiceWalletTests {
         // THEN VC is dismissed and biometricsNavigationController is presented
         waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
         
-        XCTAssertTrue(sut.biometricsNavigationController.topViewController is GDSErrorScreen)
+        XCTAssertTrue(sut.biometricsNavigationController.topViewController is GDSScreen)
     }
 }
