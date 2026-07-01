@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-logging.git",
       "state" : {
-        "branch" : "chore/dcmaw-20369-remove-deprecations",
-        "revision" : "bd4dfcc1958e8dda7286156ac4816d6aff8a3401"
+        "revision" : "8315ab7436048c80ee573c26c6bc32da1bd9180f",
+        "version" : "7.2.3"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "branch" : "chore/dcmaw-20369-remove-deprecations",
-        "revision" : "ade12bc964d247f75540b5d677bcffce60de8037"
+        "revision" : "b204db5e573db18645f083101fbedd938f586e8b",
+        "version" : "4.4.0"
       }
     },
     {
