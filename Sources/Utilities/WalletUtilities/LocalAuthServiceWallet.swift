@@ -85,7 +85,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     biometricsNavigationController.dismiss(animated: true)
                     completion()
                 }
-                let settingsErrorScreen = GDSErrorScreen(viewModel: viewModel)
+                let settingsErrorScreen = GDSScreen(viewModel: viewModel)
                 
                 biometricsNavigationController.setViewControllers([settingsErrorScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet
