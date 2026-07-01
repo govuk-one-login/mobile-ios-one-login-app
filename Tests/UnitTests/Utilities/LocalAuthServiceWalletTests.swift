@@ -112,13 +112,13 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         
         XCTAssertTrue(vc.viewModel is LocalAuthSettingsErrorViewModel)
         
         let secondErrorScreen = try XCTUnwrap(vc.viewModel as? LocalAuthSettingsErrorViewModel)
         
-        secondErrorScreen.didDismiss()
+        vc.viewDidDisappear(false)
         
         XCTAssertTrue(isEnrolled)
     }

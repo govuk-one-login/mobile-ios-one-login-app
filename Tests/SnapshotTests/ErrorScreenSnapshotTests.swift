@@ -24,24 +24,28 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_localAuthSettingsErrorFaceId() {
+        let root = UINavigationController()
         let sut = LocalAuthSettingsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .faceID
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test
     func test_localAuthSettingsErrorTouchId() {
+        let root = UINavigationController()
         let sut = LocalAuthSettingsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .touchID
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test
