@@ -7,12 +7,7 @@ import UIKit
 
 @MainActor
 protocol CRIOrchestration {
-    func continueIdentityCheckIfRequired(over viewController: UIViewController)
-    
-    func getIDCheckCard(
-        viewController: UIViewController,
-        externalStream: IDCheckExternalStream
-    ) -> UIViewController
+    func startListeningForIDCheckSession(viewController: UIViewController) -> AsyncStream<IDCheckEvent>
 }
 
 final class HomeViewController: BaseViewController {
@@ -23,8 +18,7 @@ final class HomeViewController: BaseViewController {
     private let criOrchestrator: CRIOrchestration
     let spaceBetweenSections: CGFloat = 16
     
-    private var idCheckCard: UIViewController?
-    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
+    private var idCheckCard: UIView?
     
     init(analyticsService: OneLoginAnalyticsService,
          criOrchestrator: CRIOrchestration) {
@@ -63,29 +57,11 @@ final class HomeViewController: BaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         tableView.delegate = self
         tableView.dataSource = self
-        listenForCardUpdates()
-        idCheckCard = criOrchestrator.getIDCheckCard(
-            viewController: self,
-            externalStream: idCheckCardUpdateStream
-        )
-        criOrchestrator.continueIdentityCheckIfRequired(over: self)
-    }
-    
-    func listenForCardUpdates() {
-        Task {
-            for await status in idCheckCardUpdateStream.stream {
-                switch status {
-                case .hide:
-                    tableView.deleteSections(IndexSet(integer: 0), with: .fade)
-                case .show:
-                    tableView.insertSections(IndexSet(integer: 0), with: .fade)
-                }
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -95,13 +71,25 @@ final class HomeViewController: BaseViewController {
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: navigationTitle.stringKey)
         analyticsService.trackScreen(screen)
+        
+        Task(priority: .userInitiated) {
+            for await event in criOrchestrator.startListeningForIDCheckSession(viewController: self) {
+                switch event {
+                case .loadCard(let card):
+                    idCheckCard = card
+                    tableView.reloadData()
+                case .dismissed:
+                    idCheckCard = nil
+                    tableView.reloadData()
+                }
+            }
+        }
     }
 }
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let idCheckCard else { return 2 }
-        return idCheckCard.view.isHidden ? 2 : 3
+        return idCheckCard == nil  ? 2:3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -122,12 +110,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let idCheckCard, !idCheckCard.view.isHidden else {
+            guard idCheckCard != nil  else {
                 return getWelcomeCard(indexPath: indexPath)
             }
             return getIDCheckCard(indexPath: indexPath)
         case 1:
-            guard let idCheckCard, !idCheckCard.view.isHidden else {
+            guard idCheckCard != nil else {
                 return getPurposeCard(indexPath: indexPath)
             }
             return getWelcomeCard(indexPath: indexPath)
@@ -164,23 +152,22 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     private func getIDCheckCard(indexPath: IndexPath) -> UITableViewCell {
         guard let idCheckCard else {
-            preconditionFailure("")
+            preconditionFailure("no idcheck card present")
         }
         
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "OneLoginHomeScreenCell",
             for: indexPath
         )
-        
-        idCheckCard.view.translatesAutoresizingMaskIntoConstraints = false
-        cell.isHidden = idCheckCard.view.isHidden
-        cell.contentView.addSubview(idCheckCard.view)
+                
+        idCheckCard.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(idCheckCard)
         
         NSLayoutConstraint.activate([
-            idCheckCard.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            idCheckCard.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-            idCheckCard.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-            idCheckCard.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
+            idCheckCard.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            idCheckCard.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            idCheckCard.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+            idCheckCard.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
         ])
         
         return cell

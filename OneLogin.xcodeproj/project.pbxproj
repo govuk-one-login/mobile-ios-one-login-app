@@ -5408,8 +5408,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
-				kind = exactVersion;
-				version = 8.72.3;
+				branch = "feature/dcmaw-19539-updating-active-session-logic";
+				kind = branch;
 			};
 		};
 		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
