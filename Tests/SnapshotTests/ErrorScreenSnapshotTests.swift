@@ -12,14 +12,16 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_localAuthBiometricsError() {
+        let root = UINavigationController()
         let sut = LocalAuthBiometricsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .faceID,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test

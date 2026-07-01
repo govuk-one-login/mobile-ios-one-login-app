@@ -227,12 +227,13 @@ extension LocalAuthServiceWalletTests {
         let secondaryButton = viewModel.movableFooter[1] as? GDSButtonViewModel
         secondaryButton?.buttonAction.perform()
         
-        let vc2 = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
+        let vc2 = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         
         XCTAssertTrue(vc2.viewModel is LocalAuthBiometricsErrorViewModel)
         
-        let secondErrorScreen = try XCTUnwrap(vc2.viewModel)
-        secondErrorScreen.buttonViewModels[0].action()
+        let primaryButton = vc2.viewModel.movableFooter[0] as? GDSButtonViewModel
+        
+        await primaryButton?.buttonAction.performAsync()
         
         await fulfillment(of: [enrolledExpectation], timeout: 5)
         
