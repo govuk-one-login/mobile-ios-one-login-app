@@ -33,7 +33,7 @@ struct AppIntegrityProviderTests: ~Copyable {
         try await Task.sleep(seconds: 1)
 
         // THEN fresh assertion JWTs are generated
-        let assertions = try await appCheck.integrityAssertions
+        let assertions = try await appCheck.clientAssertions.merging(appCheck.dPoPAssertion) { current, _ in current }
 
         // - DPoP JWT was issued _after_ the login attempt finished
         let dpopJWT = try ExampleJWT(

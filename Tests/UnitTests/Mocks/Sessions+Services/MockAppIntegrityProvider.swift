@@ -18,17 +18,6 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
     }
     
     var dPoPAssertion: [String: String] = ["testDPoP": "testValue"]
-    
-    // TODO: DCMAW-20368 Delete this type
-    var integrityAssertions: [String: String] {
-        get throws {
-            self.attempts += 1
-            if let errorThrownAssertingIntegrity {
-                throw errorThrownAssertingIntegrity
-            }
-            return ["testAsserion": "testValue"]
-        }
-    }
 }
 
 extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
