@@ -84,7 +84,7 @@ struct InstructionScreenSnapshotTests {
     }
     
     @Test
-    func test_signInWarning() {
+    func test_signInWarningScreen() {
         let root = UINavigationController()
         let sut = SignInAgainViewModel(
             analyticsService: analyticsService,
