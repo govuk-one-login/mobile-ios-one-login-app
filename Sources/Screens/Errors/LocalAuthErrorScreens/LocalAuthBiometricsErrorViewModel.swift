@@ -81,7 +81,7 @@ struct LocalAuthBiometricsErrorViewModel: GDSCentreAlignedViewModel {
             }),
             didDismiss: .action({
                 dismissAction?()
-                let event = IconEvent(textKey: "back - system")
+                let event = IconEvent(textKey: "cancel")
                 analyticsService.logEvent(event)
             })
         )

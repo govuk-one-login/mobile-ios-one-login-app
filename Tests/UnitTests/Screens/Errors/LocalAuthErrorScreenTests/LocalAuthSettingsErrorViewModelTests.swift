@@ -100,7 +100,7 @@ extension LocalAuthSettingsErrorViewModelTests {
         #expect(mockAnalyticsService.eventsLogged.count == 0)
 
         sut.didDismiss?.perform()
-        let event = IconEvent(textKey: "back - system")
+        let event = IconEvent(textKey: "cancel")
         
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         #expect(mockAnalyticsService.eventsLogged == [event.name.name])

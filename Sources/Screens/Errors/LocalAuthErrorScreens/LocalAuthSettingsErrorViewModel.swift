@@ -80,7 +80,7 @@ struct LocalAuthSettingsErrorViewModel: GDSLeftAlignedViewModel {
             }),
             didDismiss: .action({
                 completion?()
-                let event = IconEvent(textKey: "back - system")
+                let event = IconEvent(textKey: "cancel")
                 analyticsService.logEvent(event)
             })
         )
