@@ -10,11 +10,6 @@ public enum AppIntegrityHeaderKey: String {
 
 public protocol AppIntegrityNetworkClient {
     func request(_ request: URLRequest) -> RequestBuilder
-    
-    // TODO: DCMAW-20368 Remove this
-    func makeRequest(_ request: NetworkRequest) async throws -> Data
-    @available(*, deprecated, message: "use .request().execute() instead")
-    func makeRequest(_ request: URLRequest) async throws -> Data
 }
 
 public final class FirebaseAppIntegrityService: AppIntegrityProvider {
@@ -227,92 +222,6 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                 .cantGenerateAttestationPublicKeyJWK,
                 originalError: error
             )
-        }
-    }
-}
-
-// TODO: DCMAW-20368 Delete this extension
-extension FirebaseAppIntegrityService {
-    // Can throw FirebaseAppCheckErrors, ClientAssertionErrors, ProofOfPossessionErrors & uncaught ServerErrors
-    public var integrityAssertions: [String: String] {
-        get async throws {
-            guard hasExpiredAttestation else {
-                return [
-                    AppIntegrityHeaderKey.attestation.rawValue: try attestationStore.attestationJWT,
-                    AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
-                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
-                ]
-            }
-            
-            do {
-                let appCheckToken = try await vendor.limitedUseToken()
-                let attestationResponse = try await fetchClientAttestation(appCheckToken: appCheckToken.token)
-                
-                return [
-                    AppIntegrityHeaderKey.attestation.rawValue: attestationResponse.clientAttestation,
-                    AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken,
-                    AppIntegrityHeaderKey.demonstratingProofOfPossession.rawValue: try demonstratingProofOfPossessionToken
-                ]
-            } catch let error as NSError where
-                        error.domain == AppCheckErrorDomain {
-                // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
-                switch error.code {
-                case 0:
-                    throw FirebaseAppCheckError(
-                        .unknown,
-                        originalError: error,
-                        additionalParameters: error.userInfo
-                    )
-                case 1:
-                    throw FirebaseAppCheckError(
-                        .network,
-                        originalError: error,
-                        additionalParameters: error.userInfo
-                    )
-                case 2:
-                    throw FirebaseAppCheckError(
-                        .invalidConfiguration,
-                        originalError: error,
-                        additionalParameters: error.userInfo
-                    )
-                case 3:
-                    throw FirebaseAppCheckError(
-                        .keychainAccess,
-                        originalError: error,
-                        additionalParameters: error.userInfo
-                    )
-                case 4:
-                    throw FirebaseAppCheckError(
-                        .notSupported,
-                        originalError: error,
-                        additionalParameters: error.userInfo
-                    )
-                default:
-                    throw FirebaseAppCheckError(
-                        .generic,
-                        originalError: error,
-                        additionalParameters: error.userInfo
-                    )
-                }
-            } catch let error as ServerError where
-                        error.errorCode == 400 {
-                throw ClientAssertionError(
-                    .invalidPublicKey,
-                    originalError: error
-                )
-            } catch let error as ServerError where
-                        error.errorCode == 401 {
-                throw ClientAssertionError(
-                    .invalidToken,
-                    originalError: error
-                )
-            } catch let error as ServerError where
-                        error.errorCode == 500 {
-                throw ClientAssertionError(
-                    .serverError,
-                    originalError: error
-                )
-            }
         }
     }
 }
