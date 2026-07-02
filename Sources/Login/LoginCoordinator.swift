@@ -188,7 +188,7 @@ extension LoginCoordinator {
         case .authorizationAccessDenied:
             showDataDeletedWarningScreen()
         case .userCancelled:
-            enableAuthButton()
+            return
         case .network:
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
