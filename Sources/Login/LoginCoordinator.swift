@@ -66,7 +66,7 @@ final class LoginCoordinator: NSObject,
             let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = GDSInformationViewController(viewModel: viewModel)
+            rootViewController = GDSScreen(viewModel: viewModel)
         } else {
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
@@ -315,12 +315,6 @@ extension LoginCoordinator {
     
     private func returnFromErrorScreen() {
         root.popToRootViewController(animated: true)
-        enableAuthButton()
-    }
-    
-    private func enableAuthButton() {
-        (root.viewControllers.first as? GDSInformationViewController)?
-            .resetPrimaryButton()
     }
 }
 

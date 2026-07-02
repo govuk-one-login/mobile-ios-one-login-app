@@ -1,74 +1,72 @@
+@testable import DesignSystem
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class SignOutWarningViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: SignOutWarningViewModel!
+struct SignOutWarningViewModelTests {
+    var sut: SignOutWarningViewModel
+    let mockAnalyticsService = MockAnalyticsService()
     
-    var didCallButtonAction = false
-    
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
-        sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {
-            self.didCallButtonAction = true
-        }
+    init() {
+        sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {}
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
+    @Test
+    func test_page() throws {
+        let title = sut.body.first as? GDSTextViewModel
+        #expect(title?.title.stringKey == "app_signOutWarningTitle")
+        #expect(title?.title.value == "You need to sign in again")
+        #expect(title?.titleFont == .largeTitleBold)
+        #expect(title?.alignment == .center)
         
-        didCallButtonAction = false
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title.stringKey == "app_signOutWarningBody")
+        #expect(body?.title.variableKeys == ["app_nameString"])
+        #expect(body?.title.value == "Sign in with your GOV.UK One Login details to continue.\n\nThis is to keep your information secure.")
+        #expect(body?.alignment == .center)
         
-        super.tearDown()
-    }
-}
-
-extension SignOutWarningViewModelTests {
-    func test_page() {
-        XCTAssertEqual(sut.title.stringKey, "app_signOutWarningTitle")
-        XCTAssertEqual(sut.title.value, "You need to sign in again")
-        XCTAssertEqual(sut.body?.stringKey, "app_signOutWarningBody")
-        XCTAssertEqual(sut.body?.variableKeys, ["app_nameString"])
-        XCTAssertEqual(sut.body?.value, "Sign in with your GOV.UK One Login details to continue.\n\nThis is to keep your information secure.")
-        XCTAssertNil(sut.rightBarButtonTitle)
-        XCTAssertTrue(sut.backButtonIsHidden)
+        #expect(sut.movableFooter.count == 1)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
     
+    @Test
     func test_button() {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_extendedSignInButton")
-        XCTAssertEqual(sut.primaryButtonViewModel.title.variableKeys, ["app_nameString"])
-        XCTAssertEqual(sut.primaryButtonViewModel.title.value, "Sign in with GOV.UK One Login")
-        XCTAssertFalse(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.primaryButtonViewModel.action()
-        XCTAssertTrue(didCallButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        var didCallButtonAction = false
+        let sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {
+            didCallButtonAction = true
+        }
         
+        let button = sut.movableFooter.first as? GDSButtonViewModel
+        #expect(button?.title.forState(.normal) == "Sign in with GOV.UK One Login")
+        
+        #expect(didCallButtonAction == false)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        button?.buttonAction.perform()
+        #expect(didCallButtonAction == true)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_extendedSignInButton",
                               variableKeys: "app_nameString",
                               linkDomain: AppEnvironment.mobileBaseURLString,
                               external: .false)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.login)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
-
+    
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: ErrorAnalyticsScreenID.signOutWarning.rawValue,
                                 screen: ErrorAnalyticsScreen.signOutWarning,
-                                titleKey: sut.title.stringKey)
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.login)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+                                titleKey: "app_signOutWarningTitle")
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

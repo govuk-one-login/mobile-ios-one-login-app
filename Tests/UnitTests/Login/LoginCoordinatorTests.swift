@@ -150,8 +150,8 @@ extension LoginCoordinatorTests {
         sut.start()
         // THEN the user sees the session expired screen
         XCTAssertTrue(sut.root.viewControllers.count == 1)
-        // THEN the visible view controller should be the GDSInformationViewController
-        let screen = try XCTUnwrap(sut.root.topViewController as? GDSInformationViewController)
+        // THEN the visible view controller should be the GDSScreen
+        let screen = try XCTUnwrap(sut.root.topViewController as? GDSScreen)
         // THEN the visible view controller's view model should be the SignOutWarningViewModel
         XCTAssertTrue(screen.viewModel is SignOutWarningViewModel)
     }
