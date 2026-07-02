@@ -189,10 +189,10 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Go back to settings")
     }
     
-    func test_signOutWarningPageKeys() {
-        XCTAssertEqual("app_signOutWarningTitle".getEnglishString(),
+    func test_signInAgainPageKeys() {
+        XCTAssertEqual("app_signInAgainTitle".getEnglishString(),
                        "You need to sign in again")
-        XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
+        XCTAssertEqual("app_signInAgainBody".getEnglishString(),
                        "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.")
     }
     

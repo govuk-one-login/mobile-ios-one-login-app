@@ -63,7 +63,7 @@ final class LoginCoordinator: NSObject,
         let rootViewController: UIViewController
         
         if sessionState == .expired || serviceState == .accountIntervention || serviceState == .reauthenticationRequired {
-            let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
+            let viewModel = SignInAgainViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
             rootViewController = GDSScreen(viewModel: viewModel)

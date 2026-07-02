@@ -181,9 +181,9 @@
 
 
 // MARK: Sign Out Warning screen
-"app_signOutWarningTitle" = "Mae angen i chi fewngofnodi eto";
+"app_signInAgainTitle" = "Mae angen i chi fewngofnodi eto";
 
-"app_signOutWarningBody" = "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
+"app_signInAgainBody" = "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
 
 
 // MARK: Data Deletion Warning screen

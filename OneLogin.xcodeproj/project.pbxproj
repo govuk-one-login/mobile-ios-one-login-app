@@ -497,8 +497,8 @@
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */; };
 		C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */; };
-		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
-		C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */; };
+		C88E40E72C34239E008A3C20 /* SignInAgainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignInAgainViewModel.swift */; };
+		C88E40E92C371431008A3C20 /* SignInAgainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignInAgainViewModelTests.swift */; };
 		C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989872ED9C16200C9B534 /* RemoteServiceState.swift */; };
 		C899898A2ED9C24F00C9B534 /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989892ED9C24F00C9B534 /* NetworkingService.swift */; };
 		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
@@ -1133,8 +1133,8 @@
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
 		C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthPromptStrings+OneLogin.swift"; sourceTree = "<group>"; };
-		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
-		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
+		C88E40E62C34239E008A3C20 /* SignInAgainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAgainViewModel.swift; sourceTree = "<group>"; };
+		C88E40E82C371431008A3C20 /* SignInAgainViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAgainViewModelTests.swift; sourceTree = "<group>"; };
 		C89989872ED9C16200C9B534 /* RemoteServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteServiceState.swift; sourceTree = "<group>"; };
 		C89989892ED9C24F00C9B534 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		C8A842292DCBCD31002E73C2 /* OneLoginReleaseAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginReleaseAppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -1404,6 +1404,7 @@
 			children = (
 				C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */,
 				41279DD42BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift */,
+				C88E40E62C34239E008A3C20 /* SignInAgainViewModel.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -1445,7 +1446,6 @@
 				41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */,
 				410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */,
 				D087BCF12C19E4BB00825F60 /* SignOutErrorViewModelTests.swift */,
-				C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */,
 				ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */,
 				41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */,
 			);
@@ -1474,7 +1474,6 @@
 				41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */,
 				C8AA11D72B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift */,
 				D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */,
-				C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */,
 				ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */,
 				41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */,
 			);
@@ -2704,6 +2703,7 @@
 			children = (
 				C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */,
 				41279DD62BFF46DB00E16537 /* SignOutConfirmationViewModelTests.swift */,
+				C88E40E82C371431008A3C20 /* SignInAgainViewModelTests.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -3649,7 +3649,7 @@
 				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
-				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
+				C88E40E72C34239E008A3C20 /* SignInAgainViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				8E8CAC0C2F894B1A0010679E /* TestAppDelegate.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
@@ -3773,7 +3773,7 @@
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				1E5DD1ED2FAE408900D6F471 /* StoredToken+Extensions.swift in Sources */,
-				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
+				C88E40E92C371431008A3C20 /* SignInAgainViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				C80DEC062EAFE1BF00FF18B5 /* SecureAttestationStoreTests.swift in Sources */,

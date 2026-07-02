@@ -4,24 +4,24 @@ import GDSAnalytics
 import Testing
 
 @MainActor
-struct SignOutWarningViewModelTests {
-    var sut: SignOutWarningViewModel
+struct SignInAgainViewModelTests {
+    var sut: SignInAgainViewModel
     let mockAnalyticsService = MockAnalyticsService()
     
     init() {
-        sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {}
+        sut = SignInAgainViewModel(analyticsService: mockAnalyticsService) {}
     }
     
     @Test
     func test_page() throws {
         let title = sut.body.first as? GDSTextViewModel
-        #expect(title?.title.stringKey == "app_signOutWarningTitle")
+        #expect(title?.title.stringKey == "app_signInAgainTitle")
         #expect(title?.title.value == "You need to sign in again")
         #expect(title?.titleFont == .largeTitleBold)
         #expect(title?.alignment == .center)
         
         let body = sut.body.last as? GDSTextViewModel
-        #expect(body?.title.stringKey == "app_signOutWarningBody")
+        #expect(body?.title.stringKey == "app_signInAgainBody")
         #expect(body?.title.variableKeys == ["app_nameString"])
         #expect(body?.title.value == "Sign in with your GOV.UK One Login details to continue.\n\nThis is to keep your information secure.")
         #expect(body?.alignment == .center)
@@ -37,7 +37,7 @@ struct SignOutWarningViewModelTests {
     @Test
     func test_button() {
         var didCallButtonAction = false
-        let sut = SignOutWarningViewModel(analyticsService: mockAnalyticsService) {
+        let sut = SignInAgainViewModel(analyticsService: mockAnalyticsService) {
             didCallButtonAction = true
         }
         
@@ -63,9 +63,9 @@ struct SignOutWarningViewModelTests {
         let vc = GDSScreen(viewModel: sut)
         vc.viewDidAppear(false)
         #expect(mockAnalyticsService.screenViews.count == 1)
-        let screen = ScreenView(id: ErrorAnalyticsScreenID.signOutWarning.rawValue,
-                                screen: ErrorAnalyticsScreen.signOutWarning,
-                                titleKey: "app_signOutWarningTitle")
+        let screen = ScreenView(id: IntroAnalyticsScreenID.signInAgain.rawValue,
+                                screen: IntroAnalyticsScreen.signInAgain,
+                                titleKey: "app_signInAgainTitle")
         #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
         #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }

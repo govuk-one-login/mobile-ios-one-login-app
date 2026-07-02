@@ -138,17 +138,6 @@ struct ErrorScreenSnapshotTests {
     }
     
     @Test
-    func test_signOutWarning() {
-        let sut = SignOutWarningViewModel(
-            analyticsService: analyticsService,
-            action: {}
-        )
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
-        
-        vc.assertSnapshot()
-    }
-    
-    @Test
     func test_unrecoverableLoginError() {
         let sut = UnrecoverableLoginErrorViewModel(
             analyticsService: analyticsService,

@@ -2,7 +2,7 @@ import DesignSystem
 import GDSAnalytics
 import Logging
 
-struct SignOutWarningViewModel: GDSCentreAlignedViewModel {
+struct SignInAgainViewModel: GDSCentreAlignedViewModel {
     var screenStyle: GDSScreenStyle
     var body: [any ContentViewModel]
     var movableFooter: [any ContentViewModel]
@@ -25,11 +25,11 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel {
         self.init(
             screenStyle: .centred,
             body: [
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutWarningTitle"),
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInAgainTitle"),
                                  titleFont: .largeTitleBold,
                                  alignment: .center),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutWarningBody", "app_nameString"),
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInAgainBody", "app_nameString"),
                                  alignment: .center)
             ],
             movableFooter: [
@@ -52,9 +52,9 @@ struct SignOutWarningViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_signOutWarningTitle")
-                let screen = ScreenView(id: ErrorAnalyticsScreenID.signOutWarning.rawValue,
-                                        screen: ErrorAnalyticsScreen.signOutWarning,
+                let title = GDSLocalisedString(stringKey: "app_signInAgainTitle")
+                let screen = ScreenView(id: IntroAnalyticsScreenID.signInAgain.rawValue,
+                                        screen: IntroAnalyticsScreen.signInAgain,
                                         titleKey: title.stringKey)
                 analyticsService.trackScreen(screen)
             }),

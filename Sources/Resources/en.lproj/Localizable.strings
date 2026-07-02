@@ -181,9 +181,9 @@
 
 
 // MARK: Sign Out Warning screen
-"app_signOutWarningTitle" = "You need to sign in again";
+"app_signInAgainTitle" = "You need to sign in again";
 
-"app_signOutWarningBody" = "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.";
+"app_signInAgainBody" = "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.";
 
 
 // MARK: Data Deletion Warning screen

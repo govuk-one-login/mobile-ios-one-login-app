@@ -152,8 +152,8 @@ extension LoginCoordinatorTests {
         XCTAssertTrue(sut.root.viewControllers.count == 1)
         // THEN the visible view controller should be the GDSScreen
         let screen = try XCTUnwrap(sut.root.topViewController as? GDSScreen)
-        // THEN the visible view controller's view model should be the SignOutWarningViewModel
-        XCTAssertTrue(screen.viewModel is SignOutWarningViewModel)
+        // THEN the visible view controller's view model should be the SignInAgainViewModel
+        XCTAssertTrue(screen.viewModel is SignInAgainViewModel)
     }
     
     func test_authenticate_launchAuthenticationService() {
