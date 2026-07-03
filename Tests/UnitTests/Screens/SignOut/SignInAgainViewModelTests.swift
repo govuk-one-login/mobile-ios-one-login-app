@@ -9,7 +9,7 @@ struct SignInAgainViewModelTests {
     let mockAnalyticsService = MockAnalyticsService()
     
     init() {
-        sut = SignInAgainViewModel(analyticsService: mockAnalyticsService) {}
+        sut = SignInAgainViewModel(analyticsService: mockAnalyticsService) { nil }
     }
     
     @Test
