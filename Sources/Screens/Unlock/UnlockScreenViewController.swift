@@ -1,7 +1,7 @@
-import GDSCommon
+import DesignSystem
 import UIKit
 
-class UnlockScreenViewController: BaseViewController {
+class UnlockScreenViewController: BaseScreen {
     override var nibName: String? { "UnlockScreen" }
     
     let viewModel: UnlockScreenViewModel
@@ -22,7 +22,7 @@ class UnlockScreenViewController: BaseViewController {
     @IBOutlet private var unlockButton: UIButton! {
         didSet {
             unlockButton.titleLabel?.adjustsFontForContentSizeCategory = true
-            unlockButton.setTitle(viewModel.primaryButtonViewModel.title.value, for: .normal)
+            unlockButton.setTitle(viewModel.primaryButtonTitle, for: .normal)
             unlockButton.titleLabel?.font = UIFont(style: .title3, weight: .bold)
             unlockButton.accessibilityIdentifier = "unlock-screen-button"
             unlockButton.isHidden = true
@@ -50,7 +50,7 @@ class UnlockScreenViewController: BaseViewController {
     }
     
     @IBAction private func unlockScreenButton(_ sender: Any) {
-        viewModel.primaryButtonViewModel.action()
+        viewModel.primaryButtonAction()
         isLoading = true
     }
     
