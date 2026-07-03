@@ -16,7 +16,7 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
     var didDismiss: DesignSystem.Action?
     
     init(analyticsService: OneLoginAnalyticsService,
-         action: @escaping () -> Void) {
+         action: @escaping () -> Task<Void, Never>?) {
         let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.login,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
@@ -35,14 +35,15 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_extendedSignInButton", "app_nameString").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .asyncAction({
                                        let event = LinkEvent(textKey: "app_extendedSignInButton",
                                                                     variableKeys: "app_nameString",
                                                                     linkDomain: AppEnvironment.mobileBaseURLString,
                                                                     external: .false)
                                        analyticsService.logEvent(event)
                                        
-                                       action()
+                                       let task = action()
+                                       await task?.value
                                    }),
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
