@@ -1,54 +1,44 @@
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class UnlockScreenViewModelTests: XCTestCase {
+struct UnlockScreenViewModelTests {
     var mockAnalyticsService: MockAnalyticsService!
     var sut: UnlockScreenViewModel!
     
-    var didCallPrimaryButtonAction = false
-
-    override func setUp() {
-        super.setUp()
-
+    init() {
         mockAnalyticsService = MockAnalyticsService()
-        sut = UnlockScreenViewModel(analyticsService: mockAnalyticsService) {
-            self.didCallPrimaryButtonAction = true
-        }
-    }
-
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut =  nil
-        
-        didCallPrimaryButtonAction = false
-        
-        super.tearDown()
+        sut = UnlockScreenViewModel(analyticsService: mockAnalyticsService) {}
     }
 }
 
 extension UnlockScreenViewModelTests {
     func test_button() {
-        XCTAssertEqual(sut.primaryButtonViewModel.title.stringKey, "app_unlockButton")
-        XCTAssertFalse(didCallPrimaryButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
-        sut.primaryButtonViewModel.action()
-        XCTAssertTrue(didCallPrimaryButtonAction)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
+        var didCallPrimaryButtonAction = false
+        let sut = UnlockScreenViewModel(analyticsService: mockAnalyticsService) {
+            didCallPrimaryButtonAction = true
+        }
+        
+        #expect(sut.primaryButtonTitle == "Unlock")
+        #expect(!didCallPrimaryButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
+        sut.primaryButtonAction()
+        #expect(didCallPrimaryButtonAction)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = ButtonEvent(textKey: "app_unlockButton")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
 
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        sut.didAppear?.perform()
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.unlock.rawValue,
                                 screen: BiometricEnrolmentAnalyticsScreen.unlock,
                                 titleKey: "one login unlock screen")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }
