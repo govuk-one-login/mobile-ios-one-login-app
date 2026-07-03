@@ -26,7 +26,6 @@ extension UnlockScreenViewControllerTests {
     
     @Test
     func test_page() throws {
-//        let loadingLabel = #require(sut.loadingLabel)
         #expect(try sut.loadingLabel.text == "Loading")
         #expect(try sut.loadingLabel.accessibilityLabel == "Loading GOV.UK One Login")
         #expect(try sut.loadingSpinner.style == .medium)
