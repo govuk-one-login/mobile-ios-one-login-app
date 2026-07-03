@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E1834E82FF6883D0030C177 /* test_signInWarningScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E62FF6883D0030C177 /* test_signInWarningScreen.11.png */; };
+		1E1834E92FF6883D0030C177 /* test_signInWarningScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E02FF6883D0030C177 /* test_signInWarningScreen.5.png */; };
+		1E1834EA2FF6883D0030C177 /* test_signInWarningScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E22FF6883D0030C177 /* test_signInWarningScreen.7.png */; };
+		1E1834EB2FF6883D0030C177 /* test_signInWarningScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834DF2FF6883D0030C177 /* test_signInWarningScreen.4.png */; };
+		1E1834EC2FF6883D0030C177 /* test_signInWarningScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834DC2FF6883D0030C177 /* test_signInWarningScreen.1.png */; };
+		1E1834ED2FF6883D0030C177 /* test_signInWarningScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E32FF6883D0030C177 /* test_signInWarningScreen.8.png */; };
+		1E1834EE2FF6883D0030C177 /* test_signInWarningScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E42FF6883D0030C177 /* test_signInWarningScreen.9.png */; };
+		1E1834EF2FF6883D0030C177 /* test_signInWarningScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E72FF6883D0030C177 /* test_signInWarningScreen.12.png */; };
+		1E1834F02FF6883D0030C177 /* test_signInWarningScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E12FF6883D0030C177 /* test_signInWarningScreen.6.png */; };
+		1E1834F12FF6883D0030C177 /* test_signInWarningScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834DE2FF6883D0030C177 /* test_signInWarningScreen.3.png */; };
+		1E1834F22FF6883D0030C177 /* test_signInWarningScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834DD2FF6883D0030C177 /* test_signInWarningScreen.2.png */; };
+		1E1834F32FF6883D0030C177 /* test_signInWarningScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E1834E52FF6883D0030C177 /* test_signInWarningScreen.10.png */; };
 		1E1D56AA2F47673200AB90D3 /* OneLoginAppIntegrityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D56A92F47672300AB90D3 /* OneLoginAppIntegrityService.swift */; };
 		1E1D56AC2F48778200AB90D3 /* OneLoginAppIntegrityServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D56AB2F48777800AB90D3 /* OneLoginAppIntegrityServiceTests.swift */; };
 		1E21248F2FF3D787005A38FE /* test_appUnavailableError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E2124852FF3D787005A38FE /* test_appUnavailableError.3.png */; };
@@ -497,8 +509,8 @@
 		C880DDE22AEAB6C100020796 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */; };
 		C88A026A2D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */; };
-		C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */; };
-		C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */; };
+		C88E40E72C34239E008A3C20 /* SignInAgainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E62C34239E008A3C20 /* SignInAgainViewModel.swift */; };
+		C88E40E92C371431008A3C20 /* SignInAgainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88E40E82C371431008A3C20 /* SignInAgainViewModelTests.swift */; };
 		C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989872ED9C16200C9B534 /* RemoteServiceState.swift */; };
 		C899898A2ED9C24F00C9B534 /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89989892ED9C24F00C9B534 /* NetworkingService.swift */; };
 		C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = C8A13CA32AFBD07E00FCBD36 /* Authentication */; };
@@ -638,6 +650,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E1834DC2FF6883D0030C177 /* test_signInWarningScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.1.png; sourceTree = "<group>"; };
+		1E1834DD2FF6883D0030C177 /* test_signInWarningScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.2.png; sourceTree = "<group>"; };
+		1E1834DE2FF6883D0030C177 /* test_signInWarningScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.3.png; sourceTree = "<group>"; };
+		1E1834DF2FF6883D0030C177 /* test_signInWarningScreen.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.4.png; sourceTree = "<group>"; };
+		1E1834E02FF6883D0030C177 /* test_signInWarningScreen.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.5.png; sourceTree = "<group>"; };
+		1E1834E12FF6883D0030C177 /* test_signInWarningScreen.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.6.png; sourceTree = "<group>"; };
+		1E1834E22FF6883D0030C177 /* test_signInWarningScreen.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.7.png; sourceTree = "<group>"; };
+		1E1834E32FF6883D0030C177 /* test_signInWarningScreen.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.8.png; sourceTree = "<group>"; };
+		1E1834E42FF6883D0030C177 /* test_signInWarningScreen.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.9.png; sourceTree = "<group>"; };
+		1E1834E52FF6883D0030C177 /* test_signInWarningScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.10.png; sourceTree = "<group>"; };
+		1E1834E62FF6883D0030C177 /* test_signInWarningScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.11.png; sourceTree = "<group>"; };
+		1E1834E72FF6883D0030C177 /* test_signInWarningScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signInWarningScreen.12.png; sourceTree = "<group>"; };
 		1E1D56A92F47672300AB90D3 /* OneLoginAppIntegrityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAppIntegrityService.swift; sourceTree = "<group>"; };
 		1E1D56AB2F48777800AB90D3 /* OneLoginAppIntegrityServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginAppIntegrityServiceTests.swift; sourceTree = "<group>"; };
 		1E2124832FF3D787005A38FE /* test_appUnavailableError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_appUnavailableError.1.png; sourceTree = "<group>"; };
@@ -1133,8 +1157,8 @@
 		C880DDE12AEAB6C100020796 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		C88958812C7E795200663299 /* MockLocalAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocalAuthManager.swift; sourceTree = "<group>"; };
 		C88A02692D9D9714003E2AE7 /* LocalAuthPromptStrings+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthPromptStrings+OneLogin.swift"; sourceTree = "<group>"; };
-		C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModel.swift; sourceTree = "<group>"; };
-		C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewModelTests.swift; sourceTree = "<group>"; };
+		C88E40E62C34239E008A3C20 /* SignInAgainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAgainViewModel.swift; sourceTree = "<group>"; };
+		C88E40E82C371431008A3C20 /* SignInAgainViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAgainViewModelTests.swift; sourceTree = "<group>"; };
 		C89989872ED9C16200C9B534 /* RemoteServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteServiceState.swift; sourceTree = "<group>"; };
 		C89989892ED9C24F00C9B534 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		C8A842292DCBCD31002E73C2 /* OneLoginReleaseAppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginReleaseAppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -1404,6 +1428,7 @@
 			children = (
 				C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */,
 				41279DD42BFDD9CA00E16537 /* SignOutConfirmationViewModel.swift */,
+				C88E40E62C34239E008A3C20 /* SignInAgainViewModel.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -1445,7 +1470,6 @@
 				41C5E3302B45AFAA00212A12 /* NetworkConnectionErrorViewModelTests.swift */,
 				410464F52B29D078000E7CB2 /* RecoverableLoginErrorViewModelTests.swift */,
 				D087BCF12C19E4BB00825F60 /* SignOutErrorViewModelTests.swift */,
-				C88E40E82C371431008A3C20 /* SignOutWarningViewModelTests.swift */,
 				ABC6B3D62E141A2700B41C6E /* UnrecoverableLoginErrorViewModelTests.swift */,
 				41CCE1342C7764DE00FFBE64 /* UpdateAppViewModelTests.swift */,
 			);
@@ -1474,7 +1498,6 @@
 				41C5E32E2B45A36E00212A12 /* NetworkConnectionErrorViewModel.swift */,
 				C8AA11D72B29C7FA00CE718B /* RecoverableLoginErrorViewModel.swift */,
 				D0825A942C12F5B800E940F7 /* SignOutErrorViewModel.swift */,
-				C88E40E62C34239E008A3C20 /* SignOutWarningViewModel.swift */,
 				ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */,
 				41CCE1322C7764C000FFBE64 /* UpdateAppViewModel.swift */,
 			);
@@ -2043,6 +2066,18 @@
 		C8467D312F1978150071ED81 /* InstructionScreenSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E1834DC2FF6883D0030C177 /* test_signInWarningScreen.1.png */,
+				1E1834DD2FF6883D0030C177 /* test_signInWarningScreen.2.png */,
+				1E1834DE2FF6883D0030C177 /* test_signInWarningScreen.3.png */,
+				1E1834DF2FF6883D0030C177 /* test_signInWarningScreen.4.png */,
+				1E1834E02FF6883D0030C177 /* test_signInWarningScreen.5.png */,
+				1E1834E12FF6883D0030C177 /* test_signInWarningScreen.6.png */,
+				1E1834E22FF6883D0030C177 /* test_signInWarningScreen.7.png */,
+				1E1834E32FF6883D0030C177 /* test_signInWarningScreen.8.png */,
+				1E1834E42FF6883D0030C177 /* test_signInWarningScreen.9.png */,
+				1E1834E52FF6883D0030C177 /* test_signInWarningScreen.10.png */,
+				1E1834E62FF6883D0030C177 /* test_signInWarningScreen.11.png */,
+				1E1834E72FF6883D0030C177 /* test_signInWarningScreen.12.png */,
 				C38BCB562FE3FDD0000648D4 /* test_signOutSuccessfulScreen.1.png */,
 				C38BCB572FE3FDD0000648D4 /* test_signOutSuccessfulScreen.2.png */,
 				C38BCB582FE3FDD0000648D4 /* test_signOutSuccessfulScreen.3.png */,
@@ -2704,6 +2739,7 @@
 			children = (
 				C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */,
 				41279DD62BFF46DB00E16537 /* SignOutConfirmationViewModelTests.swift */,
+				C88E40E82C371431008A3C20 /* SignInAgainViewModelTests.swift */,
 			);
 			path = SignOut;
 			sourceTree = "<group>";
@@ -3124,6 +3160,18 @@
 				C38BCB6B2FE3FDD0000648D4 /* test_signOutSuccessfulScreen.8.png in Resources */,
 				C38BCB6C2FE3FDD0000648D4 /* test_signOutSuccessfulScreen.11.png in Resources */,
 				C38BCB6D2FE3FDD0000648D4 /* test_signOutSuccessfulScreen.6.png in Resources */,
+				1E1834E82FF6883D0030C177 /* test_signInWarningScreen.11.png in Resources */,
+				1E1834E92FF6883D0030C177 /* test_signInWarningScreen.5.png in Resources */,
+				1E1834EA2FF6883D0030C177 /* test_signInWarningScreen.7.png in Resources */,
+				1E1834EB2FF6883D0030C177 /* test_signInWarningScreen.4.png in Resources */,
+				1E1834EC2FF6883D0030C177 /* test_signInWarningScreen.1.png in Resources */,
+				1E1834ED2FF6883D0030C177 /* test_signInWarningScreen.8.png in Resources */,
+				1E1834EE2FF6883D0030C177 /* test_signInWarningScreen.9.png in Resources */,
+				1E1834EF2FF6883D0030C177 /* test_signInWarningScreen.12.png in Resources */,
+				1E1834F02FF6883D0030C177 /* test_signInWarningScreen.6.png in Resources */,
+				1E1834F12FF6883D0030C177 /* test_signInWarningScreen.3.png in Resources */,
+				1E1834F22FF6883D0030C177 /* test_signInWarningScreen.2.png in Resources */,
+				1E1834F32FF6883D0030C177 /* test_signInWarningScreen.10.png in Resources */,
 				C32284462FD1A090002A00B9 /* test_oneLoginIntroScreen.1.png in Resources */,
 				C32284472FD1A090002A00B9 /* test_oneLoginIntroScreen.4.png in Resources */,
 				C32284482FD1A090002A00B9 /* test_oneLoginIntroScreen.9.png in Resources */,
@@ -3314,13 +3362,6 @@
 				C327A2E82FF5543B00A4CB01 /* test_localAuthSettingsErrorFaceId.1.png in Resources */,
 				C327A2E92FF5543B00A4CB01 /* test_localAuthSettingsErrorFaceId.8.png in Resources */,
 				C325B3F32F75415200BA0859 /* test_homeScreen.3.png in Resources */,
-				C8467DA12F1978150071ED81 /* test_signOutWarning.1.png in Resources */,
-				C8467DA22F1978150071ED81 /* test_signOutWarning.2.png in Resources */,
-				C8467DA32F1978150071ED81 /* test_signOutWarning.3.png in Resources */,
-				C8467DA42F1978150071ED81 /* test_signOutWarning.4.png in Resources */,
-				C8467DA52F1978150071ED81 /* test_signOutWarning.5.png in Resources */,
-				C8467DA62F1978150071ED81 /* test_signOutWarning.6.png in Resources */,
-				C8467DA72F1978150071ED81 /* test_signOutWarning.7.png in Resources */,
 				C38BCB7A2FEA8196000648D4 /* test_updateAppError.8.png in Resources */,
 				C38BCB7B2FEA8196000648D4 /* test_updateAppError.7.png in Resources */,
 				C38BCB7C2FEA8196000648D4 /* test_updateAppError.5.png in Resources */,
@@ -3333,11 +3374,6 @@
 				C38BCB832FEA8196000648D4 /* test_updateAppError.4.png in Resources */,
 				C38BCB842FEA8196000648D4 /* test_updateAppError.6.png in Resources */,
 				C38BCB852FEA8196000648D4 /* test_updateAppError.1.png in Resources */,
-				C8467DA82F1978150071ED81 /* test_signOutWarning.8.png in Resources */,
-				C8467DA92F1978150071ED81 /* test_signOutWarning.9.png in Resources */,
-				C8467DAA2F1978150071ED81 /* test_signOutWarning.10.png in Resources */,
-				C8467DAB2F1978150071ED81 /* test_signOutWarning.11.png in Resources */,
-				C8467DAC2F1978150071ED81 /* test_signOutWarning.12.png in Resources */,
 				1E9A056A2FE1A04D00ED25B0 /* test_signOutError.11.png in Resources */,
 				1E9A056B2FE1A04D00ED25B0 /* test_signOutError.8.png in Resources */,
 				1E9A056C2FE1A04D00ED25B0 /* test_signOutError.4.png in Resources */,
@@ -3649,7 +3685,7 @@
 				D08B0B732BDA8DD100769CEA /* SettingsViewController.swift in Sources */,
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
-				C88E40E72C34239E008A3C20 /* SignOutWarningViewModel.swift in Sources */,
+				C88E40E72C34239E008A3C20 /* SignInAgainViewModel.swift in Sources */,
 				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				8E8CAC0C2F894B1A0010679E /* TestAppDelegate.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
@@ -3773,7 +3809,7 @@
 				D087BCF22C19E4BB00825F60 /* SignOutErrorViewModelTests.swift in Sources */,
 				C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */,
 				1E5DD1ED2FAE408900D6F471 /* StoredToken+Extensions.swift in Sources */,
-				C88E40E92C371431008A3C20 /* SignOutWarningViewModelTests.swift in Sources */,
+				C88E40E92C371431008A3C20 /* SignInAgainViewModelTests.swift in Sources */,
 				1E38C0E12B7CE249002B49A0 /* String+TestExtensions.swift in Sources */,
 				219602022A976305008F3427 /* TabManagerCoordinatorTests.swift in Sources */,
 				C80DEC062EAFE1BF00FF18B5 /* SecureAttestationStoreTests.swift in Sources */,

@@ -84,6 +84,18 @@ struct InstructionScreenSnapshotTests {
     }
     
     @Test
+    func test_signInWarningScreen() {
+        let root = UINavigationController()
+        let sut = SignInAgainViewModel(
+            analyticsService: analyticsService,
+            action: { nil }
+        )
+        let vc = GDSScreen(viewModel: sut)
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
+    }
+    
+    @Test
     func test_settingsScreen() {
         let sut = SettingsTabViewModel(
             analyticsService: analyticsService,

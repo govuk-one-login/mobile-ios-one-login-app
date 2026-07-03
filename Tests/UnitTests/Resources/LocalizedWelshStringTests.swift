@@ -189,10 +189,10 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Yn ôl i gosodiadau")
     }
     
-    func test_signOutWarningPageKeys() {
-        XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
+    func test_signInAgainPageKeys() {
+        XCTAssertEqual("app_signInAgainTitle".getWelshString(),
                        "Mae angen i chi fewngofnodi eto")
-        XCTAssertEqual("app_signOutWarningBody".getWelshString(),
+        XCTAssertEqual("app_signInAgainBody".getWelshString(),
                        "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
     }
     

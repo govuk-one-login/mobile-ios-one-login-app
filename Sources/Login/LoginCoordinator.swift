@@ -63,10 +63,10 @@ final class LoginCoordinator: NSObject,
         let rootViewController: UIViewController
         
         if sessionState == .expired || serviceState == .accountIntervention || serviceState == .reauthenticationRequired {
-            let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
+            let viewModel = SignInAgainViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = GDSInformationViewController(viewModel: viewModel)
+            rootViewController = GDSScreen(viewModel: viewModel)
         } else {
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
@@ -188,7 +188,7 @@ extension LoginCoordinator {
         case .authorizationAccessDenied:
             showDataDeletedWarningScreen()
         case .userCancelled:
-            enableAuthButton()
+            return
         case .network:
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
@@ -315,12 +315,6 @@ extension LoginCoordinator {
     
     private func returnFromErrorScreen() {
         root.popToRootViewController(animated: true)
-        enableAuthButton()
-    }
-    
-    private func enableAuthButton() {
-        (root.viewControllers.first as? GDSInformationViewController)?
-            .resetPrimaryButton()
     }
 }
 
