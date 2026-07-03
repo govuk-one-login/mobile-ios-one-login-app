@@ -35,7 +35,7 @@ struct SignInAgainViewModelTests {
     }
     
     @Test
-    func test_button() {
+    func test_button() async {
         var didCallButtonAction = false
         let sut = SignInAgainViewModel(analyticsService: mockAnalyticsService) {
             Task {
@@ -48,7 +48,7 @@ struct SignInAgainViewModelTests {
         
         #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)
-        button?.buttonAction.perform()
+        await button?.buttonAction.performAsync()
         #expect(didCallButtonAction == true)
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         let event = LinkEvent(textKey: "app_extendedSignInButton",
