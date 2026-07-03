@@ -88,7 +88,7 @@ struct InstructionScreenSnapshotTests {
         let root = UINavigationController()
         let sut = SignInAgainViewModel(
             analyticsService: analyticsService,
-            action: {}
+            action: { nil }
         )
         let vc = GDSScreen(viewModel: sut)
         root.pushViewController(vc, animated: true)
