@@ -38,7 +38,9 @@ struct SignInAgainViewModelTests {
     func test_button() {
         var didCallButtonAction = false
         let sut = SignInAgainViewModel(analyticsService: mockAnalyticsService) {
-            didCallButtonAction = true
+            Task {
+                didCallButtonAction = true
+            }
         }
         
         let button = sut.movableFooter.first as? GDSButtonViewModel
