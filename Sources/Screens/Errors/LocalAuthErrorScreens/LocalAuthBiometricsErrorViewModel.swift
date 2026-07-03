@@ -1,68 +1,109 @@
+import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import LocalAuthenticationWrapper
 import Logging
 
-struct LocalAuthBiometricsErrorViewModel: GDSErrorViewModelV3, BaseViewModel {
-    let analyticsService: OneLoginAnalyticsService
-    let title: GDSLocalisedString
-    let bodyContent: [ScreenBodyItem]
-    let buttonViewModels: [ButtonViewModel]
-    let image: ErrorScreenImage = .error
-    let dismissAction: (() -> Void)?
+struct LocalAuthBiometricsErrorViewModel: GDSCentreAlignedViewModel {
+    var screenStyle: GDSScreenStyle
+    var body: [any ContentViewModel]
+    var movableFooter: [any ContentViewModel]
+    var footer: [any ContentViewModel]
+
+    var rightBarButtonTitle: GDSLocalisedString?
+    var backButtonTitle: GDSLocalisedString?
+    var backButtonIsHidden: Bool
+
+    var didAppear: DesignSystem.Action?
+    var didDismiss: DesignSystem.Action?
     
-    let localAuthType: LocalAuthType
-    let biometricsTypeString: String
-    let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
-    let backButtonIsHidden: Bool = true
-    
+    // swiftlint: disable:next function_body_length
     init(analyticsService: OneLoginAnalyticsService,
          localAuthType: LocalAuthType,
-         action: @escaping () -> Void,
+         action: @escaping () async -> Void,
          dismissAction: (() -> Void)? = nil) {
-        self.analyticsService = analyticsService.addingAdditionalParameters([
+        let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.localAuth,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        self.localAuthType = localAuthType
-        self.biometricsTypeString = localAuthType == .faceID ? "app_FaceID" : "app_TouchID"
-        self.title = GDSLocalisedString(stringKey: "app_localAuthManagerBiometricsErrorTitle", biometricsTypeString)
-        self.bodyContent = [BodyTextViewModel(text: localAuthType == .faceID ?
-                                              "app_localAuthManagerBiometricsFaceIDErrorBody" :
-                                                "app_localAuthManagerBiometricsTouchIDErrorBody")]
         
-        self.buttonViewModels = [
-            AnalyticsButtonViewModel(titleKey: "app_enableBiometricsTitle",
-                                     biometricsTypeString,
-                                     analyticsService: analyticsService) {
-                                         action()
-                                     }
-        ]
-        self.dismissAction = dismissAction
+        let biometricsTypeString = localAuthType == .faceID ? "app_FaceID" : "app_TouchID"
+        let title = GDSLocalisedString(stringKey: "app_localAuthManagerBiometricsErrorTitle", biometricsTypeString)
+        let bodyContent = localAuthType == .faceID ? "app_localAuthManagerBiometricsFaceIDErrorBody" : "app_localAuthManagerBiometricsTouchIDErrorBody"
+        
+        self.init(
+            screenStyle: .centred,
+            body: [
+                GDSErrorIconTitleViewModel(
+                    icon: .error,
+                    errorTitle: GDSTextViewModel(title: title,
+                                                 titleFont: .largeTitleBold,
+                                                 alignment: .center)
+                ),
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: bodyContent),
+                                 alignment: .center,
+                                 verticalPadding: .bottom(DesignSystem.Spacing.default))
+            ],
+            movableFooter: [
+                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_enableBiometricsTitle",
+                                                             biometricsTypeString).value,
+                                   style: .primary,
+                                   buttonAction: .asyncAction({
+                                      let event = ButtonEvent(textKey: "app_enableBiometricsTitle",
+                                                              variableKeys: [biometricsTypeString])
+                                       analyticsService.logEvent(event)
+                                       
+                                       await action()
+                                   }),
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default))
+            ],
+            footer: [],
+            rightBarButtonTitle: "app_cancelButton",
+            backButtonTitle: nil,
+            backButtonIsHidden: true,
+            didAppear: .action({
+                let id: String
+                let screen: ErrorAnalyticsScreen
+                
+                if localAuthType == .faceID {
+                    id = ErrorAnalyticsScreenID.allowFaceID.rawValue
+                    screen = ErrorAnalyticsScreen.allowFaceID
+                } else {
+                    id = ErrorAnalyticsScreenID.allowTouchID.rawValue
+                    screen = ErrorAnalyticsScreen.allowTouchID
+                }
+                
+                let screenView = ErrorScreenView(id: id,
+                                                 screen: screen,
+                                                 titleKey: title.stringKey,
+                                                 variableKeys: [biometricsTypeString])
+                analyticsService.trackScreen(screenView)
+            }),
+            didDismiss: .action({
+                dismissAction?()
+                let event = IconEvent(textKey: "cancel")
+                analyticsService.logEvent(event)
+            })
+        )
     }
     
-    func didAppear() {
-        let id: String
-        let screen: ErrorAnalyticsScreen
-        
-        if localAuthType == .faceID {
-            id = ErrorAnalyticsScreenID.allowFaceID.rawValue
-            screen = ErrorAnalyticsScreen.allowFaceID
-        } else {
-            id = ErrorAnalyticsScreenID.allowTouchID.rawValue
-            screen = ErrorAnalyticsScreen.allowTouchID
-        }
-        
-        let screenView = ErrorScreenView(id: id,
-                                         screen: screen,
-                                         titleKey: title.stringKey,
-                                         variableKeys: [biometricsTypeString])
-        analyticsService.trackScreen(screenView)
-    }
-    
-    func didDismiss() {
-        dismissAction?()
-        let event = IconEvent(textKey: "back - system")
-        analyticsService.logEvent(event)
+    init(screenStyle: GDSScreenStyle,
+         body: [any ContentViewModel],
+         movableFooter: [any ContentViewModel],
+         footer: [any ContentViewModel],
+         rightBarButtonTitle: GDSLocalisedString?,
+         backButtonTitle: GDSLocalisedString?,
+         backButtonIsHidden: Bool,
+         didAppear: DesignSystem.Action?,
+         didDismiss: DesignSystem.Action?) {
+        self.screenStyle = screenStyle
+        self.body = body
+        self.movableFooter = movableFooter
+        self.footer = footer
+        self.rightBarButtonTitle = rightBarButtonTitle
+        self.backButtonTitle = backButtonTitle
+        self.backButtonIsHidden = backButtonIsHidden
+        self.didAppear = didAppear
+        self.didDismiss = didDismiss
     }
 }

@@ -11,37 +11,57 @@ struct ErrorScreenSnapshotTests {
     let analyticsService = MockAnalyticsService()
     
     @Test
-    func test_localAuthBiometricsError() {
+    func test_localAuthBiometricsErrorFaceId() {
+        let root = UINavigationController()
         let sut = LocalAuthBiometricsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .faceID,
             action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
+    }
+    
+    @Test
+    func test_localAuthBiometricsErrorTouchId() {
+        let root = UINavigationController()
+        let sut = LocalAuthBiometricsErrorViewModel(
+            analyticsService: analyticsService,
+            localAuthType: .touchID,
+            action: {}
+        )
+        let vc = GDSScreen(viewModel: sut)
+        
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test
     func test_localAuthSettingsErrorFaceId() {
+        let root = UINavigationController()
         let sut = LocalAuthSettingsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .faceID
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test
     func test_localAuthSettingsErrorTouchId() {
+        let root = UINavigationController()
         let sut = LocalAuthSettingsErrorViewModel(
             analyticsService: analyticsService,
             localAuthType: .touchID
         )
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test
