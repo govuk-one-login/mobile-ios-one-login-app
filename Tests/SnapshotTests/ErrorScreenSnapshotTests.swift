@@ -4,6 +4,7 @@ import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import Testing
+import UIKit
 
 @MainActor
 struct ErrorScreenSnapshotTests {
@@ -53,16 +54,17 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_appUnavailableError() {
+        let root = UINavigationController()
         let sut = AppUnavailableViewModel(analyticsService: analyticsService)
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
-        
-        vc.assertSnapshot()
+        let vc = GDSScreen(viewModel: sut)
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_dataDeletedWarning() {
         let sut = DataDeletedWarningViewModel(action: {})
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }
@@ -104,14 +106,15 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_signOutError() {
+        let root = UINavigationController()
         let sut = SignOutErrorViewModel(
             analyticsService: analyticsService,
             error: PersistentSessionError(.userRemovedLocalAuth),
-            buttonAction: {}
+            action: {}
         )
-        let vc = GDSErrorScreen(viewModel: sut)
-        
-        vc.assertSnapshot()
+        let vc = GDSScreen(viewModel: sut)
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
@@ -139,7 +142,7 @@ struct ErrorScreenSnapshotTests {
     @Test
     func test_updateAppError() {
         let sut = UpdateAppViewModel(analyticsService: analyticsService)
-        let vc = GDSCentreAlignedScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
         vc.assertSnapshot()
     }

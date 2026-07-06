@@ -18,12 +18,14 @@ struct UnrecoverableLoginErrorViewModelTests {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         
         #expect(title?.icon == .error)
-        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signInErrorTitle"))
+        #expect(title?.errorTitle.title.stringKey == "app_signInErrorTitle")
+        #expect(title?.errorTitle.title.value == "There was a problem signing you in")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
         
         let body = sut.body.last as? GDSTextViewModel
-        #expect(body?.title == GDSLocalisedString(stringKey: "app_signInErrorUnrecoverableBody"))
+        #expect(body?.title.stringKey == "app_signInErrorUnrecoverableBody")
+        #expect(body?.title.value == "Try again later.")
         #expect(body?.alignment == .center)
                        
         #expect(sut.movableFooter.count == 0)

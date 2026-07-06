@@ -1,51 +1,52 @@
+@testable import DesignSystem
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class AppUnavailableViewModelTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var sut: AppUnavailableViewModel!
+struct AppUnavailableViewModelTests {
+    let sut: AppUnavailableViewModel
+    let mockAnalyticsService = MockAnalyticsService()
 
-    override func setUp() {
-        super.setUp()
-        
-        mockAnalyticsService = MockAnalyticsService()
+    init() {
         sut = AppUnavailableViewModel(analyticsService: mockAnalyticsService)
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        sut = nil
-
-        super.tearDown()
+    @Test
+    func test_page() throws {
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
+        
+        #expect(title?.icon == .error)
+        #expect(title?.errorTitle.title.stringKey == "app_appUnavailableTitle")
+        #expect(title?.errorTitle.title.value == "Sorry, the app is unavailable")
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
+        
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title.stringKey == "app_appUnavailableBody")
+        #expect(body?.title.variableKeys == ["app_nameString"])
+        #expect(body?.title.value == "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
+        #expect(body?.alignment == .center)
+                       
+        #expect(sut.movableFooter.count == 0)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
     }
-}
-
-extension AppUnavailableViewModelTests {
-    func test_page() {
-        XCTAssertEqual(sut.imageWeight, .regular)
-        XCTAssertEqual(sut.image, "exclamationmark.circle")
-        XCTAssertEqual(sut.title.stringKey, "app_appUnavailableTitle")
-        XCTAssertEqual(sut.title.value, "Sorry, the app is unavailable")
-        XCTAssertEqual(sut.body?.stringKey, "app_appUnavailableBody")
-        XCTAssertEqual(sut.body?.variableKeys, ["app_nameString"])
-        XCTAssertEqual(sut.body?.value, "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
-        XCTAssertNil(sut.rightBarButtonTitle)
-        XCTAssertTrue(sut.backButtonIsHidden)
-    }
-
+    
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appUnavailable.rawValue,
                                      screen: ErrorAnalyticsScreen.appUnavailable,
                                      titleKey: "app_appUnavailableTitle",
                                      reason: "app unavailable error")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ErrorScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.system)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

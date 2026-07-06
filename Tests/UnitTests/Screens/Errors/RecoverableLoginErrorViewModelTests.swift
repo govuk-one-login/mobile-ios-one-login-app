@@ -17,12 +17,14 @@ struct RecoverableLoginErrorViewModelTests {
     func test_page() throws {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         #expect(title?.icon == .error)
-        #expect(title?.errorTitle.title == GDSLocalisedString(stringKey: "app_signInErrorTitle"))
+        #expect(title?.errorTitle.title.stringKey == "app_signInErrorTitle")
+        #expect(title?.errorTitle.title.value == "There was a problem signing you in")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
         
         let body = sut.body.last as? GDSTextViewModel
-        #expect(body?.title == GDSLocalisedString(stringKey: "app_signInErrorRecoverableBody"))
+        #expect(body?.title.stringKey == "app_signInErrorRecoverableBody")
+        #expect(body?.title.value == "Try to sign in again.")
         #expect(body?.alignment == .center)
         
         #expect(sut.movableFooter.count == 1)
@@ -42,7 +44,7 @@ struct RecoverableLoginErrorViewModelTests {
         }
         
         let button = sut.movableFooter.first as? GDSButtonViewModel
-        #expect(button?.title.forState(.normal) == GDSLocalisedString(stringKey: "app_tryAgainButton").value)
+        #expect(button?.title.forState(.normal) == "Go back and try again")
         
         #expect(didCallButtonAction == false)
         #expect(mockAnalyticsService.eventsLogged.count == 0)

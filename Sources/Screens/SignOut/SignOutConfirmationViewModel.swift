@@ -2,7 +2,7 @@ import DesignSystem
 import GDSAnalytics
 import Logging
 
-struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
+struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
     var screenStyle: GDSScreenStyle
     var body: [any ContentViewModel]
     var movableFooter: [any ContentViewModel]
@@ -16,27 +16,32 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
     var didDismiss: DesignSystem.Action?
     
     init(analyticsService: OneLoginAnalyticsService,
-         error: Error,
          action: @escaping () -> Void) {
+        let analyticsService = analyticsService.addingAdditionalParameters([
+            OLTaxonomyKey.level2: OLTaxonomyValue.settings,
+            OLTaxonomyKey.level3: OLTaxonomyValue.signout
+        ])
         self.init(
-            screenStyle: .centred,
             body: [
-                GDSErrorIconTitleViewModel(
-                    icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorTitle"),
-                                                 titleFont: .largeTitleBold,
-                                                 alignment: .center)
-                ),
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationTitle"),
+                                 titleFont: .largeTitleBold,
+                                 accessibilityTraits: .header),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorBody"),
-                                 alignment: .center,
-                                 verticalPadding: .top(0))
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationBody1")),
+                
+                GDSListViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationBody2"),
+                                 items: [GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1"),
+                                         GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2"),
+                                         GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3")],
+                                 style: .bulleted),
+                
+                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationBody3"))
             ],
             movableFooter: [
-                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorButton").value,
-                                   style: .primary,
+                GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_signOutAndDeleteAppDataButton").value,
+                                   style: .destructive,
                                    buttonAction: .action({
-                                       let event = ButtonEvent(textKey: "app_signOutErrorButton")
+                                       let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
                                        analyticsService.logEvent(event)
                                        
                                        action()
@@ -45,20 +50,20 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
             footer: [],
-            rightBarButtonTitle: nil,
+            rightBarButtonTitle: GDSLocalisedString(stringKey: "app_cancelButton"),
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                analyticsService.logCrash(error)
-                
                 let title = GDSLocalisedString(stringKey: "app_signOutErrorTitle")
-                let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
-                                             screen: ErrorAnalyticsScreen.signOut,
-                                             titleKey: title.stringKey,
-                                             reason: error.localizedDescription)
+                let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreen.rawValue,
+                                        screen: SettingsAnalyticsScreen.signOutScreen,
+                                        titleKey: title.stringKey)
                 analyticsService.trackScreen(screen)
             }),
-            didDismiss: nil
+            didDismiss: .action({
+                let event = ButtonEvent(textKey: "app_cancelButton")
+                analyticsService.logEvent(event)
+            })
         )
     }
     
