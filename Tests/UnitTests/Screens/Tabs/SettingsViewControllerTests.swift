@@ -68,46 +68,46 @@ extension SettingsViewControllerTests {
     @Test
     func test_headerConfiguration() throws {
         let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 1) as? UITableViewHeaderFooterView
-        let headerLabel = header?.textLabel
-        #expect(headerLabel?.text == "Help and feedback")
-        #expect(headerLabel?.font == .bodyBold)
-        #expect(headerLabel?.textColor == .label)
-        #expect(headerLabel?.adjustsFontForContentSizeCategory == true)
+        let headerLabel = #require(header?.textLabel)
+        #expect(headerLabel.text == "Help and feedback")
+        #expect(headerLabel.font == .bodyBold)
+        #expect(headerLabel.textColor == .label)
+        #expect(headerLabel.adjustsFontForContentSizeCategory == true)
     }
     
     @Test
     func test_cellConfiguration() throws {
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
-        let cellConfig = cell.contentConfiguration as? UIListContentConfiguration
-        #expect(cellConfig?.text == "Your GOV.UK One Login")
-        #expect(cellConfig?.textProperties.color == .label)
-        #expect(cellConfig?.secondaryText == "")
-        #expect(cellConfig?.secondaryTextProperties.color == .gdsGrey)
-        #expect(cellConfig?.image == UIImage(named: "userAccountIcon"))
+        let cellConfig = #require(cell.contentConfiguration as? UIListContentConfiguration)
+        #expect(cellConfig.text == "Your GOV.UK One Login")
+        #expect(cellConfig.textProperties.color == .label)
+        #expect(cellConfig.secondaryText == "")
+        #expect(cellConfig.secondaryTextProperties.color == .gdsGrey)
+        #expect(cellConfig.image == UIImage(named: "userAccountIcon"))
     }
     
     @Test
     func test_cellConfiguration_updateEmail() throws {
         mockSessionManager.user.send(MockUser())
         let cell = sut.tableView(try sut.tabbedTableView, cellForRowAt: .first)
-        let cellConfig = cell.contentConfiguration as? UIListContentConfiguration
-        #expect(cellConfig?.text == "Your GOV.UK One Login")
-        #expect(cellConfig?.textProperties.color == .label)
-        #expect(cellConfig?.secondaryText == "test@example.com")
-        #expect(cellConfig?.secondaryTextProperties.color == .gdsGrey)
-        #expect(cellConfig?.image == UIImage(named: "userAccountIcon"))
+        let cellConfig = #require(cell.contentConfiguration as? UIListContentConfiguration)
+        #expect(cellConfig.text == "Your GOV.UK One Login")
+        #expect(cellConfig.textProperties.color == .label)
+        #expect(cellConfig.secondaryText == "test@example.com")
+        #expect(cellConfig.secondaryTextProperties.color == .gdsGrey)
+        #expect(cellConfig.image == UIImage(named: "userAccountIcon"))
     }
     
     @Test
     func test_footerConfiguration() throws {
         let header = sut.tableView(try sut.tabbedTableView, viewForFooterInSection: 0) as? UITableViewHeaderFooterView
-        let headerLabel = header?.textLabel
-        #expect(headerLabel?.text == "You might need to sign in again to manage your GOV.UK One Login details.")
-        #expect(headerLabel?.numberOfLines == 0)
-        #expect(headerLabel?.lineBreakMode == .byWordWrapping)
-        #expect(headerLabel?.font == .footnote)
-        #expect(headerLabel?.textColor == .secondaryLabel)
-        #expect(headerLabel?.adjustsFontForContentSizeCategory ==  true                           )
+        let headerLabel = #require(header?.textLabel)
+        #expect(headerLabel.text == "You might need to sign in again to manage your GOV.UK One Login details.")
+        #expect(headerLabel.numberOfLines == 0)
+        #expect(headerLabel.lineBreakMode == .byWordWrapping)
+        #expect(headerLabel.font == .footnote)
+        #expect(headerLabel.textColor == .secondaryLabel)
+        #expect(headerLabel.adjustsFontForContentSizeCategory ==  true                           )
     }
     
     @Test
