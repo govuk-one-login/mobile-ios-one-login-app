@@ -1,6 +1,5 @@
 import DesignSystem
 import Foundation
-import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import Testing
@@ -66,10 +65,12 @@ struct ErrorScreenSnapshotTests {
     
     @Test
     func test_appIntegrityError() {
+        let root = UINavigationController()
         let sut = AppIntegrityErrorViewModel(analyticsService: analyticsService)
-        let vc = GDSErrorScreen(viewModel: sut)
+        let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot()
     }
     
     @Test

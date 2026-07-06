@@ -1,40 +1,52 @@
+@testable import DesignSystem
 import GDSAnalytics
-import GDSCommon
 @testable import OneLogin
 import Testing
 
 @MainActor
 struct AppIntegrityErrorViewModelTests {
-    @Test func test_page() async throws {
-        let mockAnalyticsService = MockAnalyticsService()
-        let appIntegrityErrorViewModel = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService)
+    let sut: AppIntegrityErrorViewModel
+    let mockAnalyticsService = MockAnalyticsService()
 
-        #expect(appIntegrityErrorViewModel.image == .error)
-        #expect(appIntegrityErrorViewModel.title.stringKey == "app_appIntegrityErrorTitle")
-        #expect(appIntegrityErrorViewModel.title.value == "Sorry, there’s a problem")
-        #expect(appIntegrityErrorViewModel.bodyContent.count == 2)
-        #expect(appIntegrityErrorViewModel.buttonViewModels.isEmpty)
-        #expect(appIntegrityErrorViewModel.rightBarButtonTitle == nil)
-        #expect(appIntegrityErrorViewModel.backButtonIsHidden == true)
+    init() {
+        sut = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService)
     }
-
-    @Test func test_didAppear() async throws {
-        let mockAnalyticsService = MockAnalyticsService()
-        let appIntegrityErrorViewModel = AppIntegrityErrorViewModel(analyticsService: mockAnalyticsService)
-
+    
+    @Test
+    func test_page() throws {
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
         
-        appIntegrityErrorViewModel.didAppear()
-
+        #expect(title?.icon == .error)
+        #expect(title?.errorTitle.title.stringKey == "app_appIntegrityErrorTitle")
+        #expect(title?.errorTitle.title.value == "Sorry, there’s a problem")
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
+        
+        let body = sut.body.last as? GDSTextViewModel
+        #expect(body?.title.stringKey == "app_appIntegrityErrorBody1")
+        #expect(body?.title.variableKeys == ["app_nameString"])
+        #expect(body?.title.value == "You cannot use the GOV.UK One Login app at the moment.\n\nTry again later.")
+        #expect(body?.alignment == .center)
+                       
+        #expect(sut.movableFooter.count == 0)
+        #expect(sut.footer.count == 0)
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden == true)
+        #expect(sut.didDismiss == nil)
+    }
+    
+    @Test
+    func test_didAppear() {
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        let vc = GDSScreen(viewModel: sut)
+        vc.viewDidAppear(false)
         #expect(mockAnalyticsService.screenViews.count == 1)
-        
-        let expectedScreenView = ErrorScreenView(id: ErrorAnalyticsScreenID.appIntegrityError.rawValue,
+        let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appIntegrityError.rawValue,
                                      screen: ErrorAnalyticsScreen.appIntegrityError,
                                      titleKey: "app_appIntegrityErrorTitle",
                                      reason: "app integrity error")
-        
-        #expect(mockAnalyticsService.screenViews.map { $0 as? ErrorScreenView } == [expectedScreenView])
-        #expect(mockAnalyticsService.screenParamsLogged == expectedScreenView.parameters)
-        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2].map { $0 as? String} == OLTaxonomyValue.system)
-        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3].map { $0 as? String} == OLTaxonomyValue.undefined)
+        #expect(mockAnalyticsService.screenViews as? [ErrorScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }

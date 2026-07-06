@@ -1,6 +1,5 @@
 import Coordination
 import DesignSystem
-import GDSCommon
 import Networking
 @testable import OneLogin
 import XCTest
@@ -181,7 +180,7 @@ extension QualifyingCoordinatorTests {
         
         // THEN I am shown an error
         let vc = try XCTUnwrap(
-            window.rootViewController as? GDSErrorScreen
+            window.rootViewController as? GDSScreen
         )
         XCTAssertTrue(vc.viewModel is AppIntegrityErrorViewModel)
     }

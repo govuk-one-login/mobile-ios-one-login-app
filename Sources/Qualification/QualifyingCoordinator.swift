@@ -1,7 +1,6 @@
 import Authentication
 import Coordination
 import DesignSystem
-import GDSCommon
 import Logging
 import Networking
 import SecureStore
@@ -113,7 +112,7 @@ final class QualifyingCoordinator: NSObject,
             displayViewController(unableToLoginErrorScreen)
         case .appIntegrityCheckFailed:
             let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)
-            let appIntegrityErrorScreen = GDSErrorScreen(viewModel: viewModel)
+            let appIntegrityErrorScreen = GDSScreen(viewModel: viewModel)
             displayViewController(appIntegrityErrorScreen)
         }
     }

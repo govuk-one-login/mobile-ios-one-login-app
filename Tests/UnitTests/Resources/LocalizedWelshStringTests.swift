@@ -269,9 +269,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_appIntegrityErrorTitle".getWelshString(),
                        "Mae'n ddrwg gennym, mae problem")
         XCTAssertEqual("app_appIntegrityErrorBody1".getWelshString(),
-                       "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.")
-        XCTAssertEqual("app_appIntegrityErrorBody2".getWelshString(),
-                       "Rhowch gynnig arall yn nes ymlaen.")
+                       "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
 
 }
