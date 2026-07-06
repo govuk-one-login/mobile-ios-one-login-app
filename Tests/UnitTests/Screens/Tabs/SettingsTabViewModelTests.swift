@@ -1,75 +1,76 @@
 import GDSAnalytics
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class SettingsTabViewModelTests: XCTestCase {
+struct SettingsTabViewModelTests {
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
     var mockUrlOpener: MockURLOpener!
     var sut: SettingsTabViewModel!
     
-    var didOpenSignOutPage: Bool = false
-    var didOpenDeveloperMenu: Bool = false
-    
-    override func setUp() {
-        super.setUp()
-        
+    init() {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         mockUrlOpener = MockURLOpener()
         sut = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                    userProvider: mockSessionManager,
                                    urlOpener: mockUrlOpener,
-                                   openSignOutPage: {
-            self.didOpenSignOutPage = true
-        },
-                                   openDeveloperMenu: {
-            self.didOpenDeveloperMenu = true
-        })
-    }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        mockUrlOpener = nil
-        sut = nil
-        
-        didOpenDeveloperMenu = false
-        didOpenSignOutPage = false
-        
-        super.tearDown()
+                                   openSignOutPage: {},
+                                   openDeveloperMenu: {})
     }
 }
 
 extension SettingsTabViewModelTests {
+    @Test
     func test_page() {
-        XCTAssertEqual(sut.navigationTitle.stringKey, "app_settingsTitle")
-        XCTAssertNil(sut.rightBarButtonTitle)
-        XCTAssertTrue(sut.backButtonIsHidden)
+        #expect(sut.navigationTitle.stringKey == "app_settingsTitle")
+        #expect(sut.rightBarButtonTitle == nil)
+        #expect(sut.backButtonIsHidden)
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.didDismiss == nil)
     }
     
+    @Test
     func test_didAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
-        sut.didAppear()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 0)
+        sut.didAppear?.perform()
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
                                 screen: SettingsAnalyticsScreen.settingsScreen,
                                 titleKey: "app_settingsTitle")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.settings)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String == OLTaxonomyValue.settings)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String == OLTaxonomyValue.undefined)
     }
     
+    @Test
     func test_openSignOutPage() {
-        XCTAssertFalse(didOpenSignOutPage)
+        var didOpenSignOutPage: Bool = false
+        let sut = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                   userProvider: mockSessionManager,
+                                   urlOpener: mockUrlOpener,
+                                   openSignOutPage: {
+            didOpenSignOutPage = true
+        }, openDeveloperMenu: {})
+        #expect(!didOpenSignOutPage)
         sut.openSignOutPage()
-        XCTAssertTrue(didOpenSignOutPage)
+        #expect(didOpenSignOutPage)
     }
     
+    @Test
     func test_openDeveloperMenu() {
-        XCTAssertFalse(didOpenDeveloperMenu)
+        var didOpenDeveloperMenu: Bool = false
+        let sut = SettingsTabViewModel(analyticsService: mockAnalyticsService,
+                                   userProvider: mockSessionManager,
+                                   urlOpener: mockUrlOpener,
+                                   openSignOutPage: {},
+                                   openDeveloperMenu: {
+            didOpenDeveloperMenu = true
+        })
+        #expect(!didOpenDeveloperMenu)
         sut.openDeveloperMenu()
-        XCTAssertTrue(didOpenDeveloperMenu)
+        #expect(didOpenDeveloperMenu)
     }
 }
