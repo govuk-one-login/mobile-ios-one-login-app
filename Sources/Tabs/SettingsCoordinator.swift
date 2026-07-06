@@ -1,7 +1,6 @@
 import Coordination
 import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import Logging
 import MobilePlatformServices
 import Networking
@@ -37,7 +36,7 @@ final class SettingsCoordinator: NSObject,
     
     func start() {
         root.tabBarItem = UITabBarItem(
-            title: GDSCommon.GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
+            title: GDSLocalisedString(stringLiteral: "app_settingsTitle").value,
             image: UIImage(systemName: "gearshape"),
             tag: 2
         )
