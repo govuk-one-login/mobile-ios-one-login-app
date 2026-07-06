@@ -1,10 +1,10 @@
 import Combine
 import Coordination
-import GDSCommon
+import DesignSystem
 import Logging
 import UIKit
 
-final class SettingsViewController: BaseViewController {
+final class SettingsViewController: BaseScreen {
     override var nibName: String? { "TabbedView" }
     
     private let viewModel: TabbedViewModel

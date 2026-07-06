@@ -1,4 +1,4 @@
-import GDSCommon
+import DesignSystem
 import Logging
 
 @MainActor
