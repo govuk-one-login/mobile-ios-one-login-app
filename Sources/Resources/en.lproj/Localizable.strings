@@ -243,6 +243,4 @@
 // MARK: App Integrity Error screen
 "app_appIntegrityErrorTitle" = "Sorry, there’s a problem";
 
-"app_appIntegrityErrorBody1" = "You cannot use the %@ app at the moment.";
-
-"app_appIntegrityErrorBody2" = "Try again later.";
+"app_appIntegrityErrorBody1" = "You cannot use the %@ app at the moment.\n\nTry again later.";

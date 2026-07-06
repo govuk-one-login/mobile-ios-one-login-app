@@ -3,7 +3,6 @@ import Authentication
 import Coordination
 import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import GDSUtilities
 import LocalAuthentication
 import Logging
@@ -282,10 +281,8 @@ extension LoginCoordinator {
     }
     
     private func showAppIntegrityErrorScreen() {
-        let viewModel = AppIntegrityErrorViewModel(
-            analyticsService: analyticsService
-        )
-        let vc = GDSErrorScreen(viewModel: viewModel)
+        let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)
+        let vc = GDSScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)
     }
     

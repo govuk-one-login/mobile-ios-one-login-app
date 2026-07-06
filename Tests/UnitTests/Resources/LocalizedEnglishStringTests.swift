@@ -269,9 +269,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appIntegrityErrorTitle".getEnglishString(),
                        "Sorry, there’s a problem")
         XCTAssertEqual("app_appIntegrityErrorBody1".getEnglishString(),
-                       "You cannot use the %@ app at the moment.")
-        XCTAssertEqual("app_appIntegrityErrorBody2".getEnglishString(),
-                       "Try again later.")
+                       "You cannot use the %@ app at the moment.\n\nTry again later.")
     }
 }
 
