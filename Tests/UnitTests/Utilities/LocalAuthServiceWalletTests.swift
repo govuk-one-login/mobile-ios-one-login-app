@@ -1,6 +1,5 @@
 import Coordination
 import DesignSystem
-import DesignSystem
 import LocalAuthenticationWrapper
 import Networking
 @testable import OneLogin

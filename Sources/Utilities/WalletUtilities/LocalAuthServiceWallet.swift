@@ -1,6 +1,5 @@
 import Coordination
 import DesignSystem
-import DesignSystem
 import LocalAuthenticationWrapper
 import UIKit
 import Wallet

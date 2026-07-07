@@ -1,5 +1,5 @@
-import GDSAnalytics
 import DesignSystem
+import GDSAnalytics
 import Networking
 @testable import OneLogin
 import XCTest

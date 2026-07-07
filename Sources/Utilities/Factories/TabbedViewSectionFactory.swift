@@ -1,6 +1,6 @@
+import DesignSystem
 import Foundation
 import GDSAnalytics
-import DesignSystem
 import Logging
 import UIKit
 
