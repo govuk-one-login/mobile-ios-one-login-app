@@ -2,6 +2,25 @@
 import SecureStore
 
 final class MockSecureStoreService: SecureStorableV2, SessionBoundData {
+    
+    static func makeWithStoredTokens(idToken: String = MockJWTs.genericToken,
+                                     refreshToken: String = MockJWTs.genericToken,
+                                     accessToken: String = MockJWTs.genericToken
+    ) throws -> MockSecureStoreService {
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let data = StoredTokens.encodeKeys(
+            idToken: idToken,
+            refreshToken: refreshToken,
+            accessToken: accessToken
+        )
+        try mockAccessControlEncryptedStore.saveItem(
+            item: data,
+            itemName: OLString.storedTokens
+        )
+        
+        return mockAccessControlEncryptedStore
+    }
+    
     var savedItems = [String: String]()
     var didCallDeleteStore = false
     var didCallClearSessionData = false

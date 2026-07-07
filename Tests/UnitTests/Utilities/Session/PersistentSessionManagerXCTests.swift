@@ -1,11 +1,13 @@
 // swiftlint:disable file_length
 import AppIntegrity
 import Authentication
+import LocalAuthentication
 import Logging
 import MockNetworking
 @testable import Networking
 @testable @preconcurrency import OneLogin
 import SecureStore
+import Testing
 import XCTest
 
 struct SessionBoundDataExpectation: SessionBoundData {
@@ -37,7 +39,7 @@ extension PersistentSessionManager {
     }
 }
 
-final class PersistentSessionManagerTests: XCTestCase {
+final class PersistentSessionManagerXCTests: XCTestCase {
     private var mockAccessControlEncryptedStore: MockSecureStoreService!
     private var mockEncryptedStore: MockSecureStoreService!
     private var mockUnprotectedStore: MockDefaultsStore!
@@ -95,7 +97,7 @@ final class PersistentSessionManagerTests: XCTestCase {
     }
 }
 
-extension PersistentSessionManagerTests {
+extension PersistentSessionManagerXCTests {
     func test_initialState() {
         XCTAssertNil(sut.expiryDate)
         XCTAssertFalse(sut.isSessionValid)
@@ -976,13 +978,53 @@ extension PersistentSessionManagerTests {
     }
 }
 
-extension PersistentSessionManagerTests {
+struct PersistentSessionManagerTests {
+    
+    /// GIVEN I am "a returning user" with stored tokens, who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
+    /// AND `SecureStoreService` throws `SecureStoreError(.systemCancel, originalError: LAError(.systemCancel))`
+    ///     when `saveItem` is called as part of:
+    ///     * `EncryptedSecureStoreMigrator.saveItem(item:itemName)`
+    ///     * `SecureTokenStore.save(tokens:)`
+    ///     * `PersistentSessionManager.saveLoginTokens()`
+    /// WHEN I resume a session
+    /// AND the error is thrown
+    /// THEN I should be able to not encounter a refresh token reuse error
+    @Test(.disabled("Proves a case of refresh token reuse"), .bug("https://govukverify.atlassian.net/browse/DCMAW-21354"))
+    func test_refreshTokenReused_when_saveAuthSession_fails_to_save_tokens_onAccessControlEncryptedStore() async throws {
+        let mockAccessControlEncryptedStore: MockSecureStoreService = try .makeWithStoredTokens()
+        let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+        
+        let sut: PersistentSessionManager = try .makeNonReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
+                                                    accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                    refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
+        
+        mockAccessControlEncryptedStore.errorFromSaveItem = SecureStoreError(.systemCancel, originalError: LAError(.systemCancel))
+        
+        let error = await #expect(throws: SecureStoreError.self) {
+            try await sut.resumeSession()
+        }
+        
+        #expect(error?.kind == .systemCancel)
+
+        mockAccessControlEncryptedStore.errorFromSaveItem = nil
+        
+        do {
+            try await sut.resumeSession()
+        } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
+            Issue.record(error)
+        }
+
+        #expect(mockRefreshTokenExchangeManager.capturedRefreshTokens.count == 2)
+    }
+}
+
+extension PersistentSessionManagerXCTests {
     var hasNotRemovedLocalAuth: Bool {
         mockLocalAuthentication.canUseAnyLocalAuth && sut.isReturningUser
     }
 }
 
-extension PersistentSessionManagerTests {
+extension PersistentSessionManagerXCTests {
     private func setUpNeededForResumeSession() throws {
         // GIVEN I am a returning user with local auth enabled
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
@@ -1007,7 +1049,7 @@ extension PersistentSessionManagerTests {
     }
 }
 
-extension PersistentSessionManagerTests: SessionBoundData {
+extension PersistentSessionManagerXCTests: SessionBoundData {
     func clearSessionData() {
         didCall_deleteSessionBoundData = true
     }
