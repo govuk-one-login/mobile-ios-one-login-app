@@ -1,13 +1,13 @@
+import DesignSystem
 import GAnalytics
-import GDSCommon
 import Logging
 import UIKit
 
 final class ContentTileCell: UITableViewCell {
-    var viewModel: GDSContentTileViewModel? {
+    var viewModel: GDSCardViewModel? {
         didSet {
             guard let viewModel else { return }
-            let view = GDSContentTileView(viewModel: viewModel)
+            let view = GDSCard(viewModel: viewModel)
             view.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(view)
             

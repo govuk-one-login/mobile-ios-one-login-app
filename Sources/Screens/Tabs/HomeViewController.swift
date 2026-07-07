@@ -159,7 +159,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? ContentTileCell else {
             preconditionFailure()
         }
-        cell.viewModel = WelcomeTileViewModel()
+        cell.viewModel = createWelcomeCardViewModel()
         
         return cell
     }
@@ -171,7 +171,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? ContentTileCell else {
             preconditionFailure()
         }
-        cell.viewModel = PurposeTileViewModel()
+        cell.viewModel = createPurposeCardViewModel()
         
         return cell
     }
@@ -198,5 +198,43 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         ])
         
         return cell
+    }
+    
+    @MainActor
+    private func createWelcomeCardViewModel() -> GDSCardViewModel {
+        GDSCardViewModel(
+            backgroundColour: UIColor.secondarySystemGroupedBackground,
+            showShadow: false,
+            dismissAction: nil,
+            verticalPadding: .vertical(DesignSystem.Spacing.small),
+            horizontalPadding: .horizontal(DesignSystem.Spacing.default),
+            contentItems: {
+                [
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileHeader"),
+                                     titleFont: .title2Bold),
+                    
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileBody1"))
+                ]
+            }
+        )
+    }
+    
+    @MainActor
+    func createPurposeCardViewModel() -> GDSCardViewModel {
+        GDSCardViewModel(
+            backgroundColour: UIColor.secondarySystemGroupedBackground,
+            showShadow: false,
+            dismissAction: nil,
+            verticalPadding: .vertical(DesignSystem.Spacing.small),
+            horizontalPadding: .horizontal(DesignSystem.Spacing.default),
+            contentItems: {
+                [
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileHeader"),
+                                     titleFont: .title2Bold),
+                    
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileBody1", "app_nameString"))
+                ]
+            }
+        )
     }
 }
