@@ -206,7 +206,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             backgroundColour: UIColor.secondarySystemGroupedBackground,
             showShadow: false,
             dismissAction: nil,
-            verticalPadding: .vertical(DesignSystem.Spacing.small),
+            verticalPadding: .vertical(DesignSystem.Spacing.default),
             horizontalPadding: .horizontal(DesignSystem.Spacing.default),
             contentItems: {
                 [
@@ -225,7 +225,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             backgroundColour: UIColor.secondarySystemGroupedBackground,
             showShadow: false,
             dismissAction: nil,
-            verticalPadding: .vertical(DesignSystem.Spacing.small),
+            verticalPadding: .vertical(DesignSystem.Spacing.default),
             horizontalPadding: .horizontal(DesignSystem.Spacing.default),
             contentItems: {
                 [
