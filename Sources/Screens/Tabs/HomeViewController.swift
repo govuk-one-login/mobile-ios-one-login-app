@@ -1,4 +1,5 @@
 import CRIOrchestrator
+import DesignSystem
 import GDSAnalytics
 import GDSCommon
 import Logging
@@ -18,7 +19,7 @@ protocol CRIOrchestration {
 final class HomeViewController: BaseViewController {
     override var nibName: String? { "HomeView" }
     
-    let navigationTitle: GDSLocalisedString = "app_homeTitle"
+    let navigationTitle: GDSCommon.GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
     private let criOrchestrator: CRIOrchestration
     let spaceBetweenSections: CGFloat = 16
@@ -40,6 +41,21 @@ final class HomeViewController: BaseViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @IBOutlet private var headerView: UIView! {
+        didSet {
+            headerView.backgroundColor = UIColor { traitCollection in
+                switch traitCollection.userInterfaceStyle {
+                case .dark:
+                    DesignSystem.Color.Base.blue1
+                default:
+                    DesignSystem.Color.Base.blue2
+                }
+                
+            }
+                
+        }
     }
     
     @IBOutlet private var headerImage: UIImageView! {
