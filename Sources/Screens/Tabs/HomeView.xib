@@ -34,7 +34,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" name="HeaderColor"/>
+                    <color key="backgroundColor" name="Blue"/>
                     <constraints>
                         <constraint firstItem="q5a-8r-wqz" firstAttribute="top" secondItem="oEx-j7-Jxg" secondAttribute="topMargin" constant="16" id="C4e-V4-TMr"/>
                         <constraint firstAttribute="bottom" secondItem="q5a-8r-wqz" secondAttribute="bottom" constant="16" id="V8w-Ek-tnS"/>
@@ -61,8 +61,8 @@
     </objects>
     <resources>
         <image name="oneLoginLogo" width="133" height="61"/>
-        <namedColor name="HeaderColor">
-            <color red="0.11400000005960464" green="0.43900001049041748" blue="0.72200000286102295" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="Blue">
+            <color red="0.11372549019607843" green="0.4392156862745098" blue="0.72156862745098038" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemGroupedBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
