@@ -1,7 +1,6 @@
 import CRIOrchestrator
 import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import Logging
 import Networking
 import UIKit
@@ -16,10 +15,10 @@ protocol CRIOrchestration {
     ) -> UIViewController
 }
 
-final class HomeViewController: BaseViewController {
+final class HomeViewController: BaseScreen {
     override var nibName: String? { "HomeView" }
     
-    let navigationTitle: GDSCommon.GDSLocalisedString = "app_homeTitle"
+    let navigationTitle: GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
     private let criOrchestrator: CRIOrchestration
     let spaceBetweenSections: CGFloat = 16
@@ -54,7 +53,6 @@ final class HomeViewController: BaseViewController {
                 }
                 
             }
-                
         }
     }
     
