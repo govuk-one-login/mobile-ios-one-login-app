@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oEx-j7-Jxg">
-                    <rect key="frame" x="0.0" y="-1" width="393" height="219"/>
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="219"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="oneLoginLogo" translatesAutoresizingMaskIntoConstraints="NO" id="q5a-8r-wqz">
                             <rect key="frame" x="130" y="142" width="133" height="61"/>
