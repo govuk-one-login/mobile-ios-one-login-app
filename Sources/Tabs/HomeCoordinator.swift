@@ -2,7 +2,7 @@ import Coordination
 import CRIOrchestrator
 import GAnalytics
 import GDSAnalytics
-import GDSCommon
+import DesignSystem
 import Logging
 import Networking
 import UIKit

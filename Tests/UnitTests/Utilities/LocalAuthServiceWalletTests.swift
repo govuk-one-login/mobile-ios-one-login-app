@@ -1,6 +1,6 @@
 import Coordination
 import DesignSystem
-import GDSCommon
+import DesignSystem
 import LocalAuthenticationWrapper
 import Networking
 @testable import OneLogin

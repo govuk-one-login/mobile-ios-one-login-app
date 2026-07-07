@@ -1,5 +1,5 @@
 import Coordination
-import GDSCommon
+import DesignSystem
 import Logging
 import Networking
 import SecureStore
