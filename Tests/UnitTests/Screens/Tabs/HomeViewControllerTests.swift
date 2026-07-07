@@ -1,4 +1,5 @@
 import CRIOrchestrator
+@testable import DesignSystem
 import GDSAnalytics
 import Networking
 @testable import OneLogin
@@ -88,7 +89,19 @@ extension HomeViewControllerTests {
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
-        XCTAssertTrue(servicesTile?.viewModel is WelcomeTileViewModel)
+        let viewModel = try XCTUnwrap(servicesTile?.viewModel)
+        
+        let title = viewModel.contentItems.first as? GDSTextViewModel
+        XCTAssertEqual(title?.title.stringKey, "app_welcomeTileHeader")
+        XCTAssertEqual(title?.title.value, "Welcome")
+        
+        let body = viewModel.contentItems.last as? GDSTextViewModel
+        XCTAssertEqual(body?.title.stringKey, "app_welcomeTileBody1")
+        XCTAssertEqual(body?.title.value, "You can use this app to prove your identity to access some government services.")
+        
+        XCTAssertEqual(viewModel.backgroundColour, .secondarySystemGroupedBackground)
+        XCTAssertFalse(viewModel.showShadow)
+        XCTAssertNil(viewModel.dismissAction)
     }
     
     func test_purposeTileCell_viewModel() throws {
@@ -96,7 +109,21 @@ extension HomeViewControllerTests {
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         ) as? ContentTileCell
-        XCTAssertTrue(servicesTile?.viewModel is PurposeTileViewModel)
+        let viewModel = try XCTUnwrap(servicesTile?.viewModel)
+
+        let title = viewModel.contentItems.first as? GDSTextViewModel
+        XCTAssertEqual(title?.title.stringKey, "app_appPurposeTileHeader")
+        XCTAssertEqual(title?.title.value, "How to prove your identity")
+        
+        let body = viewModel.contentItems.last as? GDSTextViewModel
+        XCTAssertEqual(body?.title.stringKey, "app_appPurposeTileBody1")
+        XCTAssertEqual(body?.title.variableKeys, ["app_nameString"])
+        // swiftlint:disable:next line_length
+        XCTAssertEqual(body?.title.value, "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
+        
+        XCTAssertEqual(viewModel.backgroundColour, .secondarySystemGroupedBackground)
+        XCTAssertFalse(viewModel.showShadow)
+        XCTAssertNil(viewModel.dismissAction)
     }
     
     func test_idCheckTileCell_isDisplayed() throws {
