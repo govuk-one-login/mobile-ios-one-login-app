@@ -442,7 +442,6 @@
 		C82B64522BA47D59000C9524 /* OLStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B64512BA47D59000C9524 /* OLStringTests.swift */; };
 		C82F950F2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */; };
 		C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83014B32CA19B2200799A32 /* MockWalletError.swift */; };
-		C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */; };
 		C83E06D42DCC09D0007FDE0D /* OneLoginReleaseAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A842292DCBCD31002E73C2 /* OneLoginReleaseAppEnvironmentTests.swift */; };
 		C83E06D52DCC0A1A007FDE0D /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C880DDE12AEAB6C100020796 /* AppEnvironment.swift */; };
 		C83E06D62DCC0A34007FDE0D /* AppEnvironment+InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A94C482D033EAD00303578 /* AppEnvironment+InternalTypes.swift */; };
@@ -493,14 +492,12 @@
 		C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C85507012B7FB58D00AA9375 /* InfoPlist.strings */; };
 		C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* TabManagerCoordinator.swift */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
-		C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */; };
 		C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */; };
 		C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */; };
 		C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */; };
 		C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */; };
 		C868EF3C2EC247B9005E6A45 /* RefreshTokenExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C868EF3B2EC247B2005E6A45 /* RefreshTokenExchangeManager.swift */; };
 		C868EF3E2EC24B9B005E6A45 /* URLRequest+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C868EF3D2EC24B9B005E6A45 /* URLRequest+OneLogin.swift */; };
-		C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */; };
 		C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */; };
 		C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */; };
 		C873B1E42AF82700002C39E8 /* OneLoginStagingAppEnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873B1E12AF826D3002C39E8 /* OneLoginStagingAppEnvironmentTests.swift */; };
@@ -551,7 +548,6 @@
 		C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */; };
 		C8C3439D2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */; };
 		C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */; };
-		C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */; };
 		C8C385562DA939D300520E69 /* MockAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C385542DA939D300520E69 /* MockAuthenticationProvider.swift */; };
 		C8C385572DA939D300520E69 /* MockAuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C385552DA939D300520E69 /* MockAuthenticationService.swift */; };
 		C8C6665E2BD007BD00CF249B /* OutdatedTokenResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C8C6665D2BD007BD00CF249B /* OutdatedTokenResponse.json */; };
@@ -1088,7 +1084,6 @@
 		C82B64512BA47D59000C9524 /* OLStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLStringTests.swift; sourceTree = "<group>"; };
 		C82F950E2B9F0CCA00A90A6A /* UnlockScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		C83014B32CA19B2200799A32 /* MockWalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletError.swift; sourceTree = "<group>"; };
-		C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalButtonIconViewModelTests.swift; sourceTree = "<group>"; };
 		C83B66982DCA3F5A0037F312 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C83B669A2DCA3FF50037F312 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C83E06C32DCC090A007FDE0D /* OneLoginReleaseConfig.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginReleaseConfig.xctestplan; sourceTree = "<group>"; };
@@ -1140,14 +1135,12 @@
 		C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginBuild.entitlements; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* TabManagerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManagerCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
-		C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsButtonViewModel.swift; sourceTree = "<group>"; };
 		C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIORchestrator.swift; sourceTree = "<group>"; };
 		C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifier.swift; sourceTree = "<group>"; };
 		C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifierTests.swift; sourceTree = "<group>"; };
 		C868EF3B2EC247B2005E6A45 /* RefreshTokenExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenExchangeManager.swift; sourceTree = "<group>"; };
 		C868EF3D2EC24B9B005E6A45 /* URLRequest+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+OneLogin.swift"; sourceTree = "<group>"; };
-		C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalButtonIconViewModel.swift; sourceTree = "<group>"; };
 		C86B706A2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsPreferenceViewModel.swift; sourceTree = "<group>"; };
 		C86E223D2BE108140085453F /* DeveloperMenuViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeveloperMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		C873B1D52AF82403002C39E8 /* OneLoginBuildConfig.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OneLoginBuildConfig.xctestplan; sourceTree = "<group>"; };
@@ -1198,7 +1191,6 @@
 		C8C3439A2B91F99600E92FB9 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		C8C3439C2B921E3C00E92FB9 /* OnboardingCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinatorTests.swift; sourceTree = "<group>"; };
 		C8C3439F2B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsPreferenceStore.swift; sourceTree = "<group>"; };
-		C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonViewModel.swift; sourceTree = "<group>"; };
 		C8C385542DA939D300520E69 /* MockAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthenticationProvider.swift; sourceTree = "<group>"; };
 		C8C385552DA939D300520E69 /* MockAuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthenticationService.swift; sourceTree = "<group>"; };
 		C8C57CE32B0237620010D395 /* OneLoginUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OneLoginUI.xctestplan; sourceTree = "<group>"; };
@@ -2381,20 +2373,9 @@
 		C85E21152ACEECB000AF8B4E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C85E21162ACEECC600AF8B4E /* Buttons */,
 				C80C57FF2CB0011200021D4F /* ContentTile */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		C85E21162ACEECC600AF8B4E /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				C85E21172ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift */,
-				C86959A52CB434DF00E62F8A /* ExternalButtonIconViewModel.swift */,
-				C8C343A82B923DB300E92FB9 /* StandardButtonViewModel.swift */,
-			);
-			path = Buttons;
 			sourceTree = "<group>";
 		};
 		C85E211C2ACEEFC400AF8B4E /* Frameworks */ = {
@@ -2720,7 +2701,6 @@
 		C8BFE5E12CB578E500FA9A35 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C836FD6D2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift */,
 				C32436D02DCB906000CC3FCC /* PurposeTileViewModelTests.swift */,
 				AB51B3762D78824F00348FB6 /* WelcomeTileViewModelTests.swift */,
 			);
@@ -3609,7 +3589,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C85E21182ACEECD800AF8B4E /* AnalyticsButtonViewModel.swift in Sources */,
 				C86B706B2B8E43DC00F4C9BF /* AnalyticsPreferenceViewModel.swift in Sources */,
 				C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */,
 				3BBF28F32A9F7D3200491BB1 /* AppDelegate.swift in Sources */,
@@ -3641,7 +3620,6 @@
 				C84302672D9167850002B4B1 /* Dictionary+OneLogin.swift in Sources */,
 				C81ECB1B2B71709500AFC3A6 /* EnrolmentCoordinator.swift in Sources */,
 				C87913C42B27B7A300545B33 /* ErrorAnalytics.swift in Sources */,
-				C86959A62CB434E600E62F8A /* ExternalButtonIconViewModel.swift in Sources */,
 				C899898A2ED9C24F00C9B534 /* NetworkingService.swift in Sources */,
 				C390BF3A2FD97EC4007A8F79 /* URLOpener.swift in Sources */,
 				C822387A2E9E7D10001716BB /* RefreshTokenPayload.swift in Sources */,
@@ -3701,7 +3679,6 @@
 				D0825A952C12F5B800E940F7 /* SignOutErrorViewModel.swift in Sources */,
 				C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */,
 				C88E40E72C34239E008A3C20 /* SignInAgainViewModel.swift in Sources */,
-				C8C343A92B923DB300E92FB9 /* StandardButtonViewModel.swift in Sources */,
 				8E8CAC0C2F894B1A0010679E /* TestAppDelegate.swift in Sources */,
 				D08B0B812BDC0D7100769CEA /* TabbedTableViewCell.swift in Sources */,
 				C80D77442E97C65B00082040 /* AppFileManager.swift in Sources */,
@@ -3756,7 +3733,6 @@
 				C86E223E2BE108140085453F /* DeveloperMenuViewControllerTests.swift in Sources */,
 				C8BFE5E72CB57A8700FA9A35 /* DeveloperMenuViewModelTests.swift in Sources */,
 				C81ECB212B71769F00AFC3A6 /* EnrolmentCoordinatorTests.swift in Sources */,
-				C836FD6E2DE90B6900770A0A /* ExternalButtonIconViewModelTests.swift in Sources */,
 				41A0BD112B2758E6009AE51F /* GenericErrorViewModelTests.swift in Sources */,
 				1E4738EC2EC7322200803940 /* MockAppIntegrityProvider.swift in Sources */,
 				D08B0B5C2BD8046200769CEA /* HomeCoordinatorTests.swift in Sources */,

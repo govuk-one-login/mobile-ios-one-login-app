@@ -1,4 +1,4 @@
-import GDSCommon
+import DesignSystem
 @testable import OneLogin
 import XCTest
 

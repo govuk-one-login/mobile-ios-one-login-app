@@ -1,5 +1,4 @@
 import DesignSystem
-import GDSCommon
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import Testing
