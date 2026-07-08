@@ -209,10 +209,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             horizontalPadding: .horizontal(DesignSystem.Spacing.default),
             contentItems: {
                 [
-                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileHeader"),
+                    GDSTextViewModel(title: "app_welcomeTileHeader",
                                      titleFont: .title2Bold),
                     
-                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileBody1"),
+                    GDSTextViewModel(title: "app_welcomeTileBody1",
                                      verticalPadding: .bottom(16))
                 ]
             }
@@ -229,7 +229,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             horizontalPadding: .horizontal(DesignSystem.Spacing.default),
             contentItems: {
                 [
-                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileHeader"),
+                    GDSTextViewModel(title: "app_appPurposeTileHeader",
                                      titleFont: .title2Bold),
                     
                     GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileBody1", "app_nameString"),
