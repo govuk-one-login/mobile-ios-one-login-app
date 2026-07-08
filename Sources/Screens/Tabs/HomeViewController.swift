@@ -51,7 +51,6 @@ final class HomeViewController: BaseScreen {
                 default:
                     DesignSystem.Color.Base.blue2
                 }
-                
             }
         }
     }
@@ -213,7 +212,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
                     GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileHeader"),
                                      titleFont: .title2Bold),
                     
-                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileBody1"))
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_welcomeTileBody1"),
+                                     verticalPadding: .bottom(16))
                 ]
             }
         )
@@ -232,7 +232,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
                     GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileHeader"),
                                      titleFont: .title2Bold),
                     
-                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileBody1", "app_nameString"))
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileBody1", "app_nameString"),
+                                     verticalPadding: .bottom(16))
                 ]
             }
         )
