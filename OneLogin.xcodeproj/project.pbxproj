@@ -233,7 +233,6 @@
 		99AEB1C52FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AEB1C42FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift */; };
 		AB24C1132DB94A5F0080141C /* LocalAuthSettingsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */; };
 		AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = AB327B102D36BEAD00AC169E /* CRIOrchestrator */; };
-		AB90DC7C2D8831E000070B0F /* GDSCommon in Frameworks */ = {isa = PBXBuildFile; productRef = AB90DC7B2D8831E000070B0F /* GDSCommon */; };
 		AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB90DC7D2D8875EA00070B0F /* GDSAnalytics */; };
 		ABBD21AC2C6E1D6B00B0C959 /* MockAppInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */; };
 		ABC6B2C82E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6B2C72E1296FB00B41C6E /* UnrecoverableLoginErrorViewModel.swift */; };
@@ -304,6 +303,7 @@
 		C327A32F2FF6879500A4CB01 /* test_localAuthBiometricsErrorFaceId.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C327A30A2FF6879500A4CB01 /* test_localAuthBiometricsErrorFaceId.9.png */; };
 		C327A3302FF6879500A4CB01 /* test_localAuthBiometricsErrorTouchId.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C327A3142FF6879500A4CB01 /* test_localAuthBiometricsErrorTouchId.7.png */; };
 		C327A3312FF6879500A4CB01 /* test_localAuthBiometricsErrorFaceId.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C327A3022FF6879500A4CB01 /* test_localAuthBiometricsErrorFaceId.1.png */; };
+		C327A33B2FFFBA3E00A4CB01 /* Testing+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C327A33A2FFFBA3400A4CB01 /* Testing+TestHelpers.swift */; };
 		C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33BF4F42E3A111700F6724F /* WalletNetworkClientWrapper.swift */; };
 		C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BD1292DDF227E00D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift */; };
 		C34F10582F193BEB00947ADB /* NetworkClient+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F10572F193BDE00947ADB /* NetworkClient+TestExtensions.swift */; };
@@ -936,6 +936,7 @@
 		C327A3172FF6879500A4CB01 /* test_localAuthBiometricsErrorTouchId.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsErrorTouchId.10.png; sourceTree = "<group>"; };
 		C327A3182FF6879500A4CB01 /* test_localAuthBiometricsErrorTouchId.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsErrorTouchId.11.png; sourceTree = "<group>"; };
 		C327A3192FF6879500A4CB01 /* test_localAuthBiometricsErrorTouchId.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_localAuthBiometricsErrorTouchId.12.png; sourceTree = "<group>"; };
+		C327A33A2FFFBA3400A4CB01 /* Testing+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Testing+TestHelpers.swift"; sourceTree = "<group>"; };
 		C3381D2D2DFAE1240007B594 /* OneLoginRelease-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginRelease-Info.plist"; sourceTree = "<group>"; };
 		C3381D2E2DFAE1380007B594 /* OneLoginBuild-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginBuild-Info.plist"; sourceTree = "<group>"; };
 		C3381D2F2DFAE1450007B594 /* OneLoginDebug-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OneLoginDebug-Info.plist"; sourceTree = "<group>"; };
@@ -1256,7 +1257,6 @@
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */,
-				AB90DC7C2D8831E000070B0F /* GDSCommon in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */,
@@ -2238,6 +2238,7 @@
 		C8520C232AE2BF8E006790C1 /* TestExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				C327A33A2FFFBA3400A4CB01 /* Testing+TestHelpers.swift */,
 				1E2B6C962FD85A5B0007CD46 /* DesignSystemAction+TestExtensions.swift */,
 				1E5DD1EC2FAE408100D6F471 /* StoredToken+Extensions.swift */,
 				C34F10572F193BDE00947ADB /* NetworkClient+TestExtensions.swift */,
@@ -2889,7 +2890,6 @@
 				ABD7A0BD2CEF8871006D6C7A /* TokenGeneration */,
 				ABD7A0BF2CEF887E006D6C7A /* CryptoService */,
 				AB327B102D36BEAD00AC169E /* CRIOrchestrator */,
-				AB90DC7B2D8831E000070B0F /* GDSCommon */,
 				AB90DC7D2D8875EA00070B0F /* GDSAnalytics */,
 				C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */,
 				7CEFDE212E3BB684004EE532 /* Wallet */,
@@ -3076,7 +3076,6 @@
 				7CDC2EBC2C8B1CF200EAA592 /* XCLocalSwiftPackageReference "MobilePlatformServices" */,
 				7CF44B262CAB45A70027839B /* XCLocalSwiftPackageReference "AppIntegrity" */,
 				AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */,
-				AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */,
 				C8EE69062D933EA7005D191C /* XCLocalSwiftPackageReference "LocalAuthenticationWrapper" */,
 				7CEFDE202E3BB684004EE532 /* XCLocalSwiftPackageReference "mobile-wallet-ios" */,
 				1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
@@ -3720,6 +3719,7 @@
 				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
 				C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoadingViewModelTests.swift in Sources */,
+				C327A33B2FFFBA3E00A4CB01 /* Testing+TestHelpers.swift in Sources */,
 				8E3C5AC62FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift in Sources */,
 				C3DF5A7F2F6836560089B42B /* MockWalletSDKWrapper.swift in Sources */,
 				1E1D56AC2F48778200AB90D3 /* OneLoginAppIntegrityServiceTests.swift in Sources */,
@@ -5448,14 +5448,6 @@
 				version = 8.72.3;
 			};
 		};
-		AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-common.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.16.0;
-			};
-		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
@@ -5543,11 +5535,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */;
 			productName = CRIOrchestrator;
-		};
-		AB90DC7B2D8831E000070B0F /* GDSCommon */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AB90DC7A2D8831E000070B0F /* XCRemoteSwiftPackageReference "mobile-ios-common" */;
-			productName = GDSCommon;
 		};
 		AB90DC7D2D8875EA00070B0F /* GDSAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
