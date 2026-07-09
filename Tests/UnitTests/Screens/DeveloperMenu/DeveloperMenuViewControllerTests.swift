@@ -3,9 +3,11 @@ import MockNetworking
 @testable import Networking
 @testable import OneLogin
 import SecureStore
-import XCTest
+import Testing
+import UIKit
 
-final class DeveloperMenuViewControllerTests: XCTestCase {
+@MainActor
+struct DeveloperMenuViewControllerTests {
     private var devMenuViewModel: DeveloperMenuViewModel!
     private var mockSessionManager: MockSessionManager!
     private var sut: DeveloperMenuViewController!
@@ -15,10 +17,11 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
 
     private var requestFinished = false
 
-    @MainActor
-    override func setUp() {
-        super.setUp()
-        
+    init() {
+        AppEnvironment.updateFlags(
+            releaseFlags: [:],
+            featureFlags: [:]
+        )
         MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
@@ -32,23 +35,6 @@ final class DeveloperMenuViewControllerTests: XCTestCase {
                                           sessionManager: mockSessionManager,
                                           helloWorldProvider: mockHelloWorldService)
     }
-    
-    override func tearDown() {
-        AppEnvironment.updateFlags(
-            releaseFlags: [:],
-            featureFlags: [:]
-        )
-        MockURLProtocol.clear()
-        devMenuViewModel = nil
-        mockSessionManager = nil
-        sut = nil
-
-        mockHelloWorldService = nil
-
-        requestFinished = false
-        
-        super.tearDown()
-    }
 }
 
 enum MockNetworkClientError: Error {
@@ -56,124 +42,131 @@ enum MockNetworkClientError: Error {
 }
 
 extension DeveloperMenuViewControllerTests {
+    @Test
     func test_labelContents_STSEnabled() throws {
-        XCTAssertEqual(try sut.happyPathButton.title(for: .normal), "Hello World Happy")
-        XCTAssertEqual(try sut.errorPathButton.title(for: .normal), "Hello World Error")
-        XCTAssertEqual(try sut.unauthorizedPathButton.title(for: .normal), "Hello World Unauthorized")
+        #expect(try sut.happyPathButton.title(for: .normal) == "Hello World Happy")
+        #expect(try sut.errorPathButton.title(for: .normal) == "Hello World Error")
+        #expect(try sut.unauthorizedPathButton.title(for: .normal) == "Hello World Unauthorized")
     }
     
-    func test_happyPathButton() throws {
+    @Test
+    func test_happyPathButton() async throws {
         // GIVEN I am on the Developer Menu
         // WHEN I tap the happy path button
         try sut.happyPathButton.sendActions(for: .touchUpInside)
 
         // THEN the hello world API is called
-        waitForTruth(self.mockHelloWorldService.didRequestHelloWorld, timeout: 10)
+        #expect(await eventually { self.mockHelloWorldService.didRequestHelloWorld })
         // AND the response is displayed
-        XCTAssertEqual(try sut.happyPathResultLabel.text, "Success: testData")
+        #expect(try sut.happyPathResultLabel.text == "Success: testData")
     }
     
-    func test_errorPathButton() throws {
+    @Test
+    func test_errorPathButton() async throws {
         // GIVEN I have an active user session
         // WHEN I request a Service Token using an invalid scope
         try sut.errorPathButton.sendActions(for: .touchUpInside)
 
         // THEN the hello world API is called
-        waitForTruth(self.mockHelloWorldService.didRequestHelloWorldWithWrongScope, timeout: 10)
+        #expect(await eventually { self.mockHelloWorldService.didRequestHelloWorldWithWrongScope })
 
         // AND an error message is displayed:
-        XCTAssertEqual(try sut.errorPathResultLabel.text, "Error code: 404\nEndpoint: hello-world")
+        #expect(try sut.errorPathResultLabel.text == "Error code: 404\nEndpoint: hello-world")
     }
 
-    func test_unauthorizedPathButton() throws {
+    @Test
+    func test_unauthorizedPathButton() async throws {
         // GIVEN I have an active user session
         // WHEN I call an invalid endpoint
         try sut.unauthorizedPathButton.sendActions(for: .touchUpInside)
         // THEN an error message is displayed
-        waitForTruth(self.mockHelloWorldService.didRequestHelloWorldAtWrongEndpoint, timeout: 10)
-        XCTAssertEqual(try sut.unauthorizedPathResultLabel.text, "Error")
+        #expect(await eventually { self.mockHelloWorldService.didRequestHelloWorldAtWrongEndpoint })
+        #expect(try sut.unauthorizedPathResultLabel.text == "Error")
     }
     
+    @Test
     func test_deletePersistentSessionIDButton() throws {
         // GIVEN I have an active session
         try mockSessionManager.setupSession()
         // WHEN I tap the delete persistent session ID button
         try sut.deletePersistentSessionIDButton.sendActions(for: .touchUpInside)
         // THEN the button becomes purple
-        XCTAssertTrue(try sut.deletePersistentSessionIDButton.backgroundColor == .gdsBrightPurple)
+        #expect(try sut.deletePersistentSessionIDButton.backgroundColor == .gdsBrightPurple)
     }
     
+    @Test
     func test_expireAccessTokenButton() throws {
         // GIVEN I have an active session
         try mockSessionManager.setupSession()
         // WHEN I tap the expire access token button
         try sut.expireAccessTokenButton.sendActions(for: .touchUpInside)
         // THEN the button becomes purple
-        XCTAssertTrue(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
+        #expect(try sut.expireAccessTokenButton.backgroundColor == .gdsBrightPurple)
     }
     
+    @Test
     func test_expireRefreshTokenButton() throws {
         // GIVEN I have an active session
         try mockSessionManager.setupSession()
         // WHEN I tap the expire refresh token button
         try sut.expireRefreshTokenButton.sendActions(for: .touchUpInside)
         // THEN the button becomes purple
-        XCTAssertTrue(try sut.expireRefreshTokenButton.backgroundColor == .gdsBrightPurple)
+        #expect(try sut.expireRefreshTokenButton.backgroundColor == .gdsBrightPurple)
     }
 }
 
 extension DeveloperMenuViewController {
     var happyPathButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-happy-path-button"])
+            try #require(view[child: "sts-happy-path-button"])
         }
     }
     
     var happyPathResultLabel: UILabel {
         get throws {
-            try XCTUnwrap(view[child: "sts-happy-path-result"])
+            try #require(view[child: "sts-happy-path-result"])
         }
     }
     
     var errorPathButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-error-path-button"])
+            try #require(view[child: "sts-error-path-button"])
         }
     }
     
     var errorPathResultLabel: UILabel {
         get throws {
-            try XCTUnwrap(view[child: "sts-error-path-result"])
+            try #require(view[child: "sts-error-path-result"])
         }
     }
     
     var unauthorizedPathButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-unauthorized-path-button"])
+            try #require(view[child: "sts-unauthorized-path-button"])
         }
     }
     
     var unauthorizedPathResultLabel: UILabel {
         get throws {
-            try XCTUnwrap(view[child: "sts-unauthorized-path-result"])
+            try #require(view[child: "sts-unauthorized-path-result"])
         }
     }
     
     var deletePersistentSessionIDButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-delete-persistent-session-id-path-button"])
+            try #require(view[child: "sts-delete-persistent-session-id-path-button"])
         }
     }
     
     var expireAccessTokenButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-expire-access-token-button"])
+            try #require(view[child: "sts-expire-access-token-button"])
         }
     }
     
     var expireRefreshTokenButton: UIButton {
         get throws {
-            try XCTUnwrap(view[child: "sts-expire-refresh-token-button"])
+            try #require(view[child: "sts-expire-refresh-token-button"])
         }
     }
 }
