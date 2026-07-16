@@ -25,7 +25,7 @@ extension AppIntegrityProvider where Self == FirebaseAppIntegrityService {
                 attestationProofOfPossessionProvider: attestationProvider,
                 attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
                 demonstratingProofOfPossessionTokenGenerator: demonstratingPoPTokenGenerator,
-                attestationStore: SecureAttestationStore(),
+                attestationStore: SecureAttestationStore.make(),
                 networkClient: NetworkClient(),
                 baseURL: AppEnvironment.mobileBaseURL
             )
