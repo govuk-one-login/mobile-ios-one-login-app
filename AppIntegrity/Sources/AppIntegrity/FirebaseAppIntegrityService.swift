@@ -156,7 +156,7 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
         }
     }
     
-    init(
+    public init(
         vendor: AppCheckVendor,
         attestationProofOfPossessionProvider: ProofOfPossessionProvider,
         attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator,
