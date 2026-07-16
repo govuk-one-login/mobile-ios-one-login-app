@@ -1,6 +1,6 @@
 import AppIntegrity
-import Foundation
 import FirebaseAppCheck
+import Foundation
 import MockNetworking
 import Networking
 @testable import OneLogin
@@ -166,15 +166,15 @@ class MockAttestationStore: AttestationStorage {
     }
     var mockStorage = [String: Any]()
 
-    convenience init(attestationExpired: Bool = false, attestationJWT: String = "", mockStorage: [String : Any] = [String: Any]()) {
+    convenience init(attestationExpired: Bool = false, attestationJWT: String = "", mockStorage: [String: Any] = [String: Any]()) {
         self.init(attestationExpired: attestationExpired, attestationJWTAsFunction: Self.attestationJWT(attestationJWT), mockStorage: mockStorage)
     }
 
-    convenience init(attestationExpired: Bool = false, errorFromAttestationJWT error: Error, mockStorage: [String : Any] = [String: Any]()) {
+    convenience init(attestationExpired: Bool = false, errorFromAttestationJWT error: Error, mockStorage: [String: Any] = [String: Any]()) {
         self.init(attestationExpired: attestationExpired, attestationJWTAsFunction: Self.errorFromAttestationJWT(error), mockStorage: mockStorage)
     }
 
-    init(attestationExpired: Bool = false, attestationJWTAsFunction: @escaping AttestationJWTAsFunction, mockStorage: [String : Any] = [String: Any]()) {
+    init(attestationExpired: Bool = false, attestationJWTAsFunction: @escaping AttestationJWTAsFunction, mockStorage: [String: Any] = [String: Any]()) {
         self.attestationExpired = attestationExpired
         self.attestationJWTAsFunction = attestationJWTAsFunction
         self.mockStorage = mockStorage

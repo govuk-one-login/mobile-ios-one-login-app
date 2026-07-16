@@ -66,9 +66,9 @@ final class MockAppAuthSession: LoginSession {
     var finaliseAsFunction: FinaliseAsFunction
 
     convenience init() {
-        self.init(performLoginFlowAsFunction: { configuration in
+        self.init(performLoginFlowAsFunction: { _ in
             return try MockTokenResponse().getJSONData()
-        }, finaliseAsFunction: { _ in })
+        })
     }
     
     convenience init(performLoginFlowAsFunction: @escaping PerformLoginFlowAsFunction) {

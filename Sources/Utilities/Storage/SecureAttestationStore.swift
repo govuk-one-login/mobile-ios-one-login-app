@@ -21,7 +21,8 @@ final class SecureAttestationStore: AttestationStorage {
     /// Returns a new ``SecureAttestationStore`` with the given `secureStore`.
     /// The ``SecureAttestationStore`` instance guarantees that any existing data stored in the given `secureStore`  is accessible.
     ///
-    /// In case the ``attestationJWT`` in the given ``secureStore`` is not accessible (i.e. cannot be decrypted), the returned instance will **delete** all data associated with the underlying `secureStore`
+    /// In case the ``attestationJWT`` in the given ``secureStore`` is not accessible (i.e. cannot be decrypted),
+    /// the returned instance will **delete** all data associated with the underlying `secureStore`
     ///
     /// - parameter secureStore: an instance of the ``SecureStorable``;  by **default** the secure store is created  using a
     ///     ``SecureStorageConfiguration`` with an `id` of ``OLString/attestationStore`` and ``accessControlLevel`` that is ``AccessControlLevel/open``

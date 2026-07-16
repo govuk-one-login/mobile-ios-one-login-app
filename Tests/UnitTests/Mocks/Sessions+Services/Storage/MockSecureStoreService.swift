@@ -73,10 +73,12 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     }
     
     static func errorFromSaveItem(_ error: SecureStore.SecureStoreError) -> SaveItemAsFunction {
+        // swiftlint:disable redundant_void_return
         func saveItemAsFunction(item: String, itemName: String) throws -> Void {
             throw error
         }
-
+        // swiftlint:enable redundant_void_return
+        
         return saveItemAsFunction
     }
 
@@ -109,8 +111,8 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     init(saveItemAsFunction: @escaping SaveItemAsFunction = { _, _ in },
          readItemAsFunction: @escaping ReadItemAsFunction =  { _ in "" },
          deleteItemAsFunction: @escaping DeleteItemAsFunction = { _ in },
-         deleteAsFunction: @escaping DeleteAsFunction = { },
-         clearSessionDataAsFunction: @escaping ClearSessionDataAsFunction = { } ) {
+         deleteAsFunction: @escaping DeleteAsFunction = {},
+         clearSessionDataAsFunction: @escaping ClearSessionDataAsFunction = {}) {
         self.saveItemAsFunction = saveItemAsFunction
         self.readItemAsFunction = readItemAsFunction
         self.deleteItemAsFunction = deleteItemAsFunction
