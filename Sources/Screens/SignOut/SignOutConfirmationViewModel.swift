@@ -23,19 +23,19 @@ struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
         ])
         self.init(
             body: [
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationTitle"),
+                GDSTextViewModel(title: "app_signOutConfirmationTitle",
                                  titleFont: .largeTitleBold,
                                  accessibilityTraits: .header),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationBody1")),
+                GDSTextViewModel(title: "app_signOutConfirmationBody1"),
                 
-                GDSListViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationBody2"),
-                                 items: [GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1"),
-                                         GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2"),
-                                         GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3")],
+                GDSListViewModel(title:  "app_signOutConfirmationBody2",
+                                 items: ["app_signOutConfirmationBullet1",
+                                         "app_signOutConfirmationBullet2",
+                                         "app_signOutConfirmationBullet3"],
                                  style: .bulleted),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutConfirmationBody3"))
+                GDSTextViewModel(title: "app_signOutConfirmationBody3")
             ],
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_signOutAndDeleteAppDataButton").value,
@@ -50,14 +50,13 @@ struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
             footer: [],
-            rightBarButtonTitle: GDSLocalisedString(stringKey: "app_cancelButton"),
+            rightBarButtonTitle: "app_cancelButton",
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_signOutErrorTitle")
                 let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreen.rawValue,
                                         screen: SettingsAnalyticsScreen.signOutScreen,
-                                        titleKey: title.stringKey)
+                                        titleKey: "app_signOutErrorTitle")
                 analyticsService.trackScreen(screen)
             }),
             didDismiss: .action({

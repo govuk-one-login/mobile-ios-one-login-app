@@ -28,7 +28,7 @@ struct AppIntegrityErrorViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appIntegrityErrorTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_appIntegrityErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
@@ -43,10 +43,9 @@ struct AppIntegrityErrorViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_appIntegrityErrorTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appIntegrityError.rawValue,
                                              screen: ErrorAnalyticsScreen.appIntegrityError,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_appIntegrityErrorTitle",
                                              reason: "app integrity error")
                 analyticsService.trackScreen(screen)
             }),

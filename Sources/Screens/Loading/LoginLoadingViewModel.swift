@@ -14,12 +14,11 @@ struct LoadingViewModel: GDSScreenViewModel, BaseViewModel {
     let backButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
     
-    let loadingLabelKey: GDSLocalisedString = "app_loadingBody"
     var didAppear: DesignSystem.Action? {
         .action {
             let screen = ScreenView(id: IntroAnalyticsScreenID.loginLoading.rawValue,
                                     screen: IntroAnalyticsScreen.loginLoading,
-                                    titleKey: loadingLabelKey.stringKey)
+                                    titleKey: "app_loadingBody")
             analyticsService.trackScreen(screen)
         }
     }

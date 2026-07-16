@@ -30,12 +30,12 @@ struct GenericErrorViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_genericErrorPage"),
+                    errorTitle: GDSTextViewModel(title: "app_genericErrorPage",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_genericErrorPageBody"),
+                GDSTextViewModel(title: "app_genericErrorPageBody",
                                  alignment: .center,
                                  verticalPadding: .top(0))
             ],
@@ -56,10 +56,9 @@ struct GenericErrorViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_genericErrorPage")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                              screen: ErrorAnalyticsScreen.generic,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_genericErrorPage",
                                              reason: errorDescription)
                 analyticsService.trackScreen(screen)
             }),
