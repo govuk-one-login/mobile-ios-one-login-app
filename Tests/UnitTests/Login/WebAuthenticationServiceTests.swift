@@ -178,14 +178,14 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     func test_secureStoreError() async {
         let mockAnalyticsService = MockAnalyticsService()
         let sut: WebAuthenticationService = await .make(
-            errorFromStartSession: SecureStoreErrorV2(.cantDecodeData),
+            errorFromStartSession: SecureStoreError(.cantDecodeData),
             mockAnalyticsService: mockAnalyticsService
         )
 
         do {
             try await sut.startWebSession()
         } catch {
-            guard let error = error as? SecureStoreErrorV2 else {
+            guard let error = error as? SecureStoreError else {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }

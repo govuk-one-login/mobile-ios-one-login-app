@@ -2,51 +2,51 @@ import Foundation
 import LocalAuthenticationWrapper
 import SecureStore
 
-extension SecureStorableV2 where Self == SecureStoreServiceV2 {
+extension SecureStorable where Self == SecureStoreService {
     static func v12AccessControlEncryptedStore(
         localAuthManager: LocalAuthenticationContextStrings
-    ) throws -> SecureStoreServiceV2 {
+    ) throws -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.v12TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
             localAuthStrings: try localAuthManager.oneLoginStrings
         )
-        return SecureStoreServiceV2(
+        return SecureStoreService(
             configuration: accessControlConfiguration
         )
     }
     
     static func v13AccessControlEncryptedStore(
         localAuthManager: LocalAuthenticationContextStrings
-    ) throws -> SecureStoreServiceV2 {
+    ) throws -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.v13TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
             localAuthStrings: try localAuthManager.oneLoginStrings
         )
-        return SecureStoreServiceV2(
+        return SecureStoreService(
             configuration: accessControlConfiguration
         )
     }
     
-    static func v12EncryptedStore() -> SecureStoreServiceV2 {
+    static func v12EncryptedStore() -> SecureStoreService {
         let encryptedConfiguration = SecureStorageConfiguration(
             id: OLString.v12TokenInfoStore,
             accessControlLevel: .open
         )
-        return SecureStoreServiceV2(configuration: encryptedConfiguration)
+        return SecureStoreService(configuration: encryptedConfiguration)
     }
     
-    static func v13EncryptedStore() -> SecureStoreServiceV2 {
+    static func v13EncryptedStore() -> SecureStoreService {
         let encryptedConfiguration = SecureStorageConfiguration(
             id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
-        return SecureStoreServiceV2(configuration: encryptedConfiguration)
+        return SecureStoreService(configuration: encryptedConfiguration)
     }
 }
 
-extension SecureStorableV2 {
+extension SecureStorable {
     func saveDate(
         id: String,
         _ date: Date
@@ -62,13 +62,13 @@ extension SecureStorableV2 {
     ) throws -> Date {
         let dateString = try readItem(itemName: id)
         guard let dateDouble = Double(dateString) else {
-            throw SecureStoreErrorV2(.cantDecodeData)
+            throw SecureStoreError(.cantDecodeData)
         }
         return Date(timeIntervalSince1970: dateDouble)
     }
 }
 
-extension SecureStoreServiceV2: SessionBoundData {
+extension SecureStoreService: SessionBoundData {
     func clearSessionData() {
         OLString.EncryptedStoreKeyString.allCases
             .forEach { deleteItem(itemName: $0.rawValue) }
