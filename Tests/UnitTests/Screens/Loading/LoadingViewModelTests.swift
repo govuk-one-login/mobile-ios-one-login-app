@@ -10,7 +10,8 @@ struct LoadingViewModelTests {
     @Test
     func testScreen() {
         let sut = LoadingViewModel(analyticsService: mockAnalyticsService)
-        #expect(sut.loadingLabelKey.stringKey == "app_loadingBody")
+        let progressView = sut.body.first as? GDSProgressIndicatorViewModel
+        #expect(progressView != nil)
     }
     
     @Test
