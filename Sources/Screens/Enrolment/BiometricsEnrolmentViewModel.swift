@@ -55,8 +55,8 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
                     title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1", biometricsTypeString),
                     titleConfig: (font: .body, isHeader: true),
                     items: [
-                        GDSLocalisedString(stringKey: "app_enableBiometricsBullet1"),
-                        GDSLocalisedString(stringKey: "app_enableBiometricsBullet2")
+                        "app_enableBiometricsBullet1",
+                        "app_enableBiometricsBullet2"
                     ],
                     style: .bulleted,
                     verticalPadding: .bottom(DesignSystem.Spacing.default)

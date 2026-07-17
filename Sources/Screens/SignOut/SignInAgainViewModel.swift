@@ -25,7 +25,7 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
         self.init(
             screenStyle: .centred,
             body: [
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInAgainTitle"),
+                GDSTextViewModel(title: "app_signInAgainTitle",
                                  titleFont: .largeTitleBold,
                                  alignment: .center),
                 
@@ -53,10 +53,9 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_signInAgainTitle")
                 let screen = ScreenView(id: IntroAnalyticsScreenID.signInAgain.rawValue,
                                         screen: IntroAnalyticsScreen.signInAgain,
-                                        titleKey: title.stringKey)
+                                        titleKey: "app_signInAgainTitle")
                 analyticsService.trackScreen(screen)
             }),
             didDismiss: nil

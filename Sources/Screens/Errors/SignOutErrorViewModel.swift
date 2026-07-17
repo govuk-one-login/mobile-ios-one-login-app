@@ -23,12 +23,12 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_signOutErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signOutErrorBody"),
+                GDSTextViewModel(title: "app_signOutErrorBody",
                                  alignment: .center,
                                  verticalPadding: .top(0))
             ],
@@ -51,10 +51,9 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
             didAppear: .action({
                 analyticsService.logCrash(error)
                 
-                let title = GDSLocalisedString(stringKey: "app_signOutErrorTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.signOut.rawValue,
                                              screen: ErrorAnalyticsScreen.signOut,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_signOutErrorTitle",
                                              reason: error.localizedDescription)
                 analyticsService.trackScreen(screen)
             }),

@@ -28,7 +28,7 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appUnavailableTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_appUnavailableTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
@@ -43,10 +43,9 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_appUnavailableTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appUnavailable.rawValue,
                                              screen: ErrorAnalyticsScreen.appUnavailable,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_appUnavailableTitle",
                                              reason: "app unavailable error")
                 analyticsService.trackScreen(screen)
             }),

@@ -29,12 +29,12 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_signInErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorUnrecoverableBody"),
+                GDSTextViewModel(title: "app_signInErrorUnrecoverableBody",
                                  alignment: .center,
                                  verticalPadding: .top(0))
             ],
@@ -44,10 +44,9 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_signInErrorTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unrecoverableLoginError.rawValue,
                                              screen: ErrorAnalyticsScreen.unrecoverablLoginError,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_signInErrorTitle",
                                              reason: errorDescription)
                 analyticsService.trackScreen(screen)
             }),

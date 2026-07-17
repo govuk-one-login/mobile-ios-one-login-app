@@ -11,8 +11,8 @@ import SecureStore
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
     static func make(
-        accessControlEncryptedSecureStoreMigrator: (any SecureStorableV2 & SessionBoundData)? = nil,
-        encryptedStore: (any SecureStorableV2 & SessionBoundData)? = nil,
+        accessControlEncryptedSecureStoreMigrator: (any SecureStorable & SessionBoundData)? = nil,
+        encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
         analyticsService: OneLoginAnalyticsService,
         walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
@@ -50,8 +50,8 @@ final class PersistentSessionManager: SessionManager {
         return manager
     }
     
-    private let accessControlEncryptedStore: SecureStorableV2
-    private let encryptedStore: SecureStorableV2
+    private let accessControlEncryptedStore: SecureStorable
+    private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     private let analyticsService: OneLoginAnalyticsService
@@ -70,8 +70,8 @@ final class PersistentSessionManager: SessionManager {
     let serialTaskQueue: SerialTaskQueue
     
     convenience init(
-        accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         analyticsService: OneLoginAnalyticsService,
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
@@ -88,8 +88,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,

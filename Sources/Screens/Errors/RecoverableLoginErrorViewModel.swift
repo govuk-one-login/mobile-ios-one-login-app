@@ -30,13 +30,13 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_signInErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center,
                                                  accessibilityIdentifier: "error-screen-title")
                 ),
                 
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInErrorRecoverableBody"),
+                GDSTextViewModel(title: "app_signInErrorRecoverableBody",
                                  alignment: .center,
                                  verticalPadding: .top(0))
             ],
@@ -58,10 +58,9 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_signInErrorTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableLoginError.rawValue,
                                              screen: ErrorAnalyticsScreen.recoverablLoginError,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_signInErrorTitle",
                                              reason: errorDescription)
                 analyticsService.trackScreen(screen)
             }),

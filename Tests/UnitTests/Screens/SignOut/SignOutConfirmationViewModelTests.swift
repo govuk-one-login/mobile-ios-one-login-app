@@ -26,9 +26,9 @@ struct SignOutConfirmationViewModelTests {
         let bulletedList = sut.body[2] as? GDSListViewModel
         #expect(bulletedList?.title?.stringKey == "app_signOutConfirmationBody2")
         #expect(bulletedList?.title?.value == "This means:")
-        #expect(bulletedList?.items == [GDSLocalisedString(stringKey: "app_signOutConfirmationBullet1"),
-                                        GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet2"),
-                                        GDSLocalisedString(stringLiteral: "app_signOutConfirmationBullet3")])
+        #expect(bulletedList?.items == ["app_signOutConfirmationBullet1",
+                                        "app_signOutConfirmationBullet2",
+                                        "app_signOutConfirmationBullet3"])
         
         let body2 = sut.body.last as? GDSTextViewModel
         #expect(body2?.title.stringKey == "app_signOutConfirmationBody3")

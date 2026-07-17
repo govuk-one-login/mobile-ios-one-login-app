@@ -27,7 +27,7 @@ struct NetworkConnectionErrorViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_networkErrorTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_networkErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
@@ -53,10 +53,9 @@ struct NetworkConnectionErrorViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_networkErrorTitle")
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.networkConnection.rawValue,
                                              screen: ErrorAnalyticsScreen.networkConnection,
-                                             titleKey: title.stringKey,
+                                             titleKey: "app_networkErrorTitle",
                                              reason: "network connection error")
                 analyticsService.trackScreen(screen)
             }),

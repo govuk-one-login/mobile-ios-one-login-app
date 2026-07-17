@@ -35,22 +35,22 @@ struct LocalAuthSettingsErrorViewModel: GDSLeftAlignedViewModel {
             body: [
                 GDSErrorIconTitleViewModel(
                     icon: .error,
-                    errorTitle: GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_localAuthManagerErrorTitle"),
+                    errorTitle: GDSTextViewModel(title: "app_localAuthManagerErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center)
                 ),
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_localAuthManagerErrorBody1"),
+                GDSTextViewModel(title: "app_localAuthManagerErrorBody1",
                                  alignment: .center,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSListViewModel(
-                    title: GDSLocalisedString(stringKey: "app_localAuthManagerErrorBody3"),
+                    title: "app_localAuthManagerErrorBody3",
                     titleConfig: (font: .body, isHeader: true),
                     items: [
-                        GDSLocalisedString(stringKey: "app_localAuthManagerErrorNumberedList0"),
+                        "app_localAuthManagerErrorNumberedList0",
                         listText,
                         GDSLocalisedString(stringLiteral: "app_localAuthManagerErrorNumberedList2",
                                            stringAttributes: [("Turn Passcode On", [.font: UIFont.bodyBold])]),
-                        GDSLocalisedString(stringKey: "app_localAuthManagerErrorNumberedList3")
+                        "app_localAuthManagerErrorNumberedList3"
                     ],
                     style: .numbered,
                     verticalPadding: .bottom(DesignSystem.Spacing.default)
@@ -72,10 +72,9 @@ struct LocalAuthSettingsErrorViewModel: GDSLeftAlignedViewModel {
                     id = ErrorAnalyticsScreenID.updateTouchID.rawValue
                     screen = ErrorAnalyticsScreen.updateTouchID
                 }
-                let title = GDSLocalisedString(stringKey: "app_localAuthManagerErrorTitle")
                 let screenView = ErrorScreenView(id: id,
                                                  screen: screen,
-                                                 titleKey: title.stringKey)
+                                                 titleKey: "app_localAuthManagerErrorTitle")
                 analyticsService.trackScreen(screenView)
             }),
             didDismiss: .action({
