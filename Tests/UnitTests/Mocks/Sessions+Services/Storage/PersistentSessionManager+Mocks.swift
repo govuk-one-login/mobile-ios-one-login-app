@@ -11,6 +11,7 @@ extension PersistentSessionManager {
     /// A call to `startAuthSession(:using:)` assumes this is "a returning user" that cannot authenticate due to
     /// the missing `persistendId` results  in call to `clearAllSessionData` to delete my session & Wallet data.
     static func makeReturningUnauthenticatedUser(mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
+                                                 accessControlEncryptedSecureStoreMigrator: MockSecureStoreService = MockSecureStoreService(),
                                                  mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
                                                  mockUnprotectedStore: (any DefaultsStoring & SessionBoundData) = MockDefaultsStore(),
                                                  walletSessionData: SessionBoundData = WalletSessionBoundDataStub(),
@@ -25,7 +26,8 @@ extension PersistentSessionManager {
         let walletSDK = MockWalletSDKWrapper()
         walletSDK.isEmpty = true
 
-        return try .make(encryptedStore: mockEncryptedStore,
+        return try .make(accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
+                         encryptedStore: mockEncryptedStore,
                          unprotectedStore: mockUnprotectedStore,
                          analyticsService: mockAnalyticsService,
                          walletSDK: walletSDK,
@@ -42,7 +44,7 @@ extension PersistentSessionManager {
     /// *  `walletSDK.isEmpty = true`
     ///
     /// A call to `startAuthSession(:using:)` assumes this is "a returning user" with a `sessionState` that is `.nonePresent` due to a missing `expiryDate`.
-    static func makeNonReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
+    static func makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
         mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
         accessControlEncryptedSecureStoreMigrator: MockSecureStoreService = MockSecureStoreService(),
         mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),

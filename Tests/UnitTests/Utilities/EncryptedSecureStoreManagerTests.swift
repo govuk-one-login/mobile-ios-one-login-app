@@ -130,10 +130,16 @@ struct EncryptedSecureStoreManagerTests {
     
     @Test("delete deletes both stores")
     func delete() throws {
+        let (mockV12EncryptedSecureStore, mockV12EncryptedSecureStoreDelete) = MockSecureStoreService.mockDeleteCounter()
+        let (mockV13EncryptedSecureStore, mockV13EncryptedSecureStoreDelete) = MockSecureStoreService.mockDeleteCounter()
+
+        let sut: EncryptedSecureStoreMigrator = .make(v12EncryptedSecureStore: mockV12EncryptedSecureStore,
+                                                      v13EncryptedSecureStore: mockV13EncryptedSecureStore)
+        
         try sut.delete()
         
-        #expect(mockV12EncryptedSecureStore.didCallDeleteStore)
-        #expect(mockV13EncryptedSecureStore.didCallDeleteStore)
+        #expect(mockV12EncryptedSecureStoreDelete.called())
+        #expect(mockV13EncryptedSecureStoreDelete.called())
     }
     
     @Test("clearSessionData deletes items from both stores")
@@ -151,5 +157,22 @@ struct EncryptedSecureStoreManagerTests {
         #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem(itemName: OLString.persistentSessionID)
         }
+    }
+}
+
+extension EncryptedSecureStoreMigrator {
+    
+    static func make(v12EncryptedSecureStore mockV12EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
+                     v13EncryptedSecureStore mockV13EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
+                     migrationStore mockMigrationStore: DefaultsStoring = MockDefaultsStore(),
+                     analyticsService mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
+    ) -> EncryptedSecureStoreMigrator {
+        
+        return EncryptedSecureStoreMigrator(
+            v12EncryptedSecureStore: mockV12EncryptedSecureStore,
+            v13EncryptedSecureStore: mockV13EncryptedSecureStore,
+            migrationStore: mockMigrationStore,
+            analyticsService: mockAnalyticsService
+        )
     }
 }

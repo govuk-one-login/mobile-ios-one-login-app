@@ -19,6 +19,14 @@ struct SessionBoundDataExpectation: SessionBoundData {
 }
 
 extension PersistentSessionManager {
+    
+    /// Creates a `PersistentSessionManager` with the following conditions:
+    /// * `isEnrolling = false`
+    /// * `persistentID = nil` i.e. not stored in the `encryptedStore`
+    /// * `isReturningUser = false`
+    /// *  `walletSDK.isEmpty = true`
+    ///
+    /// A call to `startAuthSession(:using:)` assumes this is "a new user" with a `sessionState` that is `.nonePresent` due to a missing `expiryDate`.
     static func make(mockAccessControlEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
                      mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
                      mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
@@ -28,8 +36,8 @@ extension PersistentSessionManager {
                      refreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager()) -> PersistentSessionManager {
                 
         return PersistentSessionManager(
-            accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
+            storeKeyService: SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedStore),
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: mockAnalyticsService,
@@ -65,8 +73,8 @@ final class PersistentSessionManagerXCTests: XCTestCase {
         mockWalletSDK = MockWalletSDKWrapper()
         
         sut = PersistentSessionManager(
-            accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
+            storeKeyService: SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedStore),
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: mockAnalyticsService,
@@ -565,12 +573,20 @@ extension PersistentSessionManagerXCTests {
     
     @MainActor
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
-        // GIVEN I am a new user
-        mockUnprotectedStore.savedData = [OLString.returningUser: false]
+        
+        let (mockAccessControlEncryptedStore, mockAccessControlEncryptedStoreClearSessionData) = MockSecureStoreService.mockClearSessionDataCounter()
         try mockAccessControlEncryptedStore.saveItem(
             item: "storedTokens",
             itemName: OLString.storedTokens
         )
+        
+        let (mockEncryptedStore, mockEncryptedStoreClearSessionData) = MockSecureStoreService.mockClearSessionDataCounter()
+        let mockUnprotectedStore = MockDefaultsStore()
+        // GIVEN I am a new user
+        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+                                                  mockEncryptedStore: mockEncryptedStore,
+                                                  mockUnprotectedStore: mockUnprotectedStore)
+        
         // AND I have logged in
         try await sut.startAuthSession(
             MockLoginSession(window: UIWindow()),
@@ -579,8 +595,8 @@ extension PersistentSessionManagerXCTests {
         // WHEN I attempt to save my session
         try sut.saveAuthSession()
         // THEN the secure store manager is not refreshed
-        XCTAssertFalse(mockAccessControlEncryptedStore.didCallClearSessionData)
-        XCTAssertFalse(mockEncryptedStore.didCallClearSessionData)
+        XCTAssertFalse(mockAccessControlEncryptedStoreClearSessionData.called())
+        XCTAssertFalse(mockEncryptedStoreClearSessionData.called())
         // THEN the session data is updated in the store
         XCTAssertEqual(mockEncryptedStore.savedItems, [
                 OLString.refreshTokenExpiry: "1719397758.0",
@@ -994,7 +1010,7 @@ struct PersistentSessionManagerTests {
         let mockAccessControlEncryptedStore: MockSecureStoreService = try .makeWithStoredTokens()
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         
-        let sut: PersistentSessionManager = try .makeNonReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
+        let sut: PersistentSessionManager = try .makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
                                                     accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                     refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
         

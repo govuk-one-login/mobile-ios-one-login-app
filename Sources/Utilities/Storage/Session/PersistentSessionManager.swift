@@ -27,8 +27,10 @@ final class PersistentSessionManager: SessionManager {
         
         let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
         let manager = PersistentSessionManager(
-            accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
             encryptedStore: encryptedSecureStoreMigrator,
+            storeKeyService: SecureTokenStore(
+                accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator
+            ),
             unprotectedStore: unprotectedStore,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
             analyticsService: analyticsService,
@@ -50,7 +52,6 @@ final class PersistentSessionManager: SessionManager {
         return manager
     }
     
-    private let accessControlEncryptedStore: SecureStorable
     private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
@@ -70,15 +71,15 @@ final class PersistentSessionManager: SessionManager {
     let serialTaskQueue: SerialTaskQueue
     
     convenience init(
-        accessControlEncryptedStore: SecureStorable,
         encryptedStore: SecureStorable,
+        storeKeyService: SecureTokenStore,
         analyticsService: OneLoginAnalyticsService,
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
     ) {
         self.init(
-            accessControlEncryptedStore: accessControlEncryptedStore,
             encryptedStore: encryptedStore,
+            storeKeyService: storeKeyService,
             unprotectedStore: UserDefaults.standard,
             localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
             analyticsService: analyticsService,
@@ -88,8 +89,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorable,
         encryptedStore: SecureStorable,
+        storeKeyService: SecureTokenStore,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
@@ -97,11 +98,8 @@ final class PersistentSessionManager: SessionManager {
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
-        self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
-        self.storeKeyService = SecureTokenStore(
-            accessControlEncryptedStore: accessControlEncryptedStore
-        )
+        self.storeKeyService = storeKeyService
         self.unprotectedStore = unprotectedStore
         self.localAuthentication = localAuthentication
         

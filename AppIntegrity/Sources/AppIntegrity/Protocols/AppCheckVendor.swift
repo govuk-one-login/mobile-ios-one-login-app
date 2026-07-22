@@ -1,6 +1,6 @@
 import FirebaseAppCheck
 
-protocol AppCheckVendor {
+public protocol AppCheckVendor {
     static func setAppCheckProviderFactory(_ factory: AppCheckProviderFactory?)
     static func appCheck() -> Self
 

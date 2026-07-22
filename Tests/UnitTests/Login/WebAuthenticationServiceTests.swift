@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import AppIntegrity
 import Authentication
 import GDSAnalytics
@@ -209,7 +210,7 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
 
 struct WebAuthenticationServiceTests {
     /// GIVEN I am "a returning user", who is "NOT authenticated" due to a `nil` `persistentId`
-    /// AND `WalletSessionBoundData` throws `WalletStoreError(.failedToDeleteProofKeys)` when `clearAllSessionData` is called
+    /// AND `WalletSessionBoundData` throws `WalletStoreError(.failedToDeleteProofKeys)` in case`clearAllSessionData` is called
     /// WHEN I start a web session
     /// THEN an error is logged as a crash in analytics
     /// AND the error is thrown
@@ -240,7 +241,7 @@ struct WebAuthenticationServiceTests {
     }
     
     /// GIVEN I am "a returning user", who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
-    /// AND `SecureStoreService` throws `SecureStoreError(.cantRetrieveKey)` when `saveItem` is called as part of `PersistentSessionManager.saveAuthSession()`
+    /// AND `SecureStoreService` throws `SecureStoreError(.cantRetrieveKey)` in case`saveItem` is called as part of `PersistentSessionManager.saveAuthSession()`
     /// WHEN I start a web session
     /// THEN an error is logged as a crash in analytics
     /// AND the error is thrown
@@ -250,7 +251,7 @@ struct WebAuthenticationServiceTests {
 
         let mockEncryptedStore = MockSecureStoreService()
         
-        let sessionManager: PersistentSessionManager = try .makeNonReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
+        let sessionManager: PersistentSessionManager = try .makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
             mockAnalyticsService: mockAnalyticsService,
             mockEncryptedStore: mockEncryptedStore
         )
@@ -297,6 +298,109 @@ struct WebAuthenticationServiceTests {
         #expect(mockAnalyticsService.crashesLogged.count == 1)
     }
 
+    /// This is a case where a as part of instantiating a `KeyManagerService`, a new set of keys is created
+    /// that is tied to the Secure Enclave (i.e. `kSecAttrTokenID: kSecAttrTokenIDSecureEnclave`).
+    ///
+    /// A SE key pair provides strong guarantees so that:
+    /// * It is never exported to a backup
+    /// * The key pair is deleted as soon as the device is erased
+    ///
+    /// In this case:
+    /// 1. a backup from an existing device, with previously encrypted data (i.e. , AttestationJWT)
+    /// 2. a restore on the device is performed
+    /// 3. the data is restored
+    /// 4. the key is not restored
+    ///
+    /// When attempting to **decrypt** the data, an `errSecParam` (aka -50) will be thrown
+    @Test("""
+         GIVEN I am "a returning user", who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
+         AND `AttestationStorage` is not expired throws `SecureStoreError(.cantDecryptData)` with an
+             in case `tokenHeaders` are required as part of `LoginSession.performLoginFlow(configuration:)`
+         WHEN I start a web session, a login will be performed
+         THEN an error is logged as a crash in analytics
+         AND the error is thrown
+        """)
+    func test_errorFromAttestationJWT_onReturningUser() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+
+        let sessionManager: PersistentSessionManager = try .makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate()
+
+        let sut: WebAuthenticationService = await .make(
+            sessionManager: sessionManager,
+            mockLoginSession: MockAppAuthSession(performLoginFlowAsFunction: { configuration in
+                _ = try await configuration.tokenHeaders()
+                return try MockTokenResponse().getJSONData()
+            }),
+            mockAnalyticsService: mockAnalyticsService
+        )
+
+        let errorFromAttestationJWT = SecureStoreError(.cantDecryptData,
+                                                       originalError: NSError(domain: NSOSStatusErrorDomain, code: -50))
+
+        let error = await #expect(throws: SecureStoreError.self) {
+            try await sut.startWebSession(appIntegrityProvider: FirebaseAppIntegrityService.makeNonExpired(errorFromAttestationJWT: errorFromAttestationJWT))
+        }
+
+        #expect(error?.kind == .cantDecryptData)
+
+        let originalError = try #require(error?.originalError as? NSError)
+        #expect(originalError.code == errSecParam)
+        #expect(originalError.code == -50)
+
+        #expect(mockAnalyticsService.crashesLogged.count == 1)
+    }
+    
+    /// This is a case where a as part of instantiating a `KeyManagerService`, a new set of keys is created
+    /// that is tied to the Secure Enclave (i.e. `kSecAttrTokenID: kSecAttrTokenIDSecureEnclave`).
+    ///
+    /// A SE key pair provides strong guarantees so that:
+    /// * It is never exported to a backup
+    /// * The key pair is deleted as soon as the device is erased
+    ///
+    /// In this case:
+    /// 1. a backup from an existing device, with previously encrypted data (i.e. , AttestationJWT)
+    /// 2. a restore on the device is performed
+    /// 3. the data is restored
+    /// 4. the key is not restored
+    ///
+    /// When attempting to **decrypt** the data, an `errSecParam` (aka -50) will be thrown
+    @Test("""
+         GIVEN I am "a new user", who is "NOT enrolling"
+         AND `AttestationStorage` is not expired throws `SecureStoreError(.cantDecryptData)` with an
+             in case `tokenHeaders` are required as part of `LoginSession.performLoginFlow(configuration:)`
+         WHEN I start a web session, a login will be performed
+         THEN an error is logged as a crash in analytics
+         AND the error is thrown
+        """)
+    func test_errorFromAttestationJWT_onNewUser() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+
+        let sessionManager: PersistentSessionManager = .make()
+
+        let sut: WebAuthenticationService = await .make(
+            sessionManager: sessionManager,
+            mockLoginSession: MockAppAuthSession(performLoginFlowAsFunction: { configuration in
+                _ = try await configuration.tokenHeaders()
+                return try MockTokenResponse().getJSONData()
+            }),
+            mockAnalyticsService: mockAnalyticsService
+        )
+
+        let errorFromAttestationJWT = SecureStoreError(.cantDecryptData,
+                                                       originalError: NSError(domain: NSOSStatusErrorDomain, code: -50))
+
+        let error = await #expect(throws: SecureStoreError.self) {
+            try await sut.startWebSession(appIntegrityProvider: FirebaseAppIntegrityService.makeNonExpired(errorFromAttestationJWT: errorFromAttestationJWT))
+        }
+
+        #expect(error?.kind == .cantDecryptData)
+
+        let originalError = try #require(error?.originalError as? NSError)
+        #expect(originalError.code == errSecParam)
+        #expect(originalError.code == -50)
+
+        #expect(mockAnalyticsService.crashesLogged.count == 1)
+    }
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
@@ -311,13 +415,11 @@ struct WalletSessionBoundDataStub: SessionBoundData {
 
 @MainActor
 extension WebAuthenticationService {
-    static func make(window: UIWindow? = nil,
-                     sessionManager: SessionManager = MockSessionManager(),
-                     mockLoginSession: MockLoginSession? = nil,
+    static func make(sessionManager: SessionManager = MockSessionManager(),
+                     mockLoginSession: LoginSession? = nil,
                      mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()) -> WebAuthenticationService {
         
-        let window = window ?? UIWindow()
-        let mockLoginSession = mockLoginSession ?? MockLoginSession(window: window)
+        let mockLoginSession = mockLoginSession ?? MockAppAuthSession()
         
         return WebAuthenticationService(sessionManager: sessionManager,
                                         session: mockLoginSession,
@@ -337,6 +439,6 @@ extension WebAuthenticationService {
         let mockLoginSession = MockLoginSession(window: window)
         mockLoginSession.errorFromFinalise = error
         
-        return .make(window: window, mockLoginSession: mockLoginSession)
+        return .make(mockLoginSession: mockLoginSession)
     }
 }

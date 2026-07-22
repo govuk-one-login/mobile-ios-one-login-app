@@ -309,8 +309,8 @@ extension NetworkingSerivceTests {
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         
         return PersistentSessionManager(
-            accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
+            storeKeyService: SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedStore),
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: MockAnalyticsService(),
