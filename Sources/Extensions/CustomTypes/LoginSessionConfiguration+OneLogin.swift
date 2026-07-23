@@ -13,7 +13,6 @@ extension LoginSessionConfiguration {
         // Integrity assertions should be sent if the feature flag is enabled
         // OR the user has a valid client attestation which can be used in the flow even in a potential Firebase outage
         let shouldAttestIntegrity = env.appIntegrityEnabled || !integrityService.hasExpiredAttestation
-        let dPoPAssertion = try integrityService.dPoPAssertion
         return await .init(
             authorizationEndpoint: env.stsAuthorize,
             tokenEndpoint: env.stsToken,
@@ -24,7 +23,7 @@ extension LoginSessionConfiguration {
             locale: env.isLocaleWelsh ? .cy : .en,
             persistentSessionId: persistentSessionID,
             tokenHeaders: shouldAttestIntegrity ? try await OneLoginAppIntegrityService(integrityService: integrityService)
-                .clientAssertions().merging(dPoPAssertion) { current, _ in current } : nil
+                .clientAssertions().merging(try integrityService.dPoPAssertion) { current, _ in current } : nil
         )
     }
 }
