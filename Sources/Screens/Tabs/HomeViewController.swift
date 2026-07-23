@@ -202,7 +202,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     @MainActor
     private func createWelcomeCardViewModel() -> GDSCardViewModel {
         GDSCardViewModel(
-            backgroundColour: UIColor.secondarySystemGroupedBackground,
+            backgroundColour: DesignSystem.Color.Backgrounds.card,
             showShadow: false,
             dismissAction: nil,
             verticalPadding: .vertical(DesignSystem.Spacing.default),
@@ -222,7 +222,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     @MainActor
     func createPurposeCardViewModel() -> GDSCardViewModel {
         GDSCardViewModel(
-            backgroundColour: UIColor.secondarySystemGroupedBackground,
+            backgroundColour: DesignSystem.Color.Backgrounds.card,
             showShadow: false,
             dismissAction: nil,
             verticalPadding: .vertical(DesignSystem.Spacing.default),
