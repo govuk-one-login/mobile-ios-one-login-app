@@ -70,7 +70,7 @@ extension SettingsViewControllerTests {
         let header = sut.tableView(try sut.tabbedTableView, viewForHeaderInSection: 1) as? UITableViewHeaderFooterView
         let headerLabel = try #require(header?.textLabel)
         #expect(headerLabel.text == "Help and feedback")
-        #expect(headerLabel.font == .bodyBold)
+        #expect(headerLabel.font == .bodySemiBold)
         #expect(headerLabel.textColor == .label)
         #expect(headerLabel.adjustsFontForContentSizeCategory == true)
     }
