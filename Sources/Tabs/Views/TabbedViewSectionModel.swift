@@ -1,5 +1,5 @@
+import DesignSystem
 import Foundation
-import GDSCommon
 
 struct TabbedViewSectionModel {
     let sectionTitle: GDSLocalisedString?

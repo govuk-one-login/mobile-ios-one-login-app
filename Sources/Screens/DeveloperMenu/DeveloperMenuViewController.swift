@@ -1,11 +1,11 @@
 import Authentication
-import GDSCommon
+import DesignSystem
 import MobilePlatformServices
 import Networking
 import SecureStore
 import UIKit
 
-final class DeveloperMenuViewController: BaseViewController {
+final class DeveloperMenuViewController: BaseScreen {
     override var nibName: String? { "DeveloperMenu" }
 
     private let viewModel: DeveloperMenuViewModel
@@ -31,16 +31,19 @@ final class DeveloperMenuViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBOutlet private var happyPathButton: RoundedButton! {
+    @IBOutlet private var happyPathButton: UIButton! {
         didSet {
             happyPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
             happyPathButton.setTitle("Hello World Happy", for: .normal)
             happyPathButton.accessibilityIdentifier = "sts-happy-path-button"
+            happyPathButton.setTitleColor(.white, for: .normal)
+            happyPathButton.backgroundColor = DesignSystem.Color.Buttons.primaryBackground
+            happyPathButton.layer.cornerRadius = 10
         }
     }
     
     @IBAction private func happyPathButtonAction(_ sender: Any) {
-        happyPathButton.isLoading = true
+        happyPathButton.isEnabled = false
         helloWorldHappyPath()
     }
     
@@ -55,7 +58,7 @@ final class DeveloperMenuViewController: BaseViewController {
             } catch {
                 happyPathResultLabel.showErrorMessage()
             }
-            happyPathButton.isLoading = false
+            happyPathButton.isEnabled = true
         }
     }
     
@@ -67,16 +70,19 @@ final class DeveloperMenuViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private var errorPathButton: RoundedButton! {
+    @IBOutlet private var errorPathButton: UIButton! {
         didSet {
             errorPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
             errorPathButton.setTitle("Hello World Error", for: .normal)
             errorPathButton.accessibilityIdentifier = "sts-error-path-button"
+            errorPathButton.setTitleColor(.white, for: .normal)
+            errorPathButton.backgroundColor = DesignSystem.Color.Buttons.primaryBackground
+            errorPathButton.layer.cornerRadius = 10
         }
     }
     
     @IBAction private func errorPathButtonAction(_ sender: Any) {
-        errorPathButton.isLoading = true
+        errorPathButton.isEnabled = false
         helloWorldErrorPath()
     }
     
@@ -90,7 +96,7 @@ final class DeveloperMenuViewController: BaseViewController {
             } catch {
                 errorPathResultLabel.showErrorMessage()
             }
-            errorPathButton.isLoading = false
+            errorPathButton.isEnabled = true
         }
     }
     
@@ -102,16 +108,19 @@ final class DeveloperMenuViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private var unauthorizedPathButton: RoundedButton! {
+    @IBOutlet private var unauthorizedPathButton: UIButton! {
         didSet {
             unauthorizedPathButton.titleLabel?.adjustsFontForContentSizeCategory = true
             unauthorizedPathButton.setTitle("Hello World Unauthorized", for: .normal)
             unauthorizedPathButton.accessibilityIdentifier = "sts-unauthorized-path-button"
+            unauthorizedPathButton.setTitleColor(.white, for: .normal)
+            unauthorizedPathButton.backgroundColor = DesignSystem.Color.Buttons.primaryBackground
+            unauthorizedPathButton.layer.cornerRadius = 10
         }
     }
     
     @IBAction private func unauthorizedPathButtonAction(_ sender: Any) {
-        unauthorizedPathButton.isLoading = true
+        unauthorizedPathButton.isEnabled = false
         helloWorldUnauthorizedPath()
     }
     
@@ -125,7 +134,7 @@ final class DeveloperMenuViewController: BaseViewController {
             } catch {
                 unauthorizedPathResultLabel.showErrorMessage()
             }
-            unauthorizedPathButton.isLoading = false
+            unauthorizedPathButton.isEnabled = true
         }
     }
     
@@ -137,11 +146,14 @@ final class DeveloperMenuViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private var deletePersistentSessionIDButton: RoundedButton! {
+    @IBOutlet private var deletePersistentSessionIDButton: UIButton! {
         didSet {
             deletePersistentSessionIDButton.titleLabel?.adjustsFontForContentSizeCategory = true
             deletePersistentSessionIDButton.setTitle("Delete Persistent Session ID", for: .normal)
             deletePersistentSessionIDButton.accessibilityIdentifier = "sts-delete-persistent-session-id-path-button"
+            deletePersistentSessionIDButton.setTitleColor(.white, for: .normal)
+            deletePersistentSessionIDButton.backgroundColor = DesignSystem.Color.Buttons.primaryBackground
+            deletePersistentSessionIDButton.layer.cornerRadius = 10
         }
     }
     
@@ -150,16 +162,19 @@ final class DeveloperMenuViewController: BaseViewController {
             id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
-        let encyrptedStore = SecureStoreServiceV2(configuration: encryptedConfiguration)
+        let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
         encyrptedStore.deleteItem(itemName: OLString.persistentSessionID)
         deletePersistentSessionIDButton.backgroundColor = .gdsBrightPurple
     }
     
-    @IBOutlet private var expireAccessTokenButton: RoundedButton! {
+    @IBOutlet private var expireAccessTokenButton: UIButton! {
         didSet {
             expireAccessTokenButton.titleLabel?.adjustsFontForContentSizeCategory = true
             expireAccessTokenButton.setTitle("Expire Access Token", for: .normal)
             expireAccessTokenButton.accessibilityIdentifier = "sts-expire-access-token-button"
+            expireAccessTokenButton.setTitleColor(.white, for: .normal)
+            expireAccessTokenButton.backgroundColor = DesignSystem.Color.Buttons.primaryBackground
+            expireAccessTokenButton.layer.cornerRadius = 10
         }
     }
     
@@ -179,11 +194,14 @@ final class DeveloperMenuViewController: BaseViewController {
         expireAccessTokenButton.backgroundColor = .gdsBrightPurple
     }
     
-    @IBOutlet private var expireRefreshTokenButton: RoundedButton! {
+    @IBOutlet private var expireRefreshTokenButton: UIButton! {
         didSet {
             expireRefreshTokenButton.titleLabel?.adjustsFontForContentSizeCategory = true
             expireRefreshTokenButton.setTitle("Expire Refresh Token", for: .normal)
             expireRefreshTokenButton.accessibilityIdentifier = "sts-expire-refresh-token-button"
+            expireRefreshTokenButton.setTitleColor(.white, for: .normal)
+            expireRefreshTokenButton.backgroundColor = DesignSystem.Color.Buttons.primaryBackground
+            expireRefreshTokenButton.layer.cornerRadius = 10
         }
     }
     
@@ -192,7 +210,7 @@ final class DeveloperMenuViewController: BaseViewController {
             id: OLString.v13TokenInfoStore,
             accessControlLevel: .open
         )
-        let encyrptedStore = SecureStoreServiceV2(configuration: encryptedConfiguration)
+        let encyrptedStore = SecureStoreService(configuration: encryptedConfiguration)
         try? encyrptedStore.saveItem(item: Date.distantPast.timeIntervalSince1970.description, itemName: OLString.refreshTokenExpiry)
         expireRefreshTokenButton.backgroundColor = .gdsBrightPurple
     }

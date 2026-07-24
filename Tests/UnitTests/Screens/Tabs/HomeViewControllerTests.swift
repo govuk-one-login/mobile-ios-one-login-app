@@ -1,19 +1,19 @@
 import CRIOrchestrator
+@testable import DesignSystem
 import GDSAnalytics
 import Networking
 @testable import OneLogin
-import XCTest
+import Testing
+import UIKit
 
 @MainActor
-final class HomeViewControllerTests: XCTestCase {
+struct HomeViewControllerTests {
     var mockAnalyticsService: MockAnalyticsService!
     var mockNetworkClient: NetworkClient!
     var mockCRIOrchestrator: MockCRIOrchestrator!
     var sut: HomeViewController!
     
-    override func setUp() {
-        super.setUp()
-        
+    init() {
         mockAnalyticsService = MockAnalyticsService()
         mockNetworkClient = NetworkClient()
         mockNetworkClient.authorizationProvider = MockAuthenticationProvider()
@@ -22,83 +22,104 @@ final class HomeViewControllerTests: XCTestCase {
         sut = HomeViewController(analyticsService: mockAnalyticsService,
                                  criOrchestrator: mockCRIOrchestrator)
     }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        mockNetworkClient = nil
-        mockCRIOrchestrator = nil
-        sut = nil
-        
-        super.tearDown()
-    }
 }
 
 extension HomeViewControllerTests {
-    func test_header_Image() {
-        XCTAssertTrue(try sut.headerImage.isAccessibilityElement)
+    @Test
+    func test_header_Image() throws {
+        #expect(try sut.headerImage.isAccessibilityElement)
     }
     
+    @Test
     func test_page() {
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
-        XCTAssertEqual(sut.navigationTitle.stringKey, "app_homeTitle")
+        #expect(sut.navigationTitle.stringKey == "app_homeTitle")
     }
     
-    func test_insertIDCheck() throws {
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
+    @Test
+    func test_insertIDCheck() async throws {
+        #expect(sut.numberOfSections(in: try sut.tableView) == 2)
         mockCRIOrchestrator.hostingViewController.view.isHidden = false
         mockCRIOrchestrator.streamContinuation?.yield(.show)
         let tableView = try sut.tableView
-        waitForTruth(
-            self.sut.numberOfSections(in: tableView) == 3,
-            timeout: 5
-        )
+        #expect( await eventually { self.sut.numberOfSections(in: tableView) == 3 })
     }
     
-    func test_deleteIDCheck() throws {
+    @Test
+    func test_deleteIDCheck() async throws {
         mockCRIOrchestrator.idCheckJourney = true
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
+        #expect(sut.numberOfSections(in: try sut.tableView) == 3)
         mockCRIOrchestrator.hostingViewController.view.isHidden = true
         mockCRIOrchestrator.streamContinuation?.yield(.hide)
         let tableView = try sut.tableView
-        waitForTruth(
-            self.sut.numberOfSections(in: tableView) == 2,
-            timeout: 5
-        )
+        #expect( await eventually { self.sut.numberOfSections(in: tableView) == 2 })
     }
     
-    func test_numberOfSections() {
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 2)
+    @Test
+    func test_numberOfSections() throws {
+        #expect(sut.numberOfSections(in: try sut.tableView) == 2)
     }
     
-    func test_numberOfSectionsWithIDCheck() {
+    @Test
+    func test_numberOfSectionsWithIDCheck() throws {
         mockCRIOrchestrator.idCheckJourney = true
-        XCTAssertEqual(sut.numberOfSections(in: try sut.tableView), 3)
+        #expect(sut.numberOfSections(in: try sut.tableView) == 3)
     }
     
-    func test_numberOfRowsInSection_IDCheck() {
+    @Test
+    func test_numberOfRowsInSection_IDCheck() throws {
         mockCRIOrchestrator.idCheckJourney = true
-        XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 0), 1)
-        XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 1), 1)
-        XCTAssertEqual(sut.tableView(try sut.tableView, numberOfRowsInSection: 2), 1)
+        #expect(sut.tableView(try sut.tableView, numberOfRowsInSection: 0) == 1)
+        #expect(sut.tableView(try sut.tableView, numberOfRowsInSection: 1) == 1)
+        #expect(sut.tableView(try sut.tableView, numberOfRowsInSection: 2) == 1)
     }
     
+    @Test
     func test_welcomeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 0)
         ) as? ContentTileCell
-        XCTAssertTrue(servicesTile?.viewModel is WelcomeTileViewModel)
+        let viewModel = try #require(servicesTile?.viewModel)
+        
+        let title = viewModel.contentItems.first as? GDSTextViewModel
+        #expect(title?.title.stringKey == "app_welcomeTileHeader")
+        #expect(title?.title.value == "Welcome")
+        
+        let body = viewModel.contentItems.last as? GDSTextViewModel
+        #expect(body?.title.stringKey == "app_welcomeTileBody1")
+        #expect(body?.title.value == "You can use this app to prove your identity to access some government services.")
+        
+        #expect(viewModel.backgroundColour == .secondarySystemGroupedBackground)
+        #expect(!viewModel.showShadow)
+        #expect(viewModel.dismissAction == nil)
     }
     
+    @Test
     func test_purposeTileCell_viewModel() throws {
         let servicesTile = sut.tableView(
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 1)
         ) as? ContentTileCell
-        XCTAssertTrue(servicesTile?.viewModel is PurposeTileViewModel)
+        let viewModel = try #require(servicesTile?.viewModel)
+
+        let title = viewModel.contentItems.first as? GDSTextViewModel
+        #expect(title?.title.stringKey == "app_appPurposeTileHeader")
+        #expect(title?.title.value == "How to prove your identity")
+        
+        let body = viewModel.contentItems.last as? GDSTextViewModel
+        #expect(body?.title.stringKey == "app_appPurposeTileBody1")
+        #expect(body?.title.variableKeys == ["app_nameString"])
+        // swiftlint:disable:next line_length
+        #expect(body?.title.value == "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
+        
+        #expect(viewModel.backgroundColour == .secondarySystemGroupedBackground)
+        #expect(!viewModel.showShadow)
+        #expect(viewModel.dismissAction == nil)
     }
     
+    @Test
     func test_idCheckTileCell_isDisplayed() throws {
         mockCRIOrchestrator.idCheckJourney = true
         let idCell = sut.tableView(
@@ -113,39 +134,40 @@ extension HomeViewControllerTests {
             try sut.tableView,
             cellForRowAt: IndexPath(row: 0, section: 2)
         )
-        XCTAssertFalse(idCell.isHidden)
-        XCTAssertTrue((idCell as? ContentTileCell) == nil)
-        XCTAssertFalse(welcomeCell.isHidden)
-        XCTAssertTrue((welcomeCell as? ContentTileCell) != nil)
-        XCTAssertFalse(purposeCell.isHidden)
-        XCTAssertTrue((purposeCell as? ContentTileCell) != nil)
+        #expect(!idCell.isHidden)
+        #expect((idCell as? ContentTileCell) == nil)
+        #expect(!welcomeCell.isHidden)
+        #expect((welcomeCell as? ContentTileCell) != nil)
+        #expect(!purposeCell.isHidden)
+        #expect((purposeCell as? ContentTileCell) != nil)
     }
     
+    @Test
     func test_viewDidAppear() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
+        #expect(mockAnalyticsService.screenViews.count == 0)
         sut.beginAppearanceTransition(true, animated: false)
         sut.endAppearanceTransition()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: "app_homeTitle")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String, OLTaxonomyValue.home)
-        XCTAssertEqual(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String, OLTaxonomyValue.undefined)
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String == OLTaxonomyValue.home)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String == OLTaxonomyValue.undefined)
     }
 }
 
 extension HomeViewController {
     var tableView: UITableView {
         get throws {
-            try XCTUnwrap(view[child: "home-table-view"])
+            try #require(view[child: "home-table-view"])
         }
     }
     
     var headerImage: UIImageView {
         get throws {
-            try XCTUnwrap(view[child: "home-header-image"])
+            try #require(view[child: "home-header-image"])
         }
     }
 }

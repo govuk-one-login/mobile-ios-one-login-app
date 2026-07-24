@@ -1,10 +1,9 @@
-import GDSCommon
+import DesignSystem
 
 struct DeveloperMenuViewModel: BaseViewModel {
     let rightBarButtonTitle: GDSLocalisedString? = "app_cancelButton"
+    let backButtonTitle: GDSLocalisedString? = nil
     let backButtonIsHidden: Bool = true
-    
-    func didAppear() { /* protocol conformance */ }
-    
-    func didDismiss() { /* protocol conformance */ }
+    let didAppear: DesignSystem.Action? = nil
+    let didDismiss: DesignSystem.Action? = nil
 }

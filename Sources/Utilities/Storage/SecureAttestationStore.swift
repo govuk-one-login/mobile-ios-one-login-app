@@ -12,7 +12,7 @@ enum AttestationStorageError: Error {
 }
 
 final class SecureAttestationStore: AttestationStorage {
-    private let secureStore: SecureStorableV2
+    private let secureStore: SecureStorable
     
     var attestationExpired: Bool {
         guard let expiryDate = try? secureStore
@@ -29,7 +29,7 @@ final class SecureAttestationStore: AttestationStorage {
     }
     
     init(
-        secureStore: SecureStorableV2 = SecureStoreServiceV2(
+        secureStore: SecureStorable = SecureStoreService(
             configuration: SecureStorageConfiguration(
                 id: OLString.attestationStore,
                 accessControlLevel: .open

@@ -1,25 +1,22 @@
 @testable import OneLogin
-import XCTest
+import Testing
 
 @MainActor
-final class DeveloperMenuViewModelTests: XCTestCase {
+struct DeveloperMenuViewModelTests {
     var sut: DeveloperMenuViewModel!
     
-    override func setUp() {
-        super.setUp()
-
+    init() {
         sut = DeveloperMenuViewModel()
-    }
-
-    override func tearDown() {
-        sut = nil
-        
-        super.tearDown()
     }
 }
 
 extension DeveloperMenuViewModelTests {
+    @Test
     func test_screen_contents() throws {
-        XCTAssertEqual(sut.rightBarButtonTitle?.stringKey, "app_cancelButton")
+        #expect(sut.rightBarButtonTitle?.stringKey == "app_cancelButton")
+        #expect(sut.backButtonTitle == nil)
+        #expect(sut.backButtonIsHidden)
+        #expect(sut.didAppear == nil)
+        #expect(sut.didDismiss == nil)
     }
 }

@@ -181,9 +181,9 @@
 
 
 // MARK: Sign Out Warning screen
-"app_signOutWarningTitle" = "Mae angen i chi fewngofnodi eto";
+"app_signInAgainTitle" = "Mae angen i chi fewngofnodi eto";
 
-"app_signOutWarningBody" = "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
+"app_signInAgainBody" = "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.";
 
 
 // MARK: Data Deletion Warning screen
@@ -243,6 +243,4 @@
 // MARK: App Integrity Error screen
 "app_appIntegrityErrorTitle" = "Mae'n ddrwg gennym, mae problem";
 
-"app_appIntegrityErrorBody1" = "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.";
-
-"app_appIntegrityErrorBody2" = "Rhowch gynnig arall yn nes ymlaen.";
+"app_appIntegrityErrorBody1" = "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.";

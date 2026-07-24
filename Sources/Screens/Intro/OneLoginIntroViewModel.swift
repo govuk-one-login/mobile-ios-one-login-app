@@ -61,10 +61,9 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
             backButtonTitle: nil,
             backButtonIsHidden: true,
             didAppear: .action({
-                let title = GDSLocalisedString(stringKey: "app_nameString")
                 let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
                                         screen: IntroAnalyticsScreen.welcome,
-                                        titleKey: title.stringKey)
+                                        titleKey: "app_nameString")
                 analyticsService.trackScreen(screen)
             }),
             didDismiss: nil

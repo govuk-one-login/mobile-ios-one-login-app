@@ -1,4 +1,4 @@
-import GDSCommon
+import DesignSystem
 
 extension String {
     func getEnglishString() -> String {

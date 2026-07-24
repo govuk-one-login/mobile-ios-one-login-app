@@ -6,6 +6,7 @@ enum IntroAnalyticsScreen: String, OneLoginScreenType {
     case splash = "splashScreen"
     case loginLoading = "loginloadingScreen"
     case updateApp = "updateAppScreen"
+    case signInAgain = "signInAgainScreen"
 }
 
 enum IntroAnalyticsScreenID: String {
@@ -13,4 +14,5 @@ enum IntroAnalyticsScreenID: String {
     case splash = "3e95fe16-7ba7-4f46-a22e-4ae17112debf"
     case loginLoading = "0672f0fa-8126-479b-b191-8e750fa3d909"
     case updateApp = "ae56a0d6-072a-406f-84c7-83759aa4f942"
+    case signInAgain = "cfc50baa-4b56-4170-9707-cd05b60b6658"
 }

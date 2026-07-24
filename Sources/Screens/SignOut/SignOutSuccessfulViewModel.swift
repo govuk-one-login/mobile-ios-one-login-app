@@ -25,7 +25,7 @@ struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel {
                                  titleFont: .largeTitleBold,
                                  alignment: .center,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
-                GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signedOutBody"),
+                GDSTextViewModel(title: "app_signedOutBody",
                                  alignment: .center,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default))
             ],

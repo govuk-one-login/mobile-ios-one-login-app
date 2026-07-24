@@ -181,9 +181,9 @@
 
 
 // MARK: Sign Out Warning screen
-"app_signOutWarningTitle" = "You need to sign in again";
+"app_signInAgainTitle" = "You need to sign in again";
 
-"app_signOutWarningBody" = "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.";
+"app_signInAgainBody" = "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.";
 
 
 // MARK: Data Deletion Warning screen
@@ -243,6 +243,4 @@
 // MARK: App Integrity Error screen
 "app_appIntegrityErrorTitle" = "Sorry, there’s a problem";
 
-"app_appIntegrityErrorBody1" = "You cannot use the %@ app at the moment.";
-
-"app_appIntegrityErrorBody2" = "Try again later.";
+"app_appIntegrityErrorBody1" = "You cannot use the %@ app at the moment.\n\nTry again later.";

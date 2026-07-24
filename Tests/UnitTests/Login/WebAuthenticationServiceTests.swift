@@ -1,6 +1,5 @@
 import AppIntegrity
 import Authentication
-import Common
 import GDSAnalytics
 import Logging
 @testable import OneLogin
@@ -178,14 +177,14 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
     func test_secureStoreError() async {
         let mockAnalyticsService = MockAnalyticsService()
         let sut: WebAuthenticationService = await .make(
-            errorFromStartSession: SecureStoreErrorV2(.cantDecodeData),
+            errorFromStartSession: SecureStoreError(.cantDecodeData),
             mockAnalyticsService: mockAnalyticsService
         )
 
         do {
             try await sut.startWebSession()
         } catch {
-            guard let error = error as? SecureStoreErrorV2 else {
+            guard let error = error as? SecureStoreError else {
                 XCTFail("Error should be a SecureStoreError")
                 return
             }
@@ -240,6 +239,38 @@ struct WebAuthenticationServiceTests {
         #expect(mockAnalyticsService.crashesLogged.count == 1)
     }
     
+    /// GIVEN I am "a returning user", who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
+    /// AND `SecureStoreService` throws `SecureStoreError(.cantRetrieveKey)` when `saveItem` is called as part of `PersistentSessionManager.saveAuthSession()`
+    /// WHEN I start a web session
+    /// THEN an error is logged as a crash in analytics
+    /// AND the error is thrown
+    @Test
+    func test_startWebSession_throws_cannotRetrieveKey() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+
+        let mockEncryptedStore = MockSecureStoreService()
+        
+        let sessionManager: PersistentSessionManager = try .makeNonReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
+            mockAnalyticsService: mockAnalyticsService,
+            mockEncryptedStore: mockEncryptedStore
+        )
+        
+        mockEncryptedStore.errorFromSaveItem = SecureStoreError(.cantRetrieveKey)
+        
+        let sut: WebAuthenticationService = await .make(
+            sessionManager: sessionManager,
+            mockAnalyticsService: mockAnalyticsService
+        )
+        
+        let error = await #expect(throws: SecureStoreError.self) {
+            try await sut.startWebSession(appIntegrityProvider: AppIntegrityProviderStub())
+        }
+        
+        #expect(error?.kind == .cantRetrieveKey)
+        
+        #expect(mockAnalyticsService.crashesLogged.count == 1)
+    }
+    
     @Test
     func test_startWebSession_success() async throws {
         let sessionManager: PersistentSessionManager = .make()
@@ -271,7 +302,7 @@ struct WebAuthenticationServiceTests {
 struct WalletSessionBoundDataStub: SessionBoundData {
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
-    var clearSessionDataAsFunction: ClearSessionDataAsFunction
+    var clearSessionDataAsFunction: ClearSessionDataAsFunction = { }
 
     func clearSessionData() async throws {
         return try await self.clearSessionDataAsFunction()
@@ -307,38 +338,5 @@ extension WebAuthenticationService {
         mockLoginSession.errorFromFinalise = error
         
         return .make(window: window, mockLoginSession: mockLoginSession)
-    }
-}
-
-extension PersistentSessionManager {
-    /// Creates a `PersistentSessionManager` with the following conditions:
-    /// * `persistentID = nil` i.e. not stored in the `encryptedStore`
-    /// * `isReturningUser = true`
-    /// *  `walletSDK.isEmpty = true`
-    ///
-    /// A call to `startAuthSession(:using:)` assumes this is "a returning user" that cannot authenticate due to
-    /// the missing `persistendId` results  in call to `clearAllSessionData` to delete my session & Wallet data.
-    static func makeReturningUnauthenticatedUser(mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
-                                                 mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
-                                                 mockUnprotectedStore: (any DefaultsStoring & SessionBoundData) = MockDefaultsStore(),
-                                                 walletSessionData: SessionBoundData,
-                                                 analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
-    ) throws -> PersistentSessionManager {
-        mockUnprotectedStore.set(
-            true,
-            forKey: OLString.returningUser
-        )
-        
-        let walletSDK = MockWalletSDKWrapper()
-        walletSDK.isEmpty = true
-        
-        return try .make(encryptedStore: mockEncryptedStore,
-                         unprotectedStore: mockUnprotectedStore,
-                         analyticsService: mockAnalyticsService,
-                         walletSDK: walletSDK,
-                         walletSessionData: walletSessionData,
-                         refreshTokenExchangeManager: MockRefreshTokenExchangeManager(),
-                         serialTaskQueue: SerialTaskQueue(),
-                         analyticsPreferenceStore: analyticsPreferenceStore)
     }
 }

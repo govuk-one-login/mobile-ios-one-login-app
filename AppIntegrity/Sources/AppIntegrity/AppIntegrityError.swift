@@ -1,26 +1,71 @@
 import Foundation
 import GDSUtilities
 
-public enum FirebaseAppCheckErrorType: String, GDSErrorKind {
-    case unknown              = "unknown firebase app check service error"
-    case network              = "network error in firebase app check service"
-    case invalidConfiguration = "invalid configuration for firebase app check service"
-    case keychainAccess       = "keychain access error in firebase app check service"
-    case notSupported         = "firebase app check service not supported on this platform"
-    case generic              = "generic firebase app check service error"
+public enum FirebaseAppCheckErrorType: Int, GDSErrorKind {
+    case unknown = 1000
+    case network = 1001
+    case invalidConfiguration = 1002
+    case keychainAccess = 1003
+    case notSupported = 1004
+    case generic = 1005
+
+    public var description: String {
+        switch self {
+        case .unknown:
+            return "unknown firebase app check service error"
+        case .network:
+            return "network error in firebase app check service"
+        case .invalidConfiguration:
+            return "invalid configuration for firebase app check service"
+        case .keychainAccess:
+            return "keychain access error in firebase app check service"
+        case .notSupported:
+            return "firebase app check service not supported on this platform"
+        case .generic:
+            return "generic firebase app check service error"
+        }
+    }
 }
 
-public enum ClientAssertionErrorType: String, GDSErrorKind {
-    case invalidPublicKey          = "invalid client attestation public key"
-    case invalidToken              = "invalid firebase app check token"
-    case serverError               = "server error"
-    case cantDecodeClientAssertion = "cant decode client attestation"
+public enum ClientAssertionErrorType: Int, GDSErrorKind {
+    case invalidPublicKey = 1001
+    case invalidToken = 1002
+    
+    // MARK: ServerError(400)
+    case serverError = 2001
+    
+    // MARK: ServerError(500)
+    case cantDecodeClientAssertion = 3001
+
+    public var description: String {
+        switch self {
+        case .invalidPublicKey:
+            return "invalid client attestation public key"
+        case .invalidToken:
+            return "invalid firebase app check token"
+        case .serverError:
+            return "server error"
+        case .cantDecodeClientAssertion:
+            return "cant decode client attestation"
+        }
+    }
 }
 
-public enum ProofOfPossessionErrorType: String, GDSErrorKind {
-    case cantGenerateAttestationPublicKeyJWK           = "cant generate attestation public key JWK"
-    case cantGenerateAttestationProofOfPossessionJWT   = "cant generate attestation proof of possession JWT"
-    case cantGenerateDemonstratingProofOfPossessionJWT = "can't generate demonstrating public key dictionary JWT"
+public enum ProofOfPossessionErrorType: Int, GDSErrorKind {
+    case cantGenerateDemonstratingProofOfPossessionJWT = 1001
+    case cantGenerateAttestationPublicKeyJWK = 1002
+    case cantGenerateAttestationProofOfPossessionJWT = 1003
+
+    public var description: String {
+        switch self {
+        case .cantGenerateAttestationPublicKeyJWK:
+            return "cant generate attestation public key JWK"
+        case .cantGenerateAttestationProofOfPossessionJWT:
+            return "cant generate attestation proof of possession JWT"
+        case .cantGenerateDemonstratingProofOfPossessionJWT:
+            return "can't generate demonstrating public key dictionary JWT"
+        }
+    }
 }
 
 public struct AppIntegrityError<Kind: GDSErrorKind>: GDSError {

@@ -3,7 +3,6 @@ import Authentication
 import Coordination
 import DesignSystem
 import GDSAnalytics
-import GDSCommon
 import GDSUtilities
 import LocalAuthentication
 import Logging
@@ -63,10 +62,10 @@ final class LoginCoordinator: NSObject,
         let rootViewController: UIViewController
         
         if sessionState == .expired || serviceState == .accountIntervention || serviceState == .reauthenticationRequired {
-            let viewModel = SignOutWarningViewModel(analyticsService: analyticsService) { [unowned self] in
+            let viewModel = SignInAgainViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
             }
-            rootViewController = GDSInformationViewController(viewModel: viewModel)
+            rootViewController = GDSScreen(viewModel: viewModel)
         } else {
             let viewModel = OneLoginIntroViewModel(analyticsService: analyticsService) { [unowned self] in
                 authenticate()
@@ -188,7 +187,7 @@ extension LoginCoordinator {
         case .authorizationAccessDenied:
             showDataDeletedWarningScreen()
         case .userCancelled:
-            enableAuthButton()
+            return
         case .network:
             showNetworkConnectionErrorScreen { [unowned self] in
                 returnFromErrorScreen()
@@ -282,10 +281,8 @@ extension LoginCoordinator {
     }
     
     private func showAppIntegrityErrorScreen() {
-        let viewModel = AppIntegrityErrorViewModel(
-            analyticsService: analyticsService
-        )
-        let vc = GDSErrorScreen(viewModel: viewModel)
+        let viewModel = AppIntegrityErrorViewModel(analyticsService: analyticsService)
+        let vc = GDSScreen(viewModel: viewModel)
         root.pushViewController(vc, animated: true)
     }
     
@@ -315,12 +312,6 @@ extension LoginCoordinator {
     
     private func returnFromErrorScreen() {
         root.popToRootViewController(animated: true)
-        enableAuthButton()
-    }
-    
-    private func enableAuthButton() {
-        (root.viewControllers.first as? GDSInformationViewController)?
-            .resetPrimaryButton()
     }
 }
 

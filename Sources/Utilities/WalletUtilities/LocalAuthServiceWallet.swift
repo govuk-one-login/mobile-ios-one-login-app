@@ -1,6 +1,5 @@
 import Coordination
 import DesignSystem
-import GDSCommon
 import LocalAuthenticationWrapper
 import UIKit
 import Wallet
@@ -48,14 +47,11 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     await acceptedBiometrics(completion: completion)
                 } secondaryButtonAction: { [unowned self] in
                     let viewModel = LocalAuthBiometricsErrorViewModel(analyticsService: analyticsService, localAuthType: biometricsType) { [unowned self] in
-                        // TODO: DCMAW-14875 Use asyncAction in the ViewModel when converted to Design system so Task is not needed
-                        Task {
-                            await acceptedBiometrics(completion: completion)
-                        }
+                        await acceptedBiometrics(completion: completion)
                     } dismissAction: {
                         completion()
                     }
-                    let skippedBiometricsViewController =  GDSErrorScreen(viewModel: viewModel)
+                    let skippedBiometricsViewController =  GDSScreen(viewModel: viewModel)
                     biometricsNavigationController.pushViewController(skippedBiometricsViewController, animated: true)
                 }
                 let biometricsEnrolmentScreen = GDSScreen(viewModel: viewModel)
@@ -85,7 +81,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     biometricsNavigationController.dismiss(animated: true)
                     completion()
                 }
-                let settingsErrorScreen = GDSErrorScreen(viewModel: viewModel)
+                let settingsErrorScreen = GDSScreen(viewModel: viewModel)
                 
                 biometricsNavigationController.setViewControllers([settingsErrorScreen], animated: false)
                 biometricsNavigationController.modalPresentationStyle = .pageSheet

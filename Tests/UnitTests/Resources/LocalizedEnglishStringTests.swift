@@ -189,10 +189,10 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Go back to settings")
     }
     
-    func test_signOutWarningPageKeys() {
-        XCTAssertEqual("app_signOutWarningTitle".getEnglishString(),
+    func test_signInAgainPageKeys() {
+        XCTAssertEqual("app_signInAgainTitle".getEnglishString(),
                        "You need to sign in again")
-        XCTAssertEqual("app_signOutWarningBody".getEnglishString(),
+        XCTAssertEqual("app_signInAgainBody".getEnglishString(),
                        "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.")
     }
     
@@ -269,9 +269,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appIntegrityErrorTitle".getEnglishString(),
                        "Sorry, there’s a problem")
         XCTAssertEqual("app_appIntegrityErrorBody1".getEnglishString(),
-                       "You cannot use the %@ app at the moment.")
-        XCTAssertEqual("app_appIntegrityErrorBody2".getEnglishString(),
-                       "Try again later.")
+                       "You cannot use the %@ app at the moment.\n\nTry again later.")
     }
 }
 

@@ -189,10 +189,10 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Yn ôl i gosodiadau")
     }
     
-    func test_signOutWarningPageKeys() {
-        XCTAssertEqual("app_signOutWarningTitle".getWelshString(),
+    func test_signInAgainPageKeys() {
+        XCTAssertEqual("app_signInAgainTitle".getWelshString(),
                        "Mae angen i chi fewngofnodi eto")
-        XCTAssertEqual("app_signOutWarningBody".getWelshString(),
+        XCTAssertEqual("app_signInAgainBody".getWelshString(),
                        "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
     }
     
@@ -269,9 +269,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_appIntegrityErrorTitle".getWelshString(),
                        "Mae'n ddrwg gennym, mae problem")
         XCTAssertEqual("app_appIntegrityErrorBody1".getWelshString(),
-                       "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.")
-        XCTAssertEqual("app_appIntegrityErrorBody2".getWelshString(),
-                       "Rhowch gynnig arall yn nes ymlaen.")
+                       "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
 
 }

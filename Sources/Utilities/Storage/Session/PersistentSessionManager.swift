@@ -11,8 +11,8 @@ import SecureStore
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
     static func make(
-        accessControlEncryptedSecureStoreMigrator: (any SecureStorableV2 & SessionBoundData)? = nil,
-        encryptedStore: (any SecureStorableV2 & SessionBoundData)? = nil,
+        accessControlEncryptedSecureStoreMigrator: (any SecureStorable & SessionBoundData)? = nil,
+        encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
         analyticsService: OneLoginAnalyticsService,
         walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
@@ -50,8 +50,8 @@ final class PersistentSessionManager: SessionManager {
         return manager
     }
     
-    private let accessControlEncryptedStore: SecureStorableV2
-    private let encryptedStore: SecureStorableV2
+    private let accessControlEncryptedStore: SecureStorable
+    private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
     private let analyticsService: OneLoginAnalyticsService
@@ -70,8 +70,8 @@ final class PersistentSessionManager: SessionManager {
     let serialTaskQueue: SerialTaskQueue
     
     convenience init(
-        accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         analyticsService: OneLoginAnalyticsService,
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
@@ -88,8 +88,8 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
-        accessControlEncryptedStore: SecureStorableV2,
-        encryptedStore: SecureStorableV2,
+        accessControlEncryptedStore: SecureStorable,
+        encryptedStore: SecureStorable,
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
@@ -406,12 +406,27 @@ final class PersistentSessionManager: SessionManager {
     }
 }
 
-public enum PersistentSessionErrorKind: String, GDSErrorKind {
-    case noSessionExists = "there was no persistentID token saved in the encrypted store"
-    case userRemovedLocalAuth = "the user has removed all local auth from their device"
-    case sessionMismatch = "the persistentID was cleared from the encrypted store because a different user logged in"
-    case cannotDeleteData = "there was an error while trying to delete all user data"
-    case idTokenNotStored = "there was no idToken found in the secure store"
+public enum PersistentSessionErrorKind: Int, GDSErrorKind {
+    case noSessionExists = 1001
+    case userRemovedLocalAuth = 1002
+    case sessionMismatch = 1003
+    case cannotDeleteData = 1004
+    case idTokenNotStored = 1005
+
+    public var description: String {
+        switch self {
+        case .noSessionExists:
+            return "there was no persistentID token saved in the encrypted store"
+        case .userRemovedLocalAuth:
+            return "the user has removed all local auth from their device"
+        case .sessionMismatch:
+            return "the persistentID was cleared from the encrypted store because a different user logged in"
+        case .cannotDeleteData:
+            return "there was an error while trying to delete all user data"
+        case .idTokenNotStored:
+            return "there was no idToken found in the secure store"
+        }
+    }
 }
 
 public typealias PersistentSessionError = OneLoginGDSError<PersistentSessionErrorKind>

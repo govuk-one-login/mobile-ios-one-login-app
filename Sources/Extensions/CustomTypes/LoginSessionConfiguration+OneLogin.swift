@@ -22,9 +22,8 @@ extension LoginSessionConfiguration {
             redirectURI: env.mobileRedirect.absoluteString,
             locale: env.isLocaleWelsh ? .cy : .en,
             persistentSessionId: persistentSessionID,
-            tokenHeaders: shouldAttestIntegrity ?
-            try await OneLoginAppIntegrityService(integrityService: integrityService)
-            .integrityAssertions(): nil
+            tokenHeaders: shouldAttestIntegrity ? try await OneLoginAppIntegrityService(integrityService: integrityService)
+                .clientAssertions().merging(try integrityService.dPoPAssertion) { current, _ in current } : nil
         )
     }
 }

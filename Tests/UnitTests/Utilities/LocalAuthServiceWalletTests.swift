@@ -1,6 +1,5 @@
 import Coordination
 import DesignSystem
-import GDSCommon
 import LocalAuthenticationWrapper
 import Networking
 @testable import OneLogin
@@ -112,13 +111,13 @@ extension LocalAuthServiceWalletTests {
             }
         )
         
-        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
+        let vc = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         
         XCTAssertTrue(vc.viewModel is LocalAuthSettingsErrorViewModel)
         
         let secondErrorScreen = try XCTUnwrap(vc.viewModel as? LocalAuthSettingsErrorViewModel)
         
-        secondErrorScreen.didDismiss()
+        secondErrorScreen.didDismiss?.perform()
         
         XCTAssertTrue(isEnrolled)
     }
@@ -227,12 +226,13 @@ extension LocalAuthServiceWalletTests {
         let secondaryButton = viewModel.movableFooter[1] as? GDSButtonViewModel
         secondaryButton?.buttonAction.perform()
         
-        let vc2 = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSErrorScreen)
+        let vc2 = try XCTUnwrap(sut.biometricsNavigationController.topViewController as? GDSScreen)
         
         XCTAssertTrue(vc2.viewModel is LocalAuthBiometricsErrorViewModel)
         
-        let secondErrorScreen = try XCTUnwrap(vc2.viewModel)
-        secondErrorScreen.buttonViewModels[0].action()
+        let primaryButton = vc2.viewModel.movableFooter[0] as? GDSButtonViewModel
+        
+        await primaryButton?.buttonAction.performAsync()
         
         await fulfillment(of: [enrolledExpectation], timeout: 5)
         
@@ -365,6 +365,6 @@ extension LocalAuthServiceWalletTests {
         // THEN VC is dismissed and biometricsNavigationController is presented
         waitForTruth(self.walletCoordinator.root.presentedViewController == self.sut.biometricsNavigationController, timeout: 5)
         
-        XCTAssertTrue(sut.biometricsNavigationController.topViewController is GDSErrorScreen)
+        XCTAssertTrue(sut.biometricsNavigationController.topViewController is GDSScreen)
     }
 }
