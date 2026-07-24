@@ -51,6 +51,11 @@ extension [ViewImageConfig] {
         .iPhone13(.portrait),
         .iPhone13(.landscape)
     ]
+    
+    public static let standardProMax: [ViewImageConfig] = [
+        .iPhone13ProMax(.portrait),
+        .iPhone13ProMax(.landscape)
+    ]
 }
 
 extension UITraitCollection {

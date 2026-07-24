@@ -110,7 +110,7 @@ struct InstructionScreenSnapshotTests {
             analyticsPreference: analyticsService.analyticsPreferenceStore)
         
         root.pushViewController(vc, animated: true)
-        root.assertSnapshot()
+        root.assertSnapshot(devices: .standardProMax)
     }
     
     @Test
