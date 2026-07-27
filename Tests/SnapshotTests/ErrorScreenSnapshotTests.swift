@@ -80,7 +80,7 @@ struct ErrorScreenSnapshotTests {
         let sut = AppUnavailableViewModel(analyticsService: analyticsService)
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -90,7 +90,7 @@ struct ErrorScreenSnapshotTests {
         let sut = DataDeletedWarningViewModel(action: {})
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -104,7 +104,7 @@ struct ErrorScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
 
@@ -117,7 +117,7 @@ struct ErrorScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -131,7 +131,7 @@ struct ErrorScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -145,7 +145,7 @@ struct ErrorScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -158,7 +158,7 @@ struct ErrorScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -168,7 +168,7 @@ struct ErrorScreenSnapshotTests {
         let sut = UpdateAppViewModel(analyticsService: analyticsService)
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
 }

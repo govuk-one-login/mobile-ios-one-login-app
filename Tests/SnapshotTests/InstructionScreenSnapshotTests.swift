@@ -2,6 +2,7 @@ import DesignSystem
 import LocalAuthenticationWrapper
 @testable import OneLogin
 @testable import SnapshotHelpers
+internal import SnapshotTesting
 import Testing
 import UIKit
 
@@ -19,7 +20,7 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -34,7 +35,7 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -49,7 +50,7 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -59,7 +60,7 @@ struct InstructionScreenSnapshotTests {
         let sut = OneLoginIntroViewModel(analyticsService: analyticsService) { nil }
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -69,7 +70,7 @@ struct InstructionScreenSnapshotTests {
         let sut = LoadingViewModel(analyticsService: analyticsService)
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -79,7 +80,7 @@ struct InstructionScreenSnapshotTests {
         let sut = SignOutSuccessfulViewModel(buttonAction: {})
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -92,7 +93,7 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -105,7 +106,7 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -124,8 +125,8 @@ struct InstructionScreenSnapshotTests {
             userProvider: MockUserProvider(),
             analyticsPreference: analyticsService.analyticsPreferenceStore)
         
-        root.pushViewController(vc, animated: true)
-        root.assertSnapshot()
+        root.pushViewController(vc, animated: false)
+        root.assertSnapshot(devices: [.iPhone13ProMax(.portrait), .iPhone13ProMax(.landscape)])
     }
     
     @Test
@@ -134,7 +135,7 @@ struct InstructionScreenSnapshotTests {
         let vc = HomeViewController(analyticsService: analyticsService,
                                     criOrchestrator: MockCRIOrchestrator())
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
     
@@ -147,7 +148,7 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = UnlockScreenViewController(viewModel: sut)
         
-        root.pushViewController(vc, animated: true)
+        root.pushViewController(vc, animated: false)
         root.assertSnapshot()
     }
 }
