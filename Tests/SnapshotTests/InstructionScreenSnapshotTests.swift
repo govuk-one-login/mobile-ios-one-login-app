@@ -111,6 +111,7 @@ struct InstructionScreenSnapshotTests {
     
     @Test
     func test_settingsScreen() {
+        let root = UINavigationController()
         let sut = SettingsTabViewModel(
             analyticsService: analyticsService,
             userProvider: MockUserProvider(),
@@ -123,15 +124,18 @@ struct InstructionScreenSnapshotTests {
             userProvider: MockUserProvider(),
             analyticsPreference: analyticsService.analyticsPreferenceStore)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_homeScreen() {
+        let root = UINavigationController()
         let vc = HomeViewController(analyticsService: analyticsService,
                                     criOrchestrator: MockCRIOrchestrator())
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
