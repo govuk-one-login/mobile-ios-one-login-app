@@ -468,7 +468,6 @@
 		C8467D3B2F1978150071ED81 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D332F1978150071ED81 /* MockAnalyticsService.swift */; };
 		C8467D3C2F1978150071ED81 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D342F1978150071ED81 /* MockURLOpener.swift */; };
 		C8467D3D2F1978150071ED81 /* MockUserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D352F1978150071ED81 /* MockUserProvider.swift */; };
-		C8467D3E2F1978150071ED81 /* SnapshotTesting+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */; };
 		C8467D3F2F1978150071ED81 /* ErrorScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D382F1978150071ED81 /* ErrorScreenSnapshotTests.swift */; };
 		C8467D402F1978150071ED81 /* InstructionScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D392F1978150071ED81 /* InstructionScreenSnapshotTests.swift */; };
 		C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */; };
@@ -1108,7 +1107,6 @@
 		C8467D332F1978150071ED81 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		C8467D342F1978150071ED81 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		C8467D352F1978150071ED81 /* MockUserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserProvider.swift; sourceTree = "<group>"; };
-		C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapshotTesting+Extensions.swift"; sourceTree = "<group>"; };
 		C8467D382F1978150071ED81 /* ErrorScreenSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreenSnapshotTests.swift; sourceTree = "<group>"; };
 		C8467D392F1978150071ED81 /* InstructionScreenSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionScreenSnapshotTests.swift; sourceTree = "<group>"; };
 		C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWallet.swift; sourceTree = "<group>"; };
@@ -2201,7 +2199,6 @@
 				C8467D332F1978150071ED81 /* MockAnalyticsService.swift */,
 				C8467D342F1978150071ED81 /* MockURLOpener.swift */,
 				C8467D352F1978150071ED81 /* MockUserProvider.swift */,
-				C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */,
 			);
 			path = "Mocks&Helpers";
 			sourceTree = "<group>";
@@ -3559,7 +3556,6 @@
 				C8467D3B2F1978150071ED81 /* MockAnalyticsService.swift in Sources */,
 				C8467D3C2F1978150071ED81 /* MockURLOpener.swift in Sources */,
 				C8467D3D2F1978150071ED81 /* MockUserProvider.swift in Sources */,
-				C8467D3E2F1978150071ED81 /* SnapshotTesting+Extensions.swift in Sources */,
 				C8467D3F2F1978150071ED81 /* ErrorScreenSnapshotTests.swift in Sources */,
 				C8467D402F1978150071ED81 /* InstructionScreenSnapshotTests.swift in Sources */,
 			);
