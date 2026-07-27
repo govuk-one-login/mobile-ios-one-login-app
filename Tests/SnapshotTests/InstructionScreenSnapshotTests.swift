@@ -1,6 +1,7 @@
 import DesignSystem
 import LocalAuthenticationWrapper
 @testable import OneLogin
+@testable import SnapshotHelpers
 import Testing
 import UIKit
 
@@ -10,6 +11,7 @@ struct InstructionScreenSnapshotTests {
     
     @Test
     func test_analyticsPeferenceScreen() {
+        let root = UINavigationController()
         let sut = AnalyticsPreferenceViewModel(
             primaryButtonAction: {},
             secondaryButtonAction: {},
@@ -17,11 +19,13 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_biometricsEnrolmentScreen_touchID() {
+        let root = UINavigationController()
         let sut = BiometricsEnrolmentViewModel(
             analyticsService: analyticsService,
             biometricsType: .touchID,
@@ -30,11 +34,13 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_biometricsEnrolmentScreen_faceID() {
+        let root = UINavigationController()
         let sut = BiometricsEnrolmentViewModel(
             analyticsService: analyticsService,
             biometricsType: .faceID,
@@ -43,31 +49,38 @@ struct InstructionScreenSnapshotTests {
         )
         let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_oneLoginIntroScreen() {
+        let root = UINavigationController()
         let sut = OneLoginIntroViewModel(analyticsService: analyticsService) { nil }
         let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_loadingScreen() {
+        let root = UINavigationController()
         let sut = LoadingViewModel(analyticsService: analyticsService)
         let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
     func test_signOutSuccessfulScreen() {
+        let root = UINavigationController()
         let sut = SignOutSuccessfulViewModel(buttonAction: {})
         let vc = GDSScreen(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
     
     @Test
@@ -78,6 +91,7 @@ struct InstructionScreenSnapshotTests {
             action: {}
         )
         let vc = GDSScreen(viewModel: sut)
+        
         root.pushViewController(vc, animated: true)
         root.assertSnapshot()
     }
@@ -90,13 +104,13 @@ struct InstructionScreenSnapshotTests {
             action: { nil }
         )
         let vc = GDSScreen(viewModel: sut)
+        
         root.pushViewController(vc, animated: true)
         root.assertSnapshot()
     }
     
     @Test
     func test_settingsScreen() {
-        let root = UINavigationController()
         let sut = SettingsTabViewModel(
             analyticsService: analyticsService,
             userProvider: MockUserProvider(),
@@ -109,8 +123,7 @@ struct InstructionScreenSnapshotTests {
             userProvider: MockUserProvider(),
             analyticsPreference: analyticsService.analyticsPreferenceStore)
         
-        root.pushViewController(vc, animated: true)
-        root.assertSnapshot(devices: .standardProMax)
+        vc.assertSnapshot()
     }
     
     @Test
@@ -123,12 +136,14 @@ struct InstructionScreenSnapshotTests {
     
     @Test
     func test_unlockScreen() {
+        let root = UINavigationController()
         let sut = UnlockScreenViewModel(
             analyticsService: analyticsService,
             primaryButtonAction: {}
         )
         let vc = UnlockScreenViewController(viewModel: sut)
         
-        vc.assertSnapshot()
+        root.pushViewController(vc, animated: true)
+        root.assertSnapshot()
     }
 }
