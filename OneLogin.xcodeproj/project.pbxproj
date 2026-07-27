@@ -27,8 +27,6 @@
 		1E4738EA2EC65F3800803940 /* RefreshTokenExchangeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738E92EC65F2F00803940 /* RefreshTokenExchangeManagerTests.swift */; };
 		1E4738EC2EC7322200803940 /* MockAppIntegrityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */; };
 		1E517A7C301761510002E526 /* test_loadingScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A2D301761510002E526 /* test_loadingScreen.7.png */; };
-		1E517A80301761510002E526 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A08301761510002E526 /* test_biometricsEnrolmentScreen_faceID.6.png */; };
-		1E517A81301761510002E526 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A16301761510002E526 /* test_biometricsEnrolmentScreen_touchID.8.png */; };
 		1E517A82301761510002E526 /* test_oneLoginIntroScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A3A301761510002E526 /* test_oneLoginIntroScreen.8.png */; };
 		1E517A84301761510002E526 /* test_signOutSuccessfulScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A6B301761510002E526 /* test_signOutSuccessfulScreen.9.png */; };
 		1E517A85301761510002E526 /* test_loadingScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A32301761510002E526 /* test_loadingScreen.12.png */; };
@@ -36,50 +34,34 @@
 		1E517A88301761510002E526 /* test_oneLoginIntroScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A37301761510002E526 /* test_oneLoginIntroScreen.5.png */; };
 		1E517A89301761510002E526 /* test_analyticsPeferenceScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179FB301761510002E526 /* test_analyticsPeferenceScreen.5.png */; };
 		1E517A8A301761510002E526 /* test_signInWarningScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A52301761510002E526 /* test_signInWarningScreen.8.png */; };
-		1E517A8C301761510002E526 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A18301761510002E526 /* test_biometricsEnrolmentScreen_touchID.10.png */; };
 		1E517A8E301761510002E526 /* test_signOutSuccessfulScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A69301761510002E526 /* test_signOutSuccessfulScreen.7.png */; };
 		1E517A90301761510002E526 /* test_loadingScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A27301761510002E526 /* test_loadingScreen.1.png */; };
 		1E517A91301761510002E526 /* test_analyticsPeferenceScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179FD301761510002E526 /* test_analyticsPeferenceScreen.7.png */; };
-		1E517A95301761510002E526 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A0A301761510002E526 /* test_biometricsEnrolmentScreen_faceID.8.png */; };
 		1E517A96301761510002E526 /* test_signInWarningScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A4D301761510002E526 /* test_signInWarningScreen.3.png */; };
-		1E517A99301761510002E526 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A05301761510002E526 /* test_biometricsEnrolmentScreen_faceID.3.png */; };
 		1E517A9B301761510002E526 /* test_loadingScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A2E301761510002E526 /* test_loadingScreen.8.png */; };
-		1E517A9D301761510002E526 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A11301761510002E526 /* test_biometricsEnrolmentScreen_touchID.3.png */; };
-		1E517A9F301761510002E526 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A1A301761510002E526 /* test_biometricsEnrolmentScreen_touchID.12.png */; };
 		1E517AA0301761510002E526 /* test_signInWarningScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A56301761510002E526 /* test_signInWarningScreen.12.png */; };
 		1E517AA1301761510002E526 /* test_oneLoginIntroScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A34301761510002E526 /* test_oneLoginIntroScreen.2.png */; };
 		1E517AA3301761510002E526 /* test_analyticsPeferenceScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A00301761510002E526 /* test_analyticsPeferenceScreen.10.png */; };
 		1E517AA4301761510002E526 /* test_signInWarningScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A4E301761510002E526 /* test_signInWarningScreen.4.png */; };
 		1E517AA5301761510002E526 /* test_loadingScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A31301761510002E526 /* test_loadingScreen.11.png */; };
-		1E517AA6301761510002E526 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A0B301761510002E526 /* test_biometricsEnrolmentScreen_faceID.9.png */; };
-		1E517AA7301761510002E526 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A0D301761510002E526 /* test_biometricsEnrolmentScreen_faceID.11.png */; };
 		1E517AA8301761510002E526 /* test_signOutSuccessfulScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A64301761510002E526 /* test_signOutSuccessfulScreen.2.png */; };
-		1E517AAA301761510002E526 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A03301761510002E526 /* test_biometricsEnrolmentScreen_faceID.1.png */; };
 		1E517AAD301761510002E526 /* test_oneLoginIntroScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A3D301761510002E526 /* test_oneLoginIntroScreen.11.png */; };
 		1E517AAE301761510002E526 /* test_signOutSuccessfulScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A65301761510002E526 /* test_signOutSuccessfulScreen.3.png */; };
-		1E517AAF301761510002E526 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A0C301761510002E526 /* test_biometricsEnrolmentScreen_faceID.10.png */; };
 		1E517AB0301761510002E526 /* test_oneLoginIntroScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A33301761510002E526 /* test_oneLoginIntroScreen.1.png */; };
-		1E517AB1301761510002E526 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A17301761510002E526 /* test_biometricsEnrolmentScreen_touchID.9.png */; };
-		1E517AB4301761510002E526 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A13301761510002E526 /* test_biometricsEnrolmentScreen_touchID.5.png */; };
 		1E517AB5301761510002E526 /* test_analyticsPeferenceScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179F9301761510002E526 /* test_analyticsPeferenceScreen.3.png */; };
 		1E517AB6301761510002E526 /* test_loadingScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A30301761510002E526 /* test_loadingScreen.10.png */; };
 		1E517AB8301761510002E526 /* test_signOutSuccessfulScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A66301761510002E526 /* test_signOutSuccessfulScreen.4.png */; };
 		1E517AB9301761510002E526 /* test_signInWarningScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A54301761510002E526 /* test_signInWarningScreen.10.png */; };
 		1E517ABB301761510002E526 /* test_analyticsPeferenceScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179F8301761510002E526 /* test_analyticsPeferenceScreen.2.png */; };
-		1E517ABC301761510002E526 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A0E301761510002E526 /* test_biometricsEnrolmentScreen_faceID.12.png */; };
 		1E517ABE301761510002E526 /* test_signOutSuccessfulScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A67301761510002E526 /* test_signOutSuccessfulScreen.5.png */; };
 		1E517ABF301761510002E526 /* test_oneLoginIntroScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A3E301761510002E526 /* test_oneLoginIntroScreen.12.png */; };
-		1E517AC0301761510002E526 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A14301761510002E526 /* test_biometricsEnrolmentScreen_touchID.6.png */; };
 		1E517AC3301761510002E526 /* test_oneLoginIntroScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A35301761510002E526 /* test_oneLoginIntroScreen.3.png */; };
 		1E517AC4301761510002E526 /* test_signInWarningScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A4C301761510002E526 /* test_signInWarningScreen.2.png */; };
 		1E517AC5301761510002E526 /* test_signInWarningScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A50301761510002E526 /* test_signInWarningScreen.6.png */; };
 		1E517AC6301761510002E526 /* test_loadingScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A29301761510002E526 /* test_loadingScreen.3.png */; };
-		1E517ACB301761510002E526 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A12301761510002E526 /* test_biometricsEnrolmentScreen_touchID.4.png */; };
 		1E517ACC301761510002E526 /* test_signInWarningScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A53301761510002E526 /* test_signInWarningScreen.9.png */; };
-		1E517ACE301761510002E526 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A07301761510002E526 /* test_biometricsEnrolmentScreen_faceID.5.png */; };
 		1E517AD0301761510002E526 /* test_oneLoginIntroScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A38301761510002E526 /* test_oneLoginIntroScreen.6.png */; };
 		1E517AD1301761510002E526 /* test_signInWarningScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A55301761510002E526 /* test_signInWarningScreen.11.png */; };
-		1E517AD3301761510002E526 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A15301761510002E526 /* test_biometricsEnrolmentScreen_touchID.7.png */; };
 		1E517AD4301761510002E526 /* test_signOutSuccessfulScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A68301761510002E526 /* test_signOutSuccessfulScreen.6.png */; };
 		1E517AD5301761510002E526 /* test_signOutSuccessfulScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A6A301761510002E526 /* test_signOutSuccessfulScreen.8.png */; };
 		1E517AD7301761510002E526 /* test_signOutSuccessfulScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A6D301761510002E526 /* test_signOutSuccessfulScreen.11.png */; };
@@ -87,53 +69,23 @@
 		1E517ADB301761510002E526 /* test_signOutSuccessfulScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A63301761510002E526 /* test_signOutSuccessfulScreen.1.png */; };
 		1E517ADE301761510002E526 /* test_signInWarningScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A51301761510002E526 /* test_signInWarningScreen.7.png */; };
 		1E517ADF301761510002E526 /* test_signOutSuccessfulScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A6E301761510002E526 /* test_signOutSuccessfulScreen.12.png */; };
-		1E517AE1301761510002E526 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A19301761510002E526 /* test_biometricsEnrolmentScreen_touchID.11.png */; };
 		1E517AE4301761510002E526 /* test_loadingScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A2F301761510002E526 /* test_loadingScreen.9.png */; };
 		1E517AE6301761510002E526 /* test_analyticsPeferenceScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179FC301761510002E526 /* test_analyticsPeferenceScreen.6.png */; };
 		1E517AE7301761510002E526 /* test_analyticsPeferenceScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179FA301761510002E526 /* test_analyticsPeferenceScreen.4.png */; };
 		1E517AE8301761510002E526 /* test_signInWarningScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A4B301761510002E526 /* test_signInWarningScreen.1.png */; };
-		1E517AEA301761510002E526 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A04301761510002E526 /* test_biometricsEnrolmentScreen_faceID.2.png */; };
 		1E517AEB301761510002E526 /* test_signOutSuccessfulScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A6C301761510002E526 /* test_signOutSuccessfulScreen.10.png */; };
 		1E517AEC301761510002E526 /* test_oneLoginIntroScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A3C301761510002E526 /* test_oneLoginIntroScreen.10.png */; };
-		1E517AED301761510002E526 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A10301761510002E526 /* test_biometricsEnrolmentScreen_touchID.2.png */; };
-		1E517AEE301761510002E526 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A0F301761510002E526 /* test_biometricsEnrolmentScreen_touchID.1.png */; };
 		1E517AEF301761510002E526 /* test_loadingScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A2A301761510002E526 /* test_loadingScreen.4.png */; };
 		1E517AF0301761510002E526 /* test_analyticsPeferenceScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A01301761510002E526 /* test_analyticsPeferenceScreen.11.png */; };
 		1E517AF1301761510002E526 /* test_analyticsPeferenceScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179FF301761510002E526 /* test_analyticsPeferenceScreen.9.png */; };
 		1E517AF2301761510002E526 /* test_loadingScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A2B301761510002E526 /* test_loadingScreen.5.png */; };
-		1E517AF3301761510002E526 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A06301761510002E526 /* test_biometricsEnrolmentScreen_faceID.4.png */; };
 		1E517AF6301761510002E526 /* test_loadingScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A28301761510002E526 /* test_loadingScreen.2.png */; };
 		1E517AF7301761510002E526 /* test_signInWarningScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A4F301761510002E526 /* test_signInWarningScreen.5.png */; };
 		1E517AF8301761510002E526 /* test_analyticsPeferenceScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A02301761510002E526 /* test_analyticsPeferenceScreen.12.png */; };
 		1E517AFB301761510002E526 /* test_analyticsPeferenceScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E5179FE301761510002E526 /* test_analyticsPeferenceScreen.8.png */; };
 		1E517AFC301761510002E526 /* test_oneLoginIntroScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A3B301761510002E526 /* test_oneLoginIntroScreen.9.png */; };
-		1E517AFD301761510002E526 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A09301761510002E526 /* test_biometricsEnrolmentScreen_faceID.7.png */; };
 		1E517AFE301761510002E526 /* test_loadingScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A2C301761510002E526 /* test_loadingScreen.6.png */; };
 		1E517AFF301761510002E526 /* test_oneLoginIntroScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517A39301761510002E526 /* test_oneLoginIntroScreen.7.png */; };
-		1E517C2E3017680A0002E526 /* test_settingsScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C253017680A0002E526 /* test_settingsScreen.4.png */; };
-		1E517C2F3017680A0002E526 /* test_settingsScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C273017680A0002E526 /* test_settingsScreen.6.png */; };
-		1E517C303017680A0002E526 /* test_settingsScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C233017680A0002E526 /* test_settingsScreen.2.png */; };
-		1E517C313017680A0002E526 /* test_settingsScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C2B3017680A0002E526 /* test_settingsScreen.10.png */; };
-		1E517C323017680A0002E526 /* test_settingsScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C263017680A0002E526 /* test_settingsScreen.5.png */; };
-		1E517C333017680A0002E526 /* test_settingsScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C2A3017680A0002E526 /* test_settingsScreen.9.png */; };
-		1E517C343017680A0002E526 /* test_settingsScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C223017680A0002E526 /* test_settingsScreen.1.png */; };
-		1E517C353017680A0002E526 /* test_settingsScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C243017680A0002E526 /* test_settingsScreen.3.png */; };
-		1E517C363017680A0002E526 /* test_settingsScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C293017680A0002E526 /* test_settingsScreen.8.png */; };
-		1E517C373017680A0002E526 /* test_settingsScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C2C3017680A0002E526 /* test_settingsScreen.11.png */; };
-		1E517C383017680A0002E526 /* test_settingsScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C2D3017680A0002E526 /* test_settingsScreen.12.png */; };
-		1E517C393017680A0002E526 /* test_settingsScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C283017680A0002E526 /* test_settingsScreen.7.png */; };
-		1E517C4630176B7B0002E526 /* test_signOutScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C4030176B7B0002E526 /* test_signOutScreen.7.png */; };
-		1E517C4730176B7B0002E526 /* test_signOutScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C4130176B7B0002E526 /* test_signOutScreen.8.png */; };
-		1E517C4830176B7B0002E526 /* test_signOutScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C3A30176B7B0002E526 /* test_signOutScreen.1.png */; };
-		1E517C4930176B7B0002E526 /* test_signOutScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C3B30176B7B0002E526 /* test_signOutScreen.2.png */; };
-		1E517C4A30176B7B0002E526 /* test_signOutScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C4430176B7B0002E526 /* test_signOutScreen.11.png */; };
-		1E517C4B30176B7B0002E526 /* test_signOutScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C4530176B7B0002E526 /* test_signOutScreen.12.png */; };
-		1E517C4C30176B7B0002E526 /* test_signOutScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C3D30176B7B0002E526 /* test_signOutScreen.4.png */; };
-		1E517C4D30176B7B0002E526 /* test_signOutScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C3F30176B7B0002E526 /* test_signOutScreen.6.png */; };
-		1E517C4E30176B7B0002E526 /* test_signOutScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C4330176B7B0002E526 /* test_signOutScreen.10.png */; };
-		1E517C4F30176B7B0002E526 /* test_signOutScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C3E30176B7B0002E526 /* test_signOutScreen.5.png */; };
-		1E517C5030176B7B0002E526 /* test_signOutScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C4230176B7B0002E526 /* test_signOutScreen.9.png */; };
-		1E517C5130176B7B0002E526 /* test_signOutScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C3C30176B7B0002E526 /* test_signOutScreen.3.png */; };
 		1E517C5E30176C0F0002E526 /* test_unlockScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C5730176C0F0002E526 /* test_unlockScreen.6.png */; };
 		1E517C5F30176C0F0002E526 /* test_unlockScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C5430176C0F0002E526 /* test_unlockScreen.3.png */; };
 		1E517C6030176C0F0002E526 /* test_unlockScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E517C5330176C0F0002E526 /* test_unlockScreen.2.png */; };
@@ -406,6 +358,54 @@
 		C33BF4F52E3A112800F6724F /* WalletNetworkClientWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33BF4F42E3A111700F6724F /* WalletNetworkClientWrapper.swift */; };
 		C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34BD1292DDF227E00D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift */; };
 		C34F10582F193BEB00947ADB /* NetworkClient+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F10572F193BDE00947ADB /* NetworkClient+TestExtensions.swift */; };
+		C372B6CB3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6CA3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.12.png */; };
+		C372B6CC3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C73017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.9.png */; };
+		C372B6CD3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C83017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.10.png */; };
+		C372B6CE3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C23017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.4.png */; };
+		C372B6CF3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C33017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.5.png */; };
+		C372B6D03017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C43017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.6.png */; };
+		C372B6D13017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C63017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.8.png */; };
+		C372B6D23017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C93017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.11.png */; };
+		C372B6D33017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C03017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.2.png */; };
+		C372B6D43017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6BF3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.1.png */; };
+		C372B6D53017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C13017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.3.png */; };
+		C372B6D63017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6C53017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.7.png */; };
+		C372B6E33017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6DA3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.4.png */; };
+		C372B6E43017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6E03017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.10.png */; };
+		C372B6E53017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6E13017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.11.png */; };
+		C372B6E63017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6E23017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.12.png */; };
+		C372B6E73017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6DB3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.5.png */; };
+		C372B6E83017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6D73017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.1.png */; };
+		C372B6E93017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6D93017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.3.png */; };
+		C372B6EA3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6DE3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.8.png */; };
+		C372B6EB3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6D83017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.2.png */; };
+		C372B6EC3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6DC3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.6.png */; };
+		C372B6ED3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6DD3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.7.png */; };
+		C372B6EE3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6DF3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.9.png */; };
+		C372B6FB3017A6F800F61905 /* test_settingsScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F03017A6F800F61905 /* test_settingsScreen.2.png */; };
+		C372B6FC3017A6F800F61905 /* test_settingsScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F93017A6F800F61905 /* test_settingsScreen.11.png */; };
+		C372B6FD3017A6F800F61905 /* test_settingsScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F63017A6F800F61905 /* test_settingsScreen.8.png */; };
+		C372B6FE3017A6F800F61905 /* test_settingsScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F23017A6F800F61905 /* test_settingsScreen.4.png */; };
+		C372B6FF3017A6F800F61905 /* test_settingsScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6FA3017A6F800F61905 /* test_settingsScreen.12.png */; };
+		C372B7003017A6F800F61905 /* test_settingsScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F13017A6F800F61905 /* test_settingsScreen.3.png */; };
+		C372B7013017A6F800F61905 /* test_settingsScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F43017A6F800F61905 /* test_settingsScreen.6.png */; };
+		C372B7023017A6F800F61905 /* test_settingsScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6EF3017A6F800F61905 /* test_settingsScreen.1.png */; };
+		C372B7033017A6F800F61905 /* test_settingsScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F33017A6F800F61905 /* test_settingsScreen.5.png */; };
+		C372B7043017A6F800F61905 /* test_settingsScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F73017A6F800F61905 /* test_settingsScreen.9.png */; };
+		C372B7053017A6F800F61905 /* test_settingsScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F83017A6F800F61905 /* test_settingsScreen.10.png */; };
+		C372B7063017A6F800F61905 /* test_settingsScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B6F53017A6F800F61905 /* test_settingsScreen.7.png */; };
+		C372B7133017A70500F61905 /* test_signOutScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B70C3017A70500F61905 /* test_signOutScreen.6.png */; };
+		C372B7143017A70500F61905 /* test_signOutScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7093017A70500F61905 /* test_signOutScreen.3.png */; };
+		C372B7153017A70500F61905 /* test_signOutScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B70E3017A70500F61905 /* test_signOutScreen.8.png */; };
+		C372B7163017A70500F61905 /* test_signOutScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B70D3017A70500F61905 /* test_signOutScreen.7.png */; };
+		C372B7173017A70500F61905 /* test_signOutScreen.9.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B70F3017A70500F61905 /* test_signOutScreen.9.png */; };
+		C372B7183017A70500F61905 /* test_signOutScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7103017A70500F61905 /* test_signOutScreen.10.png */; };
+		C372B7193017A70500F61905 /* test_signOutScreen.11.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7113017A70500F61905 /* test_signOutScreen.11.png */; };
+		C372B71A3017A70500F61905 /* test_signOutScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7123017A70500F61905 /* test_signOutScreen.12.png */; };
+		C372B71B3017A70500F61905 /* test_signOutScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7073017A70500F61905 /* test_signOutScreen.1.png */; };
+		C372B71C3017A70500F61905 /* test_signOutScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7083017A70500F61905 /* test_signOutScreen.2.png */; };
+		C372B71D3017A70500F61905 /* test_signOutScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B70A3017A70500F61905 /* test_signOutScreen.4.png */; };
+		C372B71E3017A70500F61905 /* test_signOutScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B70B3017A70500F61905 /* test_signOutScreen.5.png */; };
 		C388D2612DC8E928007C9902 /* HomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C388D2602DC8E928007C9902 /* HomeView.xib */; };
 		C390BF3A2FD97EC4007A8F79 /* URLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C390BF392FD97EC0007A8F79 /* URLOpener.swift */; };
 		C39812232F753B33003CEF98 /* MockCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */; };
@@ -468,7 +468,6 @@
 		C8467D3B2F1978150071ED81 /* MockAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D332F1978150071ED81 /* MockAnalyticsService.swift */; };
 		C8467D3C2F1978150071ED81 /* MockURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D342F1978150071ED81 /* MockURLOpener.swift */; };
 		C8467D3D2F1978150071ED81 /* MockUserProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D352F1978150071ED81 /* MockUserProvider.swift */; };
-		C8467D3E2F1978150071ED81 /* SnapshotTesting+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */; };
 		C8467D3F2F1978150071ED81 /* ErrorScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D382F1978150071ED81 /* ErrorScreenSnapshotTests.swift */; };
 		C8467D402F1978150071ED81 /* InstructionScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8467D392F1978150071ED81 /* InstructionScreenSnapshotTests.swift */; };
 		C8486FE52C60D80A00DE514C /* LocalAuthServiceWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */; };
@@ -676,30 +675,6 @@
 		1E517A00301761510002E526 /* test_analyticsPeferenceScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.10.png; sourceTree = "<group>"; };
 		1E517A01301761510002E526 /* test_analyticsPeferenceScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.11.png; sourceTree = "<group>"; };
 		1E517A02301761510002E526 /* test_analyticsPeferenceScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.12.png; sourceTree = "<group>"; };
-		1E517A03301761510002E526 /* test_biometricsEnrolmentScreen_faceID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.1.png; sourceTree = "<group>"; };
-		1E517A04301761510002E526 /* test_biometricsEnrolmentScreen_faceID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.2.png; sourceTree = "<group>"; };
-		1E517A05301761510002E526 /* test_biometricsEnrolmentScreen_faceID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.3.png; sourceTree = "<group>"; };
-		1E517A06301761510002E526 /* test_biometricsEnrolmentScreen_faceID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.4.png; sourceTree = "<group>"; };
-		1E517A07301761510002E526 /* test_biometricsEnrolmentScreen_faceID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.5.png; sourceTree = "<group>"; };
-		1E517A08301761510002E526 /* test_biometricsEnrolmentScreen_faceID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.6.png; sourceTree = "<group>"; };
-		1E517A09301761510002E526 /* test_biometricsEnrolmentScreen_faceID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.7.png; sourceTree = "<group>"; };
-		1E517A0A301761510002E526 /* test_biometricsEnrolmentScreen_faceID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.8.png; sourceTree = "<group>"; };
-		1E517A0B301761510002E526 /* test_biometricsEnrolmentScreen_faceID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.9.png; sourceTree = "<group>"; };
-		1E517A0C301761510002E526 /* test_biometricsEnrolmentScreen_faceID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.10.png; sourceTree = "<group>"; };
-		1E517A0D301761510002E526 /* test_biometricsEnrolmentScreen_faceID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.11.png; sourceTree = "<group>"; };
-		1E517A0E301761510002E526 /* test_biometricsEnrolmentScreen_faceID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.12.png; sourceTree = "<group>"; };
-		1E517A0F301761510002E526 /* test_biometricsEnrolmentScreen_touchID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.1.png; sourceTree = "<group>"; };
-		1E517A10301761510002E526 /* test_biometricsEnrolmentScreen_touchID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.2.png; sourceTree = "<group>"; };
-		1E517A11301761510002E526 /* test_biometricsEnrolmentScreen_touchID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.3.png; sourceTree = "<group>"; };
-		1E517A12301761510002E526 /* test_biometricsEnrolmentScreen_touchID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.4.png; sourceTree = "<group>"; };
-		1E517A13301761510002E526 /* test_biometricsEnrolmentScreen_touchID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.5.png; sourceTree = "<group>"; };
-		1E517A14301761510002E526 /* test_biometricsEnrolmentScreen_touchID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.6.png; sourceTree = "<group>"; };
-		1E517A15301761510002E526 /* test_biometricsEnrolmentScreen_touchID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.7.png; sourceTree = "<group>"; };
-		1E517A16301761510002E526 /* test_biometricsEnrolmentScreen_touchID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.8.png; sourceTree = "<group>"; };
-		1E517A17301761510002E526 /* test_biometricsEnrolmentScreen_touchID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.9.png; sourceTree = "<group>"; };
-		1E517A18301761510002E526 /* test_biometricsEnrolmentScreen_touchID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.10.png; sourceTree = "<group>"; };
-		1E517A19301761510002E526 /* test_biometricsEnrolmentScreen_touchID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.11.png; sourceTree = "<group>"; };
-		1E517A1A301761510002E526 /* test_biometricsEnrolmentScreen_touchID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.12.png; sourceTree = "<group>"; };
 		1E517A27301761510002E526 /* test_loadingScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_loadingScreen.1.png; sourceTree = "<group>"; };
 		1E517A28301761510002E526 /* test_loadingScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_loadingScreen.2.png; sourceTree = "<group>"; };
 		1E517A29301761510002E526 /* test_loadingScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_loadingScreen.3.png; sourceTree = "<group>"; };
@@ -748,30 +723,6 @@
 		1E517A6C301761510002E526 /* test_signOutSuccessfulScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutSuccessfulScreen.10.png; sourceTree = "<group>"; };
 		1E517A6D301761510002E526 /* test_signOutSuccessfulScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutSuccessfulScreen.11.png; sourceTree = "<group>"; };
 		1E517A6E301761510002E526 /* test_signOutSuccessfulScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutSuccessfulScreen.12.png; sourceTree = "<group>"; };
-		1E517C223017680A0002E526 /* test_settingsScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.1.png; sourceTree = "<group>"; };
-		1E517C233017680A0002E526 /* test_settingsScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.2.png; sourceTree = "<group>"; };
-		1E517C243017680A0002E526 /* test_settingsScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.3.png; sourceTree = "<group>"; };
-		1E517C253017680A0002E526 /* test_settingsScreen.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.4.png; sourceTree = "<group>"; };
-		1E517C263017680A0002E526 /* test_settingsScreen.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.5.png; sourceTree = "<group>"; };
-		1E517C273017680A0002E526 /* test_settingsScreen.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.6.png; sourceTree = "<group>"; };
-		1E517C283017680A0002E526 /* test_settingsScreen.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.7.png; sourceTree = "<group>"; };
-		1E517C293017680A0002E526 /* test_settingsScreen.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.8.png; sourceTree = "<group>"; };
-		1E517C2A3017680A0002E526 /* test_settingsScreen.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.9.png; sourceTree = "<group>"; };
-		1E517C2B3017680A0002E526 /* test_settingsScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.10.png; sourceTree = "<group>"; };
-		1E517C2C3017680A0002E526 /* test_settingsScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.11.png; sourceTree = "<group>"; };
-		1E517C2D3017680A0002E526 /* test_settingsScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.12.png; sourceTree = "<group>"; };
-		1E517C3A30176B7B0002E526 /* test_signOutScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.1.png; sourceTree = "<group>"; };
-		1E517C3B30176B7B0002E526 /* test_signOutScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.2.png; sourceTree = "<group>"; };
-		1E517C3C30176B7B0002E526 /* test_signOutScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.3.png; sourceTree = "<group>"; };
-		1E517C3D30176B7B0002E526 /* test_signOutScreen.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.4.png; sourceTree = "<group>"; };
-		1E517C3E30176B7B0002E526 /* test_signOutScreen.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.5.png; sourceTree = "<group>"; };
-		1E517C3F30176B7B0002E526 /* test_signOutScreen.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.6.png; sourceTree = "<group>"; };
-		1E517C4030176B7B0002E526 /* test_signOutScreen.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.7.png; sourceTree = "<group>"; };
-		1E517C4130176B7B0002E526 /* test_signOutScreen.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.8.png; sourceTree = "<group>"; };
-		1E517C4230176B7B0002E526 /* test_signOutScreen.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.9.png; sourceTree = "<group>"; };
-		1E517C4330176B7B0002E526 /* test_signOutScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.10.png; sourceTree = "<group>"; };
-		1E517C4430176B7B0002E526 /* test_signOutScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.11.png; sourceTree = "<group>"; };
-		1E517C4530176B7B0002E526 /* test_signOutScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.12.png; sourceTree = "<group>"; };
 		1E517C5230176C0F0002E526 /* test_unlockScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unlockScreen.1.png; sourceTree = "<group>"; };
 		1E517C5330176C0F0002E526 /* test_unlockScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unlockScreen.2.png; sourceTree = "<group>"; };
 		1E517C5430176C0F0002E526 /* test_unlockScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unlockScreen.3.png; sourceTree = "<group>"; };
@@ -1046,6 +997,54 @@
 		C33BF4F42E3A111700F6724F /* WalletNetworkClientWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkClientWrapper.swift; sourceTree = "<group>"; };
 		C34BD1292DDF227E00D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModelTests.swift; sourceTree = "<group>"; };
 		C34F10572F193BDE00947ADB /* NetworkClient+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkClient+TestExtensions.swift"; sourceTree = "<group>"; };
+		C372B6BF3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.1.png; sourceTree = "<group>"; };
+		C372B6C03017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.2.png; sourceTree = "<group>"; };
+		C372B6C13017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.3.png; sourceTree = "<group>"; };
+		C372B6C23017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.4.png; sourceTree = "<group>"; };
+		C372B6C33017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.5.png; sourceTree = "<group>"; };
+		C372B6C43017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.6.png; sourceTree = "<group>"; };
+		C372B6C53017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.7.png; sourceTree = "<group>"; };
+		C372B6C63017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.8.png; sourceTree = "<group>"; };
+		C372B6C73017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.9.png; sourceTree = "<group>"; };
+		C372B6C83017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.10.png; sourceTree = "<group>"; };
+		C372B6C93017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.11.png; sourceTree = "<group>"; };
+		C372B6CA3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_faceID.12.png; sourceTree = "<group>"; };
+		C372B6D73017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.1.png; sourceTree = "<group>"; };
+		C372B6D83017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.2.png; sourceTree = "<group>"; };
+		C372B6D93017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.3.png; sourceTree = "<group>"; };
+		C372B6DA3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.4.png; sourceTree = "<group>"; };
+		C372B6DB3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.5.png; sourceTree = "<group>"; };
+		C372B6DC3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.6.png; sourceTree = "<group>"; };
+		C372B6DD3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.7.png; sourceTree = "<group>"; };
+		C372B6DE3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.8.png; sourceTree = "<group>"; };
+		C372B6DF3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.9.png; sourceTree = "<group>"; };
+		C372B6E03017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.10.png; sourceTree = "<group>"; };
+		C372B6E13017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.11.png; sourceTree = "<group>"; };
+		C372B6E23017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_biometricsEnrolmentScreen_touchID.12.png; sourceTree = "<group>"; };
+		C372B6EF3017A6F800F61905 /* test_settingsScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.1.png; sourceTree = "<group>"; };
+		C372B6F03017A6F800F61905 /* test_settingsScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.2.png; sourceTree = "<group>"; };
+		C372B6F13017A6F800F61905 /* test_settingsScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.3.png; sourceTree = "<group>"; };
+		C372B6F23017A6F800F61905 /* test_settingsScreen.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.4.png; sourceTree = "<group>"; };
+		C372B6F33017A6F800F61905 /* test_settingsScreen.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.5.png; sourceTree = "<group>"; };
+		C372B6F43017A6F800F61905 /* test_settingsScreen.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.6.png; sourceTree = "<group>"; };
+		C372B6F53017A6F800F61905 /* test_settingsScreen.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.7.png; sourceTree = "<group>"; };
+		C372B6F63017A6F800F61905 /* test_settingsScreen.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.8.png; sourceTree = "<group>"; };
+		C372B6F73017A6F800F61905 /* test_settingsScreen.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.9.png; sourceTree = "<group>"; };
+		C372B6F83017A6F800F61905 /* test_settingsScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.10.png; sourceTree = "<group>"; };
+		C372B6F93017A6F800F61905 /* test_settingsScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.11.png; sourceTree = "<group>"; };
+		C372B6FA3017A6F800F61905 /* test_settingsScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.12.png; sourceTree = "<group>"; };
+		C372B7073017A70500F61905 /* test_signOutScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.1.png; sourceTree = "<group>"; };
+		C372B7083017A70500F61905 /* test_signOutScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.2.png; sourceTree = "<group>"; };
+		C372B7093017A70500F61905 /* test_signOutScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.3.png; sourceTree = "<group>"; };
+		C372B70A3017A70500F61905 /* test_signOutScreen.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.4.png; sourceTree = "<group>"; };
+		C372B70B3017A70500F61905 /* test_signOutScreen.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.5.png; sourceTree = "<group>"; };
+		C372B70C3017A70500F61905 /* test_signOutScreen.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.6.png; sourceTree = "<group>"; };
+		C372B70D3017A70500F61905 /* test_signOutScreen.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.7.png; sourceTree = "<group>"; };
+		C372B70E3017A70500F61905 /* test_signOutScreen.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.8.png; sourceTree = "<group>"; };
+		C372B70F3017A70500F61905 /* test_signOutScreen.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.9.png; sourceTree = "<group>"; };
+		C372B7103017A70500F61905 /* test_signOutScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.10.png; sourceTree = "<group>"; };
+		C372B7113017A70500F61905 /* test_signOutScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.11.png; sourceTree = "<group>"; };
+		C372B7123017A70500F61905 /* test_signOutScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_signOutScreen.12.png; sourceTree = "<group>"; };
 		C388D2602DC8E928007C9902 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
 		C390BF392FD97EC0007A8F79 /* URLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpener.swift; sourceTree = "<group>"; };
 		C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIOrchestrator.swift; sourceTree = "<group>"; };
@@ -1108,7 +1107,6 @@
 		C8467D332F1978150071ED81 /* MockAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnalyticsService.swift; sourceTree = "<group>"; };
 		C8467D342F1978150071ED81 /* MockURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLOpener.swift; sourceTree = "<group>"; };
 		C8467D352F1978150071ED81 /* MockUserProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserProvider.swift; sourceTree = "<group>"; };
-		C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapshotTesting+Extensions.swift"; sourceTree = "<group>"; };
 		C8467D382F1978150071ED81 /* ErrorScreenSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorScreenSnapshotTests.swift; sourceTree = "<group>"; };
 		C8467D392F1978150071ED81 /* InstructionScreenSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionScreenSnapshotTests.swift; sourceTree = "<group>"; };
 		C8486FE42C60D80A00DE514C /* LocalAuthServiceWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthServiceWallet.swift; sourceTree = "<group>"; };
@@ -1322,6 +1320,54 @@
 		1E517A7B301761510002E526 /* InstructionScreenSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				C372B7073017A70500F61905 /* test_signOutScreen.1.png */,
+				C372B7083017A70500F61905 /* test_signOutScreen.2.png */,
+				C372B7093017A70500F61905 /* test_signOutScreen.3.png */,
+				C372B70A3017A70500F61905 /* test_signOutScreen.4.png */,
+				C372B70B3017A70500F61905 /* test_signOutScreen.5.png */,
+				C372B70C3017A70500F61905 /* test_signOutScreen.6.png */,
+				C372B70D3017A70500F61905 /* test_signOutScreen.7.png */,
+				C372B70E3017A70500F61905 /* test_signOutScreen.8.png */,
+				C372B70F3017A70500F61905 /* test_signOutScreen.9.png */,
+				C372B7103017A70500F61905 /* test_signOutScreen.10.png */,
+				C372B7113017A70500F61905 /* test_signOutScreen.11.png */,
+				C372B7123017A70500F61905 /* test_signOutScreen.12.png */,
+				C372B6EF3017A6F800F61905 /* test_settingsScreen.1.png */,
+				C372B6F03017A6F800F61905 /* test_settingsScreen.2.png */,
+				C372B6F13017A6F800F61905 /* test_settingsScreen.3.png */,
+				C372B6F23017A6F800F61905 /* test_settingsScreen.4.png */,
+				C372B6F33017A6F800F61905 /* test_settingsScreen.5.png */,
+				C372B6F43017A6F800F61905 /* test_settingsScreen.6.png */,
+				C372B6F53017A6F800F61905 /* test_settingsScreen.7.png */,
+				C372B6F63017A6F800F61905 /* test_settingsScreen.8.png */,
+				C372B6F73017A6F800F61905 /* test_settingsScreen.9.png */,
+				C372B6F83017A6F800F61905 /* test_settingsScreen.10.png */,
+				C372B6F93017A6F800F61905 /* test_settingsScreen.11.png */,
+				C372B6FA3017A6F800F61905 /* test_settingsScreen.12.png */,
+				C372B6D73017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.1.png */,
+				C372B6D83017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.2.png */,
+				C372B6D93017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.3.png */,
+				C372B6DA3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.4.png */,
+				C372B6DB3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.5.png */,
+				C372B6DC3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.6.png */,
+				C372B6DD3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.7.png */,
+				C372B6DE3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.8.png */,
+				C372B6DF3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.9.png */,
+				C372B6E03017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.10.png */,
+				C372B6E13017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.11.png */,
+				C372B6E23017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.12.png */,
+				C372B6BF3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.1.png */,
+				C372B6C03017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.2.png */,
+				C372B6C13017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.3.png */,
+				C372B6C23017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.4.png */,
+				C372B6C33017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.5.png */,
+				C372B6C43017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.6.png */,
+				C372B6C53017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.7.png */,
+				C372B6C63017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.8.png */,
+				C372B6C73017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.9.png */,
+				C372B6C83017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.10.png */,
+				C372B6C93017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.11.png */,
+				C372B6CA3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.12.png */,
 				1E517C6A30176CB10002E526 /* test_homeScreen.1.png */,
 				1E517C6B30176CB10002E526 /* test_homeScreen.2.png */,
 				1E517C6C30176CB10002E526 /* test_homeScreen.3.png */,
@@ -1346,30 +1392,6 @@
 				1E517C5B30176C0F0002E526 /* test_unlockScreen.10.png */,
 				1E517C5C30176C0F0002E526 /* test_unlockScreen.11.png */,
 				1E517C5D30176C0F0002E526 /* test_unlockScreen.12.png */,
-				1E517C3A30176B7B0002E526 /* test_signOutScreen.1.png */,
-				1E517C3B30176B7B0002E526 /* test_signOutScreen.2.png */,
-				1E517C3C30176B7B0002E526 /* test_signOutScreen.3.png */,
-				1E517C3D30176B7B0002E526 /* test_signOutScreen.4.png */,
-				1E517C3E30176B7B0002E526 /* test_signOutScreen.5.png */,
-				1E517C3F30176B7B0002E526 /* test_signOutScreen.6.png */,
-				1E517C4030176B7B0002E526 /* test_signOutScreen.7.png */,
-				1E517C4130176B7B0002E526 /* test_signOutScreen.8.png */,
-				1E517C4230176B7B0002E526 /* test_signOutScreen.9.png */,
-				1E517C4330176B7B0002E526 /* test_signOutScreen.10.png */,
-				1E517C4430176B7B0002E526 /* test_signOutScreen.11.png */,
-				1E517C4530176B7B0002E526 /* test_signOutScreen.12.png */,
-				1E517C223017680A0002E526 /* test_settingsScreen.1.png */,
-				1E517C233017680A0002E526 /* test_settingsScreen.2.png */,
-				1E517C243017680A0002E526 /* test_settingsScreen.3.png */,
-				1E517C253017680A0002E526 /* test_settingsScreen.4.png */,
-				1E517C263017680A0002E526 /* test_settingsScreen.5.png */,
-				1E517C273017680A0002E526 /* test_settingsScreen.6.png */,
-				1E517C283017680A0002E526 /* test_settingsScreen.7.png */,
-				1E517C293017680A0002E526 /* test_settingsScreen.8.png */,
-				1E517C2A3017680A0002E526 /* test_settingsScreen.9.png */,
-				1E517C2B3017680A0002E526 /* test_settingsScreen.10.png */,
-				1E517C2C3017680A0002E526 /* test_settingsScreen.11.png */,
-				1E517C2D3017680A0002E526 /* test_settingsScreen.12.png */,
 				1E5179F7301761510002E526 /* test_analyticsPeferenceScreen.1.png */,
 				1E5179F8301761510002E526 /* test_analyticsPeferenceScreen.2.png */,
 				1E5179F9301761510002E526 /* test_analyticsPeferenceScreen.3.png */,
@@ -1382,30 +1404,6 @@
 				1E517A00301761510002E526 /* test_analyticsPeferenceScreen.10.png */,
 				1E517A01301761510002E526 /* test_analyticsPeferenceScreen.11.png */,
 				1E517A02301761510002E526 /* test_analyticsPeferenceScreen.12.png */,
-				1E517A03301761510002E526 /* test_biometricsEnrolmentScreen_faceID.1.png */,
-				1E517A04301761510002E526 /* test_biometricsEnrolmentScreen_faceID.2.png */,
-				1E517A05301761510002E526 /* test_biometricsEnrolmentScreen_faceID.3.png */,
-				1E517A06301761510002E526 /* test_biometricsEnrolmentScreen_faceID.4.png */,
-				1E517A07301761510002E526 /* test_biometricsEnrolmentScreen_faceID.5.png */,
-				1E517A08301761510002E526 /* test_biometricsEnrolmentScreen_faceID.6.png */,
-				1E517A09301761510002E526 /* test_biometricsEnrolmentScreen_faceID.7.png */,
-				1E517A0A301761510002E526 /* test_biometricsEnrolmentScreen_faceID.8.png */,
-				1E517A0B301761510002E526 /* test_biometricsEnrolmentScreen_faceID.9.png */,
-				1E517A0C301761510002E526 /* test_biometricsEnrolmentScreen_faceID.10.png */,
-				1E517A0D301761510002E526 /* test_biometricsEnrolmentScreen_faceID.11.png */,
-				1E517A0E301761510002E526 /* test_biometricsEnrolmentScreen_faceID.12.png */,
-				1E517A0F301761510002E526 /* test_biometricsEnrolmentScreen_touchID.1.png */,
-				1E517A10301761510002E526 /* test_biometricsEnrolmentScreen_touchID.2.png */,
-				1E517A11301761510002E526 /* test_biometricsEnrolmentScreen_touchID.3.png */,
-				1E517A12301761510002E526 /* test_biometricsEnrolmentScreen_touchID.4.png */,
-				1E517A13301761510002E526 /* test_biometricsEnrolmentScreen_touchID.5.png */,
-				1E517A14301761510002E526 /* test_biometricsEnrolmentScreen_touchID.6.png */,
-				1E517A15301761510002E526 /* test_biometricsEnrolmentScreen_touchID.7.png */,
-				1E517A16301761510002E526 /* test_biometricsEnrolmentScreen_touchID.8.png */,
-				1E517A17301761510002E526 /* test_biometricsEnrolmentScreen_touchID.9.png */,
-				1E517A18301761510002E526 /* test_biometricsEnrolmentScreen_touchID.10.png */,
-				1E517A19301761510002E526 /* test_biometricsEnrolmentScreen_touchID.11.png */,
-				1E517A1A301761510002E526 /* test_biometricsEnrolmentScreen_touchID.12.png */,
 				1E517A27301761510002E526 /* test_loadingScreen.1.png */,
 				1E517A28301761510002E526 /* test_loadingScreen.2.png */,
 				1E517A29301761510002E526 /* test_loadingScreen.3.png */,
@@ -2201,7 +2199,6 @@
 				C8467D332F1978150071ED81 /* MockAnalyticsService.swift */,
 				C8467D342F1978150071ED81 /* MockURLOpener.swift */,
 				C8467D352F1978150071ED81 /* MockUserProvider.swift */,
-				C8467D362F1978150071ED81 /* SnapshotTesting+Extensions.swift */,
 			);
 			path = "Mocks&Helpers";
 			sourceTree = "<group>";
@@ -3133,18 +3130,6 @@
 				C327A32C2FF6879500A4CB01 /* test_localAuthBiometricsErrorFaceId.4.png in Resources */,
 				1EE98DD330092D5D008AED79 /* test_genericError.8.png in Resources */,
 				1EE98DD430092D5D008AED79 /* test_recoverableLoginError.5.png in Resources */,
-				1E517C4630176B7B0002E526 /* test_signOutScreen.7.png in Resources */,
-				1E517C4730176B7B0002E526 /* test_signOutScreen.8.png in Resources */,
-				1E517C4830176B7B0002E526 /* test_signOutScreen.1.png in Resources */,
-				1E517C4930176B7B0002E526 /* test_signOutScreen.2.png in Resources */,
-				1E517C4A30176B7B0002E526 /* test_signOutScreen.11.png in Resources */,
-				1E517C4B30176B7B0002E526 /* test_signOutScreen.12.png in Resources */,
-				1E517C4C30176B7B0002E526 /* test_signOutScreen.4.png in Resources */,
-				1E517C4D30176B7B0002E526 /* test_signOutScreen.6.png in Resources */,
-				1E517C4E30176B7B0002E526 /* test_signOutScreen.10.png in Resources */,
-				1E517C4F30176B7B0002E526 /* test_signOutScreen.5.png in Resources */,
-				1E517C5030176B7B0002E526 /* test_signOutScreen.9.png in Resources */,
-				1E517C5130176B7B0002E526 /* test_signOutScreen.3.png in Resources */,
 				1EE98DD530092D5D008AED79 /* test_unrecoverableLoginError.2.png in Resources */,
 				1EE98DD630092D5D008AED79 /* test_updateAppError.4.png in Resources */,
 				1EE98DD730092D5D008AED79 /* test_dataDeletedWarning.5.png in Resources */,
@@ -3178,22 +3163,22 @@
 				1EE98DF330092D5D008AED79 /* test_genericError.11.png in Resources */,
 				1EE98DF430092D5D008AED79 /* test_recoverableLoginError.12.png in Resources */,
 				1EE98DF530092D5D008AED79 /* test_networkConnectionError.8.png in Resources */,
-				1E517C2E3017680A0002E526 /* test_settingsScreen.4.png in Resources */,
-				1E517C2F3017680A0002E526 /* test_settingsScreen.6.png in Resources */,
-				1E517C303017680A0002E526 /* test_settingsScreen.2.png in Resources */,
-				1E517C313017680A0002E526 /* test_settingsScreen.10.png in Resources */,
-				1E517C323017680A0002E526 /* test_settingsScreen.5.png in Resources */,
-				1E517C333017680A0002E526 /* test_settingsScreen.9.png in Resources */,
-				1E517C343017680A0002E526 /* test_settingsScreen.1.png in Resources */,
-				1E517C353017680A0002E526 /* test_settingsScreen.3.png in Resources */,
-				1E517C363017680A0002E526 /* test_settingsScreen.8.png in Resources */,
-				1E517C373017680A0002E526 /* test_settingsScreen.11.png in Resources */,
-				1E517C383017680A0002E526 /* test_settingsScreen.12.png in Resources */,
-				1E517C393017680A0002E526 /* test_settingsScreen.7.png in Resources */,
 				1EE98DF630092D5D008AED79 /* test_unrecoverableLoginError.10.png in Resources */,
 				1EE98DF730092D5D008AED79 /* test_unrecoverableLoginError.6.png in Resources */,
 				1EE98DF830092D5D008AED79 /* test_dataDeletedWarning.8.png in Resources */,
 				1EE98DF930092D5D008AED79 /* test_networkConnectionError.6.png in Resources */,
+				C372B6E33017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */,
+				C372B6E43017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */,
+				C372B6E53017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */,
+				C372B6E63017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */,
+				C372B6E73017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */,
+				C372B6E83017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */,
+				C372B6E93017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */,
+				C372B6EA3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */,
+				C372B6EB3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */,
+				C372B6EC3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */,
+				C372B6ED3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */,
+				C372B6EE3017A6E800F61905 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */,
 				1EE98DFA30092D5D008AED79 /* test_networkConnectionError.11.png in Resources */,
 				1EE98DFB30092D5D008AED79 /* test_unrecoverableLoginError.7.png in Resources */,
 				1EE98DFC30092D5D008AED79 /* test_networkConnectionError.1.png in Resources */,
@@ -3217,8 +3202,6 @@
 				1EE98E0E30092D5D008AED79 /* test_dataDeletedWarning.11.png in Resources */,
 				1EE98E0F30092D5D008AED79 /* test_dataDeletedWarning.3.png in Resources */,
 				1E517A7C301761510002E526 /* test_loadingScreen.7.png in Resources */,
-				1E517A80301761510002E526 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */,
-				1E517A81301761510002E526 /* test_biometricsEnrolmentScreen_touchID.8.png in Resources */,
 				1E517A82301761510002E526 /* test_oneLoginIntroScreen.8.png in Resources */,
 				1E517A84301761510002E526 /* test_signOutSuccessfulScreen.9.png in Resources */,
 				1E517A85301761510002E526 /* test_loadingScreen.12.png in Resources */,
@@ -3226,56 +3209,52 @@
 				1E517A88301761510002E526 /* test_oneLoginIntroScreen.5.png in Resources */,
 				1E517A89301761510002E526 /* test_analyticsPeferenceScreen.5.png in Resources */,
 				1E517A8A301761510002E526 /* test_signInWarningScreen.8.png in Resources */,
-				1E517A8C301761510002E526 /* test_biometricsEnrolmentScreen_touchID.10.png in Resources */,
 				1E517A8E301761510002E526 /* test_signOutSuccessfulScreen.7.png in Resources */,
 				1E517A90301761510002E526 /* test_loadingScreen.1.png in Resources */,
 				1E517A91301761510002E526 /* test_analyticsPeferenceScreen.7.png in Resources */,
-				1E517A95301761510002E526 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */,
 				1E517A96301761510002E526 /* test_signInWarningScreen.3.png in Resources */,
-				1E517A99301761510002E526 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */,
 				1E517A9B301761510002E526 /* test_loadingScreen.8.png in Resources */,
-				1E517A9D301761510002E526 /* test_biometricsEnrolmentScreen_touchID.3.png in Resources */,
-				1E517A9F301761510002E526 /* test_biometricsEnrolmentScreen_touchID.12.png in Resources */,
 				1E517AA0301761510002E526 /* test_signInWarningScreen.12.png in Resources */,
 				1E517AA1301761510002E526 /* test_oneLoginIntroScreen.2.png in Resources */,
 				1E517AA3301761510002E526 /* test_analyticsPeferenceScreen.10.png in Resources */,
 				1E517AA4301761510002E526 /* test_signInWarningScreen.4.png in Resources */,
 				1E517AA5301761510002E526 /* test_loadingScreen.11.png in Resources */,
-				1E517AA6301761510002E526 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */,
-				1E517AA7301761510002E526 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */,
 				1E517AA8301761510002E526 /* test_signOutSuccessfulScreen.2.png in Resources */,
-				1E517AAA301761510002E526 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */,
 				1E517AAD301761510002E526 /* test_oneLoginIntroScreen.11.png in Resources */,
 				1E517AAE301761510002E526 /* test_signOutSuccessfulScreen.3.png in Resources */,
-				1E517AAF301761510002E526 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */,
 				1E517AB0301761510002E526 /* test_oneLoginIntroScreen.1.png in Resources */,
-				1E517AB1301761510002E526 /* test_biometricsEnrolmentScreen_touchID.9.png in Resources */,
-				1E517AB4301761510002E526 /* test_biometricsEnrolmentScreen_touchID.5.png in Resources */,
 				1E517AB5301761510002E526 /* test_analyticsPeferenceScreen.3.png in Resources */,
 				1E517AB6301761510002E526 /* test_loadingScreen.10.png in Resources */,
 				1E517AB8301761510002E526 /* test_signOutSuccessfulScreen.4.png in Resources */,
 				1E517AB9301761510002E526 /* test_signInWarningScreen.10.png in Resources */,
 				1E517ABB301761510002E526 /* test_analyticsPeferenceScreen.2.png in Resources */,
-				1E517ABC301761510002E526 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */,
 				1E517ABE301761510002E526 /* test_signOutSuccessfulScreen.5.png in Resources */,
 				1E517ABF301761510002E526 /* test_oneLoginIntroScreen.12.png in Resources */,
-				1E517AC0301761510002E526 /* test_biometricsEnrolmentScreen_touchID.6.png in Resources */,
 				1E517AC3301761510002E526 /* test_oneLoginIntroScreen.3.png in Resources */,
 				1E517AC4301761510002E526 /* test_signInWarningScreen.2.png in Resources */,
 				1E517AC5301761510002E526 /* test_signInWarningScreen.6.png in Resources */,
 				1E517AC6301761510002E526 /* test_loadingScreen.3.png in Resources */,
-				1E517ACB301761510002E526 /* test_biometricsEnrolmentScreen_touchID.4.png in Resources */,
 				1E517ACC301761510002E526 /* test_signInWarningScreen.9.png in Resources */,
-				1E517ACE301761510002E526 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */,
 				1E517AD0301761510002E526 /* test_oneLoginIntroScreen.6.png in Resources */,
 				1E517AD1301761510002E526 /* test_signInWarningScreen.11.png in Resources */,
-				1E517AD3301761510002E526 /* test_biometricsEnrolmentScreen_touchID.7.png in Resources */,
 				1E517C5E30176C0F0002E526 /* test_unlockScreen.6.png in Resources */,
 				1E517C5F30176C0F0002E526 /* test_unlockScreen.3.png in Resources */,
 				1E517C6030176C0F0002E526 /* test_unlockScreen.2.png in Resources */,
 				1E517C6130176C0F0002E526 /* test_unlockScreen.1.png in Resources */,
 				1E517C6230176C0F0002E526 /* test_unlockScreen.7.png in Resources */,
 				1E517C6330176C0F0002E526 /* test_unlockScreen.4.png in Resources */,
+				C372B6FB3017A6F800F61905 /* test_settingsScreen.2.png in Resources */,
+				C372B6FC3017A6F800F61905 /* test_settingsScreen.11.png in Resources */,
+				C372B6FD3017A6F800F61905 /* test_settingsScreen.8.png in Resources */,
+				C372B6FE3017A6F800F61905 /* test_settingsScreen.4.png in Resources */,
+				C372B6FF3017A6F800F61905 /* test_settingsScreen.12.png in Resources */,
+				C372B7003017A6F800F61905 /* test_settingsScreen.3.png in Resources */,
+				C372B7013017A6F800F61905 /* test_settingsScreen.6.png in Resources */,
+				C372B7023017A6F800F61905 /* test_settingsScreen.1.png in Resources */,
+				C372B7033017A6F800F61905 /* test_settingsScreen.5.png in Resources */,
+				C372B7043017A6F800F61905 /* test_settingsScreen.9.png in Resources */,
+				C372B7053017A6F800F61905 /* test_settingsScreen.10.png in Resources */,
+				C372B7063017A6F800F61905 /* test_settingsScreen.7.png in Resources */,
 				1E517C6430176C0F0002E526 /* test_unlockScreen.9.png in Resources */,
 				1E517C6530176C0F0002E526 /* test_unlockScreen.10.png in Resources */,
 				1E517C6630176C0F0002E526 /* test_unlockScreen.11.png in Resources */,
@@ -3289,27 +3268,21 @@
 				1E517ADB301761510002E526 /* test_signOutSuccessfulScreen.1.png in Resources */,
 				1E517ADE301761510002E526 /* test_signInWarningScreen.7.png in Resources */,
 				1E517ADF301761510002E526 /* test_signOutSuccessfulScreen.12.png in Resources */,
-				1E517AE1301761510002E526 /* test_biometricsEnrolmentScreen_touchID.11.png in Resources */,
 				1E517AE4301761510002E526 /* test_loadingScreen.9.png in Resources */,
 				1E517AE6301761510002E526 /* test_analyticsPeferenceScreen.6.png in Resources */,
 				1E517AE7301761510002E526 /* test_analyticsPeferenceScreen.4.png in Resources */,
 				1E517AE8301761510002E526 /* test_signInWarningScreen.1.png in Resources */,
-				1E517AEA301761510002E526 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */,
 				1E517AEB301761510002E526 /* test_signOutSuccessfulScreen.10.png in Resources */,
 				1E517AEC301761510002E526 /* test_oneLoginIntroScreen.10.png in Resources */,
-				1E517AED301761510002E526 /* test_biometricsEnrolmentScreen_touchID.2.png in Resources */,
-				1E517AEE301761510002E526 /* test_biometricsEnrolmentScreen_touchID.1.png in Resources */,
 				1E517AEF301761510002E526 /* test_loadingScreen.4.png in Resources */,
 				1E517AF0301761510002E526 /* test_analyticsPeferenceScreen.11.png in Resources */,
 				1E517AF1301761510002E526 /* test_analyticsPeferenceScreen.9.png in Resources */,
 				1E517AF2301761510002E526 /* test_loadingScreen.5.png in Resources */,
-				1E517AF3301761510002E526 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */,
 				1E517AF6301761510002E526 /* test_loadingScreen.2.png in Resources */,
 				1E517AF7301761510002E526 /* test_signInWarningScreen.5.png in Resources */,
 				1E517AF8301761510002E526 /* test_analyticsPeferenceScreen.12.png in Resources */,
 				1E517AFB301761510002E526 /* test_analyticsPeferenceScreen.8.png in Resources */,
 				1E517AFC301761510002E526 /* test_oneLoginIntroScreen.9.png in Resources */,
-				1E517AFD301761510002E526 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */,
 				1E517AFE301761510002E526 /* test_loadingScreen.6.png in Resources */,
 				1E517AFF301761510002E526 /* test_oneLoginIntroScreen.7.png in Resources */,
 				1EE98E1030092D5D008AED79 /* test_networkConnectionError.2.png in Resources */,
@@ -3347,6 +3320,30 @@
 				1E2124942FF3D787005A38FE /* test_appUnavailableError.12.png in Resources */,
 				1E2124952FF3D787005A38FE /* test_appUnavailableError.10.png in Resources */,
 				1E2124962FF3D787005A38FE /* test_appUnavailableError.1.png in Resources */,
+				C372B6CB3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.12.png in Resources */,
+				C372B6CC3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.9.png in Resources */,
+				C372B6CD3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.10.png in Resources */,
+				C372B6CE3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.4.png in Resources */,
+				C372B6CF3017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.5.png in Resources */,
+				C372B6D03017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.6.png in Resources */,
+				C372B6D13017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */,
+				C372B6D23017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.11.png in Resources */,
+				C372B6D33017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.2.png in Resources */,
+				C372B7133017A70500F61905 /* test_signOutScreen.6.png in Resources */,
+				C372B7143017A70500F61905 /* test_signOutScreen.3.png in Resources */,
+				C372B7153017A70500F61905 /* test_signOutScreen.8.png in Resources */,
+				C372B7163017A70500F61905 /* test_signOutScreen.7.png in Resources */,
+				C372B7173017A70500F61905 /* test_signOutScreen.9.png in Resources */,
+				C372B7183017A70500F61905 /* test_signOutScreen.10.png in Resources */,
+				C372B7193017A70500F61905 /* test_signOutScreen.11.png in Resources */,
+				C372B71A3017A70500F61905 /* test_signOutScreen.12.png in Resources */,
+				C372B71B3017A70500F61905 /* test_signOutScreen.1.png in Resources */,
+				C372B71C3017A70500F61905 /* test_signOutScreen.2.png in Resources */,
+				C372B71D3017A70500F61905 /* test_signOutScreen.4.png in Resources */,
+				C372B71E3017A70500F61905 /* test_signOutScreen.5.png in Resources */,
+				C372B6D43017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.1.png in Resources */,
+				C372B6D53017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.3.png in Resources */,
+				C372B6D63017A6DC00F61905 /* test_biometricsEnrolmentScreen_faceID.7.png in Resources */,
 				1E2124972FF3D787005A38FE /* test_appUnavailableError.9.png in Resources */,
 				1E2124982FF3D787005A38FE /* test_appUnavailableError.7.png in Resources */,
 				1E2124992FF3D787005A38FE /* test_appUnavailableError.4.png in Resources */,
@@ -3559,7 +3556,6 @@
 				C8467D3B2F1978150071ED81 /* MockAnalyticsService.swift in Sources */,
 				C8467D3C2F1978150071ED81 /* MockURLOpener.swift in Sources */,
 				C8467D3D2F1978150071ED81 /* MockUserProvider.swift in Sources */,
-				C8467D3E2F1978150071ED81 /* SnapshotTesting+Extensions.swift in Sources */,
 				C8467D3F2F1978150071ED81 /* ErrorScreenSnapshotTests.swift in Sources */,
 				C8467D402F1978150071ED81 /* InstructionScreenSnapshotTests.swift in Sources */,
 			);
