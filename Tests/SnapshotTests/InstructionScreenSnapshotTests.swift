@@ -2,6 +2,7 @@ import DesignSystem
 import LocalAuthenticationWrapper
 @testable import OneLogin
 @testable import SnapshotHelpers
+internal import SnapshotTesting
 import Testing
 import UIKit
 
@@ -125,7 +126,7 @@ struct InstructionScreenSnapshotTests {
             analyticsPreference: analyticsService.analyticsPreferenceStore)
         
         root.pushViewController(vc, animated: false)
-        root.assertSnapshot()
+        root.assertSnapshot(devices: [.iPhone13ProMax(.portrait), .iPhone13ProMax(.landscape)])
     }
     
     @Test
