@@ -16,14 +16,14 @@ require 'securerandom'
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "600"
 
 default_platform(:ios)
-xcode_select("/Applications/Xcode_26.4.1.app")
+xcode_select("/Applications/Xcode_26.5.app")
 
 platform :ios do
   desc "Build for testing"
   lane :buildForTesting do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone 17 (26.4.1)",
+      device: "iPhone 17 (26.5)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       xcodebuild_formatter: "xcpretty",
@@ -35,7 +35,7 @@ platform :ios do
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutBuildingWithoutCoverage do |options|
     run_tests(
-      device: "iPhone 17 (26.4.1)",
+      device: "iPhone 17 (26.5)",
       scheme: options[:scheme],
       xcodebuild_formatter: "xcpretty",
       xctestrun: options[:xctestrun],
@@ -48,7 +48,7 @@ platform :ios do
   lane :testWithoutCoverage do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone 17 (26.4.1)",
+      device: "iPhone 17 (26.5)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       xcodebuild_formatter: "xcpretty",
@@ -61,7 +61,7 @@ platform :ios do
   lane :testWithoutCoverageForUITests do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone 17 (26.4.1)",
+      device: "iPhone 17 (26.5)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       xcodebuild_formatter: "xcpretty",
@@ -77,7 +77,7 @@ platform :ios do
   lane :test do |options|
     run_tests(
       workspace: "OneLogin.xcworkspace",
-      device: "iPhone 17 (26.4.1)",
+      device: "iPhone 17 (26.5)",
       scheme: options[:scheme],
       configuration: options[:configuration],
       xcodebuild_formatter: "xcpretty",
@@ -102,7 +102,7 @@ platform :ios do
   desc "Run Tests and Output Code Coverage"
   lane :testWithoutBuilding do |options|
     run_tests(
-      device: "iPhone 17 (26.4.1)",
+      device: "iPhone 17 (26.5)",
       scheme: options[:scheme],
       xcodebuild_formatter: "xcpretty",
       xctestrun: options[:xctestrun],

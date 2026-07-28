@@ -5,7 +5,7 @@ final class TabbedViewSectionHeader: UITableViewHeaderFooterView, ViewIdentifiab
     var title: GDSLocalisedString? {
         didSet {
             textLabel?.text = title?.value
-            textLabel?.font = .bodyBold
+            textLabel?.font = .bodySemiBold
             textLabel?.textColor = .label
             textLabel?.adjustsFontForContentSizeCategory = true
         }
