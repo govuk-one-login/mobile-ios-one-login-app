@@ -20,7 +20,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/govuk-one-login/mobile-ios-utilities",
-            from: "1.0.0"
+            branch: "feat/DCMAW-21061-standardise-gdserror"
         )
     ],
     targets: [

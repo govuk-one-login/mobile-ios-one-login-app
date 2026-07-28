@@ -4,26 +4,26 @@ import Testing
 struct AppIntegrityErrorTests {
     // swiftlint:disable line_length
     static let allFirebaseAppCheckErrors = [
-        (error: FirebaseAppCheckError(.unknown, reason: "unknown firebase app check service error"), debugDescription: "unknown firebase app check service error"),
-        (error: FirebaseAppCheckError(.network, reason: "network error in firebase app check service"), debugDescription: "network error in firebase app check service"),
-        (error: FirebaseAppCheckError(.invalidConfiguration, reason: "invalid configuration for firebase app check service"), debugDescription: "invalid configuration for firebase app check service"),
-        (error: FirebaseAppCheckError(.keychainAccess, reason: "keychain access error in firebase app check service"), debugDescription: "keychain access error in firebase app check service"),
-        (error: FirebaseAppCheckError(.notSupported, reason: "firebase app check service not supported on this platform"), debugDescription: "firebase app check service not supported on this platform"),
-        (error: FirebaseAppCheckError(.generic, reason: "generic firebase app check service error"), debugDescription: "generic firebase app check service error")
+        (error: FirebaseAppCheckError(.unknown), debugDescription: "Error Domain=FirebaseAppCheckErrorType Code=1000 \"unknown firebase app check service error\""),
+        (error: FirebaseAppCheckError(.network), debugDescription: "Error Domain=FirebaseAppCheckErrorType Code=1001 \"network error in firebase app check service\""),
+        (error: FirebaseAppCheckError(.invalidConfiguration), debugDescription: "Error Domain=FirebaseAppCheckErrorType Code=1002 \"invalid configuration for firebase app check service\""),
+        (error: FirebaseAppCheckError(.keychainAccess), debugDescription: "Error Domain=FirebaseAppCheckErrorType Code=1003 \"keychain access error in firebase app check service\""),
+        (error: FirebaseAppCheckError(.notSupported), debugDescription: "Error Domain=FirebaseAppCheckErrorType Code=1004 \"firebase app check service not supported on this platform\""),
+        (error: FirebaseAppCheckError(.generic), debugDescription: "Error Domain=FirebaseAppCheckErrorType Code=1005 \"generic firebase app check service error\"")
 
     ]
     
     static let allClientAssertionErrors = [
-        (error: ClientAssertionError(.invalidPublicKey, reason: "invalid client attestation public key"), debugDescription: "invalid client attestation public key"),
-        (error: ClientAssertionError(.invalidToken, reason: "invalid firebase app check token"), debugDescription: "invalid firebase app check token"),
-        (error: ClientAssertionError(.serverError, reason: "server error"), debugDescription: "server error"),
-        (error: ClientAssertionError(.cantDecodeClientAssertion, reason: "cant decode client attestation"), debugDescription: "cant decode client attestation")
+        (error: ClientAssertionError(.invalidPublicKey), debugDescription: "Error Domain=ClientAssertionErrorType Code=1001 \"invalid client attestation public key\""),
+        (error: ClientAssertionError(.invalidToken), debugDescription: "Error Domain=ClientAssertionErrorType Code=1002 \"invalid firebase app check token\""),
+        (error: ClientAssertionError(.serverError), debugDescription: "Error Domain=ClientAssertionErrorType Code=2001 \"server error\""),
+        (error: ClientAssertionError(.cantDecodeClientAssertion), debugDescription: "Error Domain=ClientAssertionErrorType Code=3001 \"cant decode client attestation\"")
     ]
     
     static let allProofOfPossessionErrors = [
-        (error: ProofOfPossessionError(.cantGenerateAttestationPublicKeyJWK, reason: "cant generate attestation public key JWK"), debugDescription: "cant generate attestation public key JWK"),
-        (error: ProofOfPossessionError(.cantGenerateAttestationProofOfPossessionJWT, reason: "cant generate attestation proof of possession JWT"), debugDescription: "cant generate attestation proof of possession JWT"),
-        (error: ProofOfPossessionError(.cantGenerateDemonstratingProofOfPossessionJWT, reason: "can't generate demonstrating public key dictionary JWT"), debugDescription: "can't generate demonstrating public key dictionary JWT")
+        (error: ProofOfPossessionError(.cantGenerateAttestationPublicKeyJWK), debugDescription: "Error Domain=ProofOfPossessionErrorType Code=1002 \"cant generate attestation public key JWK\""),
+        (error: ProofOfPossessionError(.cantGenerateAttestationProofOfPossessionJWT), debugDescription: "Error Domain=ProofOfPossessionErrorType Code=1003 \"cant generate attestation proof of possession JWT\""),
+        (error: ProofOfPossessionError(.cantGenerateDemonstratingProofOfPossessionJWT), debugDescription: "Error Domain=ProofOfPossessionErrorType Code=1001 \"can't generate demonstrating public key dictionary JWT\"")
     ]
     // swiftlint:enable line_length
 
