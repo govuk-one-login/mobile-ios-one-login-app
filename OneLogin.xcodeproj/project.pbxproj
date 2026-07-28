@@ -406,6 +406,7 @@
 		C372B7E53022201600F61905 /* test_settingsScreen.5.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7D43022201600F61905 /* test_settingsScreen.5.png */; };
 		C372B7E63022201600F61905 /* test_settingsScreen.12.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7DB3022201600F61905 /* test_settingsScreen.12.png */; };
 		C372B7E73022201600F61905 /* test_settingsScreen.1.png in Resources */ = {isa = PBXBuildFile; fileRef = C372B7D03022201600F61905 /* test_settingsScreen.1.png */; };
+		C372B7393019016500F61905 /* ProveIdentityGuidanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C372B7383019015900F61905 /* ProveIdentityGuidanceViewModel.swift */; };
 		C388D2612DC8E928007C9902 /* HomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C388D2602DC8E928007C9902 /* HomeView.xib */; };
 		C390BF3A2FD97EC4007A8F79 /* URLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C390BF392FD97EC0007A8F79 /* URLOpener.swift */; };
 		C39812232F753B33003CEF98 /* MockCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */; };
@@ -1045,6 +1046,7 @@
 		C372B7D93022201600F61905 /* test_settingsScreen.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.10.png; sourceTree = "<group>"; };
 		C372B7DA3022201600F61905 /* test_settingsScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.11.png; sourceTree = "<group>"; };
 		C372B7DB3022201600F61905 /* test_settingsScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_settingsScreen.12.png; sourceTree = "<group>"; };
+		C372B7383019015900F61905 /* ProveIdentityGuidanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProveIdentityGuidanceViewModel.swift; sourceTree = "<group>"; };
 		C388D2602DC8E928007C9902 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
 		C390BF392FD97EC0007A8F79 /* URLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpener.swift; sourceTree = "<group>"; };
 		C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIOrchestrator.swift; sourceTree = "<group>"; };
@@ -1575,6 +1577,7 @@
 		4195E6C62B0CC6C50065E2BB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C372B7373019014F00F61905 /* Guidance */,
 				C87829962CB56F6000CB10C5 /* Analytics */,
 				D08B0B522BD7F7D600769CEA /* DeveloperMenu */,
 				C87829932CB56EA100CB10C5 /* Enrolment */,
@@ -1851,6 +1854,14 @@
 				C33BF4F42E3A111700F6724F /* WalletNetworkClientWrapper.swift */,
 			);
 			path = WalletUtilities;
+			sourceTree = "<group>";
+		};
+		C372B7373019014F00F61905 /* Guidance */ = {
+			isa = PBXGroup;
+			children = (
+				C372B7383019015900F61905 /* ProveIdentityGuidanceViewModel.swift */,
+			);
+			path = Guidance;
 			sourceTree = "<group>";
 		};
 		C390BF382FD97EB7007A8F79 /* URLOpener */ = {
@@ -3670,6 +3681,7 @@
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
 				C30D5F7C2F20E35D001412CF /* ErrorTypes.swift in Sources */,
 				C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */,
+				C372B7393019016500F61905 /* ProveIdentityGuidanceViewModel.swift in Sources */,
 				414D98032B8DEC7100E267EF /* UnlockScreenViewController.swift in Sources */,
 				C811D6582EA05628009909A8 /* AppIntegrityDPoPJWT.swift in Sources */,
 				414D98072B8E078700E267EF /* UnlockScreenViewModel.swift in Sources */,
