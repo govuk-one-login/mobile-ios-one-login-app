@@ -35,7 +35,9 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                                    icon: .arrowUpRight,
                                    style: .secondary.adjusting(alignment: .leading),
                                    buttonAction: .action({
-                                       let event = ButtonEvent(textKey: "app_proveYourIdentityGuidanceLink")
+                                       let event = LinkEvent(textKey: "app_proveYourIdentityGuidanceLink",
+                                                             linkDomain: AppEnvironment.govSignInURL.absoluteString,
+                                                             external: .true)
                                        analyticsService.logEvent(event)
                                        
                                        urlOpener.open(url: AppEnvironment.govSignInURL)
