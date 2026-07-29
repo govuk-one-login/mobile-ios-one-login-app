@@ -60,6 +60,7 @@ final class AppEnvironmentTests: XCTestCase {
         XCTAssertEqual(sut.contactURL.absoluteString, "https://home.account.gov.uk/contact-gov-uk-one-login?lng=en")
         XCTAssertEqual(sut.privacyPolicyURL.absoluteString, "https://gov.uk/government/publications/govuk-one-login-privacy-notice")
         XCTAssertEqual(sut.accessibilityStatementURL.absoluteString, "https://gov.uk/one-login/app-accessibility")
+        XCTAssertEqual(sut.govSignInURL.absoluteString, "https://gov.uk/sign-in")
     }
     
     func test_appEnvironment_appStoreURLs() {
