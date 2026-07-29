@@ -42,6 +42,7 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                                        
                                        urlOpener.open(url: AppEnvironment.govSignInURL)
                                    }),
+                                   accessibilityHint: GDSLocalisedString("app_externalBrowser").value,
                                    verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringLiteral: "app_proveYourIdentityGuidanceBody2",
                                                            stringAttributes: [(GDSLocalisedString("app_proveYourIdentityGuidanceBody2").value, [.font: UIFont.bodyBold])]),
