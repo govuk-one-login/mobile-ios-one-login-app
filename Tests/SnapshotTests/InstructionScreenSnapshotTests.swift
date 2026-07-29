@@ -133,7 +133,8 @@ struct InstructionScreenSnapshotTests {
     func test_homeScreen() {
         let root = UINavigationController()
         let vc = HomeViewController(analyticsService: analyticsService,
-                                    criOrchestrator: MockCRIOrchestrator())
+                                    criOrchestrator: MockCRIOrchestrator(),
+                                    openProveIdentityGuidancePage: {})
         
         root.pushViewController(vc, animated: false)
         root.assertSnapshot()

@@ -2,6 +2,7 @@
 
 import XCTest
 
+// swiftlint:disable type_body_length
 final class LocalizedWelshStringTests: XCTestCase {
     func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getWelshString(),
@@ -291,4 +292,5 @@ final class LocalizedWelshStringTests: XCTestCase {
 
 }
 
+// swiftlint:enable type_body_length
 // swiftlint:enable line_length
