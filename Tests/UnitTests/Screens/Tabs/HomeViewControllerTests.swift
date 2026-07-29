@@ -111,7 +111,7 @@ extension HomeViewControllerTests {
         
         let body = viewModel.contentItems[1] as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_appPurposeTileBody1")
-        #expect(body?.title.value == "To start, go to the GOV.UK website and find the government service you need to use. You’ll be asked to open this app if you need it.")
+        #expect(body?.title.value == "To start, go to the GOV.UK website and find the government service you need to use. You'll be asked to open this app if you need it.")
         
         let buttonTitle = viewModel.contentItems.last as? GDSButtonViewModel
         #expect(buttonTitle?.title.forState(.normal) == "Find out more")

@@ -224,7 +224,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appPurposeTileHeader".getEnglishString(),
                        "How to prove your identity")
         XCTAssertEqual("app_appPurposeTileBody1".getEnglishString(),
-                       "To start, go to the GOV.UK website and find the government service you need to use. You’ll be asked to open this app if you need it.")
+                       "To start, go to the GOV.UK website and find the government service you need to use. You'll be asked to open this app if you need it.")
         XCTAssertEqual("app_appPurposeTileButton".getEnglishString(),
                        "Find out more")
     }
