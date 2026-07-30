@@ -291,11 +291,7 @@ extension AppEnvironment {
     }
     
     static var govSignInURL: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = govURLString
-        components.path = "/sign-in"
-        return components.url!
+        return govURL.appendingPathComponent("sign-in")
     }
 }
 
