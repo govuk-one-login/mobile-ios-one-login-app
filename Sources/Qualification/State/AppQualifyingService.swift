@@ -7,7 +7,35 @@ import SecureStore
 
 @MainActor
 protocol QualifyingService: AnyObject {
+    /// Assign a delegate to receive state updates on:
+    /// * ``AppInformationState``
+    /// * ``AppSessionState``
+    /// * ``RemoteServiceState``
+    ///
+    /// Assigning a delegate guarantees that any future state updates will be delivered.
+    /// Past state updates, including the current state are NOT expected to delivered at the time a delegate is assigned.
+    ///
+    /// An implementation of ``QualifyingService`` chooses how and when state updates are delivered,
+    /// including whether they are delivered as they arrive or scheduled to be delivered (e.g. at the next opportunity)
+    ///
+    /// - SeeAlso: ``AppQualifyingService``
+    /// - Remark: Your implementation of ``QualifyingService`` must provide strong guarantees that state updates
+    /// are delivered in the "correct" sequence and represent valid transitions.
     var delegate: AppQualifyingServiceDelegate? { get set }
+    
+    /// Schedules an evaluation to both the ``AppInformationState`` and ``AppSessionState``.
+    /// Assign a ``delegate`` prior to the call to ``initiate()`` to receive state updates as they arrive.
+    ///
+    /// Once an evaluation is in flight, no further evaluations can be scheduled. In other words, multiple calls
+    /// to ``initiate()`` in quick succession are effectively no-op.
+    ///
+    /// This is by design as it's meant to avoid excessive, unnecessary evaluations that can effectively keep the system
+    /// busy and starve it off its ability to execute any other work.
+    ///
+    /// A state update is guaranteed to be delivered in the correct sequence and represent valid transitions
+    /// between states over time. While multiple calls to ``initiate()`` in quick succession do not result in
+    /// an equal number of evaluations, you are guaranteed to receive a state update in the correct sequence and represent valid transitions between states over time.
+    ///
     func initiate()
     func evaluateUserSession() async
 }
@@ -49,8 +77,8 @@ final class AppQualifyingService: QualifyingService {
             }
         }
     }
-
-    let serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
+    
+    private var task: Task<Void, Never>?
 
     init(
         analyticsService: OneLoginAnalyticsService,
@@ -63,11 +91,16 @@ final class AppQualifyingService: QualifyingService {
     }
     
     public func initiate() {
-        Task {
-            try await serialTaskQueue.enqueue {
-                await self.qualifyAppVersion()
-                await self.evaluateUserSession()
+        guard task == nil else {
+            return
+        }
+
+        self.task = Task(name: #function) {
+            defer {
+                self.task = nil
             }
+            await qualifyAppVersion()
+            await evaluateUserSession()
         }
     }
     
