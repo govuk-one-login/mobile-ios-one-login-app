@@ -1,11 +1,27 @@
 import Foundation
+import GDSUtilities
 
-enum RefreshTokenExchangeError: Error {
-    case accountIntervention
-    case appIntegrityFailed
-    case noInternet
-    case reauthenticationRequired
+public enum RefreshTokenExchangeErrorKind: Int, GDSErrorKind {
+    case accountIntervention = 1001
+    case appIntegrityFailed = 1002
+    case noInternet = 1003
+    case reauthenticationRequired = 1004
+
+    public var description: String {
+        switch self {
+        case .accountIntervention:
+            return "there was an account intervention"
+        case .appIntegrityFailed:
+            return "app integrity failed for dPoP or client assertion"
+        case .noInternet:
+            return "no internet - enables offline user access"
+        case .reauthenticationRequired:
+            return "no refresh or id token or valid access token, user must reauthenticate"
+        }
+    }
 }
+
+public typealias RefreshTokenExchangeError = OneLoginGDSError<RefreshTokenExchangeErrorKind>
 
 struct ServerErrorResponse: Decodable {
     let error: GrantType?
