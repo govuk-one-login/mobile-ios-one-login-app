@@ -330,7 +330,7 @@ final class PersistentSessionManager: SessionManager {
                     accessToken: exchangeTokenResponse.accessToken,
                     accessTokenExpiry: exchangeTokenResponse.expiryDate
                 )
-            } catch RefreshTokenExchangeError.noInternet {
+            } catch let error as RefreshTokenExchangeError where error.kind == .noInternet {
                 // Enables offline wallet for users that have valid refresh tokens
                 return
             }
