@@ -5,6 +5,7 @@ import MobilePlatformServices
 import Networking
 import SecureStore
 
+@MainActor
 protocol QualifyingService: AnyObject {
     var delegate: AppQualifyingServiceDelegate? { get set }
     func initiate()
@@ -18,6 +19,7 @@ protocol AppQualifyingServiceDelegate: AnyObject {
     func didChangeServiceState(state: RemoteServiceState)
 }
 
+@MainActor
 final class AppQualifyingService: QualifyingService {
     private let analyticsService: OneLoginAnalyticsService
     private let updateService: AppInformationProvider
@@ -26,27 +28,29 @@ final class AppQualifyingService: QualifyingService {
     
     private var appInfoState: AppInformationState = .notChecked {
         didSet {
-            Task {
-                await delegate?.didChangeAppInfoState(state: appInfoState)
+            Task { [appInfoState = appInfoState] in
+                delegate?.didChangeAppInfoState(state: appInfoState)
             }
         }
     }
     
     private var sessionState: AppSessionState = .notLoggedIn {
         didSet {
-            Task {
-                await delegate?.didChangeSessionState(state: sessionState)
+            Task { [sessionState = sessionState] in
+                delegate?.didChangeSessionState(state: sessionState)
             }
         }
     }
     
     private var serviceState: RemoteServiceState = .activeService {
         didSet {
-            Task {
-                await delegate?.didChangeServiceState(state: serviceState)
+            Task { [serviceState = serviceState] in
+                delegate?.didChangeServiceState(state: serviceState)
             }
         }
     }
+
+    let serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
 
     init(
         analyticsService: OneLoginAnalyticsService,
@@ -60,8 +64,10 @@ final class AppQualifyingService: QualifyingService {
     
     public func initiate() {
         Task {
-            await qualifyAppVersion()
-            await evaluateUserSession()
+            try await serialTaskQueue.enqueue {
+                await self.qualifyAppVersion()
+                await self.evaluateUserSession()
+            }
         }
     }
     
@@ -95,7 +101,6 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    @MainActor
     func evaluateUserSession() async {
         guard appInfoState == .qualified else {
             // Do not continue with local auth unless app info qualifies
