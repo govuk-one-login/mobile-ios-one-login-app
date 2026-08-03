@@ -712,7 +712,7 @@ extension PersistentSessionManagerXCTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
+        } catch let error as RefreshTokenExchangeError where error.kind == .noInternet {
             // Expected path
         }
     }
@@ -744,7 +744,7 @@ extension PersistentSessionManagerXCTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
+        } catch let error as RefreshTokenExchangeError where error.kind == .noInternet {
             // Expected path
         }
     }
@@ -776,7 +776,7 @@ extension PersistentSessionManagerXCTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
+        } catch let error as RefreshTokenExchangeError where error.kind == .appIntegrityFailed {
             // Expected path
         }
     }

@@ -192,7 +192,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = RefreshTokenExchangeError.noInternet
+        sessionManager.errorFromResumeSession = RefreshTokenExchangeError(.noInternet)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
         let (appState, _) = waitForAppInfoStateChange(expectation: expectation, sut: sut, when: { sut in
@@ -206,7 +206,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = RefreshTokenExchangeError.appIntegrityFailed
+        sessionManager.errorFromResumeSession = RefreshTokenExchangeError(.appIntegrityFailed)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
         let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in

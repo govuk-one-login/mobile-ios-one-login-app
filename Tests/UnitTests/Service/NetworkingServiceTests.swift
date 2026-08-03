@@ -129,7 +129,7 @@ struct NetworkingSerivceTests {
                 .execute()
             
             Issue.record("Expected `.reauthenticationRequired` error to be thrown")
-        } catch RefreshTokenExchangeError.reauthenticationRequired {
+        } catch let error as RefreshTokenExchangeError where error.kind == .reauthenticationRequired {
             // Expected path
             let received = await iterator.next()?.name == .reauthenticationRequired
             if received == false {
