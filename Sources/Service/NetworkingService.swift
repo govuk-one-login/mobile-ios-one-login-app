@@ -45,7 +45,10 @@ final class NetworkingService: NetworkClientProtocol {
                     } else {
                         // No refresh token or id token or valid access token, user must reauthenticate
                         NotificationCenter.default.post(name: .reauthenticationRequired)
-                        throw RefreshTokenExchangeError.reauthenticationRequired
+                        throw RefreshTokenExchangeError(
+                            RefreshTokenExchangeErrorType.reauthenticationRequired,
+                            resolvable: false
+                        )
                     }
                 }
             }
