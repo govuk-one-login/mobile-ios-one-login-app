@@ -237,3 +237,76 @@ class MockSessionManagerExpectation: SessionManager {
         try await sessionManager.clearAppForLogin()
     }
 }
+
+/// A mock that emulates the fact that ``sessionState`` can change over time similar to the implementation of
+/// ``PersistentSessionManager``, including while waiting for``resumeSession`` to return.
+///
+/// Specifically, this mock:
+/// * Dispenses a new ``sessionState`` each time one is requested to emulate state changes over time
+/// * Adds a **random delay** on a call to ``resumeSession`` to emulate the variability and delay of a network response
+
+/// Use this mock to write a test that will fail **should the code under test detects an unexpected state transition that can arise
+/// when waiting for ``resumeSession``**, in adition to the test assertions.
+///
+/// You create an instance of this mock using ``init(sessionStates:)`` by passing a list of `sessionStates` that will
+/// be dispensed in order first in; first out.
+final class MockResumeSessionSessionManager: SessionManager {
+    private var sessionStates: [SessionState]
+    var sessionState: SessionState {
+        sessionStates.removeFirst()
+    }
+
+    var expiryDate: Date? = .distantFuture
+    var isReturningUser = true
+    var isEnrolling = false
+    var validTokensForRefreshExchange: (idToken: String, refreshToken: String)?
+    var tokenProvider = TokenHolder()
+    var localAuthentication: LocalAuthManaging = MockLocalAuthManager()
+    var persistentID: String? = UUID().uuidString
+    var walletStoreID: String?
+    var user = CurrentValueSubject<(any OneLogin.User)?, Never>(nil)
+
+    /// Creates a new ``MockResumeSessionSessionManager`` that will use the given ``sessionStates`` to return
+    /// one ``SessionState`` at a time when the call to ``sessionState`` is made.
+    ///
+    /// Each ``SessionState`` that follows the one previously is meant to represent a **valid transition** between states for the time span they represent.
+    /// e.g.
+    /// * `[.saved, .expired]
+    /// * `[.nonePresent, .saved, .expired]
+    ///
+    /// both represent valid states and transitions for their respective time span under test;
+    /// * a user has authenticated, their session has expired
+    /// * no user has not attempted to authenticate, a user has authenticated, their session has expired.
+    ///
+    /// respectively.
+    ///
+    /// - parameter sessionStates: The list of ``SessionState`` **you expect** to be dispensed in order, first in; first out.
+    init(sessionStates: [SessionState]) {
+        self.sessionStates = sessionStates
+    }
+
+    func startAuthSession(
+        _ session: any LoginSession,
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
+    ) async throws { }
+
+    func saveAuthSession() throws { }
+
+    func saveLoginTokens(
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) throws { }
+
+    func resumeSession() async throws {
+        // 100ms to 1 second
+        try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000))
+    }
+
+    func endCurrentSession() { }
+
+    func clearAllSessionData(presentSystemLogOut: Bool) async throws { }
+
+    func clearAppForLogin() async throws { }
+}
