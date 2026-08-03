@@ -95,8 +95,4 @@ final class MockAppInfoAppInformationProvider: AppInformationProvider {
             throw URLError(.badServerResponse)
         }
     }
-    
-    
-    
-    
 }
