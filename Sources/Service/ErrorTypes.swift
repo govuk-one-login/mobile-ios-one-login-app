@@ -2,10 +2,10 @@ import Foundation
 import GDSUtilities
 
 public enum RefreshTokenExchangeErrorKind: Int, GDSErrorKind {
-    case accountIntervention = 1001
-    case appIntegrityFailed = 1002
-    case noInternet = 1003
-    case reauthenticationRequired = 1004
+    case accountIntervention = 2001
+    case appIntegrityFailed = 2002
+    case noInternet = 2003
+    case reauthenticationRequired = 2004
 
     public var description: String {
         switch self {

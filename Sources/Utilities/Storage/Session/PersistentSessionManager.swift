@@ -405,11 +405,11 @@ final class PersistentSessionManager: SessionManager {
 }
 
 public enum PersistentSessionErrorKind: Int, GDSErrorKind {
-    case noSessionExists = 1001
-    case userRemovedLocalAuth = 1002
-    case sessionMismatch = 1003
-    case cannotDeleteData = 1004
-    case idTokenNotStored = 1005
+    case noSessionExists = 3001
+    case userRemovedLocalAuth = 3002
+    case sessionMismatch = 3003
+    case cannotDeleteData = 3004
+    case idTokenNotStored = 3005
 
     public var description: String {
         switch self {
