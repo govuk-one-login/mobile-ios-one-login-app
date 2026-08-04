@@ -113,7 +113,7 @@ final class AppQualifyingService: QualifyingService {
             do {
                 try await sessionManager.resumeSession()
                 sessionState = .loggedIn
-            } catch let error as  RefreshTokenExchangeError where error.kind == .noInternet {
+            } catch let error as RefreshTokenExchangeError where error.kind == .noInternet {
                 appInfoState = .offline
             } catch let error as RefreshTokenExchangeError where error.kind == .appIntegrityFailed {
                 analyticsService.logCrash(error)

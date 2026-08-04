@@ -28,14 +28,14 @@ public enum FirebaseAppCheckErrorType: Int, GDSErrorKind {
 }
 
 public enum ClientAssertionErrorType: Int, GDSErrorKind {
-    case invalidPublicKey = 1006
-    case invalidToken = 1007
+    case invalidPublicKey = 1001
+    case invalidToken = 1002
     
     // MARK: ServerError(400)
-    case serverError = 1008
+    case serverError = 2001
     
     // MARK: ServerError(500)
-    case cantDecodeClientAssertion = 1009
+    case cantDecodeClientAssertion = 3001
 
     public var description: String {
         switch self {
@@ -52,9 +52,9 @@ public enum ClientAssertionErrorType: Int, GDSErrorKind {
 }
 
 public enum ProofOfPossessionErrorType: Int, GDSErrorKind {
-    case cantGenerateDemonstratingProofOfPossessionJWT = 1010
-    case cantGenerateAttestationPublicKeyJWK = 1011
-    case cantGenerateAttestationProofOfPossessionJWT = 1012
+    case cantGenerateDemonstratingProofOfPossessionJWT = 1001
+    case cantGenerateAttestationPublicKeyJWK = 1002
+    case cantGenerateAttestationProofOfPossessionJWT = 1003
 
     public var description: String {
         switch self {
