@@ -370,6 +370,236 @@ extension AppQualifyingServiceTests {
         XCTAssert(sessionManager.didCallClearAllSessionData)
         XCTAssertEqual(sessionState, .failed(MockWalletError.cantDelete))
     }
+    
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// Test that multiple calls to ``initiate`` do not result in an invalid ``AppSessionState`` to be received
+    /// while waiting for ``PersistentSessionManager`` to resume the session.
+    ///
+    /// The ``initiate`` function asyncronously attempts to evaluate the user session (i.e. ``evaluateUserSession``).
+    /// In case of a `.saved` sessionState,  the  ``AppQualifyingService`` will attempt to call
+    ///  ``SessionManager/resumeSession`` in order to update the sessionState (in case its succesful, this will
+    ///  also result in a  `.saved` sessionState, which next time will will attempt to call
+    ///  ``SessionManager/resumeSession`` and so on and so forth).
+    ///
+    /// While waiting, a second ``evaluateUserSession`` arrives (potentially a third, a fourth etc.) that may now
+    /// resolve the user session to new application state (e.g. .expired) just as the ``resumeSession`` returns.
+    ///
+    /// Potentially resulting to either an unexpected application state or an invalid transition between states.
+    ///
+    /// This test aims to catch such a case of an invalid transition between states by using a mock ``SessionManager``
+    /// that dispenses each ``SessionState`` in the given order, as expected by the test, and adding
+    /// an artificial delay when resuming a session so as the next call to ``initiate`` will attempt to read
+    /// the session state while the previous one awaits.
+    ///
+    /// The test invokes the ``initiate`` function is quick succession so as to generate concurrent pressure
+    /// by **scheduling of tasks** since ``initiate`` merely creates a tak and there is no way to control/manage
+    /// Task execution.
+    ///
+    /// In other words, this test aims to emulate what would happen should a number of Task(s) have been scheduled
+    /// for execution over a short period of time. Creating lots of Tasks in a short period of time aims to *force* the
+    /// system to execute themconcurrently. As of today, 13 number of tasks appear to apply enough concurrent pressure.
+    /// *This may change in the future*
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)`
+    /// - SeeAlso: ``MockResumeSessionSessionManager``
+    func test_multiple_foreground_initiate_calls_do_not_lead_to_invalid_session_state_transition() async throws {
+        let sessionStates: [SessionState] = [
+            .nonePresent,
+            .enrolling,
+            .oneTime,
+            .saved,
+            .expired,
+            .saved,
+            .expired,
+            .saved,
+            .nonePresent,
+            .enrolling,
+            .saved,
+            .expired,
+            .saved
+        ]
+        let expectedAppSessionStateTransitions = sessionStates.map(\.expectedAppSessionState)
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        var receivedSessionStates = [AppSessionState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedSessionStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a session state that was not expected",
+                    detailedDescription: "Sequence of received session states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == expectedAppSessionStateTransitions.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        for _ in 0..<sessionStates.count {
+            sut.initiate()
+        }
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, expectedAppSessionStateTransitions)
+    }
+    
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// Test that multiple calls to ``qualifyAppVersion`` do not result in an invalid ``AppInformationState`` to be received.
+    ///
+    /// The ``initiate`` function asyncronously attempts to evaluate the app version (i.e. ``qualifyAppVersion``).
+    ///
+    /// Since the ``AppQualifyingService`` **schedules a Task** to perform a callback to the delegate, it's possible that
+    /// by the time the task runs and reads the value, the value has since change from another call to ``qualifyAppVersion``
+    ///
+    /// Potentially resulting to either an unexpected app information state or an invalid transition between states.
+    ///
+    /// This test aims to catch such a case of an invalid transition between states by using a mock ``AppInformationProvider``
+    /// that dispenses each ``AppInformationState`` in the given order, as expected by the test.
+    ///
+    /// The test invokes the ``initiate`` function is quick succession so as to generate concurrent pressure
+    /// by **scheduling of tasks** since ``qualifyAppVersion`` merely creates a task and there is no way to control/manage
+    /// Task execution.
+    ///
+    /// In other words, this test aims to emulate what would happen should a number of Task(s) have been scheduled
+    /// for execution over a short period of time. Creating lots of Tasks in a short period of time aims to *force* the
+    /// system to execute themconcurrently. As of today, 6 number of tasks appear to apply enough concurrent pressure.
+    /// *This may change in the future*
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)``
+    /// - SeeAlso: ``AppQualifyingService/appInfoState``
+    /// - SeeAlso: ``MockAppInfoAppInformationProvider``
+    func test_multiple_foreground_initiate_calls_do_not_lead_to_invalid_information_state_transition() async throws {
+        let appInformationStates: [AppInformationState] = [
+            .qualified,
+            .unavailable,
+            .offline,
+            .qualified,
+            .outdated,
+            .error
+        ]
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
+        var receivedSessionStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedSessionStateTransitions = Array(appInformationStates.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedSessionStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a app information state that was not expected",
+                    detailedDescription: "Sequence of app information states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == appInformationStates.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        for _ in 0..<appInformationStates.count {
+            sut.initiate()
+        }
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, appInformationStates)
+    }
+    
+    /// This test aims to reproduce the case of a number of notification posting an update on ``RemoteServiceState``.
+    ///
+    /// Test that multiple calls to ````AppQualifyingService/serviceState`` do not
+    /// result in an invalid ``RemoteServiceState`` published.
+    ///
+    /// Since the ``AppQualifyingService`` **schedules a Task** to perform a callback to the delegate, it's possible that
+    /// by the time the task runs and reads the value, the value has since change from another call to ``serviceState``
+    ///
+    /// Potentially resulting to either an unexpected remote service information state or an invalid transition between states.
+    ///
+    /// This test aims to catch such a case of an invalid transition between states by posting a number of notifications
+    /// and expects them to arrive in the same order, as posted.
+    ///
+    /// The test posts notifications in  quick succession so as to generate concurrent pressure
+    /// by **scheduling of tasks** since ``serviceState`` merely creates a task and there is no way to control/manage
+    /// Task execution.
+    ///
+    /// In other words, this test aims to emulate what would happen should a number of Task(s) have been scheduled
+    /// for execution over a short period of time. Creating lots of Tasks in a short period of time aims to *force* the
+    /// system to execute themconcurrently. As of today, 2 number of tasks appear to apply enough concurrent pressure.
+    /// *This may change in the future*
+    ///
+    /// - SeeAlso: ``AppQualifyingService/subscribe``
+    func test_multiple_serviceState_notifications_do_not_lead_to_invalid_service_state_transition() async throws {
+        let serviceStates: [RemoteServiceState] = [
+            .accountIntervention,
+            .reauthenticationRequired
+        ]
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sut: AppQualifyingService = .make()
+        var receivedSessionStates = [RemoteServiceState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeServiceStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedServiceStates = Array(serviceStates.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedServiceStates else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a remove service state that was not expected",
+                    detailedDescription: "Sequence of received remote service states \(receivedSessionStates) does not match expected sequence: \(expectedServiceStates)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == expectedServiceStates.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        let notifications: [Notification.Name] = serviceStates.compactMap { remoteServiceState in
+            switch remoteServiceState {
+            case .accountIntervention:
+                return .accountIntervention
+            case .reauthenticationRequired:
+                return .reauthenticationRequired
+            default:
+                return nil
+            }
+        }
+        for notification in notifications {
+            NotificationCenter.default.post(name: notification)
+        }
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, serviceStates)
+    }
 }
 
 // MARK: - Subscription Tests
@@ -475,6 +705,7 @@ extension AppQualifyingServiceTests {
     }
 }
 
+@MainActor
 class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     
     typealias DidChangeAppInfoState = (AppInformationState) -> Void
@@ -503,5 +734,18 @@ class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     
     func didChangeServiceState(state: RemoteServiceState) {
         self.didChangeServiceStateAsFunction(state)
+    }
+}
+
+private extension SessionState {
+    var expectedAppSessionState: AppSessionState {
+        switch self {
+        case .expired:
+            return .expired
+        case .enrolling, .nonePresent:
+            return .notLoggedIn
+        case .oneTime, .saved:
+            return .loggedIn
+        }
     }
 }
