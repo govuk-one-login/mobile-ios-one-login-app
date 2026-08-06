@@ -21,7 +21,7 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
 }
 
 extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
-    func fetchClientAttestation() async throws -> [String: String] {
+    func fetchClientAttestation() async throws(Networking.AppIntegrityError) -> [String: String] {
         do {
             return try clientAssertions
         } catch let error as FirebaseAppCheckError {
@@ -40,12 +40,13 @@ extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
             case .invalidPublicKey:
                 throw AppIntegrityError(.appIntegrityFailed, originalError: error)
             }
-        } catch let error as ProofOfPossessionError {
+        } catch {
+            // catches ProofOfPossessionError
             throw AppIntegrityError(.appIntegrityFailed, originalError: error)
         }
     }
     
-    func fetchDPoP() async throws -> [String: String] {
+    func fetchDPoP() async throws(Networking.AppIntegrityError) -> [String: String] {
         return dPoPAssertion
     }
 }
