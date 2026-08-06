@@ -1,4 +1,5 @@
 import AppIntegrity
+import Networking
 @testable import OneLogin
 import Testing
 
@@ -159,6 +160,84 @@ struct OneLoginAppIntegrityServiceTests {
             #expect(error.kind == .invalidPublicKey)
             #expect(await sut.attempts == 0)
             #expect(mockInterityService.attempts == 1)
+        }
+    }
+    
+    @Test
+    func correctMappingForFirebaseError_invalidConfig() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.invalidConfiguration)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error {
+            #expect(error.kind == .appIntegrityFailed)
+        }
+    }
+    
+    @Test
+    func correctMappingForFirebaseError_network() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error {
+            #expect(error.kind == .intermittent)
+        }
+    }
+    
+    @Test
+    func correctMappingForFirebaseError_generic() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.generic)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error {
+            #expect(error.kind == .generic)
+        }
+    }
+    
+    @Test
+    func correctMappingForClientAssertionError_intermittent() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.serverError)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error {
+            #expect(error.kind == .intermittent)
+        }
+    }
+    
+    @Test
+    func correctMappingForClientAssertionError_intermitted() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.invalidPublicKey)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error {
+            #expect(error.kind == .appIntegrityFailed)
+        }
+    }
+    
+    @Test
+    func correctMappingForProofOfPossessionError() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = ProofOfPossessionError(.cantGenerateAttestationProofOfPossessionJWT)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error {
+            #expect(error.kind == .appIntegrityFailed)
         }
     }
 }
