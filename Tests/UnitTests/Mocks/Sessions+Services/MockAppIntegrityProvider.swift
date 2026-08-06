@@ -17,7 +17,14 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
         }
     }
     
-    var dPoPAssertion: [String: String] = ["testDPoP": "testValue"]
+    var dPoPAssertion: [String: String] {
+        get throws {
+            if let errorThrownAssertingIntegrity {
+                throw errorThrownAssertingIntegrity
+            }
+            return ["testDPoP": "testValue"]
+        }
+    }
 }
 
 extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
@@ -47,6 +54,11 @@ extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
     }
     
     func fetchDPoP() async throws -> [String: String] {
-        return dPoPAssertion
+        do {
+            return try dPoPAssertion
+        } catch {
+             // catches ProofOfPossessionError
+             throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+         }
     }
 }

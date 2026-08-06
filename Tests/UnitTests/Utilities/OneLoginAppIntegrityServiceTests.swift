@@ -253,4 +253,17 @@ struct OneLoginAppIntegrityServiceTests {
             #expect(error.kind == .appIntegrityFailed)
         }
     }
+    
+    @Test
+    func correctMappingForDPoPProofOfPossessionError() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = ProofOfPossessionError(.cantGenerateAttestationProofOfPossessionJWT)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchDPoP()
+        } catch let error as Networking.AppIntegrityError {
+            #expect(error.kind == .appIntegrityFailed)
+        }
+    }
 }
