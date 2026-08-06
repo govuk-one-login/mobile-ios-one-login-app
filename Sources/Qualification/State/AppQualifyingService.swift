@@ -54,6 +54,8 @@ final class AppQualifyingService: QualifyingService {
     private let sessionManager: SessionManager
     weak var delegate: AppQualifyingServiceDelegate?
     
+    private var initiateTask: Task<Void, Never>?
+
     private var appInfoState: AppInformationState = .notChecked {
         didSet {
             Task { [appInfoState = appInfoState] in
@@ -78,8 +80,6 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
-    private var task: Task<Void, Never>?
-
     init(
         analyticsService: OneLoginAnalyticsService,
         updateService: AppInformationProvider = AppInformationService(baseURL: AppEnvironment.appInfoURL),
@@ -91,13 +91,13 @@ final class AppQualifyingService: QualifyingService {
     }
     
     public func initiate() {
-        guard task == nil else {
+        guard initiateTask == nil else {
             return
         }
 
-        self.task = Task(name: #function) {
+        self.initiateTask = Task(name: #function) {
             defer {
-                self.task = nil
+                self.initiateTask = nil
             }
             await qualifyAppVersion()
             await evaluateUserSession()
