@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "b204db5e573db18645f083101fbedd938f586e8b",
-        "version" : "4.4.0"
+        "branch" : "feat/exposing-app-integrity-errors",
+        "revision" : "4a90b5832b12d68bc176363a7bb6117e373db268"
       }
     },
     {
