@@ -776,7 +776,7 @@ extension PersistentSessionManagerXCTests {
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
+        } catch _ as Networking.AppIntegrityError {
             // Expected path
         }
     }
