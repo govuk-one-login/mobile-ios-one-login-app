@@ -5459,8 +5459,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
-				branch = "feat/exposing-app-integrity-errors";
-				kind = branch;
+				kind = revision;
+				revision = b726dbe2d82d4a4198fe7346287a5352219eedbb;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
@@ -5476,7 +5476,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-logging.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 7.2.3;
+				minimumVersion = 7.3.0;
 			};
 		};
 		C8A13CAE2AFBD0F100FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-coordination" */ = {
