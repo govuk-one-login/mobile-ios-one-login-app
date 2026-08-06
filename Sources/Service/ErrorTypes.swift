@@ -1,7 +1,6 @@
 import Foundation
 
 enum RefreshTokenExchangeError: Error {
-    case accountIntervention
     case noInternet
     case reauthenticationRequired
 }
