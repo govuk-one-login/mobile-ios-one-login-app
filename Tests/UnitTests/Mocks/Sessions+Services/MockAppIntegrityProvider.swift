@@ -21,16 +21,16 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
 }
 
 extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
-    func fetchClientAttestation() async throws(Networking.AppIntegrityError) -> [String: String] {
+    func fetchClientAttestation() async throws -> [String: String] {
         do {
             return try clientAssertions
         } catch let error as FirebaseAppCheckError {
             switch error.kind {
             case .network:
                 throw AppIntegrityError(.intermittent, originalError: error)
-            case .generic:
+            case .generic, .unknown:
                 throw AppIntegrityError(.generic, originalError: error)
-            case .unknown, .invalidConfiguration, .keychainAccess, .notSupported:
+            case .invalidConfiguration, .keychainAccess, .notSupported:
                 throw AppIntegrityError(.appIntegrityFailed, originalError: error)
             }
         } catch let error as ClientAssertionError {
@@ -46,7 +46,7 @@ extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
         }
     }
     
-    func fetchDPoP() async throws(Networking.AppIntegrityError) -> [String: String] {
+    func fetchDPoP() async throws -> [String: String] {
         return dPoPAssertion
     }
 }

@@ -171,7 +171,7 @@ struct OneLoginAppIntegrityServiceTests {
         
         do {
             _ = try await sut.fetchClientAttestation()
-        } catch let error {
+        } catch let error as Networking.AppIntegrityError {
             #expect(error.kind == .appIntegrityFailed)
         }
     }
@@ -184,7 +184,7 @@ struct OneLoginAppIntegrityServiceTests {
         
         do {
             _ = try await sut.fetchClientAttestation()
-        } catch let error {
+        } catch let error as Networking.AppIntegrityError {
             #expect(error.kind == .intermittent)
         }
     }
@@ -197,7 +197,20 @@ struct OneLoginAppIntegrityServiceTests {
         
         do {
             _ = try await sut.fetchClientAttestation()
-        } catch let error {
+        } catch let error as Networking.AppIntegrityError {
+            #expect(error.kind == .generic)
+        }
+    }
+    
+    @Test
+    func correctMappingForFirebaseError_unknown() async throws {
+        let mockInterityService = MockAppIntegrityProvider()
+        mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.unknown)
+        let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
+        
+        do {
+            _ = try await sut.fetchClientAttestation()
+        } catch let error as Networking.AppIntegrityError {
             #expect(error.kind == .generic)
         }
     }
@@ -210,7 +223,7 @@ struct OneLoginAppIntegrityServiceTests {
         
         do {
             _ = try await sut.fetchClientAttestation()
-        } catch let error {
+        } catch let error as Networking.AppIntegrityError {
             #expect(error.kind == .intermittent)
         }
     }
@@ -223,7 +236,7 @@ struct OneLoginAppIntegrityServiceTests {
         
         do {
             _ = try await sut.fetchClientAttestation()
-        } catch let error {
+        } catch let error as Networking.AppIntegrityError {
             #expect(error.kind == .appIntegrityFailed)
         }
     }
@@ -236,7 +249,7 @@ struct OneLoginAppIntegrityServiceTests {
         
         do {
             _ = try await sut.fetchClientAttestation()
-        } catch let error {
+        } catch let error as Networking.AppIntegrityError {
             #expect(error.kind == .appIntegrityFailed)
         }
     }

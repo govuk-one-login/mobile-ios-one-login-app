@@ -112,16 +112,16 @@ actor OneLoginAppIntegrityService {
 }
 
 extension OneLoginAppIntegrityService: ClientAttestationProvider {
-    func fetchClientAttestation() async throws(Networking.AppIntegrityError) -> [String: String] {
+    func fetchClientAttestation() async throws -> [String: String] {
         do {
             return try await clientAssertions()
         } catch let error as FirebaseAppCheckError {
             switch error.kind {
             case .network:
                 throw AppIntegrityError(.intermittent, originalError: error)
-            case .generic:
+            case .generic, .unknown:
                 throw AppIntegrityError(.generic, originalError: error)
-            case .unknown, .invalidConfiguration, .keychainAccess, .notSupported:
+            case .invalidConfiguration, .keychainAccess, .notSupported:
                 throw AppIntegrityError(.appIntegrityFailed, originalError: error)
             }
         } catch let error as ClientAssertionError {
@@ -139,12 +139,12 @@ extension OneLoginAppIntegrityService: ClientAttestationProvider {
 }
 
 extension OneLoginAppIntegrityService: DPoPProvider {
-    func fetchDPoP() async throws(Networking.AppIntegrityError) -> [String: String] {
+    func fetchDPoP() async throws -> [String: String] {
         do {
             return try dPoPAssertion()
        } catch {
             // catches ProofOfPossessionError
-            throw Networking.AppIntegrityError(.appIntegrityFailed, originalError: error)
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
         }
     }
 }
