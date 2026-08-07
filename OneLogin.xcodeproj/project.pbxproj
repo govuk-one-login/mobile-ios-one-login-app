@@ -5460,7 +5460,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
 				kind = revision;
-				revision = 3d5235a51e5816a3e52dc47a556b4fae1934e041;
+				revision = 33aa5132513a0ecef4ba50b48a3deeb85caed4c5;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
