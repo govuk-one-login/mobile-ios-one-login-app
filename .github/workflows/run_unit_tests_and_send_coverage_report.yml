@@ -59,7 +59,7 @@ jobs:
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@cf038b0e0cdecfa9e56c198bbb7d21d751d62c3b # pin@v1.2.0
+        uses: sonarsource/sonarqube-quality-gate-action@7a5fffe8e523c40e0c740b6bc2712ab503e52efa # pin@v1.2.1
         # Force to fail step after specific time.
         timeout-minutes: 5
         env:
