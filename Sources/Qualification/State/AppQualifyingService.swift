@@ -55,6 +55,11 @@ final class AppQualifyingService: QualifyingService {
     weak var delegate: AppQualifyingServiceDelegate?
     
     private var initiateTask: Task<Void, Never>?
+    
+    /** used for testing only */
+    var _initiateTask: Task<Void, Never>? {
+        initiateTask
+    }
 
     private var appInfoState: AppInformationState = .notChecked {
         didSet {
