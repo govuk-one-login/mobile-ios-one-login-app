@@ -384,7 +384,7 @@ extension AppQualifyingServiceTests {
     /// - SeeAlso: ``MockResumeSessionSessionManager``
     func test_multiple_foreground_initiate_calls_only_evaluate_session_state_once() async throws {
         let sessionStates: [SessionState] = [
-            .saved,
+            .saved
         ]
         let expectedAppSessionStateTransitions = sessionStates.map(\.expectedAppSessionState)
         let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
@@ -439,7 +439,7 @@ extension AppQualifyingServiceTests {
     func test_foreground_initiate_in_sequence_evaluate_every_session_state() async throws {
         let sessionStates: [SessionState] = [
             .nonePresent,
-            .saved,
+            .saved
         ]
         let expectedAppSessionStateTransitions = sessionStates.map(\.expectedAppSessionState)
         let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
@@ -561,7 +561,7 @@ extension AppQualifyingServiceTests {
     /// - SeeAlso: ``MockAppInfoAppInformationProvider``
     func test_multiple_foreground_initiate_calls_only_evaluate_information_state_once() async throws {
         let appInformationStates: [AppInformationState] = [
-            .qualified,
+            .qualified
         ]
         let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
         sessionStatesReceivedExpectation.assertForOverFulfill = false
@@ -615,7 +615,7 @@ extension AppQualifyingServiceTests {
     func test_foreground_initiate_in_sequence_evaluate_every_information_state() async throws {
         let appInformationStates: [AppInformationState] = [
             .qualified,
-            .unavailable,
+            .unavailable
         ]
         let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
         sessionStatesReceivedExpectation.assertForOverFulfill = false
