@@ -56,12 +56,10 @@ final class AppQualifyingService: QualifyingService {
     
     private var initiateTask: Task<Void, Never>?
     
-    /** used for testing only */
-    // swiftlint:disable identifier_name
+    /// used for testing only
     var _initiateTask: Task<Void, Never>? {
         initiateTask
     }
-    // swiftlint:enable identifier_name
 
     private var appInfoState: AppInformationState = .notChecked {
         didSet {
