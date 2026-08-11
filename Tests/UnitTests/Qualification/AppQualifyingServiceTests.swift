@@ -563,27 +563,27 @@ extension AppQualifyingServiceTests {
         let appInformationStates: [AppInformationState] = [
             .qualified
         ]
-        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
-        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let appInformationStatesReceivedExpectation = expectation(description: "expected app information states received")
+        appInformationStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
-        var receivedSessionStates = [AppInformationState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { sessionState in
-            receivedSessionStates.append(sessionState)
+        var receivedappInformationStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+            receivedappInformationStates.append(appInformationState)
 
-            let expectedSessionStateTransitions = Array(appInformationStates.prefix(receivedSessionStates.count))
-            guard receivedSessionStates == expectedSessionStateTransitions else {
+            let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(appInformationStates.count))
+            guard receivedappInformationStates == expectedAppInformationStateTransitions else {
                 let issue = XCTIssue(
                     type: .assertionFailure,
                     compactDescription: "Received a app information state that was not expected",
-                    detailedDescription: "Sequence of app information states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                    detailedDescription: "Sequence of app information states \(appInformationStates) does not match expected sequence: \(expectedAppInformationStateTransitions)."
                 )
                 self.record(issue)
-                sessionStatesReceivedExpectation.fulfill()
+                appInformationStatesReceivedExpectation.fulfill()
                 return
             }
 
-            if receivedSessionStates.count == appInformationStates.count {
-                sessionStatesReceivedExpectation.fulfill()
+            if receivedappInformationStates.count == appInformationStates.count {
+                appInformationStatesReceivedExpectation.fulfill()
             }
         })
 
@@ -595,11 +595,11 @@ extension AppQualifyingServiceTests {
 
         await sut._initiateTask?.value
 
-        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+        await fulfillment(of: [appInformationStatesReceivedExpectation], timeout: 5)
 
-        XCTAssertEqual(receivedSessionStates, appInformationStates)
+        XCTAssertEqual(appInformationStates, appInformationStates)
     }
-    
+
     /// This test aims to reproduce the case of an app entering into the foreground
     /// which results in a call to ``initiate`` every time.
     ///
@@ -607,7 +607,7 @@ extension AppQualifyingServiceTests {
     /// has been completed.
     ///
     /// The test aims to emulate how a follow up call to ``initiate`` once the last one has finished evaluating
-    /// the information state, via ``qualifyAppVersion``, will result in another session state evaluation.
+    /// the information state, via ``qualifyAppVersion``, will result in another app information state evaluation.
     ///
     /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)``
     /// - SeeAlso: ``AppQualifyingService/appInfoState``
@@ -617,27 +617,27 @@ extension AppQualifyingServiceTests {
             .qualified,
             .unavailable
         ]
-        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
-        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let appInformationStatesReceivedExpectation = expectation(description: "expected app information states received")
+        appInformationStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
-        var receivedSessionStates = [AppInformationState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { sessionState in
-            receivedSessionStates.append(sessionState)
+        var receivedappInformationStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+            receivedappInformationStates.append(appInformationState)
 
-            let expectedSessionStateTransitions = Array(appInformationStates.prefix(receivedSessionStates.count))
-            guard receivedSessionStates == expectedSessionStateTransitions else {
+            let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(receivedappInformationStates.count))
+            guard receivedappInformationStates == expectedAppInformationStateTransitions else {
                 let issue = XCTIssue(
                     type: .assertionFailure,
                     compactDescription: "Received a app information state that was not expected",
-                    detailedDescription: "Sequence of app information states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                    detailedDescription: "Sequence of app information states \(receivedappInformationStates) does not match expected sequence: \(expectedAppInformationStateTransitions)."
                 )
                 self.record(issue)
-                sessionStatesReceivedExpectation.fulfill()
+                appInformationStatesReceivedExpectation.fulfill()
                 return
             }
 
-            if receivedSessionStates.count == appInformationStates.count {
-                sessionStatesReceivedExpectation.fulfill()
+            if receivedappInformationStates.count == appInformationStates.count {
+                appInformationStatesReceivedExpectation.fulfill()
             }
         })
 
@@ -649,9 +649,9 @@ extension AppQualifyingServiceTests {
         sut.initiate()
         await sut._initiateTask?.value
 
-        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+        await fulfillment(of: [appInformationStatesReceivedExpectation], timeout: 5)
 
-        XCTAssertEqual(receivedSessionStates, appInformationStates)
+        XCTAssertEqual(receivedappInformationStates, appInformationStates)
     }
 
     /// This test aims to reproduce the case of an app entering into the foreground
@@ -677,27 +677,27 @@ extension AppQualifyingServiceTests {
             .outdated,
             .error
         ]
-        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
-        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let appInformationStatesReceivedExpectation = expectation(description: "expected app information states received")
+        appInformationStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
-        var receivedSessionStates = [AppInformationState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { sessionState in
-            receivedSessionStates.append(sessionState)
+        var receivedappInformationStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+            receivedappInformationStates.append(appInformationState)
 
-            let expectedSessionStateTransitions = Array(appInformationStates.prefix(receivedSessionStates.count))
-            guard receivedSessionStates == expectedSessionStateTransitions else {
+            let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(receivedappInformationStates.count))
+            guard receivedappInformationStates == expectedAppInformationStateTransitions else {
                 let issue = XCTIssue(
                     type: .assertionFailure,
                     compactDescription: "Received a app information state that was not expected",
-                    detailedDescription: "Sequence of app information states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                    detailedDescription: "Sequence of app information states \(appInformationStates) does not match expected sequence: \(expectedAppInformationStateTransitions)."
                 )
                 self.record(issue)
-                sessionStatesReceivedExpectation.fulfill()
+                appInformationStatesReceivedExpectation.fulfill()
                 return
             }
 
-            if receivedSessionStates.count == appInformationStates.count {
-                sessionStatesReceivedExpectation.fulfill()
+            if receivedappInformationStates.count == appInformationStates.count {
+                appInformationStatesReceivedExpectation.fulfill()
             }
         })
 
@@ -708,9 +708,9 @@ extension AppQualifyingServiceTests {
             await sut._initiateTask?.value
         }
 
-        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+        await fulfillment(of: [appInformationStatesReceivedExpectation], timeout: 5)
 
-        XCTAssertEqual(receivedSessionStates, appInformationStates)
+        XCTAssertEqual(appInformationStates, appInformationStates)
     }
 
     /// This test aims to reproduce the case of a number of notification posting an update on ``RemoteServiceState``.
