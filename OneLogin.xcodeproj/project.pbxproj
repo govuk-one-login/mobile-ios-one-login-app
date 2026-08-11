@@ -5452,7 +5452,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
 				kind = exactVersion;
-				version = 8.75.1;
+				version = 8.81.0;
 			};
 		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
