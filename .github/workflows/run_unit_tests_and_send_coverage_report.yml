@@ -45,15 +45,18 @@ jobs:
           GIT_CONFIG_GLOBAL: '${{ github.workspace }}/scripts-configs/override-git-config'
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           TEST_PLAN: "OneLoginUnit"
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
         run: |
           xctestrun=$(find . -name "*.xctestrun" | grep -i "${TEST_PLAN}")
           pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
           bundle exec fastlane testWithoutBuilding scheme:"OneLoginBuild" \
             xctestrun:"${xctestrun}" \
-            workspace:${{ github.workspace }} \
-            source_branch:${{ github.head_ref }} \
-            target_branch:${{ github.base_ref }} \
+            workspace:"$GITHUB_WORKSPACE" \
+            source_branch:"$GITHUB_HEAD_REF" \
+            target_branch:"$GITHUB_BASE_REF" \
             pr_number:$pull_number
 
       # Check the Quality Gate status.
