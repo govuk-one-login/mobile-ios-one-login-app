@@ -54,9 +54,9 @@ jobs:
 
           bundle exec fastlane testWithoutBuilding scheme:"OneLoginBuild" \
             xctestrun:"${xctestrun}" \
-            workspace:"$GITHUB_WORKSPACE" \
-            source_branch:"$GITHUB_HEAD_REF" \
-            target_branch:"$GITHUB_BASE_REF" \
+            workspace:"${GITHUB_WORKSPACE}" \
+            source_branch:"${GITHUB_HEAD_REF}" \
+            target_branch:"${GITHUB_BASE_REF}" \
             pr_number:$pull_number
 
       # Check the Quality Gate status.
