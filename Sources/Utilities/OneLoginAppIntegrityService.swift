@@ -131,8 +131,9 @@ extension OneLoginAppIntegrityService: ClientAttestationProvider {
             case .invalidPublicKey:
                 throw AppIntegrityError(.appIntegrityFailed, originalError: error)
             }
+        } catch let error as ProofOfPossessionError {
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
         } catch {
-            // catches ProofOfPossessionError
             throw AppIntegrityError(.appIntegrityFailed, originalError: error)
         }
     }
@@ -142,8 +143,9 @@ extension OneLoginAppIntegrityService: DPoPProvider {
     func fetchDPoP() async throws -> [String: String] {
         do {
             return try dPoPAssertion()
-       } catch {
-            // catches ProofOfPossessionError
+        } catch let error as ProofOfPossessionError {
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+        } catch {
             throw AppIntegrityError(.appIntegrityFailed, originalError: error)
         }
     }

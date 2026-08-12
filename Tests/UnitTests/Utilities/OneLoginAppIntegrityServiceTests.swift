@@ -19,13 +19,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .network)
-            #expect(await sut.attempts == 3)
-            #expect(mockInterityService.attempts == 3)
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .network)
+        #expect(await sut.attempts == 3)
+        #expect(mockInterityService.attempts == 3)
     }
     
     @Test("Client assertions are not retried for unknown error")
@@ -34,13 +34,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.unknown)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .unknown)
-            #expect(await sut.attempts == 0)
-            #expect(mockInterityService.attempts == 1)
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .unknown)
+        #expect(await sut.attempts == 0)
+        #expect(mockInterityService.attempts == 1)
     }
     
     @Test("Client assertions are not retried for invalid configuration error")
@@ -49,13 +49,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.invalidConfiguration)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .invalidConfiguration)
-            #expect(await sut.attempts == 0)
-            #expect(mockInterityService.attempts == 1)
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .invalidConfiguration)
+        #expect(await sut.attempts == 0)
+        #expect(mockInterityService.attempts == 1)
     }
     
     @Test("Client assertions are not retried for keychain access error")
@@ -64,13 +64,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.keychainAccess)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .keychainAccess)
-            #expect(await sut.attempts == 0)
-            #expect(mockInterityService.attempts == 1)
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .keychainAccess)
+        #expect(await sut.attempts == 0)
+        #expect(mockInterityService.attempts == 1)
     }
     
     @Test("Client assertions are not retried for keychain access error")
@@ -79,13 +79,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.notSupported)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .notSupported)
-            #expect(await sut.attempts == 0)
-            #expect(mockInterityService.attempts == 1)
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .notSupported)
+        #expect(await sut.attempts == 0)
+        #expect(mockInterityService.attempts == 1)
     }
     
     @Test("Client assertions are not retried for generic error")
@@ -94,13 +94,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.generic)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .generic)
-            #expect(await sut.attempts == 0)
-            #expect(mockInterityService.attempts == 1)
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .generic)
+        #expect(await sut.attempts == 0)
+        #expect(mockInterityService.attempts == 1)
     }
     
     @Test("Client assertions are retried for invalid token error")
@@ -109,13 +109,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.invalidToken)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .invalidToken)
-            #expect(await sut.attempts == 3)
-            #expect(mockInterityService.attempts == 3)
+        let error = await #expect(throws: ClientAssertionError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .invalidToken)
+        #expect(await sut.attempts == 3)
+        #expect(mockInterityService.attempts == 3)
     }
     
     @Test("Client assertions are retried for server error")
@@ -124,13 +124,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.serverError)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .serverError)
-            #expect(await sut.attempts == 3)
-            #expect(mockInterityService.attempts == 3)
+        let error = await #expect(throws: ClientAssertionError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .serverError)
+        #expect(await sut.attempts == 3)
+        #expect(mockInterityService.attempts == 3)
     }
     
     @Test("Client assertions are retried for cant decode client assertion error")
@@ -139,13 +139,13 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.cantDecodeClientAssertion)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .cantDecodeClientAssertion)
-            #expect(await sut.attempts == 3)
-            #expect(mockInterityService.attempts == 3)
+        let error = await #expect(throws: ClientAssertionError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .cantDecodeClientAssertion)
+        #expect(await sut.attempts == 3)
+        #expect(mockInterityService.attempts == 3)
     }
     
     @Test("Client assertions are not retried for invalid public key error")
@@ -154,26 +154,26 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.invalidPublicKey)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.clientAssertions()
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .invalidPublicKey)
-            #expect(await sut.attempts == 0)
-            #expect(mockInterityService.attempts == 1)
+        let error = await #expect(throws: ClientAssertionError.self) {
+            try await sut.clientAssertions()
         }
+        
+        #expect(error?.kind == .invalidPublicKey)
+        #expect(await sut.attempts == 0)
+        #expect(mockInterityService.attempts == 1)
     }
-    
+
     @Test
     func correctMappingForFirebaseError_invalidConfig() async throws {
         let mockInterityService = MockAppIntegrityProvider()
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.invalidConfiguration)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .appIntegrityFailed)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+        
+        #expect(error?.kind == .appIntegrityFailed)
     }
     
     @Test
@@ -182,11 +182,11 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .intermittent)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+
+        #expect(error?.kind == .intermittent)
     }
     
     @Test
@@ -195,11 +195,11 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.generic)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .generic)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+
+        #expect(error?.kind == .generic)
     }
     
     @Test
@@ -208,11 +208,11 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = FirebaseAppCheckError(.unknown)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .generic)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+
+        #expect(error?.kind == .generic)
     }
     
     @Test
@@ -221,11 +221,11 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.serverError)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .intermittent)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+
+        #expect(error?.kind == .intermittent)
     }
     
     @Test
@@ -234,11 +234,11 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ClientAssertionError(.invalidPublicKey)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .appIntegrityFailed)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+
+        #expect(error?.kind == .appIntegrityFailed)
     }
     
     @Test
@@ -247,11 +247,11 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ProofOfPossessionError(.cantGenerateAttestationProofOfPossessionJWT)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchClientAttestation()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .appIntegrityFailed)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchClientAttestation()
         }
+
+        #expect(error?.kind == .appIntegrityFailed)
     }
     
     @Test
@@ -260,10 +260,10 @@ struct OneLoginAppIntegrityServiceTests {
         mockInterityService.errorThrownAssertingIntegrity = ProofOfPossessionError(.cantGenerateAttestationProofOfPossessionJWT)
         let sut = OneLoginAppIntegrityService(integrityService: mockInterityService)
         
-        do {
-            _ = try await sut.fetchDPoP()
-        } catch let error as Networking.AppIntegrityError {
-            #expect(error.kind == .appIntegrityFailed)
+        let error = await #expect(throws: AppIntegrityError.self) {
+            try await sut.fetchDPoP()
         }
+
+        #expect(error?.kind == .appIntegrityFailed)
     }
 }
