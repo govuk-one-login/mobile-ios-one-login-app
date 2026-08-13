@@ -5507,8 +5507,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-ui";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.11.0;
+				branch = "feat/dcmaw-21369-21371-liquid-glass-changes";
+				kind = branch;
 			};
 		};
 		1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {

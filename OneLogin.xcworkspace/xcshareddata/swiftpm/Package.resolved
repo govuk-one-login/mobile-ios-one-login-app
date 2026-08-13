@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "revision" : "9bd95229e0f51ae4d2faf0e495e887569c80d65a",
-        "version" : "1.13.0"
+        "branch" : "feat/dcmaw-21369-21371-liquid-glass-changes",
+        "revision" : "d152f1a5b132994160191c84d2458ad607432ebb"
       }
     },
     {
