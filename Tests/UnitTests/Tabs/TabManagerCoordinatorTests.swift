@@ -18,9 +18,11 @@ final class TabManagerCoordinatorTests: XCTestCase {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         mockSessionManager.walletStoreID = "12345"
+        let networkClient = NetworkClient()
+        networkClient.authorizationProvider = MockAuthenticationProvider()
         sut = TabManagerCoordinator(root: tabBarController,
                                     analyticsService: mockAnalyticsService,
-                                    networkingService: NetworkClient(),
+                                    networkingService: networkClient,
                                     sessionManager: mockSessionManager)
     }
     

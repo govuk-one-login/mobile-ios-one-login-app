@@ -3,6 +3,8 @@
 
 "app_cancelButton" = "Cancel";
 
+"app_doneButton" = "Done";
+
 "app_tryAgainButton" = "Go back and try again";
 
 "app_continueButton" = "Continue";
@@ -199,7 +201,6 @@
 
 "app_updateAppButton" = "Update %@ app";
 
-
 // MARK: Home Screen Cards content tiles
 "app_welcomeTileHeader" = "Welcome";
 
@@ -207,7 +208,20 @@
 
 "app_appPurposeTileHeader" = "How to prove your identity";
 
-"app_appPurposeTileBody1" = "If you need to prove your identity with %@ to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.";
+"app_appPurposeTileBody1" = "To start, go to the GOV.UK website and find the government service you need to use. You'll be asked to open this app if you need it.";
+
+"app_appPurposeTileButton" = "Find out more";
+
+// MARK: Prove Identity Guidance Screen
+"app_proveYourIdentityGuidanceTitle" = "How to prove your identity";
+
+"app_proveYourIdentityGuidanceBody1" = "You cannot start proving your identity in this app.\n\nTo start, go to the GOV.UK website and find the government service you need to use.\n\nYou'll be asked to open this app if you need to use it to prove your identity.";
+
+"app_proveYourIdentityGuidanceLink" = "Go to the GOV.UK website";
+
+"app_proveYourIdentityGuidanceBody2" = "If you've already started proving your identity on the GOV.UK website";
+
+"app_proveYourIdentityGuidanceBody3" = "If a service on the GOV.UK website has guided you to open this app, you should see a button to continue proving your identity in the 'Home' section.\n\nIf you cannot see the button, close the app and open it again.";
 
 
 // MARK: App Unavailable Screen

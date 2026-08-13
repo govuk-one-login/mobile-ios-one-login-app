@@ -20,7 +20,8 @@ struct HomeViewControllerTests {
         
         mockCRIOrchestrator = MockCRIOrchestrator()
         sut = HomeViewController(analyticsService: mockAnalyticsService,
-                                 criOrchestrator: mockCRIOrchestrator)
+                                 criOrchestrator: mockCRIOrchestrator,
+                                 openProveIdentityGuidancePage: {})
     }
 }
 
@@ -108,11 +109,12 @@ extension HomeViewControllerTests {
         #expect(title?.title.stringKey == "app_appPurposeTileHeader")
         #expect(title?.title.value == "How to prove your identity")
         
-        let body = viewModel.contentItems.last as? GDSTextViewModel
+        let body = viewModel.contentItems[1] as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_appPurposeTileBody1")
-        #expect(body?.title.variableKeys == ["app_nameString"])
-        // swiftlint:disable:next line_length
-        #expect(body?.title.value == "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
+        #expect(body?.title.value == "To start, go to the GOV.UK website and find the government service you need to use. You'll be asked to open this app if you need it.")
+        
+        let buttonTitle = viewModel.contentItems.last as? GDSButtonViewModel
+        #expect(buttonTitle?.title.forState(.normal) == "Find out more")
         
         #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)

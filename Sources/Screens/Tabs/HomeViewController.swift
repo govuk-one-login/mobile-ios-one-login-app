@@ -26,13 +26,17 @@ final class HomeViewController: BaseScreen {
     private var idCheckCard: UIViewController?
     private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
     
+    let openProveIdentityGuidancePage: () -> Void
+    
     init(analyticsService: OneLoginAnalyticsService,
-         criOrchestrator: CRIOrchestration) {
+         criOrchestrator: CRIOrchestration,
+         openProveIdentityGuidancePage: @escaping () -> Void) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.home,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
         self.criOrchestrator = criOrchestrator
+        self.openProveIdentityGuidancePage = openProveIdentityGuidancePage
         super.init(viewModel: nil,
                    nibName: "HomeView",
                    bundle: nil)
@@ -210,10 +214,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             contentItems: {
                 [
                     GDSTextViewModel(title: "app_welcomeTileHeader",
-                                     titleFont: .title2Bold),
+                                     titleFont: .title2Bold,
+                                     verticalPadding: .vertical(DesignSystem.Spacing.small)),
                     
                     GDSTextViewModel(title: "app_welcomeTileBody1",
-                                     verticalPadding: .bottom(16))
+                                     verticalPadding: .bottom(DesignSystem.Spacing.small))
                 ]
             }
         )
@@ -230,10 +235,20 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             contentItems: {
                 [
                     GDSTextViewModel(title: "app_appPurposeTileHeader",
-                                     titleFont: .title2Bold),
+                                     titleFont: .title2Bold,
+                                     verticalPadding: .vertical(DesignSystem.Spacing.small)),
                     
-                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileBody1", "app_nameString"),
-                                     verticalPadding: .bottom(16))
+                    GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileBody1"),
+                                     verticalPadding: .bottom(DesignSystem.Spacing.small)),
+                    
+                    GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileButton").value,
+                                       style: .secondary.adjusting(alignment: .leading),
+                                       buttonAction: .action({
+                                           let event = ButtonEvent(textKey: "app_appPurposeTileButton")
+                                           self.analyticsService.logEvent(event)
+                                           
+                                           self.openProveIdentityGuidancePage()
+                                       }))
                 ]
             }
         )
