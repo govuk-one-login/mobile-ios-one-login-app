@@ -17,15 +17,48 @@ final class MockAppIntegrityProvider: AppIntegrityProvider {
         }
     }
     
-    var dPoPAssertion: [String: String] = ["testDPoP": "testValue"]
+    var dPoPAssertion: [String: String] {
+        get throws {
+            if let errorThrownAssertingIntegrity {
+                throw errorThrownAssertingIntegrity
+            }
+            return ["testDPoP": "testValue"]
+        }
+    }
 }
 
 extension MockAppIntegrityProvider: ClientAttestationProvider, DPoPProvider {
     func fetchClientAttestation() async throws -> [String: String] {
-        return try clientAssertions
+        do {
+            return try clientAssertions
+        } catch let error as FirebaseAppCheckError {
+            switch error.kind {
+            case .network:
+                throw AppIntegrityError(.intermittent, originalError: error)
+            case .generic, .unknown:
+                throw AppIntegrityError(.generic, originalError: error)
+            case .invalidConfiguration, .keychainAccess, .notSupported:
+                throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+            }
+        } catch let error as ClientAssertionError {
+            switch error.kind {
+            case .invalidToken, .serverError, .cantDecodeClientAssertion:
+                throw AppIntegrityError(.intermittent, originalError: error)
+            case .invalidPublicKey:
+                throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+            }
+        } catch {
+            // catches ProofOfPossessionError
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+        }
     }
     
     func fetchDPoP() async throws -> [String: String] {
-        return dPoPAssertion
+        do {
+            return try dPoPAssertion
+        } catch {
+             // catches ProofOfPossessionError
+             throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+         }
     }
 }
