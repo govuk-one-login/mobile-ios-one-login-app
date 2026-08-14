@@ -1,3 +1,4 @@
+import DesignSystem
 @testable import OneLogin
 import XCTest
 
@@ -17,9 +18,18 @@ final class SceneDelegateTests: XCTestCase {
 
     func test_setUpBasicUI_tabBarTintColor() {
         sut.setUpBasicUI()
-        XCTAssertEqual(UITabBar.appearance().tintColor, .accent)
+        XCTAssertEqual(UITabBar.appearance().tintColor,
+                       DesignSystem.Color.NavigationElements.selectedTabIconAndLabel)
     }
-
+    
+    func test_setUpBasicUI_tabBarUnselectedTintColor() {
+        sut.setUpBasicUI()
+        XCTAssertEqual(UITabBar.appearance().tintColor,
+                       UIColor(light: DesignSystem.Color.Buttons.primaryForegroundDisabled,
+                               dark: DesignSystem.Color.Buttons.primaryBackgroundDisabled)
+        )
+    }
+    
     func test_setUpBasicUI_tabBarBackgroundColor() {
         sut.setUpBasicUI()
         XCTAssertEqual(UITabBar.appearance().backgroundColor, .systemBackground)
