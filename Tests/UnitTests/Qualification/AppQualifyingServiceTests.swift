@@ -370,6 +370,421 @@ extension AppQualifyingServiceTests {
         XCTAssert(sessionManager.didCallClearAllSessionData)
         XCTAssertEqual(sessionState, .failed(MockWalletError.cantDelete))
     }
+    
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// Tests that multiple calls to ``initiate`` in quick succession, result in only
+    /// a single evaluation of an ``AppSessionState``.
+    ///
+    /// The test invokes the ``initiate`` function is quick succession to assert that multiple calls
+    /// are effectively no-op.
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)`
+    /// - SeeAlso: ``MockResumeSessionSessionManager``
+    func test_multiple_foreground_initiate_calls_only_evaluate_session_state_once() async throws {
+        let sessionStates: [SessionState] = [
+            .saved
+        ]
+        let expectedAppSessionStateTransitions = sessionStates.map(\.expectedAppSessionState)
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        var receivedSessionStates = [AppSessionState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedSessionStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a session state that was not expected",
+                    detailedDescription: "Sequence of received session states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == expectedAppSessionStateTransitions.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        for _ in 0..<10 {
+            sut.initiate()
+        }
+        
+        await sut._initiateTask?.value
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, expectedAppSessionStateTransitions)
+    }
+    
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// It asserts that the session state will be evaluated over time as long as the last evaluation
+    /// has been completed.
+    ///
+    /// The test aims to emulate how a follow up call to ``initiate`` once the last one has finished evaluating
+    /// the session state, via ``evaluateUserSession``, will result in another session state evaluation.
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)`
+    /// - SeeAlso: ``MockResumeSessionSessionManager``
+    func test_foreground_initiate_in_sequence_evaluate_every_session_state() async throws {
+        let sessionStates: [SessionState] = [
+            .nonePresent,
+            .saved
+        ]
+        let expectedAppSessionStateTransitions = sessionStates.map(\.expectedAppSessionState)
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        var receivedSessionStates = [AppSessionState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedSessionStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a session state that was not expected",
+                    detailedDescription: "Sequence of received session states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == expectedAppSessionStateTransitions.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+        
+        sut.initiate()
+        await sut._initiateTask?.value
+        
+        sut.initiate()
+        await sut._initiateTask?.value
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, expectedAppSessionStateTransitions)
+    }
+    
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// It asserts that calls to ``evaluateUserSession`` over time, as long as the last
+    /// ``AppSessionState`` has been evaluated, will correctly transition to the
+    /// next session state.
+    ///
+    /// The test awaits for the evaluation to complete before attempting to initiate a new one. This way
+    /// it aims to emulate how ``initiate`` will create a new task to evaluate the session state
+    /// and how the state will transition over time.
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)`
+    /// - SeeAlso: ``MockResumeSessionSessionManager``
+    func test_multiple_foreground_initiate_calls_over_time_transition_sessions_state() async throws {
+        let sessionStates: [SessionState] = [
+            .nonePresent,
+            .enrolling,
+            .oneTime,
+            .saved,
+            .expired,
+            .saved,
+            .expired,
+            .saved,
+            .nonePresent,
+            .enrolling,
+            .saved,
+            .expired,
+            .saved
+        ]
+        let expectedAppSessionStateTransitions = sessionStates.map(\.expectedAppSessionState)
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        var receivedSessionStates = [AppSessionState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedSessionStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a session state that was not expected",
+                    detailedDescription: "Sequence of received session states \(receivedSessionStates) does not match expected sequence: \(expectedSessionStateTransitions)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == expectedAppSessionStateTransitions.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+        
+        for _ in 0..<sessionStates.count {
+            sut.initiate()
+            await sut._initiateTask?.value
+        }
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, expectedAppSessionStateTransitions)
+    }
+    
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// Tests that multiple calls to ``qualifyAppVersion`` in quick succession, result in only
+    /// a single evaluation of an ``AppInformationState``.
+    ///
+    /// The test invokes the ``initiate`` function is quick succession to assert that multiple calls
+    /// are effectively no-op.
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)``
+    /// - SeeAlso: ``AppQualifyingService/appInfoState``
+    /// - SeeAlso: ``MockAppInfoAppInformationProvider``
+    func test_multiple_foreground_initiate_calls_only_evaluate_information_state_once() async throws {
+        let appInformationStates: [AppInformationState] = [
+            .qualified
+        ]
+        let appInformationStatesReceivedExpectation = expectation(description: "expected app information states received")
+        appInformationStatesReceivedExpectation.assertForOverFulfill = false
+        let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
+        var receivedappInformationStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+            receivedappInformationStates.append(appInformationState)
+
+            let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(appInformationStates.count))
+            guard receivedappInformationStates == expectedAppInformationStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a app information state that was not expected",
+                    detailedDescription: "Sequence of app information states \(appInformationStates) does not match expected sequence: \(expectedAppInformationStateTransitions)."
+                )
+                self.record(issue)
+                appInformationStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedappInformationStates.count == appInformationStates.count {
+                appInformationStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        for _ in 0..<appInformationStates.count {
+            sut.initiate()
+        }
+
+        await sut._initiateTask?.value
+
+        await fulfillment(of: [appInformationStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(appInformationStates, appInformationStates)
+    }
+
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// It asserts that the information state will be evaluated over time as long as the last evaluation
+    /// has been completed.
+    ///
+    /// The test aims to emulate how a follow up call to ``initiate`` once the last one has finished evaluating
+    /// the information state, via ``qualifyAppVersion``, will result in another app information state evaluation.
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)``
+    /// - SeeAlso: ``AppQualifyingService/appInfoState``
+    /// - SeeAlso: ``MockAppInfoAppInformationProvider``
+    func test_foreground_initiate_in_sequence_evaluate_every_information_state() async throws {
+        let appInformationStates: [AppInformationState] = [
+            .qualified,
+            .unavailable
+        ]
+        let appInformationStatesReceivedExpectation = expectation(description: "expected app information states received")
+        appInformationStatesReceivedExpectation.assertForOverFulfill = false
+        let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
+        var receivedappInformationStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+            receivedappInformationStates.append(appInformationState)
+
+            let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(receivedappInformationStates.count))
+            guard receivedappInformationStates == expectedAppInformationStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a app information state that was not expected",
+                    detailedDescription: "Sequence of app information states \(receivedappInformationStates) does not match expected sequence: \(expectedAppInformationStateTransitions)."
+                )
+                self.record(issue)
+                appInformationStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedappInformationStates.count == appInformationStates.count {
+                appInformationStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        sut.initiate()
+        await sut._initiateTask?.value
+        
+        sut.initiate()
+        await sut._initiateTask?.value
+
+        await fulfillment(of: [appInformationStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedappInformationStates, appInformationStates)
+    }
+
+    /// This test aims to reproduce the case of an app entering into the foreground
+    /// which results in a call to ``initiate`` every time.
+    ///
+    /// It asserts that calls to ``qualifyAppVersion`` over time, as long as the last
+    /// ``AppInformationState`` has been evaluated, will correctly transition to the
+    /// next information state.
+    ///
+    /// The test awaits for the evaluation to complete before attempting to initiate a new one. This way
+    /// it aims to emulate how ``initiate`` will create a new task to evaluate the information state
+    /// and how the state will transition over time.
+    ///
+    /// - SeeAlso: ``SceneDelegate/sceneWillEnterForeground(_:)``
+    /// - SeeAlso: ``AppQualifyingService/appInfoState``
+    /// - SeeAlso: ``MockAppInfoAppInformationProvider``
+    func test_multiple_foreground_initiate_calls_over_time_transition_information_state() async throws {
+        let appInformationStates: [AppInformationState] = [
+            .qualified,
+            .unavailable,
+            .offline,
+            .qualified,
+            .outdated,
+            .error
+        ]
+        let appInformationStatesReceivedExpectation = expectation(description: "expected app information states received")
+        appInformationStatesReceivedExpectation.assertForOverFulfill = false
+        let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
+        var receivedappInformationStates = [AppInformationState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+            receivedappInformationStates.append(appInformationState)
+
+            let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(receivedappInformationStates.count))
+            guard receivedappInformationStates == expectedAppInformationStateTransitions else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a app information state that was not expected",
+                    detailedDescription: "Sequence of app information states \(appInformationStates) does not match expected sequence: \(expectedAppInformationStateTransitions)."
+                )
+                self.record(issue)
+                appInformationStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedappInformationStates.count == appInformationStates.count {
+                appInformationStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        for _ in 0..<appInformationStates.count {
+            sut.initiate()
+            await sut._initiateTask?.value
+        }
+
+        await fulfillment(of: [appInformationStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(appInformationStates, appInformationStates)
+    }
+
+    /// This test aims to reproduce the case of a number of notification posting an update on ``RemoteServiceState``.
+    ///
+    /// Test that multiple calls to ````AppQualifyingService/serviceState`` do not
+    /// result in an invalid ``RemoteServiceState`` published.
+    ///
+    /// Since the ``AppQualifyingService`` **schedules a Task** to perform a callback to the delegate, it's possible that
+    /// by the time the task runs and reads the value, the value has since change from another call to ``serviceState``
+    ///
+    /// Potentially resulting to either an unexpected remote service information state or an invalid transition between states.
+    ///
+    /// This test aims to catch such a case of an invalid transition between states by posting a number of notifications
+    /// and expects them to arrive in the same order, as posted.
+    ///
+    /// The test posts notifications in  quick succession so as to generate concurrent pressure
+    /// by **scheduling of tasks** since ``serviceState`` merely creates a task and there is no way to control/manage
+    /// Task execution.
+    ///
+    /// In other words, this test aims to emulate what would happen should a number of Task(s) have been scheduled
+    /// for execution over a short period of time. Creating lots of Tasks in a short period of time aims to *force* the
+    /// system to execute themconcurrently. As of today, 2 number of tasks appear to apply enough concurrent pressure.
+    /// *This may change in the future*
+    ///
+    /// - SeeAlso: ``AppQualifyingService/subscribe``
+    func test_multiple_serviceState_notifications_do_not_lead_to_invalid_service_state_transition() async throws {
+        let serviceStates: [RemoteServiceState] = [
+            .accountIntervention,
+            .reauthenticationRequired
+        ]
+        let sessionStatesReceivedExpectation = expectation(description: "expected session states received")
+        sessionStatesReceivedExpectation.assertForOverFulfill = false
+        let sut: AppQualifyingService = .make()
+        var receivedSessionStates = [RemoteServiceState]()
+        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeServiceStateAsFunction: { sessionState in
+            receivedSessionStates.append(sessionState)
+
+            let expectedServiceStates = Array(serviceStates.prefix(receivedSessionStates.count))
+            guard receivedSessionStates == expectedServiceStates else {
+                let issue = XCTIssue(
+                    type: .assertionFailure,
+                    compactDescription: "Received a remove service state that was not expected",
+                    detailedDescription: "Sequence of received remote service states \(receivedSessionStates) does not match expected sequence: \(expectedServiceStates)."
+                )
+                self.record(issue)
+                sessionStatesReceivedExpectation.fulfill()
+                return
+            }
+
+            if receivedSessionStates.count == expectedServiceStates.count {
+                sessionStatesReceivedExpectation.fulfill()
+            }
+        })
+
+        sut.delegate = appQualifyingServiceDelegateExpectation
+
+        let notifications: [Notification.Name] = serviceStates.compactMap { remoteServiceState in
+            switch remoteServiceState {
+            case .accountIntervention:
+                return .accountIntervention
+            case .reauthenticationRequired:
+                return .reauthenticationRequired
+            default:
+                return nil
+            }
+        }
+        for notification in notifications {
+            NotificationCenter.default.post(name: notification)
+        }
+
+        await fulfillment(of: [sessionStatesReceivedExpectation], timeout: 5)
+
+        XCTAssertEqual(receivedSessionStates, serviceStates)
+    }
 }
 
 // MARK: - Subscription Tests
@@ -475,6 +890,7 @@ extension AppQualifyingServiceTests {
     }
 }
 
+@MainActor
 class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     
     typealias DidChangeAppInfoState = (AppInformationState) -> Void
@@ -503,5 +919,18 @@ class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
     
     func didChangeServiceState(state: RemoteServiceState) {
         self.didChangeServiceStateAsFunction(state)
+    }
+}
+
+private extension SessionState {
+    var expectedAppSessionState: AppSessionState {
+        switch self {
+        case .expired:
+            return .expired
+        case .enrolling, .nonePresent:
+            return .notLoggedIn
+        case .oneTime, .saved:
+            return .loggedIn
+        }
     }
 }

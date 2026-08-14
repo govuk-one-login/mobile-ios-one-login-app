@@ -30,6 +30,7 @@ struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
                 GDSTextViewModel(title: "app_signOutConfirmationBody1"),
                 
                 GDSListViewModel(title: "app_signOutConfirmationBody2",
+                                 titleConfig: (font: .body, isHeader: true),
                                  items: ["app_signOutConfirmationBullet1",
                                          "app_signOutConfirmationBullet2",
                                          "app_signOutConfirmationBullet3"],

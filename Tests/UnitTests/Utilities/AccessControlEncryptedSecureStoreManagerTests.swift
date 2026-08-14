@@ -131,10 +131,16 @@ struct AccessControlEncryptedSecureStoreManagerTests {
     
     @Test("delete deletes both stores")
     func delete() throws {
+        let (mockV12EncryptedSecureStore, mockV12EncryptedSecureStoreDelete) = MockSecureStoreService.mockDeleteCounter()
+        let (mockV13EncryptedSecureStore, mockV13EncryptedSecureStoreDelete) = MockSecureStoreService.mockDeleteCounter()
+
+        let sut: AccessControlEncryptedSecureStoreMigrator = .make(v12EncryptedSecureStore: mockV12EncryptedSecureStore,
+                                                                   v13EncryptedSecureStore: mockV13EncryptedSecureStore)
+
         try sut.delete()
         
-        #expect(mockV12AccessControlEncryptedSecureStore.didCallDeleteStore)
-        #expect(mockV13AccessControlEncryptedSecureStore.didCallDeleteStore)
+        #expect(mockV12EncryptedSecureStoreDelete.called())
+        #expect(mockV13EncryptedSecureStoreDelete.called())
     }
     
     @Test("clearSessionData deletes items from both stores")
@@ -152,5 +158,23 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         #expect(throws: SecureStoreError(.unableToRetrieveFromUserDefaults)) {
             try sut.readItem()
         }
+    }
+}
+
+extension AccessControlEncryptedSecureStoreMigrator {
+    
+    static func make(v12EncryptedSecureStore mockV12EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
+                     v13EncryptedSecureStore mockV13EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
+                     migrationStore mockMigrationStore: DefaultsStoring = MockDefaultsStore(),
+                     analyticsService mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
+    ) -> AccessControlEncryptedSecureStoreMigrator {
+        
+        return AccessControlEncryptedSecureStoreMigrator(
+            v12AccessControlEncryptedSecureStore: mockV12EncryptedSecureStore,
+            v13AccessControlEncryptedSecureStore: mockV13EncryptedSecureStore,
+            migrationStore: mockMigrationStore,
+            analyticsService: mockAnalyticsService
+        )
+
     }
 }

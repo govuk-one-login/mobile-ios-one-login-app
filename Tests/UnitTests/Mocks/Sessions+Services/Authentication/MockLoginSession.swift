@@ -56,3 +56,35 @@ final class MockLoginSessionNoRefresh: LoginSession {
         }
     }
 }
+
+final class MockAppAuthSession: LoginSession {
+    
+    typealias PerformLoginFlowAsFunction = (LoginSessionConfiguration) async throws -> TokenResponse
+    typealias FinaliseAsFunction = (URL) throws -> Void
+    
+    var performLoginFlowAsFunction: PerformLoginFlowAsFunction
+    var finaliseAsFunction: FinaliseAsFunction
+
+    convenience init() {
+        self.init(performLoginFlowAsFunction: { _ in
+            return try MockTokenResponse().getJSONData()
+        })
+    }
+    
+    convenience init(performLoginFlowAsFunction: @escaping PerformLoginFlowAsFunction) {
+        self.init(performLoginFlowAsFunction: performLoginFlowAsFunction, finaliseAsFunction: { _ in })
+    }
+    
+    init(performLoginFlowAsFunction: @escaping PerformLoginFlowAsFunction, finaliseAsFunction: @escaping FinaliseAsFunction) {
+        self.performLoginFlowAsFunction = performLoginFlowAsFunction
+        self.finaliseAsFunction = finaliseAsFunction
+    }
+
+    func performLoginFlow(configuration: LoginSessionConfiguration) async throws -> TokenResponse {
+        return try await self.performLoginFlowAsFunction(configuration)
+    }
+
+    func finalise(redirectURL: URL) throws {
+        try self.finaliseAsFunction(redirectURL)
+    }
+}

@@ -91,7 +91,7 @@ extension HomeViewControllerTests {
         #expect(body?.title.stringKey == "app_welcomeTileBody1")
         #expect(body?.title.value == "You can use this app to prove your identity to access some government services.")
         
-        #expect(viewModel.backgroundColour == .secondarySystemGroupedBackground)
+        #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)
         #expect(viewModel.dismissAction == nil)
     }
@@ -114,7 +114,7 @@ extension HomeViewControllerTests {
         // swiftlint:disable:next line_length
         #expect(body?.title.value == "If you need to prove your identity with GOV.UK One Login to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
         
-        #expect(viewModel.backgroundColour == .secondarySystemGroupedBackground)
+        #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)
         #expect(viewModel.dismissAction == nil)
     }

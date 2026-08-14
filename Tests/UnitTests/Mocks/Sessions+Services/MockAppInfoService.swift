@@ -52,3 +52,47 @@ final class MockAppInformationServiceExpectation: AppInformationProvider {
         return try await mockAppInformationService.fetchAppInfo()
     }
 }
+
+
+final class MockAppInfoAppInformationProvider: AppInformationProvider {
+    
+    var currentVersion: Networking.Version = .init(1, 0, 0)
+
+    private var appInfoStates: [AppInformationState]
+    
+    init(appInfoStates: [AppInformationState]) {
+        self.appInfoStates = appInfoStates
+    }
+
+
+    func fetchAppInfo() async throws -> MobilePlatformServices.App {
+        let appInfoState = self.appInfoStates.removeFirst()
+        
+        switch appInfoState {
+        case .notChecked:
+            return App(minimumVersion: .init(1, 0, 0),
+                       allowAppUsage: true,
+                       releaseFlags: [:],
+                       featureFlags: [:])
+        case .outdated:
+            return App(minimumVersion: .init(2, 0, 0),
+                       allowAppUsage: true,
+                       releaseFlags: [:],
+                       featureFlags: [:])
+        case .qualified:
+            return App(minimumVersion: .init(1, 0, 0),
+                       allowAppUsage: true,
+                       releaseFlags: [:],
+                       featureFlags: [:])
+        case .unavailable:
+            return App(minimumVersion: .init(1, 1, 0),
+                       allowAppUsage: false,
+                       releaseFlags: [:],
+                       featureFlags: [:])
+        case .offline:
+            throw AppInfoError.notConnectedToInternet
+        case .error:
+            throw URLError(.badServerResponse)
+        }
+    }
+}
