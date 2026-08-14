@@ -5532,7 +5532,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-networking";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.5.0;
+				minimumVersion = 4.6.0;
 			};
 		};
 		C8A13CA22AFBD07E00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-authentication" */ = {
@@ -5540,7 +5540,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-authentication.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 5.1.0;
 			};
 		};
 		C8A13CA72AFBD0CC00FCBD36 /* XCRemoteSwiftPackageReference "mobile-ios-logging" */ = {
@@ -5564,7 +5564,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-secure-store";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.0;
+				minimumVersion = 4.5.0;
 			};
 		};
 		D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
