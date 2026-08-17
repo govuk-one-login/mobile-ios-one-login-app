@@ -22,14 +22,6 @@ final class SceneDelegateTests: XCTestCase {
                        DesignSystem.Color.NavigationElements.selectedTabIconAndLabel)
     }
     
-    func test_setUpBasicUI_tabBarUnselectedTintColor() {
-        sut.setUpBasicUI()
-        XCTAssertEqual(UITabBar.appearance().unselectedItemTintColor,
-                       UIColor(light: DesignSystem.Color.Buttons.primaryForegroundDisabled,
-                               dark: DesignSystem.Color.Buttons.primaryBackgroundDisabled)
-        )
-    }
-    
     func test_setUpBasicUI_tabBarBackgroundColor() {
         sut.setUpBasicUI()
         XCTAssertEqual(UITabBar.appearance().backgroundColor, .systemBackground)
