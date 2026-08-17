@@ -113,12 +113,40 @@ actor OneLoginAppIntegrityService {
 
 extension OneLoginAppIntegrityService: ClientAttestationProvider {
     func fetchClientAttestation() async throws -> [String: String] {
-        return try await clientAssertions()
+        do {
+            return try await clientAssertions()
+        } catch let error as FirebaseAppCheckError {
+            switch error.kind {
+            case .network:
+                throw AppIntegrityError(.intermittent, originalError: error)
+            case .generic, .unknown:
+                throw AppIntegrityError(.generic, originalError: error)
+            case .invalidConfiguration, .keychainAccess, .notSupported:
+                throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+            }
+        } catch let error as ClientAssertionError {
+            switch error.kind {
+            case .invalidToken, .serverError, .cantDecodeClientAssertion:
+                throw AppIntegrityError(.intermittent, originalError: error)
+            case .invalidPublicKey:
+                throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+            }
+        } catch let error as ProofOfPossessionError {
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+        } catch {
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+        }
     }
 }
 
 extension OneLoginAppIntegrityService: DPoPProvider {
     func fetchDPoP() async throws -> [String: String] {
-        return try dPoPAssertion()
+        do {
+            return try dPoPAssertion()
+        } catch let error as ProofOfPossessionError {
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+        } catch {
+            throw AppIntegrityError(.appIntegrityFailed, originalError: error)
+        }
     }
 }

@@ -48,9 +48,6 @@ final class RefreshTokenExchangeManager: TokenExchangeManaging {
                     || error.code == .networkConnectionLost || error.code == .timedOut {
             // Transformed to enable offline wallet
             throw RefreshTokenExchangeError.noInternet
-        } catch is FirebaseAppCheckError, is ClientAssertionError, is ProofOfPossessionError {
-            // All treated as unrecoverable
-            throw RefreshTokenExchangeError.appIntegrityFailed
         }
     }
 }

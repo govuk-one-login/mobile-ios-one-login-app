@@ -2,12 +2,15 @@
 
 import XCTest
 
+// swiftlint:disable type_body_length
 final class LocalizedEnglishStringTests: XCTestCase {
     func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getEnglishString(),
                        "Close")
         XCTAssertEqual("app_cancelButton".getEnglishString(),
                        "Cancel")
+        XCTAssertEqual("app_doneButton".getEnglishString(),
+                       "Done")
         XCTAssertEqual("app_tryAgainButton".getEnglishString(),
                        "Go back and try again")
         XCTAssertEqual("app_continueButton".getEnglishString(),
@@ -221,7 +224,22 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_appPurposeTileHeader".getEnglishString(),
                        "How to prove your identity")
         XCTAssertEqual("app_appPurposeTileBody1".getEnglishString(),
-                       "If you need to prove your identity with %@ to access a service, you'll be asked to open this app. It works by matching your face to your photo ID.")
+                       "To start, go to the GOV.UK website and find the government service you need to use. You'll be asked to open this app if you need it.")
+        XCTAssertEqual("app_appPurposeTileButton".getEnglishString(),
+                       "Find out more")
+    }
+    
+    func test_proveIdentityGuidanceKeys() {
+        XCTAssertEqual("app_proveYourIdentityGuidanceTitle".getEnglishString(),
+                       "How to prove your identity")
+        XCTAssertEqual("app_proveYourIdentityGuidanceBody1".getEnglishString(),
+                       "You cannot start proving your identity in this app.\n\nTo start, go to the GOV.UK website and find the government service you need to use.\n\nYou'll be asked to open this app if you need to use it to prove your identity.")
+        XCTAssertEqual("app_proveYourIdentityGuidanceLink".getEnglishString(),
+                       "Go to the GOV.UK website")
+        XCTAssertEqual("app_proveYourIdentityGuidanceBody2".getEnglishString(),
+                       "If you've already started proving your identity on the GOV.UK website")
+        XCTAssertEqual("app_proveYourIdentityGuidanceBody3".getEnglishString(),
+                       "If a service on the GOV.UK website has guided you to open this app, you should see a button to continue proving your identity in the 'Home' section.\n\nIf you cannot see the button, close the app and open it again.")
     }
     
     func test_appUnavailablePageKeys() {
@@ -273,4 +291,5 @@ final class LocalizedEnglishStringTests: XCTestCase {
     }
 }
 
+// swiftlint:enable type_body_length
 // swiftlint:enable line_length

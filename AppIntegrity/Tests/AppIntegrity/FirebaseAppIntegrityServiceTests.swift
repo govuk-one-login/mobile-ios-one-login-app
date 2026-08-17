@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -147,78 +148,84 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     func testAppCheckUnknownError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
         
-        do {
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .unknown)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 0.)")
         }
+
+        #expect(error?.kind == .unknown)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (com.firebase.appCheck error 0.)")
     }
     
     @Test("AppCheck vendor throws network error from limitedUseToken")
     func testAppCheckNetworkError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
         
-        do {
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .network)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 1.)")
         }
+
+        #expect(error?.kind == .network)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (com.firebase.appCheck error 1.)")
     }
     
     @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
     func testAppCheckInvalidconfigurationError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
         
-        do {
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .invalidConfiguration)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 2.)")
         }
+
+        #expect(error?.kind == .invalidConfiguration)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (com.firebase.appCheck error 2.)")
     }
     
     @Test("AppCheck vendor throws keychain access error from limitedUseToken")
     func testAppCheckKeychainAccessError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
         
-        do {
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .keychainAccess)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 3.)")
         }
+
+        #expect(error?.kind == .keychainAccess)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (com.firebase.appCheck error 3.)")
     }
     
     @Test("AppCheck vendor throws not supported error from limitedUseToken")
     func testAppCheckNotSupportedError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
         
-        do {
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .notSupported)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 4.)")
         }
+
+        #expect(error?.kind == .notSupported)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (com.firebase.appCheck error 4.)")
     }
     
     @Test("AppCheck vendor throws generic error from limitedUseToken")
     func testAppCheckGenericError() async throws {
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
         
-        do {
+        let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as FirebaseAppCheckError {
-            #expect(error.kind == .generic)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (com.firebase.appCheck error 5.)")
         }
+
+        #expect(error?.kind == .generic)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (com.firebase.appCheck error 5.)")
     }
     
     @Test("Check that 400 throws invalid public key error")
@@ -227,13 +234,14 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 400))
         }
         
-        do {
+        let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .invalidPublicKey)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (Networking.ServerError error 400.)")
         }
+
+        #expect(error?.kind == .invalidPublicKey)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (Networking.ServerError error 400.)")
     }
     
     @Test("Check that 401 throws invalid token error")
@@ -242,13 +250,14 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
         
-        do {
+        let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .invalidToken)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (Networking.ServerError error 401.)")
         }
+
+        #expect(error?.kind == .invalidToken)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (Networking.ServerError error 401.)")
     }
     
     @Test("Check that 500 throws txma server error")
@@ -257,13 +266,14 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 500))
         }
         
-        do {
+        let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .serverError)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (Networking.ServerError error 500.)")
         }
+
+        #expect(error?.kind == .serverError)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (Networking.ServerError error 500.)")
     }
     
     @Test("Proof of possession token generator returns error cant create attestation proof of possession error")
@@ -280,13 +290,15 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         
         mockAttestationProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
-        do {
+        let error = await #expect(throws: ProofOfPossessionError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as ProofOfPossessionError {
-            #expect(error.kind == .cantGenerateAttestationProofOfPossessionJWT)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (test domain error 0.)")
         }
+
+
+        #expect(error?.kind == .cantGenerateAttestationProofOfPossessionJWT)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (test domain error 0.)")
     }
     
     @Test("DPoP token generator returns error cant create attestation proof of possession error")
@@ -303,13 +315,14 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         
         mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
         
-        do {
-            _ = try await sut.clientAssertions
-        } catch let error as ProofOfPossessionError {
-            #expect(error.kind == .cantGenerateDemonstratingProofOfPossessionJWT)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The operation couldn’t be completed. (test domain error 0.)")
+        let error = await #expect(throws: ProofOfPossessionError.self) {
+            _ = try await sut.dPoPAssertion
         }
+
+        #expect(error?.kind == .cantGenerateDemonstratingProofOfPossessionJWT)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The operation couldn’t be completed. (test domain error 0.)")
     }
     
     @Test("Check that client attestation is decoded successfully")
@@ -361,13 +374,14 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
         
-        do {
+        let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
-        } catch let error as ClientAssertionError {
-            #expect(error.kind == .cantDecodeClientAssertion)
-            #expect(error.errorUserInfo["originalError"] as? String ==
-                    "The data couldn’t be read because it isn’t in the correct format.")
         }
+
+        #expect(error?.kind == .cantDecodeClientAssertion)
+        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(underlyingError.localizedDescription ==
+                "The data couldn’t be read because it isn’t in the correct format.")
     }
     
     @Test("Check that client attestation request public key error is caught")

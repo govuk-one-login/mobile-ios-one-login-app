@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "ebce5326dc346fd26030429fe6e51a116212213e",
-        "version" : "5.0.0"
+        "revision" : "dbeef4f0d41c595be949552f52b0a38e056ddcf4",
+        "version" : "5.1.0"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-networking",
       "state" : {
-        "revision" : "b204db5e573db18645f083101fbedd938f586e8b",
-        "version" : "4.4.0"
+        "revision" : "c2ad32a7c6f88c678fbb3c88e1ce2b755603b87f",
+        "version" : "4.6.0"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "5d7532d187e856fd8dea158b9991404c0d3b0949",
-        "version" : "4.2.0"
+        "revision" : "32d1b6e8e151a90b7d9937148779ec37b0c33297",
+        "version" : "4.5.0"
       }
     },
     {
@@ -221,8 +221,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-utilities",
       "state" : {
-        "revision" : "a67b1c345e1ba39f71ef60d8c9faa7a8a7d55794",
-        "version" : "1.1.1"
+        "revision" : "53afbf17be3ebdbed1746108cec3d2833b18b6a8",
+        "version" : "2.0.0"
       }
     },
     {

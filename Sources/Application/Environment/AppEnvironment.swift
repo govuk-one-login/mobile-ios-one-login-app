@@ -289,6 +289,10 @@ extension AppEnvironment {
         isLocaleWelsh ? url = url.appendingPathComponent("cy") : nil
         return url
     }
+    
+    static var govSignInURL: URL {
+        return govURL.appendingPathComponent("sign-in")
+    }
 }
 
 // MARK: - App Store URL
