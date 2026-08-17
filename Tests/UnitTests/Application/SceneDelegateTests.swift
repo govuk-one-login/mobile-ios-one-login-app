@@ -24,7 +24,7 @@ final class SceneDelegateTests: XCTestCase {
     
     func test_setUpBasicUI_tabBarUnselectedTintColor() {
         sut.setUpBasicUI()
-        XCTAssertEqual(UITabBar.appearance().tintColor,
+        XCTAssertEqual(UITabBar.appearance().unselectedItemTintColor,
                        UIColor(light: DesignSystem.Color.Buttons.primaryForegroundDisabled,
                                dark: DesignSystem.Color.Buttons.primaryBackgroundDisabled)
         )
