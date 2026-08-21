@@ -5507,8 +5507,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-ui";
 			requirement = {
-				kind = revision;
-				revision = d385e86519a2e578217ee18aa97812a06cf6af1c;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 		1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
@@ -5524,7 +5524,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git";
 			requirement = {
 				kind = exactVersion;
-				version = 8.81.0;
+				version = 8.83.0;
 			};
 		};
 		C844A6942BCD2684000538A9 /* XCRemoteSwiftPackageReference "mobile-ios-networking" */ = {
