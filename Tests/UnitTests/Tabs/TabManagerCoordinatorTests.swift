@@ -47,6 +47,8 @@ extension TabManagerCoordinatorTests {
         XCTAssertTrue(sut.childCoordinators[0] is HomeCoordinator)
         XCTAssertTrue(sut.childCoordinators[1] is WalletCoordinator)
         XCTAssertTrue(sut.childCoordinators[2] is SettingsCoordinator)
+        // AND background should be clear
+        XCTAssertEqual(sut.root.tabBar.backgroundColor, .clear)
     }
     
     func test_handleUniversalLink() async throws {
