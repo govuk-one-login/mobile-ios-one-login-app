@@ -29,7 +29,7 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                 GDSTextViewModel(title: "app_proveYourIdentityGuidanceTitle",
                                  titleFont: .largeTitleBold,
                                  accessibilityTraits: .header,
-                                 verticalPadding: .bottom(DesignSystem.Spacing.default),),
+                                 verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: "app_proveYourIdentityGuidanceBody1",
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_proveYourIdentityGuidanceLink").value,

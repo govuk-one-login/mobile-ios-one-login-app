@@ -35,10 +35,11 @@ extension ProveIdentityGuidanceViewModelTests {
         #expect(button?.accessibilityHint == "Opens in web browser")
         #expect(body2?.title.stringKey == "app_proveYourIdentityGuidanceBody2")
         #expect(body2?.title.value == "If you've already started proving your identity on the GOV.UK website")
-        #expect(body3?.accessibilityTraits == .header)
+        #expect(body2?.accessibilityTraits == .header)
         #expect(body3?.title.stringKey == "app_proveYourIdentityGuidanceBody3")
+        // swiftlint:disable line_length
         #expect(body3?.title.value == "If a service on the GOV.UK website has guided you to open this app, you should see a button to continue proving your identity in the 'Home' section.\n\nIf you cannot see the button, close the app and open it again.")
-       
+        // swiftlint:enable line_length
         #expect(sut.rightBarButtonTitle == "app_doneButton")
         #expect(sut.movableFooter.isEmpty)
         #expect(sut.backButtonIsHidden)
