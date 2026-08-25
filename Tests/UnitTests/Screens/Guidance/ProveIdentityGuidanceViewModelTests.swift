@@ -28,12 +28,17 @@ extension ProveIdentityGuidanceViewModelTests {
 
         #expect(titleText?.title.stringKey == "app_proveYourIdentityGuidanceTitle")
         #expect(titleText?.title.value == "How to prove your identity")
+        #expect(titleText?.accessibilityTraits == .header)
         #expect(body1?.title.stringKey == "app_proveYourIdentityGuidanceBody1")
         #expect(button?.title.forState(.normal) == "Go to the GOV.UK website")
         #expect(button?.icon == .arrowUpRight)
         #expect(button?.accessibilityHint == "Opens in web browser")
         #expect(body2?.title.stringKey == "app_proveYourIdentityGuidanceBody2")
+        #expect(body2?.title.value == "If you've already started proving your identity on the GOV.UK website")
+        #expect(body3?.accessibilityTraits == .header)
         #expect(body3?.title.stringKey == "app_proveYourIdentityGuidanceBody3")
+        #expect(body3?.title.value == "If a service on the GOV.UK website has guided you to open this app, you should see a button to continue proving your identity in the 'Home' section.\n\nIf you cannot see the button, close the app and open it again.")
+       
         #expect(sut.rightBarButtonTitle == "app_doneButton")
         #expect(sut.movableFooter.isEmpty)
         #expect(sut.backButtonIsHidden)

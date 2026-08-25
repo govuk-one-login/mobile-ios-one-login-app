@@ -28,7 +28,8 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
             body: [
                 GDSTextViewModel(title: "app_proveYourIdentityGuidanceTitle",
                                  titleFont: .largeTitleBold,
-                                 verticalPadding: .bottom(DesignSystem.Spacing.default)),
+                                 accessibilityTraits: .header,
+                                 verticalPadding: .bottom(DesignSystem.Spacing.default),),
                 GDSTextViewModel(title: "app_proveYourIdentityGuidanceBody1",
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_proveYourIdentityGuidanceLink").value,
@@ -46,6 +47,7 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                                    verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringLiteral: "app_proveYourIdentityGuidanceBody2",
                                                            stringAttributes: [(GDSLocalisedString("app_proveYourIdentityGuidanceBody2").value, [.font: UIFont.bodyBold])]),
+                                 accessibilityTraits: .header,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: "app_proveYourIdentityGuidanceBody3",
                                  verticalPadding: .bottom(DesignSystem.Spacing.default))
