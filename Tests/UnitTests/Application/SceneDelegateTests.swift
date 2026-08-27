@@ -30,6 +30,10 @@ final class SceneDelegateTests: XCTestCase {
     func test_setUpBasicUI_barButtonItemTintColor() {
         sut.setUpBasicUI()
         let appearance = UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
-        XCTAssertEqual(appearance.tintColor, .accent)
+        if #available(iOS 26.0, *) {
+            XCTAssertNil(appearance.tintColor)
+        } else {
+            XCTAssertEqual(appearance.tintColor, .accent)
+        }
     }
 }

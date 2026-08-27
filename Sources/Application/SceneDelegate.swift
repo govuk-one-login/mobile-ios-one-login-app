@@ -90,7 +90,11 @@ final class SceneDelegate: UIResponder,
         )
         UITabBar.appearance().backgroundColor = .systemBackground
         
-        // Bar button items color
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .accent
+        if #available(iOS 26.0, *) {
+            // No color applied to navigation bar items for iOS 26 and higher
+        } else {
+            // Apply navigation bar button item color to iOS lower than 26
+            UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .accent
+        }
     }
 }
