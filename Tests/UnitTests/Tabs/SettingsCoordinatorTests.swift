@@ -32,7 +32,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         // WHEN the SettingsCoordinator has started
         sut.start()
         let settingsTab = UITabBarItem(title: "Settings",
-                                      image: UIImage(systemName: "gearshape"),
+                                      image: UIImage(systemName: "gearshape.fill"),
                                       tag: 2)
         // THEN the bar button item of the root is correctly configured
         XCTAssertEqual(sut.root.tabBarItem.title, settingsTab.title)

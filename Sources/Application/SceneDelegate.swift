@@ -1,4 +1,5 @@
 import AppIntegrity
+import DesignSystem
 import GAnalytics
 import LocalAuthentication
 import LocalAuthenticationWrapper
@@ -78,8 +79,20 @@ final class SceneDelegate: UIResponder,
     }
     
     func setUpBasicUI() {
-        UITabBar.appearance().tintColor = .accent
+        // Selected TabBar color
+        UITabBar.appearance().tintColor =
+            DesignSystem.Color.NavigationElements.selectedTabIconAndLabel
+        
+        // Default TabBar color
+        UITabBar.appearance().unselectedItemTintColor = UIColor(
+            light: DesignSystem.Color.Buttons.primaryForegroundDisabled,
+            dark: DesignSystem.Color.Buttons.primaryBackgroundDisabled
+        )
         UITabBar.appearance().backgroundColor = .systemBackground
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .accent
+        
+        if #unavailable(iOS 26.0) {
+            // Apply navigation bar button item color to iOS lower than 26
+            UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .accent
+        }
     }
 }

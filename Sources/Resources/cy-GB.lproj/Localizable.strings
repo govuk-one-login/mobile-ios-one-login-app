@@ -3,6 +3,8 @@
 
 "app_cancelButton" = "Canslo";
 
+"app_doneButton" = "Wedi'i wneud";
+
 "app_tryAgainButton" = "Ewch yn ôl i roi cynnig eto";
 
 "app_continueButton" = "Parhau";
@@ -207,8 +209,20 @@
 
 "app_appPurposeTileHeader" = "Sut i brofi eich hunaniaeth";
 
-"app_appPurposeTileBody1" = "Os oes angen i chi brofi eich hunaniaeth gyda %@ i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.";
+"app_appPurposeTileBody1" = "I ddechrau, ewch i wefan GOV.UK a dewch o hyd i wasanaeth y llywodraeth rydych angen ei ddefnyddio. Gofynnir i chi agor yr ap hwn os ydych ei angen.";
 
+"app_appPurposeTileButton" = "Darganfyddwch fwy";
+
+// MARK: Prove Identity Guidance Screen
+"app_proveYourIdentityGuidanceTitle" = "Sut i brofi eich hunaniaeth";
+
+"app_proveYourIdentityGuidanceBody1" = "Ni allwch ddechrau profi eich hunaniaeth ar yr ap hwn.\n\nI ddechrau, ewch i wefan GOV.UK a dewch o hyd i wasanaeth y llywodraeth rydych angen ei ddefnyddio.\n\nGofynnir i chi agor yr ap hwn os ydych angen ei ddefnyddio i brofi eich hunaniaeth.";
+
+"app_proveYourIdentityGuidanceLink" = "Ewch i wefan GOV.UK";
+
+"app_proveYourIdentityGuidanceBody2" = "Os ydych eisoes wedi dechrau profi eich hunaniaeth ar wefan GOV.UK";
+
+"app_proveYourIdentityGuidanceBody3" = "Os yw gwasanaeth wedi eich tywys i agor yr ap hwn, dylech weld botwm i barhau i brofi eich hunaniaeth yn yr adran 'Hafan'.\n\nOs na allwch weld y botwm, caewch yr ap a'i agor eto.";
 
 // MARK: App Unavailable Screen
 "app_appUnavailableTitle" = "Mae'n ddrwg gennym, nid yw'r ap ar gael";

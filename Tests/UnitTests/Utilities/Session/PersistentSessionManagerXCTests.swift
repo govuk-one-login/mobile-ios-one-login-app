@@ -773,12 +773,16 @@ extension PersistentSessionManagerXCTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         
+        var _error: Error?
         // WHEN I attempt to resume my session
         do {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.appIntegrityFailed {
-            // Expected path
+        } catch {
+            _error = error
         }
+        
+        let actual = try XCTUnwrap(_error as? Networking.AppIntegrityError)
+        XCTAssertNotNil(actual)
     }
     
     func test_resumeSession_refreshTokenExchange_restoresUserAndAccessToken() async throws {

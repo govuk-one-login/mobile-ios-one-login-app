@@ -105,6 +105,10 @@
 						<key>SPKI-SHA256-BASE64</key>
 						<string>x4QzPSC810K5/cMjb05Qm4k3Bw5zBn4lTdO/nEW/Td4=</string>
 					</dict>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>Douxi77vs4G+Ib/BogbTFymEYq0QSFXwSgVCaZcI09Q=</string>
+					</dict>
 				</array>
 			</dict>
 			<key>account.gov.uk</key>
@@ -199,7 +203,5 @@
 	<string>The app will use your phone&apos;s front and rear cameras to prove your identity and scan QR codes.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>This app uses Bluetooth to create a secure connection with the person doing the check. This feature is currently unavailable.</string>
-	<key>UIDesignRequiresCompatibility</key>
-	<true/>
 </dict>
 </plist>

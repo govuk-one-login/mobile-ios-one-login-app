@@ -2,12 +2,15 @@
 
 import XCTest
 
+// swiftlint:disable type_body_length
 final class LocalizedWelshStringTests: XCTestCase {
     func test_generic_keys() throws {
         XCTAssertEqual("app_closeButton".getWelshString(),
                        "Cau")
         XCTAssertEqual("app_cancelButton".getWelshString(),
                        "Canslo")
+        XCTAssertEqual("app_doneButton".getWelshString(),
+                       "Wedi'i wneud")
         XCTAssertEqual("app_tryAgainButton".getWelshString(),
                        "Ewch yn ôl i roi cynnig eto")
         XCTAssertEqual("app_continueButton".getWelshString(),
@@ -221,7 +224,22 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_appPurposeTileHeader".getWelshString(),
                        "Sut i brofi eich hunaniaeth")
         XCTAssertEqual("app_appPurposeTileBody1".getWelshString(),
-                       "Os oes angen i chi brofi eich hunaniaeth gyda %@ i gael mynediad at wasanaeth, gofynnir i chi agor yr ap hwn. Mae'n gweithio trwy baru eich wyneb â'ch ID gyda llun.")
+                       "I ddechrau, ewch i wefan GOV.UK a dewch o hyd i wasanaeth y llywodraeth rydych angen ei ddefnyddio. Gofynnir i chi agor yr ap hwn os ydych ei angen.")
+        XCTAssertEqual("app_appPurposeTileButton".getWelshString(),
+                       "Darganfyddwch fwy")
+    }
+    
+    func test_proveIdentityGuidanceKeys() {
+        XCTAssertEqual("app_proveYourIdentityGuidanceTitle".getWelshString(),
+                       "Sut i brofi eich hunaniaeth")
+        XCTAssertEqual("app_proveYourIdentityGuidanceBody1".getWelshString(),
+                       "Ni allwch ddechrau profi eich hunaniaeth ar yr ap hwn.\n\nI ddechrau, ewch i wefan GOV.UK a dewch o hyd i wasanaeth y llywodraeth rydych angen ei ddefnyddio.\n\nGofynnir i chi agor yr ap hwn os ydych angen ei ddefnyddio i brofi eich hunaniaeth.")
+        XCTAssertEqual("app_proveYourIdentityGuidanceLink".getWelshString(),
+                       "Ewch i wefan GOV.UK")
+        XCTAssertEqual("app_proveYourIdentityGuidanceBody2".getWelshString(),
+                       "Os ydych eisoes wedi dechrau profi eich hunaniaeth ar wefan GOV.UK")
+        XCTAssertEqual("app_proveYourIdentityGuidanceBody3".getWelshString(),
+                       "Os yw gwasanaeth wedi eich tywys i agor yr ap hwn, dylech weld botwm i barhau i brofi eich hunaniaeth yn yr adran 'Hafan'.\n\nOs na allwch weld y botwm, caewch yr ap a'i agor eto.")
     }
     
     func test_appUnavailablePageKeys() {
@@ -274,4 +292,5 @@ final class LocalizedWelshStringTests: XCTestCase {
 
 }
 
+// swiftlint:enable type_body_length
 // swiftlint:enable line_length

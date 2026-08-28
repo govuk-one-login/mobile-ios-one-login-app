@@ -1,3 +1,4 @@
+import DesignSystem
 @testable import OneLogin
 import XCTest
 
@@ -17,9 +18,10 @@ final class SceneDelegateTests: XCTestCase {
 
     func test_setUpBasicUI_tabBarTintColor() {
         sut.setUpBasicUI()
-        XCTAssertEqual(UITabBar.appearance().tintColor, .accent)
+        XCTAssertEqual(UITabBar.appearance().tintColor,
+                       DesignSystem.Color.NavigationElements.selectedTabIconAndLabel)
     }
-
+    
     func test_setUpBasicUI_tabBarBackgroundColor() {
         sut.setUpBasicUI()
         XCTAssertEqual(UITabBar.appearance().backgroundColor, .systemBackground)
@@ -28,6 +30,10 @@ final class SceneDelegateTests: XCTestCase {
     func test_setUpBasicUI_barButtonItemTintColor() {
         sut.setUpBasicUI()
         let appearance = UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
-        XCTAssertEqual(appearance.tintColor, .accent)
+        if #available(iOS 26.0, *) {
+            XCTAssertNil(appearance.tintColor)
+        } else {
+            XCTAssertEqual(appearance.tintColor, .accent)
+        }
     }
 }

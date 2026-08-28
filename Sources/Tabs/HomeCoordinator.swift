@@ -30,7 +30,7 @@ final class HomeCoordinator: NSObject,
     func start() {
         root.tabBarItem = UITabBarItem(
             title: GDSLocalisedString(stringLiteral: "app_homeTitle").value,
-            image: UIImage(systemName: "house"),
+            image: UIImage(systemName: "house.fill"),
             tag: 0
         )
         let criOrchestrator = CRIOrchestrator(
@@ -40,7 +40,8 @@ final class HomeCoordinator: NSObject,
         )
         let hc = HomeViewController(
             analyticsService: analyticsService,
-            criOrchestrator: criOrchestrator
+            criOrchestrator: criOrchestrator,
+            openProveIdentityGuidancePage: openProveIDGuidancePage
         )
         root.setViewControllers([hc], animated: true)
     }
@@ -50,5 +51,13 @@ final class HomeCoordinator: NSObject,
         analyticsService.logEvent(event)
         let tabCoordinator = (parentCoordinator as? TabManagerCoordinator)
         tabCoordinator?.updateSelectedTabIndex()
+    }
+    
+    func openProveIDGuidancePage() {
+        let navController = UINavigationController()
+        let viewModel = ProveIdentityGuidanceViewModel(analyticsService: analyticsService)
+        let proveIdentityGuidanceVC = GDSScreen(viewModel: viewModel)
+        navController.setViewControllers([proveIdentityGuidanceVC], animated: false)
+        root.present(navController, animated: true)
     }
 }

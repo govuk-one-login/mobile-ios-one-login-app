@@ -151,7 +151,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+        await #expect(throws: Networking.AppIntegrityError(.intermittent)) {
             return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString
             )
@@ -165,7 +165,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+        await #expect(throws: Networking.AppIntegrityError(.generic)) {
             return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString
             )
@@ -179,7 +179,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+        await #expect(throws: Networking.AppIntegrityError(.appIntegrityFailed)) {
             return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString
             )
@@ -193,7 +193,7 @@ struct RefreshTokenExchangeManagerTests: ~Copyable {
             reason: "test description"
         )
         
-        await #expect(throws: RefreshTokenExchangeError.appIntegrityFailed) {
+        await #expect(throws: Networking.AppIntegrityError(.appIntegrityFailed)) {
             return try await sut.getUpdatedTokens(
                 refreshToken: UUID().uuidString
             )
