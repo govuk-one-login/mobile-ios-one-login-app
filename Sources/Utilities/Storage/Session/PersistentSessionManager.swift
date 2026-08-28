@@ -14,8 +14,9 @@ final class PersistentSessionManager: SessionManager {
         accessControlEncryptedSecureStoreMigrator: (any SecureStorable & SessionBoundData)? = nil,
         encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
+        localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
         walletSessionData: SessionBoundData = WalletSessionData(),
         refreshTokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue,
@@ -32,7 +33,7 @@ final class PersistentSessionManager: SessionManager {
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator
             ),
             unprotectedStore: unprotectedStore,
-            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
+            localAuthentication: localAuthentication,
             analyticsService: analyticsService,
             walletSDK: walletSDK,
             tokenExchangeManager: refreshTokenExchangeManager,
@@ -94,7 +95,7 @@ final class PersistentSessionManager: SessionManager {
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
@@ -380,25 +381,38 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAppForLogin() async throws {
-        for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
-            try await each.clearSessionData()
-        }
-        
-        endCurrentSession()
+        let excludingUserDefaultsPreferenceStore = sessionBoundData.filter { type(of: $0 ) != UserDefaultsPreferenceStore.self }
+        try await self.clearSessionData(in: excludingUserDefaultsPreferenceStore, presentSystemLogOut: false)
     }
 
     func clearAllSessionData(presentSystemLogOut: Bool) async throws {
-        for each in sessionBoundData {
-            try await each.clearSessionData()
+        try await self.clearSessionData(in: sessionBoundData, presentSystemLogOut: presentSystemLogOut)
+    }
+    
+    private func clearSessionData(in sessionData: [SessionBoundData], presentSystemLogOut: Bool) async throws {
+        for each in sessionData {
+            if case let walletSessionData? = each as? WalletSessionData {
+                let streamClearSessionDataWarnings = await walletSessionData.streamClearSessionDataWarnings
+                async let logWarnings = { [analyticsService = self.analyticsService] in
+                    for await warning in streamClearSessionDataWarnings {
+                        analyticsService.logCrash(warning)
+                    }
+                }()
+                
+                try await walletSessionData.clearSessionData()
+                await logWarnings
+            } else {
+                try await each.clearSessionData()
+            }
         }
-        
+
         endCurrentSession()
-        
+
         if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
-    
+
     func registerSessionBoundData(_ data: [SessionBoundData]) {
         sessionBoundData = data
     }
