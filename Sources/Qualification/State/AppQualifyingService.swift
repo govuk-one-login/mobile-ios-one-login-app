@@ -145,6 +145,18 @@ final class AppQualifyingService: QualifyingService {
             return
         }
         
+        do {
+            try await sessionManager.assertReturningUserCanLogin()
+        } catch let error as SecureStoreError where
+                    error.kind == .cantDecryptData {
+            analyticsService.logCrash(error)
+            return
+        } catch {
+            analyticsService.logCrash(error)
+            sessionState = .failed(error)
+            return
+        }
+        
         switch sessionManager.sessionState {
         case .expired:
             sessionState = .expired

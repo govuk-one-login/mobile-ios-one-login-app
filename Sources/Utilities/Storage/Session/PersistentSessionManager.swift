@@ -201,43 +201,87 @@ final class PersistentSessionManager: SessionManager {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
+    /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
+    private func _clearAllSessionData(presentSystemLogOut: Bool = true) async throws {
+        // I am a returning user
+        // but cannot reauthenticate because I don't have a persistent session ID
+        //
+        // I need to delete my session & Wallet data before I can login
+        do {
+            if await !walletSDK.isEmpty() {
+                analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
+                                                                 reason: "secure wallet data deleted"))
+            }
+            try await clearAllSessionData(presentSystemLogOut: presentSystemLogOut)
+        } catch {
+            throw PersistentSessionError(.cannotDeleteData, originalError: error)
+        }
+    }
+    
+    /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
+    private func _clearAppForLogin() async throws {
+        // I am a first time user
+        // I don't have a persistent session ID
+        //
+        // I need to delete my session (but not analytics permissions) & Wallet data before I can login
+        do {
+            if await !walletSDK.isEmpty() {
+                analyticsService.logCrash(PersistentSessionError(.noSessionExists,
+                                                                 reason: "secure wallet data deleted"))
+            }
+            try await clearAppForLogin()
+        } catch {
+            throw PersistentSessionError(.cannotDeleteData, originalError: error)
+        }
+    }
+    
+    /// Asserts that a ``persistentID`` is present and accessible for either a returning or a first time user.
+    ///
+    /// - throws: ``PersistentSessionError(.sessionMismatch)`` in case this is a returning user without a persistent session ID.
+    ///     All session data will be cleared and a ``.systemLogUserOut`` notification is posted.
+    /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
+    /// - Note: in case of a first time user, their "preferences" are not cleared.
+    /// - SeeAlso: ``clearAllSessionData(presentSystemLogOut:)`` for a returning user
+    /// - SeeAlso: ``clearAppForLogin()`` for a first time user
+    private func assertSession() async throws {
+        if persistentID == nil {
+            if isReturningUser {
+                try await _clearAllSessionData()
+                throw PersistentSessionError(.sessionMismatch)
+            } else {
+                try await _clearAppForLogin()
+            }
+        }
+    }
+    
+    private var assertReturningUserCanLoginEvaluated = false
+    
+    public func assertReturningUserCanLogin() async throws {
+        try await self.serialTaskQueue.enqueue {
+            guard self.isReturningUser, !self.assertReturningUserCanLoginEvaluated else {
+                return
+            }
+            
+            let persistentID = Result {
+                try self.encryptedStore
+                    .readItem(itemName: OLString.persistentSessionID)
+            }
+            
+            if case .failure(let error as SecureStoreError) = persistentID, error.kind == .cantDecryptData,
+               let originalError = error.originalError as? NSError, originalError.code == errSecParam {
+                try await self._clearAllSessionData()
+                throw error
+            }
+            
+            self.assertReturningUserCanLoginEvaluated = true
+        }
+    }
+    
     func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
     ) async throws {
-        if persistentID == nil {
-            if isReturningUser {
-                // I am a returning user
-                // but cannot reauthenticate because I don't have a persistent session ID
-                //
-                // I need to delete my session & Wallet data before I can login
-                do {
-                    if await !walletSDK.isEmpty() {
-                        analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
-                                                                         reason: "secure wallet data deleted"))
-                    }
-                    try await clearAllSessionData(presentSystemLogOut: true)
-                } catch {
-                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
-                }
-                
-                throw PersistentSessionError(.sessionMismatch)
-            } else {
-                // I am a first time user
-                // I don't have a persistent session ID
-                //
-                // I need to delete my session (but not analytics permissions) & Wallet data before I can login
-                do {
-                    if await !walletSDK.isEmpty() {
-                        analyticsService.logCrash(PersistentSessionError(.noSessionExists,
-                                                                         reason: "secure wallet data deleted"))
-                    }
-                    try await clearAppForLogin()
-                } catch {
-                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
-                }
-            }
-        }
+        try await assertSession()
         
         let response = try await session.performLoginFlow(
             configuration: configuration(persistentID)

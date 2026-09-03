@@ -5,6 +5,8 @@ import MobilePlatformServices
 import Networking
 @testable import OneLogin
 import SecureStore
+import Testing
+import WalletStore
 import XCTest
 
 extension AppQualifyingService {
@@ -21,7 +23,7 @@ extension AppQualifyingService {
 
 // MARK: - App Info Requests
 @MainActor
-final class AppQualifyingServiceTests: XCTestCase {
+final class AppQualifyingServiceXCTests: XCTestCase {
     
     func test_appInfoIsRequested() {
         let expectation = expectation(description: #function)
@@ -130,9 +132,198 @@ final class AppQualifyingServiceTests: XCTestCase {
     }
 }
 
-// MARK: - User State Evaluation
-extension AppQualifyingServiceTests {
+@MainActor
+struct AppQualifyingServiceTests {
     
+    @Test(
+        """
+        ON THE CONDITION a call to SessionManager/assertReturningUserCanLogin
+            throws a SecureStoreError(.cantDecryptData)
+        GIVEN an AppQualifyingService with an `.expired` session state
+        WHEN the call to `AppQualifyingService/initiate` is finished
+        THEN SessionManager/assertReturningUserCanLogin is called
+        AND the session state remains `.expired`
+        """
+    )
+    func assertReturningUserCanLoginIsCalledAndStopsSessionEvaluation() async throws {
+        let analyticsService = MockAnalyticsService()
+        let sessionManager = MockSessionManager()
+        sessionManager.sessionState = .expired
+        sessionManager.errorFromAssertReturningUserCanLogin = SecureStoreError(.cantDecryptData)
+        let sut: AppQualifyingService = .make(
+            analyticsService: analyticsService,
+            sessionManager: sessionManager
+        )
+
+        var expectedAppSessionState: AppSessionState?
+        await confirmation(expectedCount: 0) { confirmation in
+            let delegate = MockAppQualifyingServiceDelegate(
+                didChangeSessionStateAsFunction: { sessionState in
+                    expectedAppSessionState = sessionState
+                    confirmation()
+                }
+            )
+            sut.delegate = delegate
+            sut.initiate()
+            let initiateTask = sut._initiateTask
+            await initiateTask?.value
+        }
+
+        #expect(sessionManager.didAssertReturningUserCanLogin)
+        #expect(expectedAppSessionState == nil)
+        #expect(sessionManager.sessionState == .expired)
+    }
+
+    @Test(
+        """
+        ON THE CONDITION a call to SessionManager/assertReturningUserCanLogin
+            throws a SecureStoreError(.cantDecryptData)
+        GIVEN an AppQualifyingService with an `.expired` session state
+        WHEN the call to `AppQualifyingService/initiate` is finished
+        THEN SessionManager/assertCantDecryptData is called
+        AND the session state remains `.expired`
+        """
+    )
+    func assertReturningUserCanLoginCleanupFailureSetsFailedStateAndStopsSessionEvaluation() async {
+        let cannotDeleteDataError = PersistentSessionError(.cannotDeleteData)
+        let sessionManager = MockSessionManager()
+        sessionManager.sessionState = .expired
+        sessionManager.errorFromAssertReturningUserCanLogin = cannotDeleteDataError
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+
+        var expectedAppSessionState: AppSessionState?
+        await confirmation { confirmation in
+            let delegate = MockAppQualifyingServiceDelegate(
+                didChangeSessionStateAsFunction: { sessionState in
+                    expectedAppSessionState = sessionState
+                    confirmation()
+                }
+            )
+            sut.delegate = delegate
+            sut.initiate()
+            let initiateTask = sut._initiateTask
+            await initiateTask?.value
+        }
+
+        #expect(sessionManager.didAssertReturningUserCanLogin)
+        #expect(!sessionManager.didCallResumeSession)
+        #expect(expectedAppSessionState == .failed(cannotDeleteDataError))
+    }
+
+    @Test(
+        """
+        ON THE CONDITION a SecureStoreService throws a SecureStoreError(.cantDecryptData)
+        AND a returning user
+        GIVEN a PersistentSessionManager
+        AND an AppQualifyingService
+        WHEN the call to `AppQualifyingService/initiate` is finished
+        THEN a SecureStoreError(.cantDecryptData) has been logged
+        AND A `systemLogUserOut` notification is posted
+        AND the session state is evaluated as `.systemLogOut`
+        """
+    )
+    func assertCrashesLoggedAndSessionStateOnSecureStoreErrorCantDecryptDataError() async throws {
+        let cantDecryptDataError = SecureStoreError(
+            .cantDecryptData,
+            originalError: NSError(domain: NSOSStatusErrorDomain, code: -50)
+        )
+        let encryptedStore = MockSecureStoreService(
+            readItemAsFunction: MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
+        )
+
+        let analyticsService = MockAnalyticsService()
+        let sessionManager = try PersistentSessionManager.make(
+            mockEncryptedStore: encryptedStore,
+            mockUnprotectedStore: MockDefaultsStore.returningUser()
+        )
+        
+        let systemLogOutNotifications = NotificationCenter.default.notifications(named: .systemLogUserOut).makeAsyncIterator()
+        
+        var receivedSessionStates = [AppSessionState]()
+        
+        await confirmation { confirmation in
+            let mockAppQualifyingServiceDelegate = MockAppQualifyingServiceDelegate(didChangeSessionStateAsFunction: { sessionState in
+                receivedSessionStates.append(sessionState)
+                confirmation()
+            })
+            
+            let sut: AppQualifyingService = .make(
+                analyticsService: analyticsService,
+                sessionManager: sessionManager
+            )
+            
+            sut.delegate = mockAppQualifyingServiceDelegate
+            
+            sut.initiate()
+            let initiateTask = sut._initiateTask
+            await initiateTask?.value
+        }
+        
+        let error = try #require(analyticsService.crashesLogged.first as? SecureStoreError)
+        #expect(error.kind == .cantDecryptData)
+        
+        #expect(await systemLogOutNotifications.next() != nil)
+        #expect(receivedSessionStates == [.systemLogOut])
+    }
+    
+    @Test(
+        """
+        ON THE CONDITION a SecureStoreService throws a SecureStoreError(.cantDecryptData)
+        ON THE CONDITION a WalletSessionData throws a WalletStoreError(.walletUnsafeState)
+        AND a returning user
+        GIVEN a PersistentSessionManager
+        AND an AppQualifyingService
+        WHEN the call to `AppQualifyingService/initiate` is finished
+        THEN a PersistentSessionError(.cannotDeleteData) has been logged
+        AND the session state is evaluated as `.failed`
+        """
+    )
+    func assertCrashesLoggedAndSessionStateOnClearSessionDataError() async throws {
+        let cantDecryptDataError = SecureStoreError(
+            .cantDecryptData,
+            originalError: NSError(domain: NSOSStatusErrorDomain, code: -50)
+        )
+        let encryptedStore = MockSecureStoreService(
+            readItemAsFunction: MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
+        )
+
+        let analyticsService = MockAnalyticsService()
+        let sessionManager = try PersistentSessionManager.make(
+            mockEncryptedStore: encryptedStore,
+            mockUnprotectedStore: MockDefaultsStore.returningUser(),
+            walletSessionData: WalletSessionBoundDataStub(clearSessionDataAsFunction: {
+                throw WalletStoreError(.walletUnsafeState)
+            })
+        )
+        
+        var expectedAppSessionState: AppSessionState?
+        await confirmation { confirmation in
+            let mockAppQualifyingServiceDelegate = MockAppQualifyingServiceDelegate(didChangeSessionStateAsFunction: { sessionState in
+                expectedAppSessionState = sessionState
+                confirmation()
+            })
+            
+            let sut: AppQualifyingService = .make(
+                analyticsService: analyticsService,
+                sessionManager: sessionManager
+            )
+            
+            sut.delegate = mockAppQualifyingServiceDelegate
+            
+            sut.initiate()
+            let initiateTask = sut._initiateTask
+            await initiateTask?.value
+        }
+        
+        let error = try #require(analyticsService.crashesLogged.first as? PersistentSessionError)
+        #expect(error.kind == .cannotDeleteData)
+        
+        #expect(expectedAppSessionState == .failed(PersistentSessionError(.cannotDeleteData)))
+    }
+}
+
+// MARK: - User State Evaluation
+extension AppQualifyingServiceXCTests {
     func test_oneTimeUser_userConfirmed() {
         let sessionManager = MockSessionManager()
         sessionManager.sessionState = .oneTime
@@ -392,7 +583,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         var receivedSessionStates = [AppSessionState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeSessionStateAsFunction: { sessionState in
             receivedSessionStates.append(sessionState)
 
             let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
@@ -447,7 +638,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         var receivedSessionStates = [AppSessionState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeSessionStateAsFunction: { sessionState in
             receivedSessionStates.append(sessionState)
 
             let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
@@ -515,7 +706,7 @@ extension AppQualifyingServiceTests {
         let sessionManager = MockResumeSessionSessionManager(sessionStates: sessionStates)
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         var receivedSessionStates = [AppSessionState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeSessionStateAsFunction: { sessionState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeSessionStateAsFunction: { sessionState in
             receivedSessionStates.append(sessionState)
 
             let expectedSessionStateTransitions = Array(expectedAppSessionStateTransitions.prefix(receivedSessionStates.count))
@@ -567,7 +758,7 @@ extension AppQualifyingServiceTests {
         appInformationStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
         var receivedappInformationStates = [AppInformationState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeAppInfoStateAsFunction: { appInformationState in
             receivedappInformationStates.append(appInformationState)
 
             let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(appInformationStates.count))
@@ -621,7 +812,7 @@ extension AppQualifyingServiceTests {
         appInformationStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
         var receivedappInformationStates = [AppInformationState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeAppInfoStateAsFunction: { appInformationState in
             receivedappInformationStates.append(appInformationState)
 
             let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(receivedappInformationStates.count))
@@ -681,7 +872,7 @@ extension AppQualifyingServiceTests {
         appInformationStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make(appInformationProvider: MockAppInfoAppInformationProvider(appInfoStates: appInformationStates))
         var receivedappInformationStates = [AppInformationState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appInformationState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeAppInfoStateAsFunction: { appInformationState in
             receivedappInformationStates.append(appInformationState)
 
             let expectedAppInformationStateTransitions = Array(appInformationStates.prefix(receivedappInformationStates.count))
@@ -745,7 +936,7 @@ extension AppQualifyingServiceTests {
         sessionStatesReceivedExpectation.assertForOverFulfill = false
         let sut: AppQualifyingService = .make()
         var receivedSessionStates = [RemoteServiceState]()
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeServiceStateAsFunction: { sessionState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeServiceStateAsFunction: { sessionState in
             receivedSessionStates.append(sessionState)
 
             let expectedServiceStates = Array(serviceStates.prefix(receivedSessionStates.count))
@@ -788,7 +979,7 @@ extension AppQualifyingServiceTests {
 }
 
 // MARK: - Subscription Tests
-extension AppQualifyingServiceTests {
+extension AppQualifyingServiceXCTests {
     
     func test_enrolmentComplete_changesSessionState() {
         let appInformationProvider = MockAppInformationService()
@@ -851,7 +1042,7 @@ extension AppQualifyingServiceTests {
         var _appState: AppInformationState?
         var _sessionState: AppSessionState?
 
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeAppInfoStateAsFunction: { appState in
             _appState = appState
         }, didChangeSessionStateAsFunction: { sessionState in
             _sessionState = sessionState
@@ -874,7 +1065,7 @@ extension AppQualifyingServiceTests {
         var _appState: AppInformationState?
         var _sessionState: AppSessionState?
 
-        let appQualifyingServiceDelegateExpectation = AppQualifyingServiceDelegateExpectation(didChangeAppInfoStateAsFunction: { appState in
+        let appQualifyingServiceDelegateExpectation = MockAppQualifyingServiceDelegate(didChangeAppInfoStateAsFunction: { appState in
             _appState = appState
             expectation.fulfill()
         }, didChangeSessionStateAsFunction: { sessionState in
@@ -891,7 +1082,7 @@ extension AppQualifyingServiceTests {
 }
 
 @MainActor
-class AppQualifyingServiceDelegateExpectation: AppQualifyingServiceDelegate {
+class MockAppQualifyingServiceDelegate: AppQualifyingServiceDelegate {
     
     typealias DidChangeAppInfoState = (AppInformationState) -> Void
     typealias DidChangeSessionState = (AppSessionState) -> Void

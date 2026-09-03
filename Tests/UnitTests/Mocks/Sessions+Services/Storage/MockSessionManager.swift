@@ -27,6 +27,7 @@ final class MockSessionManager: SessionManager {
     var didCallEndCurrentSession = false
     var didCallClearAllSessionData = false
     var didCallClearAppForLogin = false
+    var didAssertReturningUserCanLogin = false
 
     var errorFromStartSession: Error?
     var errorFromSaveSession: Error?
@@ -34,6 +35,7 @@ final class MockSessionManager: SessionManager {
     var errorFromResumeSession: Error?
     var errorFromClearAllSessionData: Error?
     var errorFromClearAppForLogin: Error?
+    var errorFromAssertReturningUserCanLogin: Error?
 
     var localAuthentication: LocalAuthManaging = MockLocalAuthManager()
 
@@ -129,6 +131,15 @@ final class MockSessionManager: SessionManager {
         user.send(MockUser())
         isReturningUser = returningUser
         expiryDate = expired ? .distantPast : .distantFuture
+    }
+    
+    func assertReturningUserCanLogin() async throws {
+        defer {
+            didAssertReturningUserCanLogin = true
+        }
+        if let errorFromAssertReturningUserCanLogin {
+            throw errorFromAssertReturningUserCanLogin
+        }
     }
 }
 
@@ -236,6 +247,10 @@ class MockSessionManagerExpectation: SessionManager {
     func clearAppForLogin() async throws {
         try await sessionManager.clearAppForLogin()
     }
+    
+    func assertReturningUserCanLogin() async throws {
+        try await sessionManager.assertReturningUserCanLogin()
+    }
 }
 
 /// A mock that emulates the fact that ``sessionState`` can change over time similar to the implementation of
@@ -309,4 +324,6 @@ final class MockResumeSessionSessionManager: SessionManager {
     func clearAllSessionData(presentSystemLogOut: Bool) async throws { }
 
     func clearAppForLogin() async throws { }
+    
+    func assertReturningUserCanLogin() async throws { }
 }
