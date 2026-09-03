@@ -19,6 +19,7 @@ extension SignOutSuccessfulViewModelTests {
         let bodyText = sut.body[1] as? GDSTextViewModel
         #expect(titleText?.title.stringKey == "app_signedOutTitle")
         #expect(titleText?.alignment == .center)
+        #expect(titleText?.accessibilityTraits == .header)
         #expect(bodyText?.title.stringKey == "app_signedOutBody")
         #expect(bodyText?.alignment == .center)
         #expect(sut.movableFooter.count == 1)

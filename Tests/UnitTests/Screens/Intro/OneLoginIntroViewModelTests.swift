@@ -25,6 +25,7 @@ extension OneLoginIntroViewModelTests {
         #expect(titleText?.title.stringKey == "app_nameString")
         #expect(titleText?.title.value == "GOV.UK One Login")
         #expect(titleText?.alignment == .center)
+        #expect(titleText?.accessibilityTraits == .header)
         #expect(bodyText?.title.stringKey == "app_signInBody")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])
         #expect(bodyText?.title.value == "Prove your identity to access government services.\n\nYou’ll need to sign in with your GOV.UK One Login details.")

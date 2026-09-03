@@ -28,6 +28,8 @@ extension UpdateAppViewModelTests {
         #expect(image?.imageFixedHeight == 100)
         #expect(titleText?.title.stringKey == "app_updateAppTitle")
         #expect(titleText?.title.value == "You need to update your app")
+        #expect(titleText?.alignment == .center)
+        #expect(titleText?.accessibilityTraits == .header)
         #expect(bodyText?.title.stringKey == "app_updateAppBody")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])
         #expect(bodyText?.title.value == "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
