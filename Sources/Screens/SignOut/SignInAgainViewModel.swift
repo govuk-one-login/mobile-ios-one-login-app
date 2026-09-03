@@ -27,7 +27,8 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
             body: [
                 GDSTextViewModel(title: "app_signInAgainTitle",
                                  titleFont: .largeTitleBold,
-                                 alignment: .center),
+                                 alignment: .center,
+                                 accessibilityTraits: .header),
                 
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInAgainBody", "app_nameString"),
                                  alignment: .center)
