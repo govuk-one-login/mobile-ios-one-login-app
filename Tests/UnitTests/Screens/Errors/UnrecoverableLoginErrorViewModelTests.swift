@@ -22,6 +22,7 @@ struct UnrecoverableLoginErrorViewModelTests {
         #expect(title?.errorTitle.title.value == "There was a problem signing you in")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
         
         let body = sut.body.last as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_signInErrorUnrecoverableBody")

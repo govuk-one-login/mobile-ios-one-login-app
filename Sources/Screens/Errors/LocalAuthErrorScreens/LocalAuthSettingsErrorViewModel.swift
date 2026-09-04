@@ -37,7 +37,8 @@ struct LocalAuthSettingsErrorViewModel: GDSLeftAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_localAuthManagerErrorTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 GDSTextViewModel(title: "app_localAuthManagerErrorBody1",
                                  alignment: .center,

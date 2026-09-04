@@ -21,6 +21,7 @@ struct AppIntegrityErrorViewModelTests {
         #expect(title?.errorTitle.title.value == "Sorry, there’s a problem")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
         
         let body = sut.body.last as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_appIntegrityErrorBody1")

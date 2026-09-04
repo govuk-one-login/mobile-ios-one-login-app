@@ -30,7 +30,8 @@ struct AppIntegrityErrorViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_appIntegrityErrorTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appIntegrityErrorBody1", "app_nameString"),

@@ -37,7 +37,8 @@ struct LocalAuthBiometricsErrorViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: title,
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: bodyContent),
                                  alignment: .center,

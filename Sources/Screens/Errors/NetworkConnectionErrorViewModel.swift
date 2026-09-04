@@ -29,7 +29,8 @@ struct NetworkConnectionErrorViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_networkErrorTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_networkErrorBody", "app_nameString"),
