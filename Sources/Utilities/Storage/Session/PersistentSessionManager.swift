@@ -202,7 +202,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
-    private func _clearAllSessionData(presentSystemLogOut: Bool = true) async throws {
+    private func clearAllSessionData() async throws {
         // I am a returning user
         // but cannot reauthenticate because I don't have a persistent session ID
         //
@@ -212,14 +212,14 @@ final class PersistentSessionManager: SessionManager {
                 analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
                                                                  reason: "secure wallet data deleted"))
             }
-            try await clearAllSessionData(presentSystemLogOut: presentSystemLogOut)
+            try await clearAllSessionData(presentSystemLogOut: true)
         } catch {
             throw PersistentSessionError(.cannotDeleteData, originalError: error)
         }
     }
     
     /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
-    private func _clearAppForLogin() async throws {
+    private func prepareAppForLogin() async throws {
         // I am a first time user
         // I don't have a persistent session ID
         //
@@ -246,10 +246,10 @@ final class PersistentSessionManager: SessionManager {
     private func assertSession() async throws {
         if persistentID == nil {
             if isReturningUser {
-                try await _clearAllSessionData()
+                try await clearAllSessionData()
                 throw PersistentSessionError(.sessionMismatch)
             } else {
-                try await _clearAppForLogin()
+                try await prepareAppForLogin()
             }
         }
     }
@@ -269,7 +269,7 @@ final class PersistentSessionManager: SessionManager {
             
             if case .failure(let error as SecureStoreError) = persistentID, error.kind == .cantDecryptData,
                let originalError = error.originalError as? NSError, originalError.code == errSecParam {
-                try await self._clearAllSessionData()
+                try await self.clearAllSessionData()
                 throw error
             }
             
