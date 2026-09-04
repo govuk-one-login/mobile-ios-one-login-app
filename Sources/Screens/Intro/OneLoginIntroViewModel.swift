@@ -32,6 +32,7 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
                 GDSTextViewModel(title: "app_nameString",
                                  titleFont: .largeTitleBold,
                                  alignment: .center,
+                                 accessibilityTraits: .header,
                                  accessibilityIdentifier: "intro-title",
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_signInBody", "app_nameString"),

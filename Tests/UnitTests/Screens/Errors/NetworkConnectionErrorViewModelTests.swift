@@ -21,6 +21,7 @@ struct NetworkConnectionErrorViewModelTests {
         #expect(title?.errorTitle.title.value == "You are not connected to the internet")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
         
         let body = sut.body.last as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_networkErrorBody")
