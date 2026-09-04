@@ -408,7 +408,7 @@ extension AppQualifyingServiceXCTests {
         XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
     }
     
-    func test_resumeSession_accountIntervention() throws {
+    func test_resumeSession_accountIntervention() async throws {
         let analyticsService = MockAnalyticsService()
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
@@ -416,14 +416,13 @@ extension AppQualifyingServiceXCTests {
         sessionManager.errorFromResumeSession = ServerError(endpoint: "test", errorCode: 400)
         let sut: AppQualifyingService = .make(analyticsService: analyticsService, sessionManager: sessionManager)
         
-        let (_, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
-            sut.initiate()
-        })
+        sut.initiate()
+        await sut._initiateTask?.value
         
         // THEN the original session state is maintained
         let error = try XCTUnwrap(analyticsService.crashesLogged.first as? ServerError)
         XCTAssert(error.errorCode == 400)
-        XCTAssertNil(sessionState)
+        XCTAssert(sessionManager.sessionState == .saved)
     }
     
     func test_resumeSession_secureStoreError_cantDecryptData() {
@@ -462,22 +461,7 @@ extension AppQualifyingServiceXCTests {
         XCTAssertFalse(sessionManager.didCallClearAllSessionData)
         XCTAssertEqual(sessionState, .localAuthCancelled)
     }
-    
-    func test_resumeSession_secureStoreError_keepsSessionData() {
-        let sessionManager = MockSessionManager()
-        sessionManager.expiryDate = .distantFuture
-        sessionManager.sessionState = .saved
-        sessionManager.errorFromResumeSession = SecureStoreError(.cantDecryptData)
-        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
-        let (appState, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
-            sut.initiate()
-        })
-        
-        XCTAssertEqual(appState, .qualified)
-        XCTAssertNotEqual(sessionState, .failed(MockWalletError.cantDelete))
-    }
-    
     func test_resumeSession_userRemovedLocalAuth_clearSessionData() {
         let analyticsService = MockAnalyticsService()
         
