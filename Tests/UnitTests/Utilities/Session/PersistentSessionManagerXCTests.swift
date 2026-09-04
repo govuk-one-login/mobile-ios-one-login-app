@@ -8,6 +8,7 @@ import MockNetworking
 @testable @preconcurrency import OneLogin
 import SecureStore
 import Testing
+import WalletStore
 import XCTest
 
 struct SessionBoundDataExpectation: SessionBoundData {
@@ -33,17 +34,21 @@ extension PersistentSessionManager {
                      mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
                      mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
                      mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper(),
-                     refreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager()) -> PersistentSessionManager {
+                     walletSessionData: SessionBoundData = WalletSessionData(),
+                     refreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
+                     analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()) throws -> PersistentSessionManager {
                 
-        return PersistentSessionManager(
+        return try .make(
+            accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
-            storeKeyService: SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedStore),
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: mockAnalyticsService,
             walletSDK: mockWalletSDK,
-            tokenExchangeManager: refreshTokenExchangeManager
-        )
+            walletSessionData: walletSessionData,
+            refreshTokenExchangeManager: refreshTokenExchangeManager,
+            serialTaskQueue: SerialTaskQueue(),
+            analyticsPreferenceStore: analyticsPreferenceStore)
     }
 }
 
@@ -425,7 +430,7 @@ extension PersistentSessionManagerXCTests {
         // AND the wallet is not empty
         let mockWalletSDK = MockWalletSDKWrapper()
         mockWalletSDK.isEmpty = false
-        let sut: PersistentSessionManager = .make(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockEncryptedStore: mockEncryptedStore,
                                                   mockAnalyticsService: mockAnalyticsService,
                                                   mockWalletSDK: mockWalletSDK)
         
@@ -460,7 +465,7 @@ extension PersistentSessionManagerXCTests {
         let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
         mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
         
-        let sut: PersistentSessionManager = .make(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore,
                                                   mockAnalyticsService: mockAnalyticsService,
                                                   mockWalletSDK: mockWalletSDK)
@@ -581,9 +586,15 @@ extension PersistentSessionManagerXCTests {
         )
         
         let (mockEncryptedStore, mockEncryptedStoreClearSessionData) = MockSecureStoreService.mockClearSessionDataCounter()
+        try mockEncryptedStore.saveItem(
+            item: UUID().uuidString,
+            itemName: OLString.persistentSessionID
+        )
+
         let mockUnprotectedStore = MockDefaultsStore()
+        
         // GIVEN I am a new user
-        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
                                                   mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore)
         
@@ -702,7 +713,7 @@ extension PersistentSessionManagerXCTests {
         }
         
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
                                                   mockLocalAuthentication: mockLocalAuthentication,
                                                   mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore,
@@ -734,7 +745,7 @@ extension PersistentSessionManagerXCTests {
         }
         
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
                                                   mockLocalAuthentication: mockLocalAuthentication,
                                                   mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore,
@@ -765,7 +776,7 @@ extension PersistentSessionManagerXCTests {
         client.dPoPProvider = mockAppIntegrityProvider
         
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
                                                   mockLocalAuthentication: mockLocalAuthentication,
                                                   mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore,
@@ -921,7 +932,7 @@ extension PersistentSessionManagerXCTests {
         XCTAssertFalse(sut.isSessionValid)
         XCTAssertEqual(sut.sessionState, .expired)
         
-        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
                                                   mockLocalAuthentication: mockLocalAuthentication,
                                                   mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore,
@@ -969,7 +980,7 @@ extension PersistentSessionManagerXCTests {
 
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         
-        let sut: PersistentSessionManager = .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
                                                   mockLocalAuthentication: mockLocalAuthentication,
                                                   mockEncryptedStore: mockEncryptedStore,
                                                   mockUnprotectedStore: mockUnprotectedStore,
@@ -999,6 +1010,74 @@ extension PersistentSessionManagerXCTests {
 }
 
 struct PersistentSessionManagerTests {
+
+    @Test("Wallet deletion warnings are logged")
+    func clearAllSessionDataLogsWalletDeletionWarnings() async throws {
+        let warnings = [
+            WalletStoreError(.updateDocumentExpiryDate),
+            WalletStoreError(.updateValid)
+        ]
+
+        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+            return warnings
+        }
+
+        let analyticsService = MockAnalyticsService()
+        let walletSessionData = WalletSessionData(
+            walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        )
+        let sut = try PersistentSessionManager.make(
+            mockAnalyticsService: analyticsService,
+            walletSessionData: walletSessionData
+        )
+
+        try await sut.clearAllSessionData(presentSystemLogOut: false)
+
+        #expect(analyticsService.crashesLogged == warnings.map { $0 as NSError })
+    }
+
+    @Test("No crash logs for no wallet deletion warnings")
+    func clearAllSessionDataWithNoWalletDeletionWarnings() async throws {
+        let analyticsService = MockAnalyticsService()
+        let walletSessionData = WalletSessionData(
+            walletSDK: MockWalletSDKWrapper(deleteAsFunction: {
+                return []
+            })
+        )
+        let sut = try PersistentSessionManager.make(
+            mockAnalyticsService: analyticsService,
+            walletSessionData: walletSessionData
+        )
+
+        try await sut.clearAllSessionData(presentSystemLogOut: false)
+
+        #expect(analyticsService.crashesLogged.isEmpty)
+    }
+
+    @Test("Critical wallet deletion error is propagated")
+    func clearAllSessionDataPropagatesCriticalWalletDeletionError() async throws {
+        let expectedError = WalletStoreError(.walletUnsafeState)
+        
+        func deleteThrowsWalletUnsafeState() async throws(WalletStoreError) -> [WalletStoreError] {
+            throw expectedError
+        }
+
+        let analyticsService = MockAnalyticsService()
+        let walletSessionData = WalletSessionData(
+            walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteThrowsWalletUnsafeState)
+        )
+        let sut = try PersistentSessionManager.make(
+            mockAnalyticsService: analyticsService,
+            walletSessionData: walletSessionData
+        )
+
+        let error = await #expect(throws: WalletStoreError.self) {
+            try await sut.clearAllSessionData(presentSystemLogOut: false)
+        }
+
+        #expect(error?.kind == expectedError.kind)
+        #expect(analyticsService.crashesLogged.isEmpty)
+    }
     
     /// GIVEN I am "a returning user" with stored tokens, who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
     /// AND `SecureStoreService` throws `SecureStoreError(.systemCancel, originalError: LAError(.systemCancel))`

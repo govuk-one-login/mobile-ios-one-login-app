@@ -400,6 +400,7 @@
 		8E9587DA2F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */; };
 		8E9A51852FDAEA4500F4C93A /* LoginSessionConfiguration+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9A51842FDAEA4500F4C93A /* LoginSessionConfiguration+OneLoginTests.swift */; };
 		8EA9FDBB2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */; };
+		997E16863041D48C006E9940 /* WalletSessionDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997E16853041D488006E9940 /* WalletSessionDataTests.swift */; };
 		9996E02F30064DF900AB019B /* FirebaseAppIntegrityService+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */; };
 		99AEB1C52FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AEB1C42FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift */; };
 		AB24C1132DB94A5F0080141C /* LocalAuthSettingsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */; };
@@ -1051,6 +1052,7 @@
 		8E9587D92F45E6E80073A475 /* AppIntegrityErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModelTests.swift; sourceTree = "<group>"; };
 		8E9A51842FDAEA4500F4C93A /* LoginSessionConfiguration+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLoginTests.swift"; sourceTree = "<group>"; };
 		8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrityErrorViewModel.swift; sourceTree = "<group>"; };
+		997E16853041D488006E9940 /* WalletSessionDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSessionDataTests.swift; sourceTree = "<group>"; };
 		9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseAppIntegrityService+Mocks.swift"; sourceTree = "<group>"; };
 		99AEB1C42FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSessionManager+Mocks.swift"; sourceTree = "<group>"; };
 		AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModel.swift; sourceTree = "<group>"; };
@@ -1866,6 +1868,7 @@
 		7C7A763C2C9433A900EE85CB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				997E16853041D488006E9940 /* WalletSessionDataTests.swift */,
 				1E69F8722EF08A4100D8A292 /* NetworkingServiceTests.swift */,
 			);
 			path = Service;
@@ -3864,6 +3867,7 @@
 				ABC6B3D72E141A3900B41C6E /* UnrecoverableLoginErrorViewModelTests.swift in Sources */,
 				41CCE1362C77657600FFBE64 /* UpdateAppViewModelTests.swift in Sources */,
 				7CA719682C846E7600973585 /* URLRequest+OneLoginTests.swift in Sources */,
+				997E16863041D48C006E9940 /* WalletSessionDataTests.swift in Sources */,
 				C8AA3B352BF4CF500093A220 /* WalletCoordinatorTests.swift in Sources */,
 				C84960012EBDFC6F0065CA40 /* UserDefaults+OneLoginTests.swift in Sources */,
 				41279DD72BFF46DB00E16537 /* SignOutConfirmationViewModelTests.swift in Sources */,
