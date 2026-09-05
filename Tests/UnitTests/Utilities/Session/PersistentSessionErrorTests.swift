@@ -1,5 +1,6 @@
 @testable import OneLogin
 import Testing
+import WalletStore
 
 struct PersistentSessionErrorTests {
     
@@ -31,6 +32,20 @@ struct PersistentSessionErrorTests {
     @Test("assert kind", arguments: PersistentSessionErrorTests.allPersistentSessionError)
     func test_kind(testCase: Case) async throws {
         #expect(testCase.error.errorUserInfo["kind"] as? String == testCase.kind)
+    }
+
+    @Test
+    func isWalletUnsafeState() {
+        let error = PersistentSessionError(.cannotDeleteData,
+                                           originalError: WalletStoreError(.walletUnsafeState))
+        #expect(error.isWalletUnsafeState)
+    }
+
+    @Test
+    func noOriginalErrorIsNotWalletUnsafeState() {
+        let cannotDeleteDataError = PersistentSessionError(.cannotDeleteData)
+
+        #expect(!cannotDeleteDataError.isWalletUnsafeState)
     }
 
 }

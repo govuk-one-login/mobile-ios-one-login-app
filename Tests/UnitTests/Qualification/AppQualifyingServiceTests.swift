@@ -181,7 +181,7 @@ struct AppQualifyingServiceTests {
         GIVEN an AppQualifyingService with an `.expired` session state
         WHEN the call to `AppQualifyingService/initiate` is finished
         THEN SessionManager/assertCantDecryptData is called
-        AND the session state remains `.expired`
+        AND the session state is `.failed`
         """
     )
     func assertReturningUserCanLoginCleanupFailureSetsFailedStateAndStopsSessionEvaluation() async {
@@ -208,6 +208,44 @@ struct AppQualifyingServiceTests {
         #expect(sessionManager.didAssertReturningUserCanLogin)
         #expect(!sessionManager.didCallResumeSession)
         #expect(expectedAppSessionState == .failed(cannotDeleteDataError))
+    }
+    
+    @Test(
+        """
+        ON THE CONDITION a call to SessionManager/assertReturningUserCanLogin
+            throws a SecureStoreError(.cantDecryptData)
+        AND `originalError` is WalletStoreError(.walletUnsafeState)
+        GIVEN an AppQualifyingService with an `.expired` session state
+        WHEN the call to `AppQualifyingService/initiate` is finished
+        THEN SessionManager/assertCantDecryptData is called
+        AND the session state is `.notLoggedIn`
+        """
+    )
+    func assertReturningUserCanLoginCleanupFailureSetsSystemLogoutStateAndStopsSessionEvaluation() async {
+        let walletSessionDataClearSessionDataError = WalletStoreError(.walletUnsafeState)
+        let cannotDeleteDataError = PersistentSessionError(.cannotDeleteData, originalError: walletSessionDataClearSessionDataError)
+        let sessionManager = MockSessionManager()
+        sessionManager.sessionState = .expired
+        sessionManager.errorFromAssertReturningUserCanLogin = cannotDeleteDataError
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+
+        var expectedAppSessionState: AppSessionState?
+        await confirmation { confirmation in
+            let delegate = MockAppQualifyingServiceDelegate(
+                didChangeSessionStateAsFunction: { sessionState in
+                    expectedAppSessionState = sessionState
+                    confirmation()
+                }
+            )
+            sut.delegate = delegate
+            sut.initiate()
+            let initiateTask = sut._initiateTask
+            await initiateTask?.value
+        }
+
+        #expect(sessionManager.didAssertReturningUserCanLogin)
+        #expect(!sessionManager.didCallResumeSession)
+        #expect(expectedAppSessionState == .notLoggedIn)
     }
 
     @Test(
@@ -275,7 +313,7 @@ struct AppQualifyingServiceTests {
         AND an AppQualifyingService
         WHEN the call to `AppQualifyingService/initiate` is finished
         THEN a PersistentSessionError(.cannotDeleteData) has been logged
-        AND the session state is evaluated as `.failed`
+        AND the session state is evaluated as `.notLoggedIn`
         """
     )
     func assertCrashesLoggedAndSessionStateOnClearSessionDataError() async throws {
@@ -318,7 +356,7 @@ struct AppQualifyingServiceTests {
         let error = try #require(analyticsService.crashesLogged.first as? PersistentSessionError)
         #expect(error.kind == .cannotDeleteData)
         
-        #expect(expectedAppSessionState == .failed(PersistentSessionError(.cannotDeleteData)))
+        #expect(expectedAppSessionState == .notLoggedIn)
     }
 }
 

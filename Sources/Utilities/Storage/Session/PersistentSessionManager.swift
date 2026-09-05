@@ -7,6 +7,7 @@ import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
+import WalletStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
@@ -486,6 +487,13 @@ public enum PersistentSessionErrorKind: Int, GDSErrorKind {
 }
 
 public typealias PersistentSessionError = OneLoginGDSError<PersistentSessionErrorKind>
+
+extension PersistentSessionError {
+    /// Returns true in case the underlying error is ``WalletStoreError(.walletUnsafeState)``.
+    var isWalletUnsafeState: Bool {
+        (originalError as? WalletStoreError)?.kind == .walletUnsafeState
+    }
+}
 
 protocol SessionBoundData {
     func clearSessionData() async throws
