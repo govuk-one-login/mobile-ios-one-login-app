@@ -10,7 +10,7 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         var count = 0
         
         func increment() {
-            self.count = +1
+            self.count += 1
         }
         
         /// Returns true if a function has been called at least once
@@ -52,7 +52,15 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             clearSessionDataAsFunction: clearSessionDataCount(counter: clearSessionDataCounter)), clearSessionDataCounter)
     }
 
-    /// Returns a Mock and a counter than can be used to assert the ``SecureStorable/delete`` has been called
+    /// Returns a Mock and a counter that can be used to assert how many times ``SecureStorable/readItem(itemName:)`` was called.
+    static func mockReadItemCounter() -> (mockSecureStoreService: MockSecureStoreService, readItemCounter: Counter) {
+        let readItemCounter = Counter()
+
+        return (MockSecureStoreService(
+            readItemAsFunction: readItemCount(counter: readItemCounter)), readItemCounter)
+    }
+
+    /// Returns a Mock and a counter than can be used to assert how many times the ``SecureStorable/delete`` was called
     static func mockDeleteCounter() -> (mockSecureStoreService: MockSecureStoreService, deleteCounter: Counter) {
         let deleteCounter = Counter()
         
@@ -80,6 +88,13 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         // swiftlint:enable redundant_void_return
         
         return saveItemAsFunction
+    }
+
+    static func readItemCount(counter: Counter) -> ReadItemAsFunction {
+        return { _ in
+            counter.increment()
+            return ""
+        }
     }
 
     static func deleteCount(counter: Counter) -> DeleteAsFunction {

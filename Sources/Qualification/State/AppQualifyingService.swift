@@ -139,9 +139,27 @@ final class AppQualifyingService: QualifyingService {
         }
     }
     
+    // swiftlint: disable:next function_body_length
     func evaluateUserSession() async {
         guard appInfoState == .qualified else {
             // Do not continue with local auth unless app info qualifies
+            return
+        }
+        
+        do {
+            try await sessionManager.assertReturningUserCanLogin()
+        } catch let error as SecureStoreError where
+                    error.kind == .cantDecryptData {
+            analyticsService.logCrash(error)
+            return
+        } catch let error as PersistentSessionError where
+                    error.kind == .cannotDeleteData && error.isWalletUnsafeState {
+            analyticsService.logCrash(error)
+            sessionState = .notLoggedIn
+            return
+        } catch {
+            analyticsService.logCrash(error)
+            sessionState = .failed(error)
             return
         }
         
