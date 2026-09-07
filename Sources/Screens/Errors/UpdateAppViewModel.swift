@@ -39,6 +39,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
                 GDSTextViewModel(title: "app_updateAppTitle",
                                  titleFont: .largeTitleBold,
                                  alignment: .center,
+                                 accessibilityTraits: .header,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_updateAppBody",
                                                            "app_nameString"),

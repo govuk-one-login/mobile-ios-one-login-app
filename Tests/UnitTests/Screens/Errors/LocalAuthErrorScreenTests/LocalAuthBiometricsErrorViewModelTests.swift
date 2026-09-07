@@ -26,6 +26,7 @@ extension LocalAuthBiometricsErrorViewModelTests {
         #expect(title?.errorTitle.title.value == "You need to allow Face ID")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
         #expect(bodyText?.title.stringKey == "app_localAuthManagerBiometricsFaceIDErrorBody")
         #expect(bodyText?.alignment == .center)
         #expect(primaryButton?.title.forState(.normal) == "Allow Face ID")

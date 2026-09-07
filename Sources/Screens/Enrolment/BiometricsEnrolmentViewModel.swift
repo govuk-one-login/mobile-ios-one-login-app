@@ -50,6 +50,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
                 GDSTextViewModel(title: titleString,
                                  titleFont: .largeTitleBold,
                                  alignment: .center,
+                                 accessibilityTraits: .header,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSListViewModel(
                     title: GDSLocalisedString(stringKey: "app_enableBiometricsBody1", biometricsTypeString),

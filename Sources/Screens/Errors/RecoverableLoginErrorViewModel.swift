@@ -33,6 +33,7 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
                     errorTitle: GDSTextViewModel(title: "app_signInErrorTitle",
                                                  titleFont: .largeTitleBold,
                                                  alignment: .center,
+                                                 accessibilityTraits: .header,
                                                  accessibilityIdentifier: "error-screen-title")
                 ),
                 

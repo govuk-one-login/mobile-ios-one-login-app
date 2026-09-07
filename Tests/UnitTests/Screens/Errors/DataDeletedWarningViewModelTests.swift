@@ -21,6 +21,7 @@ extension DataDeletedWarningViewModelTests {
         #expect(errorView?.errorTitle.title.value == "Something went wrong")
         #expect(errorView?.errorTitle.titleFont == .largeTitleBold)
         #expect(errorView?.errorTitle.alignment == .center)
+        #expect(errorView?.errorTitle.accessibilityTraits == .header)
         
         #expect(bodyText?.title.stringKey == "app_dataDeletionWarningBody")
         // swiftlint:disable:next line_length

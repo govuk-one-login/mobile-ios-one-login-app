@@ -28,6 +28,7 @@ extension LocalAuthSettingsErrorViewModelTests {
         #expect(title?.errorTitle.title.value == "Update your phone's security settings")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
         #expect(bodyText?.title.stringKey == "app_localAuthManagerErrorBody1")
         // swiftlint:disable:next line_length
         #expect(bodyText?.title.value == "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.")

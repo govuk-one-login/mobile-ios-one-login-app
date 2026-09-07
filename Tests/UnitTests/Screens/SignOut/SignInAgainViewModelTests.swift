@@ -19,6 +19,7 @@ struct SignInAgainViewModelTests {
         #expect(title?.title.value == "You need to sign in again")
         #expect(title?.titleFont == .largeTitleBold)
         #expect(title?.alignment == .center)
+        #expect(title?.accessibilityTraits == .header)
         
         let body = sut.body.last as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_signInAgainBody")

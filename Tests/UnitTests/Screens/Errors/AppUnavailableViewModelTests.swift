@@ -21,6 +21,7 @@ struct AppUnavailableViewModelTests {
         #expect(title?.errorTitle.title.value == "Sorry, the app is unavailable")
         #expect(title?.errorTitle.titleFont == .largeTitleBold)
         #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
         
         let body = sut.body.last as? GDSTextViewModel
         #expect(body?.title.stringKey == "app_appUnavailableBody")
