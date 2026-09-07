@@ -204,10 +204,6 @@ final class PersistentSessionManager: SessionManager {
     
     /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
     private func clearAllSessionData() async throws {
-        // I am a returning user
-        // but cannot reauthenticate because I don't have a persistent session ID
-        //
-        // I need to delete my session & Wallet data before I can login
         do {
             if await !walletSDK.isEmpty() {
                 analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
@@ -221,10 +217,6 @@ final class PersistentSessionManager: SessionManager {
     
     /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
     private func prepareAppForLogin() async throws {
-        // I am a first time user
-        // I don't have a persistent session ID
-        //
-        // I need to delete my session (but not analytics permissions) & Wallet data before I can login
         do {
             if await !walletSDK.isEmpty() {
                 analyticsService.logCrash(PersistentSessionError(.noSessionExists,
@@ -247,9 +239,17 @@ final class PersistentSessionManager: SessionManager {
     private func assertSession() async throws {
         if persistentID == nil {
             if isReturningUser {
+                // I am a returning user
+                // but cannot reauthenticate because I don't have a persistent session ID
+                //
+                // I need to delete my session & Wallet data before I can login
                 try await clearAllSessionData()
                 throw PersistentSessionError(.sessionMismatch)
             } else {
+                // I am a first time user
+                // I don't have a persistent session ID
+                //
+                // I need to delete my session (but not analytics permissions) & Wallet data before I can login
                 try await prepareAppForLogin()
             }
         }

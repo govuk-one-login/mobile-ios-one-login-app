@@ -177,10 +177,10 @@ struct AppQualifyingServiceTests {
     @Test(
         """
         ON THE CONDITION a call to SessionManager/assertReturningUserCanLogin
-            throws a SecureStoreError(.cantDecryptData)
+            throws a `PersistentSessionError(.cannotDeleteData)`
         GIVEN an AppQualifyingService with an `.expired` session state
         WHEN the call to `AppQualifyingService/initiate` is finished
-        THEN SessionManager/assertCantDecryptData is called
+        THEN SessionManager/assertReturningUserCanLogin is called
         AND the session state is `.failed`
         """
     )
@@ -217,7 +217,7 @@ struct AppQualifyingServiceTests {
         AND `originalError` is WalletStoreError(.walletUnsafeState)
         GIVEN an AppQualifyingService with an `.expired` session state
         WHEN the call to `AppQualifyingService/initiate` is finished
-        THEN SessionManager/assertCantDecryptData is called
+        THEN SessionManager/assertReturningUserCanLogin is called
         AND the session state is `.notLoggedIn`
         """
     )
