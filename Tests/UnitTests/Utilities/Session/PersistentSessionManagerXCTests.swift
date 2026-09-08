@@ -7,6 +7,7 @@ import MockNetworking
 @testable import Networking
 @testable @preconcurrency import OneLogin
 import SecureStore
+import Security
 import Testing
 import WalletStore
 import XCTest
@@ -1010,6 +1011,88 @@ extension PersistentSessionManagerXCTests {
 }
 
 struct PersistentSessionManagerTests {
+
+    @Test(
+        """
+        ON THE CONDITION a SecureStoreService throws a SecureStoreError(.cantDecryptData)
+        AND a returning user
+        GIVEN a PersistentSessionManager
+        WHEN calling `assertReturningUserCanLogin()`
+        THEN a SecureStoreError(.cantDecryptData) is thrown
+        AND the user session data is cleared
+        AND a `.systemLogUserOut` notification has been posted
+        """
+    )
+    func assertReturningUserCanLoginClearsReturningUserAndThrowsOriginalError() async throws {
+        let cantDecryptDataError = SecureStoreError(
+            .cantDecryptData,
+            originalError: NSError(domain: NSOSStatusErrorDomain, code: -50)
+        )
+        let encryptedStore = MockSecureStoreService(
+            readItemAsFunction: MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
+        )
+        let systemLogOutNotifications = NotificationCenter.default.notifications(named: .systemLogUserOut)
+        let systemLogOutIterator = systemLogOutNotifications.makeAsyncIterator()
+        
+        let mockUnprotectedStore = MockDefaultsStore.returningUser()
+        let mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
+        let (mockWalletSessionBound, walletData) = WalletSessionBoundDataStub.stubWalletData(["any": "value"])
+        mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
+        let sut = try PersistentSessionManager.make(
+            mockEncryptedStore: encryptedStore,
+            mockUnprotectedStore: mockUnprotectedStore,
+            walletSessionData: mockWalletSessionBound,
+            analyticsPreferenceStore: mockAnalyticsPreferenceStore
+        )
+
+        let error = await #expect(throws: SecureStoreError.self) {
+            try await sut.assertReturningUserCanLogin()
+        }
+
+        #expect(error?.kind == .cantDecryptData)
+
+        #expect(encryptedStore.savedItems.isEmpty)
+        #expect(mockUnprotectedStore.savedData.isEmpty)
+        #expect(walletData.isEmpty)
+        #expect(mockAnalyticsPreferenceStore.hasAcceptedAnalytics == false)
+        
+        #expect(!sut.isReturningUser)
+        #expect(await systemLogOutIterator.next() == Notification(name: .systemLogUserOut))
+    }
+
+    @Test
+    func assertReturningUserCanLoginIsEvaluatedOnlyOnce() async throws {
+        let (mockEncryptedStore, mockEncryptedStoreReadItem) = MockSecureStoreService.mockReadItemCounter()
+        try mockEncryptedStore.saveItem(
+            item: UUID().uuidString,
+            itemName: OLString.persistentSessionID
+        )
+        
+        let sut = try PersistentSessionManager.make(
+            mockEncryptedStore: mockEncryptedStore,
+            mockUnprotectedStore: MockDefaultsStore.returningUser()
+        )
+
+        try await sut.assertReturningUserCanLogin()
+        try await sut.assertReturningUserCanLogin()
+
+        #expect(mockEncryptedStoreReadItem.count == 1)
+    }
+
+    @Test
+    func assertfirstTimeUserDoesNotReadEncryptedStore() async throws {
+        let (mockEncryptedStore, mockEncryptedStoreReadItem) = MockSecureStoreService.mockReadItemCounter()
+        
+        let mockUnprotectedStore = MockDefaultsStore.firstTimeUser()
+        let sut = try PersistentSessionManager.make(
+            mockEncryptedStore: mockEncryptedStore,
+            mockUnprotectedStore: mockUnprotectedStore
+        )
+
+        try await sut.assertReturningUserCanLogin()
+
+        #expect(!mockEncryptedStoreReadItem.called())
+    }
 
     @Test("Wallet deletion warnings are logged")
     func clearAllSessionDataLogsWalletDeletionWarnings() async throws {

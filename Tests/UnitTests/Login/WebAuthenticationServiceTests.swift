@@ -404,6 +404,42 @@ struct WebAuthenticationServiceTests {
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
+    
+    final class UserSessionData {
+        fileprivate var storage: [AnyHashable: Sendable]
+        
+        var isEmpty: Bool {
+            self.storage.isEmpty
+        }
+
+        init(storage: [AnyHashable: Sendable] = [:]) {
+            self.storage = storage
+        }
+        
+        subscript(key: AnyHashable) -> Sendable? {
+            get {
+                storage[key]
+            }
+            set {
+                storage[key] = newValue
+            }
+        }
+    }
+
+    static func stubWalletData(_ walletData: [AnyHashable: Sendable]) -> (mockWalletSessionBound: WalletSessionBoundDataStub, walletData: UserSessionData) {
+        let walletData = UserSessionData(storage: walletData)
+        
+        return (mockWalletSessionBound: WalletSessionBoundDataStub(
+            clearSessionDataAsFunction: clearSessionData(walletData: walletData)),
+                walletData: walletData)
+    }
+    
+    static func clearSessionData(walletData: UserSessionData) -> ClearSessionDataAsFunction {
+        return {
+            walletData.storage = [:]
+        }
+    }
+
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
     var clearSessionDataAsFunction: ClearSessionDataAsFunction = { }
