@@ -36,14 +36,6 @@ protocol SessionManager: AnyObject, UserProvider {
     /// Saves session details by storing tokens
     func saveAuthSession() throws
     
-    /// Saves tokens in on-device storage
-    func saveLoginTokens(
-        idToken: String?,
-        refreshToken: String?,
-        accessToken: String?,
-        accessTokenExpiry: Date?
-    ) throws
-    
     /// Resumes an existing session by restoring tokens from on-device storage
     @MainActor
     func resumeSession() async throws

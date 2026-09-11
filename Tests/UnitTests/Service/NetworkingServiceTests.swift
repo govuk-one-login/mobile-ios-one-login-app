@@ -9,7 +9,6 @@ import Testing
 struct NetworkingSerivceTests {
     let sut: NetworkingService
     let mockSessionManager: MockSessionManager
-    var mockRefreshExchangeManager: MockRefreshTokenExchangeManager
     
     init() {
         MockURLProtocol.clear()
@@ -18,11 +17,9 @@ struct NetworkingSerivceTests {
         
         let networkClient = NetworkClient(configuration: configuration)
         mockSessionManager = MockSessionManager()
-        mockRefreshExchangeManager = MockRefreshTokenExchangeManager()
         
         sut = NetworkingService(
             networkClient: networkClient,
-            refreshExchangeManager: mockRefreshExchangeManager,
             sessionManager: mockSessionManager,
             appIntegrityProvider: AppIntegrityProviderStub()
         )
@@ -94,7 +91,7 @@ struct NetworkingSerivceTests {
         mockSessionManager.tokenProvider.update(accessToken: "token", accessTokenExpiry: Date().addingTimeInterval(-3600))
         mockSessionManager.validTokensForRefreshExchange = ("refreshToken", "idToken")
         
-        #expect(mockSessionManager.didCallSaveLoginTokens == false)
+        #expect(mockSessionManager.didCallRefreshTokens == false)
         
         MockURLProtocol.handler = {
             let data = Data("NetworkingService Test".utf8)
@@ -106,7 +103,7 @@ struct NetworkingSerivceTests {
             .execute()
         
         // Saving tokens means refresh exchange was successful
-        #expect(mockSessionManager.didCallSaveLoginTokens == true)
+        #expect(mockSessionManager.didCallRefreshTokens)
         
         #expect(String(data: response, encoding: .utf8) == "NetworkingService Test")
     }
@@ -182,7 +179,8 @@ struct NetworkingSerivceTests {
     func test_makeAuthorisedRequest_invalidAccessToken_concurrent() async throws {
         // Create a mockSessionManager that uses PersistenSessionManager
         // So the stored tokens are overwritten during the test
-        let mockSessionManager = try createPersistentSessionManager()
+        let mockRefreshExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+        let mockSessionManager = try createPersistentSessionManager(refreshExchangeManager: mockRefreshExchangeManager)
         
         // Create a network client
         let configuration = URLSessionConfiguration.ephemeral
@@ -195,10 +193,8 @@ struct NetworkingSerivceTests {
         }
         
         // Create sut
-        let mockRefreshExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         let sut = NetworkingService(
             networkClient: networkClient,
-            refreshExchangeManager: mockRefreshExchangeManager,
             sessionManager: mockSessionManager,
 			appIntegrityProvider: AppIntegrityProviderStub()
         )
@@ -244,7 +240,6 @@ struct NetworkingSerivceTests {
         // Create sut
         let sut = NetworkingService(
             networkClient: networkClient,
-            refreshExchangeManager: mockRefreshExchangeManager,
             sessionManager: mockSessionManager,
             serialTaskQueue: serialTaskQueue,
 			appIntegrityProvider: AppIntegrityProviderStub()
