@@ -192,22 +192,6 @@ final class MockSecureStoreService: EncryptedSecureStorable, SessionBoundData {
         
         return saveItemAsFunction
     }
-
-    static func encryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> EncryptorAsFunction {
-        func encryptor() throws -> Encryptor {
-            return NoEncryption()
-        }
-
-        return encryptor
-    }
-
-    static func errorFromEncryptorAsFunction(error: SecureStoreError) -> EncryptorAsFunction {
-        func encryptorAsFunction() throws -> Encryptor {
-            throw error
-        }
-
-        return encryptorAsFunction
-    }
     
     static func readItemCount(secureStoreData: SecureStoreData, counter: Counter) -> ReadItemAsFunction {
         func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {

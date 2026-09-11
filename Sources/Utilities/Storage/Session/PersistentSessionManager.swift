@@ -328,12 +328,14 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
-        try saveLoginTokens(
+        try update(
             idToken: tokenProvider.idToken,
             refreshToken: tokenProvider.refreshToken,
             accessToken: tokenProvider.accessToken,
-            accessTokenExpiry: tokenProvider.accessTokenExpiry
-        )
+            accessTokenExpiry: tokenProvider.accessTokenExpiry,
+            saveLoginTokens: { tokens in
+                try storeKeyService.save(tokens: tokens)
+            })
         
         isReturningUser = true
     }
@@ -389,41 +391,23 @@ final class PersistentSessionManager: SessionManager {
         let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken
         )
-        try saveLoginTokens(
+        try update(
             idToken: idToken,
             refreshToken: exchangeTokenResponse.refreshToken,
             accessToken: exchangeTokenResponse.accessToken,
             accessTokenExpiry: exchangeTokenResponse.expiryDate,
-            using: encryptor
-        )
+            saveLoginTokens: { tokens in
+                try self.storeKeyService.save(using: encryptor, tokens: tokens)
+            })
     }
     
-    private func saveLoginTokens(
+    private func update(
         idToken: String?,
         refreshToken: String?,
         accessToken: String?,
         accessTokenExpiry: Date?,
-        using encryptor: Encryptor
+        saveLoginTokens: (StoredTokens) throws -> Void
     ) throws {
-        let tokens = try makeStoredTokens(
-            idToken: idToken,
-            refreshToken: refreshToken,
-            accessToken: accessToken,
-            accessTokenExpiry: accessTokenExpiry
-        )
-        try self.storeKeyService.save(using: encryptor, tokens: tokens)
-        updateStoredTokenState(
-            accessToken: accessToken,
-            accessTokenExpiry: accessTokenExpiry
-        )
-    }
-
-    private func makeStoredTokens(
-        idToken: String?,
-        refreshToken: String?,
-        accessToken: String?,
-        accessTokenExpiry: Date?
-    ) throws -> StoredTokens {
         if let refreshToken {
             try encryptedStore.saveDate(
                 id: OLString.refreshTokenExpiry,
@@ -433,37 +417,14 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.refreshTokenExpiry)
         }
         
-        return StoredTokens(
+        let tokens = StoredTokens(
             idToken: idToken,
             refreshToken: refreshToken,
             accessToken: accessToken,
             accessTokenExpiry: accessTokenExpiry
         )
-    }
 
-    func saveLoginTokens(
-        idToken: String?,
-        refreshToken: String?,
-        accessToken: String?,
-        accessTokenExpiry: Date?
-    ) throws {        
-        let tokens = try makeStoredTokens(
-            idToken: idToken,
-            refreshToken: refreshToken,
-            accessToken: accessToken,
-            accessTokenExpiry: accessTokenExpiry
-        )
-        try storeKeyService.save(tokens: tokens)
-        updateStoredTokenState(
-            accessToken: accessToken,
-            accessTokenExpiry: accessTokenExpiry
-        )
-    }
-
-    private func updateStoredTokenState(
-        accessToken: String?,
-        accessTokenExpiry: Date?
-    ) {
+        try saveLoginTokens(tokens)
         tokenProvider.update(
             accessToken: accessToken,
             accessTokenExpiry: accessTokenExpiry
