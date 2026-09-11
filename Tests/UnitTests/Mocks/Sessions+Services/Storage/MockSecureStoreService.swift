@@ -18,6 +18,27 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         }
     }
     
+    final class SecureStoreData {
+        fileprivate var storage: [AnyHashable: String]
+        
+        var isEmpty: Bool {
+            self.storage.isEmpty
+        }
+
+        init(storage: [AnyHashable: String] = [:]) {
+            self.storage = storage
+        }
+        
+        subscript(key: AnyHashable) -> String? {
+            get {
+                storage[key]
+            }
+            set {
+                storage[key] = newValue
+            }
+        }
+    }
+    
     /// Returns a new mock that can be used as the `AccessControlEncryptedStore` and has stored tokens under the ``OLString/storedTokens``.
     ///
     /// - Parameters:
@@ -30,11 +51,13 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
                                      accessToken: String = MockJWTs.genericToken
     ) throws -> MockSecureStoreService {
         let mockAccessControlEncryptedStore = MockSecureStoreService()
+        
         let data = StoredTokens.encodeKeys(
             idToken: idToken,
             refreshToken: refreshToken,
             accessToken: accessToken
         )
+        
         try mockAccessControlEncryptedStore.saveItem(
             item: data,
             itemName: OLString.storedTokens
@@ -45,25 +68,34 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     
     /// Returns a Mock and a counter than can be used to assert the ``SecureStorable/clearSessionData`` has been called
     static func mockClearSessionDataCounter() -> (mockSecureStoreService: MockSecureStoreService, clearSessionDataCounter: Counter) {
+        let secureStoreData = SecureStoreData()
         let clearSessionDataCounter = Counter()
         
-        return (MockSecureStoreService(
-            clearSessionDataAsFunction: clearSessionDataCount(counter: clearSessionDataCounter)), clearSessionDataCounter)
+        let mockSecureStoreService = MockSecureStoreService(secureStoreData: secureStoreData)
+        mockSecureStoreService.clearSessionDataAsFunction = clearSessionDataCount(secureStoreData: secureStoreData, counter: clearSessionDataCounter)
+
+        return (mockSecureStoreService, clearSessionDataCounter)
     }
 
     /// Returns a Mock and a counter that can be used to assert how many times ``SecureStorable/readItem(itemName:)`` was called.
     static func mockReadItemCounter() -> (mockSecureStoreService: MockSecureStoreService, readItemCounter: Counter) {
+        let secureStoreData = SecureStoreData()
         let readItemCounter = Counter()
 
-        return (MockSecureStoreService(
-            readItemAsFunction: readItemCount(counter: readItemCounter)), readItemCounter)
+        let mockSecureStoreService = MockSecureStoreService(secureStoreData: secureStoreData)
+        mockSecureStoreService.readItemAsFunction = readItemCount(secureStoreData: secureStoreData, counter: readItemCounter)
+        
+        return (mockSecureStoreService, readItemCounter)
     }
 
     /// Returns a Mock and a counter than can be used to assert how many times the ``SecureStorable/delete`` was called
     static func mockDeleteCounter() -> (mockSecureStoreService: MockSecureStoreService, deleteCounter: Counter) {
         let deleteCounter = Counter()
-        
-        return (MockSecureStoreService(deleteAsFunction: deleteCount(counter: deleteCounter)), deleteCounter)
+
+        let mockSecureStoreService = MockSecureStoreService()
+        mockSecureStoreService.deleteAsFunction = deleteCount(counter: deleteCounter)
+
+        return (mockSecureStoreService, deleteCounter)
     }
 
     enum ReadItemResult {
@@ -71,7 +103,19 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         case success
     }
     
-    static func errorFromReadItem(_ error: SecureStore.SecureStoreError) -> ReadItemAsFunction {
+    static func readItemAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> ReadItemAsFunction {
+        func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {
+            guard let item = secureStoreData[itemName] else {
+                throw SecureStoreError(.unableToRetrieveFromUserDefaults)
+            }
+            
+            return item
+        }
+
+        return readItemAsFunction
+    }
+
+    static func errorFromReadItem(_ error: SecureStoreError) -> ReadItemAsFunction {
         func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {
             throw error
         }
@@ -87,11 +131,20 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         return saveItemAsFunction
     }
 
-    static func readItemCount(counter: Counter) -> ReadItemAsFunction {
-        return { _ in
-            counter.increment()
-            return ""
+    static func readItemCount(secureStoreData: SecureStoreData, counter: Counter) -> ReadItemAsFunction {
+        func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {
+            defer {
+                counter.increment()
+            }
+            
+            guard let item = secureStoreData[itemName] else {
+                throw SecureStoreError(.unableToRetrieveFromUserDefaults)
+            }
+            
+            return item
         }
+
+        return readItemAsFunction
     }
 
     static func deleteCount(counter: Counter) -> DeleteAsFunction {
@@ -100,22 +153,25 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         }
     }
 
-    static func clearSessionDataCount(counter: Counter) -> ClearSessionDataAsFunction {
+    static func clearSessionDataCount(secureStoreData: SecureStoreData, counter: Counter) -> ClearSessionDataAsFunction {
         return {
             counter.increment()
+            secureStoreData.storage = [:]
         }
     }
 
     typealias SaveItemAsFunction = (String, String) throws -> Void
-    typealias ReadItemAsFunction = (String) throws(SecureStore.SecureStoreError) -> String
+    typealias ReadItemAsFunction = (String) throws(SecureStoreError) -> String
     typealias DeleteItemAsFunction = (String) -> Void
     typealias DeleteAsFunction = () throws -> Void
+    typealias CheckItemExistsAsFunction = (String) -> Bool
     typealias ClearSessionDataAsFunction = () -> Void
     
     var saveItemAsFunction: SaveItemAsFunction
     var readItemAsFunction: ReadItemAsFunction
     var deleteItemAsFunction: DeleteItemAsFunction
     var deleteAsFunction: DeleteAsFunction
+    var checkItemExistsAsFunction: CheckItemExistsAsFunction
     var clearSessionDataAsFunction: ClearSessionDataAsFunction
     
     var savedItems = [String: String]()
@@ -133,7 +189,6 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     }
     
     func saveItem(item: String, itemName: String) throws {
-        self.savedItems[itemName] = item
         try self.saveItemAsFunction(item, itemName)
     }
     
@@ -148,20 +203,17 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     
     func deleteItem(itemName: String) {
         self.deleteItemAsFunction(itemName)
-        self.savedItems[itemName] = nil
     }
     
     func delete() throws {
-        self.savedItems = [:]
         try self.deleteAsFunction()
     }
     
     func checkItemExists(itemName: String) -> Bool {
-        return self.savedItems[itemName] != nil
+        return self.checkItemExistsAsFunction(itemName)
     }
 
     func clearSessionData() async throws {
-        self.savedItems = [:]
         self.clearSessionDataAsFunction()
     }
     
