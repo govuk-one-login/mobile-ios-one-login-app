@@ -891,9 +891,8 @@ extension PersistentSessionManagerXCTests {
             OLString.accessTokenExpiry: Date.distantPast
         ]
         // AND a persistentSessionID stored
-        mockEncryptedStore.savedItems = [
-            OLString.persistentSessionID: UUID().uuidString
-        ]
+        try mockEncryptedStore.saveItem(item: UUID().uuidString, itemName: OLString.persistentSessionID)
+        
         // AND tokens stored
         let data = StoredTokens.encodeKeys(
             idToken: MockJWTs.genericToken,
@@ -1028,9 +1027,9 @@ struct PersistentSessionManagerTests {
             .cantDecryptData,
             originalError: NSError(domain: NSOSStatusErrorDomain, code: -50)
         )
-        let encryptedStore = MockSecureStoreService(
-            readItemAsFunction: MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
-        )
+        let encryptedStore = MockSecureStoreService()
+        encryptedStore.readItemAsFunction = MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
+        
         let systemLogOutNotifications = NotificationCenter.default.notifications(named: .systemLogUserOut)
         let systemLogOutIterator = systemLogOutNotifications.makeAsyncIterator()
         

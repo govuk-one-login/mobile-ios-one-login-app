@@ -265,9 +265,8 @@ struct AppQualifyingServiceTests {
             .cantDecryptData,
             originalError: NSError(domain: NSOSStatusErrorDomain, code: -50)
         )
-        let encryptedStore = MockSecureStoreService(
-            readItemAsFunction: MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
-        )
+        let encryptedStore = MockSecureStoreService()
+        encryptedStore.readItemAsFunction = MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
 
         let analyticsService = MockAnalyticsService()
         let sessionManager = try PersistentSessionManager.make(
@@ -321,9 +320,8 @@ struct AppQualifyingServiceTests {
             .cantDecryptData,
             originalError: NSError(domain: NSOSStatusErrorDomain, code: -50)
         )
-        let encryptedStore = MockSecureStoreService(
-            readItemAsFunction: MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
-        )
+        let encryptedStore = MockSecureStoreService()
+        encryptedStore.readItemAsFunction = MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
 
         let analyticsService = MockAnalyticsService()
         let sessionManager = try PersistentSessionManager.make(
