@@ -2,7 +2,6 @@
 
 
 --rules \
-blankLinesBetweenImports, \
 unusedPrivateDeclarations, \
 assertionFailures, \
 blankLineAfterImports, \
@@ -17,4 +16,36 @@ consecutiveSpaces, \
 duplicateImports, \
 emptyBraces, \
 emptyExtensions, \
+modifierOrder, \
+modifiersOnSameLine, \
+noForceTryInTests, \
+noGuardInTests, \
+redundantAsync, \
+redundantBreak, \
+redundantClosure, \
+redundantLet, \
+redundantLetError, \
+redundantThrows, \
+redundantNilInit, \
+redundantOptionalBinding, \
+redundantParens, \
+redundantPattern, \
+redundantVariable, \
+redundantVoidReturnType, \
+spaceAroundBraces, \
+spaceAroundBrackets, \
+spaceAroundComments, \
+spaceAroundGenerics, \
+spaceInsideBraces, \
+spaceInsideBrackets, \
+spaceInsideComments, \
+spaceInsideGenerics, \
+spaceInsideParens, \
+todos, \
+trailingClosures, \
+typeSugar, \
+validateTestCases, \
+void, \
 elseOnSameLine
+
+--trim-whitespace nonblank-lines

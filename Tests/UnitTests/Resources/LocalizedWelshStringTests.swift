@@ -4,7 +4,7 @@ import XCTest
 
 // swiftlint:disable type_body_length
 final class LocalizedWelshStringTests: XCTestCase {
-    func test_generic_keys() throws {
+    func test_generic_keys() {
         XCTAssertEqual("app_closeButton".getWelshString(),
                        "Cau")
         XCTAssertEqual("app_cancelButton".getWelshString(),
@@ -31,14 +31,14 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "GOV.UK One Login")
     }
     
-    func test_localAuthPrompt_keys() throws {
+    func test_localAuthPrompt_keys() {
         XCTAssertEqual("app_faceId_subtitle".getWelshString(),
                        "Rhowch god mynediad iPhone")
         XCTAssertEqual("app_touchId_subtitle".getWelshString(),
                        "Datgloi i barhau")
     }
     
-    func test_signInScreen_keys() throws {
+    func test_signInScreen_keys() {
         XCTAssertEqual("app_signInBody".getWelshString(),
                        "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion %@.")
         XCTAssertEqual("app_signInButton".getWelshString(),
@@ -47,7 +47,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Mewngofnodi gyda %@")
     }
     
-    func test_analyticsScreen_keys() throws {
+    func test_analyticsScreen_keys() {
         XCTAssertEqual("app_acceptAnalyticsPreferences_title".getWelshString(),
                        "Helpu i wella'r ap drwy rannu dadansoddi")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
@@ -55,7 +55,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@")
     }
     
-    func test_unableToLoginErrorScreen_keys() throws {
+    func test_unableToLoginErrorScreen_keys() {
         XCTAssertEqual("app_signInErrorTitle".getWelshString(),
                        "Roedd problem wrth eich mewngofnodi")
         XCTAssertEqual("app_signInErrorRecoverableBody".getWelshString(),
@@ -64,35 +64,35 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
-    func test_networkConnectionErrorScreen_keys() throws {
+    func test_networkConnectionErrorScreen_keys() {
         XCTAssertEqual("app_networkErrorTitle".getWelshString(),
                        "Nid ydych wedi'ch cysylltu â'r rhyngrwyd")
         XCTAssertEqual("app_networkErrorBody".getWelshString(),
                        "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio %@.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.")
     }
     
-    func test_genericErrorScreen_keys() throws {
+    func test_genericErrorScreen_keys() {
         XCTAssertEqual("app_genericErrorPage".getWelshString(),
                        "Mae'n ddrwg gennym, mae problem")
         XCTAssertEqual("app_genericErrorPageBody".getWelshString(),
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
-    func test_faceIDEnrolmentScreen_keys() throws {
+    func test_faceIDEnrolmentScreen_keys() {
         XCTAssertEqual("app_FaceID".getWelshString(),
                        "Face ID")
         XCTAssertEqual("app_enableBiometricsFaceIDBody2".getWelshString(),
                        "Os ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
     }
     
-    func test_touchIDEnrolmentScreen_keys() throws {
+    func test_touchIDEnrolmentScreen_keys() {
         XCTAssertEqual("app_TouchID".getWelshString(),
                        "Touch ID")
         XCTAssertEqual("app_enableBiometricsTouchIDBody2".getWelshString(),
                        "Os ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
     
-    func test_biometricsEnrolmentScreen_commonKeys() throws {
+    func test_biometricsEnrolmentScreen_commonKeys() {
         XCTAssertEqual("app_enableBiometricsButton".getWelshString(),
                        "Caniatáu %@")
         XCTAssertEqual("app_enableBiometricsTitle".getWelshString(),
@@ -255,7 +255,7 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_loadingLabel".getWelshString(), "Llwytho %@")
     }
     
-    func test_localAuthSettingsError_keys() throws {
+    func test_localAuthSettingsError_keys() {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
                        "Diweddaru gosodiadau diogelwch eich ffôn")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
@@ -274,7 +274,7 @@ final class LocalizedWelshStringTests: XCTestCase {
                        "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.")
     }
     
-    func test_localAuthBiometricsError_keys() throws {
+    func test_localAuthBiometricsError_keys() {
         XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getWelshString(),
                        "Mae angen i chi ganiatáu %@")
         XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getWelshString(),

@@ -43,13 +43,13 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appUnavailable.rawValue,
                                              screen: ErrorAnalyticsScreen.appUnavailable,
                                              titleKey: "app_appUnavailableTitle",
                                              reason: "app unavailable error")
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

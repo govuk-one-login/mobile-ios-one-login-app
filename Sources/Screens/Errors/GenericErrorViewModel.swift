@@ -43,12 +43,12 @@ struct GenericErrorViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_tryAgainButton").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        let event = ButtonEvent(textKey: "app_tryAgainButton")
                                        analyticsService.logEvent(event)
                                        
                                        action()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
@@ -56,13 +56,13 @@ struct GenericErrorViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.generic.rawValue,
                                              screen: ErrorAnalyticsScreen.generic,
                                              titleKey: "app_genericErrorPage",
                                              reason: errorDescription)
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
         self.errorDescription = errorDescription

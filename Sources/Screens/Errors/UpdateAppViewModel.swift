@@ -50,7 +50,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_updateAppButton",
                                                              "app_nameString").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                       let event = LinkEvent(textKey: "app_updateAppButton",
                                                             variableKeys: "app_nameString",
                                                             linkDomain: AppEnvironment.appStore.absoluteString,
@@ -58,7 +58,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
                                        analyticsService.logEvent(event)
                                        
                                        urlOpener.open(url: AppEnvironment.appStore)
-                                   }),
+                                   },
                                    accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp").value,
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
@@ -67,13 +67,13 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: IntroAnalyticsScreenID.updateApp.rawValue,
                                              screen: IntroAnalyticsScreen.updateApp,
                                              titleKey: "app_updateAppTitle",
                                              reason: "update required error")
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

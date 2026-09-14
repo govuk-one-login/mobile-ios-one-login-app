@@ -80,11 +80,9 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     }
     
     static func errorFromSaveItem(_ error: SecureStore.SecureStoreError) -> SaveItemAsFunction {
-        // swiftlint:disable redundant_void_return
-        func saveItemAsFunction(item: String, itemName: String) throws -> Void {
+        func saveItemAsFunction(item: String, itemName: String) throws {
             throw error
         }
-        // swiftlint:enable redundant_void_return
         
         return saveItemAsFunction
     }

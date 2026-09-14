@@ -59,8 +59,7 @@ public final class AppInformationService: AppInformationProvider {
             throw AppInfoError.invalidResponse
         }
         
-        let appInfo = try parseResult(cachedResponse).appList.iOS
-        return appInfo
+        return try parseResult(cachedResponse).appList.iOS
     }
     
     private func parseResult(_ dataArray: Data) throws -> AppInfoResponse {

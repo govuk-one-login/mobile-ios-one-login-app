@@ -32,9 +32,9 @@ struct AnalyticsPreferenceViewModel: GDSLeftAlignedViewModel {
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_privacyNoticeLink", "app_nameString").value,
                                    style: .secondaryLeading,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        textButtonAction()
-                                   }),
+                                   },
                                    accessibilityHint: GDSLocalisedString("app_externalBrowser").value,
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
@@ -42,16 +42,16 @@ struct AnalyticsPreferenceViewModel: GDSLeftAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_shareAnalyticsButton").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        primaryButtonAction()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_doNotShareAnalytics").value,
                                    style: .secondary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        secondaryButtonAction()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],

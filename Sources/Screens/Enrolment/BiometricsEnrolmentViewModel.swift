@@ -70,23 +70,23 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_enableBiometricsButton",
                                                              biometricsTypeString).value,
                                    style: .primary,
-                                   buttonAction: .asyncAction({
+                                   buttonAction: .asyncAction {
                                       let event = ButtonEvent(textKey: "app_enableBiometricsButton",
                                                               variableKeys: [biometricsTypeString])
                                        analyticsService.logEvent(event)
                                        
                                        await primaryButtonAction()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_skipButton").value,
                                    style: .secondary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        let event = ButtonEvent(textKey: "app_skipButton")
                                        analyticsService.logEvent(event)
                                        
                                        secondaryButtonAction()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
@@ -94,7 +94,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screenID = isFaceID ?
                     BiometricEnrolmentAnalyticsScreenID.faceIDEnrolment.rawValue :
                     BiometricEnrolmentAnalyticsScreenID.touchIDEnrolment.rawValue
@@ -108,7 +108,7 @@ struct BiometricsEnrolmentViewModel: GDSCentreAlignedViewModel {
                                         titleKey: titleString.stringKey,
                                         variableKeys: [biometricsTypeString])
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

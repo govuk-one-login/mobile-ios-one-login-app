@@ -20,7 +20,7 @@ struct FlagManager {
         do {
             flagsFromFile = try JSONDecoder()
                 .decode([Flag].self, from: jsonData)
-                .reduce(into: [String: Flaggable]()) { (dictionary, flag) in
+                .reduce(into: [String: Flaggable]()) { dictionary, flag in
                     dictionary[flag.name] = flag
                 }
         } catch {

@@ -71,7 +71,7 @@ struct MockEnrolmentManager: EnrolmentManager {
 }
 
 extension LocalAuthServiceWalletTests {
-    func test_enrolLocalAuth() async throws {
+    func test_enrolLocalAuth() throws {
         mockLocalAuthManager.type = .faceID
         
         sut.enrolLocalAuth(
@@ -84,7 +84,7 @@ extension LocalAuthServiceWalletTests {
         XCTAssertTrue(vc.viewModel is BiometricsEnrolmentViewModel)
     }
     
-    func test_enrolLocalAuthPasscode() async throws {
+    func test_enrolLocalAuthPasscode() async {
         let exp = XCTestExpectation(description: "callback reached")
         
         XCTAssertFalse(isEnrolled)
@@ -246,7 +246,7 @@ extension LocalAuthServiceWalletTests {
         let pushViewControllerExpectation = expectation(description: #function)
         pushViewControllerExpectation.expectedFulfillmentCount = 2
         
-        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill()})
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill() })
         let walletCoordinator = WalletCoordinator(root: mockNavigationController,
                                                   analyticsService: mockAnalyticsService,
                                                   networkingService: NetworkClient(),
@@ -295,7 +295,7 @@ extension LocalAuthServiceWalletTests {
         let pushViewControllerExpectation = expectation(description: #function)
         pushViewControllerExpectation.expectedFulfillmentCount = 2
         
-        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill()})
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in pushViewControllerExpectation.fulfill() })
         let walletCoordinator = WalletCoordinator(root: mockNavigationController,
                                                   analyticsService: mockAnalyticsService,
                                                   networkingService: NetworkClient(),
@@ -339,7 +339,7 @@ extension LocalAuthServiceWalletTests {
         XCTAssertTrue(isEnrolled)
     }
     
-    func test_walletCoordinator_vcAlreadyBeingPresented_none() throws {
+    func test_walletCoordinator_vcAlreadyBeingPresented_none() {
         mockLocalAuthManager.type = .none
         
         XCTAssertFalse(isEnrolled)

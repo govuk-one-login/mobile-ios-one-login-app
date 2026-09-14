@@ -43,13 +43,13 @@ struct AppIntegrityErrorViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.appIntegrityError.rawValue,
                                              screen: ErrorAnalyticsScreen.appIntegrityError,
                                              titleKey: "app_appIntegrityErrorTitle",
                                              reason: "app integrity error")
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

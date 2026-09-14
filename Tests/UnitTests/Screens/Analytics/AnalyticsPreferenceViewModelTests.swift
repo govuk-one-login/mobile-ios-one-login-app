@@ -34,7 +34,7 @@ extension AnalyticsPreferenceViewModelTests {
     }
     
     @Test
-    func test_primaryButton() throws {
+    func test_primaryButton() {
         var didCallPrimaryButtonAction = false
         
         let sut = AnalyticsPreferenceViewModel {

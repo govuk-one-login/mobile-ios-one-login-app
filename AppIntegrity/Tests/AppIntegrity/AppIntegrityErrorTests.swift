@@ -34,17 +34,17 @@ struct AppIntegrityErrorTests {
     // swiftlint:enable line_length
 
     @Test("assert debugDescription", arguments: AppIntegrityErrorTests.allFirebaseAppCheckErrors)
-    func test_debugDescription_FirebaseAppCheckError(testCase: Case<FirebaseAppCheckErrorType>) async throws {
+    func test_debugDescription_FirebaseAppCheckError(testCase: Case<FirebaseAppCheckErrorType>) {
         #expect(testCase.error.debugDescription == testCase.debugDescription)
     }
     
     @Test("assert debugDescription", arguments: AppIntegrityErrorTests.allClientAssertionErrors)
-    func test_debugDescription_ClientAssertionError(testCase: Case<ClientAssertionErrorType>) async throws {
+    func test_debugDescription_ClientAssertionError(testCase: Case<ClientAssertionErrorType>) {
         #expect(testCase.error.debugDescription == testCase.debugDescription)
     }
 
     @Test("assert debugDescription", arguments: AppIntegrityErrorTests.allProofOfPossessionErrors)
-    func test_debugDescription_ProofOfPossessionError(testCase: Case<ProofOfPossessionErrorType>) async throws {
+    func test_debugDescription_ProofOfPossessionError(testCase: Case<ProofOfPossessionErrorType>) {
         #expect(testCase.error.debugDescription == testCase.debugDescription)
     }
 
@@ -53,7 +53,7 @@ struct AppIntegrityErrorTests {
     /// - Seealso: https://govukverify.atlassian.net/wiki/spaces/DCMAW/pages/3787195450/GOV.UK+One+Login+app+-+Error+handling#App-integrity-check-failures
     /// // swiftlint:enable line_length
     @Test("assert kind", arguments: AppIntegrityErrorTests.allFirebaseAppCheckErrors)
-    func test_kind_FirebaseAppCheckError(testCase: Case<FirebaseAppCheckErrorType>) async throws {
+    func test_kind_FirebaseAppCheckError(testCase: Case<FirebaseAppCheckErrorType>) {
         #expect(testCase.error.errorUserInfo["kind"] as? String == testCase.kind)
     }
     
@@ -62,7 +62,7 @@ struct AppIntegrityErrorTests {
     /// - Seealso: https://govukverify.atlassian.net/wiki/spaces/DCMAW/pages/3787195450/GOV.UK+One+Login+app+-+Error+handling#App-integrity-check-failures
     /// // swiftlint:enable line_length
     @Test("assert kind", arguments: AppIntegrityErrorTests.allClientAssertionErrors)
-    func test_kind_ClientAssertionError(testCase: Case<ClientAssertionErrorType>) async throws {
+    func test_kind_ClientAssertionError(testCase: Case<ClientAssertionErrorType>) {
         #expect(testCase.error.errorUserInfo["kind"] as? String == testCase.kind)
     }
 
@@ -71,7 +71,7 @@ struct AppIntegrityErrorTests {
     /// - Seealso: https://govukverify.atlassian.net/wiki/spaces/DCMAW/pages/3787195450/GOV.UK+One+Login+app+-+Error+handling#App-integrity-check-failures
     /// // swiftlint:enable line_length
     @Test("assert kind", arguments: AppIntegrityErrorTests.allProofOfPossessionErrors)
-    func test_kind_ProofOfPossessionError(testCase: Case<ProofOfPossessionErrorType>) async throws {
+    func test_kind_ProofOfPossessionError(testCase: Case<ProofOfPossessionErrorType>) {
         #expect(testCase.error.errorUserInfo["kind"] as? String == testCase.kind)
     }
 }

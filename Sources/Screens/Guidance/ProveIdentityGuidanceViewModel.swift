@@ -35,14 +35,14 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_proveYourIdentityGuidanceLink").value,
                                    icon: .arrowUpRight,
                                    style: .secondary.adjusting(alignment: .leading),
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        let event = LinkEvent(textKey: "app_proveYourIdentityGuidanceLink",
                                                              linkDomain: AppEnvironment.govSignInURL.absoluteString,
                                                              external: .true)
                                        analyticsService.logEvent(event)
                                        
                                        urlOpener.open(url: AppEnvironment.govSignInURL)
-                                   }),
+                                   },
                                    accessibilityHint: GDSLocalisedString("app_externalBrowser").value,
                                    verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringLiteral: "app_proveYourIdentityGuidanceBody2",
@@ -57,16 +57,16 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
             rightBarButtonTitle: "app_doneButton",
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ScreenView(id: HomeAnalyticsScreenID.proveIdentityGuidance.rawValue,
                                         screen: HomeAnalyticsScreen.proveIdentityGuidance,
                                         titleKey: "app_proveYourIdentityGuidanceTitle")
                 analyticsService.trackScreen(screen)
-            }),
-            didDismiss: .action({
+            },
+            didDismiss: .action {
                 let event = ButtonEvent(textKey: "app_doneButton")
                 analyticsService.logEvent(event)
-            })
+            }
         )
     }
     

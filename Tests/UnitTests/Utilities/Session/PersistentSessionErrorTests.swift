@@ -20,7 +20,7 @@ struct PersistentSessionErrorTests {
     // swiftlint:enable line_length
 
     @Test("assert debugDescription", arguments: PersistentSessionErrorTests.allPersistentSessionError)
-    func test_debugDescription(testCase: Case) async throws {
+    func test_debugDescription(testCase: Case) {
         #expect(testCase.error.debugDescription == testCase.debugDescription)
     }
     
@@ -29,7 +29,7 @@ struct PersistentSessionErrorTests {
     /// - Seealso: https://govukverify.atlassian.net/wiki/x/OgS84Q
     /// // swiftlint:enable line_length
     @Test("assert kind", arguments: PersistentSessionErrorTests.allPersistentSessionError)
-    func test_kind(testCase: Case) async throws {
+    func test_kind(testCase: Case) {
         #expect(testCase.error.errorUserInfo["kind"] as? String == testCase.kind)
     }
 

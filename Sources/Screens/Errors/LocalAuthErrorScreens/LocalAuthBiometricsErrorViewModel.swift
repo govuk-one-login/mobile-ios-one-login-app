@@ -48,13 +48,13 @@ struct LocalAuthBiometricsErrorViewModel: GDSCentreAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_enableBiometricsTitle",
                                                              biometricsTypeString).value,
                                    style: .primary,
-                                   buttonAction: .asyncAction({
+                                   buttonAction: .asyncAction {
                                       let event = ButtonEvent(textKey: "app_enableBiometricsTitle",
                                                               variableKeys: [biometricsTypeString])
                                        analyticsService.logEvent(event)
                                        
                                        await action()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
@@ -62,7 +62,7 @@ struct LocalAuthBiometricsErrorViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: "app_cancelButton",
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let id: String
                 let screen: ErrorAnalyticsScreen
                 
@@ -79,12 +79,12 @@ struct LocalAuthBiometricsErrorViewModel: GDSCentreAlignedViewModel {
                                                  titleKey: title.stringKey,
                                                  variableKeys: [biometricsTypeString])
                 analyticsService.trackScreen(screenView)
-            }),
-            didDismiss: .action({
+            },
+            didDismiss: .action {
                 dismissAction?()
                 let event = IconEvent(textKey: "cancel")
                 analyticsService.logEvent(event)
-            })
+            }
         )
     }
     

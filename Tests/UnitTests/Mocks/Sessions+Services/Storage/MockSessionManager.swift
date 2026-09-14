@@ -198,7 +198,7 @@ class MockSessionManagerExpectation: SessionManager {
     let sessionManager: MockSessionManager
     
     init(sessionManager: MockSessionManager = MockSessionManager(),
-         didStartAuthSessionAsFunction: @escaping DidStartAuthSession = {_, _ in },
+         didStartAuthSessionAsFunction: @escaping DidStartAuthSession = { _, _ in },
          didSaveAuthSessionAsFunction: @escaping DidSaveAuthSession = {},
          didResumeSessionAsFunction: @escaping DidResumeSession = {}) {
         self.sessionManager = sessionManager

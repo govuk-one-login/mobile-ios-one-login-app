@@ -92,7 +92,7 @@ final class SettingsCoordinatorTests: XCTestCase {
         pushViewControllerExpectation.expectedFulfillmentCount = 2
 
         // GIVEN an error is returned from clearAllSessionData
-        let mockNavigationController = MockNavigationControllerExpectation( presentAsFunction: { _, _, _ in
+        let mockNavigationController = MockNavigationControllerExpectation(presentAsFunction: { _, _, _ in
             pushViewControllerExpectation.fulfill()
         })
         let mockSessionManager = MockSessionManager()

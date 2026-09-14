@@ -7,14 +7,12 @@ struct BackupDisablerTests: BackupDisabler {
     func documentsFolderBackupsDisabled() throws {
         disableFileBackup()
         
-        guard let url: URL = try? FileManager.default.url(
+        let url: URL = try #require(try? FileManager.default.url(
             for: .documentDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
             create: true
-        ) else {
-            return
-        }
+        ))
         
         let values = try? url.resourceValues(
             forKeys: [.isExcludedFromBackupKey]
@@ -27,14 +25,12 @@ struct BackupDisablerTests: BackupDisabler {
     func disableBackup() throws {
         let sut = MockBackupDisabler()
         
-        guard let documentsDirectory = try? FileManager.default.url(
+        let documentsDirectory = try #require(try? FileManager.default.url(
             for: .documentDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
             create: true
-        ) else {
-            return
-        }
+        ))
         
         let directoryURL = documentsDirectory.appendingPathComponent("test")
         try? FileManager.default.removeItem(at: directoryURL)
