@@ -25,7 +25,8 @@ struct SignOutErrorViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_signOutErrorTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 
                 GDSTextViewModel(title: "app_signOutErrorBody",

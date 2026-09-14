@@ -23,7 +23,8 @@ struct DataDeletedWarningViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_dataDeletionWarningTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 GDSTextViewModel(title: "app_dataDeletionWarningBody",
                                  alignment: .center,

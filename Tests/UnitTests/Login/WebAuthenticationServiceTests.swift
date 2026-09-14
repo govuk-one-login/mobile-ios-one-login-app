@@ -274,7 +274,7 @@ struct WebAuthenticationServiceTests {
     
     @Test
     func test_startWebSession_success() async throws {
-        let sessionManager: PersistentSessionManager = .make()
+        let sessionManager: PersistentSessionManager = try .make()
         let sut: WebAuthenticationService = await .make(sessionManager: sessionManager)
         
         await #expect(throws: Never.self) {
@@ -375,7 +375,7 @@ struct WebAuthenticationServiceTests {
     func test_errorFromAttestationJWT_onNewUser() async throws {
         let mockAnalyticsService = MockAnalyticsService()
 
-        let sessionManager: PersistentSessionManager = .make()
+        let sessionManager: PersistentSessionManager = try .make()
 
         let sut: WebAuthenticationService = await .make(
             sessionManager: sessionManager,
@@ -404,6 +404,42 @@ struct WebAuthenticationServiceTests {
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
+    
+    final class UserSessionData {
+        fileprivate var storage: [AnyHashable: Sendable]
+        
+        var isEmpty: Bool {
+            self.storage.isEmpty
+        }
+
+        init(storage: [AnyHashable: Sendable] = [:]) {
+            self.storage = storage
+        }
+        
+        subscript(key: AnyHashable) -> Sendable? {
+            get {
+                storage[key]
+            }
+            set {
+                storage[key] = newValue
+            }
+        }
+    }
+
+    static func stubWalletData(_ walletData: [AnyHashable: Sendable]) -> (mockWalletSessionBound: WalletSessionBoundDataStub, walletData: UserSessionData) {
+        let walletData = UserSessionData(storage: walletData)
+        
+        return (mockWalletSessionBound: WalletSessionBoundDataStub(
+            clearSessionDataAsFunction: clearSessionData(walletData: walletData)),
+                walletData: walletData)
+    }
+    
+    static func clearSessionData(walletData: UserSessionData) -> ClearSessionDataAsFunction {
+        return {
+            walletData.storage = [:]
+        }
+    }
+
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
     var clearSessionDataAsFunction: ClearSessionDataAsFunction = { }

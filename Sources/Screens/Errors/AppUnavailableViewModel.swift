@@ -30,7 +30,8 @@ struct AppUnavailableViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_appUnavailableTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_appUnavailableBody", "app_nameString"),

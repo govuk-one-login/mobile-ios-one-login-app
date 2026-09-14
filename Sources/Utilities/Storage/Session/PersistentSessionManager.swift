@@ -7,6 +7,7 @@ import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
+import WalletStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
@@ -14,8 +15,9 @@ final class PersistentSessionManager: SessionManager {
         accessControlEncryptedSecureStoreMigrator: (any SecureStorable & SessionBoundData)? = nil,
         encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
+        localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
         walletSessionData: SessionBoundData = WalletSessionData(),
         refreshTokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue,
@@ -32,7 +34,7 @@ final class PersistentSessionManager: SessionManager {
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator
             ),
             unprotectedStore: unprotectedStore,
-            localAuthentication: LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
+            localAuthentication: localAuthentication,
             analyticsService: analyticsService,
             walletSDK: walletSDK,
             tokenExchangeManager: refreshTokenExchangeManager,
@@ -94,7 +96,7 @@ final class PersistentSessionManager: SessionManager {
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper(),
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
@@ -200,43 +202,87 @@ final class PersistentSessionManager: SessionManager {
         (try? localAuthentication.canUseAnyLocalAuth) ?? false && isReturningUser
     }
     
-    func startAuthSession(
-        _ session: any LoginSession,
-        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
-    ) async throws {
+    /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
+    private func clearAllSessionData() async throws {
+        do {
+            if await !walletSDK.isEmpty() {
+                analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
+                                                                 reason: "secure wallet data deleted"))
+            }
+            try await clearAllSessionData(presentSystemLogOut: true)
+        } catch {
+            throw PersistentSessionError(.cannotDeleteData, originalError: error)
+        }
+    }
+    
+    /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
+    private func prepareAppForLogin() async throws {
+        do {
+            if await !walletSDK.isEmpty() {
+                analyticsService.logCrash(PersistentSessionError(.noSessionExists,
+                                                                 reason: "secure wallet data deleted"))
+            }
+            try await clearAppForLogin()
+        } catch {
+            throw PersistentSessionError(.cannotDeleteData, originalError: error)
+        }
+    }
+    
+    /// Asserts that a ``persistentID`` is present and accessible for either a returning or a first time user.
+    ///
+    /// - throws: ``PersistentSessionError(.sessionMismatch)`` in case this is a returning user without a persistent session ID.
+    ///     All session data will be cleared and a ``.systemLogUserOut`` notification is posted.
+    /// - throws: ``PersistentSessionError(.cannotDeleteData)`` in case the user data was not succesfully deleted.
+    /// - Note: in case of a first time user, their "preferences" are not cleared.
+    /// - SeeAlso: ``clearAllSessionData(presentSystemLogOut:)`` for a returning user
+    /// - SeeAlso: ``clearAppForLogin()`` for a first time user
+    private func assertSession() async throws {
         if persistentID == nil {
             if isReturningUser {
                 // I am a returning user
                 // but cannot reauthenticate because I don't have a persistent session ID
                 //
                 // I need to delete my session & Wallet data before I can login
-                do {
-                    if await !walletSDK.isEmpty() {
-                        analyticsService.logCrash(PersistentSessionError(.sessionMismatch,
-                                                                         reason: "secure wallet data deleted"))
-                    }
-                    try await clearAllSessionData(presentSystemLogOut: true)
-                } catch {
-                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
-                }
-                
+                try await clearAllSessionData()
                 throw PersistentSessionError(.sessionMismatch)
             } else {
                 // I am a first time user
                 // I don't have a persistent session ID
                 //
                 // I need to delete my session (but not analytics permissions) & Wallet data before I can login
-                do {
-                    if await !walletSDK.isEmpty() {
-                        analyticsService.logCrash(PersistentSessionError(.noSessionExists,
-                                                                         reason: "secure wallet data deleted"))
-                    }
-                    try await clearAppForLogin()
-                } catch {
-                    throw PersistentSessionError(.cannotDeleteData, originalError: error)
-                }
+                try await prepareAppForLogin()
             }
         }
+    }
+    
+    private var assertReturningUserCanLoginEvaluated = false
+    
+    public func assertReturningUserCanLogin() async throws {
+        try await self.serialTaskQueue.enqueue {
+            guard self.isReturningUser, !self.assertReturningUserCanLoginEvaluated else {
+                return
+            }
+            
+            let persistentID = Result {
+                try self.encryptedStore
+                    .readItem(itemName: OLString.persistentSessionID)
+            }
+            
+            if case .failure(let error as SecureStoreError) = persistentID, error.kind == .cantDecryptData,
+               let originalError = error.originalError as? NSError, originalError.code == errSecParam {
+                try await self.clearAllSessionData()
+                throw error
+            }
+            
+            self.assertReturningUserCanLoginEvaluated = true
+        }
+    }
+    
+    func startAuthSession(
+        _ session: any LoginSession,
+        using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
+    ) async throws {
+        try await assertSession()
         
         let response = try await session.performLoginFlow(
             configuration: configuration(persistentID)
@@ -380,25 +426,38 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAppForLogin() async throws {
-        for each in sessionBoundData where type(of: each) != UserDefaultsPreferenceStore.self {
-            try await each.clearSessionData()
-        }
-        
-        endCurrentSession()
+        let excludingUserDefaultsPreferenceStore = sessionBoundData.filter { type(of: $0 ) != UserDefaultsPreferenceStore.self }
+        try await self.clearSessionData(in: excludingUserDefaultsPreferenceStore, presentSystemLogOut: false)
     }
 
     func clearAllSessionData(presentSystemLogOut: Bool) async throws {
-        for each in sessionBoundData {
-            try await each.clearSessionData()
+        try await self.clearSessionData(in: sessionBoundData, presentSystemLogOut: presentSystemLogOut)
+    }
+    
+    private func clearSessionData(in sessionData: [SessionBoundData], presentSystemLogOut: Bool) async throws {
+        for each in sessionData {
+            if case let walletSessionData? = each as? WalletSessionData {
+                let streamClearSessionDataWarnings = await walletSessionData.streamClearSessionDataWarnings
+                async let logWarnings = { [analyticsService = self.analyticsService] in
+                    for await warning in streamClearSessionDataWarnings {
+                        analyticsService.logCrash(warning)
+                    }
+                }()
+                
+                try await walletSessionData.clearSessionData()
+                await logWarnings
+            } else {
+                try await each.clearSessionData()
+            }
         }
-        
+
         endCurrentSession()
-        
+
         if presentSystemLogOut {
             NotificationCenter.default.post(name: .systemLogUserOut)
         }
     }
-    
+
     func registerSessionBoundData(_ data: [SessionBoundData]) {
         sessionBoundData = data
     }
@@ -428,6 +487,13 @@ public enum PersistentSessionErrorKind: Int, GDSErrorKind {
 }
 
 public typealias PersistentSessionError = OneLoginGDSError<PersistentSessionErrorKind>
+
+extension PersistentSessionError {
+    /// Returns true in case the underlying error is ``WalletStoreError(.walletUnsafeState)``.
+    var isWalletUnsafeState: Bool {
+        (originalError as? WalletStoreError)?.kind == .walletUnsafeState
+    }
+}
 
 protocol SessionBoundData {
     func clearSessionData() async throws

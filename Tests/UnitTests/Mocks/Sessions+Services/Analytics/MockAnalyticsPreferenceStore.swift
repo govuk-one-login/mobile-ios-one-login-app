@@ -11,5 +11,7 @@ final class MockAnalyticsPreferenceStore: AnalyticsPreferenceStore, SessionBound
         }
     }
     
-    func clearSessionData() async throws {}
+    func clearSessionData() async throws {
+        hasAcceptedAnalytics = false
+    }
 }

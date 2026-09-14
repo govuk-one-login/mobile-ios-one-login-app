@@ -19,6 +19,7 @@ extension AnalyticsPreferenceViewModelTests {
         let titleText = sut.body.first as? GDSTextViewModel
         let bodyText = sut.body[1] as? GDSTextViewModel
         #expect(titleText?.title.stringKey == "app_acceptAnalyticsPreferences_title")
+        #expect(titleText?.accessibilityTraits == .header)
         #expect(titleText?.alignment == .left)
         #expect(bodyText?.title.stringKey == "acceptAnalyticsPreferences_body")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])

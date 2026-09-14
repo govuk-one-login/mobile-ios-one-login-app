@@ -31,7 +31,8 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
                     icon: .error,
                     errorTitle: GDSTextViewModel(title: "app_signInErrorTitle",
                                                  titleFont: .largeTitleBold,
-                                                 alignment: .center)
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
                 ),
                 
                 GDSTextViewModel(title: "app_signInErrorUnrecoverableBody",
