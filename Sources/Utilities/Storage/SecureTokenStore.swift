@@ -14,15 +14,26 @@ public struct StoredTokens: Codable {
 
 public protocol TokenStore {
     var hasLoginTokens: Bool { get }
+
     func fetch() throws -> StoredTokens
+    func save(using encryptor: Encryptor, tokens: StoredTokens) throws
     func save(tokens: StoredTokens) throws
     func deleteTokens()
 }
 
+extension StoredTokens {
+    public func base64EncodedJSON() throws -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let data = try encoder.encode(self)
+        return data.base64EncodedString()
+    }
+}
+
 final class SecureTokenStore: TokenStore {
-    private let accessControlEncryptedStore: SecureStorable
+    private let accessControlEncryptedStore: EncryptedSecureStorable
     
-    init(accessControlEncryptedStore: SecureStorable) {
+    init(accessControlEncryptedStore: EncryptedSecureStorable) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
@@ -38,18 +49,20 @@ final class SecureTokenStore: TokenStore {
         let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
         return decodedTokens
     }
-    
+
+    func save(using encryptor: Encryptor, tokens: StoredTokens) throws {
+        try accessControlEncryptedStore.save(using: encryptor,
+                                             item: try tokens.base64EncodedJSON(),
+                                             itemName: OLString.storedTokens)
+    }
+
     func save(tokens: StoredTokens) throws {
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .sortedKeys
-        let tokensAsData = try jsonEncoder.encode(tokens)
-        let encodedTokens = tokensAsData.base64EncodedString()
         try accessControlEncryptedStore.saveItem(
-            item: encodedTokens,
+            item: try tokens.base64EncodedJSON(),
             itemName: OLString.storedTokens
         )
     }
-    
+
     func deleteTokens() {
         accessControlEncryptedStore.deleteItem(itemName: OLString.storedTokens)
     }

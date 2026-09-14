@@ -1,7 +1,13 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStoreService: SecureStorable, SessionBoundData {
+public struct NoEncryption: Encryptor {
+    public func encrypt(data: String) throws -> String {
+        return data
+    }
+}
+
+final class MockSecureStoreService: EncryptedSecureStorable, SessionBoundData {
 
     /// This type can be used to track the number of calls made to a function
     /// - SeeAlso: ``mockClearSessionDataCounter`` on creating a mock with a counter to count the number of times ``SecureStorable/clearSessionData()`` is called
@@ -104,6 +110,21 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         case success
     }
     
+    static func encryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> EncryptorAsFunction {
+        func encryptor() throws -> Encryptor {
+            return NoEncryption()
+        }
+
+        return encryptor
+    }
+
+    static func errorFromEncryptorAsFunction(error: SecureStoreError) -> EncryptorAsFunction {
+        func encryptorAsFunction() throws -> Encryptor {
+            throw error
+        }
+
+        return encryptorAsFunction
+    }
     static func readItemAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> ReadItemAsFunction {
         func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {
             guard let item = secureStoreData[itemName] else {
@@ -124,6 +145,14 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         return readItemAsFunction
     }
     
+    static func saveUsingEncryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> SaveUsingEncryptorAsFunction {
+        func saveUsingEncryptorAsFunction(encryptor: Encryptor, item: String, itemName: String) throws {
+            secureStoreData[itemName] = try encryptor.encrypt(data: item)
+        }
+
+        return saveUsingEncryptorAsFunction
+    }
+
     static func saveItemAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> SaveItemAsFunction {
         func saveItemAsFunction(item: String, itemName: String) throws {
             secureStoreData[itemName] = item
@@ -203,6 +232,8 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         }
     }
 
+    typealias EncryptorAsFunction = () throws -> Encryptor
+    typealias SaveUsingEncryptorAsFunction = (Encryptor, String, String) throws -> Void
     typealias SaveItemAsFunction = (String, String) throws -> Void
     typealias ReadItemAsFunction = (String) throws(SecureStoreError) -> String
     typealias DeleteItemAsFunction = (String) -> Void
@@ -210,6 +241,8 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     typealias CheckItemExistsAsFunction = (String) -> Bool
     typealias ClearSessionDataAsFunction = () -> Void
     
+    var encryptorAsFunction: EncryptorAsFunction
+    var saveUsingEncryptorAsFunction: SaveUsingEncryptorAsFunction
     var saveItemAsFunction: SaveItemAsFunction
     var readItemAsFunction: ReadItemAsFunction
     var deleteItemAsFunction: DeleteItemAsFunction
@@ -230,12 +263,22 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     
     init(secureStoreData: SecureStoreData = SecureStoreData()) {
         self.secureStoreData = secureStoreData
+        self.encryptorAsFunction = Self.encryptorAsFunction(secureStoreData: secureStoreData)
+        self.saveUsingEncryptorAsFunction = Self.saveUsingEncryptorAsFunction(secureStoreData: secureStoreData)
         self.saveItemAsFunction = Self.saveItemAsFunction(secureStoreData: secureStoreData)
         self.readItemAsFunction = Self.readItemAsFunction(secureStoreData: secureStoreData)
         self.deleteItemAsFunction = Self.deleteItemAsFunction(secureStoreData: secureStoreData)
         self.deleteAsFunction = Self.deleteAsFunction()
         self.checkItemExistsAsFunction = Self.checkItemExistsAsFunction(secureStoreData: secureStoreData)
         self.clearSessionDataAsFunction = Self.clearSessionDataAsFunction(secureStoreData: secureStoreData)
+    }
+    
+    func encryptor() throws -> Encryptor {
+        return try self.encryptorAsFunction()
+    }
+
+    func save(using encryptor: Encryptor, item: String, itemName: String) throws {
+        try self.saveUsingEncryptorAsFunction(encryptor, item, itemName)
     }
     
     func saveItem(item: String, itemName: String) throws {
@@ -272,10 +315,11 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             switch newValue {
             case .none:
                 _errorFromSaveItem = nil
-                self.saveItemAsFunction = { _, _ in }
+                self.saveItemAsFunction = Self.saveItemAsFunction(secureStoreData: self.secureStoreData)
             case .some(let error):
                 self.saveItemAsFunction = Self.errorFromSaveItem(error)
             }
         }
     }
+    
 }
