@@ -22,6 +22,14 @@ public protocol TokenStore {
 }
 
 extension StoredTokens {
+    
+    public init(base64EncodedJSON: String) throws {
+        guard let tokensAsData = Data(base64Encoded: base64EncodedJSON) else {
+            throw StoredTokenError.unableToDecodeTokens
+        }
+        self = try JSONDecoder().decode(Self.self, from: tokensAsData)
+    }
+    
     public func base64EncodedJSON() throws -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .sortedKeys
@@ -42,12 +50,8 @@ final class SecureTokenStore: TokenStore {
     }
     
     func fetch() throws -> StoredTokens {
-        let storedTokens = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
-        guard let tokensAsData = Data(base64Encoded: storedTokens) else {
-            throw StoredTokenError.unableToDecodeTokens
-        }
-        let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
-        return decodedTokens
+        let base64EncodedJSON = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
+        return try StoredTokens(base64EncodedJSON: base64EncodedJSON)
     }
 
     func save(using encryptor: Encryptor, tokens: StoredTokens) throws {
