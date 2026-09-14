@@ -1,6 +1,5 @@
 --swiftversion 5.9
 
-
 --rules \
 unusedPrivateDeclarations, \
 assertionFailures, \
