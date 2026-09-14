@@ -151,6 +151,7 @@ class MockSessionManagerExpectation: SessionManager {
     var expiryDate: Date? {
         sessionManager.expiryDate
     }
+
     var isEnrolling: Bool {
         get {
             sessionManager.isEnrolling
@@ -198,8 +199,8 @@ class MockSessionManagerExpectation: SessionManager {
     
     init(sessionManager: MockSessionManager = MockSessionManager(),
          didStartAuthSessionAsFunction: @escaping DidStartAuthSession = {_, _ in },
-         didSaveAuthSessionAsFunction: @escaping DidSaveAuthSession = { },
-         didResumeSessionAsFunction: @escaping DidResumeSession = { }) {
+         didSaveAuthSessionAsFunction: @escaping DidSaveAuthSession = {},
+         didResumeSessionAsFunction: @escaping DidResumeSession = {}) {
         self.sessionManager = sessionManager
         self.didStartAuthSessionAsFunction = didStartAuthSessionAsFunction
         self.didSaveAuthSessionAsFunction = didSaveAuthSessionAsFunction
@@ -303,27 +304,27 @@ final class MockResumeSessionSessionManager: SessionManager {
     func startAuthSession(
         _ session: any LoginSession,
         using configuration: @Sendable (String?) async throws -> LoginSessionConfiguration
-    ) async throws { }
+    ) async throws {}
 
-    func saveAuthSession() throws { }
+    func saveAuthSession() throws {}
 
     func saveLoginTokens(
         idToken: String?,
         refreshToken: String?,
         accessToken: String?,
         accessTokenExpiry: Date?
-    ) throws { }
+    ) throws {}
 
     func resumeSession() async throws {
         // 100ms to 1 second
         try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000))
     }
 
-    func endCurrentSession() { }
+    func endCurrentSession() {}
 
-    func clearAllSessionData(presentSystemLogOut: Bool) async throws { }
+    func clearAllSessionData(presentSystemLogOut: Bool) async throws {}
 
-    func clearAppForLogin() async throws { }
+    func clearAppForLogin() async throws {}
     
-    func assertReturningUserCanLogin() async throws { }
+    func assertReturningUserCanLogin() async throws {}
 }

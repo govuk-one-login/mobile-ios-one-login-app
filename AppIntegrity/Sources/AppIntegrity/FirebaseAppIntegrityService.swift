@@ -3,8 +3,8 @@ import FirebaseCore
 import Networking
 
 public enum AppIntegrityHeaderKey: String {
-    case attestation                    = "OAuth-Client-Attestation"
-    case attestationProofOfPossession   = "OAuth-Client-Attestation-PoP"
+    case attestation = "OAuth-Client-Attestation"
+    case attestationProofOfPossession = "OAuth-Client-Attestation-PoP"
     case demonstratingProofOfPossession = "DPoP"
 }
 

@@ -289,7 +289,6 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_appIntegrityErrorBody1".getWelshString(),
                        "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
-
 }
 
 // swiftlint:enable type_body_length

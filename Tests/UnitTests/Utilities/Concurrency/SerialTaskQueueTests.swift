@@ -49,7 +49,6 @@ class ValueService {
 }
 
 final class ValueManager {
-    
     let valueStore: ValueStore
     let valueService: ValueService
     
@@ -84,7 +83,6 @@ class UnsafeCounter {
 }
 
 struct SerialTaskQueueTests {
-
     /// GIVEN a `SerialTaskQueue`
     /// WHEN an operation is enqueued
     /// AND succesfully finished with value

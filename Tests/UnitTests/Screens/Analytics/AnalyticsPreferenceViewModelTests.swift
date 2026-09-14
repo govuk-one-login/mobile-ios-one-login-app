@@ -37,7 +37,7 @@ extension AnalyticsPreferenceViewModelTests {
     func test_primaryButton() throws {
         var didCallPrimaryButtonAction = false
         
-        let sut =  AnalyticsPreferenceViewModel {
+        let sut = AnalyticsPreferenceViewModel {
             didCallPrimaryButtonAction = true
         }
         secondaryButtonAction: {}
@@ -55,7 +55,7 @@ extension AnalyticsPreferenceViewModelTests {
     func test_secondaryButton_action() {
         var didCallSecondaryButtonAction = false
         
-        let sut =  AnalyticsPreferenceViewModel {}
+        let sut = AnalyticsPreferenceViewModel {}
         secondaryButtonAction: {
             didCallSecondaryButtonAction = true
         }

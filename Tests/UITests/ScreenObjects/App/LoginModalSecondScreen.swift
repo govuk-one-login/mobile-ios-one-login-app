@@ -23,6 +23,5 @@ struct LoginModalSecondScreen: ScreenObject {
         XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout))
         
         return errorScreen
-
     }
 }

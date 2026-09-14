@@ -23,7 +23,6 @@ final class PersistentSessionManager: SessionManager {
         serialTaskQueue: SerialTaskQueue,
         analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData)
     ) throws -> PersistentSessionManager {
-        
         let accessControlEncryptedSecureStoreMigrator
             = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
         

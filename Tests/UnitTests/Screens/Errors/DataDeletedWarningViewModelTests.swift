@@ -39,7 +39,7 @@ extension DataDeletedWarningViewModelTests {
     func test_button() {
         var didCallPrimaryButtonAction = false
         
-        let sut =  DataDeletedWarningViewModel {
+        let sut = DataDeletedWarningViewModel {
             didCallPrimaryButtonAction = true
         }
 

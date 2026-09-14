@@ -59,7 +59,6 @@
 ///
 /// - Note: The `queue` is unbounded, meaning it can never be full and never blocks enqueing an operation.
 final actor SerialTaskQueue {
-    
     typealias Operation<Success> = () async throws -> Success
     private var currentTask: Task<Void, Never>?
     

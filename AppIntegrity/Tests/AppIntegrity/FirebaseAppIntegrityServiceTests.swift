@@ -294,7 +294,6 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             _ = try await sut.clientAssertions
         }
 
-
         #expect(error?.kind == .cantGenerateAttestationProofOfPossessionJWT)
         let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
         #expect(underlyingError.localizedDescription ==
@@ -399,6 +398,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         }
     }
 }
+
 // swiftlint:enable type_body_length
 
 extension ServerError: @retroactive Equatable {

@@ -48,7 +48,6 @@ struct AppIntegrityServiceTests {
         }
         """.utf8)
 
-
         let request = URLRequest.clientAttestation(
             baseURL: baseURL,
             token: UUID().uuidString,

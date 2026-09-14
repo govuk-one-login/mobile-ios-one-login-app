@@ -162,7 +162,6 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
             mockAnalyticsService: mockAnalyticsService
         )
 
-        
         do {
             try await sut.startWebSession()
         } catch {
@@ -404,7 +403,6 @@ struct WebAuthenticationServiceTests {
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
-    
     final class UserSessionData {
         fileprivate var storage: [AnyHashable: Sendable]
         
@@ -442,7 +440,7 @@ struct WalletSessionBoundDataStub: SessionBoundData {
 
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
-    var clearSessionDataAsFunction: ClearSessionDataAsFunction = { }
+    var clearSessionDataAsFunction: ClearSessionDataAsFunction = {}
 
     func clearSessionData() async throws {
         return try await self.clearSessionDataAsFunction()
@@ -454,7 +452,6 @@ extension WebAuthenticationService {
     static func make(sessionManager: SessionManager = MockSessionManager(),
                      mockLoginSession: LoginSession? = nil,
                      mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()) -> WebAuthenticationService {
-        
         let mockLoginSession = mockLoginSession ?? MockAppAuthSession()
         
         return WebAuthenticationService(sessionManager: sessionManager,

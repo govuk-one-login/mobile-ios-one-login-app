@@ -2936,6 +2936,7 @@
 				219601E42A976302008F3427 /* Frameworks */,
 				C86B706C2B8F5EAB00F4C9BF /* Setup Firebase Environment GoogleService-Info.plist */,
 				219601E52A976302008F3427 /* Resources */,
+				C300E7B630584281001C338F /* Run SwiftFormat */,
 				C8BACAF62B4DCC5800530419 /* Copy Settings Bundle */,
 				C803C2212B8F9505008DE774 /* Upload Symbols to Firebase */,
 			);
@@ -3555,6 +3556,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, please run brew install swiftlint\"\nfi\n\n";
+		};
+		C300E7B630584281001C338F /* Run SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftFormat";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"${CONFIGURATION}\" == *\"Debug\"* ]]; then\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n  if which swiftformat > /dev/null; then\n    echo \"Running SwiftFormat...\"\n    swiftformat --config \"$SRCROOT/.swiftformat\" --exclude \"mobile-wallet-ios\" \"$SRCROOT\"\n  else\n    echo \"warning: swiftformat - Not Installed! Install with 'brew install swiftformat' on your terminal\"\n  fi  \nelse \n  echo \"Skipping swiftformat .... (${CONFIGURATION}) \"\nfi\n";
 		};
 		C803C2212B8F9505008DE774 /* Upload Symbols to Firebase */ = {
 			isa = PBXShellScriptBuildPhase;

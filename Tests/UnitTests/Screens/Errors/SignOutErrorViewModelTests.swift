@@ -10,7 +10,7 @@ struct SignOutErrorViewModelTests {
     
     init() {
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
-                                    error: MockWalletError.cantDelete) { }
+                                    error: MockWalletError.cantDelete) {}
     }
     
     @Test

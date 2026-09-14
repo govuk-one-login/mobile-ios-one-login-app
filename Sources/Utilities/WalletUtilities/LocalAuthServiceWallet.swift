@@ -51,7 +51,7 @@ final class LocalAuthServiceWallet: WalletLocalAuthService {
                     } dismissAction: {
                         completion()
                     }
-                    let skippedBiometricsViewController =  GDSScreen(viewModel: viewModel)
+                    let skippedBiometricsViewController = GDSScreen(viewModel: viewModel)
                     biometricsNavigationController.pushViewController(skippedBiometricsViewController, animated: true)
                 }
                 let biometricsEnrolmentScreen = GDSScreen(viewModel: viewModel)

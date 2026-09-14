@@ -1,3 +1,3 @@
 @testable import OneLogin
 
-struct MockBackupDisabler: BackupDisabler { }
+struct MockBackupDisabler: BackupDisabler {}

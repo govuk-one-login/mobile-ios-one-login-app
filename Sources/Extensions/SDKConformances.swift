@@ -15,7 +15,7 @@ extension AuthorizedHTTPLogger: @retroactive WalletTxMALogger {
     }
 }
 
-extension NetworkingService: OneLoginNetworkingService { }
+extension NetworkingService: OneLoginNetworkingService {}
 
 extension WalletNetworkClientWrapper: WalletNetworkClient {
     public func request(_ request: URLRequest) -> any WalletRequestBuilder {
@@ -27,7 +27,7 @@ typealias OneLoginNetworkingService = MPTServicesNetworkClient & IDCheckNetworkC
 
 extension RequestBuilder: @retroactive WalletRequestBuilder {}
 
-extension GAnalytics: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService { }
+extension GAnalytics: @retroactive WalletAnalyticsService, @retroactive IDCheckAnalyticsService {}
 
 typealias OneLoginAnalyticsService = AnalyticsService & WalletAnalyticsService & IDCheckAnalyticsService
 
@@ -38,7 +38,7 @@ extension WalletEnvironment {
             self = .production
         #if DEBUG
         case "debug":
-            self  = .build
+            self = .build
         #endif
         default:
             guard let config = Self.init(rawValue: buildConfiguration) else {
@@ -49,7 +49,7 @@ extension WalletEnvironment {
     }
 }
 
-extension CRIOrchestrator: CRIOrchestration { }
+extension CRIOrchestrator: CRIOrchestration {}
 
 struct OneLoginCRIURLs: CRIURLs {
     let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL

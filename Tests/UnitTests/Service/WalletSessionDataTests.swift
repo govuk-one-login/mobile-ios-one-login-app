@@ -3,7 +3,6 @@ import Testing
 import WalletStore
 
 struct WalletSessionDataTests {
-    
     @Test func assertWalletUnsafeStateThrown() async throws {
         func deleteThrowsWalletUnsafeState() async throws(WalletStoreError) -> [WalletStoreError] {
             throw WalletStoreError(.walletUnsafeState)

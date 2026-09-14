@@ -3,7 +3,6 @@ import Testing
 import WalletStore
 
 struct PersistentSessionErrorTests {
-    
     struct Case: Sendable {
         let error: PersistentSessionError
         let debugDescription: String
@@ -47,5 +46,4 @@ struct PersistentSessionErrorTests {
 
         #expect(!cannotDeleteDataError.isWalletUnsafeState)
     }
-
 }

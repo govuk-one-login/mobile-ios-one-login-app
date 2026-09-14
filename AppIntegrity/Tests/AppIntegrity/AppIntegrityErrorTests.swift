@@ -3,7 +3,6 @@ import GDSUtilities
 import Testing
 
 struct AppIntegrityErrorTests {
-    
     struct Case<Kind: GDSErrorKind>: Sendable {
         let error: AppIntegrityError<Kind>
         let debugDescription: String

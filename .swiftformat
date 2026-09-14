@@ -1,0 +1,20 @@
+--swiftversion 5.9
+
+
+--rules \
+blankLinesBetweenImports, \
+unusedPrivateDeclarations, \
+assertionFailures, \
+blankLineAfterImports, \
+blankLinesBetweenImports, \
+blankLinesAtEndOfScope, \ 
+blankLinesAtStartOfScope, \
+blankLinesBetweenChainedFunctions, \
+blankLinesBetweenScopes, \
+braces, \
+consecutiveBlankLines, \
+consecutiveSpaces, \
+duplicateImports, \
+emptyBraces, \
+emptyExtensions, \
+elseOnSameLine
