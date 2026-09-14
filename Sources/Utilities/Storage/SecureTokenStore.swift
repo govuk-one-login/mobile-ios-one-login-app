@@ -14,15 +14,34 @@ public struct StoredTokens: Codable {
 
 public protocol TokenStore {
     var hasLoginTokens: Bool { get }
+
     func fetch() throws -> StoredTokens
+    func save(using encryptor: Encryptor, tokens: StoredTokens) throws
     func save(tokens: StoredTokens) throws
     func deleteTokens()
 }
 
-final class SecureTokenStore: TokenStore {
-    private let accessControlEncryptedStore: SecureStorable
+extension StoredTokens {
     
-    init(accessControlEncryptedStore: SecureStorable) {
+    public init(base64EncodedJSON: String) throws {
+        guard let tokensAsData = Data(base64Encoded: base64EncodedJSON) else {
+            throw StoredTokenError.unableToDecodeTokens
+        }
+        self = try JSONDecoder().decode(Self.self, from: tokensAsData)
+    }
+    
+    public func base64EncodedJSON() throws -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        let data = try encoder.encode(self)
+        return data.base64EncodedString()
+    }
+}
+
+final class SecureTokenStore: TokenStore {
+    private let accessControlEncryptedStore: EncryptedSecureStorable
+    
+    init(accessControlEncryptedStore: EncryptedSecureStorable) {
         self.accessControlEncryptedStore = accessControlEncryptedStore
     }
     
@@ -32,23 +51,22 @@ final class SecureTokenStore: TokenStore {
     
     func fetch() throws -> StoredTokens {
         let storedTokens = try accessControlEncryptedStore.readItem(itemName: OLString.storedTokens)
-        guard let tokensAsData = Data(base64Encoded: storedTokens) else {
-            throw StoredTokenError.unableToDecodeTokens
-        }
-        return try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
+        return try StoredTokens(base64EncodedJSON: storedTokens)
     }
-    
+
+    func save(using encryptor: Encryptor, tokens: StoredTokens) throws {
+        try accessControlEncryptedStore.save(using: encryptor,
+                                             item: try tokens.base64EncodedJSON(),
+                                             itemName: OLString.storedTokens)
+    }
+
     func save(tokens: StoredTokens) throws {
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .sortedKeys
-        let tokensAsData = try jsonEncoder.encode(tokens)
-        let encodedTokens = tokensAsData.base64EncodedString()
         try accessControlEncryptedStore.saveItem(
-            item: encodedTokens,
+            item: try tokens.base64EncodedJSON(),
             itemName: OLString.storedTokens
         )
     }
-    
+
     func deleteTokens() {
         accessControlEncryptedStore.deleteItem(itemName: OLString.storedTokens)
     }

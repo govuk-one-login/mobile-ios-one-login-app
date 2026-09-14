@@ -159,11 +159,44 @@ struct AccessControlEncryptedSecureStoreManagerTests {
             try sut.readItem()
         }
     }
+    
+    @Test
+    func expectConvenienceNeverThrows() throws {
+        #expect(throws: Never.self) {
+            try AccessControlEncryptedSecureStoreMigrator.make()
+        }
+    }
+    
+    @Test
+    func assertSaveUsingEncryptor() throws {
+        let v13EncryptedSecureStore = MockSecureStoreService()
+        try v13EncryptedSecureStore.saveItem(
+            item: "testV13Item",
+            itemName: OLString.storedTokens
+        )
+
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = AccessControlEncryptedSecureStoreMigrator.make(v13EncryptedSecureStore: v13EncryptedSecureStore,
+                                                                 analyticsService: mockAnalyticsService)
+        sut.hasMigrated = false
+        
+        let item = "testItem"
+        let encryptor = try sut.encryptor()
+        try sut.save(using: encryptor, item: item, itemName: OLString.storedTokens)
+        let actual = try sut.readItem()
+
+        #expect(sut.hasMigrated)
+        #expect(item == actual)
+    }
 }
 
 extension AccessControlEncryptedSecureStoreMigrator {
+    static func make(analyticsService mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService()) throws -> AccessControlEncryptedSecureStoreMigrator {
+        return try AccessControlEncryptedSecureStoreMigrator(analyticsService: mockAnalyticsService)
+    }
+
     static func make(v12EncryptedSecureStore mockV12EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
-                     v13EncryptedSecureStore mockV13EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
+                     v13EncryptedSecureStore mockV13EncryptedSecureStore: EncryptedSecureStorable = MockSecureStoreService(),
                      migrationStore mockMigrationStore: DefaultsStoring = MockDefaultsStore(),
                      analyticsService mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
     ) -> AccessControlEncryptedSecureStoreMigrator {

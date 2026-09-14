@@ -12,7 +12,7 @@ import WalletStore
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
     static func make(
-        accessControlEncryptedSecureStoreMigrator: (any SecureStorable & SessionBoundData)? = nil,
+        accessControlEncryptedSecureStoreMigrator: (any EncryptedSecureStorable & SessionBoundData)? = nil,
         encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
         localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
@@ -28,6 +28,7 @@ final class PersistentSessionManager: SessionManager {
         
         let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
         let manager = PersistentSessionManager(
+            accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
             encryptedStore: encryptedSecureStoreMigrator,
             storeKeyService: SecureTokenStore(
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator
@@ -53,6 +54,7 @@ final class PersistentSessionManager: SessionManager {
         return manager
     }
     
+    private let accessControlEncryptedStore: EncryptedSecureStorable
     private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
     private let unprotectedStore: DefaultsStoring
@@ -72,6 +74,7 @@ final class PersistentSessionManager: SessionManager {
     let serialTaskQueue: SerialTaskQueue
     
     convenience init(
+        accessControlEncryptedStore: EncryptedSecureStorable,
         encryptedStore: SecureStorable,
         storeKeyService: SecureTokenStore,
         analyticsService: OneLoginAnalyticsService,
@@ -79,6 +82,7 @@ final class PersistentSessionManager: SessionManager {
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
     ) {
         self.init(
+            accessControlEncryptedStore: accessControlEncryptedStore,
             encryptedStore: encryptedStore,
             storeKeyService: storeKeyService,
             unprotectedStore: UserDefaults.standard,
@@ -90,6 +94,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     init(
+        accessControlEncryptedStore: EncryptedSecureStorable,
         encryptedStore: SecureStorable,
         storeKeyService: SecureTokenStore,
         unprotectedStore: DefaultsStoring,
@@ -99,6 +104,7 @@ final class PersistentSessionManager: SessionManager {
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
+        self.accessControlEncryptedStore = accessControlEncryptedStore
         self.encryptedStore = encryptedStore
         self.storeKeyService = storeKeyService
         self.unprotectedStore = unprotectedStore
@@ -332,6 +338,7 @@ final class PersistentSessionManager: SessionManager {
         isReturningUser = true
     }
     
+    @MainActor
     func resumeSession() async throws {
         guard hasNotRemovedLocalAuth else {
             // Underlying error here is LAError.passcodeNotSet
@@ -343,7 +350,7 @@ final class PersistentSessionManager: SessionManager {
             throw PersistentSessionError(.noSessionExists)
         }
         
-        return try await self.serialTaskQueue.enqueue {
+        return try await self.serialTaskQueue.enqueue { @MainActor in
             let storedTokens = try self.storeKeyService.fetch()
             
             guard let idToken = storedTokens.idToken,
@@ -365,15 +372,9 @@ final class PersistentSessionManager: SessionManager {
             }
             
             do {
-                let exchangeTokenResponse = try await self.tokenExchangeManager.getUpdatedTokens(
-                    refreshToken: refreshToken
-                )
-                
-                try self.saveLoginTokens(
+                try await self.refreshTokens(
                     idToken: idToken,
-                    refreshToken: exchangeTokenResponse.refreshToken,
-                    accessToken: exchangeTokenResponse.accessToken,
-                    accessTokenExpiry: exchangeTokenResponse.expiryDate
+                    refreshToken: refreshToken,
                 )
             } catch RefreshTokenExchangeError.noInternet {
                 // Enables offline wallet for users that have valid refresh tokens
@@ -382,12 +383,47 @@ final class PersistentSessionManager: SessionManager {
         }
     }
     
-    func saveLoginTokens(
+    @MainActor
+    func refreshTokens(idToken: String, refreshToken: String) async throws {
+        let encryptor = try accessControlEncryptedStore.encryptor()
+        let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
+            refreshToken: refreshToken
+        )
+        try saveLoginTokens(
+            idToken: idToken,
+            refreshToken: exchangeTokenResponse.refreshToken,
+            accessToken: exchangeTokenResponse.accessToken,
+            accessTokenExpiry: exchangeTokenResponse.expiryDate,
+            using: encryptor
+        )
+    }
+    
+    private func saveLoginTokens(
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?,
+        using encryptor: Encryptor
+    ) throws {
+        let tokens = try makeStoredTokens(
+            idToken: idToken,
+            refreshToken: refreshToken,
+            accessToken: accessToken,
+            accessTokenExpiry: accessTokenExpiry
+        )
+        try self.storeKeyService.save(using: encryptor, tokens: tokens)
+        updateStoredTokenState(
+            accessToken: accessToken,
+            accessTokenExpiry: accessTokenExpiry
+        )
+    }
+
+    private func makeStoredTokens(
         idToken: String?,
         refreshToken: String?,
         accessToken: String?,
         accessTokenExpiry: Date?
-    ) throws {
+    ) throws -> StoredTokens {
         if let refreshToken {
             try encryptedStore.saveDate(
                 id: OLString.refreshTokenExpiry,
@@ -397,15 +433,37 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.refreshTokenExpiry)
         }
         
-        let tokens = StoredTokens(
+        return StoredTokens(
             idToken: idToken,
             refreshToken: refreshToken,
             accessToken: accessToken,
             accessTokenExpiry: accessTokenExpiry
         )
-        
+    }
+
+    func saveLoginTokens(
+        idToken: String?,
+        refreshToken: String?,
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) throws {        
+        let tokens = try makeStoredTokens(
+            idToken: idToken,
+            refreshToken: refreshToken,
+            accessToken: accessToken,
+            accessTokenExpiry: accessTokenExpiry
+        )
         try storeKeyService.save(tokens: tokens)
-        
+        updateStoredTokenState(
+            accessToken: accessToken,
+            accessTokenExpiry: accessTokenExpiry
+        )
+    }
+
+    private func updateStoredTokenState(
+        accessToken: String?,
+        accessTokenExpiry: Date?
+    ) {
         tokenProvider.update(
             accessToken: accessToken,
             accessTokenExpiry: accessTokenExpiry

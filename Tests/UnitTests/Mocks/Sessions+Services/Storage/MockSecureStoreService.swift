@@ -1,7 +1,13 @@
 @testable import OneLogin
 import SecureStore
 
-final class MockSecureStoreService: SecureStorable, SessionBoundData {
+public struct NoEncryption: Encryptor {
+    public func encrypt(value: String) throws -> String {
+        return value
+    }
+}
+
+final class MockSecureStoreService: EncryptedSecureStorable, SessionBoundData {
     /// This type can be used to track the number of calls made to a function
     /// - SeeAlso: ``mockClearSessionDataCounter`` on creating a mock with a counter to count the number of times ``SecureStorable/clearSessionData()`` is called
     /// - SeeAlso: ``mockDeleteCounter`` on creating a mock with a counter to count the number of times ``SecureStorable/delete()`` is called
@@ -103,6 +109,22 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         case success
     }
     
+    static func encryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> EncryptorAsFunction {
+        func encryptor() throws -> Encryptor {
+            return NoEncryption()
+        }
+
+        return encryptor
+    }
+
+    static func errorFromEncryptorAsFunction(error: SecureStoreError) -> EncryptorAsFunction {
+        func encryptorAsFunction() throws -> Encryptor {
+            throw error
+        }
+
+        return encryptorAsFunction
+    }
+
     static func readItemAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> ReadItemAsFunction {
         func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {
             guard let item = secureStoreData[itemName] else {
@@ -123,14 +145,70 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         return readItemAsFunction
     }
     
-    static func errorFromSaveItem(_ error: SecureStore.SecureStoreError) -> SaveItemAsFunction {
+    static func saveItemAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> SaveItemAsFunction {
         func saveItemAsFunction(item: String, itemName: String) throws {
+            secureStoreData[itemName] = item
+        }
+
+        return saveItemAsFunction
+    }
+    
+    static func deleteItemAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> DeleteItemAsFunction {
+        func deleteItemAsFunction(itemName: String) {
+            secureStoreData[itemName] = nil
+        }
+
+        return deleteItemAsFunction
+    }
+
+    static func deleteAsFunction() -> DeleteAsFunction {
+        func deleteAsFunction() {}
+
+        return deleteAsFunction
+    }
+
+    static func checkItemExistsAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> CheckItemExistsAsFunction {
+        func checkItemExistsAsFunction(itemName: String) -> Bool {
+            return secureStoreData[itemName] != nil
+        }
+
+        return checkItemExistsAsFunction
+    }
+
+    static func clearSessionDataAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> ClearSessionDataAsFunction {
+        func clearSessionDataAsFunction() {
+            secureStoreData.storage = [:]
+        }
+
+        return clearSessionDataAsFunction
+    }
+    
+    static func errorFromSaveItem(_ error: SecureStoreError) -> SaveItemAsFunction {
+        // swiftlint:disable redundant_void_return
+        func saveItemAsFunction(item: String, itemName: String) throws(SecureStoreError) -> Void {
             throw error
         }
+        // swiftlint:enable redundant_void_return
         
         return saveItemAsFunction
     }
 
+    static func encryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> EncryptorAsFunction {
+        func encryptor() throws -> Encryptor {
+            return NoEncryption()
+        }
+
+        return encryptor
+    }
+
+    static func errorFromEncryptorAsFunction(error: SecureStoreError) -> EncryptorAsFunction {
+        func encryptorAsFunction() throws -> Encryptor {
+            throw error
+        }
+
+        return encryptorAsFunction
+    }
+    
     static func readItemCount(secureStoreData: SecureStoreData, counter: Counter) -> ReadItemAsFunction {
         func readItemAsFunction(itemName: String) throws(SecureStore.SecureStoreError) -> String {
             defer {
@@ -146,6 +224,14 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
 
         return readItemAsFunction
     }
+    
+    static func saveUsingEncryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> SaveUsingEncryptorAsFunction {
+        func saveUsingEncryptorAsFunction(encryptor: Encryptor, item: String, itemName: String) throws {
+            secureStoreData[itemName] = try encryptor.encrypt(value: item)
+        }
+
+        return saveUsingEncryptorAsFunction
+    }
 
     static func deleteCount(counter: Counter) -> DeleteAsFunction {
         return {
@@ -160,6 +246,8 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         }
     }
 
+    typealias EncryptorAsFunction = () throws -> Encryptor
+    typealias SaveUsingEncryptorAsFunction = (Encryptor, String, String) throws -> Void
     typealias SaveItemAsFunction = (String, String) throws -> Void
     typealias ReadItemAsFunction = (String) throws(SecureStoreError) -> String
     typealias DeleteItemAsFunction = (String) -> Void
@@ -167,6 +255,8 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     typealias CheckItemExistsAsFunction = (String) -> Bool
     typealias ClearSessionDataAsFunction = () -> Void
     
+    var encryptorAsFunction: EncryptorAsFunction
+    var saveUsingEncryptorAsFunction: SaveUsingEncryptorAsFunction
     var saveItemAsFunction: SaveItemAsFunction
     var readItemAsFunction: ReadItemAsFunction
     var deleteItemAsFunction: DeleteItemAsFunction
@@ -174,31 +264,43 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     var checkItemExistsAsFunction: CheckItemExistsAsFunction
     var clearSessionDataAsFunction: ClearSessionDataAsFunction
     
-    var savedItems = [String: String]()
-
-    init(saveItemAsFunction: @escaping SaveItemAsFunction = { _, _ in },
-         readItemAsFunction: @escaping ReadItemAsFunction = { _ in "" },
-         deleteItemAsFunction: @escaping DeleteItemAsFunction = { _ in },
-         deleteAsFunction: @escaping DeleteAsFunction = {},
-         clearSessionDataAsFunction: @escaping ClearSessionDataAsFunction = {}) {
-        self.saveItemAsFunction = saveItemAsFunction
-        self.readItemAsFunction = readItemAsFunction
-        self.deleteItemAsFunction = deleteItemAsFunction
-        self.deleteAsFunction = deleteAsFunction
-        self.clearSessionDataAsFunction = clearSessionDataAsFunction
+    let secureStoreData: SecureStoreData
+    
+    var savedItems: [AnyHashable: String] {
+        get {
+            secureStoreData.storage
+        }
+        set {
+            secureStoreData.storage = newValue
+        }
     }
     
+    init(secureStoreData: SecureStoreData = SecureStoreData()) {
+        self.secureStoreData = secureStoreData
+        self.encryptorAsFunction = Self.encryptorAsFunction(secureStoreData: secureStoreData)
+        self.saveUsingEncryptorAsFunction = Self.saveUsingEncryptorAsFunction(secureStoreData: secureStoreData)
+        self.saveItemAsFunction = Self.saveItemAsFunction(secureStoreData: secureStoreData)
+        self.readItemAsFunction = Self.readItemAsFunction(secureStoreData: secureStoreData)
+        self.deleteItemAsFunction = Self.deleteItemAsFunction(secureStoreData: secureStoreData)
+        self.deleteAsFunction = Self.deleteAsFunction()
+        self.checkItemExistsAsFunction = Self.checkItemExistsAsFunction(secureStoreData: secureStoreData)
+        self.clearSessionDataAsFunction = Self.clearSessionDataAsFunction(secureStoreData: secureStoreData)
+    }
+    
+    func encryptor() throws -> Encryptor {
+        return try self.encryptorAsFunction()
+    }
+
+    func save(using encryptor: Encryptor, item: String, itemName: String) throws {
+        try self.saveUsingEncryptorAsFunction(encryptor, item, itemName)
+    }
+
     func saveItem(item: String, itemName: String) throws {
         try self.saveItemAsFunction(item, itemName)
     }
     
-    func readItem(itemName: String) throws(SecureStore.SecureStoreError) -> String {
-        _ = try self.readItemAsFunction(itemName)
-        
-        guard let savedItem = self.savedItems[itemName] else {
-            throw SecureStoreError(.unableToRetrieveFromUserDefaults)
-        }
-        return savedItem
+    func readItem(itemName: String) throws(SecureStoreError) -> String {
+        return try self.readItemAsFunction(itemName)
     }
     
     func deleteItem(itemName: String) {
@@ -212,7 +314,7 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     func checkItemExists(itemName: String) -> Bool {
         return self.checkItemExistsAsFunction(itemName)
     }
-
+    
     func clearSessionData() async throws {
         self.clearSessionDataAsFunction()
     }
@@ -227,7 +329,7 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             switch newValue {
             case .none:
                 _errorFromSaveItem = nil
-                self.saveItemAsFunction = { _, _ in }
+                self.saveItemAsFunction = Self.saveItemAsFunction(secureStoreData: self.secureStoreData)
             case .some(let error):
                 self.saveItemAsFunction = Self.errorFromSaveItem(error)
             }

@@ -1,7 +1,6 @@
 // swiftlint:disable file_length
 import AppIntegrity
 import Authentication
-import LocalAuthentication
 import Logging
 import MockNetworking
 @testable import Networking
@@ -77,6 +76,7 @@ final class PersistentSessionManagerXCTests: XCTestCase {
         mockWalletSDK = MockWalletSDKWrapper()
         
         sut = PersistentSessionManager(
+            accessControlEncryptedStore: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
             storeKeyService: SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedStore),
             unprotectedStore: mockUnprotectedStore,
@@ -1157,17 +1157,23 @@ struct PersistentSessionManagerTests {
         #expect(analyticsService.crashesLogged.isEmpty)
     }
     
-    /// GIVEN I am "a returning user" with stored tokens, who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
-    /// AND `SecureStoreService` throws `SecureStoreError(.systemCancel, originalError: LAError(.systemCancel))`
-    ///     when `saveItem` is called as part of:
-    ///     * `EncryptedSecureStoreMigrator.saveItem(item:itemName)`
-    ///     * `SecureTokenStore.save(tokens:)`
-    ///     * `PersistentSessionManager.saveLoginTokens()`
-    /// WHEN I resume a session
-    /// AND the error is thrown
-    /// THEN I should be able to not encounter a refresh token reuse error
-    @Test(.disabled("Proves a case of refresh token reuse"), .bug("https://govukverify.atlassian.net/browse/DCMAW-21354"))
-    func test_refreshTokenReused_when_saveAuthSession_fails_to_save_tokens_onAccessControlEncryptedStore() async throws {
+    /// This is a case of a call to `resumeSession()` when retrieving the encryptor throws an error,
+    /// which asserts that a refresh token reuse error is not recorded (i.e. happens).
+    ///
+    /// In other words, no refresh token exchange occurs, when an error occurs while attempting to
+    /// resume the user session.
+    @Test(
+        """
+        ON THE CONDITION a SecureStoreService `encryptor`
+            throws a SecureStoreError(.cantRetrieveKey, originalError: errSecInteractionNotAllowed)
+        GIVEN a PersistentSessionManager
+        OF a returning user with stored tokens, who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
+        WHEN calling `resumeSession()`
+        THEN a SecureStoreError(.cantRetrieveKey) is thrown
+        AND the `refreshTokenExchangeManager` received no refresh token
+        """,
+        .bug("https://govukverify.atlassian.net/browse/DCMAW-21354"))
+    func expect_refreshToken_notExchanged_given_keyInteractionNotAllowed_when_resumeSession() async throws {
         let mockAccessControlEncryptedStore: MockSecureStoreService = try .makeWithStoredTokens()
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         
@@ -1175,15 +1181,41 @@ struct PersistentSessionManagerTests {
                                                     accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                     refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
         
-        mockAccessControlEncryptedStore.errorFromSaveItem = SecureStoreError(.systemCancel, originalError: LAError(.systemCancel))
+        let interactionNotAllowed = NSError(
+            domain: NSOSStatusErrorDomain,
+            code: Int(errSecInteractionNotAllowed)
+        )
+        mockAccessControlEncryptedStore.encryptorAsFunction = MockSecureStoreService.errorFromEncryptorAsFunction(
+            error: SecureStoreError(.cantRetrieveKey, originalError: interactionNotAllowed)
+        )
         
         let error = await #expect(throws: SecureStoreError.self) {
-            try await sut.resumeSession()
+            do {
+                try await sut.resumeSession()
+            } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
+                Issue.record(error)
+            }
         }
         
-        #expect(error?.kind == .systemCancel)
+        #expect(error?.kind == .cantRetrieveKey)
+        #expect(mockRefreshTokenExchangeManager.capturedRefreshTokens.count == 0)
+    }
 
-        mockAccessControlEncryptedStore.errorFromSaveItem = nil
+    @Test(
+        """
+        GIVEN a PersistentSessionManager
+        OF a returning user with stored tokens, who is "NOT enrolling" and "NOT authenticated" due to a `nil` `expiryDate`
+        WHEN calling `resumeSession()`
+        AND the `refreshTokenExchangeManager` received a refresh token
+        """,
+        .bug("https://govukverify.atlassian.net/browse/DCMAW-21354"))
+    func expect_refreshToken_exchanged_when_resumeSession() async throws {
+        let mockAccessControlEncryptedStore: MockSecureStoreService = try .makeWithStoredTokens()
+        let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
+
+        let sut: PersistentSessionManager = try .makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
+                                                    accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                    refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
         
         do {
             try await sut.resumeSession()
@@ -1191,7 +1223,7 @@ struct PersistentSessionManagerTests {
             Issue.record(error)
         }
 
-        #expect(mockRefreshTokenExchangeManager.capturedRefreshTokens.count == 2)
+        #expect(mockRefreshTokenExchangeManager.capturedRefreshTokens.count == 1)
     }
 }
 
