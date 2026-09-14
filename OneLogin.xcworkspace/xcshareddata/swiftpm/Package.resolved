@@ -204,7 +204,7 @@
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
         "branch" : "fix/DCMAW-21354",
-        "revision" : "15a2b7de0c10582b43ece8b27f8cab401a3ff10d"
+        "revision" : "4315271f8b2eb7ff918ffeff69dd3c6b2c2a2112"
       }
     },
     {
