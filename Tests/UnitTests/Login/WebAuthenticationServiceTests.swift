@@ -406,17 +406,17 @@ struct WebAuthenticationServiceTests {
 struct WalletSessionBoundDataStub: SessionBoundData {
     
     final class UserSessionData {
-        fileprivate var storage: [AnyHashable: Sendable]
+        fileprivate var storage: [AnyHashable: String]
         
         var isEmpty: Bool {
             self.storage.isEmpty
         }
 
-        init(storage: [AnyHashable: Sendable] = [:]) {
+        init(storage: [AnyHashable: String] = [:]) {
             self.storage = storage
         }
         
-        subscript(key: AnyHashable) -> Sendable? {
+        subscript(key: AnyHashable) -> String? {
             get {
                 storage[key]
             }
@@ -426,7 +426,7 @@ struct WalletSessionBoundDataStub: SessionBoundData {
         }
     }
 
-    static func stubWalletData(_ walletData: [AnyHashable: Sendable]) -> (mockWalletSessionBound: WalletSessionBoundDataStub, walletData: UserSessionData) {
+    static func stubWalletData(_ walletData: [AnyHashable: String]) -> (mockWalletSessionBound: WalletSessionBoundDataStub, walletData: UserSessionData) {
         let walletData = UserSessionData(storage: walletData)
         
         return (mockWalletSessionBound: WalletSessionBoundDataStub(
