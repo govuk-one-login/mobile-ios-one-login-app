@@ -2,8 +2,8 @@
 import SecureStore
 
 public struct NoEncryption: Encryptor {
-    public func encrypt(data: String) throws -> String {
-        return data
+    public func encrypt(value: String) throws -> String {
+        return value
     }
 }
 
@@ -147,7 +147,7 @@ final class MockSecureStoreService: EncryptedSecureStorable, SessionBoundData {
     
     static func saveUsingEncryptorAsFunction(secureStoreData: SecureStoreData = SecureStoreData()) -> SaveUsingEncryptorAsFunction {
         func saveUsingEncryptorAsFunction(encryptor: Encryptor, item: String, itemName: String) throws {
-            secureStoreData[itemName] = try encryptor.encrypt(data: item)
+            secureStoreData[itemName] = try encryptor.encrypt(value: item)
         }
 
         return saveUsingEncryptorAsFunction
