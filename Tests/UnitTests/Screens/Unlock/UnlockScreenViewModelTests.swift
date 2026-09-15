@@ -14,6 +14,7 @@ struct UnlockScreenViewModelTests {
 }
 
 extension UnlockScreenViewModelTests {
+    @Test
     func test_button() {
         var didCallPrimaryButtonAction = false
         let sut = UnlockScreenViewModel(analyticsService: mockAnalyticsService) {
@@ -31,6 +32,7 @@ extension UnlockScreenViewModelTests {
         #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
     }
 
+    @Test
     func test_didAppear() {
         #expect(mockAnalyticsService.screenViews.count == 0)
         sut.didAppear?.perform()

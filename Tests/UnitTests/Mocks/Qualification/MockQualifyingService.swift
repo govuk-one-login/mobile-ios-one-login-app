@@ -8,9 +8,5 @@ final class MockQualifyingService: QualifyingService {
         didCallInitiate = true
     }
     
-    func evaluateUserSession() async {
-        
-    }
-    
-
+    func evaluateUserSession() async {}
 }

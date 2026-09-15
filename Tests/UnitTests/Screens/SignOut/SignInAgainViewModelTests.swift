@@ -13,7 +13,7 @@ struct SignInAgainViewModelTests {
     }
     
     @Test
-    func test_page() throws {
+    func test_page() {
         let title = sut.body.first as? GDSTextViewModel
         #expect(title?.title.stringKey == "app_signInAgainTitle")
         #expect(title?.title.value == "You need to sign in again")

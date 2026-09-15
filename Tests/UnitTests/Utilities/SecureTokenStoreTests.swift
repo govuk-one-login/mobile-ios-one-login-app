@@ -30,7 +30,7 @@ extension SecureTokenStoreTests {
         XCTAssertTrue(sut.hasLoginTokens)
     }
     
-    func test_doesNotHaveLoginTokens() throws {
+    func test_doesNotHaveLoginTokens() {
         mockAccessControlEncryptedSecureStoreMigrator.savedItems = [:]
         XCTAssertFalse(sut.hasLoginTokens)
     }
@@ -74,7 +74,7 @@ extension SecureTokenStoreTests {
         XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [OLString.storedTokens: tokensAsData])
     }
 
-    func test_deletesTokens() throws {
+    func test_deletesTokens() {
         mockAccessControlEncryptedSecureStoreMigrator.savedItems = [OLString.storedTokens: "tokens"]
         sut.deleteTokens()
         XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [:])

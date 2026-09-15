@@ -1,14 +1,12 @@
 import XCTest
 
 class MockNavigationControllerExpectation: UINavigationController {
-    
     typealias PushViewControllerAsFunction = (UIViewController, Bool) -> Void
     typealias PresentAsFunction = (UIViewController, Bool, (() -> Void)?) -> Void
     
     var pushViewControllerAsFunction: PushViewControllerAsFunction
     var presentAsFunction: PresentAsFunction
 
-    
     init(pushViewControllerAsFunction: @escaping PushViewControllerAsFunction = { _, _ in }, presentAsFunction: @escaping PresentAsFunction = { _, _, _ in }) {
         self.pushViewControllerAsFunction = pushViewControllerAsFunction
         self.presentAsFunction = presentAsFunction

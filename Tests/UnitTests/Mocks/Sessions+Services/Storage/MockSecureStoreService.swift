@@ -2,7 +2,6 @@
 import SecureStore
 
 final class MockSecureStoreService: SecureStorable, SessionBoundData {
-
     /// This type can be used to track the number of calls made to a function
     /// - SeeAlso: ``mockClearSessionDataCounter`` on creating a mock with a counter to count the number of times ``SecureStorable/clearSessionData()`` is called
     /// - SeeAlso: ``mockDeleteCounter`` on creating a mock with a counter to count the number of times ``SecureStorable/delete()`` is called
@@ -81,11 +80,9 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     }
     
     static func errorFromSaveItem(_ error: SecureStore.SecureStoreError) -> SaveItemAsFunction {
-        // swiftlint:disable redundant_void_return
-        func saveItemAsFunction(item: String, itemName: String) throws -> Void {
+        func saveItemAsFunction(item: String, itemName: String) throws {
             throw error
         }
-        // swiftlint:enable redundant_void_return
         
         return saveItemAsFunction
     }
@@ -124,7 +121,7 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
     var savedItems = [String: String]()
 
     init(saveItemAsFunction: @escaping SaveItemAsFunction = { _, _ in },
-         readItemAsFunction: @escaping ReadItemAsFunction =  { _ in "" },
+         readItemAsFunction: @escaping ReadItemAsFunction = { _ in "" },
          deleteItemAsFunction: @escaping DeleteItemAsFunction = { _ in },
          deleteAsFunction: @escaping DeleteAsFunction = {},
          clearSessionDataAsFunction: @escaping ClearSessionDataAsFunction = {}) {
@@ -147,7 +144,6 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
             throw SecureStoreError(.unableToRetrieveFromUserDefaults)
         }
         return savedItem
-
     }
     
     func deleteItem(itemName: String) {
@@ -164,7 +160,6 @@ final class MockSecureStoreService: SecureStorable, SessionBoundData {
         return self.savedItems[itemName] != nil
     }
 
-    
     func clearSessionData() async throws {
         self.savedItems = [:]
         self.clearSessionDataAsFunction()

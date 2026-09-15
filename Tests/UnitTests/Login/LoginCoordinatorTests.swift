@@ -207,7 +207,6 @@ extension LoginCoordinatorTests {
 
         // THEN the visible view controller's view model should be the GenericErrorViewModel
         XCTAssertTrue(viewModel is GenericErrorViewModel)
-
     }
     
     func test_launchAuthenticationService_accessDenied() throws {
@@ -446,7 +445,6 @@ extension LoginCoordinatorTests {
 
         // THEN the visible view controller's view model should be the RecoverableLoginErrorViewModel
         XCTAssertTrue(viewModel is RecoverableLoginErrorViewModel)
-
     }
     
     func test_launchAuthenticationService_jwtVerifyError() throws {

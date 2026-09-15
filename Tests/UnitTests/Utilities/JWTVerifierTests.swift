@@ -85,7 +85,6 @@ final class JWTVerifierTests: XCTestCase {
         }
         
         await fulfillment(of: [exp], timeout: 3)
-
     }
     
     func test_verifyNoMatchingKIDs() async throws {

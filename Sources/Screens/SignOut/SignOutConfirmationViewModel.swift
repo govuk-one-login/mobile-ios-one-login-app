@@ -41,12 +41,12 @@ struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_signOutAndDeleteAppDataButton").value,
                                    style: .destructive,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        let event = ButtonEvent(textKey: "app_signOutAndDeleteAppDataButton")
                                        analyticsService.logEvent(event)
                                        
                                        action()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
@@ -54,16 +54,16 @@ struct SignOutConfirmationViewModel: GDSLeftAlignedViewModel {
             rightBarButtonTitle: "app_cancelButton",
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ScreenView(id: SettingsAnalyticsScreenID.signOutScreen.rawValue,
                                         screen: SettingsAnalyticsScreen.signOutScreen,
                                         titleKey: "app_signOutErrorTitle")
                 analyticsService.trackScreen(screen)
-            }),
-            didDismiss: .action({
+            },
+            didDismiss: .action {
                 let event = ButtonEvent(textKey: "app_cancelButton")
                 analyticsService.logEvent(event)
-            })
+            }
         )
     }
     

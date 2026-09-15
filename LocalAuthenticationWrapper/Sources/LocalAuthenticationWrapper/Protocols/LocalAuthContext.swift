@@ -10,4 +10,4 @@ protocol LocalAuthContext: AnyObject {
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String) async throws -> Bool
 }
 
-extension LAContext: LocalAuthContext { }
+extension LAContext: LocalAuthContext {}

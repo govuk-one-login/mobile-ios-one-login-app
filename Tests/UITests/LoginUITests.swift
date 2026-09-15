@@ -1,7 +1,6 @@
 import XCTest
 
 final class LoginUITests: XCTestCase {
-    
     override func setUp() {
         continueAfterFailure = false
     }

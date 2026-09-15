@@ -12,7 +12,8 @@ struct DataDeletedWarningViewModelTests {
 }
 
 extension DataDeletedWarningViewModelTests {
-    func test_page() throws {
+    @Test
+    func test_page() {
         let errorView = sut.body.first as? GDSErrorIconTitleViewModel
         let bodyText = sut.body[1] as? GDSTextViewModel
         
@@ -36,10 +37,11 @@ extension DataDeletedWarningViewModelTests {
         #expect(sut.didAppear == nil)
     }
     
+    @Test
     func test_button() {
         var didCallPrimaryButtonAction = false
         
-        let sut =  DataDeletedWarningViewModel {
+        let sut = DataDeletedWarningViewModel {
             didCallPrimaryButtonAction = true
         }
 

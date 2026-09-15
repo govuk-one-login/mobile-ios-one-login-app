@@ -6,7 +6,7 @@ final class UniversalLinkQualifierTests: XCTestCase {
 }
 
 extension UniversalLinkQualifierTests {
-    func test_loginUniversalLinkBaseRedirectURI() throws {
+    func test_loginUniversalLinkBaseRedirectURI() {
         let oneLoginRedirectUrl = URL(string: AppEnvironment.mobileRedirect.absoluteString + "?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
         if case let .login(url) = appRoute {
@@ -16,7 +16,7 @@ extension UniversalLinkQualifierTests {
         }
     }
     
-    func test_loginUniversalLinkAlternateRedirectURI() throws {
+    func test_loginUniversalLinkAlternateRedirectURI() {
         let oneLoginRedirectUrl = URL(string: "https://app.mobile.account.gov.uk/redirect?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginRedirectUrl)
         
@@ -28,7 +28,7 @@ extension UniversalLinkQualifierTests {
         }
     }
 
-    func test_walletUniversalLink_last() throws {
+    func test_walletUniversalLink_last() {
         let oneLoginWalletUrl = URL(string: "https://mobile.account.gov.uk/wallet?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginWalletUrl)
         if case .wallet = appRoute {
@@ -38,7 +38,7 @@ extension UniversalLinkQualifierTests {
         }
     }
 
-    func test_walletUniversalLink_any() throws {
+    func test_walletUniversalLink_any() {
         let oneLoginWalletUrl = URL(string: "https://mobile.account.gov.uk/wallet/test/paths?code=testCode")!
         let appRoute = sut.qualifyOneLoginUniversalLink(oneLoginWalletUrl)
         if case .wallet = appRoute {

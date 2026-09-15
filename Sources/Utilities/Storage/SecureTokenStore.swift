@@ -35,8 +35,7 @@ final class SecureTokenStore: TokenStore {
         guard let tokensAsData = Data(base64Encoded: storedTokens) else {
             throw StoredTokenError.unableToDecodeTokens
         }
-        let decodedTokens = try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
-        return decodedTokens
+        return try JSONDecoder().decode(StoredTokens.self, from: tokensAsData)
     }
     
     func save(tokens: StoredTokens) throws {

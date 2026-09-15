@@ -34,7 +34,7 @@ final class SceneLifecycleTests: XCTestCase {
 }
 
 extension SceneLifecycleTests {
-    func test_splashscreen_analytics() throws {
+    func test_splashscreen_analytics() {
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
         sut.trackSplashScreen()
         XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)

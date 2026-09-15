@@ -1,3 +1,3 @@
 import Networking
 
-extension NetworkClient: MPTServicesNetworkClient { }
+extension NetworkClient: MPTServicesNetworkClient {}

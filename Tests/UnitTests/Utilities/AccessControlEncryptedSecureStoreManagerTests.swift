@@ -162,19 +162,16 @@ struct AccessControlEncryptedSecureStoreManagerTests {
 }
 
 extension AccessControlEncryptedSecureStoreMigrator {
-    
     static func make(v12EncryptedSecureStore mockV12EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
                      v13EncryptedSecureStore mockV13EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
                      migrationStore mockMigrationStore: DefaultsStoring = MockDefaultsStore(),
                      analyticsService mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
     ) -> AccessControlEncryptedSecureStoreMigrator {
-        
         return AccessControlEncryptedSecureStoreMigrator(
             v12AccessControlEncryptedSecureStore: mockV12EncryptedSecureStore,
             v13AccessControlEncryptedSecureStore: mockV13EncryptedSecureStore,
             migrationStore: mockMigrationStore,
             analyticsService: mockAnalyticsService
         )
-
     }
 }

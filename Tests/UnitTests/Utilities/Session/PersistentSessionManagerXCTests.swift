@@ -21,7 +21,6 @@ struct SessionBoundDataExpectation: SessionBoundData {
 }
 
 extension PersistentSessionManager {
-    
     /// Creates a `PersistentSessionManager` with the following conditions:
     /// * `isEnrolling = false`
     /// * `persistentID = nil` i.e. not stored in the `encryptedStore`
@@ -38,7 +37,6 @@ extension PersistentSessionManager {
                      walletSessionData: SessionBoundData = WalletSessionData(),
                      refreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
                      analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()) throws -> PersistentSessionManager {
-                
         return try .make(
             accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
             encryptedStore: mockEncryptedStore,
@@ -579,7 +577,6 @@ extension PersistentSessionManagerXCTests {
     
     @MainActor
     func test_saveSession_doesNotRefreshSecureStoreManager() async throws {
-        
         let (mockAccessControlEncryptedStore, mockAccessControlEncryptedStoreClearSessionData) = MockSecureStoreService.mockClearSessionDataCounter()
         try mockAccessControlEncryptedStore.saveItem(
             item: "storedTokens",
@@ -1011,7 +1008,6 @@ extension PersistentSessionManagerXCTests {
 }
 
 struct PersistentSessionManagerTests {
-
     @Test(
         """
         ON THE CONDITION a SecureStoreService throws a SecureStoreError(.cantDecryptData)

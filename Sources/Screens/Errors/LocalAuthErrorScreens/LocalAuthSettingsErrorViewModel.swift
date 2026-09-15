@@ -62,7 +62,7 @@ struct LocalAuthSettingsErrorViewModel: GDSLeftAlignedViewModel {
             rightBarButtonTitle: "app_cancelButton",
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let id: String
                 let screen: ErrorAnalyticsScreen
                 
@@ -77,12 +77,12 @@ struct LocalAuthSettingsErrorViewModel: GDSLeftAlignedViewModel {
                                                  screen: screen,
                                                  titleKey: "app_localAuthManagerErrorTitle")
                 analyticsService.trackScreen(screenView)
-            }),
-            didDismiss: .action({
+            },
+            didDismiss: .action {
                 completion?()
                 let event = IconEvent(textKey: "cancel")
                 analyticsService.logEvent(event)
-            })
+            }
         )
     }
     
