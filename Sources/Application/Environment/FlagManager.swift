@@ -20,7 +20,7 @@ struct FlagManager {
         do {
             flagsFromFile = try JSONDecoder()
                 .decode([Flag].self, from: jsonData)
-                .reduce(into: [String: Flaggable]()) { (dictionary, flag) in
+                .reduce(into: [String: Flaggable]()) { dictionary, flag in
                     dictionary[flag.name] = flag
                 }
         } catch {
@@ -46,7 +46,7 @@ extension FlagManager: FeatureFlagProvider {
     }
 }
 
-extension Dictionary: FeatureFlagProvider where Key == String, Value == Any { }
+extension Dictionary: FeatureFlagProvider where Key == String, Value == Any {}
 
 extension UserDefaults: FeatureFlagProvider {
     subscript(key: String) -> Any? {

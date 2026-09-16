@@ -2,7 +2,6 @@ import Foundation
 @testable import OneLogin
 
 class MockDefaultsStore: DefaultsStoring, SessionBoundData {
-    
     static func firstTimeUser() -> MockDefaultsStore {
         let unprotectedStore = MockDefaultsStore()
         unprotectedStore.set(false, forKey: OLString.returningUser)

@@ -43,7 +43,7 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_extendedSignInButton", "app_nameString").value,
                                    style: .primary,
-                                   buttonAction: .asyncAction({
+                                   buttonAction: .asyncAction {
                                        let event = LinkEvent(textKey: "app_extendedSignInButton",
                                                              variableKeys: "app_nameString",
                                                              linkDomain: AppEnvironment.mobileBaseURLString,
@@ -52,7 +52,7 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
                                        
                                        let task = signinAction()
                                        await task?.value
-                                   }),
+                                   },
                                    accessibilityIdentifier: "intro-button",
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
@@ -61,12 +61,12 @@ struct OneLoginIntroViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ScreenView(id: IntroAnalyticsScreenID.welcome.rawValue,
                                         screen: IntroAnalyticsScreen.welcome,
                                         titleKey: "app_nameString")
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

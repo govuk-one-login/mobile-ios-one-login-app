@@ -58,7 +58,6 @@ final class MockLoginSessionNoRefresh: LoginSession {
 }
 
 final class MockAppAuthSession: LoginSession {
-    
     typealias PerformLoginFlowAsFunction = (LoginSessionConfiguration) async throws -> TokenResponse
     typealias FinaliseAsFunction = (URL) throws -> Void
     

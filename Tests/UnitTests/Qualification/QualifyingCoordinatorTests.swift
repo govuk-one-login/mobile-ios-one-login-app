@@ -48,7 +48,7 @@ final class QualifyingCoordinatorTests: XCTestCase {
 // MARK: - App State updates
 extension QualifyingCoordinatorTests {
     @MainActor
-    func test_start_displaysLoadingScreen() throws {
+    func test_start_displaysLoadingScreen() {
         // GIVEN I open the app
         sut.start()
         // THEN there should be no screen on the app window
@@ -56,7 +56,7 @@ extension QualifyingCoordinatorTests {
     }
     
     @MainActor
-    func test_unconfirmedApp_remainsOnLoadingScreen() throws {
+    func test_unconfirmedApp_remainsOnLoadingScreen() {
         // GIVEN I reopen the app
         // WHEN I have not yet received a result from `appInfo`
         sut.didChangeAppInfoState(state: .notChecked)

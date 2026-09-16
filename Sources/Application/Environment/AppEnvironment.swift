@@ -213,7 +213,6 @@ extension AppEnvironment {
 // MARK: - Settings Page URLs
     
 extension AppEnvironment {
-    
     static var govURL: URL {
         var components = URLComponents()
         components.scheme = "https"

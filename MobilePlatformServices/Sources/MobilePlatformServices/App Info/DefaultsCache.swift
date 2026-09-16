@@ -5,4 +5,4 @@ protocol DefaultsCache {
     func data(forKey key: String) -> Data?
 }
 
-extension UserDefaults: DefaultsCache { }
+extension UserDefaults: DefaultsCache {}

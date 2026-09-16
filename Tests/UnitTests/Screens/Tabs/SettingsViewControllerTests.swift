@@ -22,8 +22,8 @@ struct SettingsViewControllerTests {
         viewModel = SettingsTabViewModel(analyticsService: mockAnalyticsService,
                                          userProvider: mockSessionManager,
                                          urlOpener: mockUrlOpener,
-                                         openSignOutPage: { },
-                                         openDeveloperMenu: { })
+                                         openSignOutPage: {},
+                                         openDeveloperMenu: {})
         sut = SettingsViewController(viewModel: viewModel,
                                      userProvider: mockSessionManager,
                                      analyticsPreference: mockAnalyticsPreference)
@@ -42,7 +42,7 @@ extension SettingsViewControllerTests {
     }
     
     @Test
-    func test_navigationViewBackgroundColour() throws {
+    func test_navigationViewBackgroundColour() {
         #expect(sut.view.backgroundColor == .systemBackground)
     }
     
@@ -53,7 +53,7 @@ extension SettingsViewControllerTests {
                                          userProvider: mockSessionManager,
                                          urlOpener: mockUrlOpener,
                                          openSignOutPage: { didTapRow = true },
-                                         openDeveloperMenu: { })
+                                         openDeveloperMenu: {})
         let sut = SettingsViewController(viewModel: viewModel,
                                      userProvider: mockSessionManager,
                                      analyticsPreference: mockAnalyticsPreference)
@@ -107,7 +107,7 @@ extension SettingsViewControllerTests {
         #expect(headerLabel.lineBreakMode == .byWordWrapping)
         #expect(headerLabel.font == .footnote)
         #expect(headerLabel.textColor == .secondaryLabel)
-        #expect(headerLabel.adjustsFontForContentSizeCategory ==  true                           )
+        #expect(headerLabel.adjustsFontForContentSizeCategory == true)
     }
     
     @Test

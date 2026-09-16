@@ -33,9 +33,9 @@ struct SignOutSuccessfulViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_continueButton").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        buttonAction()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],

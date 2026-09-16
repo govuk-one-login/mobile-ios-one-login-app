@@ -1,7 +1,6 @@
 import Coordination
 
 class MockChildCoordinatorExpectation: ChildCoordinator {
-
     weak var parentCoordinator: (any Coordination.ParentCoordinator)?
 
     typealias StartAsFunction = () -> Void

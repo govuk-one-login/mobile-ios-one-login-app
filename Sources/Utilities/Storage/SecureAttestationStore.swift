@@ -17,7 +17,6 @@ enum AttestationStorageError: Error {
 ///
 /// - SeeAlso: ``SecureStorable``
 final class SecureAttestationStore: AttestationStorage {
-    
     /// Returns a new ``SecureAttestationStore`` with the given `secureStore`.
     /// The ``SecureAttestationStore`` instance guarantees that any existing data stored in the given `secureStore`  is accessible.
     ///
@@ -33,7 +32,6 @@ final class SecureAttestationStore: AttestationStorage {
             accessControlLevel: .open
         )
     )) -> SecureAttestationStore {
-        
         let secureAttestationStore = SecureAttestationStore(secureStore: secureStore)
         
         let attestationJWT = Result {

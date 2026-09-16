@@ -3,7 +3,6 @@ import Testing
 import WalletStore
 
 struct WalletSessionDataTests {
-    
     @Test func assertWalletUnsafeStateThrown() async throws {
         func deleteThrowsWalletUnsafeState() async throws(WalletStoreError) -> [WalletStoreError] {
             throw WalletStoreError(.walletUnsafeState)
@@ -22,12 +21,10 @@ struct WalletSessionDataTests {
     
     @Test func assertErrorsNotThrown() async throws {
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 WalletStoreError(.updateDocumentExpiryDate),
                 WalletStoreError(.updateValid)
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
@@ -44,12 +41,10 @@ struct WalletSessionDataTests {
         let second: WalletStoreError = WalletStoreError(.updateValid)
         
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 first,
                 second
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
@@ -144,11 +139,9 @@ struct WalletSessionDataTests {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 error
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
@@ -167,11 +160,9 @@ struct WalletSessionDataTests {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 error
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
@@ -191,11 +182,9 @@ struct WalletSessionDataTests {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 error
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
@@ -219,11 +208,9 @@ struct WalletSessionDataTests {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 error
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
@@ -247,11 +234,9 @@ struct WalletSessionDataTests {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
         func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
-            let anyOtherThanWalletUnsafeStateErrors = [
+            return [
                 error
             ]
-            
-            return anyOtherThanWalletUnsafeStateErrors
         }
         
         let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)

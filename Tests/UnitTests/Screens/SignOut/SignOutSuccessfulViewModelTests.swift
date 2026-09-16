@@ -32,7 +32,7 @@ extension SignOutSuccessfulViewModelTests {
     }
     
     @Test
-    func test_button() throws {
+    func test_button() {
         var didCallPrimaryButtonAction = false
         
         let sut = SignOutSuccessfulViewModel {

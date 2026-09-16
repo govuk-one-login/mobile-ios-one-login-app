@@ -21,9 +21,8 @@ final class PersistentSessionManager: SessionManager {
         walletSessionData: SessionBoundData = WalletSessionData(),
         refreshTokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue,
-        analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData)
+        analyticsPreferenceStore: any AnalyticsPreferenceStore & SessionBoundData
     ) throws -> PersistentSessionManager {
-        
         let accessControlEncryptedSecureStoreMigrator
             = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
         
@@ -426,7 +425,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     func clearAppForLogin() async throws {
-        let excludingUserDefaultsPreferenceStore = sessionBoundData.filter { type(of: $0 ) != UserDefaultsPreferenceStore.self }
+        let excludingUserDefaultsPreferenceStore = sessionBoundData.filter { type(of: $0) != UserDefaultsPreferenceStore.self }
         try await self.clearSessionData(in: excludingUserDefaultsPreferenceStore, presentSystemLogOut: false)
     }
 

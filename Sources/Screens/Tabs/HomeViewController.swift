@@ -243,12 +243,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
                     
                     GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_appPurposeTileButton").value,
                                        style: .secondary.adjusting(alignment: .leading),
-                                       buttonAction: .action({
+                                       buttonAction: .action {
                                            let event = ButtonEvent(textKey: "app_appPurposeTileButton")
                                            self.analyticsService.logEvent(event)
                                            
                                            self.openProveIdentityGuidancePage()
-                                       }))
+                                       })
                 ]
             }
         )

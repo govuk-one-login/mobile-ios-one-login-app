@@ -44,12 +44,12 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_tryAgainButton").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        let event = ButtonEvent(textKey: "app_tryAgainButton")
                                        analyticsService.logEvent(event)
                                        
                                        action()
-                                   }),
+                                   },
                                    accessibilityIdentifier: "error-screen-button-0",
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
@@ -58,13 +58,13 @@ struct RecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.recoverableLoginError.rawValue,
                                              screen: ErrorAnalyticsScreen.recoverablLoginError,
                                              titleKey: "app_signInErrorTitle",
                                              reason: errorDescription)
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
         self.errorDescription = errorDescription

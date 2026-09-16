@@ -36,7 +36,7 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_extendedSignInButton", "app_nameString").value,
                                    style: .primary,
-                                   buttonAction: .asyncAction({
+                                   buttonAction: .asyncAction {
                                        let event = LinkEvent(textKey: "app_extendedSignInButton",
                                                                     variableKeys: "app_nameString",
                                                                     linkDomain: AppEnvironment.mobileBaseURLString,
@@ -45,7 +45,7 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
                                        
                                        let task = action()
                                        await task?.value
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
@@ -53,12 +53,12 @@ struct SignInAgainViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ScreenView(id: IntroAnalyticsScreenID.signInAgain.rawValue,
                                         screen: IntroAnalyticsScreen.signInAgain,
                                         titleKey: "app_signInAgainTitle")
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

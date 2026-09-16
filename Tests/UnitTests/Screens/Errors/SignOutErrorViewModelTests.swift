@@ -10,11 +10,11 @@ struct SignOutErrorViewModelTests {
     
     init() {
         sut = SignOutErrorViewModel(analyticsService: mockAnalyticsService,
-                                    error: MockWalletError.cantDelete) { }
+                                    error: MockWalletError.cantDelete) {}
     }
     
     @Test
-    func test_page() throws {
+    func test_page() {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         #expect(title?.icon == .error)
         #expect(title?.errorTitle.title.stringKey == "app_signOutErrorTitle")

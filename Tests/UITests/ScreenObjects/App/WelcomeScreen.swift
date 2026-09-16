@@ -1,7 +1,6 @@
 import XCTest
 
 struct WelcomeScreen: ScreenObject {
-    
     static func make() throws -> WelcomeScreen {
         let app = XCUIApplication()
         let welcomeScreen = WelcomeScreen(app: app)
@@ -55,7 +54,6 @@ struct WelcomeScreen: ScreenObject {
         }
     }
 
-    
     func tapLoginButton() -> LoginModal {
         signInButton.tap()
         

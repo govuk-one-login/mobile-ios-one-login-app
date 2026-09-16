@@ -13,10 +13,6 @@ struct DeveloperMenuViewControllerTests {
     private var sut: DeveloperMenuViewController!
     private var mockHelloWorldService: MockHelloWorldService!
 
-    private var didCallAccessTokenInvalid: Bool = false
-
-    private var requestFinished = false
-
     init() {
         AppEnvironment.updateFlags(
             releaseFlags: [:],

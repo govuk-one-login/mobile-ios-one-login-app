@@ -62,7 +62,7 @@ extension TabManagerCoordinatorTests {
         XCTAssertTrue(sut.root.selectedIndex == 1)
     }
     
-    func test_tabSwitching() async throws {
+    func test_tabSwitching() async {
         sut.start()
         await sut.addTabTask?.value
         // start with home tab selected

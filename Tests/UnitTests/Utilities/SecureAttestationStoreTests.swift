@@ -36,7 +36,7 @@ struct SecureAttestationStoreTests: ~Copyable {
     }
     
     @Test
-    func attestationMissing() throws {
+    func attestationMissing() {
         #expect(sut.attestationExpired)
     }
     

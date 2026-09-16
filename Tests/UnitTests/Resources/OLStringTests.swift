@@ -2,7 +2,7 @@
 import XCTest
 
 final class OLStringTests: XCTestCase {
-    func test_tokenAndLogin_strings() throws {
+    func test_tokenAndLogin_strings() {
         // Store IDs
         XCTAssertEqual(OLString.v12TokensStore, "oneLoginTokens")
         XCTAssertEqual(OLString.v13TokensStore, "oneLoginTokenStore")

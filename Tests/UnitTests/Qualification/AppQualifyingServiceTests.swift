@@ -10,11 +10,9 @@ import WalletStore
 import XCTest
 
 extension AppQualifyingService {
-    
     static func make(analyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
                      appInformationProvider: AppInformationProvider = MockAppInformationService(),
                      sessionManager: SessionManager = MockSessionManager()) -> AppQualifyingService {
-        
         return AppQualifyingService(analyticsService: analyticsService,
                                     updateService: appInformationProvider,
                                     sessionManager: sessionManager)
@@ -24,7 +22,6 @@ extension AppQualifyingService {
 // MARK: - App Info Requests
 @MainActor
 final class AppQualifyingServiceXCTests: XCTestCase {
-    
     func test_appInfoIsRequested() {
         let expectation = expectation(description: #function)
         let mockAppInformationService = MockAppInformationService()
@@ -134,7 +131,6 @@ final class AppQualifyingServiceXCTests: XCTestCase {
 
 @MainActor
 struct AppQualifyingServiceTests {
-    
     @Test(
         """
         ON THE CONDITION a call to SessionManager/assertReturningUserCanLogin
@@ -1002,7 +998,6 @@ extension AppQualifyingServiceXCTests {
 
 // MARK: - Subscription Tests
 extension AppQualifyingServiceXCTests {
-    
     func test_enrolmentComplete_changesSessionState() {
         let appInformationProvider = MockAppInformationService()
         appInformationProvider.errorFromFetchAppInfo = AppInfoError.invalidResponse
@@ -1105,7 +1100,6 @@ extension AppQualifyingServiceXCTests {
 
 @MainActor
 class MockAppQualifyingServiceDelegate: AppQualifyingServiceDelegate {
-    
     typealias DidChangeAppInfoState = (AppInformationState) -> Void
     typealias DidChangeSessionState = (AppSessionState) -> Void
     typealias DidChangeServiceState = (RemoteServiceState) -> Void

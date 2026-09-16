@@ -1,3 +1,3 @@
 import Networking
 
-extension NetworkClient: AppIntegrityNetworkClient { }
+extension NetworkClient: AppIntegrityNetworkClient {}
