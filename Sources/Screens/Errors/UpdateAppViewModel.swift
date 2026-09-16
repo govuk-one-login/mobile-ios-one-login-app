@@ -31,16 +31,13 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
         self.init(
             screenStyle: .centred,
             body: [
-                GDSImageViewModel(image: image ?? UIImage(),
-                                  imageColour: DesignSystem.Color.Text.primary,
-                                  contentMode: .scaleAspectFit,
-                                  imageFixedHeight: 100,
-                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
-                GDSTextViewModel(title: "app_updateAppTitle",
-                                 titleFont: .largeTitleBold,
-                                 alignment: .center,
-                                 accessibilityTraits: .header,
-                                 verticalPadding: .bottom(DesignSystem.Spacing.default)),
+                GDSErrorIconTitleViewModel(
+                    icon: .update,
+                    errorTitle: GDSTextViewModel(title: "app_updateAppTitle",
+                                                 titleFont: .largeTitleBold,
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
+                ),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_updateAppBody",
                                                            "app_nameString"),
                                  alignment: .center,
