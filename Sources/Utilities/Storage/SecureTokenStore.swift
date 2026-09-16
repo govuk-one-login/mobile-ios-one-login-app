@@ -22,7 +22,6 @@ public protocol TokenStore {
 }
 
 extension StoredTokens {
-    
     public init(base64EncodedJSON: String) throws {
         guard let tokensAsData = Data(base64Encoded: base64EncodedJSON) else {
             throw StoredTokenError.unableToDecodeTokens
