@@ -40,9 +40,10 @@ protocol SessionManager: AnyObject, UserProvider {
     @MainActor
     func resumeSession() async throws
 
-    /// Perform a refresh token exchange for the given `idToken` using the given `refreshToken`.
+    /// Perform a refresh token exchange for the current session using the given `refreshToken`.
     ///
-    /// Upon a succesful refresh token exchange, the login tokens will be saved for the given token id.
+    /// Upon a successful refresh token exchange, the refreshed `accessToken` and `refreshToken`
+    /// for this session will be saved with the `idToken`.
     ///
     /// - Parameters:
     ///     - idToken: the associated token id for which to perform the refresh token exchange
