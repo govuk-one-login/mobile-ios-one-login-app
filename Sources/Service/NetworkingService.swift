@@ -33,7 +33,7 @@ final class NetworkingService: NetworkClientProtocol {
                 return try await self.serialTaskQueue.enqueue { @MainActor in
                     if let tokens = try self.sessionManager.validTokensForRefreshExchange {
                         // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
-                        try await self.sessionManager.refreshTokens(
+                        try await self.sessionManager.updateRefreshToken(
                             idToken: tokens.idToken,
                             refreshToken: tokens.refreshToken
                         )

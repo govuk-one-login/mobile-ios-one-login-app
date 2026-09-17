@@ -374,7 +374,7 @@ final class PersistentSessionManager: SessionManager {
             }
             
             do {
-                try await self.refreshTokens(
+                try await self.updateRefreshToken(
                     idToken: idToken,
                     refreshToken: refreshToken,
                 )
@@ -386,7 +386,7 @@ final class PersistentSessionManager: SessionManager {
     }
     
     @MainActor
-    func refreshTokens(idToken: String, refreshToken: String) async throws {
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {
         let encryptor = try accessControlEncryptedStore.encryptor()
         let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken

@@ -55,7 +55,7 @@ protocol SessionManager: AnyObject, UserProvider {
     /// - SeeAlso: ``TokenExchangeManaging/getUpdatedTokens(refreshToken:)`` on what a refresh token exchange entails.
     /// - SeeAlso: ``TokenStore`` on how to retrieve the saved tokens
     @MainActor
-    func refreshTokens(idToken: String, refreshToken: String) async throws
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws
     
     /// Ends the current session - removing and deleting session related data such as access and ID token
     func endCurrentSession()

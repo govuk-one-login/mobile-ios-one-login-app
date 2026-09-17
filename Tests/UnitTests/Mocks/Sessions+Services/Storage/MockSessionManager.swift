@@ -100,7 +100,7 @@ final class MockSessionManager: SessionManager {
     }
     
     @MainActor
-    func refreshTokens(idToken: String, refreshToken: String) async throws {
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {
         defer {
             didCallRefreshTokens = true
         }
@@ -254,9 +254,9 @@ class MockSessionManagerExpectation: SessionManager {
     }
     
     @MainActor
-    func refreshTokens(idToken: String, refreshToken: String) async throws {
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {
         try await self.didRefreshTokensAsFunction(idToken, refreshToken)
-        try await sessionManager.refreshTokens(idToken: idToken, refreshToken: refreshToken)
+        try await sessionManager.updateRefreshToken(idToken: idToken, refreshToken: refreshToken)
     }
     
     func endCurrentSession() {
@@ -343,7 +343,7 @@ final class MockResumeSessionSessionManager: SessionManager {
     }
 
     @MainActor
-    func refreshTokens(idToken: String, refreshToken: String) async throws {}
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {}
     
     func endCurrentSession() {}
 
