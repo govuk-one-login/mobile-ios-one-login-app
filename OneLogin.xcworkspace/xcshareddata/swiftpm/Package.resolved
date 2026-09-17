@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "branch" : "feat/dcmaw-23467-update-component",
-        "revision" : "b53811c34ee1fa40d91a515719b13acebd90eaee"
+        "revision" : "c0a9e8b798552a152309ecb8734e9afb7d14fab2",
+        "version" : "2.3.0"
       }
     },
     {
