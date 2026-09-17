@@ -22,9 +22,7 @@
 		1E88606F2EC4A9E700364BCF /* MockRefreshTokenExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */; };
 		1E88C6E1302F2FF300DF5D9D /* test_genericError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C673302F2FF300DF5D9D /* test_genericError.12.png */; };
 		1E88C6E2302F2FF300DF5D9D /* test_recoverableLoginError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6B9302F2FF300DF5D9D /* test_recoverableLoginError.10.png */; };
-		1E88C6E3302F2FF300DF5D9D /* test_updateAppError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6DF302F2FF300DF5D9D /* test_updateAppError.12.png */; };
 		1E88C6E4302F2FF300DF5D9D /* test_unrecoverableLoginError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D2302F2FF300DF5D9D /* test_unrecoverableLoginError.11.png */; };
-		1E88C6E5302F2FF300DF5D9D /* test_updateAppError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D8302F2FF300DF5D9D /* test_updateAppError.5.png */; };
 		1E88C6E6302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6A3302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.12.png */; };
 		1E88C6E7302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C695302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.10.png */; };
 		1E88C6E8302F2FF300DF5D9D /* test_dataDeletedWarning.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C665302F2FF300DF5D9D /* test_dataDeletedWarning.10.png */; };
@@ -56,9 +54,7 @@
 		1E88C702302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C68F302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.4.png */; };
 		1E88C703302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C679302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.6.png */; };
 		1E88C704302F2FF300DF5D9D /* test_dataDeletedWarning.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C661302F2FF300DF5D9D /* test_dataDeletedWarning.6.png */; };
-		1E88C705302F2FF300DF5D9D /* test_updateAppError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D9302F2FF300DF5D9D /* test_updateAppError.6.png */; };
 		1E88C706302F2FF300DF5D9D /* test_networkConnectionError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6A8302F2FF300DF5D9D /* test_networkConnectionError.5.png */; };
-		1E88C707302F2FF300DF5D9D /* test_updateAppError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D6302F2FF300DF5D9D /* test_updateAppError.3.png */; };
 		1E88C708302F2FF300DF5D9D /* test_appIntegrityError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C64F302F2FF300DF5D9D /* test_appIntegrityError.12.png */; };
 		1E88C709302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C69E302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.7.png */; };
 		1E88C70A302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C68A302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.11.png */; };
@@ -99,18 +95,14 @@
 		1E88C72D302F2FF300DF5D9D /* test_unrecoverableLoginError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6CC302F2FF300DF5D9D /* test_unrecoverableLoginError.5.png */; };
 		1E88C72E302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C68C302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.1.png */; };
 		1E88C72F302F2FF300DF5D9D /* test_appUnavailableError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C654302F2FF300DF5D9D /* test_appUnavailableError.5.png */; };
-		1E88C730302F2FF300DF5D9D /* test_updateAppError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6DE302F2FF300DF5D9D /* test_updateAppError.11.png */; };
 		1E88C731302F2FF300DF5D9D /* test_appIntegrityError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C64E302F2FF300DF5D9D /* test_appIntegrityError.11.png */; };
-		1E88C732302F2FF300DF5D9D /* test_updateAppError.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6DC302F2FF300DF5D9D /* test_updateAppError.9.png */; };
 		1E88C733302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C67A302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.7.png */; };
 		1E88C734302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C678302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.5.png */; };
-		1E88C735302F2FF300DF5D9D /* test_updateAppError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6DD302F2FF300DF5D9D /* test_updateAppError.10.png */; };
 		1E88C736302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C69A302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.3.png */; };
 		1E88C737302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C67E302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.11.png */; };
 		1E88C738302F2FF300DF5D9D /* test_dataDeletedWarning.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C65F302F2FF300DF5D9D /* test_dataDeletedWarning.4.png */; };
 		1E88C739302F2FF300DF5D9D /* test_dataDeletedWarning.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C660302F2FF300DF5D9D /* test_dataDeletedWarning.5.png */; };
 		1E88C73A302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C693302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.8.png */; };
-		1E88C73B302F2FF300DF5D9D /* test_updateAppError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D5302F2FF300DF5D9D /* test_updateAppError.2.png */; };
 		1E88C73C302F2FF300DF5D9D /* test_unrecoverableLoginError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D3302F2FF300DF5D9D /* test_unrecoverableLoginError.12.png */; };
 		1E88C73D302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C697302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.12.png */; };
 		1E88C73E302F2FF300DF5D9D /* test_appUnavailableError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C653302F2FF300DF5D9D /* test_appUnavailableError.4.png */; };
@@ -141,7 +133,6 @@
 		1E88C757302F2FF300DF5D9D /* test_recoverableLoginError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6B4302F2FF300DF5D9D /* test_recoverableLoginError.5.png */; };
 		1E88C758302F2FF300DF5D9D /* test_unrecoverableLoginError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6CA302F2FF300DF5D9D /* test_unrecoverableLoginError.3.png */; };
 		1E88C759302F2FF300DF5D9D /* test_recoverableLoginError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6B5302F2FF300DF5D9D /* test_recoverableLoginError.6.png */; };
-		1E88C75A302F2FF300DF5D9D /* test_updateAppError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D7302F2FF300DF5D9D /* test_updateAppError.4.png */; };
 		1E88C75B302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C682302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.3.png */; };
 		1E88C75C302F2FF300DF5D9D /* test_signOutError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6BC302F2FF300DF5D9D /* test_signOutError.1.png */; };
 		1E88C75D302F2FF300DF5D9D /* test_networkConnectionError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6AF302F2FF300DF5D9D /* test_networkConnectionError.12.png */; };
@@ -159,14 +150,11 @@
 		1E88C769302F2FF300DF5D9D /* test_genericError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C668302F2FF300DF5D9D /* test_genericError.1.png */; };
 		1E88C76A302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C688302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.9.png */; };
 		1E88C76B302F2FF300DF5D9D /* test_recoverableLoginError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6BB302F2FF300DF5D9D /* test_recoverableLoginError.12.png */; };
-		1E88C76C302F2FF300DF5D9D /* test_updateAppError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6D4302F2FF300DF5D9D /* test_updateAppError.1.png */; };
 		1E88C76D302F2FF300DF5D9D /* test_appUnavailableError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C655302F2FF300DF5D9D /* test_appUnavailableError.6.png */; };
-		1E88C76E302F2FF300DF5D9D /* test_updateAppError.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6DB302F2FF300DF5D9D /* test_updateAppError.8.png */; };
 		1E88C76F302F2FF300DF5D9D /* test_signOutError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6BE302F2FF300DF5D9D /* test_signOutError.3.png */; };
 		1E88C770302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C699302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.2.png */; };
 		1E88C771302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C696302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.11.png */; };
 		1E88C772302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C680302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.1.png */; };
-		1E88C773302F2FF300DF5D9D /* test_updateAppError.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6DA302F2FF300DF5D9D /* test_updateAppError.7.png */; };
 		1E88C774302F2FF300DF5D9D /* test_unrecoverableLoginError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C6CD302F2FF300DF5D9D /* test_unrecoverableLoginError.6.png */; };
 		1E88C775302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C674302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.1.png */; };
 		1E88C776302F2FF300DF5D9D /* test_dataDeletedWarning.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C662302F2FF300DF5D9D /* test_dataDeletedWarning.7.png */; };
@@ -321,6 +309,18 @@
 		1E88C89C302F39E800DF5D9D /* test_oneLoginIntroScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C7BA302F39E800DF5D9D /* test_oneLoginIntroScreen.2.png */; };
 		1E88C89D302F39E800DF5D9D /* test_unlockScreen.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E88C802302F39E800DF5D9D /* test_unlockScreen.2.png */; };
 		1E891B752B63B76E00744E3D /* InformationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E891B742B63B76E00744E3D /* InformationAnalytics.swift */; };
+		1EB21739305A92D2009478AF /* test_updateAppError.11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21737305A92D2009478AF /* test_updateAppError.11.png */; };
+		1EB2173A305A92D2009478AF /* test_updateAppError.10.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21736305A92D2009478AF /* test_updateAppError.10.png */; };
+		1EB2173B305A92D2009478AF /* test_updateAppError.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21730305A92D2009478AF /* test_updateAppError.4.png */; };
+		1EB2173C305A92D2009478AF /* test_updateAppError.2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB2172E305A92D2009478AF /* test_updateAppError.2.png */; };
+		1EB2173D305A92D2009478AF /* test_updateAppError.12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21738305A92D2009478AF /* test_updateAppError.12.png */; };
+		1EB2173E305A92D2009478AF /* test_updateAppError.6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21732305A92D2009478AF /* test_updateAppError.6.png */; };
+		1EB2173F305A92D2009478AF /* test_updateAppError.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21731305A92D2009478AF /* test_updateAppError.5.png */; };
+		1EB21740305A92D2009478AF /* test_updateAppError.7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21733305A92D2009478AF /* test_updateAppError.7.png */; };
+		1EB21741305A92D2009478AF /* test_updateAppError.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB2172D305A92D2009478AF /* test_updateAppError.1.png */; };
+		1EB21742305A92D2009478AF /* test_updateAppError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB2172F305A92D2009478AF /* test_updateAppError.3.png */; };
+		1EB21743305A92D2009478AF /* test_updateAppError.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21734305A92D2009478AF /* test_updateAppError.8.png */; };
+		1EB21744305A92D2009478AF /* test_updateAppError.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EB21735305A92D2009478AF /* test_updateAppError.9.png */; };
 		1EB56D6D2B7CDE6D00BD548E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB56D6F2B7CDE6D00BD548E /* Localizable.strings */; };
 		1EB667A32B59910D008D8199 /* NetworkMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */; };
 		1EDA358C2B29FAAD0062FA46 /* LoginModalSecondScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDA358B2B29FAAD0062FA46 /* LoginModalSecondScreen.swift */; };
@@ -814,18 +814,6 @@
 		1E88C6D1302F2FF300DF5D9D /* test_unrecoverableLoginError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unrecoverableLoginError.10.png; sourceTree = "<group>"; };
 		1E88C6D2302F2FF300DF5D9D /* test_unrecoverableLoginError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unrecoverableLoginError.11.png; sourceTree = "<group>"; };
 		1E88C6D3302F2FF300DF5D9D /* test_unrecoverableLoginError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unrecoverableLoginError.12.png; sourceTree = "<group>"; };
-		1E88C6D4302F2FF300DF5D9D /* test_updateAppError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.1.png; sourceTree = "<group>"; };
-		1E88C6D5302F2FF300DF5D9D /* test_updateAppError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.2.png; sourceTree = "<group>"; };
-		1E88C6D6302F2FF300DF5D9D /* test_updateAppError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.3.png; sourceTree = "<group>"; };
-		1E88C6D7302F2FF300DF5D9D /* test_updateAppError.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.4.png; sourceTree = "<group>"; };
-		1E88C6D8302F2FF300DF5D9D /* test_updateAppError.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.5.png; sourceTree = "<group>"; };
-		1E88C6D9302F2FF300DF5D9D /* test_updateAppError.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.6.png; sourceTree = "<group>"; };
-		1E88C6DA302F2FF300DF5D9D /* test_updateAppError.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.7.png; sourceTree = "<group>"; };
-		1E88C6DB302F2FF300DF5D9D /* test_updateAppError.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.8.png; sourceTree = "<group>"; };
-		1E88C6DC302F2FF300DF5D9D /* test_updateAppError.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.9.png; sourceTree = "<group>"; };
-		1E88C6DD302F2FF300DF5D9D /* test_updateAppError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.10.png; sourceTree = "<group>"; };
-		1E88C6DE302F2FF300DF5D9D /* test_updateAppError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.11.png; sourceTree = "<group>"; };
-		1E88C6DF302F2FF300DF5D9D /* test_updateAppError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.12.png; sourceTree = "<group>"; };
 		1E88C77D302F39E800DF5D9D /* test_analyticsPeferenceScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.1.png; sourceTree = "<group>"; };
 		1E88C77E302F39E800DF5D9D /* test_analyticsPeferenceScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.2.png; sourceTree = "<group>"; };
 		1E88C77F302F39E800DF5D9D /* test_analyticsPeferenceScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.3.png; sourceTree = "<group>"; };
@@ -971,6 +959,18 @@
 		1E88C80B302F39E800DF5D9D /* test_unlockScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unlockScreen.11.png; sourceTree = "<group>"; };
 		1E88C80C302F39E800DF5D9D /* test_unlockScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_unlockScreen.12.png; sourceTree = "<group>"; };
 		1E891B742B63B76E00744E3D /* InformationAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAnalytics.swift; sourceTree = "<group>"; };
+		1EB2172D305A92D2009478AF /* test_updateAppError.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.1.png; sourceTree = "<group>"; };
+		1EB2172E305A92D2009478AF /* test_updateAppError.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.2.png; sourceTree = "<group>"; };
+		1EB2172F305A92D2009478AF /* test_updateAppError.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.3.png; sourceTree = "<group>"; };
+		1EB21730305A92D2009478AF /* test_updateAppError.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.4.png; sourceTree = "<group>"; };
+		1EB21731305A92D2009478AF /* test_updateAppError.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.5.png; sourceTree = "<group>"; };
+		1EB21732305A92D2009478AF /* test_updateAppError.6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.6.png; sourceTree = "<group>"; };
+		1EB21733305A92D2009478AF /* test_updateAppError.7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.7.png; sourceTree = "<group>"; };
+		1EB21734305A92D2009478AF /* test_updateAppError.8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.8.png; sourceTree = "<group>"; };
+		1EB21735305A92D2009478AF /* test_updateAppError.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.9.png; sourceTree = "<group>"; };
+		1EB21736305A92D2009478AF /* test_updateAppError.10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.10.png; sourceTree = "<group>"; };
+		1EB21737305A92D2009478AF /* test_updateAppError.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.11.png; sourceTree = "<group>"; };
+		1EB21738305A92D2009478AF /* test_updateAppError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.12.png; sourceTree = "<group>"; };
 		1EB56D6E2B7CDE6D00BD548E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1EB56D702B7CDE6F00BD548E /* cy-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "cy-GB"; path = "cy-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1EB667A12B596A1B008D8199 /* NetworkMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitoring.swift; sourceTree = "<group>"; };
@@ -1350,6 +1350,18 @@
 		1E88C6E0302F2FF300DF5D9D /* ErrorScreenSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
+				1EB2172D305A92D2009478AF /* test_updateAppError.1.png */,
+				1EB2172E305A92D2009478AF /* test_updateAppError.2.png */,
+				1EB2172F305A92D2009478AF /* test_updateAppError.3.png */,
+				1EB21730305A92D2009478AF /* test_updateAppError.4.png */,
+				1EB21731305A92D2009478AF /* test_updateAppError.5.png */,
+				1EB21732305A92D2009478AF /* test_updateAppError.6.png */,
+				1EB21733305A92D2009478AF /* test_updateAppError.7.png */,
+				1EB21734305A92D2009478AF /* test_updateAppError.8.png */,
+				1EB21735305A92D2009478AF /* test_updateAppError.9.png */,
+				1EB21736305A92D2009478AF /* test_updateAppError.10.png */,
+				1EB21737305A92D2009478AF /* test_updateAppError.11.png */,
+				1EB21738305A92D2009478AF /* test_updateAppError.12.png */,
 				1E88C644302F2FF300DF5D9D /* test_appIntegrityError.1.png */,
 				1E88C645302F2FF300DF5D9D /* test_appIntegrityError.2.png */,
 				1E88C646302F2FF300DF5D9D /* test_appIntegrityError.3.png */,
@@ -1494,18 +1506,6 @@
 				1E88C6D1302F2FF300DF5D9D /* test_unrecoverableLoginError.10.png */,
 				1E88C6D2302F2FF300DF5D9D /* test_unrecoverableLoginError.11.png */,
 				1E88C6D3302F2FF300DF5D9D /* test_unrecoverableLoginError.12.png */,
-				1E88C6D4302F2FF300DF5D9D /* test_updateAppError.1.png */,
-				1E88C6D5302F2FF300DF5D9D /* test_updateAppError.2.png */,
-				1E88C6D6302F2FF300DF5D9D /* test_updateAppError.3.png */,
-				1E88C6D7302F2FF300DF5D9D /* test_updateAppError.4.png */,
-				1E88C6D8302F2FF300DF5D9D /* test_updateAppError.5.png */,
-				1E88C6D9302F2FF300DF5D9D /* test_updateAppError.6.png */,
-				1E88C6DA302F2FF300DF5D9D /* test_updateAppError.7.png */,
-				1E88C6DB302F2FF300DF5D9D /* test_updateAppError.8.png */,
-				1E88C6DC302F2FF300DF5D9D /* test_updateAppError.9.png */,
-				1E88C6DD302F2FF300DF5D9D /* test_updateAppError.10.png */,
-				1E88C6DE302F2FF300DF5D9D /* test_updateAppError.11.png */,
-				1E88C6DF302F2FF300DF5D9D /* test_updateAppError.12.png */,
 			);
 			path = ErrorScreenSnapshotTests;
 			sourceTree = "<group>";
@@ -3172,9 +3172,7 @@
 			files = (
 				1E88C6E1302F2FF300DF5D9D /* test_genericError.12.png in Resources */,
 				1E88C6E2302F2FF300DF5D9D /* test_recoverableLoginError.10.png in Resources */,
-				1E88C6E3302F2FF300DF5D9D /* test_updateAppError.12.png in Resources */,
 				1E88C6E4302F2FF300DF5D9D /* test_unrecoverableLoginError.11.png in Resources */,
-				1E88C6E5302F2FF300DF5D9D /* test_updateAppError.5.png in Resources */,
 				1E88C6E6302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.12.png in Resources */,
 				1E88C6E7302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.10.png in Resources */,
 				1E88C6E8302F2FF300DF5D9D /* test_dataDeletedWarning.10.png in Resources */,
@@ -3206,9 +3204,7 @@
 				1E88C702302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.4.png in Resources */,
 				1E88C703302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.6.png in Resources */,
 				1E88C704302F2FF300DF5D9D /* test_dataDeletedWarning.6.png in Resources */,
-				1E88C705302F2FF300DF5D9D /* test_updateAppError.6.png in Resources */,
 				1E88C706302F2FF300DF5D9D /* test_networkConnectionError.5.png in Resources */,
-				1E88C707302F2FF300DF5D9D /* test_updateAppError.3.png in Resources */,
 				1E88C708302F2FF300DF5D9D /* test_appIntegrityError.12.png in Resources */,
 				1E88C709302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.7.png in Resources */,
 				1E88C70A302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.11.png in Resources */,
@@ -3249,18 +3245,14 @@
 				1E88C72D302F2FF300DF5D9D /* test_unrecoverableLoginError.5.png in Resources */,
 				1E88C72E302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.1.png in Resources */,
 				1E88C72F302F2FF300DF5D9D /* test_appUnavailableError.5.png in Resources */,
-				1E88C730302F2FF300DF5D9D /* test_updateAppError.11.png in Resources */,
 				1E88C731302F2FF300DF5D9D /* test_appIntegrityError.11.png in Resources */,
-				1E88C732302F2FF300DF5D9D /* test_updateAppError.9.png in Resources */,
 				1E88C733302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.7.png in Resources */,
 				1E88C734302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.5.png in Resources */,
-				1E88C735302F2FF300DF5D9D /* test_updateAppError.10.png in Resources */,
 				1E88C736302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.3.png in Resources */,
 				1E88C737302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.11.png in Resources */,
 				1E88C738302F2FF300DF5D9D /* test_dataDeletedWarning.4.png in Resources */,
 				1E88C739302F2FF300DF5D9D /* test_dataDeletedWarning.5.png in Resources */,
 				1E88C73A302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.8.png in Resources */,
-				1E88C73B302F2FF300DF5D9D /* test_updateAppError.2.png in Resources */,
 				1E88C73C302F2FF300DF5D9D /* test_unrecoverableLoginError.12.png in Resources */,
 				1E88C73D302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.12.png in Resources */,
 				1E88C73E302F2FF300DF5D9D /* test_appUnavailableError.4.png in Resources */,
@@ -3291,7 +3283,6 @@
 				1E88C757302F2FF300DF5D9D /* test_recoverableLoginError.5.png in Resources */,
 				1E88C758302F2FF300DF5D9D /* test_unrecoverableLoginError.3.png in Resources */,
 				1E88C759302F2FF300DF5D9D /* test_recoverableLoginError.6.png in Resources */,
-				1E88C75A302F2FF300DF5D9D /* test_updateAppError.4.png in Resources */,
 				1E88C75B302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.3.png in Resources */,
 				1E88C75C302F2FF300DF5D9D /* test_signOutError.1.png in Resources */,
 				1E88C75D302F2FF300DF5D9D /* test_networkConnectionError.12.png in Resources */,
@@ -3309,14 +3300,11 @@
 				1E88C769302F2FF300DF5D9D /* test_genericError.1.png in Resources */,
 				1E88C76A302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.9.png in Resources */,
 				1E88C76B302F2FF300DF5D9D /* test_recoverableLoginError.12.png in Resources */,
-				1E88C76C302F2FF300DF5D9D /* test_updateAppError.1.png in Resources */,
 				1E88C76D302F2FF300DF5D9D /* test_appUnavailableError.6.png in Resources */,
-				1E88C76E302F2FF300DF5D9D /* test_updateAppError.8.png in Resources */,
 				1E88C76F302F2FF300DF5D9D /* test_signOutError.3.png in Resources */,
 				1E88C770302F2FF300DF5D9D /* test_localAuthSettingsErrorTouchId.2.png in Resources */,
 				1E88C771302F2FF300DF5D9D /* test_localAuthSettingsErrorFaceId.11.png in Resources */,
 				1E88C772302F2FF300DF5D9D /* test_localAuthBiometricsErrorTouchId.1.png in Resources */,
-				1E88C773302F2FF300DF5D9D /* test_updateAppError.7.png in Resources */,
 				1E88C774302F2FF300DF5D9D /* test_unrecoverableLoginError.6.png in Resources */,
 				1E88C775302F2FF300DF5D9D /* test_localAuthBiometricsErrorFaceId.1.png in Resources */,
 				1E88C776302F2FF300DF5D9D /* test_dataDeletedWarning.7.png in Resources */,
@@ -3360,6 +3348,18 @@
 				1E88C830302F39E800DF5D9D /* test_homeScreen.5.png in Resources */,
 				1E88C831302F39E800DF5D9D /* test_proveIdentityScreen.6.png in Resources */,
 				1E88C832302F39E800DF5D9D /* test_analyticsPeferenceScreen.7.png in Resources */,
+				1EB21739305A92D2009478AF /* test_updateAppError.11.png in Resources */,
+				1EB2173A305A92D2009478AF /* test_updateAppError.10.png in Resources */,
+				1EB2173B305A92D2009478AF /* test_updateAppError.4.png in Resources */,
+				1EB2173C305A92D2009478AF /* test_updateAppError.2.png in Resources */,
+				1EB2173D305A92D2009478AF /* test_updateAppError.12.png in Resources */,
+				1EB2173E305A92D2009478AF /* test_updateAppError.6.png in Resources */,
+				1EB2173F305A92D2009478AF /* test_updateAppError.5.png in Resources */,
+				1EB21740305A92D2009478AF /* test_updateAppError.7.png in Resources */,
+				1EB21741305A92D2009478AF /* test_updateAppError.1.png in Resources */,
+				1EB21742305A92D2009478AF /* test_updateAppError.3.png in Resources */,
+				1EB21743305A92D2009478AF /* test_updateAppError.8.png in Resources */,
+				1EB21744305A92D2009478AF /* test_updateAppError.9.png in Resources */,
 				1E88C833302F39E800DF5D9D /* test_homeScreen.10.png in Resources */,
 				1E88C834302F39E800DF5D9D /* test_biometricsEnrolmentScreen_faceID.8.png in Resources */,
 				1E88C835302F39E800DF5D9D /* test_unlockScreen.7.png in Resources */,
@@ -5532,7 +5532,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-ui";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.2;
+				minimumVersion = 2.3.0;
 			};
 		};
 		1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
