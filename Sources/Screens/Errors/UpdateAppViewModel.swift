@@ -16,7 +16,6 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
     var didAppear: DesignSystem.Action?
     var didDismiss: DesignSystem.Action?
     
-    // swiftlint: disable:next function_body_length
     init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
         let analyticsService = analyticsService.addingAdditionalParameters([
