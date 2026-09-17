@@ -23,11 +23,6 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
             OLTaxonomyKey.level2: OLTaxonomyValue.system,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        let font = UIFont(style: .largeTitle, weight: .regular)
-        let configuration = UIImage.SymbolConfiguration(font: font, scale: .large)
-        
-        let image = UIImage(systemName: "exclamationmark.arrow.circlepath", withConfiguration: configuration)
-        
         self.init(
             screenStyle: .centred,
             body: [
