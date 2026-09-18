@@ -7,12 +7,10 @@ import Networking
 final class NetworkingService: NetworkClientProtocol {
     let networkClient: NetworkClient
     let sessionManager: SessionManager
-    let refreshExchangeManager: TokenExchangeManaging
     let serialTaskQueue: SerialTaskQueue
     
     init(
         networkClient: NetworkClient = NetworkClient(),
-        refreshExchangeManager: TokenExchangeManaging = RefreshTokenExchangeManager(),
         sessionManager: SessionManager,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue(),
         appIntegrityProvider: @autoclosure @escaping () throws(AppIntegritySigningError) -> AppIntegrityProvider = try FirebaseAppIntegrityService.firebaseAppCheck()
@@ -22,7 +20,6 @@ final class NetworkingService: NetworkClientProtocol {
         let clientAttestationProvider = networkClient.clientAttestationProvider ?? OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
         let dPoPProvider = networkClient.dPoPProvider ?? OneLoginAppIntegrityService(integrityService: appIntegrityProvider)
         
-        self.refreshExchangeManager = refreshExchangeManager
         self.sessionManager = sessionManager
         self.networkClient.authorizationProvider = authorizationProvider
         self.networkClient.clientAttestationProvider = clientAttestationProvider
@@ -33,10 +30,10 @@ final class NetworkingService: NetworkClientProtocol {
     func makeRequest(_ request: NetworkRequest) async throws -> Data {
         if request.authScope != nil {
             guard sessionManager.tokenProvider.isAccessTokenValid else {
-                return try await self.serialTaskQueue.enqueue {
+                return try await self.serialTaskQueue.enqueue { @MainActor in
                     if let tokens = try self.sessionManager.validTokensForRefreshExchange {
                         // Can throw a SecureStoreError(.biometricsCancelled) error which should propagate to caller
-                        try await self.performRefreshExchangeAndSaveTokens(
+                        try await self.sessionManager.updateRefreshToken(
                             idToken: tokens.idToken,
                             refreshToken: tokens.refreshToken
                         )
@@ -57,24 +54,5 @@ final class NetworkingService: NetworkClientProtocol {
                     || error.code == .networkConnectionLost {
             throw error
         }
-    }
-}
-
-extension NetworkingService {
-    private func performRefreshExchangeAndSaveTokens(
-        idToken: String,
-        refreshToken: String
-    ) async throws {
-        let tokenResponse = try await refreshExchangeManager.getUpdatedTokens(
-            refreshToken: refreshToken
-        )
-        
-        // Save new tokens
-        try sessionManager.saveLoginTokens(
-            idToken: idToken,
-            refreshToken: tokenResponse.refreshToken,
-            accessToken: tokenResponse.accessToken,
-            accessTokenExpiry: tokenResponse.expiryDate
-        )
     }
 }
