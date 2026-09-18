@@ -328,12 +328,12 @@ final class PersistentSessionManager: SessionManager {
             encryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         }
         
-        try update(
+        try updateLoginTokens(
             idToken: tokenProvider.idToken,
             refreshToken: tokenProvider.refreshToken,
             accessToken: tokenProvider.accessToken,
             accessTokenExpiry: tokenProvider.accessTokenExpiry,
-            saveLoginTokens: { tokens in
+            save: { tokens in
                 try storeKeyService.save(tokens: tokens)
             })
         
@@ -391,22 +391,22 @@ final class PersistentSessionManager: SessionManager {
         let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken
         )
-        try update(
+        try updateLoginTokens(
             idToken: idToken,
             refreshToken: exchangeTokenResponse.refreshToken,
             accessToken: exchangeTokenResponse.accessToken,
             accessTokenExpiry: exchangeTokenResponse.expiryDate,
-            saveLoginTokens: { tokens in
+            save: { tokens in
                 try self.storeKeyService.save(using: encryptor, tokens: tokens)
             })
     }
     
-    private func update(
+    private func updateLoginTokens(
         idToken: String?,
         refreshToken: String?,
         accessToken: String?,
         accessTokenExpiry: Date?,
-        saveLoginTokens: (StoredTokens) throws -> Void
+        save: (StoredTokens) throws -> Void
     ) throws {
         if let refreshToken {
             try encryptedStore.saveDate(
@@ -424,7 +424,7 @@ final class PersistentSessionManager: SessionManager {
             accessTokenExpiry: accessTokenExpiry
         )
 
-        try saveLoginTokens(tokens)
+        try save(tokens)
         tokenProvider.update(
             accessToken: accessToken,
             accessTokenExpiry: accessTokenExpiry
