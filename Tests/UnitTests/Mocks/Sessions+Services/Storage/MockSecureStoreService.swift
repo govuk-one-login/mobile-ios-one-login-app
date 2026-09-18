@@ -217,6 +217,14 @@ final class MockSecureStoreService: EncryptedSecureStorable, SessionBoundData {
         return saveUsingEncryptorAsFunction
     }
 
+    static func errorFromSaveUsingEncryptorAsFunction(error: SecureStoreError) -> SaveUsingEncryptorAsFunction {
+        func saveUsingEncryptorAsFunction(encryptor: Encryptor, item: String, itemName: String) throws {
+            throw error
+        }
+
+        return saveUsingEncryptorAsFunction
+    }
+
     static func deleteCount(counter: Counter) -> DeleteAsFunction {
         return {
             counter.increment()

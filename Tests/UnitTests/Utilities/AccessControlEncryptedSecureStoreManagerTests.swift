@@ -53,7 +53,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
         #expect(mockV13AccessControlEncryptedSecureStore.savedItems == [OLString.storedTokens: "testItem"])
         #expect(mockMigrationStore.bool(forKey: OLString.migratedAccessControlEncryptedStoreToV13))
     }
-    
+
     @Test("read item migrates data to the v13 store if required")
     func readItemV12MigratesToV13() throws {
         try mockV12AccessControlEncryptedSecureStore.saveItem(
@@ -187,6 +187,40 @@ struct AccessControlEncryptedSecureStoreManagerTests {
 
         #expect(sut.hasMigrated)
         #expect(item == actual)
+    }
+
+    @Test("""
+        ON THE CONDITION a v12EncryptedSecureStore has a "v12Item" item stored
+        GIVEN an AccessControlEncryptedSecureStoreMigrator
+        WHEN saving using an Encryptor throws
+        THEN hasMigrated is false
+        AND the v13EncryptedSecureStore has no saved items
+        """
+    )
+    func saveUsingEncryptorFailureDoesNotMarkItemAsMigrated() throws {
+        let v12Item = "v12Item"
+
+        let v12EncryptedSecureStore = MockSecureStoreService()
+        try v12EncryptedSecureStore.saveItem(item: v12Item, itemName: OLString.storedTokens)
+        let v13EncryptedSecureStore = MockSecureStoreService()
+        v13EncryptedSecureStore.saveUsingEncryptorAsFunction = MockSecureStoreService.errorFromSaveUsingEncryptorAsFunction(error: SecureStoreError(.cantEncodeData))
+
+        let sut = AccessControlEncryptedSecureStoreMigrator.make(
+            v12EncryptedSecureStore: v12EncryptedSecureStore,
+            v13EncryptedSecureStore: v13EncryptedSecureStore,
+            analyticsService: mockAnalyticsService)
+
+        let encryptor = try sut.encryptor()
+        #expect(throws: SecureStoreError.self) {
+            try sut.save(
+                using: encryptor,
+                item: "v13Item",
+                itemName: OLString.storedTokens
+            )
+        }
+
+        #expect(!sut.hasMigrated)
+        #expect(v13EncryptedSecureStore.savedItems.isEmpty)
     }
 }
 
