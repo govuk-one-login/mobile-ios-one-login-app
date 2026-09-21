@@ -50,7 +50,8 @@ extension SecureTokenStoreTests {
     }
 
     func test_fetchThrowsErrorIfTokensHaveIncorrectFormat() throws {
-        mockAccessControlEncryptedSecureStoreMigrator.savedItems = [OLString.storedTokens: "normal string"]
+        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(item: "normal string", itemName: OLString.storedTokens)
+        
         do {
             _ = try sut.fetch()
             XCTFail("Expected to recieve token error")

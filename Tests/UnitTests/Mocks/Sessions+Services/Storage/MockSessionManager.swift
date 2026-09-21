@@ -23,6 +23,7 @@ final class MockSessionManager: SessionManager {
     var didCallStartSession = false
     var didCallSaveSession = false
     var didCallSaveLoginTokens = false
+    var didCallRefreshTokens = false
     var didCallResumeSession = false
     var didCallEndCurrentSession = false
     var didCallClearAllSessionData = false
@@ -33,6 +34,7 @@ final class MockSessionManager: SessionManager {
     var errorFromSaveSession: Error?
     var errorFromSaveLoginTokens: Error?
     var errorFromResumeSession: Error?
+    var errorFromRefreshTokens: Error?
     var errorFromClearAllSessionData: Error?
     var errorFromClearAppForLogin: Error?
     var errorFromAssertReturningUserCanLogin: Error?
@@ -94,6 +96,16 @@ final class MockSessionManager: SessionManager {
         }
         if let errorFromResumeSession {
             throw errorFromResumeSession
+        }
+    }
+    
+    @MainActor
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {
+        defer {
+            didCallRefreshTokens = true
+        }
+        if let errorFromRefreshTokens {
+            throw errorFromRefreshTokens
         }
     }
     
@@ -186,11 +198,13 @@ class MockSessionManagerExpectation: SessionManager {
     typealias DidStartAuthSession = (LoginSession, @Sendable (String?) async throws -> LoginSessionConfiguration) -> Void
     typealias DidSaveAuthSession = () -> Void
     typealias DidResumeSession = () -> Void
+    typealias DidRefreshTokensAsFunction = (String, String) async throws -> Void
     
     var didStartAuthSessionAsFunction: DidStartAuthSession
     var didSaveAuthSessionAsFunction: DidSaveAuthSession
     var didResumeSessionAsFunction: DidResumeSession
-
+    var didRefreshTokensAsFunction: DidRefreshTokensAsFunction
+    
     var localAuthentication: LocalAuthManaging {
         sessionManager.localAuthentication
     }
@@ -200,11 +214,13 @@ class MockSessionManagerExpectation: SessionManager {
     init(sessionManager: MockSessionManager = MockSessionManager(),
          didStartAuthSessionAsFunction: @escaping DidStartAuthSession = { _, _ in },
          didSaveAuthSessionAsFunction: @escaping DidSaveAuthSession = {},
-         didResumeSessionAsFunction: @escaping DidResumeSession = {}) {
+         didResumeSessionAsFunction: @escaping DidResumeSession = {},
+         didRefreshTokensAsFunction: @escaping DidRefreshTokensAsFunction = { _, _ in }) {
         self.sessionManager = sessionManager
         self.didStartAuthSessionAsFunction = didStartAuthSessionAsFunction
         self.didSaveAuthSessionAsFunction = didSaveAuthSessionAsFunction
         self.didResumeSessionAsFunction = didResumeSessionAsFunction
+        self.didRefreshTokensAsFunction = didRefreshTokensAsFunction
     }
     
     func startAuthSession(
@@ -235,6 +251,12 @@ class MockSessionManagerExpectation: SessionManager {
             self.didResumeSessionAsFunction()
         }
         try sessionManager.resumeSession()
+    }
+    
+    @MainActor
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {
+        try await self.didRefreshTokensAsFunction(idToken, refreshToken)
+        try await sessionManager.updateRefreshToken(idToken: idToken, refreshToken: refreshToken)
     }
     
     func endCurrentSession() {
@@ -320,6 +342,9 @@ final class MockResumeSessionSessionManager: SessionManager {
         try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000))
     }
 
+    @MainActor
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws {}
+    
     func endCurrentSession() {}
 
     func clearAllSessionData(presentSystemLogOut: Bool) async throws {}

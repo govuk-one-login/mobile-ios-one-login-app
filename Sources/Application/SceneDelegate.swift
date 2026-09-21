@@ -25,8 +25,7 @@ final class SceneDelegate: UIResponder,
     private lazy var appQualifyingService = AppQualifyingService(analyticsService: analyticsService,
                                                                  sessionManager: sessionManager)
     private lazy var serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
-    private lazy var networkingService = NetworkingService(refreshExchangeManager: refreshTokenExchangeManager,
-                                                           sessionManager: sessionManager,
+    private lazy var networkingService = NetworkingService(sessionManager: sessionManager,
                                                            serialTaskQueue: serialTaskQueue)
     private lazy var sessionManager: PersistentSessionManager = {
         do {
