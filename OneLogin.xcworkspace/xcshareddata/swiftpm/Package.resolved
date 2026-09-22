@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-credential-sharing-ios",
       "state" : {
-        "revision" : "118dee1127a315f90b5c62035670ff5a153d8024",
-        "version" : "2.0.0"
+        "revision" : "731ceb42be4d761ecd565ad942753df65a5adc44",
+        "version" : "2.5.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "ba6b93c39265d645b8f2c8426adaa56007aa6d0b",
-        "version" : "8.83.0"
+        "revision" : "9734c5bccbec820db378583d1694a70e716aa6b5",
+        "version" : "8.83.6"
       }
     },
     {
@@ -248,7 +248,7 @@
       "kind" : "registry",
       "location" : "",
       "state" : {
-        "version" : "4.128.0"
+        "version" : "4.129.0"
       }
     },
     {
