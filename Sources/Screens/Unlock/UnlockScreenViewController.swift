@@ -21,14 +21,26 @@ class UnlockScreenViewController: BaseScreen {
     
     @IBOutlet private var unlockButton: UIButton! {
         didSet {
+            var config = UIButton.Configuration.filled()
+            config.title = viewModel.primaryButtonTitle
+            config.cornerStyle = .capsule
+            config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
+                var attributes = attributes
+                attributes.font = UIFont(style: .title3, weight: .bold)
+                return attributes
+            }
+            
+            unlockButton.configuration = config
+            unlockButton.configurationUpdateHandler = { button in
+                let background = button.isHighlighted ? DesignSystem.Color.Base.grey8 : DesignSystem.Color.Buttons.primaryForeground
+                button.configuration?.baseBackgroundColor = background
+            }
             unlockButton.titleLabel?.adjustsFontForContentSizeCategory = true
-            unlockButton.setTitle(viewModel.primaryButtonTitle, for: .normal)
             unlockButton.setTitleColor(DesignSystem.Color.Base.black1, for: .normal)
+            unlockButton.setTitleColor(DesignSystem.Color.Base.black1, for: .highlighted)
             unlockButton.titleLabel?.font = UIFont(style: .title3, weight: .bold)
             unlockButton.accessibilityIdentifier = "unlock-screen-button"
             unlockButton.isHidden = true
-            unlockButton.backgroundColor = DesignSystem.Color.Buttons.primaryForeground
-            unlockButton.layer.cornerRadius = 15
         }
     }
     
