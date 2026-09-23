@@ -23,9 +23,12 @@ class UnlockScreenViewController: BaseScreen {
         didSet {
             unlockButton.titleLabel?.adjustsFontForContentSizeCategory = true
             unlockButton.setTitle(viewModel.primaryButtonTitle, for: .normal)
+            unlockButton.setTitleColor(DesignSystem.Color.Base.black1, for: .normal)
             unlockButton.titleLabel?.font = UIFont(style: .title3, weight: .bold)
             unlockButton.accessibilityIdentifier = "unlock-screen-button"
             unlockButton.isHidden = true
+            unlockButton.backgroundColor = DesignSystem.Color.Buttons.primaryForeground
+            unlockButton.layer.cornerRadius = 15
         }
     }
     
