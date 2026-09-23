@@ -31,12 +31,13 @@ struct AnalyticsPreferenceViewModel: GDSLeftAlignedViewModel {
                                  alignment: .left,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_privacyNoticeLink", "app_nameString").value,
-                                   style: .secondary.adjusting(alignment: .leading),
+                                   style: .secondaryLeading,
                                    buttonAction: .action {
                                        textButtonAction()
                                    },
                                    accessibilityHint: GDSLocalisedString("app_externalBrowser").value,
-                                   verticalPadding: .bottom(DesignSystem.Spacing.default))
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_shareAnalyticsButton").value,
