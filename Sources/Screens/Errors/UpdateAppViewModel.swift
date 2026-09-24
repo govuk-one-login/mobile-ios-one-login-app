@@ -40,6 +40,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_updateAppButton",
                                                              "app_nameString").value,
+                                   icon: .arrowUpRight,
                                    style: .primary,
                                    buttonAction: .action {
                                       let event = LinkEvent(textKey: "app_updateAppButton",

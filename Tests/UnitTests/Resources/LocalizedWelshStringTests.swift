@@ -211,9 +211,9 @@ final class LocalizedWelshStringTests: XCTestCase {
         XCTAssertEqual("app_updateAppTitle".getWelshString(),
                        "Mae angen i chi ddiweddaru eich ap")
         XCTAssertEqual("app_updateAppBody".getWelshString(),
-                       "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nDiweddarwch eich ap i barhau.")
+                       "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nEwch i'r App Store a diweddarwch eich ap i barhau.")
         XCTAssertEqual("app_updateAppButton".getWelshString(),
-                       "Diweddaru Ap %@")
+                       "Ewch i'r App Store")
     }
     
     func test_homeTileKeys() {
