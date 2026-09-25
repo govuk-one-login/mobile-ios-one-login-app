@@ -27,7 +27,7 @@ extension AnalyticsPreferenceViewModelTests {
         #expect(bodyText?.alignment == .left)
         
         let linkButton = sut.body.last as? GDSButtonViewModel
-        #expect(linkButton?.style == .secondary.adjusting(alignment: .leading))
+        #expect(linkButton?.style == .secondaryLeading)
         #expect(linkButton?.accessibilityHint == "Opens in web browser")
         #expect(linkButton?.title.forState(.normal) == "Read more about this in the GOV.UK One Login privacy notice")
         
