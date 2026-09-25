@@ -1,25 +1,26 @@
 @testable import OneLogin
-import XCTest
+import Testing
 
-final class OLStringTests: XCTestCase {
+struct OLStringTests {
+    @Test
     func test_tokenAndLogin_strings() {
         // Store IDs
-        XCTAssertEqual(OLString.v12TokensStore, "oneLoginTokens")
-        XCTAssertEqual(OLString.v13TokensStore, "oneLoginTokenStore")
-        XCTAssertEqual(OLString.v12TokenInfoStore, "persistentSessionID")
-        XCTAssertEqual(OLString.v13TokenInfoStore, "insensitiveTokenInfoStore")
+        #expect(OLString.v12TokensStore == "oneLoginTokens")
+        #expect(OLString.v13TokensStore == "oneLoginTokenStore")
+        #expect(OLString.v12TokenInfoStore == "persistentSessionID")
+        #expect(OLString.v13TokenInfoStore == "insensitiveTokenInfoStore")
         
         // Token & Login
-        XCTAssertEqual(OLString.refreshTokenExpiry, "refreshTokenExpiry")
-        XCTAssertEqual(OLString.accessTokenExpiry, "accessTokenExpiry")
-        XCTAssertEqual(OLString.storedTokens, "storedTokens")
-        XCTAssertEqual(OLString.persistentSessionID, "persistentSessionID")
-        XCTAssertEqual(OLString.returningUser, "returningUser")
-        XCTAssertEqual(OLString.migratedEncryptedStoreToV13, "migratedEncryptedStoreToV13")
-        XCTAssertEqual(OLString.migratedAccessControlEncryptedStoreToV13, "migratedAccessControlEncryptedStoreToV13")
+        #expect(OLString.refreshTokenExpiry == "refreshTokenExpiry")
+        #expect(OLString.accessTokenExpiry == "accessTokenExpiry")
+        #expect(OLString.storedTokens == "storedTokens")
+        #expect(OLString.persistentSessionID == "persistentSessionID")
+        #expect(OLString.returningUser == "returningUser")
+        #expect(OLString.migratedEncryptedStoreToV13 == "migratedEncryptedStoreToV13")
+        #expect(OLString.migratedAccessControlEncryptedStoreToV13 == "migratedAccessControlEncryptedStoreToV13")
 
         // Universal Link Component
-        XCTAssertEqual(OLString.redirect, "redirect")
-        XCTAssertEqual(OLString.wallet, "wallet")
+        #expect(OLString.redirect == "redirect")
+        #expect(OLString.wallet == "wallet")
     }
 }

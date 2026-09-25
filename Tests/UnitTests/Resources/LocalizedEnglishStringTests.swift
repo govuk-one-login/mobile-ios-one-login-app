@@ -1,292 +1,319 @@
 // swiftlint:disable line_length
 
-import XCTest
+import Testing
 
 // swiftlint:disable type_body_length
-final class LocalizedEnglishStringTests: XCTestCase {
+struct LocalizedEnglishStringTests {
+    @Test
     func test_generic_keys() {
-        XCTAssertEqual("app_closeButton".getEnglishString(),
+        #expect("app_closeButton".getEnglishString() ==
                        "Close")
-        XCTAssertEqual("app_cancelButton".getEnglishString(),
+        #expect("app_cancelButton".getEnglishString() ==
                        "Cancel")
-        XCTAssertEqual("app_doneButton".getEnglishString(),
+        #expect("app_doneButton".getEnglishString() ==
                        "Done")
-        XCTAssertEqual("app_tryAgainButton".getEnglishString(),
+        #expect("app_tryAgainButton".getEnglishString() ==
                        "Go back and try again")
-        XCTAssertEqual("app_continueButton".getEnglishString(),
+        #expect("app_continueButton".getEnglishString() ==
                        "Continue")
-        XCTAssertEqual("app_agreeButton".getEnglishString(),
+        #expect("app_agreeButton".getEnglishString() ==
                        "Agree")
-        XCTAssertEqual("app_disagreeButton".getEnglishString(),
+        #expect("app_disagreeButton".getEnglishString() ==
                        "Disagree")
-        XCTAssertEqual("app_loadingBody".getEnglishString(),
+        #expect("app_loadingBody".getEnglishString() ==
                        "Loading")
-        XCTAssertEqual("app_skipButton".getEnglishString(),
+        #expect("app_skipButton".getEnglishString() ==
                        "Skip")
-        XCTAssertEqual("app_enterPasscodeButton".getEnglishString(),
+        #expect("app_enterPasscodeButton".getEnglishString() ==
                        "Enter passcode")
-        XCTAssertEqual("app_exitButton".getEnglishString(),
+        #expect("app_exitButton".getEnglishString() ==
                        "Exit")
-        XCTAssertEqual("app_nameString".getEnglishString(),
+        #expect("app_nameString".getEnglishString() ==
                        "GOV.UK One Login")
     }
     
+    @Test
     func test_localAuthPrompt_keys() {
-        XCTAssertEqual("app_faceId_subtitle".getEnglishString(),
+        #expect("app_faceId_subtitle".getEnglishString() ==
                        "Enter iPhone passcode")
-        XCTAssertEqual("app_touchId_subtitle".getEnglishString(),
+        #expect("app_touchId_subtitle".getEnglishString() ==
                        "Unlock to proceed")
     }
     
+    @Test
     func test_signInScreen_keys() {
-        XCTAssertEqual("app_signInBody".getEnglishString(),
+        #expect("app_signInBody".getEnglishString() ==
                        "Prove your identity to access government services.\n\nYou’ll need to sign in with your %@ details.")
-        XCTAssertEqual("app_signInButton".getEnglishString(),
+        #expect("app_signInButton".getEnglishString() ==
                        "Sign in")
-        XCTAssertEqual("app_extendedSignInButton".getEnglishString(),
+        #expect("app_extendedSignInButton".getEnglishString() ==
                        "Sign in with %@")
     }
     
+    @Test
     func test_analyticsScreen_keys() {
-        XCTAssertEqual("app_acceptAnalyticsPreferences_title".getEnglishString(),
+        #expect("app_acceptAnalyticsPreferences_title".getEnglishString() ==
                        "Help improve the app by sharing analytics")
-        XCTAssertEqual("acceptAnalyticsPreferences_body".getEnglishString(),
+        #expect("acceptAnalyticsPreferences_body".getEnglishString() ==
                        "You can help the %@ team make improvements by sharing analytics about how you use the app.\n\nThese analytics are anonymous. They show us what is and is not working, and help make the app better.\n\nYou can stop sharing these analytics any time by changing your app settings.")
-        XCTAssertEqual("app_privacyNoticeLink".getEnglishString(), "Read more about this in the %@ privacy notice")
+        #expect("app_privacyNoticeLink".getEnglishString() == "Read more about this in the %@ privacy notice")
     }
     
+    @Test
     func test_unableToLoginErrorScreen_keys() {
-        XCTAssertEqual("app_signInErrorTitle".getEnglishString(),
+        #expect("app_signInErrorTitle".getEnglishString() ==
                        "There was a problem signing you in")
-        XCTAssertEqual("app_signInErrorRecoverableBody".getEnglishString(),
+        #expect("app_signInErrorRecoverableBody".getEnglishString() ==
                        "Try to sign in again.")
-        XCTAssertEqual("app_signInErrorUnrecoverableBody".getEnglishString(),
+        #expect("app_signInErrorUnrecoverableBody".getEnglishString() ==
                        "Try again later.")
     }
     
+    @Test
     func test_networkConnectionErrorScreen_keys() {
-        XCTAssertEqual("app_networkErrorTitle".getEnglishString(),
+        #expect("app_networkErrorTitle".getEnglishString() ==
                        "You are not connected to the internet")
-        XCTAssertEqual("app_networkErrorBody".getEnglishString(),
+        #expect("app_networkErrorBody".getEnglishString() ==
                        "You need to have an internet connection to use %@.\n\nReconnect to the internet and try again.")
     }
     
+    @Test
     func test_genericErrorScreen_keys() {
-        XCTAssertEqual("app_genericErrorPage".getEnglishString(),
+        #expect("app_genericErrorPage".getEnglishString() ==
                        "Sorry, there’s a problem")
-        XCTAssertEqual("app_genericErrorPageBody".getEnglishString(),
+        #expect("app_genericErrorPageBody".getEnglishString() ==
                        "Try again later.")
     }
     
+    @Test
     func test_faceIDEnrolmentScreen_keys() {
-        XCTAssertEqual("app_FaceID".getEnglishString(),
+        #expect("app_FaceID".getEnglishString() ==
                        "Face ID")
-        XCTAssertEqual("app_enableBiometricsFaceIDBody2".getEnglishString(),
+        #expect("app_enableBiometricsFaceIDBody2".getEnglishString() ==
                        "If you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone settings.")
     }
     
+    @Test
     func test_touchIDEnrolmentScreen_keys() {
-        XCTAssertEqual("app_TouchID".getEnglishString(),
+        #expect("app_TouchID".getEnglishString() ==
                        "Touch ID")
-        XCTAssertEqual("app_enableBiometricsTouchIDBody2".getEnglishString(),
+        #expect("app_enableBiometricsTouchIDBody2".getEnglishString() ==
                        "If you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
     
+    @Test
     func test_biometricsEnrolmentScreen_commonKeys() {
-        XCTAssertEqual("app_enableBiometricsButton".getEnglishString(),
+        #expect("app_enableBiometricsButton".getEnglishString() ==
                        "Allow %@")
-        XCTAssertEqual("app_enableBiometricsTitle".getEnglishString(),
+        #expect("app_enableBiometricsTitle".getEnglishString() ==
                        "Allow %@")
-        XCTAssertEqual("app_enableBiometricsBody1".getEnglishString(),
+        #expect("app_enableBiometricsBody1".getEnglishString() ==
                        "Use %@ to:")
-        XCTAssertEqual("app_enableBiometricsBullet1".getEnglishString(),
+        #expect("app_enableBiometricsBullet1".getEnglishString() ==
                        "sign in")
-        XCTAssertEqual("app_enableBiometricsBullet2".getEnglishString(),
+        #expect("app_enableBiometricsBullet2".getEnglishString() ==
                        "view and add documents")
     }
     
+    @Test
     func test_unlockScreenKeys() {
-        XCTAssertEqual("app_unlockButton".getEnglishString(),
+        #expect("app_unlockButton".getEnglishString() ==
                        "Unlock")
     }
     
+    @Test
     func test_homeScreenKeys() {
-        XCTAssertEqual("app_homeTitle".getEnglishString(),
+        #expect("app_homeTitle".getEnglishString() ==
                        "Home")
-        XCTAssertEqual("app_displayEmail".getEnglishString(),
+        #expect("app_displayEmail".getEnglishString() ==
                        "You’re signed in as\n%@")
     }
     
+    @Test
     func test_walletScreenKeys() {
-        XCTAssertEqual("app_tabBarWallet".getEnglishString(),
+        #expect("app_tabBarWallet".getEnglishString() ==
                        "Documents")
     }
     
+    @Test
     func test_settingsScreenKeys() {
-        XCTAssertEqual("app_settingsTitle".getEnglishString(),
+        #expect("app_settingsTitle".getEnglishString() ==
                        "Settings")
-        XCTAssertEqual("app_settingsSignInDetailsTile".getEnglishString(),
+        #expect("app_settingsSignInDetailsTile".getEnglishString() ==
                        "Your %@")
-        XCTAssertEqual("app_settingsSignInDetailsLink".getEnglishString(),
+        #expect("app_settingsSignInDetailsLink".getEnglishString() ==
                        "Manage your sign in details")
-        XCTAssertEqual("app_settingsSignInDetailsFootnote".getEnglishString(),
+        #expect("app_settingsSignInDetailsFootnote".getEnglishString() ==
                        "You might need to sign in again to manage your %@ details.")
-        XCTAssertEqual("app_privacyNoticeLink2".getEnglishString(),
+        #expect("app_privacyNoticeLink2".getEnglishString() ==
                        "%@ privacy notice")
-        XCTAssertEqual("app_settingsSubtitle1".getEnglishString(),
+        #expect("app_settingsSubtitle1".getEnglishString() ==
                        "Help and feedback")
-        XCTAssertEqual("app_contactLink".getEnglishString(),
+        #expect("app_contactLink".getEnglishString() ==
                        "Contact %@")
-        XCTAssertEqual("app_appGuidanceLink".getEnglishString(),
+        #expect("app_appGuidanceLink".getEnglishString() ==
                        "Using the %@ app")
-        XCTAssertEqual("app_proveYourIdentityLink".getEnglishString(),
+        #expect("app_proveYourIdentityLink".getEnglishString() ==
                        "Proving your identity")
-        XCTAssertEqual("app_addDocumentsLink".getEnglishString(),
+        #expect("app_addDocumentsLink".getEnglishString() ==
                        "Adding documents to your app")
-        XCTAssertEqual("app_signOutButton".getEnglishString(),
+        #expect("app_signOutButton".getEnglishString() ==
                        "Sign out")
-        XCTAssertEqual("app_settingsSubtitle2".getEnglishString(),
+        #expect("app_settingsSubtitle2".getEnglishString() ==
                        "About the app")
-        XCTAssertEqual("app_settingsAnalyticsToggle".getEnglishString(),
+        #expect("app_settingsAnalyticsToggle".getEnglishString() ==
                        "Share app analytics")
-        XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getEnglishString(),
+        #expect("app_settingsAnalyticsToggleFootnote".getEnglishString() ==
                        "You can share anonymous analytics about how you use the app to help the %@ team make improvements. Read more in the %@ privacy notice.")
-        XCTAssertEqual("app_accessibilityStatement".getEnglishString(),
+        #expect("app_accessibilityStatement".getEnglishString() ==
                        "Accessibility statement")
-        XCTAssertEqual("app_termsAndConditionsLink".getEnglishString(),
+        #expect("app_termsAndConditionsLink".getEnglishString() ==
                        "Terms and conditions")
     }
     
+    @Test
     func test_signOutPageKeys() {
-        XCTAssertEqual("app_signOutConfirmationTitle".getEnglishString(),
+        #expect("app_signOutConfirmationTitle".getEnglishString() ==
                        "Are you sure you want to sign out?")
-        XCTAssertEqual("app_signOutConfirmationBody1".getEnglishString(),
+        #expect("app_signOutConfirmationBody1".getEnglishString() ==
                        "If you sign out, the information saved in your app will be deleted. This is to reduce the risk that someone else will see your information.")
-        XCTAssertEqual("app_signOutConfirmationBody2".getEnglishString(),
+        #expect("app_signOutConfirmationBody2".getEnglishString() ==
                        "This means:")
-        XCTAssertEqual("app_signOutConfirmationBullet1".getEnglishString(),
+        #expect("app_signOutConfirmationBullet1".getEnglishString() ==
                        "any documents in your app will be removed")
-        XCTAssertEqual("app_signOutConfirmationBullet2".getEnglishString(),
+        #expect("app_signOutConfirmationBullet2".getEnglishString() ==
                        "if you’re using Face ID or Touch ID to unlock the app, this will be switched off")
-        XCTAssertEqual("app_signOutConfirmationBullet3".getEnglishString(),
+        #expect("app_signOutConfirmationBullet3".getEnglishString() ==
                        "you’ll stop sharing analytics about how you use the app")
-        XCTAssertEqual("app_signOutConfirmationBody3".getEnglishString(),
+        #expect("app_signOutConfirmationBody3".getEnglishString() ==
                        "Next time you sign in, you’ll be able to add your documents again and reset your preferences.")
-        XCTAssertEqual("app_signOutAndDeleteAppDataButton".getEnglishString(),
+        #expect("app_signOutAndDeleteAppDataButton".getEnglishString() ==
                        "Sign out and delete information")
     }
     
+    @Test
     func test_signOutSuccessfulPageKeys() {
-        XCTAssertEqual("app_signedOutTitle".getEnglishString(),
+        #expect("app_signedOutTitle".getEnglishString() ==
                        "You have signed out")
-        XCTAssertEqual("app_signedOutBody".getEnglishString(),
+        #expect("app_signedOutBody".getEnglishString() ==
                        "To keep your information secure, any documents in this app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
     }
     
+    @Test
     func test_signOutErrorPageKeys() {
-        XCTAssertEqual("app_signOutErrorTitle".getEnglishString(),
+        #expect("app_signOutErrorTitle".getEnglishString() ==
                        "There was a problem signing you out")
-        XCTAssertEqual("app_signOutErrorBody".getEnglishString(),
+        #expect("app_signOutErrorBody".getEnglishString() ==
                        "Try again later.\n\nIf you need to sign out right now, you can delete the app from your phone. This will also delete any documents saved in your app.")
-        XCTAssertEqual("app_signOutErrorButton".getEnglishString(),
+        #expect("app_signOutErrorButton".getEnglishString() ==
                        "Go back to settings")
     }
     
+    @Test
     func test_signInAgainPageKeys() {
-        XCTAssertEqual("app_signInAgainTitle".getEnglishString(),
+        #expect("app_signInAgainTitle".getEnglishString() ==
                        "You need to sign in again")
-        XCTAssertEqual("app_signInAgainBody".getEnglishString(),
+        #expect("app_signInAgainBody".getEnglishString() ==
                        "Sign in with your %@ details to continue.\n\nThis is to keep your information secure.")
     }
     
+    @Test
     func test_dataDeletedWarningPageKeys() {
-        XCTAssertEqual("app_dataDeletionWarningTitle".getEnglishString(),
+        #expect("app_dataDeletionWarningTitle".getEnglishString() ==
                        "Something went wrong")
         
-        XCTAssertEqual("app_dataDeletionWarningBody".getEnglishString(),
+        #expect("app_dataDeletionWarningBody".getEnglishString() ==
                        "We could not confirm your sign in details.\n\nTo keep your information secure, any documents in your app have been removed and your preferences have been reset.\n\nYou need to sign in and reset your preferences to continue using the app. You’ll then be able to add your documents again.")
     }
 
+    @Test
     func test_updateAppPageKeys() {
-        XCTAssertEqual("app_updateAppTitle".getEnglishString(),
+        #expect("app_updateAppTitle".getEnglishString() ==
                        "You need to update your app")
-        XCTAssertEqual("app_updateAppBody".getEnglishString(),
+        #expect("app_updateAppBody".getEnglishString() ==
                        "You're using an old version of the %@ app.\n\nGo to the App Store and update your app to continue.")
-        XCTAssertEqual("app_updateAppButton".getEnglishString(),
+        #expect("app_updateAppButton".getEnglishString() ==
                        "Go to App Store")
     }
     
+    @Test
     func test_homeTileKeys() {
-        XCTAssertEqual("app_welcomeTileHeader".getEnglishString(),
+        #expect("app_welcomeTileHeader".getEnglishString() ==
                        "Welcome")
-        XCTAssertEqual("app_welcomeTileBody1".getEnglishString(),
+        #expect("app_welcomeTileBody1".getEnglishString() ==
                        "You can use this app to prove your identity to access some government services.")
-        XCTAssertEqual("app_appPurposeTileHeader".getEnglishString(),
+        #expect("app_appPurposeTileHeader".getEnglishString() ==
                        "How to prove your identity")
-        XCTAssertEqual("app_appPurposeTileBody1".getEnglishString(),
+        #expect("app_appPurposeTileBody1".getEnglishString() ==
                        "To start, go to the GOV.UK website and find the government service you need to use. You'll be asked to open this app if you need it.")
-        XCTAssertEqual("app_appPurposeTileButton".getEnglishString(),
+        #expect("app_appPurposeTileButton".getEnglishString() ==
                        "Find out more")
     }
     
+    @Test
     func test_proveIdentityGuidanceKeys() {
-        XCTAssertEqual("app_proveYourIdentityGuidanceTitle".getEnglishString(),
+        #expect("app_proveYourIdentityGuidanceTitle".getEnglishString() ==
                        "How to prove your identity")
-        XCTAssertEqual("app_proveYourIdentityGuidanceBody1".getEnglishString(),
+        #expect("app_proveYourIdentityGuidanceBody1".getEnglishString() ==
                        "You cannot start proving your identity in this app.\n\nTo start, go to the GOV.UK website and find the government service you need to use.\n\nYou'll be asked to open this app if you need to use it to prove your identity.")
-        XCTAssertEqual("app_proveYourIdentityGuidanceLink".getEnglishString(),
+        #expect("app_proveYourIdentityGuidanceLink".getEnglishString() ==
                        "Go to the GOV.UK website")
-        XCTAssertEqual("app_proveYourIdentityGuidanceBody2".getEnglishString(),
+        #expect("app_proveYourIdentityGuidanceBody2".getEnglishString() ==
                        "If you've already started proving your identity on the GOV.UK website")
-        XCTAssertEqual("app_proveYourIdentityGuidanceBody3".getEnglishString(),
+        #expect("app_proveYourIdentityGuidanceBody3".getEnglishString() ==
                        "If a service on the GOV.UK website has guided you to open this app, you should see a button to continue proving your identity in the 'Home' section.\n\nIf you cannot see the button, close the app and open it again.")
     }
     
+    @Test
     func test_appUnavailablePageKeys() {
-        XCTAssertEqual("app_appUnavailableTitle".getEnglishString(),
+        #expect("app_appUnavailableTitle".getEnglishString() ==
                        "Sorry, the app is unavailable")
-        XCTAssertEqual("app_appUnavailableBody".getEnglishString(),
+        #expect("app_appUnavailableBody".getEnglishString() ==
                        "You cannot use the %@ app at the moment.\n\nTry again later.")
     }
     
+    @Test
     func test_accessibilityHintKeys() {
-        XCTAssertEqual("app_externalBrowser".getEnglishString(), "Opens in web browser")
-        XCTAssertEqual("app_externalApp".getEnglishString(), "Opens in App Store")
-        XCTAssertEqual("app_loadingLabel".getEnglishString(), "Loading %@")
+        #expect("app_externalBrowser".getEnglishString() == "Opens in web browser")
+        #expect("app_externalApp".getEnglishString() == "Opens in App Store")
+        #expect("app_loadingLabel".getEnglishString() == "Loading %@")
     }
     
+    @Test
     func test_localAuthSettingsError_keys() {
-        XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
+        #expect("app_localAuthManagerErrorTitle".getEnglishString() ==
                        "Update your phone's security settings")
-        XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
+        #expect("app_localAuthManagerErrorBody1".getEnglishString() ==
                        "To add documents, you need to protect your phone with a passcode.\n\nThis is to make sure no one else can view or add documents to your app.")
-        XCTAssertEqual("app_localAuthManagerErrorBody3".getEnglishString(),
+        #expect("app_localAuthManagerErrorBody3".getEnglishString() ==
                        "You need to:")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList0".getEnglishString(),
+        #expect("app_localAuthManagerErrorNumberedList0".getEnglishString() ==
                        "Go to your phone settings.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString(),
+        #expect("app_localAuthManagerErrorNumberedList1FaceID".getEnglishString() ==
                        "Tap Face ID & Passcode.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList1TouchID".getEnglishString(),
+        #expect("app_localAuthManagerErrorNumberedList1TouchID".getEnglishString() ==
                        "Tap Touch ID & Passcode.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getEnglishString(),
+        #expect("app_localAuthManagerErrorNumberedList2".getEnglishString() ==
                        "Tap Turn Passcode On and follow the instructions.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getEnglishString(),
+        #expect("app_localAuthManagerErrorNumberedList3".getEnglishString() ==
                        "Come back to continue using your documents.")
     }
     
+    @Test
     func test_localAuthBiometricsError_keys() {
-        XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getEnglishString(),
+        #expect("app_localAuthManagerBiometricsErrorTitle".getEnglishString() ==
                        "You need to allow %@")
-        XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getEnglishString(),
+        #expect("app_localAuthManagerBiometricsFaceIDErrorBody".getEnglishString() ==
                        "To add documents, you need to allow Face ID. This is to keep your documents secure.\n\nWhen you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone’s settings.")
-        XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getEnglishString(),
+        #expect("app_localAuthManagerBiometricsTouchIDErrorBody".getEnglishString() ==
                        "To add documents, you need to allow Touch ID. This is to keep your documents secure.\n\nWhen you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
     
+    @Test
     func test_appIntegrityPageKeys() {
-        XCTAssertEqual("app_appIntegrityErrorTitle".getEnglishString(),
+        #expect("app_appIntegrityErrorTitle".getEnglishString() ==
                        "Sorry, there’s a problem")
-        XCTAssertEqual("app_appIntegrityErrorBody1".getEnglishString(),
+        #expect("app_appIntegrityErrorBody1".getEnglishString() ==
                        "You cannot use the %@ app at the moment.\n\nTry again later.")
     }
 }
