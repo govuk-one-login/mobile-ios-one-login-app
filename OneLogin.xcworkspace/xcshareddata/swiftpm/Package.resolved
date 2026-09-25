@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iProov/ios.git",
       "state" : {
-        "revision" : "1715e64ba336a2b154f5fd6a4795442a8dae4a5a",
-        "version" : "13.1.0"
+        "revision" : "68a7d87093d3c5201ca9ccc5f9956db438f056de",
+        "version" : "13.2.1"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "9734c5bccbec820db378583d1694a70e716aa6b5",
-        "version" : "8.83.6"
+        "revision" : "8176beb721aa9622fab1470340314ebe193e60f7",
+        "version" : "8.84.1"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "revision" : "4ceca00ad470122438d115834a4b6f77f6067bc7",
-        "version" : "2.4.1"
+        "revision" : "738a364253a9492e67317ce20dadff6bb613629e",
+        "version" : "2.5.0"
       }
     },
     {

@@ -21,21 +21,25 @@ extension ProveIdentityGuidanceViewModelTests {
     @Test
     func test_prove_identity_page() {
         let titleText = sut.body.first as? GDSTextViewModel
-        let body1 = sut.body[1] as? GDSTextViewModel
-        let button = sut.body[2] as? GDSButtonViewModel
-        let body2 = sut.body[3] as? GDSTextViewModel
-        let body3 = sut.body[4] as? GDSTextViewModel
-
         #expect(titleText?.title.stringKey == "app_proveYourIdentityGuidanceTitle")
         #expect(titleText?.title.value == "How to prove your identity")
         #expect(titleText?.accessibilityTraits == .header)
+        
+        let body1 = sut.body[1] as? GDSTextViewModel
         #expect(body1?.title.stringKey == "app_proveYourIdentityGuidanceBody1")
+        
+        let button = sut.body[2] as? GDSButtonViewModel
+        #expect(button?.style == .secondaryLeading)
         #expect(button?.title.forState(.normal) == "Go to the GOV.UK website")
         #expect(button?.icon == .arrowUpRight)
         #expect(button?.accessibilityHint == "Opens in web browser")
+        
+        let body2 = sut.body[3] as? GDSTextViewModel
         #expect(body2?.title.stringKey == "app_proveYourIdentityGuidanceBody2")
         #expect(body2?.title.value == "If you've already started proving your identity on the GOV.UK website")
         #expect(body2?.accessibilityTraits == .header)
+        
+        let body3 = sut.body[4] as? GDSTextViewModel
         #expect(body3?.title.stringKey == "app_proveYourIdentityGuidanceBody3")
         // swiftlint:disable line_length
         #expect(body3?.title.value == "If a service on the GOV.UK website has guided you to open this app, you should see a button to continue proving your identity in the 'Home' section.\n\nIf you cannot see the button, close the app and open it again.")

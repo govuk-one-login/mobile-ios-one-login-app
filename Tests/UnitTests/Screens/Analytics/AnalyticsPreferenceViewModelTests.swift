@@ -17,13 +17,20 @@ extension AnalyticsPreferenceViewModelTests {
     @Test
     func test_screen_contents() {
         let titleText = sut.body.first as? GDSTextViewModel
-        let bodyText = sut.body[1] as? GDSTextViewModel
         #expect(titleText?.title.stringKey == "app_acceptAnalyticsPreferences_title")
         #expect(titleText?.accessibilityTraits == .header)
         #expect(titleText?.alignment == .left)
+        
+        let bodyText = sut.body[1] as? GDSTextViewModel
         #expect(bodyText?.title.stringKey == "acceptAnalyticsPreferences_body")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])
         #expect(bodyText?.alignment == .left)
+        
+        let linkButton = sut.body.last as? GDSButtonViewModel
+        #expect(linkButton?.style == .secondaryLeading)
+        #expect(linkButton?.accessibilityHint == "Opens in web browser")
+        #expect(linkButton?.title.forState(.normal) == "Read more about this in the GOV.UK One Login privacy notice")
+        
         #expect(sut.movableFooter.count == 2)
         #expect(sut.footer.count == 0)
         #expect(sut.rightBarButtonTitle == nil)
