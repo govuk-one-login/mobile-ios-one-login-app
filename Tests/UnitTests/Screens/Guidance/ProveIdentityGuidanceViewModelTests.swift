@@ -24,18 +24,17 @@ extension ProveIdentityGuidanceViewModelTests {
         #expect(titleText?.title.stringKey == "app_proveYourIdentityGuidanceTitle")
         #expect(titleText?.title.value == "How to prove your identity")
         #expect(titleText?.accessibilityTraits == .header)
+        
         let body1 = sut.body[1] as? GDSTextViewModel
-
         #expect(body1?.title.stringKey == "app_proveYourIdentityGuidanceBody1")
         
         let button = sut.body[2] as? GDSButtonViewModel
-
+        #expect(button?.style == .secondaryLeading)
         #expect(button?.title.forState(.normal) == "Go to the GOV.UK website")
         #expect(button?.icon == .arrowUpRight)
         #expect(button?.accessibilityHint == "Opens in web browser")
         
         let body2 = sut.body[3] as? GDSTextViewModel
-
         #expect(body2?.title.stringKey == "app_proveYourIdentityGuidanceBody2")
         #expect(body2?.title.value == "If you've already started proving your identity on the GOV.UK website")
         #expect(body2?.accessibilityTraits == .header)
