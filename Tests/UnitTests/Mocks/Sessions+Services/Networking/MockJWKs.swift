@@ -1,4 +1,5 @@
 import Foundation
+
 // swiftlint:disable line_length
 struct MockJWKs {
     static let jwksJson = Data("""
@@ -49,4 +50,5 @@ struct MockJWKs {
         }
         """.utf8)
 }
+
 // swiftlint:enable line_length

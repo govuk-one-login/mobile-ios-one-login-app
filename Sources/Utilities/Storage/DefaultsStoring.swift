@@ -7,4 +7,4 @@ protocol DefaultsStoring {
     func removeObject(forKey defaultName: String)
 }
 
-extension UserDefaults: DefaultsStoring { }
+extension UserDefaults: DefaultsStoring {}

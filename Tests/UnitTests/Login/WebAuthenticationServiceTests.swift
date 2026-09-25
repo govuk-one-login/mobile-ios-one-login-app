@@ -162,7 +162,6 @@ final class WebAuthenticationServiceXCTests: XCTestCase {
             mockAnalyticsService: mockAnalyticsService
         )
 
-        
         do {
             try await sut.startWebSession()
         } catch {
@@ -404,19 +403,18 @@ struct WebAuthenticationServiceTests {
 }
 
 struct WalletSessionBoundDataStub: SessionBoundData {
-    
     final class UserSessionData {
-        fileprivate var storage: [AnyHashable: Sendable]
+        fileprivate var storage: [AnyHashable: String]
         
         var isEmpty: Bool {
             self.storage.isEmpty
         }
 
-        init(storage: [AnyHashable: Sendable] = [:]) {
+        init(storage: [AnyHashable: String] = [:]) {
             self.storage = storage
         }
         
-        subscript(key: AnyHashable) -> Sendable? {
+        subscript(key: AnyHashable) -> String? {
             get {
                 storage[key]
             }
@@ -426,7 +424,7 @@ struct WalletSessionBoundDataStub: SessionBoundData {
         }
     }
 
-    static func stubWalletData(_ walletData: [AnyHashable: Sendable]) -> (mockWalletSessionBound: WalletSessionBoundDataStub, walletData: UserSessionData) {
+    static func stubWalletData(_ walletData: [AnyHashable: String]) -> (mockWalletSessionBound: WalletSessionBoundDataStub, walletData: UserSessionData) {
         let walletData = UserSessionData(storage: walletData)
         
         return (mockWalletSessionBound: WalletSessionBoundDataStub(
@@ -442,7 +440,7 @@ struct WalletSessionBoundDataStub: SessionBoundData {
 
     typealias ClearSessionDataAsFunction = () async throws -> Void
     
-    var clearSessionDataAsFunction: ClearSessionDataAsFunction = { }
+    var clearSessionDataAsFunction: ClearSessionDataAsFunction = {}
 
     func clearSessionData() async throws {
         return try await self.clearSessionDataAsFunction()
@@ -454,7 +452,6 @@ extension WebAuthenticationService {
     static func make(sessionManager: SessionManager = MockSessionManager(),
                      mockLoginSession: LoginSession? = nil,
                      mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()) -> WebAuthenticationService {
-        
         let mockLoginSession = mockLoginSession ?? MockAppAuthSession()
         
         return WebAuthenticationService(sessionManager: sessionManager,

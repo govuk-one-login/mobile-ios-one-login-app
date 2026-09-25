@@ -6,9 +6,7 @@ import Networking
 @testable import OneLogin
 
 extension FirebaseAppIntegrityService {
-    
     static func makeNonExpired(errorFromAttestationJWT: Error) -> FirebaseAppIntegrityService {
-        
         let mockAttestationStore = MockAttestationStore(attestationExpired: false, errorFromAttestationJWT: errorFromAttestationJWT)
 
         return make(attestationStore: mockAttestationStore)
@@ -21,7 +19,6 @@ extension FirebaseAppIntegrityService {
                      networkClient: AppIntegrityNetworkClient = MockAppIntegrityNetworkClient.mock(),
                      baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
     ) -> FirebaseAppIntegrityService {
-        
         return FirebaseAppIntegrityService(
             vendor: MockAppCheckVendor(),
             attestationProofOfPossessionProvider: attestationProofOfPossessionProvider,
@@ -34,7 +31,6 @@ extension FirebaseAppIntegrityService {
 }
 
 final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
-    
     static func dataFromPublicKey(_ data: Data = Data()) -> PublicKeyAsFunction {
         return { data }
     }
@@ -67,6 +63,7 @@ final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
                 }
             """.utf8), signAsFunction: Data())
     }
+
     init(publicKeyAsFunction: @escaping @autoclosure PublicKeyAsFunction, signAsFunction: @escaping @autoclosure SignAsFunction) {
         self.publicKeyAsFunction = publicKeyAsFunction
         self.signAsFunction = signAsFunction
@@ -84,7 +81,6 @@ final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
 }
 
 class MockProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator {
-    
     static func token(header: [String: Any] = [:], payload: [String: Any] = [:]) -> TokenJWTAsFunction {
         return { "\(header.merging(payload) { $1 })" }
     }
@@ -118,9 +114,7 @@ class MockProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator {
 }
 
 class MockAppIntegrityNetworkClient: AppIntegrityNetworkClient, NetworkClientProtocol {
-    
     static func mock() -> MockAppIntegrityNetworkClient {
-        
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: configuration)
@@ -144,7 +138,6 @@ class MockAppIntegrityNetworkClient: AppIntegrityNetworkClient, NetworkClientPro
 }
 
 class MockAttestationStore: AttestationStorage {
-    
     static func attestationJWT(_ attestationJWT: String = "") -> AttestationJWTAsFunction {
         return { attestationJWT }
     }
@@ -164,6 +157,7 @@ class MockAttestationStore: AttestationStorage {
             try attestationJWTAsFunction()
         }
     }
+
     var mockStorage = [String: Any]()
 
     convenience init(attestationExpired: Bool = false, attestationJWT: String = "", mockStorage: [String: Any] = [String: Any]()) {
@@ -180,7 +174,6 @@ class MockAttestationStore: AttestationStorage {
         self.mockStorage = mockStorage
     }
 
-    
     func store(
         clientAttestation assertionJWT: String,
         attestationExpiry assertionExpiry: Date

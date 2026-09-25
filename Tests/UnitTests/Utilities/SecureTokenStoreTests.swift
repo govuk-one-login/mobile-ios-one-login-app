@@ -30,7 +30,7 @@ extension SecureTokenStoreTests {
         XCTAssertTrue(sut.hasLoginTokens)
     }
     
-    func test_doesNotHaveLoginTokens() throws {
+    func test_doesNotHaveLoginTokens() {
         mockAccessControlEncryptedSecureStoreMigrator.savedItems = [:]
         XCTAssertFalse(sut.hasLoginTokens)
     }
@@ -50,7 +50,8 @@ extension SecureTokenStoreTests {
     }
 
     func test_fetchThrowsErrorIfTokensHaveIncorrectFormat() throws {
-        mockAccessControlEncryptedSecureStoreMigrator.savedItems = [OLString.storedTokens: "normal string"]
+        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(item: "normal string", itemName: OLString.storedTokens)
+        
         do {
             _ = try sut.fetch()
             XCTFail("Expected to recieve token error")
@@ -74,7 +75,7 @@ extension SecureTokenStoreTests {
         XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [OLString.storedTokens: tokensAsData])
     }
 
-    func test_deletesTokens() throws {
+    func test_deletesTokens() {
         mockAccessControlEncryptedSecureStoreMigrator.savedItems = [OLString.storedTokens: "tokens"]
         sut.deleteTokens()
         XCTAssertEqual(mockAccessControlEncryptedSecureStoreMigrator.savedItems, [:])

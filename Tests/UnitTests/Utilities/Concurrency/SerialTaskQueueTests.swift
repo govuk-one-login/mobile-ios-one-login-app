@@ -49,7 +49,6 @@ class ValueService {
 }
 
 final class ValueManager {
-    
     let valueStore: ValueStore
     let valueService: ValueService
     
@@ -84,7 +83,6 @@ class UnsafeCounter {
 }
 
 struct SerialTaskQueueTests {
-
     /// GIVEN a `SerialTaskQueue`
     /// WHEN an operation is enqueued
     /// AND succesfully finished with value
@@ -134,7 +132,7 @@ struct SerialTaskQueueTests {
     /// AND a `Counter` that is not a thread safe type
     /// WHEN enqueue an operation
     /// THEN will safely `incrementAndGet` the count to the number of tasks
-    @Test func enqueue_eliminates_race_condition() async throws {
+    @Test func enqueue_eliminates_race_condition() async {
         let serialTaskQueue = SerialTaskQueue()
         let counter = UnsafeCounter(count: 0)
 
@@ -204,7 +202,7 @@ struct SerialTaskQueueTests {
     /// - Remark: Calling `ValueManager/update()` in parallel, instead of enqueing it, will record an error:
     ///     `Caught error: A value was used twice to update the unique set. This is a violation of the insert which expects a value to only be used once.`
     ///
-    @Test func enqueue_ensures_tasks_execute_in_sequence() async throws {
+    @Test func enqueue_ensures_tasks_execute_in_sequence() async {
         let valueService = ValueService()
         let manager = ValueManager(valueStore: ValueStore(value: "any"), valueService: valueService)
         let serialTaskQueue = SerialTaskQueue()

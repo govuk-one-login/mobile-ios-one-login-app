@@ -12,7 +12,7 @@ struct DeveloperMenuViewModelTests {
 
 extension DeveloperMenuViewModelTests {
     @Test
-    func test_screen_contents() throws {
+    func test_screen_contents() {
         #expect(sut.rightBarButtonTitle?.stringKey == "app_cancelButton")
         #expect(sut.backButtonTitle == nil)
         #expect(sut.backButtonIsHidden)

@@ -7,4 +7,4 @@ public protocol AppCheckVendor {
     func limitedUseToken() async throws -> AppCheckToken
 }
 
-extension AppCheck: AppCheckVendor { }
+extension AppCheck: AppCheckVendor {}

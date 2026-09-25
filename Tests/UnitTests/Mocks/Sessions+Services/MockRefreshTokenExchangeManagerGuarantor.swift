@@ -23,7 +23,6 @@ import JWTKit
 /// - SeeAlso  ``PersistentSessionManagerTests/test_refreshTokenExchange_isSerialisedAcrossResumeSessionAndAuthorizedRequest()``
 /// - Remark: This mock is not designed to be used by a test that wants to stub a response. Use a ``MockRefreshTokenExchangeManager`` instead.
 final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
-    
     enum GetUpdatedTokensError: Error, LocalizedError, CustomStringConvertible {
         case violation(_ refreshToken: String, _ refreshTokens: Set<String>)
         
@@ -71,7 +70,7 @@ final class MockRefreshTokenExchangeManagerGuarantor: TokenExchangeManaging {
                 .replacingOccurrences(of: "/", with: "_")
                 .trimmingCharacters(in: CharacterSet(charactersIn: "=="))
 
-            return  "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.\(payload)." +
+            return "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2ZGI2NTg3LTU0NDUtNDVkNi1hN2Q5LTk4NzgxZWJkZjkzZCJ9.\(payload)." +
                 "7ocBIY_vVO83eYlYpJJJuFvl_GtWqwkeYzEDiNjSfUGGatnIW5ahcoEC-tjkIxQhVjpKhmcS_HcE34836OSXrw"
         }
     }

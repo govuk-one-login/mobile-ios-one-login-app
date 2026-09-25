@@ -36,7 +36,7 @@ struct SecureAttestationStoreTests: ~Copyable {
     }
     
     @Test
-    func attestationMissing() throws {
+    func attestationMissing() {
         #expect(sut.attestationExpired)
     }
     
@@ -96,13 +96,15 @@ struct SecureAttestationStoreTests: ~Copyable {
             case .error:
                 throw errorFromAttestationJWT
             case .success:
-                return "any"
+                throw SecureStoreError(.unableToRetrieveFromUserDefaults)
             }
         }
         
-        let mockSecureStoreService = MockSecureStoreService(readItemAsFunction: readItemAsFunction, deleteItemAsFunction: { _ in
+        let mockSecureStoreService = MockSecureStoreService()
+        mockSecureStoreService.readItemAsFunction = readItemAsFunction
+        mockSecureStoreService.deleteItemAsFunction = { _ in
             readItemResult = .success
-        })
+        }
         
         try mockSecureStoreService.saveDate(id: AttestationStorageKey.attestationExpiry.rawValue, Date.distantFuture)
                 

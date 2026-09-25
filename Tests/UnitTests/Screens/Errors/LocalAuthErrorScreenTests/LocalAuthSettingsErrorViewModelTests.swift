@@ -18,7 +18,7 @@ struct LocalAuthSettingsErrorViewModelTests {
 
 extension LocalAuthSettingsErrorViewModelTests {
     @Test
-    func test_pageVariables() throws {
+    func test_pageVariables() {
         let title = sut.body.first as? GDSErrorIconTitleViewModel
         let bodyText = sut.body[1] as? GDSTextViewModel
         let list = sut.body[2] as? GDSListViewModel
@@ -55,7 +55,7 @@ extension LocalAuthSettingsErrorViewModelTests {
     }
     
     @Test
-    func test_pageVariables_faceID() throws {
+    func test_pageVariables_faceID() {
         let sut = LocalAuthSettingsErrorViewModel(analyticsService: mockAnalyticsService,
                                                   localAuthType: .faceID)
         let list = sut.body[2] as? GDSListViewModel

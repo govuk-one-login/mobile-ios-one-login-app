@@ -22,6 +22,7 @@ struct LoadingViewModel: GDSScreenViewModel, BaseViewModel {
             analyticsService.trackScreen(screen)
         }
     }
+
     var didDismiss: DesignSystem.Action?
     
     let analyticsService: OneLoginAnalyticsService

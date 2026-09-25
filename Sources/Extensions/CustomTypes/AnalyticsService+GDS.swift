@@ -23,7 +23,7 @@ extension ErrorScreenView: @retroactive LoggableScreen where Screen: OneLoginScr
     }
 }
 
-extension EventName: @retroactive LoggableEvent { }
+extension EventName: @retroactive LoggableEvent {}
 
 extension AnalyticsService {
     public func logEvent(_ event: Event) {

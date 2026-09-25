@@ -4,7 +4,7 @@ import XCTest
 
 // swiftlint:disable type_body_length
 final class LocalizedEnglishStringTests: XCTestCase {
-    func test_generic_keys() throws {
+    func test_generic_keys() {
         XCTAssertEqual("app_closeButton".getEnglishString(),
                        "Close")
         XCTAssertEqual("app_cancelButton".getEnglishString(),
@@ -31,14 +31,14 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "GOV.UK One Login")
     }
     
-    func test_localAuthPrompt_keys() throws {
+    func test_localAuthPrompt_keys() {
         XCTAssertEqual("app_faceId_subtitle".getEnglishString(),
                        "Enter iPhone passcode")
         XCTAssertEqual("app_touchId_subtitle".getEnglishString(),
                        "Unlock to proceed")
     }
     
-    func test_signInScreen_keys() throws {
+    func test_signInScreen_keys() {
         XCTAssertEqual("app_signInBody".getEnglishString(),
                        "Prove your identity to access government services.\n\nYou’ll need to sign in with your %@ details.")
         XCTAssertEqual("app_signInButton".getEnglishString(),
@@ -47,7 +47,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Sign in with %@")
     }
     
-    func test_analyticsScreen_keys() throws {
+    func test_analyticsScreen_keys() {
         XCTAssertEqual("app_acceptAnalyticsPreferences_title".getEnglishString(),
                        "Help improve the app by sharing analytics")
         XCTAssertEqual("acceptAnalyticsPreferences_body".getEnglishString(),
@@ -55,7 +55,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_privacyNoticeLink".getEnglishString(), "Read more about this in the %@ privacy notice")
     }
     
-    func test_unableToLoginErrorScreen_keys() throws {
+    func test_unableToLoginErrorScreen_keys() {
         XCTAssertEqual("app_signInErrorTitle".getEnglishString(),
                        "There was a problem signing you in")
         XCTAssertEqual("app_signInErrorRecoverableBody".getEnglishString(),
@@ -64,35 +64,35 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Try again later.")
     }
     
-    func test_networkConnectionErrorScreen_keys() throws {
+    func test_networkConnectionErrorScreen_keys() {
         XCTAssertEqual("app_networkErrorTitle".getEnglishString(),
                        "You are not connected to the internet")
         XCTAssertEqual("app_networkErrorBody".getEnglishString(),
                        "You need to have an internet connection to use %@.\n\nReconnect to the internet and try again.")
     }
     
-    func test_genericErrorScreen_keys() throws {
+    func test_genericErrorScreen_keys() {
         XCTAssertEqual("app_genericErrorPage".getEnglishString(),
                        "Sorry, there’s a problem")
         XCTAssertEqual("app_genericErrorPageBody".getEnglishString(),
                        "Try again later.")
     }
     
-    func test_faceIDEnrolmentScreen_keys() throws {
+    func test_faceIDEnrolmentScreen_keys() {
         XCTAssertEqual("app_FaceID".getEnglishString(),
                        "Face ID")
         XCTAssertEqual("app_enableBiometricsFaceIDBody2".getEnglishString(),
                        "If you allow Face ID, anyone who can unlock your phone with their face or with your phone's passcode will be able to access your app.\n\nYou can turn off Face ID for this app anytime in your phone settings.")
     }
     
-    func test_touchIDEnrolmentScreen_keys() throws {
+    func test_touchIDEnrolmentScreen_keys() {
         XCTAssertEqual("app_TouchID".getEnglishString(),
                        "Touch ID")
         XCTAssertEqual("app_enableBiometricsTouchIDBody2".getEnglishString(),
                        "If you allow Touch ID, anyone who can unlock your phone with their fingerprint or with your phone's passcode will be able to access your app.")
     }
     
-    func test_biometricsEnrolmentScreen_commonKeys() throws {
+    func test_biometricsEnrolmentScreen_commonKeys() {
         XCTAssertEqual("app_enableBiometricsButton".getEnglishString(),
                        "Allow %@")
         XCTAssertEqual("app_enableBiometricsTitle".getEnglishString(),
@@ -255,7 +255,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
         XCTAssertEqual("app_loadingLabel".getEnglishString(), "Loading %@")
     }
     
-    func test_localAuthSettingsError_keys() throws {
+    func test_localAuthSettingsError_keys() {
         XCTAssertEqual("app_localAuthManagerErrorTitle".getEnglishString(),
                        "Update your phone's security settings")
         XCTAssertEqual("app_localAuthManagerErrorBody1".getEnglishString(),
@@ -274,7 +274,7 @@ final class LocalizedEnglishStringTests: XCTestCase {
                        "Come back to continue using your documents.")
     }
     
-    func test_localAuthBiometricsError_keys() throws {
+    func test_localAuthBiometricsError_keys() {
         XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getEnglishString(),
                        "You need to allow %@")
         XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getEnglishString(),

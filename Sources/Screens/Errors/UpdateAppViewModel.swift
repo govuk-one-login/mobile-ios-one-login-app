@@ -16,31 +16,22 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
     var didAppear: DesignSystem.Action?
     var didDismiss: DesignSystem.Action?
     
-    // swiftlint: disable:next function_body_length
     init(analyticsService: OneLoginAnalyticsService,
          urlOpener: URLOpener = UIApplication.shared) {
         let analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.system,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        let font = UIFont(style: .largeTitle, weight: .regular)
-        let configuration = UIImage.SymbolConfiguration(font: font, scale: .large)
-        
-        let image = UIImage(systemName: "exclamationmark.arrow.circlepath", withConfiguration: configuration)
-        
         self.init(
             screenStyle: .centred,
             body: [
-                GDSImageViewModel(image: image ?? UIImage(),
-                                  imageColour: DesignSystem.Color.Text.primary,
-                                  contentMode: .scaleAspectFit,
-                                  imageFixedHeight: 100,
-                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
-                GDSTextViewModel(title: "app_updateAppTitle",
-                                 titleFont: .largeTitleBold,
-                                 alignment: .center,
-                                 accessibilityTraits: .header,
-                                 verticalPadding: .bottom(DesignSystem.Spacing.default)),
+                GDSErrorIconTitleViewModel(
+                    icon: .update,
+                    errorTitle: GDSTextViewModel(title: "app_updateAppTitle",
+                                                 titleFont: .largeTitleBold,
+                                                 alignment: .center,
+                                                 accessibilityTraits: .header)
+                ),
                 GDSTextViewModel(title: GDSLocalisedString(stringKey: "app_updateAppBody",
                                                            "app_nameString"),
                                  alignment: .center,
@@ -50,7 +41,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_updateAppButton",
                                                              "app_nameString").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                       let event = LinkEvent(textKey: "app_updateAppButton",
                                                             variableKeys: "app_nameString",
                                                             linkDomain: AppEnvironment.appStore.absoluteString,
@@ -58,7 +49,7 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
                                        analyticsService.logEvent(event)
                                        
                                        urlOpener.open(url: AppEnvironment.appStore)
-                                   }),
+                                   },
                                    accessibilityHint: GDSLocalisedString(stringKey: "app_externalApp").value,
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
@@ -67,13 +58,13 @@ struct UpdateAppViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: IntroAnalyticsScreenID.updateApp.rawValue,
                                              screen: IntroAnalyticsScreen.updateApp,
                                              titleKey: "app_updateAppTitle",
                                              reason: "update required error")
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
     }

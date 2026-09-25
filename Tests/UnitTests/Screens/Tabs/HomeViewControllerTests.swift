@@ -44,7 +44,7 @@ extension HomeViewControllerTests {
         mockCRIOrchestrator.hostingViewController.view.isHidden = false
         mockCRIOrchestrator.streamContinuation?.yield(.show)
         let tableView = try sut.tableView
-        #expect( await eventually { self.sut.numberOfSections(in: tableView) == 3 })
+        #expect(await eventually { self.sut.numberOfSections(in: tableView) == 3 })
     }
     
     @Test
@@ -54,7 +54,7 @@ extension HomeViewControllerTests {
         mockCRIOrchestrator.hostingViewController.view.isHidden = true
         mockCRIOrchestrator.streamContinuation?.yield(.hide)
         let tableView = try sut.tableView
-        #expect( await eventually { self.sut.numberOfSections(in: tableView) == 2 })
+        #expect(await eventually { self.sut.numberOfSections(in: tableView) == 2 })
     }
     
     @Test

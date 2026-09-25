@@ -54,11 +54,11 @@ struct SettingsTabViewModel: TabbedViewModel {
         self.urlOpener = urlOpener
         self.openDeveloperMenu = openDeveloperMenu
         self.openSignOutPage = openSignOutPage
-        self.didAppear = .action({
+        self.didAppear = .action {
             let screen = ScreenView(id: SettingsAnalyticsScreenID.settingsScreen.rawValue,
                                     screen: SettingsAnalyticsScreen.settingsScreen,
                                     titleKey: navigationTitle.stringKey)
             analyticsService.trackScreen(screen)
-        })
+        }
     }
 }

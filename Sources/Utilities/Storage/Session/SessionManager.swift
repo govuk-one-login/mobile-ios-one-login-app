@@ -36,16 +36,26 @@ protocol SessionManager: AnyObject, UserProvider {
     /// Saves session details by storing tokens
     func saveAuthSession() throws
     
-    /// Saves tokens in on-device storage
-    func saveLoginTokens(
-        idToken: String?,
-        refreshToken: String?,
-        accessToken: String?,
-        accessTokenExpiry: Date?
-    ) throws
-    
     /// Resumes an existing session by restoring tokens from on-device storage
+    @MainActor
     func resumeSession() async throws
+
+    /// Perform a refresh token exchange for the current session using the given `refreshToken`.
+    ///
+    /// Upon a successful refresh token exchange, the refreshed `accessToken` and `refreshToken`
+    /// for this session will be saved with the `idToken`.
+    ///
+    /// - Parameters:
+    ///     - idToken: the associated token id for which to perform the refresh token exchange
+    ///     - refreshToken: an existing, valid refresh token to be used for the refresh token exchange
+    ///  - throws: ``SecureStoreError(.cantRetrieveKey)`` in case there was an error retrieving the public key
+    ///  - throws: ``ServerError`` in case of a 400 response
+    ///  - throws: ``RefreshTokenExchangeError.noInternet`` in case the network connection was either never
+    ///      established, timed out or lost during the refresh token exchange.
+    /// - SeeAlso: ``TokenExchangeManaging/getUpdatedTokens(refreshToken:)`` on what a refresh token exchange entails.
+    /// - SeeAlso: ``TokenStore`` on how to retrieve the saved tokens
+    @MainActor
+    func updateRefreshToken(idToken: String, refreshToken: String) async throws
     
     /// Ends the current session - removing and deleting session related data such as access and ID token
     func endCurrentSession()

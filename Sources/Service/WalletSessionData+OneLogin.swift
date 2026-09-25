@@ -6,7 +6,6 @@ import WalletStore
 /// - SeeAlso: ``clearSessionData()`` for how to clear the session data.
 /// - SeeAlso: ``streamClearSessionDataWarnings`` on how to best consume a stream of warnings.
 actor WalletSessionData: SessionBoundData {
-    
     /// Use to stream warnings emitted by each call to ``clearSessionData()``.
     ///
     /// To receive the warnings emitted by a call to ``clearSessionData()``, obtain the warning stream first
@@ -134,7 +133,6 @@ protocol WalletServiceProtocol {
 }
 
 struct WalletSDKWrapper: WalletServiceProtocol {
-    
     static let instance = WalletSDKWrapper()
     
     /// Use ``instance`` to obtain a reference.

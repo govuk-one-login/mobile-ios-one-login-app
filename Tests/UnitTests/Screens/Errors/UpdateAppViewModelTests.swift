@@ -20,16 +20,16 @@ struct UpdateAppViewModelTests {
 extension UpdateAppViewModelTests {
     @Test
     func test_page() {
-        let image = sut.body.first as? GDSImageViewModel
-        let titleText = sut.body[1] as? GDSTextViewModel
-        let bodyText = sut.body[2] as? GDSTextViewModel
+        let title = sut.body.first as? GDSErrorIconTitleViewModel
         
-        #expect(image?.contentMode == .scaleAspectFit)
-        #expect(image?.imageFixedHeight == 100)
-        #expect(titleText?.title.stringKey == "app_updateAppTitle")
-        #expect(titleText?.title.value == "You need to update your app")
-        #expect(titleText?.alignment == .center)
-        #expect(titleText?.accessibilityTraits == .header)
+        #expect(title?.icon == .update)
+        #expect(title?.errorTitle.title.stringKey == "app_updateAppTitle")
+        #expect(title?.errorTitle.title.value == "You need to update your app")
+        #expect(title?.errorTitle.titleFont == .largeTitleBold)
+        #expect(title?.errorTitle.alignment == .center)
+        #expect(title?.errorTitle.accessibilityTraits == .header)
+        
+        let bodyText = sut.body.last as? GDSTextViewModel
         #expect(bodyText?.title.stringKey == "app_updateAppBody")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])
         #expect(bodyText?.title.value == "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")

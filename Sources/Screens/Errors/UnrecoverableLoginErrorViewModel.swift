@@ -44,13 +44,13 @@ struct UnrecoverableLoginErrorViewModel: GDSCentreAlignedViewModel {
             rightBarButtonTitle: nil,
             backButtonTitle: nil,
             backButtonIsHidden: true,
-            didAppear: .action({
+            didAppear: .action {
                 let screen = ErrorScreenView(id: ErrorAnalyticsScreenID.unrecoverableLoginError.rawValue,
                                              screen: ErrorAnalyticsScreen.unrecoverablLoginError,
                                              titleKey: "app_signInErrorTitle",
                                              reason: errorDescription)
                 analyticsService.trackScreen(screen)
-            }),
+            },
             didDismiss: nil
         )
         self.errorDescription = errorDescription

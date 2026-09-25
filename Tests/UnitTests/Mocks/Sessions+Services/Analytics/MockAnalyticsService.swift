@@ -32,7 +32,6 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         screenParamsLogged = parameters
     }
     
-    
     func logEvent(_ event: LoggableEvent, parameters: [String: Any]) {
         eventsLogged.append(event.name)
         

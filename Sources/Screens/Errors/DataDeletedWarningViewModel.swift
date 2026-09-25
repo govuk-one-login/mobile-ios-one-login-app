@@ -33,9 +33,9 @@ struct DataDeletedWarningViewModel: GDSCentreAlignedViewModel {
             movableFooter: [
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_signInButton").value,
                                    style: .primary,
-                                   buttonAction: .action({
+                                   buttonAction: .action {
                                        action()
-                                   }),
+                                   },
                                    verticalPadding: .bottom(DesignSystem.Spacing.default),
                                    horizontalPadding: .horizontal(DesignSystem.Spacing.default))
             ],

@@ -32,7 +32,7 @@ extension UnlockScreenViewControllerTests {
     }
     
     @Test
-    func test_ButtonLabelContents() throws {
+    func test_buttonLabelContents() throws {
         #expect(try sut.unlockButton.titleLabel?.adjustsFontForContentSizeCategory ?? false)
         #expect(try sut.unlockButton.titleLabel?.font == UIFont(style: .title3, weight: .bold))
         #expect(try sut.unlockButton.title(for: .normal) == "Unlock")

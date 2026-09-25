@@ -45,7 +45,7 @@ final class EnrolmentCoordinatorTests: XCTestCase {
 
 extension EnrolmentCoordinatorTests {
     @MainActor
-    func test_start_deviceLocalAuthSet_none() async throws {
+    func test_start_deviceLocalAuthSet_none() async {
         let exp = XCTNSNotificationExpectation(
             name: .enrolmentComplete,
             object: nil,
@@ -60,7 +60,7 @@ extension EnrolmentCoordinatorTests {
     }
     
     @MainActor
-    func test_start_deviceLocalAuthSet_passcodeOnly() async throws {
+    func test_start_deviceLocalAuthSet_passcodeOnly() async {
         let exp = XCTNSNotificationExpectation(
             name: .enrolmentComplete,
             object: nil,

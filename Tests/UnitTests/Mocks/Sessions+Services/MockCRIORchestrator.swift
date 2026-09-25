@@ -7,7 +7,7 @@ class MockCRIOrchestrator: CRIOrchestration {
     var streamContinuation: AsyncStream<CardStatus>.Continuation?
     var hostingViewController = UIViewController()
     
-    func continueIdentityCheckIfRequired(over viewController: UIViewController) { }
+    func continueIdentityCheckIfRequired(over viewController: UIViewController) {}
     
     func getIDCheckCard(
         viewController: UIViewController,

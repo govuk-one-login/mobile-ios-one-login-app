@@ -1,9 +1,8 @@
 import Foundation
 @testable import MobilePlatformServices
 import Networking
-import XCTest
-
 @testable import OneLogin
+import XCTest
 
 final class MockAppInformationService: AppInformationProvider {
     var currentVersion: Networking.Version = .init(.max, .max, .max)
@@ -30,7 +29,6 @@ final class MockAppInformationService: AppInformationProvider {
     }
 }
 
-
 final class MockAppInformationServiceExpectation: AppInformationProvider {
     var currentVersion: Version {
         mockAppInformationService.currentVersion
@@ -53,9 +51,7 @@ final class MockAppInformationServiceExpectation: AppInformationProvider {
     }
 }
 
-
 final class MockAppInfoAppInformationProvider: AppInformationProvider {
-    
     var currentVersion: Networking.Version = .init(1, 0, 0)
 
     private var appInfoStates: [AppInformationState]
@@ -63,7 +59,6 @@ final class MockAppInfoAppInformationProvider: AppInformationProvider {
     init(appInfoStates: [AppInformationState]) {
         self.appInfoStates = appInfoStates
     }
-
 
     func fetchAppInfo() async throws -> MobilePlatformServices.App {
         let appInfoState = self.appInfoStates.removeFirst()

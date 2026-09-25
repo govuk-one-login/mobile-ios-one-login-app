@@ -20,12 +20,12 @@ struct UnlockScreenViewModel: BaseViewModel {
             OLTaxonomyKey.level2: OLTaxonomyValue.system,
             OLTaxonomyKey.level3: OLTaxonomyValue.undefined
         ])
-        self.didAppear = .action({
+        self.didAppear = .action {
             let screen = ScreenView(id: BiometricEnrolmentAnalyticsScreenID.unlock.rawValue,
                                     screen: BiometricEnrolmentAnalyticsScreen.unlock,
                                     titleKey: "one login unlock screen")
             analyticsService.trackScreen(screen)
-        })
+        }
         
         self.primaryButtonAction = {
             let event = ButtonEvent(textKey: "app_unlockButton")

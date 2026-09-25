@@ -45,8 +45,7 @@ extension JWTVerifier {
         
         do {
             let data = try await networkClient.request(request).execute()
-            let jwksInfo = try JSONDecoder().decode(JWKSInfo.self, from: data)
-            return jwksInfo
+            return try JSONDecoder().decode(JWKSInfo.self, from: data)
         } catch {
             throw JWTVerifierError.unableToFetchJWKs
         }
@@ -59,8 +58,7 @@ extension JWTVerifier {
         guard let payloadData = Data(base64Encoded: payloadPaddingString) else { return nil }
         
         let header = try JSONSerialization.jsonObject(with: payloadData, options: []) as? [String: Any]
-        let kid = header?["kid"] as? String
-        return kid
+        return header?["kid"] as? String
     }
     
     private func getPartsOfJWT(_ token: String) throws -> [String] {

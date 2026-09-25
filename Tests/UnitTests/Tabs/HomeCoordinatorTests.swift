@@ -26,7 +26,7 @@ final class HomeCoordinatorTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_tabBarItem() throws {
+    func test_tabBarItem() {
         // WHEN the HomeCoordinator has started
         sut.start()
         // THEN the bar button item of the root is correctly configured
