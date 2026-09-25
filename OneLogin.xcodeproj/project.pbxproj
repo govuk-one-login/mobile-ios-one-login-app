@@ -5532,7 +5532,7 @@
 			repositoryURL = "https://github.com/govuk-one-login/mobile-ios-ui";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.2;
+				minimumVersion = 2.5.0;
 			};
 		};
 		1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
