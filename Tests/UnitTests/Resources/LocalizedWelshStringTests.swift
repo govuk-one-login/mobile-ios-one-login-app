@@ -1,292 +1,319 @@
 // swiftlint:disable line_length
 
-import XCTest
+import Testing
 
 // swiftlint:disable type_body_length
-final class LocalizedWelshStringTests: XCTestCase {
+struct LocalizedWelshStringTests {
+    @Test
     func test_generic_keys() {
-        XCTAssertEqual("app_closeButton".getWelshString(),
+        #expect("app_closeButton".getWelshString() ==
                        "Cau")
-        XCTAssertEqual("app_cancelButton".getWelshString(),
+        #expect("app_cancelButton".getWelshString() ==
                        "Canslo")
-        XCTAssertEqual("app_doneButton".getWelshString(),
+        #expect("app_doneButton".getWelshString() ==
                        "Wedi'i wneud")
-        XCTAssertEqual("app_tryAgainButton".getWelshString(),
+        #expect("app_tryAgainButton".getWelshString() ==
                        "Ewch yn ôl i roi cynnig eto")
-        XCTAssertEqual("app_continueButton".getWelshString(),
+        #expect("app_continueButton".getWelshString() ==
                        "Parhau")
-        XCTAssertEqual("app_agreeButton".getWelshString(),
+        #expect("app_agreeButton".getWelshString() ==
                        "Cytuno")
-        XCTAssertEqual("app_disagreeButton".getWelshString(),
+        #expect("app_disagreeButton".getWelshString() ==
                        "Anghytuno")
-        XCTAssertEqual("app_loadingBody".getWelshString(),
+        #expect("app_loadingBody".getWelshString() ==
                        "Llwytho")
-        XCTAssertEqual("app_skipButton".getWelshString(),
+        #expect("app_skipButton".getWelshString() ==
                        "Osgoi")
-        XCTAssertEqual("app_enterPasscodeButton".getWelshString(),
+        #expect("app_enterPasscodeButton".getWelshString() ==
                        "Rhowch god mynediad")
-        XCTAssertEqual("app_exitButton".getWelshString(),
+        #expect("app_exitButton".getWelshString() ==
                        "Gadael")
-        XCTAssertEqual("app_nameString".getWelshString(),
+        #expect("app_nameString".getWelshString() ==
                        "GOV.UK One Login")
     }
     
+    @Test
     func test_localAuthPrompt_keys() {
-        XCTAssertEqual("app_faceId_subtitle".getWelshString(),
+        #expect("app_faceId_subtitle".getWelshString() ==
                        "Rhowch god mynediad iPhone")
-        XCTAssertEqual("app_touchId_subtitle".getWelshString(),
+        #expect("app_touchId_subtitle".getWelshString() ==
                        "Datgloi i barhau")
     }
     
+    @Test
     func test_signInScreen_keys() {
-        XCTAssertEqual("app_signInBody".getWelshString(),
+        #expect("app_signInBody".getWelshString() ==
                        "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion %@.")
-        XCTAssertEqual("app_signInButton".getWelshString(),
+        #expect("app_signInButton".getWelshString() ==
                        "Mewngofnodi")
-        XCTAssertEqual("app_extendedSignInButton".getWelshString(),
+        #expect("app_extendedSignInButton".getWelshString() ==
                        "Mewngofnodi gyda %@")
     }
     
+    @Test
     func test_analyticsScreen_keys() {
-        XCTAssertEqual("app_acceptAnalyticsPreferences_title".getWelshString(),
+        #expect("app_acceptAnalyticsPreferences_title".getWelshString() ==
                        "Helpu i wella'r ap drwy rannu dadansoddi")
-        XCTAssertEqual("acceptAnalyticsPreferences_body".getWelshString(),
+        #expect("acceptAnalyticsPreferences_body".getWelshString() ==
                        "Gallwch helpu'r tîm %@ i wneud gwelliannau drwy rannu dadansoddeg am sut rydych yn defnyddio'r ap.\n\nGallwch stopio rhannu'r dadansoddeg hyn ar unrhyw amser. Ewch i osodiadau eich ffôn a dewiswch yr ap %@ i weld neu newid eich gosodiadau ap.\n\nGallwch stopio rhannu'r dadansoddiadau hyn ar unrhyw bryd trwy newid gosodiadau eich ap.")
-        XCTAssertEqual("app_privacyNoticeLink".getWelshString(), "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@")
+        #expect("app_privacyNoticeLink".getWelshString() == "Darllenwch fwy am hyn yn hysbysiad preifatrwydd %@")
     }
     
+    @Test
     func test_unableToLoginErrorScreen_keys() {
-        XCTAssertEqual("app_signInErrorTitle".getWelshString(),
+        #expect("app_signInErrorTitle".getWelshString() ==
                        "Roedd problem wrth eich mewngofnodi")
-        XCTAssertEqual("app_signInErrorRecoverableBody".getWelshString(),
+        #expect("app_signInErrorRecoverableBody".getWelshString() ==
                        "Ceisio mewngofnodi eto.")
-        XCTAssertEqual("app_signInErrorUnrecoverableBody".getWelshString(),
+        #expect("app_signInErrorUnrecoverableBody".getWelshString() ==
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
+    @Test
     func test_networkConnectionErrorScreen_keys() {
-        XCTAssertEqual("app_networkErrorTitle".getWelshString(),
+        #expect("app_networkErrorTitle".getWelshString() ==
                        "Nid ydych wedi'ch cysylltu â'r rhyngrwyd")
-        XCTAssertEqual("app_networkErrorBody".getWelshString(),
+        #expect("app_networkErrorBody".getWelshString() ==
                        "Mae angen i chi gael cysylltiad rhyngrwyd i ddefnyddio %@.\n\nAilgysylltwch â'r rhyngrwyd a rhoi cynnig eto.")
     }
     
+    @Test
     func test_genericErrorScreen_keys() {
-        XCTAssertEqual("app_genericErrorPage".getWelshString(),
+        #expect("app_genericErrorPage".getWelshString() ==
                        "Mae'n ddrwg gennym, mae problem")
-        XCTAssertEqual("app_genericErrorPageBody".getWelshString(),
+        #expect("app_genericErrorPageBody".getWelshString() ==
                        "Rhowch gynnig arall yn nes ymlaen.")
     }
     
+    @Test
     func test_faceIDEnrolmentScreen_keys() {
-        XCTAssertEqual("app_FaceID".getWelshString(),
+        #expect("app_FaceID".getWelshString() ==
                        "Face ID")
-        XCTAssertEqual("app_enableBiometricsFaceIDBody2".getWelshString(),
+        #expect("app_enableBiometricsFaceIDBody2".getWelshString() ==
                        "Os ydych yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
     }
     
+    @Test
     func test_touchIDEnrolmentScreen_keys() {
-        XCTAssertEqual("app_TouchID".getWelshString(),
+        #expect("app_TouchID".getWelshString() ==
                        "Touch ID")
-        XCTAssertEqual("app_enableBiometricsTouchIDBody2".getWelshString(),
+        #expect("app_enableBiometricsTouchIDBody2".getWelshString() ==
                        "Os ydych yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
     
+    @Test
     func test_biometricsEnrolmentScreen_commonKeys() {
-        XCTAssertEqual("app_enableBiometricsButton".getWelshString(),
+        #expect("app_enableBiometricsButton".getWelshString() ==
                        "Caniatáu %@")
-        XCTAssertEqual("app_enableBiometricsTitle".getWelshString(),
+        #expect("app_enableBiometricsTitle".getWelshString() ==
                        "Caniatáu %@")
-        XCTAssertEqual("app_enableBiometricsBody1".getWelshString(),
+        #expect("app_enableBiometricsBody1".getWelshString() ==
                        "Defnyddiwch %@ i:")
-        XCTAssertEqual("app_enableBiometricsBullet1".getWelshString(),
+        #expect("app_enableBiometricsBullet1".getWelshString() ==
                        "mewngofnodi")
-        XCTAssertEqual("app_enableBiometricsBullet2".getWelshString(),
+        #expect("app_enableBiometricsBullet2".getWelshString() ==
                        "gweld ac ychwanegu dogfennau")
     }
     
+    @Test
     func test_unlockScreenKeys() {
-        XCTAssertEqual("app_unlockButton".getWelshString(),
+        #expect("app_unlockButton".getWelshString() ==
                        "Datgloi")
     }
     
+    @Test
     func test_homeScreenKeys() {
-        XCTAssertEqual("app_homeTitle".getWelshString(),
+        #expect("app_homeTitle".getWelshString() ==
                        "Hafan")
-        XCTAssertEqual("app_displayEmail".getWelshString(),
+        #expect("app_displayEmail".getWelshString() ==
                        "Rydych wedi mewngofnodi fel\n%@")
     }
     
+    @Test
     func test_walletScreenKeys() {
-        XCTAssertEqual("app_tabBarWallet".getWelshString(),
+        #expect("app_tabBarWallet".getWelshString() ==
                        "Dogfennau")
     }
     
+    @Test
     func test_settingsScreenKeys() {
-        XCTAssertEqual("app_settingsTitle".getWelshString(),
+        #expect("app_settingsTitle".getWelshString() ==
                        "Gosodiadau")
-        XCTAssertEqual("app_settingsSignInDetailsTile".getWelshString(),
+        #expect("app_settingsSignInDetailsTile".getWelshString() ==
                        "Eich %@")
-        XCTAssertEqual("app_settingsSignInDetailsLink".getWelshString(),
+        #expect("app_settingsSignInDetailsLink".getWelshString() ==
                        "Rheoli eich manylion mewngofnodi")
-        XCTAssertEqual("app_settingsSignInDetailsFootnote".getWelshString(),
+        #expect("app_settingsSignInDetailsFootnote".getWelshString() ==
                        "Efallai y bydd angen i chi fewngofnodi eto i reoli eich manylion %@.")
-        XCTAssertEqual("app_privacyNoticeLink2".getWelshString(),
+        #expect("app_privacyNoticeLink2".getWelshString() ==
                        "Rhybudd Preifatrwydd %@")
-        XCTAssertEqual("app_settingsSubtitle1".getWelshString(),
+        #expect("app_settingsSubtitle1".getWelshString() ==
                        "Help ac adborth")
-        XCTAssertEqual("app_contactLink".getWelshString(),
+        #expect("app_contactLink".getWelshString() ==
                        "Cysylltu %@")
-        XCTAssertEqual("app_appGuidanceLink".getWelshString(),
+        #expect("app_appGuidanceLink".getWelshString() ==
                        "Defnyddio'r ap %@")
-        XCTAssertEqual("app_proveYourIdentityLink".getWelshString(),
+        #expect("app_proveYourIdentityLink".getWelshString() ==
                        "Profi eich hunaniaeth")
-        XCTAssertEqual("app_addDocumentsLink".getWelshString(),
+        #expect("app_addDocumentsLink".getWelshString() ==
                        "Ychwanegu dogfennau at eich ap")
-        XCTAssertEqual("app_signOutButton".getWelshString(),
+        #expect("app_signOutButton".getWelshString() ==
                        "Allgofnodi")
-        XCTAssertEqual("app_settingsSubtitle2".getWelshString(),
+        #expect("app_settingsSubtitle2".getWelshString() ==
                        "Am yr ap")
-        XCTAssertEqual("app_settingsAnalyticsToggle".getWelshString(),
+        #expect("app_settingsAnalyticsToggle".getWelshString() ==
                        "Rhannu dadansoddeg yr ap")
-        XCTAssertEqual("app_settingsAnalyticsToggleFootnote".getWelshString(),
+        #expect("app_settingsAnalyticsToggleFootnote".getWelshString() ==
                        "Gallwch rannu dadansoddeg anhysbys am sut rydych yn defnyddio'r ap i helpu'r tîm %@ i wneud gwelliannau. Darllenwch fwy yn yr hysbysiad preifatrwydd %@.")
-        XCTAssertEqual("app_accessibilityStatement".getWelshString(),
+        #expect("app_accessibilityStatement".getWelshString() ==
                        "Datganiad hygyrchedd")
-        XCTAssertEqual("app_termsAndConditionsLink".getWelshString(),
+        #expect("app_termsAndConditionsLink".getWelshString() ==
                        "Telerau ac amodau")
     }
     
+    @Test
     func test_signOutPageKeys() {
-        XCTAssertEqual("app_signOutConfirmationTitle".getWelshString(),
+        #expect("app_signOutConfirmationTitle".getWelshString() ==
                        "Ydych chi'n siwr eich bod chi eisiau allgofnodi?")
-        XCTAssertEqual("app_signOutConfirmationBody1".getWelshString(),
+        #expect("app_signOutConfirmationBody1".getWelshString() ==
                        "Os byddwch yn allgofnodi, bydd y wybodaeth a gedwir yn eich ap yn cael ei dileu. Mae hyn er mwyn lleihau'r risg y bydd rhywun arall yn gweld eich gwybodaeth.")
-        XCTAssertEqual("app_signOutConfirmationBody2".getWelshString(),
+        #expect("app_signOutConfirmationBody2".getWelshString() ==
                        "Mae hyn yn golygu:")
-        XCTAssertEqual("app_signOutConfirmationBullet1".getWelshString(),
+        #expect("app_signOutConfirmationBullet1".getWelshString() ==
                        "bydd unrhyw ddogfennau yn eich ap yn cael eu dileu")
-        XCTAssertEqual("app_signOutConfirmationBullet2".getWelshString(),
+        #expect("app_signOutConfirmationBullet2".getWelshString() ==
                        "os ydych yn defnyddio Face ID neu Touch ID i ddatgloi'r ap, bydd hyn yn cael ei ddiffodd")
-        XCTAssertEqual("app_signOutConfirmationBullet3".getWelshString(),
+        #expect("app_signOutConfirmationBullet3".getWelshString() ==
                        "byddwch yn stopio rhannu dadansoddeg am sut rydych yn defnyddio'r ap")
-        XCTAssertEqual("app_signOutConfirmationBody3".getWelshString(),
+        #expect("app_signOutConfirmationBody3".getWelshString() ==
                        "Y tro nesaf y byddwch yn mewngofnodi, byddwch yn gallu ychwanegu eich dogfennau eto ac ailosod eich dewisiadau.")
-        XCTAssertEqual("app_signOutAndDeleteAppDataButton".getWelshString(),
+        #expect("app_signOutAndDeleteAppDataButton".getWelshString() ==
                        "Mewngofnodi a dileu gwybodaeth")
     }
     
+    @Test
     func test_signOutSuccessfulPageKeys() {
-        XCTAssertEqual("app_signedOutTitle".getWelshString(),
+        #expect("app_signedOutTitle".getWelshString() ==
                        "Rydych wedi allfognodi")
-        XCTAssertEqual("app_signedOutBody".getWelshString(),
+        #expect("app_signedOutBody".getWelshString() ==
                        "Er mwyn cadw'ch gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn yr ap hwn wedi'u dileu ac mae eich dewisiadau wedi'u hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
     }
     
+    @Test
     func test_signOutErrorPageKeys() {
-        XCTAssertEqual("app_signOutErrorTitle".getWelshString(),
+        #expect("app_signOutErrorTitle".getWelshString() ==
                        "Roedd problem wrth eich allgofnodi")
-        XCTAssertEqual("app_signOutErrorBody".getWelshString(),
+        #expect("app_signOutErrorBody".getWelshString() ==
                        "Rhowch gynnig arall yn nes ymlaen.\n\nOs oes angen i chi fewngofnodi nawr, gallwch ddileu'r ap o'ch ffôn. Bydd hyn hefyd yn dileu unrhyw ddogfennau sydd wedi'u cadw yn eich ap.")
-        XCTAssertEqual("app_signOutErrorButton".getWelshString(),
+        #expect("app_signOutErrorButton".getWelshString() ==
                        "Yn ôl i gosodiadau")
     }
     
+    @Test
     func test_signInAgainPageKeys() {
-        XCTAssertEqual("app_signInAgainTitle".getWelshString(),
+        #expect("app_signInAgainTitle".getWelshString() ==
                        "Mae angen i chi fewngofnodi eto")
-        XCTAssertEqual("app_signInAgainBody".getWelshString(),
+        #expect("app_signInAgainBody".getWelshString() ==
                        "Mewngofnodwch gyda'ch manylion %@ i barhau.\n\nMae hyn er mwyn cadw'ch gwybodaeth yn ddiogel.")
     }
     
+    @Test
     func test_dataDeletedWarningPageKeys() {
-        XCTAssertEqual("app_dataDeletionWarningTitle".getWelshString(),
+        #expect("app_dataDeletionWarningTitle".getWelshString() ==
                        "Mae rhywbeth wedi mynd o'i le")
         
-        XCTAssertEqual("app_dataDeletionWarningBody".getWelshString(),
+        #expect("app_dataDeletionWarningBody".getWelshString() ==
                        "Ni allem gadarnhau eich manylion mewngofnodi.\n\nEr mwyn cadw eich gwybodaeth yn ddiogel, mae unrhyw ddogfennau yn eich ap wedi cael eu dileu ac mae eich dewisiadau wedi cael eu hailosod.\n\nMae angen i chi fewngofnodi ac ailosod eich dewisiadau i barhau i ddefnyddio'r ap. Yna byddwch yn gallu ychwanegu eich dogfennau eto.")
     }
 
+    @Test
     func test_updateAppPageKeys() {
-        XCTAssertEqual("app_updateAppTitle".getWelshString(),
+        #expect("app_updateAppTitle".getWelshString() ==
                        "Mae angen i chi ddiweddaru eich ap")
-        XCTAssertEqual("app_updateAppBody".getWelshString(),
+        #expect("app_updateAppBody".getWelshString() ==
                        "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nEwch i'r App Store a diweddarwch eich ap i barhau.")
-        XCTAssertEqual("app_updateAppButton".getWelshString(),
+        #expect("app_updateAppButton".getWelshString() ==
                        "Ewch i'r App Store")
     }
     
+    @Test
     func test_homeTileKeys() {
-        XCTAssertEqual("app_welcomeTileHeader".getWelshString(),
+        #expect("app_welcomeTileHeader".getWelshString() ==
                        "Croeso")
-        XCTAssertEqual("app_welcomeTileBody1".getWelshString(),
+        #expect("app_welcomeTileBody1".getWelshString() ==
                        "Gallwch ddefnyddio'r ap hwn i brofi eich hunaniaeth i gael mynediad at rai gwasanaethau'r llywodraeth.")
-        XCTAssertEqual("app_appPurposeTileHeader".getWelshString(),
+        #expect("app_appPurposeTileHeader".getWelshString() ==
                        "Sut i brofi eich hunaniaeth")
-        XCTAssertEqual("app_appPurposeTileBody1".getWelshString(),
+        #expect("app_appPurposeTileBody1".getWelshString() ==
                        "I ddechrau, ewch i wefan GOV.UK a dewch o hyd i wasanaeth y llywodraeth rydych angen ei ddefnyddio. Gofynnir i chi agor yr ap hwn os ydych ei angen.")
-        XCTAssertEqual("app_appPurposeTileButton".getWelshString(),
+        #expect("app_appPurposeTileButton".getWelshString() ==
                        "Darganfyddwch fwy")
     }
     
+    @Test
     func test_proveIdentityGuidanceKeys() {
-        XCTAssertEqual("app_proveYourIdentityGuidanceTitle".getWelshString(),
+        #expect("app_proveYourIdentityGuidanceTitle".getWelshString() ==
                        "Sut i brofi eich hunaniaeth")
-        XCTAssertEqual("app_proveYourIdentityGuidanceBody1".getWelshString(),
+        #expect("app_proveYourIdentityGuidanceBody1".getWelshString() ==
                        "Ni allwch ddechrau profi eich hunaniaeth ar yr ap hwn.\n\nI ddechrau, ewch i wefan GOV.UK a dewch o hyd i wasanaeth y llywodraeth rydych angen ei ddefnyddio.\n\nGofynnir i chi agor yr ap hwn os ydych angen ei ddefnyddio i brofi eich hunaniaeth.")
-        XCTAssertEqual("app_proveYourIdentityGuidanceLink".getWelshString(),
+        #expect("app_proveYourIdentityGuidanceLink".getWelshString() ==
                        "Ewch i wefan GOV.UK")
-        XCTAssertEqual("app_proveYourIdentityGuidanceBody2".getWelshString(),
+        #expect("app_proveYourIdentityGuidanceBody2".getWelshString() ==
                        "Os ydych eisoes wedi dechrau profi eich hunaniaeth ar wefan GOV.UK")
-        XCTAssertEqual("app_proveYourIdentityGuidanceBody3".getWelshString(),
+        #expect("app_proveYourIdentityGuidanceBody3".getWelshString() ==
                        "Os yw gwasanaeth wedi eich tywys i agor yr ap hwn, dylech weld botwm i barhau i brofi eich hunaniaeth yn yr adran 'Hafan'.\n\nOs na allwch weld y botwm, caewch yr ap a'i agor eto.")
     }
     
+    @Test
     func test_appUnavailablePageKeys() {
-        XCTAssertEqual("app_appUnavailableTitle".getWelshString(),
+        #expect("app_appUnavailableTitle".getWelshString() ==
                        "Mae'n ddrwg gennym, nid yw'r ap ar gael")
-        XCTAssertEqual("app_appUnavailableBody".getWelshString(),
+        #expect("app_appUnavailableBody".getWelshString() ==
                        "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
     
+    @Test
     func test_accessibilityHintKeys() {
-        XCTAssertEqual("app_externalBrowser".getWelshString(), "Agor mewn porwr gwe")
-        XCTAssertEqual("app_externalApp".getWelshString(), "Yn agor yn yr App Store")
-        XCTAssertEqual("app_loadingLabel".getWelshString(), "Llwytho %@")
+        #expect("app_externalBrowser".getWelshString() == "Agor mewn porwr gwe")
+        #expect("app_externalApp".getWelshString() == "Yn agor yn yr App Store")
+        #expect("app_loadingLabel".getWelshString() == "Llwytho %@")
     }
     
+    @Test
     func test_localAuthSettingsError_keys() {
-        XCTAssertEqual("app_localAuthManagerErrorTitle".getWelshString(),
+        #expect("app_localAuthManagerErrorTitle".getWelshString() ==
                        "Diweddaru gosodiadau diogelwch eich ffôn")
-        XCTAssertEqual("app_localAuthManagerErrorBody1".getWelshString(),
+        #expect("app_localAuthManagerErrorBody1".getWelshString() ==
                        "I ychwanegu dogfennau, mae angen i chi ddiogelu eich ffôn gyda chod mynediad.\n\nMae hyn er mwyn sicrhau na all unrhyw un arall weld na hychwanegu dogfennau at eich ap.")
-        XCTAssertEqual("app_localAuthManagerErrorBody3".getWelshString(),
+        #expect("app_localAuthManagerErrorBody3".getWelshString() ==
                        "Mae angen i chi:")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList0".getWelshString(),
+        #expect("app_localAuthManagerErrorNumberedList0".getWelshString() ==
                        "Fynd i osodiadau eich ffôn.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList1FaceID".getWelshString(),
+        #expect("app_localAuthManagerErrorNumberedList1FaceID".getWelshString() ==
                        "Tapio Face ID & Passcode.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList1TouchID".getWelshString(),
+        #expect("app_localAuthManagerErrorNumberedList1TouchID".getWelshString() ==
                        "Tapio Touch ID & Passcode.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList2".getWelshString(),
+        #expect("app_localAuthManagerErrorNumberedList2".getWelshString() ==
                        "Gwasgu Turn Passcode On a dilyn y cyfarwyddiadau.")
-        XCTAssertEqual("app_localAuthManagerErrorNumberedList3".getWelshString(),
+        #expect("app_localAuthManagerErrorNumberedList3".getWelshString() ==
                        "Dewch yn ôl i barhau i ddefnyddio eich dogfennau.")
     }
     
+    @Test
     func test_localAuthBiometricsError_keys() {
-        XCTAssertEqual("app_localAuthManagerBiometricsErrorTitle".getWelshString(),
+        #expect("app_localAuthManagerBiometricsErrorTitle".getWelshString() ==
                        "Mae angen i chi ganiatáu %@")
-        XCTAssertEqual("app_localAuthManagerBiometricsFaceIDErrorBody".getWelshString(),
+        #expect("app_localAuthManagerBiometricsFaceIDErrorBody".getWelshString() ==
                        "I ychwanegu dogfennau, mae angen i chi ganiatáu Face ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Face ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u gwyneb neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.\n\nGallwch droi Face ID i ffwrdd ar gyfer yr ap hwn unrhyw bryd yng ngosodiadau eich ffôn.")
-        XCTAssertEqual("app_localAuthManagerBiometricsTouchIDErrorBody".getWelshString(),
+        #expect("app_localAuthManagerBiometricsTouchIDErrorBody".getWelshString() ==
                        "I ychwanegu dogfennau, mae angen i chi ganiatáu Touch ID. Mae hyn er mwyn cadw'ch dogfennau'n ddiogel.\n\nPan fyddwch yn caniatáu Touch ID, bydd unrhyw un sy'n gallu datgloi eich ffôn gyda'u olion bysedd neu gyda chod eich ffôn yn gallu cael mynediad i'ch ap.")
     }
     
+    @Test
     func test_appIntegrityPageKeys() {
-        XCTAssertEqual("app_appIntegrityErrorTitle".getWelshString(),
+        #expect("app_appIntegrityErrorTitle".getWelshString() ==
                        "Mae'n ddrwg gennym, mae problem")
-        XCTAssertEqual("app_appIntegrityErrorBody1".getWelshString(),
+        #expect("app_appIntegrityErrorBody1".getWelshString() ==
                        "Ni allwch ddefnyddio'r ap %@ ar hyn o bryd.\n\nRhowch gynnig arall yn nes ymlaen.")
     }
 }
