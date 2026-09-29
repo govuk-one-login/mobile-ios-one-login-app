@@ -1,18 +1,17 @@
 import GDSAnalytics
 import Networking
 @testable import OneLogin
-import XCTest
+import Testing
+import UIKit
 
 @MainActor
-final class SceneLifecycleTests: XCTestCase {
+struct SceneLifecycleTests {
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
     var mockTabManagerCoordinator: TabManagerCoordinator!
     var sut: MockSceneDelegate!
     
-    override func setUp() {
-        super.setUp()
-        
+    init() {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         mockTabManagerCoordinator = TabManagerCoordinator(root: UITabBarController(),
@@ -22,26 +21,18 @@ final class SceneLifecycleTests: XCTestCase {
         sut = MockSceneDelegate(coordinator: mockTabManagerCoordinator,
                                 analyticsService: mockAnalyticsService)
     }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        mockSessionManager = nil
-        mockTabManagerCoordinator = nil
-        sut = nil
-        
-        super.tearDown()
-    }
 }
 
 extension SceneLifecycleTests {
+    @Test
     func test_splashscreen_analytics() {
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 0)
+        #expect(mockAnalyticsService.screenViews.count == 0)
         sut.trackSplashScreen()
-        XCTAssertEqual(mockAnalyticsService.screenViews.count, 1)
+        #expect(mockAnalyticsService.screenViews.count == 1)
         let screen = ScreenView(id: IntroAnalyticsScreenID.splash.rawValue,
                                 screen: IntroAnalyticsScreen.splash,
                                 titleKey: "one login splash screen")
-        XCTAssertEqual(mockAnalyticsService.screenViews as? [ScreenView], [screen])
-        XCTAssertEqual(mockAnalyticsService.screenParamsLogged, screen.parameters)
+        #expect(mockAnalyticsService.screenViews as? [ScreenView] == [screen])
+        #expect(mockAnalyticsService.screenParamsLogged == screen.parameters)
     }
 }
