@@ -1,8 +1,10 @@
 import Coordination
+import Foundation
 import LocalAuthenticationWrapper
 import Networking
 @testable import OneLogin
-import XCTest
+import Testing
+import UIKit
 
 extension OneLoginEnrolmentManager {
     static func make(
@@ -28,157 +30,183 @@ extension OneLoginEnrolmentManager {
 }
 
 @MainActor
-final class OneLoginEnrolmentManagerTests: XCTestCase {
+struct OneLoginEnrolmentManagerTests {
     enum MockError: Error {
         case generic
     }
 
+    @Test
     func test_saveSession_succeeds() async {
-        let exp = XCTNSNotificationExpectation(
-            name: .enrolmentComplete,
-            object: nil,
-            notificationCenter: NotificationCenter.default
-        )
         let mockLocalAuthContext = MockLocalAuthManager()
         let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext)
-
+        
         // GIVEN the user has given FaceID permission
         mockLocalAuthContext.userDidConsentToFaceID = true
-        // WHEN saveSession is called
-        await sut.saveSession()
-        // THEN enrolment complete notification is sent
-        await fulfillment(of: [exp], timeout: 5)
+        
+        await confirmation("enrolment notification posted") { confirmation in
+            let observer = NotificationCenter.default.addObserver(forName: .enrolmentComplete,
+                                                                  object: nil,
+                                                                  queue: nil) { _ in
+                // THEN enrolment complete notification is sent
+                confirmation()
+            }
+            
+            defer {
+                NotificationCenter.default.removeObserver(observer)
+            }
+            
+            // WHEN saveSession is called
+            await sut.saveSession()
+        }
     }
 
+    @Test
     func test_saveSession_fails() async {
-        let expectation = expectation(description: #function)
         // GIVEN the user has given FaceID permission
-        let mockLocalAuthContext = MockLocalAuthManager()
-        mockLocalAuthContext.userDidConsentToFaceID = true
+        let mockLocalAuthManager = MockLocalAuthManager()
+        mockLocalAuthManager.userDidConsentToFaceID = true
         // GIVEN saveSession returns an uncaught error
         let mockSessionManager = MockSessionManager()
-        let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager, didSaveAuthSessionAsFunction: {
-            expectation.fulfill()
-        })
         
         mockSessionManager.errorFromSaveSession = MockError.generic
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
-                                                  mockSessionManager: mockSessionManagerExpectation,
-                                                  mockAnalyticsService: mockAnalyticsService)
         
-        // WHEN saveSession is called
-        await sut.saveSession()
-        
-        await fulfillment(of: [expectation], timeout: 5)
-        XCTAssertTrue(mockSessionManager.didCallSaveSession)
+        await confirmation("save session fails") { confirmation in
+            let mockSessionManagerExpectation = MockSessionManagerExpectation(sessionManager: mockSessionManager, didSaveAuthSessionAsFunction: {
+                confirmation()
+            })
+            let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManager,
+                                                      mockSessionManager: mockSessionManagerExpectation,
+                                                      mockAnalyticsService: mockAnalyticsService)
+            // WHEN saveSession is called
+            await sut.saveSession()
+        }
+              
+        #expect(mockSessionManager.didCallSaveSession)
         // THEN an error is recorded in Crashlytics
-        XCTAssertEqual(mockAnalyticsService.crashesLogged, [MockError.generic as NSError])
+        #expect(mockAnalyticsService.crashesLogged == [MockError.generic as NSError])
     }
 
+    @Test
     func test_saveSession_promptForPermission_false() async {
-        let expectation = expectation(description: #function)
         // GIVEN the user has already given FaceID permission
         let mockLocalAuthManager = MockLocalAuthManager()
-        let mockLocalAuthManagerExpectation = MockLocalAuthManagerExpectation(mockLocalAuthManager: mockLocalAuthManager,
-                                                                   expectation: expectation)
-        mockLocalAuthManager.userDidConsentToFaceID = false
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
-                                                  mockAnalyticsService: mockAnalyticsService)
-        // WHEN saveSession is called
-        await sut.saveSession()
-        await fulfillment(of: [expectation], timeout: 5)
-        XCTAssertTrue(mockLocalAuthManager.didCallEnrolFaceIDIfAvailable)
+        mockLocalAuthManager.userDidConsentToFaceID = false
+        
+        await confirmation("promptForPermission called") { confirmation in
+            let mockLocalAuthManagerExpectation = MockLocalAuthManagerExpectation(mockLocalAuthManager: mockLocalAuthManager) {
+                confirmation()
+            }
+            let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
+                                                      mockAnalyticsService: mockAnalyticsService)
+            // WHEN saveSession is called
+            await sut.saveSession()
+        }
+
+        #expect(mockLocalAuthManager.didCallEnrolFaceIDIfAvailable)
         // THEN no error is recorded in Crashlytics
-        XCTAssertEqual(mockAnalyticsService.crashesLogged, [])
+        #expect(mockAnalyticsService.crashesLogged == [])
     }
 
+    @Test
     func test_saveSession_promptForPermission_cancelled() async {
-        let expectation = expectation(description: #function)
         // GIVEN promptForPermission throws a cancelled error
         let mockLocalAuthManager = MockLocalAuthManager()
-        let mockLocalAuthManagerExpectation = MockLocalAuthManagerExpectation(mockLocalAuthManager: mockLocalAuthManager,
-                                                                   expectation: expectation)
         mockLocalAuthManager.errorFromEnrolLocalAuth = LocalAuthenticationWrapperError.cancelled
         let mockAnalyticsService = MockAnalyticsService()
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
-                                                  mockAnalyticsService: mockAnalyticsService)
-        // WHEN saveSession is called
-        await sut.saveSession()
-        await fulfillment(of: [expectation], timeout: 5)
-        XCTAssertTrue(mockLocalAuthManager.didCallEnrolFaceIDIfAvailable)
+        
+        await confirmation("promptForPermission is cancelled") { confirmation in
+            let mockLocalAuthManagerExpectation = MockLocalAuthManagerExpectation(mockLocalAuthManager: mockLocalAuthManager) {
+                confirmation()
+            }
+            let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthManagerExpectation,
+                                                      mockAnalyticsService: mockAnalyticsService)
+            // WHEN saveSession is called
+            await sut.saveSession()
+        }
+        
+        #expect(mockLocalAuthManager.didCallEnrolFaceIDIfAvailable)
         // THEN no error is recorded in Crashlytics
-        XCTAssertEqual(mockAnalyticsService.crashesLogged, [])
+        #expect(mockAnalyticsService.crashesLogged == [])
     }
 
+    @Test
     func test_saveSession_promptForPermission_fails() async {
-        let expectation = expectation(description: #function)
         // GIVEN promptForPermission throws an uncaught error
         let mockLocalAuthContext = MockLocalAuthManager()
         mockLocalAuthContext.errorFromEnrolLocalAuth = MockError.generic
-        let mockAnalyticsService = MockAnalyticsServiceExpectation(expectation: expectation)
-        let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
-                                                  mockAnalyticsService: mockAnalyticsService)
-        // WHEN saveSession is called
-        await sut.saveSession()
-        await fulfillment(of: [expectation], timeout: 5)
-        XCTAssertTrue(mockLocalAuthContext.didCallEnrolFaceIDIfAvailable)
+        
+        let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrash: {})
+        
+        await confirmation("promptForPermission fails") { confirmation in
+            mockAnalyticsService.onLogCrash = {
+                confirmation()
+            }
+            let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
+                                                      mockAnalyticsService: mockAnalyticsService)
+            // WHEN saveSession is called
+            await sut.saveSession()
+        }
+        #expect(mockLocalAuthContext.didCallEnrolFaceIDIfAvailable)
         // THEN an error is recorded in Crashlytics
-        XCTAssertEqual(mockAnalyticsService.crashesLogged, [MockError.generic as NSError])
+        #expect(mockAnalyticsService.crashesLogged == [MockError.generic as NSError])
     }
 
+    @Test
     func test_saveSession_isWalletEnrolmentTrue_finishOnCoordinator_not_called() async {
         //  GIVEN OneLoginEnrolmentManager with a coordinator
         //  WHEN performing save session
         //  AND `isWalletEnrolment` is true
         //  ASSERT that `finish` is NOT called on the coordinator
 
-        let expectation = expectation(description: #function)
-        expectation.isInverted = true
-        let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
-            expectation.fulfill()
-        })
-
-        let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
-        // WHEN saveSession is called
-        await sut.saveSession(isWalletEnrolment: true)
-        await fulfillment(of: [expectation], timeout: 5)
+        await confirmation("finishOnCoordinator not called", expectedCount: 0) { confirmation in
+            let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
+                confirmation()
+            })
+            let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
+            
+            // WHEN saveSession is called
+            await sut.saveSession(isWalletEnrolment: true)
+        }
     }
 
+    @Test
     func test_saveSession_isWalletEnrolmentFalse_finishOnCoordinator_called() async {
         //  GIVEN OneLoginEnrolmentManager with a coordinator
         //  WHEN performing save session
         //  AND `isWalletEnrolment` is false
         //  ASSERT that `finish` is called on the coordinator
-
-        let expectation = expectation(description: #function)
-        let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
-            expectation.fulfill()
-        })
-
-        let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
-        // WHEN saveSession is called
-        await sut.saveSession(isWalletEnrolment: false)
-        await fulfillment(of: [expectation], timeout: 5)
+        
+        await confirmation("finishOnCoordinator called") { confirmation in
+            let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
+                confirmation()
+            })
+            let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
+            
+            // WHEN saveSession is called
+            await sut.saveSession(isWalletEnrolment: false)
+        }
     }
 
+    @Test
     func test_saveSession_default_finishOnCoordinator_called() async {
         //  GIVEN OneLoginEnrolmentManager with a coordinator
         //  WHEN performing save session (where by default `isWalletEnrolment` is false)
         //  ASSERT that `finish` is called on the coordinator
 
-        let expectation = expectation(description: #function)
-        let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
-            expectation.fulfill()
-        })
-
-        let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
-        // WHEN saveSession is called
-        await sut.saveSession()
-        await fulfillment(of: [expectation], timeout: 5)
+        await confirmation("finishOnCoordinator called") { confirmation in
+            let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
+                confirmation()
+            })
+            let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
+            
+            // WHEN saveSession is called
+            await sut.saveSession()
+        }
     }
 
+    @Test
     func test_saveSession_isWalletEnrolmentTrue_walletCoordinator_notRemoved_asChild() async {
         //  GIVEN a `TabManagerCoordinator`
         //  AND a `WalletCoordinator`
@@ -188,7 +216,6 @@ final class OneLoginEnrolmentManagerTests: XCTestCase {
         //  ASSERT that the `WalletCoordinator` is not removed as a child
         let mockAnalyticsService = MockAnalyticsService()
         let mockSessionManager = MockSessionManager()
-        let expectation = expectation(description: #function)
         let tabManagerCoordinator = TabManagerCoordinator(
             root: UITabBarController(),
             analyticsService: mockAnalyticsService,
@@ -206,11 +233,14 @@ final class OneLoginEnrolmentManagerTests: XCTestCase {
         walletCoordinator.parentCoordinator = tabManagerCoordinator
 
         let sut: OneLoginEnrolmentManager = .make(coordinator: walletCoordinator)
-        // WHEN saveSession is called
-        await sut.saveSession(isWalletEnrolment: true) {
-            expectation.fulfill()
+
+        await confirmation("wallet coordinator not removed") { confirmation in
+            // WHEN saveSession is called
+            await sut.saveSession(isWalletEnrolment: true) {
+                confirmation()
+            }
         }
-        await fulfillment(of: [expectation], timeout: 5)
-        XCTAssert(tabManagerCoordinator.childCoordinators.count == 1)
+        
+        #expect(tabManagerCoordinator.childCoordinators.count == 1)
     }
 }
