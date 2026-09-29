@@ -13,7 +13,7 @@ import XCTest
 
 struct SessionBoundDataExpectation: SessionBoundData {
     let onClearSessionData: () -> Void
-        
+    
     func clearSessionData() {
         self.onClearSessionData()
     }
@@ -21,7 +21,7 @@ struct SessionBoundDataExpectation: SessionBoundData {
 
 class SessionBoundDataTest: SessionBoundData {
     var didCall_deleteSessionBoundData = false
-        
+    
     func clearSessionData() {
         didCall_deleteSessionBoundData = true
     }
@@ -831,8 +831,7 @@ extension PersistentSessionManagerTests {
             _error = error
         }
         
-        let actual = try #require(_error as? Networking.AppIntegrityError)
-        #expect(actual != nil)
+        #expect(_error as? Networking.AppIntegrityError != nil)
     }
     
     @Test
@@ -1042,7 +1041,6 @@ extension PersistentSessionManagerTests {
                     } catch let error as MockRefreshTokenExchangeManagerGuarantor.GetUpdatedTokensError {
                         Issue.record("Thrown Error with description \(String(describing: error)) - \(error.failureReason) associated with: \(error)")
                     } catch {
-                        let issue = XCTIssue(type: .thrownError, compactDescription: String(describing: error), associatedError: error)
                         Issue.record("Thrown Error with description \(String(describing: error)) associated with: \(error)")
                     }
                 }
