@@ -1,6 +1,7 @@
+import Foundation
 import Logging
 @testable import OneLogin
-import XCTest
+import Testing
 
 final class MockAnalyticsService: OneLoginAnalyticsService {
     var analyticsPreferenceStore: AnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -25,7 +26,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         screenViews.append(screen)
         
         guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
+            Issue.record("Non-string parameters were logged")
             return
         }
         
@@ -36,7 +37,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         eventsLogged.append(event.name)
         
         guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
+            Issue.record("Non-string parameters were logged")
             return
         }
         
@@ -79,10 +80,10 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
     }
     
     let mockAnalyticsService = MockAnalyticsService()
-    let expectation: XCTestExpectation
+    var onLogCrash: () -> Void
     
-    init(expectation: XCTestExpectation) {
-        self.expectation = expectation
+    init(onLogCrash: @escaping () -> Void) {
+        self.onLogCrash = onLogCrash
     }
     
     func addingAdditionalParameters(_ additionalParameters: [String: Any]) -> Self {
@@ -96,7 +97,7 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
     
     func logCrash(_ crash: any Error) {
         mockAnalyticsService.logCrash(crash)
-        expectation.fulfill()
+        onLogCrash()
     }
     
     func trackScreen(_ screen: any LoggableScreen, parameters: [String: Any]) {
