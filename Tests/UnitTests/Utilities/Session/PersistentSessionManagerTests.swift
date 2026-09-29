@@ -831,7 +831,7 @@ extension PersistentSessionManagerTests {
             _error = error
         }
         
-        #expect(_error as? Networking.AppIntegrityError != nil)
+        #expect(_error is Networking.AppIntegrityError)
     }
     
     @Test
