@@ -700,13 +700,8 @@ extension PersistentSessionManagerTests {
         #expect(error?.kind == .idTokenNotStored)
     }
     
-    @Test("""
-        ON THE CONDITION of a returning user with local auth enabled and tokens stored
-        WHEN attempting to resume a session
-        AND a network error is thrown attempting to update the refresh token
-        THEN the no error (i.e. `RefreshTokenExchangeError.noInternet`) is thrown
-        """, arguments: [URLError(.notConnectedToInternet), URLError(.networkConnectionLost), URLError(.timedOut)])
-    func test_resumeSession_offlineWallet_onNetworkError(_ error: URLError) async throws {
+    @Test(arguments: [URLError(.notConnectedToInternet), URLError(.networkConnectionLost), URLError(.timedOut)])
+    func test_resumeSession_whenRefreshTokenExchangeThrowsError_doesNotThrowError(_ error: URLError) async throws {
         // GIVEN I am a returning user with local auth enabled and tokens stored
         try setUpNeededForResumeSession()
         
