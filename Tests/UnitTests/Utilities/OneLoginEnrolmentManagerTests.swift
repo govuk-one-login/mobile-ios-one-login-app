@@ -42,22 +42,13 @@ struct OneLoginEnrolmentManagerTests {
         
         // GIVEN the user has given FaceID permission
         mockLocalAuthContext.userDidConsentToFaceID = true
-        
-        await confirmation("enrolment notification posted") { confirmation in
-            let observer = NotificationCenter.default.addObserver(forName: .enrolmentComplete,
-                                                                  object: nil,
-                                                                  queue: nil) { _ in
-                // THEN enrolment complete notification is sent
-                confirmation()
-            }
-            
-            defer {
-                NotificationCenter.default.removeObserver(observer)
-            }
-            
-            // WHEN saveSession is called
-            await sut.saveSession()
-        }
+      
+        let enrolmentCompleteNotifications = NotificationCenter.default.notifications(named: .enrolmentComplete).makeAsyncIterator()
+               
+        // WHEN saveSession is called
+        await sut.saveSession()
+
+        #expect(await enrolmentCompleteNotifications.next() != nil)
     }
 
     @Test
@@ -136,21 +127,20 @@ struct OneLoginEnrolmentManagerTests {
         // GIVEN promptForPermission throws an uncaught error
         let mockLocalAuthContext = MockLocalAuthManager()
         mockLocalAuthContext.errorFromEnrolLocalAuth = MockError.generic
-        
-        let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrash: {})
-        
+
         await confirmation("promptForPermission fails") { confirmation in
-            mockAnalyticsService.onLogCrash = {
+            let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrashAnyErrorCalled: {
                 confirmation()
-            }
+            })
             let sut: OneLoginEnrolmentManager = .make(mockLocalAuthContext: mockLocalAuthContext,
                                                       mockAnalyticsService: mockAnalyticsService)
             // WHEN saveSession is called
             await sut.saveSession()
+
+            // THEN an error is recorded in Crashlytics
+            #expect(mockAnalyticsService.crashesLogged == [MockError.generic as NSError])
         }
         #expect(mockLocalAuthContext.didCallEnrolFaceIDIfAvailable)
-        // THEN an error is recorded in Crashlytics
-        #expect(mockAnalyticsService.crashesLogged == [MockError.generic as NSError])
     }
 
     @Test

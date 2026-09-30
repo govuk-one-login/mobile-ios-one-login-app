@@ -62,6 +62,8 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
 }
 
 final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
+    typealias OnLogCrashAnyErrorCalled = @Sendable () -> Void
+
     var analyticsPreferenceStore: AnalyticsPreferenceStore {
         mockAnalyticsService.analyticsPreferenceStore
     }
@@ -80,10 +82,10 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
     }
     
     let mockAnalyticsService = MockAnalyticsService()
-    var onLogCrash: () -> Void
+    let onLogCrashAnyErrorCalled: OnLogCrashAnyErrorCalled
     
-    init(onLogCrash: @escaping () -> Void) {
-        self.onLogCrash = onLogCrash
+    init(onLogCrashAnyErrorCalled: @escaping OnLogCrashAnyErrorCalled = {}) {
+        self.onLogCrashAnyErrorCalled = onLogCrashAnyErrorCalled
     }
     
     func addingAdditionalParameters(_ additionalParameters: [String: Any]) -> Self {
@@ -97,7 +99,7 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
     
     func logCrash(_ crash: any Error) {
         mockAnalyticsService.logCrash(crash)
-        onLogCrash()
+        onLogCrashAnyErrorCalled()
     }
     
     func trackScreen(_ screen: any LoggableScreen, parameters: [String: Any]) {

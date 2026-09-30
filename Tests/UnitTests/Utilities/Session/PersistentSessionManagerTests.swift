@@ -369,36 +369,25 @@ extension PersistentSessionManagerTests {
         // AND I am unable to re-authenticate because I have no persistent session ID
         mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         
-        await confirmation("system logout posted") { confirmation in
-            let observer = NotificationCenter.default.addObserver(forName: .systemLogUserOut,
-                                                                  object: nil,
-                                                                  queue: nil) { _ in
-                // AND a logout notification is sent
-                confirmation()
-            }
-            
-            defer {
-                NotificationCenter.default.removeObserver(observer)
-            }
-            
-            // WHEN I start a session
-            do {
-                try await sut.startAuthSession(
-                    MockLoginSession(window: UIWindow()),
-                    using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
-                )
-                Issue.record("Expected a sessionMismatch error to be thrown")
-            } catch let error as PersistentSessionError where error.kind == .sessionMismatch {
-                // THEN a session mismatch error is thrown
-                // AND my session data is cleared
-                #expect(sessionBoundDataTest.didCall_deleteSessionBoundData)
-                #expect(mockEncryptedStore.savedItems.isEmpty)
-                #expect(mockUnprotectedStore.savedData.isEmpty)
-                #expect(mockAnalyticsPrefernceStore.hasAcceptedAnalytics == nil)
-            } catch {
-                Issue.record("Unexpected error was thrown")
-            }
+        let systemLogUserOutNotifications = NotificationCenter.default.notifications(named: .systemLogUserOut).makeAsyncIterator()
+        
+        // WHEN I start a session
+        let error = await #expect(throws: PersistentSessionError.self) {
+            try await sut.startAuthSession(
+                MockLoginSession(window: UIWindow()),
+                using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
+            )
         }
+        
+        #expect(error?.kind == .sessionMismatch)
+        
+        // THEN a session mismatch error is thrown
+        // AND my session data is cleared
+        #expect(sessionBoundDataTest.didCall_deleteSessionBoundData)
+        #expect(mockEncryptedStore.savedItems.isEmpty)
+        #expect(mockUnprotectedStore.savedData.isEmpty)
+        #expect(mockAnalyticsPrefernceStore.hasAcceptedAnalytics == nil)
+        #expect(await systemLogUserOutNotifications.next() != nil)
     }
     
     @MainActor
@@ -436,26 +425,24 @@ extension PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_noPersistentID_NotReturningUser_WalletNotEmptyError() async throws {
-        let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrash: {})
-        
         // Given I am unable to re-authenticate because I have no persistent session ID
         let mockEncryptedStore = MockSecureStoreService()
         mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         // AND the wallet is not empty
         let mockWalletSDK = MockWalletSDKWrapper()
         mockWalletSDK.isEmpty = false
-        let sut: PersistentSessionManager = try .make(mockEncryptedStore: mockEncryptedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK)
         
         // AND there aren't any errors logged
         #expect(mockAnalyticsService.crashesLogged.count == 0)
         
-        await confirmation("wallet not empty") { confirmation in
-            mockAnalyticsService.onLogCrash = {
+        try await confirmation("wallet not empty") { confirmation in
+            let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrashAnyErrorCalled: {
                 confirmation()
-            }
-            
+            })
+            let sut: PersistentSessionManager = try .make(mockEncryptedStore: mockEncryptedStore,
+                                                      mockAnalyticsService: mockAnalyticsService,
+                                                      mockWalletSDK: mockWalletSDK)
+
             // WHEN I start a session
             do {
                 try await sut.startAuthSession(
@@ -466,7 +453,7 @@ extension PersistentSessionManagerTests {
                 // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
                 #expect(mockAnalyticsService.crashesLogged.count == 1)
                 #expect(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.noSessionExists,
-                                                                                                                            reason: "reason : secure wallet data deleted"))
+                                                                                                                      reason: "reason : secure wallet data deleted"))
             } catch {
                 Issue.record("Unexpected error was thrown")
             }
@@ -560,31 +547,22 @@ extension PersistentSessionManagerTests {
             itemName: OLString.persistentSessionID
         )
         
-        try await confirmation("saves token for returning users") { confirmation in
-            let observer = NotificationCenter.default.addObserver(forName: .enrolmentComplete,
-                                                                  object: nil,
-                                                                  queue: nil) { _ in
-                // AND the user can be returned to where they left off
-                confirmation()
-            }
-            
-            defer {
-                NotificationCenter.default.removeObserver(observer)
-            }
-            
-            // WHEN I re-authenticate
-            try await sut.startAuthSession(
-                MockLoginSession(window: UIWindow()),
-                using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
-            )
-        }
+        let enrolmentCompleteNotifications = NotificationCenter.default.notifications(named: .enrolmentComplete).makeAsyncIterator()
         
-        // THEN my session data is updated in the store
-        #expect(mockEncryptedStore.savedItems == [
-                OLString.refreshTokenExpiry: "1719397758.0",
-                OLString.persistentSessionID: "af835f3a-b3f1-4b50-b3db-88c185eae46b"
-            ]
+        // WHEN I re-authenticate
+        try await sut.startAuthSession(
+            MockLoginSession(window: UIWindow()),
+            using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
         )
+        
+        // THEN the user can be returned to where they left off
+        #expect(await enrolmentCompleteNotifications.next() != nil)
+        
+        // AND my session data is updated in the store
+        #expect(mockEncryptedStore.savedItems == [
+            OLString.refreshTokenExpiry: "1719397758.0",
+            OLString.persistentSessionID: "af835f3a-b3f1-4b50-b3db-88c185eae46b"
+        ])
         #expect(mockUnprotectedStore.savedData.count == 2)
     }
     
