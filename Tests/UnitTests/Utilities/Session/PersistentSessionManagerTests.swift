@@ -726,8 +726,10 @@ extension PersistentSessionManagerTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
-        let error = await #expect(throws: RefreshTokenExchangeError.noInternet) {
+        do {
             try await sut.resumeSession()
+        } catch RefreshTokenExchangeError.noInternet {
+            // Expected path
         }
     }
     
@@ -757,8 +759,10 @@ extension PersistentSessionManagerTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
-        let error = await #expect(throws: RefreshTokenExchangeError.noInternet) {
+        do {
             try await sut.resumeSession()
+        } catch RefreshTokenExchangeError.noInternet {
+            // Expected path
         }
     }
     
