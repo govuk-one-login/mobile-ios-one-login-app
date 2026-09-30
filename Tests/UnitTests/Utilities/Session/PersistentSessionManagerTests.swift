@@ -700,8 +700,13 @@ extension PersistentSessionManagerTests {
         #expect(error?.kind == .idTokenNotStored)
     }
     
-    @Test
-    func test_resumeSession_offlineWallet_noInternet() async throws {
+    @Test("""
+        ON THE CONDITION of a returning user with local auth enabled and tokens stored
+        WHEN attempting to resume a session
+        AND a network error is thrown attempting to update the refresh token
+        THEN the no error (i.e. `RefreshTokenExchangeError.noInternet`) is thrown
+        """, arguments: [URLError(.notConnectedToInternet), URLError(.networkConnectionLost), URLError(.timedOut)])
+    func test_resumeSession_offlineWallet_onNetworkError(_ error: URLError) async throws {
         // GIVEN I am a returning user with local auth enabled and tokens stored
         try setUpNeededForResumeSession()
         
@@ -714,7 +719,7 @@ extension PersistentSessionManagerTests {
         client.dPoPProvider = MockAppIntegrityProvider()
         
         MockURLProtocol.handler = {
-            throw URLError(.notConnectedToInternet)
+            throw error
         }
         
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
@@ -726,46 +731,11 @@ extension PersistentSessionManagerTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
-        do {
+        await #expect(throws: Never.self) {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
-            // Expected path
         }
     }
-    
-    @Test
-    func test_resumeSession_offlineWallet_networkConnectionLost() async throws {
-        // GIVEN I am a returning user with local auth enabled and tokens stored
-        try setUpNeededForResumeSession()
-        
-        // AND I have no internet
-        MockURLProtocol.clear()
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let client = NetworkClient(configuration: configuration)
-        client.clientAttestationProvider = MockAppIntegrityProvider()
-        client.dPoPProvider = MockAppIntegrityProvider()
-        
-        MockURLProtocol.handler = {
-            throw URLError(.networkConnectionLost)
-        }
-        
-        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockLocalAuthentication: mockLocalAuthentication,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK,
-                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
-        // WHEN I attempt to resume my session
-        do {
-            try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
-            // Expected path
-        }
-    }
-    
+
     @Test
     func test_resumeSession_offlineWallet_firebaseNetworkError() async throws {
         // GIVEN I am a returning user with local auth enabled and tokens stored
@@ -792,7 +762,7 @@ extension PersistentSessionManagerTests {
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         
         // WHEN I attempt to resume my session
-        let error = await #expect(throws: Networking.AppIntegrityError.self) {
+        await #expect(throws: Networking.AppIntegrityError.self) {
             try await sut.resumeSession()
         }
     }
