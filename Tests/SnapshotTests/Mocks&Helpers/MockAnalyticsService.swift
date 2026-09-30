@@ -1,6 +1,7 @@
+import Foundation
 import Logging
 @testable import OneLogin
-import XCTest
+import Testing
 
 final class MockAnalyticsService: OneLoginAnalyticsService {
     var analyticsPreferenceStore: AnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -25,7 +26,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         screenViews.append(screen)
         
         guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
+            Issue.record("Non-string parameters were logged")
             return
         }
         
@@ -36,7 +37,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         eventsLogged.append(event.name)
         
         guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
+            Issue.record("Non-string parameters were logged")
             return
         }
         

@@ -1,7 +1,6 @@
 import LocalAuthenticationWrapper
 @testable import OneLogin
 import SecureStore
-import XCTest
 
 final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextStrings {
     var type: LocalAuthType = .touchID
@@ -57,12 +56,12 @@ final class MockLocalAuthManagerExpectation: LocalAuthManaging, LocalAuthenticat
         mockLocalAuthManager.canUseAnyLocalAuth
     }
     
-    let expectation: XCTestExpectation
     let mockLocalAuthManager: MockLocalAuthManager
+    var onPromptForFaceIDPermission: () -> Void
     
-    init(mockLocalAuthManager: MockLocalAuthManager = MockLocalAuthManager(), expectation: XCTestExpectation) {
+    init(mockLocalAuthManager: MockLocalAuthManager = MockLocalAuthManager(), onPromptForFaceIDPermission: @escaping () -> Void) {
         self.mockLocalAuthManager = mockLocalAuthManager
-        self.expectation = expectation
+        self.onPromptForFaceIDPermission = onPromptForFaceIDPermission
     }
     
     func checkLevelSupported(_ requiredLevel: RequiredLocalAuthLevel) throws -> Bool {
@@ -75,7 +74,7 @@ final class MockLocalAuthManagerExpectation: LocalAuthManaging, LocalAuthenticat
     
     func promptForFaceIDPermission() async throws -> Bool {
         defer {
-            expectation.fulfill()
+            onPromptForFaceIDPermission()
         }
         
         return try await mockLocalAuthManager.promptForFaceIDPermission()
