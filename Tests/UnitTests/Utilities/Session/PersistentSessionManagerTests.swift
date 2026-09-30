@@ -406,20 +406,17 @@ extension PersistentSessionManagerTests {
         // AND there aren't any errors logged
         #expect(mockAnalyticsService.crashesLogged.count == 0)
         // WHEN I start a session
-        do {
+        let error = await #expect(throws: PersistentSessionError.self) {
             try await sut.startAuthSession(
                 MockLoginSession(window: UIWindow()),
                 using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
             )
-            Issue.record("Expected a sessionMismatch error to be thrown")
-        } catch let error as PersistentSessionError where error.kind == .sessionMismatch {
-            // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
-            #expect(mockAnalyticsService.crashesLogged.count == 1)
-            #expect(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.sessionMismatch,
-                                                                                                                  reason: "reason : secure wallet data deleted"))
-        } catch {
-            Issue.record("Unexpected error was thrown")
         }
+        // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
+        #expect(error?.kind == .sessionMismatch)
+        #expect(mockAnalyticsService.crashesLogged.count == 1)
+        #expect(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.sessionMismatch,
+                                                                                                              reason: "reason : secure wallet data deleted"))
     }
     
     @MainActor
@@ -444,19 +441,17 @@ extension PersistentSessionManagerTests {
                                                       mockWalletSDK: mockWalletSDK)
 
             // WHEN I start a session
-            do {
+            await #expect(throws: Never.self) {
                 try await sut.startAuthSession(
                     MockLoginSession(window: UIWindow()),
                     using: MockLoginSessionConfiguration.oneLoginSessionConfiguration
                 )
-                
-                // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
-                #expect(mockAnalyticsService.crashesLogged.count == 1)
-                #expect(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.noSessionExists,
-                                                                                                                      reason: "reason : secure wallet data deleted"))
-            } catch {
-                Issue.record("Unexpected error was thrown")
             }
+            
+            // THEN a secure wallet data deleted error should be logged because wallet is expected to be empty
+            #expect(mockAnalyticsService.crashesLogged.count == 1)
+            #expect(mockAnalyticsService.crashesLogged.first as? PersistentSessionError == PersistentSessionError(.noSessionExists,
+                                                                                                                  reason: "reason : secure wallet data deleted"))
         }
     }
     
@@ -636,12 +631,11 @@ extension PersistentSessionManagerTests {
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         
         // WHEN I attempt to resume my session
-        do {
+        let error = await #expect(throws: PersistentSessionError.self) {
             try await sut.resumeSession()
-        } catch let error as PersistentSessionError {
-            // THEN an error is catch
-            #expect(error.kind == .userRemovedLocalAuth)
         }
+        // THEN an error is caught
+        #expect(error?.kind == .userRemovedLocalAuth)
     }
     
     @Test
@@ -654,14 +648,11 @@ extension PersistentSessionManagerTests {
         // WHEN remove my passcode
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         
-        do {
+        let error = await #expect(throws: PersistentSessionError.self) {
             try await sut.resumeSession()
-            Issue.record("Expected local auth removed error")
-        } catch let error as PersistentSessionError {
-            #expect(error.kind == .userRemovedLocalAuth)
-        } catch {
-            Issue.record("Expected local auth removed error")
         }
+        // THEN an error is caught
+        #expect(error?.kind == .userRemovedLocalAuth)
     }
     
     @Test
@@ -678,11 +669,11 @@ extension PersistentSessionManagerTests {
         #expect(sut.persistentID == nil)
         
         // WHEN I attempt to resume my session
-        do {
+        let error = await #expect(throws: PersistentSessionError.self) {
             try await sut.resumeSession()
-        } catch let error as PersistentSessionError {
-            #expect(error.kind == .noSessionExists)
         }
+        // THEN an error is caught
+        #expect(error?.kind == .noSessionExists)
     }
     
     @Test
@@ -702,12 +693,11 @@ extension PersistentSessionManagerTests {
             itemName: OLString.storedTokens
         )
         // WHEN I attempt to resume my session
-        do {
+        let error = await #expect(throws: PersistentSessionError.self) {
             try await sut.resumeSession()
-        } catch let error as PersistentSessionError {
-            // THEN an error is thrown
-            #expect(error.kind == .idTokenNotStored)
         }
+        // THEN an error is thrown
+        #expect(error?.kind == .idTokenNotStored)
     }
     
     @Test
@@ -736,10 +726,8 @@ extension PersistentSessionManagerTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
-        do {
+        let error = await #expect(throws: RefreshTokenExchangeError.noInternet) {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
-            // Expected path
         }
     }
     
@@ -769,10 +757,8 @@ extension PersistentSessionManagerTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
-        do {
+        let error = await #expect(throws: RefreshTokenExchangeError.noInternet) {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
-            // Expected path
         }
     }
     
@@ -801,15 +787,10 @@ extension PersistentSessionManagerTests {
                                                   mockWalletSDK: mockWalletSDK,
                                                   refreshTokenExchangeManager: refreshTokenExchangeManager)
         
-        var _error: Error?
         // WHEN I attempt to resume my session
-        do {
+        let error = await #expect(throws: Networking.AppIntegrityError.self) {
             try await sut.resumeSession()
-        } catch {
-            _error = error
         }
-        
-        #expect(_error is Networking.AppIntegrityError)
     }
     
     @Test
